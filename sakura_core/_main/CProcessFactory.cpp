@@ -27,8 +27,6 @@
 #include "CSelectLang.h"
 #include "config/system_constants.h"
 
-class CProcess;
-
 /*!
 	@brief プロセスクラスを生成する
 	
@@ -52,9 +50,6 @@ CProcess* CProcessFactory::Create( HINSTANCE hInstance, LPCWSTR lpCmdLine )
 	}
 
 	CProcess* process = nullptr;
-	if( !IsValidVersion() ){
-		return nullptr;
-	}
 
 	// プロセスクラスを生成する
 	//
@@ -101,22 +96,6 @@ bool CProcessFactory::ProfileSelect( HINSTANCE hInstance, LPCWSTR lpCmdLine )
 			return false; // プロファイルマネージャで「閉じる」を選んだ。プロセス終了
 		}
 	}
-	return true;
-}
-
-/*!
-	@brief Windowsバージョンのチェック
-	
-	Windows 95以上，Windows NT4.0以上であることを確認する．
-	Windows 95系では残りリソースのチェックも行う．
-	
-	@author aroka
-	@date 2002/01/03
-*/
-bool CProcessFactory::IsValidVersion()
-{
-	// Windowsバージョンは廃止。
-	// 動作可能バージョン(=windows7以降)でなければ起動できない。
 	return true;
 }
 
