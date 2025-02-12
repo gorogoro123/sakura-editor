@@ -17,7 +17,6 @@
 */
 #pragma once
 
-#include "Funccode_enum.h"
 #include "mem/CNativeW.h"
 
 class CMenuDrawer;

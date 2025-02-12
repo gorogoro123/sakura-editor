@@ -7,11 +7,12 @@
 */
 #pragma once
 
-#include "Funccode_enum.h"		// EFunctionCode
 #include "basis/SakuraBasis.h"	// CKetaXInt
 #include "charset/charcode.h"	// CCharWidthCache
 #include "mem/CNativeW.h"
 #include "types/CType.h"		// SEncodingConfig
+
+enum EFunctionCode : int;
 
 /*!
 	各種変換機能呼出の窓口となるクラス
