@@ -11,7 +11,7 @@
 #include "types/CType.h"
 
 class CEditView;
-enum EFunctionCode;
+enum EFunctionCode : int;
 class CEditDoc;
 struct DLLSHAREDATA;
 class COpeBlk;

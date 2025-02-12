@@ -23,7 +23,6 @@ class CMruListener;
 class CSMacroMgr;
 class CPropertyManager;
 class CGrepAgent;
-enum EFunctionCode;
 
 //!エディタ部分アプリケーションクラス。CNormalProcess1個につき、1個存在。
 class CEditApp : public TSingleton<CEditApp>{
