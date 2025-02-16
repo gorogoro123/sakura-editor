@@ -34,9 +34,9 @@ enum enumShowDlg {
 	SHOW_TOGGLE			= 2,
 };
 
-/* 選択領域描画用パラメータ */
-extern const COLORREF	SELECTEDAREA_RGB;
-extern const int		SELECTEDAREA_ROP2;
+/*! 選択領域描画用パラメータ */
+constexpr COLORREF	SELECTEDAREA_RGB = RGB( 255, 255, 255 );
+constexpr int		SELECTEDAREA_ROP2 = R2_XORPEN;
 
 //@@@ From Here 2003.05.31 MIK
 /*! タブウインドウ用メッセージサブコマンド */
