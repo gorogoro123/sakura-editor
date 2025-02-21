@@ -1687,8 +1687,6 @@ BOOL CDlgFuncList::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 	m_nHilightedBtn = -1;
 	m_nCapturingBtn = -1;
 
-	_SetHwnd( hwndDlg );
-
 	HWND		hwndList;
 	int			nCxVScroll;
 	int			nColWidthArr[] = { 0, 10, 46, 80 };

@@ -331,7 +331,6 @@ int CDlgFileTree::GetDataItem( SFileTreeItem& item )
 
 BOOL CDlgFileTree::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 {
-	_SetHwnd(hwndDlg);
 	SFileTreeItem item;
 
 	ApiWrap::EditCtl_LimitText(GetItemHwnd(IDC_EDIT_DEFINI), m_fileTreeSetting.m_szDefaultProjectIni.GetBufferCount() -1);

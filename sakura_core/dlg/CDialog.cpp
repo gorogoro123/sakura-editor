@@ -172,7 +172,6 @@ void CDialog::CloseDialog( INT_PTR nModalRetVal )
 
 BOOL CDialog::OnInitDialog( HWND hwndDlg, [[maybe_unused]] WPARAM wParam, LPARAM lParam )
 {
-	m_hWnd = hwndDlg;
 	// Modified by KEITA for WIN64 2003.9.6
 	::SetWindowLongPtr( m_hWnd, DWLP_USER, lParam );
 
@@ -411,7 +410,9 @@ INT_PTR CDialog::DispatchEvent( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 {
 //	DEBUG_TRACE( L"CDialog::DispatchEvent() uMsg == %xh\n", uMsg );
 	switch( uMsg ){
-	case WM_INITDIALOG:	return OnInitDialog( hwndDlg, wParam, lParam );
+	case WM_INITDIALOG:
+		m_hWnd = hwndDlg;
+		return OnInitDialog( hwndDlg, wParam, lParam );
 	case WM_DESTROY:	return OnDestroy();
 	case WM_COMMAND:	return OnCommand( wParam, lParam );
 	case WM_NOTIFY:		return OnNotify( (NMHDR*)lParam );

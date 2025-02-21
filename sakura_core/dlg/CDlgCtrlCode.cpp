@@ -185,8 +185,6 @@ BOOL CDlgCtrlCode::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 	LV_COLUMN	col;
 	RECT		rc;
 
-	_SetHwnd( hwndDlg );
-
 	hwndList = GetDlgItem( hwndDlg, IDC_LIST_CTRLCODE );
 	::GetWindowRect( hwndList, &rc );
 

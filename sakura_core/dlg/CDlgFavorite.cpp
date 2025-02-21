@@ -358,7 +358,6 @@ BOOL CDlgFavorite::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 	int			nTab;
 	long		lngStyle;
 
-	_SetHwnd( hwndDlg );
 	::SetWindowLongPtr( GetHwnd(), DWLP_USER, lParam );
 
 	::GetWindowRect( hwndDlg, &rc );
