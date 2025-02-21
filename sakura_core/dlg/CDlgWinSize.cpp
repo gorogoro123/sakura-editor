@@ -75,8 +75,6 @@ int CDlgWinSize::DoModal(
 */
 BOOL CDlgWinSize::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 {
-	_SetHwnd( hwndDlg );
-
 	ApiWrap::Combo_AddString( GetItemHwnd( IDC_COMBO_WINTYPE ), LS( STR_DLGWINSZ_NORMAL ) );	//L"普通"
 	ApiWrap::Combo_AddString( GetItemHwnd( IDC_COMBO_WINTYPE ), LS( STR_DLGWINSZ_MAXIMIZE ) );	//L"最大化"
 	ApiWrap::Combo_AddString( GetItemHwnd( IDC_COMBO_WINTYPE ), LS( STR_DLGWINSZ_MINIMIZE ) );	//L"(最小化)"

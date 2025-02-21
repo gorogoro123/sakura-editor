@@ -127,8 +127,6 @@ int CDlgPrintSetting::DoModal(
 
 BOOL CDlgPrintSetting::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 {
-	_SetHwnd( hwndDlg );
-
 	/* コンボボックスのユーザー インターフェースを拡張インターフェースにする */
 	ApiWrap::Combo_SetExtendedUI( GetItemHwnd( IDC_COMBO_SETTINGNAME ), TRUE );
 	ApiWrap::Combo_SetExtendedUI( GetItemHwnd( IDC_COMBO_FONT_HAN ), TRUE );

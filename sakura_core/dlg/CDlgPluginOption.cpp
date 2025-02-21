@@ -274,8 +274,6 @@ BOOL CDlgPluginOption::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam 
 	RECT		rc;
 	long		lngStyle;
 
-	_SetHwnd( hwndDlg );
-
 	hwndList = GetDlgItem( hwndDlg, IDC_LIST_PLUGIN_OPTIONS );
 	::GetWindowRect( hwndList, &rc );
 

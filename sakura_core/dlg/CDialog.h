@@ -132,8 +132,6 @@ public:
 
 public:
 	HWND GetHwnd() const{ return m_hWnd; }
-	//特殊インターフェース (使用は好ましくない)
-	void _SetHwnd(HWND hwnd){ m_hWnd = hwnd; }
 
 public:
 	HINSTANCE		m_hInstance = nullptr;	/* アプリケーションインスタンスのハンドル */

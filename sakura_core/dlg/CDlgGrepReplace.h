@@ -19,7 +19,6 @@
 
 class CDlgGrep;
 
-#include "dlg/CDialog.h"
 #include "dlg/CDlgGrep.h"
 #include "recent/CRecentReplace.h"
 

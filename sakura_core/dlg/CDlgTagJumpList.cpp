@@ -399,7 +399,6 @@ BOOL CDlgTagJumpList::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 	long		lngStyle;
 	BOOL		bRet;
 
-	_SetHwnd( hwndDlg );
 	::SetWindowLongPtr( GetHwnd(), DWLP_USER, lParam );
 
 	CreateSizeBox();
