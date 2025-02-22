@@ -517,7 +517,7 @@ BOOL CDialog::OnContextMenu( [[maybe_unused]] WPARAM wPara, [[maybe_unused]] LPA
 	return TRUE;
 }
 
-const DWORD p_helpids[] = {
+static const DWORD p_helpids[] = {
 	0, 0
 };
 
