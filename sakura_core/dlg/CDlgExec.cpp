@@ -30,7 +30,7 @@
 #include "sakura.hh"
 
 //外部コマンド CDlgExec.cpp	//@@@ 2002.01.07 add start MIK
-const DWORD p_helpids[] = {	//12100
+static const DWORD p_helpids[] = {	//12100
 	IDC_BUTTON_REFERENCE,			HIDC_EXEC_BUTTON_REFERENCE,		//参照
 	IDOK,							HIDOK_EXEC,						//実行
 	IDCANCEL,						HIDCANCEL_EXEC,					//キャンセル
@@ -45,7 +45,6 @@ const DWORD p_helpids[] = {	//12100
 	IDC_CHECK_CUR_DIR,				HIDC_CHECK_CUR_DIR,				//カレントディレクトリ
 	IDC_COMBO_CUR_DIR,				HIDC_COMBO_CUR_DIR,				//カレントディレクトリ指定
 	IDC_BUTTON_REFERENCE2,			HIDC_COMBO_CUR_DIR,				//カレントディレクトリ指定(参照)
-//	IDC_STATIC,						-1,
 	0, 0
 };	//@@@ 2002.01.07 add end MIK
 

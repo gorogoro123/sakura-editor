@@ -21,12 +21,11 @@
 #include "sakura_rc.h"
 #include "sakura.hh"
 
-const DWORD p_helpids[] = {	//13300
+static const DWORD p_helpids[] = {	//13300
 	IDC_LIST_CTRLCODE,		HIDC_LIST_CTRLCODE,
 	IDOK,					HIDC_CTRLCODE_IDOK,
 	IDCANCEL,				HIDC_CTRLCODE_IDCANCEL,
 	IDC_BUTTON_HELP,		HIDC_BUTTON_CTRLCODE_HELP,
-//	IDC_STATIC,				-1,
 	0, 0
 };
 

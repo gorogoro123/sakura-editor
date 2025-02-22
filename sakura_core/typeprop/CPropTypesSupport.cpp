@@ -31,7 +31,7 @@
 #include "sakura_rc.h"
 #include "sakura.hh"
 
-static const DWORD p_helpids3[] = {	//11500
+static const DWORD p_helpids[] = {	//11500
 	IDC_EDIT_HOKANFILE,				HIDC_EDIT_HOKANFILE,				//単語ファイル名
 	IDC_BUTTON_HOKANFILE_REF,		HIDC_BUTTON_HOKANFILE_REF,			//入力補完 単語ファイル参照
 	IDC_COMBO_HOKAN_TYPE,			HIDC_COMBO_HOKAN_TYPE,				//入力補完タイプ
@@ -49,7 +49,6 @@ static const DWORD p_helpids3[] = {	//11500
 	IDC_CHECK_INDENTCPPSTR,			HIDC_CHECK_INDENTCPPSTR,
 	IDC_CHECK_INDENTCPPCMT,			HIDC_CHECK_INDENTCPPCMT,
 	IDC_CHECK_INDENTCPPUNDO,		HIDC_CHECK_INDENTCPPUNDO,
-	//	IDC_STATIC,						-1,
 	0, 0
 };
 
@@ -154,7 +153,7 @@ INT_PTR CPropTypesSupport::DispatchEvent(
 	case WM_HELP:
 		{
 			HELPINFO *p = (HELPINFO *)lParam;
-			MyWinHelp( (HWND)p->hItemHandle, HELP_WM_HELP, (ULONG_PTR)(LPVOID)p_helpids3 );	// 2006.10.10 ryoji MyWinHelpに変更に変更
+			MyWinHelp( (HWND)p->hItemHandle, HELP_WM_HELP, (ULONG_PTR)(LPVOID)p_helpids );	// 2006.10.10 ryoji MyWinHelpに変更に変更
 		}
 		return TRUE;
 		/*NOTREACHED*/
@@ -164,7 +163,7 @@ INT_PTR CPropTypesSupport::DispatchEvent(
 //@@@ 2001.11.17 add start MIK
 	//Context Menu
 	case WM_CONTEXTMENU:
-		MyWinHelp( hwndDlg, HELP_CONTEXTMENU, (ULONG_PTR)(LPVOID)p_helpids3 );	// 2006.10.10 ryoji MyWinHelpに変更に変更
+		MyWinHelp( hwndDlg, HELP_CONTEXTMENU, (ULONG_PTR)(LPVOID)p_helpids );	// 2006.10.10 ryoji MyWinHelpに変更に変更
 		return TRUE;
 //@@@ 2001.11.17 add end MIK
 	default:

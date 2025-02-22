@@ -31,7 +31,7 @@
 #include "sakura_rc.h"
 #include "sakura.hh"
 
-const DWORD p_helpids[] = {
+static const DWORD p_helpids[] = {
 	IDC_LIST_TAGJUMP,		HIDC_LIST_TAGJUMPLIST,			//ファイル
 	IDOK,					HIDC_TAGJUMPLIST_IDOK,			//OK
 	IDCANCEL,				HIDC_TAGJUMPLIST_IDCANCEL,		//キャンセル
@@ -41,7 +41,6 @@ const DWORD p_helpids[] = {
 	IDC_CHECK_ANYWHERE,		HIDC_CHECK_ANYWHERE,
 	IDC_BUTTON_NEXTTAG,		HIDC_BUTTON_NEXTTAG,
 	IDC_BUTTON_PREVTAG,		HIDC_BUTTON_PREVTAG,
-//	IDC_STATIC,				-1,
 	0, 0
 };
 

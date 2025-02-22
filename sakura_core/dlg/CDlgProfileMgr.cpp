@@ -22,7 +22,7 @@
 #include "sakura_rc.h"
 #include "sakura.hh"
 
-const DWORD p_helpids[] = {
+static const DWORD p_helpids[] = {
 	IDC_LIST_PROFILE,				HIDC_LIST_PROFILE,				//プロファイル一覧
 	IDC_CHECK_PROF_DEFSTART,		HIDC_CHECK_PROF_DEFSTART,		//デフォルト設定にして起動
 	IDOK,							HIDOK_PROFILEMGR,				//起動
