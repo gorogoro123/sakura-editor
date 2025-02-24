@@ -2382,27 +2382,27 @@ void CEditWnd::InitMenu_Function(HMENU hMenu, EFunctionCode eFunc, const wchar_t
 			break;
 		case F_SHOWTOOLBAR:
 			SetMenuFuncSel( hMenu, eFunc, pszKey,
-				!m_pShareData->m_Common.m_sWindow.m_bMenuIcon | !m_cToolbar.GetToolbarHwnd() );
+				!m_pShareData->m_Common.m_sWindow.m_bMenuIcon || !m_cToolbar.GetToolbarHwnd() );
 			break;
 		case F_SHOWFUNCKEY:
 			SetMenuFuncSel( hMenu, eFunc, pszKey,
-				!m_pShareData->m_Common.m_sWindow.m_bMenuIcon | !m_cFuncKeyWnd.GetHwnd() );
+				!m_pShareData->m_Common.m_sWindow.m_bMenuIcon || !m_cFuncKeyWnd.GetHwnd() );
 			break;
 		case F_SHOWTAB:
 			SetMenuFuncSel( hMenu, eFunc, pszKey,
-				!m_pShareData->m_Common.m_sWindow.m_bMenuIcon | !m_cTabWnd.GetHwnd() );
+				!m_pShareData->m_Common.m_sWindow.m_bMenuIcon || !m_cTabWnd.GetHwnd() );
 			break;
 		case F_SHOWSTATUSBAR:
 			SetMenuFuncSel( hMenu, eFunc, pszKey,
-				!m_pShareData->m_Common.m_sWindow.m_bMenuIcon | !m_cStatusBar.GetStatusHwnd() );
+				!m_pShareData->m_Common.m_sWindow.m_bMenuIcon || !m_cStatusBar.GetStatusHwnd() );
 			break;
 		case F_SHOWMINIMAP:
 			SetMenuFuncSel( hMenu, eFunc, pszKey,
-				!m_pShareData->m_Common.m_sWindow.m_bMenuIcon | !m_cMiniMapView.GetHwnd() );
+				!m_pShareData->m_Common.m_sWindow.m_bMenuIcon || !m_cMiniMapView.GetHwnd() );
 			break;
 		case F_TOGGLE_KEY_SEARCH:
 			SetMenuFuncSel( hMenu, eFunc, pszKey,
-				!m_pShareData->m_Common.m_sWindow.m_bMenuIcon | !IsFuncChecked( GetDocument(), m_pShareData, F_TOGGLE_KEY_SEARCH ) );
+				!m_pShareData->m_Common.m_sWindow.m_bMenuIcon || !IsFuncChecked( GetDocument(), m_pShareData, F_TOGGLE_KEY_SEARCH ) );
 			break;
 		case F_WRAPWINDOWWIDTH:
 			{

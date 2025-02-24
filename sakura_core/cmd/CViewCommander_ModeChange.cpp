@@ -68,7 +68,7 @@ void CViewCommander::Command_CHG_CHARSET(
 	}
 
 	// 文字コードの設定
-	GetDocument()->m_cDocFile.SetCodeSetChg( eCharSet, CCodeTypeName( eCharSet ).UseBom() & bBom );
+	GetDocument()->m_cDocFile.SetCodeSetChg( eCharSet, CCodeTypeName( eCharSet ).UseBom() && bBom );
 
 	// ステータス表示
 	GetCaret().ShowCaretPosInfo();
