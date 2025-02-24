@@ -800,10 +800,10 @@ void CPrintPreview::OnChangePrintSetting( )
 	ref.m_ColorInfoArr[COLORIDX_COMMENT].m_bDisp = false;
 	ref.m_ColorInfoArr[COLORIDX_SSTRING].m_bDisp = false;
 	ref.m_ColorInfoArr[COLORIDX_WSTRING].m_bDisp = false;
-	ref.m_bKinsokuHead = m_pPrintSetting->m_bPrintKinsokuHead,	/* 行頭禁則する */	//@@@ 2002.04.08 MIK
-	ref.m_bKinsokuTail = m_pPrintSetting->m_bPrintKinsokuTail,	/* 行末禁則する */	//@@@ 2002.04.08 MIK
-	ref.m_bKinsokuRet = m_pPrintSetting->m_bPrintKinsokuRet,	/* 改行文字をぶら下げる */	//@@@ 2002.04.13 MIK
-	ref.m_bKinsokuKuto = m_pPrintSetting->m_bPrintKinsokuKuto,	/* 句読点をぶら下げる */	//@@@ 2002.04.17 MIK
+	ref.m_bKinsokuHead = m_pPrintSetting->m_bPrintKinsokuHead;	/* 行頭禁則する */	//@@@ 2002.04.08 MIK
+	ref.m_bKinsokuTail = m_pPrintSetting->m_bPrintKinsokuTail;	/* 行末禁則する */	//@@@ 2002.04.08 MIK
+	ref.m_bKinsokuRet = m_pPrintSetting->m_bPrintKinsokuRet;	/* 改行文字をぶら下げる */	//@@@ 2002.04.13 MIK
+	ref.m_bKinsokuKuto = m_pPrintSetting->m_bPrintKinsokuKuto;	/* 句読点をぶら下げる */	//@@@ 2002.04.17 MIK
 	m_pLayoutMgr_Print->SetLayoutInfo( true, false, ref, ref.m_nTabSpace, ref.m_nTsvMode, ref.m_nMaxLineKetas,
 		CLayoutXInt(m_pPrintSetting->m_nPrintFontWidth),
 	nullptr );
