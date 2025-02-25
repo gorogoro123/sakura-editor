@@ -736,7 +736,7 @@ void CViewCommander::AlertNotFound(HWND hwnd, bool bReplaceAll, LPCWSTR format, 
 		//InfoMessage(hwnd, format, __VA_ARGS__);
 		va_list p;
 		va_start(p, format);
-		VMessageBoxF(hwnd, MB_OK | MB_ICONINFORMATION, GSTR_APPNAME, format, p);
+		VMessageBoxF(hwnd, MB_OK | MB_ICONINFORMATION, LS(STR_GSTR_APPNAME), format, p);
 		va_end(p);
 	}else{
 		DefaultBeep();

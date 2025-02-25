@@ -144,7 +144,7 @@ INT_PTR CPropTypesRegex::DispatchEvent(
 						nRet = ::MYMESSAGEBOX(
 								hwndDlg,
 								MB_YESNO | MB_ICONQUESTION | MB_TOPMOST | MB_DEFBUTTON2,
-								GSTR_APPNAME,
+								LS(STR_GSTR_APPNAME),
 								LS(STR_PROPTYPEREGEX_NOTFOUND) );
 						if( nRet != IDYES )
 						{
@@ -679,7 +679,7 @@ bool CPropTypesRegex::CheckKeywordList(HWND hwndDlg, const WCHAR* szNewKeyWord, 
 		nRet = ::MYMESSAGEBOX(
 				hwndDlg,
 				MB_OK | MB_ICONSTOP | MB_TOPMOST | MB_DEFBUTTON2,
-				GSTR_APPNAME,
+				LS(STR_GSTR_APPNAME),
 				LS(STR_PROPTYPEREGEX_KAKOMI) );
 		return false;
 	}
@@ -688,7 +688,7 @@ bool CPropTypesRegex::CheckKeywordList(HWND hwndDlg, const WCHAR* szNewKeyWord, 
 		nRet = ::MYMESSAGEBOX(
 				hwndDlg,
 				MB_YESNO | MB_ICONQUESTION | MB_TOPMOST | MB_DEFBUTTON2,
-				GSTR_APPNAME,
+				LS(STR_GSTR_APPNAME),
 				LS(STR_PROPTYPEREGEX_INVALID) );
 		if( nRet != IDYES ) return false;
 	}

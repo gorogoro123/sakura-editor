@@ -35,8 +35,6 @@ CProcess::CProcess(
 )
 : m_hInstance( hInstance )
 {
-	// アプリ名をリソースから読み込む
-	m_strAppName = LS(STR_GSTR_APPNAME);
 }
 
 /*!
@@ -62,7 +60,7 @@ bool CProcess::InitializeProcess()
 	if( !GetShareData().InitShareData() ){
 		//	適切なデータを得られなかった
 		::MYMESSAGEBOX( nullptr, MB_OK | MB_ICONERROR,
-			GSTR_APPNAME, L"異なるバージョンのエディタを同時に起動することはできません。" );
+			LS(STR_GSTR_APPNAME), L"異なるバージョンのエディタを同時に起動することはできません。" );
 		return false;
 	}
 
@@ -96,12 +94,4 @@ bool CProcess::Run()
 void CProcess::RefreshString()
 {
 	m_cShareData.RefreshString();
-}
-
-/*!
-	言語選択後にアプリ名を更新します。
- */
-void CProcess::UpdateAppName( std::wstring_view appName )
-{
-	m_strAppName = appName;
 }

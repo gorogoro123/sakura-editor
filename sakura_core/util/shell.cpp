@@ -186,7 +186,7 @@ static LRESULT CALLBACK PropSheetWndProc( HWND hwnd, UINT uMsg, WPARAM wParam, L
 				int nMsgResult = MYMESSAGEBOX(
 					hwnd,
 					MB_OKCANCEL | MB_ICONINFORMATION,
-					GSTR_APPNAME,
+					LS(STR_GSTR_APPNAME),
 					LS(STR_SHELL_IMPEXPDIR)
 				);
 				if( IDOK == nMsgResult )

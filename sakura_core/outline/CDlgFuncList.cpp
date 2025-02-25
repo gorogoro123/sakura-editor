@@ -3290,7 +3290,7 @@ void CDlgFuncList::DoMenu( POINT pt, HWND hwndFrom )
 	}
 	else if( nId == 305 ){	// 設定コピー
 		if( IDOK == ::MYMESSAGEBOX( hwndEdit,
-						MB_OKCANCEL | MB_ICONINFORMATION, GSTR_APPNAME,
+						MB_OKCANCEL | MB_ICONINFORMATION, LS(STR_GSTR_APPNAME),
 						LS(STR_DLGFNCLST_UNIFY) ) ){
 			CommonSet().m_bOutlineDockDisp = GetHwnd()? TRUE: FALSE;
 			CommonSet().m_eOutlineDockSide = GetDockSide();

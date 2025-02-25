@@ -118,6 +118,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 
 	const CEditDoc* pcDoc = GetDocument();
 	// Apr. 03, 2003 genta 固定文字列をまとめる
+	const std::wstring	APPNAME					= LS(STR_GSTR_APPNAME);	//L"サクラエディタ(32bit)";
 	const std::wstring	PRINT_PREVIEW_ONLY		= LS( STR_PREVIEW_ONLY );	//L"(印刷プレビューでのみ使用できます)";
 	const std::wstring	NO_TITLE				= LS( STR_NO_TITLE1 );	//L"(無題)";
 	const std::wstring	NOT_SAVED				= LS( STR_NOT_SAVED );	//L"(保存されていません)";
@@ -135,7 +136,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 			result.push_back(*p++);
 			break;
 		case L'A':	//アプリ名
-			result.append(GSTR_APPNAME_W);
+			result.append(APPNAME);
 			++p;
 			break;
 		case L'F':	//	開いているファイルの名前（フルパス）

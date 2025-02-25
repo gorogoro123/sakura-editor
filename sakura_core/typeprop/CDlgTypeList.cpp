@@ -252,7 +252,7 @@ INT_PTR CDlgTypeList::DispatchEvent( HWND hWnd, UINT wMsg, WPARAM wParam, LPARAM
 						{
 							WCHAR buf[BUFFER_SIZE] = {0};
 							::FormatMessage( FORMAT_MESSAGE_FROM_SYSTEM, nullptr, nRet, 0, buf, int(std::size(buf)), nullptr );
-							::MessageBox( GetHwnd(), (std::wstring(LS(STR_DLGTYPELIST_ERR1)) + buf).c_str(), GSTR_APPNAME, MB_OK );
+							::MessageBox( GetHwnd(), (std::wstring(LS(STR_DLGTYPELIST_ERR1)) + buf).c_str(), LS(STR_GSTR_APPNAME), MB_OK );
 							break;
 						}
 					}else{			//「右クリック」チェックOFF
@@ -260,7 +260,7 @@ INT_PTR CDlgTypeList::DispatchEvent( HWND hWnd, UINT wMsg, WPARAM wParam, LPARAM
 						{
 							WCHAR buf[BUFFER_SIZE] = {0};
 							::FormatMessage( FORMAT_MESSAGE_FROM_SYSTEM, nullptr, nRet, 0, buf, int(std::size(buf)), nullptr );
-							::MessageBox( GetHwnd(), (std::wstring(LS(STR_DLGTYPELIST_ERR2)) + buf).c_str(), GSTR_APPNAME, MB_OK );
+							::MessageBox( GetHwnd(), (std::wstring(LS(STR_DLGTYPELIST_ERR2)) + buf).c_str(), LS(STR_GSTR_APPNAME), MB_OK );
 							break;
 						}
 					}
@@ -290,7 +290,7 @@ INT_PTR CDlgTypeList::DispatchEvent( HWND hWnd, UINT wMsg, WPARAM wParam, LPARAM
 					{
 						WCHAR buf[BUFFER_SIZE] = {0};
 						::FormatMessage( FORMAT_MESSAGE_FROM_SYSTEM, nullptr, nRet, 0, buf, int(std::size(buf)), nullptr );
-						::MessageBox( GetHwnd(), (std::wstring(LS(STR_DLGTYPELIST_ERR1)) + buf).c_str(), GSTR_APPNAME, MB_OK );
+						::MessageBox( GetHwnd(), (std::wstring(LS(STR_DLGTYPELIST_ERR1)) + buf).c_str(), LS(STR_GSTR_APPNAME), MB_OK );
 						break;
 					}
 				}
@@ -505,7 +505,7 @@ bool CDlgTypeList::InitializeType( )
 		nRet = ::MYMESSAGEBOX(
 			GetHwnd(),
 			MB_YESNO | MB_ICONQUESTION,
-			GSTR_APPNAME,
+			LS(STR_GSTR_APPNAME),
 			LS(STR_DLGTYPELIST_INIT1),
 			typeMini->m_szTypeName.c_str() );
 		if (nRet != IDYES) {
@@ -1085,7 +1085,7 @@ bool CDlgTypeList::AlertFileAssociation()
 	if( m_bAlertFileAssociation ){
 		if( IDYES == ::MYMESSAGEBOX( 
 						nullptr, MB_YESNO | MB_ICONEXCLAMATION | MB_APPLMODAL | MB_TOPMOST,
-						GSTR_APPNAME,
+						LS(STR_GSTR_APPNAME),
 						LS(STR_DLGTYPELIST_ACC))
 					)
 		{

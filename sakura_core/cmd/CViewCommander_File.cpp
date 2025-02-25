@@ -248,7 +248,7 @@ void CViewCommander::Command_FILE_REOPEN(
 		int nDlgResult = MYMESSAGEBOX(
 			m_pCommanderView->GetHwnd(),
 			MB_OKCANCEL | MB_ICONQUESTION | MB_TOPMOST,
-			GSTR_APPNAME,
+			LS(STR_GSTR_APPNAME),
 			LS(STR_ERR_CEDITVIEW_CMD29),
 			pcDoc->m_cDocFile.GetFilePath()
 		);
@@ -363,7 +363,7 @@ void CViewCommander::Command_PLSQL_COMPILE_ON_SQLPLUS( )
 		nRet = ::MYMESSAGEBOX(
 			m_pCommanderView->GetHwnd(),
 			MB_YESNOCANCEL | MB_ICONEXCLAMATION,
-			GSTR_APPNAME,
+			LS(STR_GSTR_APPNAME),
 			LS(STR_ERR_CEDITVIEW_CMD18),
 			GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() ? GetDocument()->m_cDocFile.GetFilePath() : LS(STR_NO_TITLE1)
 		);

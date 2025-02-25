@@ -148,7 +148,7 @@ static void ShowCodeBox( HWND hWnd, CEditDoc* pcEditDoc )
 				// メッセージボックス表示
 				auto_snprintf_s(szMsg, std::size(szMsg), LS(STR_ERR_DLGEDITWND13),
 					szChar, szCodeCP, szCode[CODE_SJIS], szCode[CODE_JIS], szCode[CODE_EUC], szCode[CODE_LATIN1], szCode[CODE_UNICODE], szCode[CODE_UTF8], szCode[CODE_CESU8]);
-				::MessageBox( hWnd, szMsg, GSTR_APPNAME, MB_OK );
+				::MessageBox( hWnd, szMsg, LS(STR_GSTR_APPNAME), MB_OK );
 			}
 		}
 	}

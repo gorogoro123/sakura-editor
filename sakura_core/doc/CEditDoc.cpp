@@ -884,7 +884,7 @@ BOOL CEditDoc::OnFileClose(bool bGrepNoConfirm)
 		nRet = ::MYMESSAGEBOX(
 			hwndMainFrame,
 			MB_YESNOCANCEL | MB_ICONQUESTION | MB_TOPMOST,
-			GSTR_APPNAME,
+			LS(STR_GSTR_APPNAME),
 			LS(STR_ERR_DLGEDITDOC30),
 			pszTitle
 		);
@@ -905,7 +905,7 @@ BOOL CEditDoc::OnFileClose(bool bGrepNoConfirm)
 			nRet = ::MYMESSAGEBOX(
 				hwndMainFrame,
 				MB_YESNOCANCEL | MB_ICONQUESTION | MB_TOPMOST,
-				GSTR_APPNAME,
+				LS(STR_GSTR_APPNAME),
 				LS(STR_CHANGE_CHARSET),
 				pszTitle);
 		}
@@ -913,7 +913,7 @@ BOOL CEditDoc::OnFileClose(bool bGrepNoConfirm)
 			nRet = ::MYMESSAGEBOX(
 				hwndMainFrame,
 				MB_YESNOCANCEL | MB_ICONQUESTION | MB_TOPMOST,
-				GSTR_APPNAME,
+				LS(STR_GSTR_APPNAME),
 				LS(STR_ERR_DLGEDITDOC31),
 				pszTitle
 			);

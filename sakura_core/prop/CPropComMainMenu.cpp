@@ -445,7 +445,7 @@ INT_PTR CPropMainMenu::DispatchEvent(
 					return TRUE;
 
 				case IDC_BUTTON_CLEAR:
-					if (IDCANCEL == ::MYMESSAGEBOX( hwndDlg, MB_OKCANCEL | MB_ICONQUESTION, GSTR_APPNAME,
+					if (IDCANCEL == ::MYMESSAGEBOX( hwndDlg, MB_OKCANCEL | MB_ICONQUESTION, LS(STR_GSTR_APPNAME),
 						LS(STR_PROPCOMMAINMENU_CLEAR)) ) {
 						return TRUE;
 					}
@@ -457,7 +457,7 @@ INT_PTR CPropMainMenu::DispatchEvent(
 					return TRUE;
 
 				case IDC_BUTTON_INITIALIZE:
-					if (IDCANCEL == ::MYMESSAGEBOX( hwndDlg, MB_OKCANCEL | MB_ICONQUESTION, GSTR_APPNAME,
+					if (IDCANCEL == ::MYMESSAGEBOX( hwndDlg, MB_OKCANCEL | MB_ICONQUESTION, LS(STR_GSTR_APPNAME),
 						LS(STR_PROPCOMMAINMENU_INIT))) {
 						return TRUE;
 					}
@@ -478,7 +478,7 @@ INT_PTR CPropMainMenu::DispatchEvent(
 					htiItem = TreeView_GetSelection( hwndTreeRes );
 					if (htiItem != nullptr) {
 						if (TreeView_GetChild( hwndTreeRes, htiItem ) != nullptr
-						  && IDCANCEL == ::MYMESSAGEBOX( hwndDlg, MB_OKCANCEL | MB_ICONQUESTION, GSTR_APPNAME,
+						  && IDCANCEL == ::MYMESSAGEBOX( hwndDlg, MB_OKCANCEL | MB_ICONQUESTION, LS(STR_GSTR_APPNAME),
 							LS(STR_PROPCOMMAINMENU_DEL))) {
 							return TRUE;
 						}

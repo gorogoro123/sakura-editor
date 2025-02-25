@@ -255,7 +255,7 @@ bool CImpExpType::ImportAscertain( HINSTANCE hInstance, HWND hwndParent, const s
 		m_cProfile.IOProfileData(szSecInfo, szKeyVersion, strKeyVerValue);
 		int nRet = ConfirmMessage( hwndParent,
 			LS(STR_IMPEXP_VER), 
-			GSTR_APPNAME, strKeyVerValue.c_str(), nStructureVersion );
+			LS(STR_GSTR_APPNAME), strKeyVerValue.c_str(), nStructureVersion );
 		if ( IDYES != nRet ) {
 			return false;
 		}

@@ -286,7 +286,7 @@ bool CControlTray::CreateTrayIcon( [[maybe_unused]] HWND hWnd )
 		//	Dec. 02, 2002 genta
 		HICON hIcon = GetAppIcon( m_hInstance, ICON_DEFAULT_APP, FN_APP_ICON, true );
 //From Here Jan. 12, 2001 JEPRO トレイアイコンにポイントするとバージョンno.が表示されるように修正
-//			TrayMessage( GetTrayHwnd(), NIM_ADD, 0,  hIcon, GSTR_APPNAME );
+//			TrayMessage( GetTrayHwnd(), NIM_ADD, 0,  hIcon, LS(STR_GSTR_APPNAME) );
 		/* バージョン情報 */
 		//	UR version no.を設定 (cf. cDlgAbout.cpp)
 		WCHAR	pszTips[64 + _MAX_PATH];
@@ -300,7 +300,7 @@ bool CControlTray::CreateTrayIcon( [[maybe_unused]] HWND hWnd )
 			profname += CCommandLine::getInstance()->GetProfileName();
 		}
 		auto_snprintf_s(pszTips, std::size(pszTips), L"%s %d.%d.%d.%d%ls",		//Jul. 06, 2001 jepro UR はもう付けなくなったのを忘れていた
-			GSTR_APPNAME,
+			LS(STR_GSTR_APPNAME),
 			HIWORD( dwVersionMS ),
 			LOWORD( dwVersionMS ),
 			HIWORD( dwVersionLS ),
@@ -651,7 +651,7 @@ LRESULT CControlTray::DispatchEvent(
 					}
 				}while(IDYES == ::MYMESSAGEBOX(
 						nullptr, MB_YESNOCANCEL | MB_ICONEXCLAMATION | MB_APPLMODAL | MB_TOPMOST,
-						GSTR_APPNAME,
+						LS(STR_GSTR_APPNAME),
 						LS(STR_TRAY_EXTHELP1))
 				);/*do-while*/
 
@@ -1442,7 +1442,7 @@ void CControlTray::TerminateApplication(
 			if( IDYES != ::MYMESSAGEBOX(
 				hWndFrom,
 				MB_YESNO | MB_APPLMODAL | MB_ICONQUESTION,
-				GSTR_APPNAME,
+				LS(STR_GSTR_APPNAME),
 				LS(STR_TRAY_EXITALL)
 			) ){
 				return;
