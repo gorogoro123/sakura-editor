@@ -15,8 +15,6 @@
 #pragma once
 
 #include <filesystem>
-#include <string>
-#include <string_view>
 
 #include "global.h"
 #include "util/design_template.h"
@@ -52,12 +50,9 @@ public:
 	HWND			GetMainWindow() const{ return m_hWnd; }
 
 	[[nodiscard]] const CShareData* GetShareDataPtr() const { return &m_cShareData; }
-	[[nodiscard]] LPCWSTR	GetAppName( ) const { return m_strAppName.c_str(); }
-	void UpdateAppName( std::wstring_view appName );
 
 private:
 	HINSTANCE	m_hInstance;
 	HWND		m_hWnd = nullptr;
 	CShareData		m_cShareData;
-	std::wstring	m_strAppName;
 };

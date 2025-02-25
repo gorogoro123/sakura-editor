@@ -197,7 +197,7 @@ retry:;
 		ErrorBeep();
 //From Here Sept. 15, 2000 JEPRO
 //		[Esc]キーと[x]ボタンでも中止できるように変更
-		if( IDYES == ::MYMESSAGEBOX( nullptr, MB_YESNOCANCEL | MB_ICONEXCLAMATION | MB_APPLMODAL | MB_TOPMOST, GSTR_APPNAME,
+		if( IDYES == ::MYMESSAGEBOX( nullptr, MB_YESNOCANCEL | MB_ICONEXCLAMATION | MB_APPLMODAL | MB_TOPMOST, LS(STR_GSTR_APPNAME),
 //To Here Sept. 15, 2000
 			LS(STR_ERR_CEDITVIEW_CMD01)
 		) ){
@@ -262,7 +262,7 @@ void CViewCommander::Command_EXTHTMLHELP( const WCHAR* _helpfile, const WCHAR* k
 			ErrorBeep();
 	//	From Here Sept. 15, 2000 JEPRO
 	//		[Esc]キーと[x]ボタンでも中止できるように変更
-			if( IDYES != ::MYMESSAGEBOX( nullptr, MB_YESNOCANCEL | MB_ICONEXCLAMATION | MB_APPLMODAL | MB_TOPMOST, GSTR_APPNAME,
+			if( IDYES != ::MYMESSAGEBOX( nullptr, MB_YESNOCANCEL | MB_ICONEXCLAMATION | MB_APPLMODAL | MB_TOPMOST, LS(STR_GSTR_APPNAME),
 	//	To Here Sept. 15, 2000
 				LS(STR_ERR_CEDITVIEW_CMD02)
 			) ){

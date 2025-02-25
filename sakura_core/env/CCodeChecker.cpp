@@ -145,7 +145,7 @@ ECallbackResult CCodeChecker::OnCheckSave(SSaveInfo* pSaveInfo)
 		int nDlgResult = MYMESSAGEBOX(
 			CEditWnd::getInstance()->GetHwnd(),
 			MB_YESNOCANCEL | MB_ICONWARNING,
-			GSTR_APPNAME,
+			LS(STR_GSTR_APPNAME),
 			LS(STR_CODECHECKER_EOL_UNIFY),
 			pcDoc->m_cDocEditor.GetNewLineCode().GetName()
 		);
@@ -185,7 +185,7 @@ ECallbackResult CCodeChecker::OnCheckSave(SSaveInfo* pSaveInfo)
 		int nDlgResult = MYMESSAGEBOX(
 			CEditWnd::getInstance()->GetHwnd(),
 			MB_YESNOCANCEL | MB_ICONWARNING,
-			GSTR_APPNAME,
+			LS(STR_GSTR_APPNAME),
 			LS(STR_CODECHECKER_CONFORM_LOSESOME),
 			szCpName,
 			((Int)point.y + 1),

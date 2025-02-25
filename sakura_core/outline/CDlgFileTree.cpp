@@ -586,7 +586,7 @@ BOOL CDlgFileTree::OnBnClicked( int wID )
 			HTREEITEM htiItem = TreeView_GetSelection(hwndTree);
 			if( htiItem != nullptr ){
 				if( TreeView_GetChild(hwndTree, htiItem) != nullptr
-				  && IDCANCEL == ::MYMESSAGEBOX(GetHwnd(), MB_OKCANCEL | MB_ICONQUESTION, GSTR_APPNAME,
+				  && IDCANCEL == ::MYMESSAGEBOX(GetHwnd(), MB_OKCANCEL | MB_ICONQUESTION, LS(STR_GSTR_APPNAME),
 					LS(STR_PROPCOMMAINMENU_DEL)) ){
 					return TRUE;
 				}

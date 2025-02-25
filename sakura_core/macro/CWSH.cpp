@@ -277,7 +277,7 @@ static void AbortMacroProc(SAbortMacroParam* pParam)
 		CDlgCancel cDlgCancel;
 		HWND hwndDlg = cDlgCancel.DoModeless(G_AppInstance(), nullptr, IDD_MACRORUNNING);	// エディタビジーでも表示できるよう、親を指定しない
 		// ダイアログタイトルとファイル名を設定
-		::SendMessageW(hwndDlg, WM_SETTEXT, 0, (LPARAM)GSTR_APPNAME);
+		::SendMessageW(hwndDlg, WM_SETTEXT, 0, (LPARAM)LS(STR_GSTR_APPNAME));
 		::SendMessageW(GetDlgItem(hwndDlg, IDC_STATIC_CMD),
 			WM_SETTEXT, 0, (LPARAM)pParam->view->GetDocument()->m_cDocFile.GetFilePath());
 		

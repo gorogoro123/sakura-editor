@@ -334,7 +334,7 @@ INT_PTR CPropKeyword::DispatchEvent(
 								}
 							}
 						}
-						if( IDCANCEL == ::MYMESSAGEBOX(	hwndDlg, MB_OKCANCEL | MB_ICONQUESTION, GSTR_APPNAME,
+						if( IDCANCEL == ::MYMESSAGEBOX(	hwndDlg, MB_OKCANCEL | MB_ICONQUESTION, LS(STR_GSTR_APPNAME),
 							LS(STR_PROPCOMKEYWORD_SETDEL),
 							m_Common.m_sSpecialKeyword.m_CKeyWordSetMgr.GetTypeName( nIndex1 ),
 							strLabel.c_str()
@@ -587,7 +587,7 @@ void CPropKeyword::Export_List_KeyWord( HWND hwndDlg, [[maybe_unused]] HWND hwnd
 void CPropKeyword::Clean_List_KeyWord( HWND hwndDlg, [[maybe_unused]] HWND hwndLIST_KEYWORD )
 {
 	if( IDYES == ::MessageBox( hwndDlg, LS(STR_PROPCOMKEYWORD_DEL),
-			GSTR_APPNAME, MB_YESNO | MB_ICONQUESTION ) ){	// 2009.03.26 ryoji MB_ICONSTOP->MB_ICONQUESTION
+			LS(STR_GSTR_APPNAME), MB_YESNO | MB_ICONQUESTION ) ){	// 2009.03.26 ryoji MB_ICONSTOP->MB_ICONQUESTION
 		m_Common.m_sSpecialKeyword.m_CKeyWordSetMgr.CleanKeyWords( m_Common.m_sSpecialKeyword.m_CKeyWordSetMgr.m_nCurrentKeyWordSetIdx );
 		SetKeyWordSet( hwndDlg, m_Common.m_sSpecialKeyword.m_CKeyWordSetMgr.m_nCurrentKeyWordSetIdx );
 	}

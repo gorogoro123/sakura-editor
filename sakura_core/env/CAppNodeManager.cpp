@@ -224,7 +224,7 @@ BOOL CAppNodeGroupHandle::RequestCloseEditor(const std::vector<EditNode>& vEditN
 			if( IDYES != ::MYMESSAGEBOX(
 				hWndFrom,
 				MB_YESNO | MB_APPLMODAL | MB_ICONQUESTION,
-				GSTR_APPNAME,
+				LS(STR_GSTR_APPNAME),
 				LS(STR_ERR_CSHAREDATA19)
 			) ){
 				return FALSE;

@@ -150,7 +150,7 @@ next:
 				// 本当に開いて良いかどうかの警告ダイアログ
 				int nRet = MYMESSAGEBOX( m_cEditWnd.GetHwnd(),
 					MB_ICONQUESTION | MB_YESNO | MB_TOPMOST,
-					GSTR_APPNAME,
+					LS(STR_GSTR_APPNAME),
 					LS(STR_LOADAGENT_BIG_WARNING),
 					pLoadInfo->cFilePath.c_str(),
 					GetDllShareData().m_Common.m_sFile.m_nAlertFileSize );

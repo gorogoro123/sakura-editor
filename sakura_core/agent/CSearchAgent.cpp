@@ -680,7 +680,7 @@ end_of_func:;
 	WCHAR buf[100];
 	memset(buf, 0x00, sizeof(buf));
 	::swprintf_s(buf, L"%d", clockEnd - clockStart);
-	::MessageBox( NULL, buf, GSTR_APPNAME, MB_OK );
+	::MessageBox( NULL, buf, LS(STR_GSTR_APPNAME), MB_OK );
 #endif
 
 	return nRetVal;
