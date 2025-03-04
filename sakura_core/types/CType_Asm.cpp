@@ -45,7 +45,7 @@ void CDocOutline::MakeTopicList_asm( CFuncInfoArr* pcFuncInfoArr )
 #define MAX_ASM_TOKEN 2
 
 		//1行取得する。
-		pLine = m_pcDocRef->m_cDocLineMgr.GetLine(nLineCount)->GetDocLineStrWithEOL(&nLineLen);
+		pLine = CDocLine::GetDocLineStrWithEOL(m_pcDocRef->m_cDocLineMgr.GetLine(nLineCount), &nLineLen);
 		if( pLine == nullptr ) break;
 
 		//作業用にコピーを作成する。

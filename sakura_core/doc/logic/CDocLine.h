@@ -50,14 +50,9 @@ public:
 	CLogicInt		GetLengthWithEOL() const			{ return m_cLine.GetStringLength(); }	//	CMemoryIterator用
 	const wchar_t*	GetDocLineStrWithEOL(CLogicInt* pnLen) const //###仮の名前、仮の対処
 	{
-		if(this){ // TODO: Remove "this" check
-			*pnLen = GetLengthWithEOL(); return GetPtr();
-		}
-		else{
-			*pnLen = 0; return nullptr;
-		}
+		*pnLen = GetLengthWithEOL(); return GetPtr();
 	}
-	static const wchar_t* GetDocLineStrWithEOL_Safe(const CDocLine* docline, CLogicInt* pnLen) //###仮の名前、仮の対処
+	static const wchar_t* GetDocLineStrWithEOL(const CDocLine* docline, CLogicInt* pnLen)
 	{
 		if(docline){
 			return docline->GetDocLineStrWithEOL(pnLen);
@@ -68,14 +63,9 @@ public:
 	}
 	CStringRef GetStringRefWithEOL() const //###仮の名前、仮の対処
 	{
-		if(this){ // TODO: Remove "this" check
-			return CStringRef(GetPtr(),GetLengthWithEOL());
-		}
-		else{
-			return CStringRef(nullptr,0);
-		}
+		return CStringRef(GetPtr(),GetLengthWithEOL());
 	}
-	static CStringRef GetStringRefWithEOL_Safe(const CDocLine* docline) //###仮の名前、仮の対処
+	static CStringRef GetStringRefWithEOL(const CDocLine* docline) //###仮の名前、仮の対処
 	{
 		if(docline){
 			return docline->GetStringRefWithEOL();

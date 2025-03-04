@@ -301,7 +301,7 @@ bool CEditView::SearchBracket(
 	CLogicPoint ptPos;
 
 	m_pcEditDoc->m_cLayoutMgr.LayoutToLogic( ptLayout, &ptPos );
-	const wchar_t *cline = CDocLine::GetDocLineStrWithEOL_Safe(m_pcEditDoc->m_cDocLineMgr.GetLine(ptPos.GetY2()), &len);
+	const wchar_t *cline = CDocLine::GetDocLineStrWithEOL(m_pcEditDoc->m_cDocLineMgr.GetLine(ptPos.GetY2()), &len);
 
 	//	Jun. 19, 2000 genta
 	if( cline == nullptr )	//	最後の行に本文がない場合
@@ -400,7 +400,7 @@ bool CEditView::SearchBracketForward(
 	m_pcEditDoc->m_cLayoutMgr.LogicToLayout( ptPos, &ptColLine );	// 02/09/19 ai
 	nSearchNum = ( GetTextArea().GetBottomLine() ) - ptColLine.y;					// 02/09/19 ai
 	ci = m_pcEditDoc->m_cDocLineMgr.GetLine( ptPos.GetY2() );
-	cline = ci->GetDocLineStrWithEOL( &len );
+	cline = CDocLine::GetDocLineStrWithEOL(ci, &len);
 	lineend = cline + len;
 	cPos = cline + ptPos.x;
 
@@ -492,7 +492,7 @@ bool CEditView::SearchBracketBackward(
 	m_pcEditDoc->m_cLayoutMgr.LogicToLayout( ptPos, &ptColLine );	// 02/09/19 ai
 	nSearchNum = ptColLine.y - GetTextArea().GetViewTopLine();										// 02/09/19 ai
 	ci = m_pcEditDoc->m_cDocLineMgr.GetLine( ptPos.GetY2() );
-	cline = ci->GetDocLineStrWithEOL( &len );
+	cline = CDocLine::GetDocLineStrWithEOL(ci, &len);
 	cPos = cline + ptPos.x;
 
 	do {
