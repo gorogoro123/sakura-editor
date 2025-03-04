@@ -96,7 +96,7 @@ void CDocOutline::MakeTopicList_txt( CFuncInfoArr* pcFuncInfoArr )
 	{
 		//行取得
 		CLogicInt		nLineLen;
-		const wchar_t*	pLine = m_pcDocRef->m_cDocLineMgr.GetLine(nLineCount)->GetDocLineStrWithEOL(&nLineLen);
+		const wchar_t*	pLine = CDocLine::GetDocLineStrWithEOL_Safe( m_pcDocRef->m_cDocLineMgr.GetLine(nLineCount), &nLineLen);
 		if( nullptr == pLine )break;
 
 		//行頭の空白飛ばし
@@ -241,7 +241,7 @@ void CDocOutline::MakeTopicList_wztxt(CFuncInfoArr* pcFuncInfoArr)
 		const wchar_t*	pLine;
 		CLogicInt		nLineLen;
 
-		pLine = m_pcDocRef->m_cDocLineMgr.GetLine(nLineCount)->GetDocLineStrWithEOL(&nLineLen);
+		pLine = CDocLine::GetDocLineStrWithEOL_Safe( m_pcDocRef->m_cDocLineMgr.GetLine(nLineCount), &nLineLen);
 		if(!pLine)
 		{
 			break;

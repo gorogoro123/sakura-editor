@@ -1524,7 +1524,7 @@ bool CMacro::HandleFunction(CEditView *View, EFunctionCode ID, VARIANT *Argument
 				}else{
 					nLine = CLogicInt(varCopy.Data.lVal - 1);
 				}
-				Buffer = View->m_pcEditDoc->m_cDocLineMgr.GetLine(nLine)->GetDocLineStrWithEOL(&nLength);
+				Buffer = CDocLine::GetDocLineStrWithEOL_Safe( View->m_pcEditDoc->m_cDocLineMgr.GetLine(nLine), &nLength);
 				if( Buffer != nullptr ){
 					SysString S( Buffer, nLength );
 					Wrap( &Result )->Receive( S );

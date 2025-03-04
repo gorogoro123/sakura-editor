@@ -1384,7 +1384,7 @@ CColorStrategy* CPrintPreview::DrawPageTextFirst(int nPageNum)
 				pStrategy->SetStrategyColorInfo(pcPageTopLayout->GetColorInfo());
 			}
 			if (nPageTopOff) {
-				CStringRef	csr = pcPageTopLayout->GetDocLineRef()->GetStringRefWithEOL();
+				CStringRef	csr = CDocLine::GetStringRefWithEOL_Safe(pcPageTopLayout->GetDocLineRef());
 				CLogicInt	iLogic;
 				for ( iLogic = 0; iLogic < nPageTopOff; ++iLogic) {
 					bool bChange;

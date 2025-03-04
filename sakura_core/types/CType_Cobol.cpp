@@ -54,7 +54,7 @@ void CDocOutline::MakeTopicList_cobol( CFuncInfoArr* pcFuncInfoArr )
 
 	CLogicInt	nLineCount;
 	for( nLineCount = CLogicInt(0); nLineCount <  m_pcDocRef->m_cDocLineMgr.GetLineCount(); ++nLineCount ){
-		pLine = m_pcDocRef->m_cDocLineMgr.GetLine(nLineCount)->GetDocLineStrWithEOL(&nLineLen);
+		pLine = CDocLine::GetDocLineStrWithEOL_Safe( m_pcDocRef->m_cDocLineMgr.GetLine(nLineCount), &nLineLen);
 		if( nullptr == pLine ){
 			break;
 		}
