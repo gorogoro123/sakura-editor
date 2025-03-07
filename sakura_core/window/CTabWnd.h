@@ -51,7 +51,6 @@ public:
 	void JoinNext( );			/* 次のグループに移動 */	// 2007.06.20 ryoji
 	void JoinPrev( );			/* 前のグループに移動 */	// 2007.06.20 ryoji
 
-	LRESULT TabWndDispatchEvent( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 	LRESULT TabListMenu( POINT pt, BOOL bSel = TRUE, BOOL bFull = FALSE, BOOL bOtherGroup = TRUE );	/*!< タブ一覧メニュー作成処理 */	// 2006.03.23 fon
 
 	void SizeBox_ONOFF( bool bSizeBox );
@@ -139,6 +138,7 @@ protected:
 		::SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, (PVOID)&ncm, 0 );
 		return ::CreateFontIndirect( &ncm.lfMenuFont );
 	}
+	static LRESULT CALLBACK TabWndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData );
 
 protected:
 	enum DragState { DRAG_NONE, DRAG_CHECK, DRAG_DRAG };

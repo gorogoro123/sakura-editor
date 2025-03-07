@@ -78,80 +78,60 @@ static bool compTABMENU_DATA( const TABMENU_DATA& arg1, const TABMENU_DATA& arg2
 	return ret < 0;
 }
 
-WNDPROC	gm_pOldWndProc = nullptr;
-
-/* 本来の TabWnd ウィンドウプロシージャ呼び出し */
-inline LRESULT CALLBACK DefTabWndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
-{
-	if( gm_pOldWndProc )
-		return ::CallWindowProc( gm_pOldWndProc, hwnd, uMsg, wParam, lParam );
-	else
-		return ::DefWindowProc( hwnd, uMsg, wParam, lParam );
-}
 
 /* TabWndウィンドウメッセージのコールバック関数 */
-LRESULT CALLBACK TabWndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
+LRESULT CALLBACK CTabWnd::TabWndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData )
 {
-	CTabWnd	*pcTabWnd;
-
-	// Modified by KEITA for WIN64 2003.9.6
-	pcTabWnd = (CTabWnd*)::GetWindowLongPtr( hwnd, GWLP_USERDATA );
-
-	if( pcTabWnd )
-	{
-		//return
-		if( 0L == pcTabWnd->TabWndDispatchEvent( hwnd, uMsg, wParam, lParam ) )
-			return 0L;
+	auto pcTabWnd = (CTabWnd*)dwRefData;
+	if (!pcTabWnd) {
+		return ::DefSubclassProc(hwnd, uMsg, wParam, lParam);
 	}
 
-	return DefTabWndProc( hwnd, uMsg, wParam, lParam );
-}
-
-/* メッセージ配送 */
-LRESULT CTabWnd::TabWndDispatchEvent( [[maybe_unused]] HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
-{
-	// 2005.09.01 ryoji タブ部のメッセージ処理を個別に関数化し、タブ順序変更の処理を追加
 	switch( uMsg )
 	{
 	case WM_LBUTTONDOWN:
-		return OnTabLButtonDown( wParam, lParam );
+		return pcTabWnd->OnTabLButtonDown( wParam, lParam );
 
 	case WM_LBUTTONUP:
-		return OnTabLButtonUp( wParam, lParam );
+		return pcTabWnd->OnTabLButtonUp( wParam, lParam );
 
 	case WM_MOUSEMOVE:
-		return OnTabMouseMove( wParam, lParam );
+		return pcTabWnd->OnTabMouseMove( wParam, lParam );
 
 	case WM_TIMER:
-		return OnTabTimer( wParam, lParam );
+		return pcTabWnd->OnTabTimer( wParam, lParam );
 
 	case WM_CAPTURECHANGED:
-		return OnTabCaptureChanged( wParam, lParam );
+		return pcTabWnd->OnTabCaptureChanged( wParam, lParam );
 
 	case WM_RBUTTONDOWN:
-		return OnTabRButtonDown( wParam, lParam );
+		return pcTabWnd->OnTabRButtonDown( wParam, lParam );
 
 	case WM_RBUTTONUP:
-		return OnTabRButtonUp( wParam, lParam );
+		return pcTabWnd->OnTabRButtonUp( wParam, lParam );
 
 	case WM_MBUTTONDOWN:
-		return OnTabMButtonDown( wParam, lParam );
+		return pcTabWnd->OnTabMButtonDown( wParam, lParam );
 
 	case WM_MBUTTONUP:
-		return OnTabMButtonUp( wParam, lParam );
+		return pcTabWnd->OnTabMButtonUp( wParam, lParam );
 
 	case WM_NOTIFY:
-		return OnTabNotify( wParam, lParam );
+		return pcTabWnd->OnTabNotify( wParam, lParam );
 
 	case WM_HSCROLL:
-		::InvalidateRect( GetHwnd(), nullptr, TRUE );	// アクティブタブの位置が変わるのでトップバンドを更新する	// 2006.03.27 ryoji
+		::InvalidateRect( hwnd, nullptr, TRUE );	// アクティブタブの位置が変わるのでトップバンドを更新する	// 2006.03.27 ryoji
+		break;
+
+	case WM_DESTROY:
+		::RemoveWindowSubclass( hwnd, &TabWndProc, uIdSubclass );
 		break;
 
 	default:
 		break;
 	}
 
-	return 1L;	//デフォルトのディスパッチにまわす
+	return ::DefSubclassProc( hwnd, uMsg, wParam, lParam );
 }
 
 /*! タブ部 WM_LBUTTONDOWN 処理 */
@@ -415,7 +395,7 @@ LRESULT CTabWnd::OnTabMouseMove( WPARAM wParam, LPARAM lParam )
 
 					// 今回の WM_MOUSEMOVE が移動後のタブ上で発生したかのように偽装してマウスオーバーハイライトも移動する
 					TabCtrl_GetItemRect(m_hwndTab, nDstTab, &rc);
-					DefTabWndProc( m_hwndTab, WM_MOUSEMOVE, wParam, MAKELPARAM((rc.left + rc.right) / 2, HIWORD(lParam)) );
+					::DefSubclassProc( m_hwndTab, WM_MOUSEMOVE, wParam, MAKELPARAM((rc.left + rc.right) / 2, HIWORD(lParam)) );
 				}
 			}
 		}
@@ -781,8 +761,6 @@ CTabWnd::CTabWnd()
 	/* 共有データ構造体のアドレスを返す */
 	m_pShareData = &GetDllShareData();
 
-	gm_pOldWndProc = nullptr;
-
 	return;
 }
 
@@ -799,7 +777,6 @@ HWND CTabWnd::Open( HINSTANCE hInstance, HWND hwndParent )
 	/* 初期化 */
 	m_hwndTab    = nullptr;
 	m_hFont      = nullptr;
-	gm_pOldWndProc = nullptr;
 	m_hwndToolTip = nullptr;
 	m_eDragState = DRAG_NONE;	//	2005.09.29 ryoji
 	m_bHovering = FALSE;			// 2006.02.01 ryoji
@@ -859,9 +836,7 @@ HWND CTabWnd::Open( HINSTANCE hInstance, HWND hwndParent )
 		);
 	if( m_hwndTab )
 	{
-		// Modified by KEITA for WIN64 2003.9.6
-		::SetWindowLongPtr( m_hwndTab, GWLP_USERDATA, (LONG_PTR) this );
-		gm_pOldWndProc = (WNDPROC)::SetWindowLongPtr( m_hwndTab, GWLP_WNDPROC, (LONG_PTR) TabWndProc );
+		::SetWindowSubclass(m_hwndTab, &TabWndProc, 0, (DWORD_PTR)this);
 
 		//スタイルを変更する。
 		UINT lngStyle;
@@ -958,16 +933,6 @@ void CTabWnd::Close( )
 {
 	if( GetHwnd() )
 	{
-		if( gm_pOldWndProc )
-		{
-			// Modified by KEITA for WIN64 2003.9.6
-			::SetWindowLongPtr( m_hwndTab, GWLP_WNDPROC, (LONG_PTR)gm_pOldWndProc );
-			gm_pOldWndProc = nullptr;
-		}
-		
-		// Modified by KEITA for WIN64 2003.9.6
-		::SetWindowLongPtr( m_hwndTab, GWLP_USERDATA, (LONG_PTR)nullptr );
-
 		if( m_hwndToolTip )
 		{
 			::DestroyWindow( m_hwndToolTip );
