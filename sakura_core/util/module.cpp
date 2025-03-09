@@ -158,8 +158,6 @@ struct VS_VERSION_INFO_HEAD {
 	@date 2004.05.13 Moca 一度取得したらキャッシュする
 */
 void GetAppVersionInfo(
-	HINSTANCE	hInstance,
-	int			nVersionResourceID,
 	DWORD*		pdwProductVersionMS,
 	DWORD*		pdwProductVersionLS
 )
@@ -173,22 +171,21 @@ void GetAppVersionInfo(
 	static bool bLoad = false;
 	static DWORD dwVersionMS = 0;
 	static DWORD dwVersionLS = 0;
-	if( hInstance == nullptr && bLoad ){
+	if( bLoad ){
 		*pdwProductVersionMS = dwVersionMS;
 		*pdwProductVersionLS = dwVersionLS;
 		return;
 	}
-	if( nullptr != ( hRSRC = ::FindResource( hInstance, MAKEINTRESOURCE(nVersionResourceID), RT_VERSION ) )
-	 && nullptr != ( hgRSRC = ::LoadResource( hInstance, hRSRC ) )
+	if( nullptr != ( hRSRC = ::FindResource( nullptr, MAKEINTRESOURCE(VS_VERSION_INFO), RT_VERSION ) )
+	 && nullptr != ( hgRSRC = ::LoadResource( nullptr, hRSRC ) )
 	 && nullptr != ( pVVIH = (VS_VERSION_INFO_HEAD*)::LockResource( hgRSRC ) )
 	){
 		*pdwProductVersionMS = pVVIH->Value.dwProductVersionMS;
 		*pdwProductVersionLS = pVVIH->Value.dwProductVersionLS;
-		if( hInstance == nullptr ){
-			dwVersionMS = pVVIH->Value.dwProductVersionMS;
-			dwVersionLS = pVVIH->Value.dwProductVersionLS;
-			bLoad = true;
-		}
+
+		dwVersionMS = pVVIH->Value.dwProductVersionMS;
+		dwVersionLS = pVVIH->Value.dwProductVersionLS;
+		bLoad = true;
 	}
 	return;
 }

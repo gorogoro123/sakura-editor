@@ -150,7 +150,7 @@ BOOL CDlgAbout::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 	// 1行目
 	// バージョン情報
 	DWORD dwVersionMS, dwVersionLS;
-	GetAppVersionInfo( nullptr, VS_VERSION_INFO, &dwVersionMS, &dwVersionLS );
+	GetAppVersionInfo( &dwVersionMS, &dwVersionLS );
 	
 	cmemMsg.AppendStringF(
 		L"%s Ver. %d.%d.%d.%d " LTEXT(BUILD_ENV_NAME) LTEXT(VERSION_HASH) L"\r\n",
