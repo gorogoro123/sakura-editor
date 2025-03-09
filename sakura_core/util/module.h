@@ -7,8 +7,7 @@
 */
 #pragma once
 
-void GetAppVersionInfo( HINSTANCE hInstance, int nVersionResourceID,
-					    DWORD* pdwProductVersionMS, DWORD* pdwProductVersionLS );	/* リソースから製品バージョンの取得 */
+void GetAppVersionInfo( DWORD* pdwProductVersionMS, DWORD* pdwProductVersionLS );	/* リソースから製品バージョンの取得 */
 
 HICON GetAppIcon( HINSTANCE hInst, int nResource, const WCHAR* szFile, bool bSmall = false);
 

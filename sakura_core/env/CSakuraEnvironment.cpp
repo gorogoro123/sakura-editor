@@ -420,7 +420,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, wchar_t* pszB
 				wchar_t buf[28]; // 6(符号含むWORDの最大長) * 4 + 4(固定部分)
 				//	2004.05.13 Moca バージョン番号は、プロセスごとに取得する
 				DWORD dwVersionMS, dwVersionLS;
-				GetAppVersionInfo( nullptr, VS_VERSION_INFO, &dwVersionMS, &dwVersionLS );
+				GetAppVersionInfo( &dwVersionMS, &dwVersionLS );
 				int len = auto_sprintf( buf, L"%d.%d.%d.%d",
 					HIWORD( dwVersionMS ),
 					LOWORD( dwVersionMS ),
