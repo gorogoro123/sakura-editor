@@ -167,6 +167,7 @@ public:
 	constexpr const WCHAR* data()  const noexcept { return std::data(m_szData); }
 	constexpr const WCHAR* c_str() const noexcept { return data(); }
 
+	constexpr operator std::span<WCHAR>() & noexcept { return std::span<WCHAR>{ data(), N }; }
 	constexpr operator std::span<WCHAR, N>()       & noexcept { return std::span<WCHAR, N>{ data(), N }; }
 	constexpr operator std::wstring_view()   const & noexcept { return std::wstring_view{ data(), length() }; }
 

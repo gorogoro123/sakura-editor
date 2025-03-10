@@ -18,11 +18,6 @@
 #include "cxx/com_pointer.hpp"
 #include "cxx/ResourceHolder.hpp"
 
-BOOL SelectDir(HWND hWnd, const std::wstring& title, const std::filesystem::path& initialDirectory, WCHAR* strFolderName, size_t nMaxCount)
-{
-	return SelectDir(hWnd, title, initialDirectory, std::span(strFolderName, nMaxCount));
-}
-
 /* フォルダー選択ダイアログ */
 BOOL SelectDir(
 	HWND hWnd,

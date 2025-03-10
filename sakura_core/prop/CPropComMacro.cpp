@@ -584,7 +584,7 @@ void CPropMacro::SelectBaseDir_Macro( HWND hwndDlg )
 		GetInidirOrExedir( szDir, folder );
 	}
 
-	if( SelectDir( hwndDlg, LS(STR_PROPCOMMACR_SEL_DIR), szDir.c_str(), szDir, szDir.capacity() ) ){
+	if( SelectDir( hwndDlg, LS(STR_PROPCOMMACR_SEL_DIR), szDir.c_str(), szDir ) ){
 		//	末尾に\\マークを追加する．
 		AddLastChar( szDir, szDir.capacity(), L'\\' );
 		ApiWrap::DlgItem_SetText( hwndDlg, IDC_MACRODIR, GetRelPath(szDir) ); // 2015.03.03 可能なら相対パスにする
@@ -599,7 +599,7 @@ void CPropMacro::SelectDir_Python(HWND hwndDlg)
 		SFilePath folder = szDir;
 		GetInidirOrExedir(szDir, folder);
 	}
-	if (SelectDir(hwndDlg, LS(STR_PROPCOMMACR_SEL_PYTHONDIR), szDir.c_str(), szDir, szDir.capacity())) {
+	if (SelectDir(hwndDlg, LS(STR_PROPCOMMACR_SEL_PYTHONDIR), szDir.c_str(), szDir)) {
 		// 末尾に\\マークを追加する．
 		AddLastChar(szDir, int(szDir.capacity()), L'\\');
 		ApiWrap::DlgItem_SetText(hwndDlg, IDC_PYTHONDIR, GetRelPath(szDir)); // 可能なら相対パスにする
