@@ -41,36 +41,6 @@ static const DWORD p_helpids[] = {	//10400
 };
 //@@@ 2001.02.04 End
 
-//@@@ 2002.01.12 add start
-static const char *p_date_form[] = {
-	"yyyy'年'M'月'd'日'",
-	"yyyy'年'M'月'd'日('dddd')'",
-	"yyyy'年'MM'月'dd'日'",
-	"yyyy'年'M'月'd'日' dddd",
-	"yyyy'年'MM'月'dd'日' dddd",
-	"yyyy/MM/dd",
-	"yy/MM/dd",
-	"yy/M/d",
-	"yyyy/M/d",
-	"yy/MM/dd' ('ddd')'",
-	"yy/M/d' ('ddd')'",
-	"yyyy/MM/dd' ('ddd')'",
-	"yyyy/M/d' ('ddd')'",
-	"yyyy/M/d' ('ddd')'",
-	nullptr
-};
-
-static const char *p_time_form[] = {
-	"hh:mm:ss",
-	"tthh'時'mm'分'ss'秒'",
-	"H:mm:ss",
-	"HH:mm:ss",
-	"tt h:mm:ss",
-	"tt hh:mm:ss",
-	nullptr
-};
-//@@@ 2002.01.12 add end
-
 //	From Here Jun. 2, 2001 genta
 /*!
 	@param hwndDlg ダイアログボックスのWindow Handle
