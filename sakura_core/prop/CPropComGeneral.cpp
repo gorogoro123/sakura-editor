@@ -119,8 +119,6 @@ INT_PTR CPropGeneral::DispatchEvent(
 	case WM_INITDIALOG:
 		/* ダイアログデータの設定 General */
 		SetData( hwndDlg );
-		// Modified by KEITA for WIN64 2003.9.6
-		::SetWindowLongPtr( hwndDlg, DWLP_USER, lParam );
 
 		/* ユーザーがエディット コントロールに入力できるテキストの長さを制限する */
 

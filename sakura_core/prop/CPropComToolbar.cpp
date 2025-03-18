@@ -214,8 +214,6 @@ INT_PTR CPropToolbar::DispatchEvent(
 		}
 		/* ダイアログデータの設定 Toolbar */
 		SetData( hwndDlg );
-		// Modified by KEITA for WIN64 2003.9.6
-		::SetWindowLongPtr( hwndDlg, DWLP_USER, lParam );
 
 //	From Here Oct.14, 2000 JEPRO added	(Ref. CPropComCustmenu.cpp 内のWM_INITDIALOGを参考にした)
 		/* キー選択時の処理 */

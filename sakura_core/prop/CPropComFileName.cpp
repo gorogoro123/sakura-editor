@@ -101,8 +101,6 @@ INT_PTR CPropFileName::DispatchEvent( HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			LV_COLUMN	col;
 			hListView = GetDlgItem( hwndDlg, IDC_LIST_FNAME );
 
-			// Modified by KEITA for WIN64 2003.9.6
-			::SetWindowLongPtr( hwndDlg, DWLP_USER, lParam );
 			::GetWindowRect( hListView, &rc );
 			col.mask     = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
 			col.fmt      = LVCFMT_LEFT;

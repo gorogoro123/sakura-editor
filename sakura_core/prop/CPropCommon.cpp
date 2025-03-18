@@ -63,6 +63,7 @@ INT_PTR CPropCommon::DlgProc(
 		pPsp = (PROPSHEETPAGE*)lParam;
 		pCPropCommon = ( CPropCommon* )(pPsp->lParam);
 		if( nullptr != pCPropCommon ){
+			::SetWindowLongPtr( hwndDlg, DWLP_USER, (LONG_PTR)pCPropCommon);
 			UpdateDialogFont( hwndDlg );
 			return (pCPropCommon->*DispatchPage)( hwndDlg, uMsg, wParam, pPsp->lParam );
 		}else{
@@ -91,6 +92,7 @@ INT_PTR CPropCommon::DlgProc2(
 	case WM_INITDIALOG:
 		pCPropCommon = ( CPropCommon* )(lParam);
 		if( nullptr != pCPropCommon ){
+			::SetWindowLongPtr( hwndDlg, DWLP_USER, (LONG_PTR)pCPropCommon );
 			UpdateDialogFont( hwndDlg );
 			return (pCPropCommon->*DispatchPage)( hwndDlg, uMsg, IDOK, lParam );
 		}else{
