@@ -257,7 +257,6 @@ INT_PTR CPropMainMenu::DispatchEvent(
 	case WM_INITDIALOG:
 		/* ダイアログデータの設定 Menu */
 		SetData( hwndDlg );
-		::SetWindowLongPtr( hwndDlg, DWLP_USER, lParam );
 
 		/* コントロールのハンドルを取得 */
 		hwndComboFunkKind = ::GetDlgItem( hwndDlg, IDC_COMBO_FUNCKIND );

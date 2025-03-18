@@ -75,8 +75,6 @@ INT_PTR CPropPlugin::DispatchEvent( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 		/* ダイアログデータの設定 Plugin */
 		InitDialog( hwndDlg );
 		SetData( hwndDlg );
-		// Modified by KEITA for WIN64 2003.9.6
-		::SetWindowLongPtr( hwndDlg, DWLP_USER, lParam );
 
 		return TRUE;
 	case WM_NOTIFY:

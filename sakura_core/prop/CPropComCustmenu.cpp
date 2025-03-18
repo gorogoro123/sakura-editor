@@ -160,8 +160,6 @@ INT_PTR CPropCustmenu::DispatchEvent(
 	case WM_INITDIALOG:
 		/* ダイアログデータの設定 Custom menu */
 		SetData( hwndDlg );
-		// Modified by KEITA for WIN64 2003.9.6
-		::SetWindowLongPtr( hwndDlg, DWLP_USER, lParam );
 
 		/* コントロールのハンドルを取得 */
 		hwndCOMBO_FUNCKIND = ::GetDlgItem( hwndDlg, IDC_COMBO_FUNCKIND );

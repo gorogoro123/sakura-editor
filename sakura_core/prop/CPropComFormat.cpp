@@ -101,8 +101,6 @@ INT_PTR CPropFormat::DispatchEvent(
 	case WM_INITDIALOG:
 		/* ダイアログデータの設定 Format */
 		SetData( hwndDlg );
-		// Modified by KEITA for WIN64 2003.9.6
-		::SetWindowLongPtr( hwndDlg, DWLP_USER, lParam );
 
 		ChangeDateExample( hwndDlg );
 		ChangeTimeExample( hwndDlg );

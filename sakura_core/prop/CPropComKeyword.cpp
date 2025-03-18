@@ -106,8 +106,7 @@ INT_PTR CPropKeyword::DispatchEvent(
 			}
 		}
 		SetData( hwndDlg );
-		// Modified by KEITA for WIN64 2003.9.6
-		::SetWindowLongPtr( hwndDlg, DWLP_USER, lParam );
+
 		if( wParam == IDOK ){ // 独立ウィンドウ
 			hwndCtl = ::GetDlgItem( hwndDlg, IDOK );
 			RECT btnRect;

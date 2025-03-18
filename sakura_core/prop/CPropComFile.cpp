@@ -109,7 +109,6 @@ INT_PTR CPropFile::DispatchEvent(
 	case WM_INITDIALOG:
 		/* ダイアログデータの設定 File */
 		SetData( hwndDlg );
-		::SetWindowLongPtr( hwndDlg, DWLP_USER, lParam );
 
 		return TRUE;
 //****	From Here Sept. 21, 2000 JEPRO ダイアログ要素にスピンを入れるので以下のWM_NOTIFYをコメントアウトにし下に修正を置いた

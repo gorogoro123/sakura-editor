@@ -91,8 +91,6 @@ INT_PTR CPropBackup::DispatchEvent( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 	case WM_INITDIALOG:
 		/* ダイアログデータの設定 Backup */
 		SetData( hwndDlg );
-		// Modified by KEITA for WIN64 2003.9.6
-		::SetWindowLongPtr( hwndDlg, DWLP_USER, lParam );
 
 		/* ユーザーがエディット コントロールに入力できるテキストの長さを制限する */
 		//	Oct. 5, 2002 genta バックアップフォルダー名の入力サイズを指定
