@@ -1863,7 +1863,6 @@ int CTabWnd::FindTabIndexByHWND( HWND hWnd )
 void CTabWnd::Refresh( BOOL bEnsureVisible/* = TRUE*/, BOOL bRebuild/* = FALSE*/ )
 {
 	TCITEM		tcitem;
-	EditNode	*pEditNode;
 	int			nCount;
 	int			nGroup = 0;
 	int			nTab;
@@ -1875,14 +1874,14 @@ void CTabWnd::Refresh( BOOL bEnsureVisible/* = TRUE*/, BOOL bRebuild/* = FALSE*/
 
 	if( nullptr == m_hwndTab ) return;
 
-	pEditNode = nullptr;
-	nCount = CAppNodeManager::getInstance()->GetOpenedWindowArr( &pEditNode, TRUE );
+	std::vector<EditNode> vEditNode;
+	nCount = CAppNodeManager::getInstance()->GetOpenedWindowArr( vEditNode, TRUE );
 
 	// 自ウィンドウのグループ番号を調べる
 	for( i = 0; i < nCount; i++ )
 	{
-		if( pEditNode[i].m_hWnd == GetParentHwnd() ){
-			nGroup = pEditNode[i].m_nGroup;
+		if( vEditNode[i].m_hWnd == GetParentHwnd() ){
+			nGroup = vEditNode[i].m_nGroup;
 			break;
 		}
 	}
@@ -1902,11 +1901,11 @@ void CTabWnd::Refresh( BOOL bEnsureVisible/* = TRUE*/, BOOL bRebuild/* = FALSE*/
 		// 作成するタブ数と選択状態にするタブ位置（自ウィンドウの位置）を調べる
 		for( i = 0, j = 0; i < nCount; i++ )
 		{
-			if( pEditNode[i].m_nGroup != nGroup )
+			if( vEditNode[i].m_nGroup != nGroup )
 				continue;
-			if( pEditNode[i].m_bClosing )	// このあとすぐに閉じるウィンドウなのでタブ表示しない
+			if( vEditNode[i].m_bClosing )	// このあとすぐに閉じるウィンドウなのでタブ表示しない
 				continue;
-			if( pEditNode[i].m_hWnd == GetParentHwnd() )
+			if( vEditNode[i].m_hWnd == GetParentHwnd() )
 				nSel = j;	// 選択状態にするタブ位置
 			j++;
 		}
@@ -1954,20 +1953,20 @@ void CTabWnd::Refresh( BOOL bEnsureVisible/* = TRUE*/, BOOL bRebuild/* = FALSE*/
 		// 作成したタブに各ウィンドウ情報を設定する
 		for( i = 0, j = 0; i < nCount; i++ )
 		{
-			if( pEditNode[i].m_nGroup != nGroup )
+			if( vEditNode[i].m_nGroup != nGroup )
 				continue;
-			if( pEditNode[i].m_bClosing )	// このあとすぐに閉じるウィンドウなのでタブ表示しない
+			if( vEditNode[i].m_bClosing )	// このあとすぐに閉じるウィンドウなのでタブ表示しない
 				continue;
 
-			GetTabName( &pEditNode[i], FALSE, TRUE, szName, int(std::size(szName)) );
+			GetTabName( &vEditNode[i], FALSE, TRUE, szName, int(std::size(szName)) );
 
 			tcitem.mask    = TCIF_TEXT | TCIF_PARAM;
 			tcitem.pszText = szName;
-			tcitem.lParam  = (LPARAM)pEditNode[i].m_hWnd;
+			tcitem.lParam  = (LPARAM)vEditNode[i].m_hWnd;
 
 			// 2006.01.28 ryoji タブにアイコンを追加する
 			tcitem.mask |= TCIF_IMAGE;
-			tcitem.iImage = GetImageIndex( &pEditNode[i] );
+			tcitem.iImage = GetImageIndex( &vEditNode[i] );
 
 			TabCtrl_SetItem( m_hwndTab, j, &tcitem );
 			j++;
@@ -1985,8 +1984,6 @@ void CTabWnd::Refresh( BOOL bEnsureVisible/* = TRUE*/, BOOL bRebuild/* = FALSE*/
 			::PostMessage( m_hwndTab, TCM_SETCURSEL, nSel, 0 );
 		}
 	}
-
-	if( pEditNode ) delete[]pEditNode;
 
 	return;
 }
@@ -2815,7 +2812,7 @@ LRESULT CTabWnd::TabListMenu( POINT pt, BOOL bSel/* = TRUE*/, BOOL bFull/* = FAL
 
 	do
 	{
-		EditNode* pEditNode;
+		std::vector<EditNode> vEditNode;
 		int i;
 		int nGroup = 0;
 		int nSelfTab;
@@ -2823,16 +2820,16 @@ LRESULT CTabWnd::TabListMenu( POINT pt, BOOL bSel/* = TRUE*/, BOOL bFull/* = FAL
 		int nCount;
 
 		// タブメニュー用の情報を取得する
-		nCount = CAppNodeManager::getInstance()->GetOpenedWindowArr( &pEditNode, TRUE );
+		nCount = CAppNodeManager::getInstance()->GetOpenedWindowArr( vEditNode, TRUE );
 		if( 0 >= nCount )
 			return 0L;
 
 		// 自ウィンドウのグループ番号を調べる
 		for( i = 0; i < nCount; i++ )
 		{
-			if( pEditNode[i].m_hWnd == GetParentHwnd() )
+			if( vEditNode[i].m_hWnd == GetParentHwnd() )
 			{
-				nGroup = pEditNode[i].m_nGroup;
+				nGroup = vEditNode[i].m_nGroup;
 				break;
 			}
 		}
@@ -2848,14 +2845,14 @@ LRESULT CTabWnd::TabListMenu( POINT pt, BOOL bSel/* = TRUE*/, BOOL bFull/* = FAL
 		{
 			for( i = 0; i < nCount; i++ )
 			{
-				if( pEditNode[i].m_nGroup != nGroup )
+				if( vEditNode[i].m_nGroup != nGroup )
 					continue;
-				if( pEditNode[i].m_bClosing )	// このあとすぐに閉じるウィンドウなのでタブ表示しない
+				if( vEditNode[i].m_bClosing )	// このあとすぐに閉じるウィンドウなのでタブ表示しない
 					continue;
-				GetTabName( &pEditNode[i], bFull, TRUE, pData[nSelfTab].szText, _countof(pData[0].szText) );
-				pData[nSelfTab].hwnd = pEditNode[i].m_hWnd;
+				GetTabName( &vEditNode[i], bFull, TRUE, pData[nSelfTab].szText, _countof(pData[0].szText) );
+				pData[nSelfTab].hwnd = vEditNode[i].m_hWnd;
 				pData[nSelfTab].iItem = i;
-				pData[nSelfTab].iImage = GetImageIndex( &pEditNode[i] );
+				pData[nSelfTab].iImage = GetImageIndex( &vEditNode[i] );
 				nSelfTab++;
 			}
 			// 表示文字でソートする
@@ -2867,21 +2864,19 @@ LRESULT CTabWnd::TabListMenu( POINT pt, BOOL bSel/* = TRUE*/, BOOL bFull/* = FAL
 		nTab = nSelfTab;
 		for( i = 0; i < nCount; i++ )
 		{
-			if( pEditNode[i].m_nGroup == nGroup )
+			if( vEditNode[i].m_nGroup == nGroup )
 				continue;
-			if( pEditNode[i].m_bClosing )	// このあとすぐに閉じるウィンドウなのでタブ表示しない
+			if( vEditNode[i].m_bClosing )	// このあとすぐに閉じるウィンドウなのでタブ表示しない
 				continue;
-			GetTabName( &pEditNode[i], bFull, TRUE, pData[nTab].szText, _countof(pData[0].szText) );
-			pData[nTab].hwnd = pEditNode[i].m_hWnd;
+			GetTabName( &vEditNode[i], bFull, TRUE, pData[nTab].szText, _countof(pData[0].szText) );
+			pData[nTab].hwnd = vEditNode[i].m_hWnd;
 			pData[nTab].iItem = i;
-			pData[nTab].iImage = GetImageIndex( &pEditNode[i] );
+			pData[nTab].iImage = GetImageIndex( &vEditNode[i] );
 			nTab++;
 		}
 		// 表示文字でソートする
 		if( nTab > nSelfTab && m_pShareData->m_Common.m_sTabBar.m_bSortTabList )
 			qsort( pData + nSelfTab, nTab - nSelfTab, sizeof(pData[0]), compTABMENU_DATA );
-
-		delete []pEditNode;
 
 		// メニューを作成する
 		// 2007.02.28 ryoji 表示切替をメニューに追加
@@ -2971,26 +2966,26 @@ HWND CTabWnd::GetNextGroupWnd( )
 
 	if( m_pShareData->m_Common.m_sTabBar.m_bDispTabWnd && !m_pShareData->m_Common.m_sTabBar.m_bDispTabWndMultiWin )
 	{
-		EditNode* pWndArr;
+		std::vector<EditNode> vEditNode;
 		int i;
 		int j;
 		int n;
 
-		n = CAppNodeManager::getInstance()->GetOpenedWindowArr( &pWndArr, FALSE, TRUE );	// グループ番号順ソート
+		n = CAppNodeManager::getInstance()->GetOpenedWindowArr( vEditNode, FALSE, TRUE );	// グループ番号順ソート
 		if( 0 == n )
 			return nullptr;
 		for( i = 0; i < n; i++ )
 		{
-			if( pWndArr[i].m_hWnd == GetParentHwnd() )
+			if( vEditNode[i].m_hWnd == GetParentHwnd() )
 				break;
 		}
 		if( i < n )
 		{
 			for( j = i + 1; j < n; j++ )
 			{
-				if( pWndArr[j].m_nGroup != pWndArr[i].m_nGroup )
+				if( vEditNode[j].m_nGroup != vEditNode[i].m_nGroup )
 				{
-					hwndRet = CAppNodeManager::getInstance()->GetEditNode(pWndArr[j].m_hWnd)->GetGroup().GetTopEditNode()->GetHwnd();
+					hwndRet = CAppNodeManager::getInstance()->GetEditNode(vEditNode[j].m_hWnd)->GetGroup().GetTopEditNode()->GetHwnd();
 					break;
 				}
 			}
@@ -2998,15 +2993,14 @@ HWND CTabWnd::GetNextGroupWnd( )
 			{
 				for( j = 0; j < i; j++ )
 				{
-					if( pWndArr[j].m_nGroup != pWndArr[i].m_nGroup )
+					if( vEditNode[j].m_nGroup != vEditNode[i].m_nGroup )
 					{
-						hwndRet = CAppNodeManager::getInstance()->GetEditNode(pWndArr[j].m_hWnd)->GetGroup().GetTopEditNode()->GetHwnd();
+						hwndRet = CAppNodeManager::getInstance()->GetEditNode(vEditNode[j].m_hWnd)->GetGroup().GetTopEditNode()->GetHwnd();
 						break;
 					}
 				}
 			}
 		}
-		delete []pWndArr;
 	}
 
 	return hwndRet;
@@ -3020,26 +3014,26 @@ HWND CTabWnd::GetPrevGroupWnd( )
 	HWND hwndRet = nullptr;
 	if( m_pShareData->m_Common.m_sTabBar.m_bDispTabWnd && !m_pShareData->m_Common.m_sTabBar.m_bDispTabWndMultiWin )
 	{
-		EditNode* pWndArr;
+		std::vector<EditNode> vEditNode;
 		int i;
 		int j;
 		int n;
 
-		n = CAppNodeManager::getInstance()->GetOpenedWindowArr( &pWndArr, FALSE, TRUE );	// グループ番号順ソート
+		n = CAppNodeManager::getInstance()->GetOpenedWindowArr( vEditNode, FALSE, TRUE );	// グループ番号順ソート
 		if( 0 == n )
 			return nullptr;
 		for( i = 0; i < n; i++ )
 		{
-			if( pWndArr[i].m_hWnd == GetParentHwnd() )
+			if( vEditNode[i].m_hWnd == GetParentHwnd() )
 				break;
 		}
 		if( i < n )
 		{
 			for( j = i - 1; j >= 0; j-- )
 			{
-				if( pWndArr[j].m_nGroup != pWndArr[i].m_nGroup )
+				if( vEditNode[j].m_nGroup != vEditNode[i].m_nGroup )
 				{
-					hwndRet = CAppNodeManager::getInstance()->GetEditNode(pWndArr[j].m_hWnd)->GetGroup().GetTopEditNode()->GetHwnd();
+					hwndRet = CAppNodeManager::getInstance()->GetEditNode(vEditNode[j].m_hWnd)->GetGroup().GetTopEditNode()->GetHwnd();
 					break;
 				}
 			}
@@ -3047,15 +3041,14 @@ HWND CTabWnd::GetPrevGroupWnd( )
 			{
 				for( j = n - 1; j > i; j-- )
 				{
-					if( pWndArr[j].m_nGroup != pWndArr[i].m_nGroup )
+					if( vEditNode[j].m_nGroup != vEditNode[i].m_nGroup )
 					{
-						hwndRet = CAppNodeManager::getInstance()->GetEditNode(pWndArr[j].m_hWnd)->GetGroup().GetTopEditNode()->GetHwnd();
+						hwndRet = CAppNodeManager::getInstance()->GetEditNode(vEditNode[j].m_hWnd)->GetGroup().GetTopEditNode()->GetHwnd();
 						break;
 					}
 				}
 			}
 		}
-		delete []pWndArr;
 	}
 
 	return hwndRet;

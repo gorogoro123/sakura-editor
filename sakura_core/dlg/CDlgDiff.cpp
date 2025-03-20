@@ -233,7 +233,7 @@ void CDlgDiff::SetData( )
 	{
 		HWND		hwndList;
 		int			nRowNum;
-		EditNode	*pEditNode;
+		std::vector<EditNode> vEditNode;
 		EditInfo	*pFileInfo;
 		int			i;
 		int			nItem;
@@ -252,7 +252,7 @@ void CDlgDiff::SetData( )
 		hwndList = GetItemHwnd( IDC_LIST_DIFF_FILES );
 
 		/* 現在開いている編集窓のリストをメニューにする */
-		nRowNum = CAppNodeManager::getInstance()->GetOpenedWindowArr( &pEditNode, TRUE );
+		nRowNum = CAppNodeManager::getInstance()->GetOpenedWindowArr( vEditNode, TRUE );
 		if( nRowNum > 0 )
 		{
 			// 水平スクロール幅は実際に表示する文字列の幅を計測して決める	// 2009.09.26 ryoji
@@ -263,24 +263,24 @@ void CDlgDiff::SetData( )
 			for( i = 0; i < nRowNum; i++ )
 			{
 				/* トレイからエディタへの編集ファイル名要求通知 */
-				::SendMessage( pEditNode[i].GetHwnd(), MYWM_GETFILEINFO, 0, 0 );
+				::SendMessage( vEditNode[i].GetHwnd(), MYWM_GETFILEINFO, 0, 0 );
 				pFileInfo = (EditInfo*)&m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
 
 				/* 自分ならスキップ */
-				if ( pEditNode[i].GetHwnd() == CEditWnd::getInstance()->GetHwnd() )
+				if ( vEditNode[i].GetHwnd() == CEditWnd::getInstance()->GetHwnd() )
 				{
 					// 同じ形式にしておく。ただしアクセスキー番号はなし
-					CFileNameManager::getInstance()->GetMenuFullLabel_WinListNoEscape( szName, int(std::size(szName)), pFileInfo, pEditNode[i].m_nId, -1, calc.GetDC() );
+					CFileNameManager::getInstance()->GetMenuFullLabel_WinListNoEscape( szName, int(std::size(szName)), pFileInfo, vEditNode[i].m_nId, -1, calc.GetDC() );
 					ApiWrap::DlgItem_SetText( GetHwnd(), IDC_STATIC_DIFF_SRC, szName );
 					continue;
 				}
 
 				// 番号はウィンドウ一覧と同じ番号を使う
-				CFileNameManager::getInstance()->GetMenuFullLabel_WinListNoEscape( szName, int(std::size(szName)), pFileInfo, pEditNode[i].m_nId, i, calc.GetDC() );
+				CFileNameManager::getInstance()->GetMenuFullLabel_WinListNoEscape( szName, int(std::size(szName)), pFileInfo, vEditNode[i].m_nId, i, calc.GetDC() );
 
 				/* リストに登録する */
 				nItem = ApiWrap::List_AddString( hwndList, szName );
-				ApiWrap::List_SetItemData( hwndList, nItem, pEditNode[i].GetHwnd() );
+				ApiWrap::List_SetItemData( hwndList, nItem, vEditNode[i].GetHwnd() );
 				count++;
 
 				// 横幅を計算する
@@ -299,7 +299,6 @@ void CDlgDiff::SetData( )
 				}
 			}
 
-			delete [] pEditNode;
 			// 2002/11/01 Moca 追加 リストビューの横幅を設定。これをやらないと水平スクロールバーが使えない
 			ApiWrap::List_SetHorizontalExtent( hwndList, calc.GetCx() + 8 );
 

@@ -222,8 +222,7 @@ void CAppNodeGroupHandle::DeleteEditWndList( HWND hWnd )
 
 /** いくつかのウィンドウへ終了要求を出す
 
-	@param pWndArr [in] EditNodeの配列。m_hWndがNULLの要素は処理しない
-	@param nArrCnt [in] pWndArrの長さ
+	@param vEditNode [in] EditNodeの配列。m_hWndがNULLの要素は処理しない
 	@param bExit [in] TRUE: 編集の全終了 / FALSE: すべて閉じる
 	@param bCheckConfirm [in] FALSE:複数ウィンドウを閉じるときの警告を出さない / TRUE:警告を出す（設定による）
 	@param hWndFrom [in] 終了要求元のウィンドウ（警告メッセージの親となる）
@@ -232,22 +231,23 @@ void CAppNodeGroupHandle::DeleteEditWndList( HWND hWnd )
 	@date 2007.06.22 ryoji nGroup引数を追加
 	@date 2008.11.22 syat 全て→いくつかに変更。複数ウィンドウを閉じる時の警告メッセージを追加
 */
-BOOL CAppNodeGroupHandle::RequestCloseEditor( EditNode* pWndArr, int nArrCnt, BOOL bExit, BOOL bCheckConfirm, HWND hWndFrom )
+BOOL CAppNodeGroupHandle::RequestCloseEditor(const std::vector<EditNode>& vEditNode, BOOL bExit, BOOL bCheckConfirm, HWND hWndFrom )
 {
+	auto nArrCnt = static_cast<int>(vEditNode.size());
 	/* クローズ対象ウィンドウを調べる */
 	int iGroup = -1;
 	HWND hWndLast = nullptr;
 	int nCloseCount = 0;
 	for( int i = 0; i < nArrCnt; i++ ){
-		if( m_nGroup == 0 || m_nGroup == pWndArr[i].m_nGroup ){
-			if( IsSakuraMainWindow(pWndArr[i].m_hWnd) ){
+		if( m_nGroup == 0 || m_nGroup == vEditNode[i].m_nGroup ){
+			if( IsSakuraMainWindow(vEditNode[i].m_hWnd) ){
 				nCloseCount++;
 				if( iGroup == -1 ){
-					iGroup = pWndArr[i].m_nGroup;	// 最初に閉じるグループ
-					hWndLast = pWndArr[i].m_hWnd;
+					iGroup = vEditNode[i].m_nGroup;	// 最初に閉じるグループ
+					hWndLast = vEditNode[i].m_hWnd;
 				}
-				else if( iGroup == pWndArr[i].m_nGroup ){
-					hWndLast = pWndArr[i].m_hWnd;	// 最初に閉じるグループの最後のウィンドウ
+				else if( iGroup == vEditNode[i].m_nGroup ){
+					hWndLast = vEditNode[i].m_hWnd;	// 最初に閉じるグループの最後のウィンドウ
 				}
 			}
 		}
@@ -287,22 +287,22 @@ BOOL CAppNodeGroupHandle::RequestCloseEditor( EditNode* pWndArr, int nArrCnt, BO
 
 	// エディタへの終了要求
 	for( int i = 0; i < nArrCnt; i++ ){
-		if( m_nGroup == 0 || m_nGroup == pWndArr[i].m_nGroup ){
-			if( IsSakuraMainWindow(pWndArr[i].m_hWnd) ){
+		if( m_nGroup == 0 || m_nGroup == vEditNode[i].m_nGroup ){
+			if( IsSakuraMainWindow(vEditNode[i].m_hWnd) ){
 				// タブグループ表示で次に閉じるのがアクティブ化制御ウィンドウの場合、
 				// アクティブ化制御ウィンドウを次のグループの最後のウィンドウに切替える
-				if( bTabGroup && pWndArr[i].m_hWnd == hWndActive ){
+				if( bTabGroup && vEditNode[i].m_hWnd == hWndActive ){
 					iGroup = -1;
 					hWndActive = ( IsSakuraMainWindow(hWndFrom) )? hWndFrom: nullptr;	// 一番最後用
 					for( int j = i + 1; j < nArrCnt; j++ ){
-						if( m_nGroup == 0 || m_nGroup == pWndArr[j].m_nGroup ){
-							if( IsSakuraMainWindow(pWndArr[j].m_hWnd) ){
+						if( m_nGroup == 0 || m_nGroup == vEditNode[j].m_nGroup ){
+							if( IsSakuraMainWindow(vEditNode[j].m_hWnd) ){
 								if( iGroup == -1 ){
-									iGroup = pWndArr[j].m_nGroup;	// 次に閉じるグループ
-									hWndActive = pWndArr[j].m_hWnd;
+									iGroup = vEditNode[j].m_nGroup;	// 次に閉じるグループ
+									hWndActive = vEditNode[j].m_hWnd;
 								}
-								else if( iGroup == pWndArr[j].m_nGroup ){
-									hWndActive = pWndArr[j].m_hWnd;	// 次に閉じるグループの最後のウィンドウ
+								else if( iGroup == vEditNode[j].m_nGroup ){
+									hWndActive = vEditNode[j].m_hWnd;	// 次に閉じるグループの最後のウィンドウ
 								}
 								else{
 									break;
@@ -312,9 +312,9 @@ BOOL CAppNodeGroupHandle::RequestCloseEditor( EditNode* pWndArr, int nArrCnt, BO
 					}
 				}
 				DWORD dwPid;
-				::GetWindowThreadProcessId(pWndArr[i].m_hWnd, &dwPid);
+				::GetWindowThreadProcessId(vEditNode[i].m_hWnd, &dwPid);
 				::SendMessage(hWndActive, MYWM_ALLOWACTIVATE, dwPid, 0);	// アクティブ化の許可を依頼する
-				if( !::SendMessage( pWndArr[i].m_hWnd, MYWM_CLOSE, bExit ? PM_CLOSE_EXIT : 0, (LPARAM)hWndActive ) ){	// 2007.02.13 ryoji bExitを引き継ぐ
+				if( !::SendMessage( vEditNode[i].m_hWnd, MYWM_CLOSE, bExit ? PM_CLOSE_EXIT : 0, (LPARAM)hWndActive ) ){	// 2007.02.13 ryoji bExitを引き継ぐ
 					return FALSE;
 				}
 			}
@@ -363,11 +363,11 @@ BOOL CAppNodeGroupHandle::PostMessageToAllEditors(
 	HWND		hWndLast	/*!< 最後に送りたいウィンドウ */
 )
 {
-	EditNode*	pWndArr;
+	std::vector<EditNode> vEditNode;
 	int		i;
 	int		n;
 
-	n = CAppNodeManager::getInstance()->GetOpenedWindowArr( &pWndArr, FALSE );
+	n = CAppNodeManager::getInstance()->GetOpenedWindowArr( vEditNode, FALSE );
 	if( 0 == n ){
 		return TRUE;
 	}
@@ -375,11 +375,11 @@ BOOL CAppNodeGroupHandle::PostMessageToAllEditors(
 	// hWndLast以外へのメッセージ
 	for( i = 0; i < n; ++i ){
 		//	Jan. 24, 2005 genta hWndLast == NULLのときにメッセージが送られるように
-		if( hWndLast == nullptr || hWndLast != pWndArr[i].m_hWnd ){
-			if( m_nGroup == 0 || m_nGroup == pWndArr[i].m_nGroup ){
-				if( IsSakuraMainWindow( pWndArr[i].m_hWnd ) ){
+		if( hWndLast == nullptr || hWndLast != vEditNode[i].m_hWnd ){
+			if( m_nGroup == 0 || m_nGroup == vEditNode[i].m_nGroup ){
+				if( IsSakuraMainWindow( vEditNode[i].m_hWnd ) ){
 					/* メッセージをポスト */
-					::PostMessage( pWndArr[i].m_hWnd, uMsg, wParam, lParam );
+					::PostMessage( vEditNode[i].m_hWnd, uMsg, wParam, lParam );
 				}
 			}
 		}
@@ -387,17 +387,16 @@ BOOL CAppNodeGroupHandle::PostMessageToAllEditors(
 
 	// hWndLastへのメッセージ
 	for( i = 0; i < n; ++i ){
-		if( hWndLast == pWndArr[i].m_hWnd ){
-			if( m_nGroup == 0 || m_nGroup == pWndArr[i].m_nGroup ){
-				if( IsSakuraMainWindow( pWndArr[i].m_hWnd ) ){
+		if( hWndLast == vEditNode[i].m_hWnd ){
+			if( m_nGroup == 0 || m_nGroup == vEditNode[i].m_nGroup ){
+				if( IsSakuraMainWindow( vEditNode[i].m_hWnd ) ){
 					/* メッセージをポスト */
-					::PostMessage( pWndArr[i].m_hWnd, uMsg, wParam, lParam );
+					::PostMessage( vEditNode[i].m_hWnd, uMsg, wParam, lParam );
 				}
 			}
 		}
 	}
 
-	delete []pWndArr;
 	return TRUE;
 }
 
@@ -413,11 +412,11 @@ BOOL CAppNodeGroupHandle::SendMessageToAllEditors(
 	HWND		hWndLast	/* 最後に送りたいウィンドウ */
 )
 {
-	EditNode*	pWndArr;
+	std::vector<EditNode> vEditNode;
 	int		i;
 	int		n;
 
-	n = CAppNodeManager::getInstance()->GetOpenedWindowArr( &pWndArr, FALSE );
+	n = CAppNodeManager::getInstance()->GetOpenedWindowArr( vEditNode, FALSE );
 	if( 0 == n ){
 		return TRUE;
 	}
@@ -425,11 +424,11 @@ BOOL CAppNodeGroupHandle::SendMessageToAllEditors(
 	// hWndLast以外へのメッセージ
 	for( i = 0; i < n; ++i ){
 		//	Jan. 24, 2005 genta hWndLast == NULLのときにメッセージが送られるように
-		if( hWndLast == nullptr || hWndLast != pWndArr[i].m_hWnd ){
-			if( m_nGroup == 0 || m_nGroup == pWndArr[i].m_nGroup ){
-				if( IsSakuraMainWindow( pWndArr[i].m_hWnd ) ){
+		if( hWndLast == nullptr || hWndLast != vEditNode[i].m_hWnd ){
+			if( m_nGroup == 0 || m_nGroup == vEditNode[i].m_nGroup ){
+				if( IsSakuraMainWindow( vEditNode[i].m_hWnd ) ){
 					/* メッセージを送る */
-					::SendMessage( pWndArr[i].m_hWnd, uMsg, wParam, lParam );
+					::SendMessage( vEditNode[i].m_hWnd, uMsg, wParam, lParam );
 				}
 			}
 		}
@@ -437,17 +436,16 @@ BOOL CAppNodeGroupHandle::SendMessageToAllEditors(
 
 	// hWndLastへのメッセージ
 	for( i = 0; i < n; ++i ){
-		if( hWndLast == pWndArr[i].m_hWnd ){
-			if( m_nGroup == 0 || m_nGroup == pWndArr[i].m_nGroup ){
-				if( IsSakuraMainWindow( pWndArr[i].m_hWnd ) ){
+		if( hWndLast == vEditNode[i].m_hWnd ){
+			if( m_nGroup == 0 || m_nGroup == vEditNode[i].m_nGroup ){
+				if( IsSakuraMainWindow( vEditNode[i].m_hWnd ) ){
 					/* メッセージを送る */
-					::SendMessage( pWndArr[i].m_hWnd, uMsg, wParam, lParam );
+					::SendMessage( vEditNode[i].m_hWnd, uMsg, wParam, lParam );
 				}
 			}
 		}
 	}
 
-	delete []pWndArr;
 	return TRUE;
 }
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
@@ -536,18 +534,18 @@ int CAppNodeManager::GetNoNameNumber( HWND hWnd )
 	@date 2003.06.28 MIK CRecent利用で書き換え
 	@date 2007.06.20 ryoji bGroup引数追加、ソート処理を自前のものからqsortに変更
 */
-int CAppNodeManager::GetOpenedWindowArr( EditNode** ppEditNode, BOOL bSort, BOOL bGSort/* = FALSE */ )
+int CAppNodeManager::GetOpenedWindowArr( std::vector<EditNode>& vEditNode, BOOL bSort, BOOL bGSort/* = FALSE */ )
 {
 	int nRet;
 
 	LockGuard<CMutex> guard( g_cEditArrMutex );
-	nRet = _GetOpenedWindowArrCore( ppEditNode, bSort, bGSort );
+	nRet = _GetOpenedWindowArrCore( vEditNode, bSort, bGSort );
 
 	return nRet;
 }
 
 // GetOpenedWindowArr関数コア処理部
-int CAppNodeManager::_GetOpenedWindowArrCore( EditNode** ppEditNode, BOOL bSort, BOOL bGSort/* = FALSE */ )
+int CAppNodeManager::_GetOpenedWindowArrCore( std::vector<EditNode>& vEditNode, BOOL bSort, BOOL bGSort/* = FALSE */ )
 {
 	DLLSHAREDATA* pShare = &GetDllShareData();
 
@@ -557,21 +555,18 @@ int CAppNodeManager::_GetOpenedWindowArrCore( EditNode** ppEditNode, BOOL bSort,
 	int		i;
 
 	//編集ウインドウ数を取得する。
-	*ppEditNode = nullptr;
+	vEditNode.clear();
 	if( pShare->m_sNodes.m_nEditArrNum <= 0 )
 		return 0;
 
 	//編集ウインドウリスト格納領域を作成する。
-	*ppEditNode = new EditNode[ pShare->m_sNodes.m_nEditArrNum ];
-	if( nullptr == *ppEditNode )
-		return 0;
+	vEditNode.resize(pShare->m_sNodes.m_nEditArrNum);
 
 	// 拡張リストを作成する
 	pNode = new EditNodeEx[ pShare->m_sNodes.m_nEditArrNum ];
 	if( nullptr == pNode )
 	{
-		delete [](*ppEditNode);
-		*ppEditNode = nullptr;
+		vEditNode.clear();
 		return 0;
 	}
 
@@ -589,8 +584,7 @@ int CAppNodeManager::_GetOpenedWindowArrCore( EditNode** ppEditNode, BOOL bSort,
 	if( nRowNum <= 0 )
 	{
 		delete []pNode;
-		delete [](*ppEditNode);
-		*ppEditNode = nullptr;
+		vEditNode.clear();
 		return 0;
 	}
 
@@ -628,11 +622,11 @@ int CAppNodeManager::_GetOpenedWindowArrCore( EditNode** ppEditNode, BOOL bSort,
 	// 拡張リストのソート結果をもとに編集ウインドウリスト格納領域に結果を格納する
 	for( i = 0; i < nRowNum; i++ )
 	{
-		(*ppEditNode)[i] = *pNode[i].p;
+		vEditNode[i] = *pNode[i].p;
 
 		//インデックスを付ける。
 		//このインデックスは m_pEditArr の配列番号です。
-		(*ppEditNode)[i].m_nIndex = int(pNode[i].p - pShare->m_sNodes.m_pEditArr);	// ポインタ減算＝配列番号
+		vEditNode[i].m_nIndex = int(pNode[i].p - pShare->m_sNodes.m_pEditArr);	// ポインタ減算＝配列番号
 	}
 
 	delete []pNode;
@@ -652,25 +646,24 @@ bool CAppNodeManager::ReorderTab( HWND hwndSrc, HWND hwndDst )
 {
 	DLLSHAREDATA* pShare = &GetDllShareData();
 
-	EditNode	*p = nullptr;
+	std::vector<EditNode> vEditNode;
 	int			nCount;
 	int			i;
 
 	int nSrcTab = -1;
 	int nDstTab = -1;
 	LockGuard<CMutex> guard( g_cEditArrMutex );
-	nCount = _GetOpenedWindowArrCore( &p, TRUE );	// ロックは自分でやっているので直接コア部呼び出し
+	nCount = _GetOpenedWindowArrCore( vEditNode, TRUE );	// ロックは自分でやっているので直接コア部呼び出し
 	for( i = 0; i < nCount; i++ )
 	{
-		if( hwndSrc == p[i].m_hWnd )
+		if( hwndSrc == vEditNode[i].m_hWnd )
 			nSrcTab = i;
-		if( hwndDst == p[i].m_hWnd )
+		if( hwndDst == vEditNode[i].m_hWnd )
 			nDstTab = i;
 	}
 
 	if( 0 > nSrcTab || 0 > nDstTab || nSrcTab == nDstTab )
 	{
-		if( p ) delete []p;
 		return false;
 	}
 
@@ -678,14 +671,14 @@ bool CAppNodeManager::ReorderTab( HWND hwndSrc, HWND hwndDst )
 	int nArr0, nArr1;
 	int	nIndex;
 
-	nArr0 = p[ nDstTab ].m_nIndex;
+	nArr0 = vEditNode[ nDstTab ].m_nIndex;
 	nIndex = pShare->m_sNodes.m_pEditArr[ nArr0 ].m_nIndex;
 	if( nSrcTab < nDstTab )
 	{
 		// タブ左方向ローテート
 		for( i = nDstTab - 1; i >= nSrcTab; i-- )
 		{
-			nArr1 = p[ i ].m_nIndex;
+			nArr1 = vEditNode[ i ].m_nIndex;
 			pShare->m_sNodes.m_pEditArr[ nArr0 ].m_nIndex = pShare->m_sNodes.m_pEditArr[ nArr1 ].m_nIndex;
 			nArr0 = nArr1;
 		}
@@ -695,14 +688,13 @@ bool CAppNodeManager::ReorderTab( HWND hwndSrc, HWND hwndDst )
 		// タブ右方向ローテート
 		for( i = nDstTab + 1; i <= nSrcTab; i++ )
 		{
-			nArr1 = p[ i ].m_nIndex;
+			nArr1 = vEditNode[ i ].m_nIndex;
 			pShare->m_sNodes.m_pEditArr[ nArr0 ].m_nIndex = pShare->m_sNodes.m_pEditArr[ nArr1 ].m_nIndex;
 			nArr0 = nArr1;
 		}
 	}
 	pShare->m_sNodes.m_pEditArr[ nArr0 ].m_nIndex = nIndex;
 
-	if( p ) delete []p;
 	return true;
 }
 
@@ -808,26 +800,25 @@ HWND CAppNodeManager::GetNextTab(HWND hWndCur)
 		int			i;
 		int			nGroup = 0;
 		bool		bFound = false;
-		EditNode*	p = nullptr;
-//		int			nCount = CAppNodeManager::getInstance()->GetOpenedWindowArr( &p, TRUE );	// タブの並び順ソート（テスト用）
-		int			nCount = CAppNodeManager::getInstance()->GetOpenedWindowArr( &p, FALSE, FALSE );
+		std::vector<EditNode> vEditNode;
+		int			nCount = CAppNodeManager::getInstance()->GetOpenedWindowArr( vEditNode, FALSE, FALSE );
 		if ( nCount > 1 ) {
 			// search Group No.
 			for (i = 0; i < nCount; i++) {
-				if (p[i].GetHwnd() == hWndCur) {
-					nGroup = p[i].m_nGroup;
+				if (vEditNode[i].GetHwnd() == hWndCur) {
+					nGroup = vEditNode[i].m_nGroup;
 					break;
 				}
 			}
 			// Search Next Window
 			for (i = 0; i < nCount; i++) {
-				if (p[i].m_nGroup == nGroup) {
-					if (p[i].GetHwnd() == hWndCur) {
+				if (vEditNode[i].m_nGroup == nGroup) {
+					if (vEditNode[i].GetHwnd() == hWndCur) {
 						bFound= true;
 					}
 					else {
-						if ((!bFound && hWnd == nullptr) || bFound) {
-							hWnd = p[i].GetHwnd();
+						if (!bFound && hWnd == nullptr || bFound) {
+							hWnd = vEditNode[i].GetHwnd();
 						}
 						if (bFound) {
 							break;
@@ -836,7 +827,6 @@ HWND CAppNodeManager::GetNextTab(HWND hWndCur)
 				}
 			}
 		}
-		if( p ) delete []p;
 	}
 
 	return hWnd;
