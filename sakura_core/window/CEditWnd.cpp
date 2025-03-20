@@ -778,6 +778,7 @@ void CEditWnd::LayoutMainMenu()
 	int 		j;
 	int 		nCount;
 	LPCWSTR		pszName;
+	std::vector<EditNode> vEditNode;
 
 	hMenu = ::CreateMenu();
 	for (i = 0; i < MAX_MAINMENU_TOP && pcMenu->m_nMenuTopIdx[i] >= 0; i++) {
@@ -817,9 +818,7 @@ void CEditWnd::LayoutMainMenu()
 			nCount = 0;
 			switch (cMainMenu->m_nFunc) {
 			case F_WINDOW_LIST:				// ウィンドウリスト
-				EditNode*	pEditNodeArr;
-				nCount = CAppNodeManager::getInstance()->GetOpenedWindowArr( &pEditNodeArr, TRUE );
-				delete [] pEditNodeArr;
+				nCount = CAppNodeManager::getInstance()->GetOpenedWindowArr( vEditNode, TRUE );
 				break;
 			case F_FILE_USED_RECENTLY:		// 最近使ったファイル
 				{
@@ -2474,11 +2473,10 @@ bool CEditWnd::InitMenu_Special(HMENU hMenu, EFunctionCode eFunc)
 	switch (eFunc) {
 	case F_WINDOW_LIST:				// ウィンドウリスト
 		{
-			EditNode*	pEditNodeArr;
-			int nRowNum = CAppNodeManager::getInstance()->GetOpenedWindowArr( &pEditNodeArr, TRUE );
-			WinListMenu(hMenu, pEditNodeArr, nRowNum, false);
+			std::vector<EditNode> vEditNode;
+			int nRowNum = CAppNodeManager::getInstance()->GetOpenedWindowArr( vEditNode, TRUE );
+			WinListMenu(hMenu, vEditNode, false);
 			bInList = (nRowNum > 0);
-			delete [] pEditNodeArr;
 		}
 		break;
 	case F_FILE_USED_RECENTLY:		// 最近使ったファイル
@@ -3422,8 +3420,8 @@ BOOL CEditWnd::DoMouseWheel( WPARAM wParam, LPARAM lParam )
 			if( (hwnd == m_cTabWnd.m_hwndTab || hwnd == m_cTabWnd.GetHwnd()) )
 			{
 				// 現在開いている編集窓のリストを得る
-				EditNode* pEditNodeArr;
-				int nRowNum = CAppNodeManager::getInstance()->GetOpenedWindowArr( &pEditNodeArr, TRUE );
+				std::vector<EditNode> vEditNode;
+				int nRowNum = CAppNodeManager::getInstance()->GetOpenedWindowArr( vEditNode, TRUE );
 				if(  nRowNum > 0 )
 				{
 					// 自分のウィンドウを調べる
@@ -3431,9 +3429,9 @@ BOOL CEditWnd::DoMouseWheel( WPARAM wParam, LPARAM lParam )
 					int nGroup = 0;
 					for( i = 0; i < nRowNum; ++i )
 					{
-						if( GetHwnd() == pEditNodeArr[i].GetHwnd() )
+						if( GetHwnd() == vEditNode[i].GetHwnd() )
 						{
-							nGroup = pEditNodeArr[i].m_nGroup;
+							nGroup = vEditNode[i].m_nGroup;
 							break;
 						}
 					}
@@ -3444,14 +3442,14 @@ BOOL CEditWnd::DoMouseWheel( WPARAM wParam, LPARAM lParam )
 							// 次のウィンドウ
 							for( j = i + 1; j < nRowNum; ++j )
 							{
-								if( nGroup == pEditNodeArr[j].m_nGroup )
+								if( nGroup == vEditNode[j].m_nGroup )
 									break;
 							}
 							if( j >= nRowNum )
 							{
 								for( j = 0; j < i; ++j )
 								{
-									if( nGroup == pEditNodeArr[j].m_nGroup )
+									if( nGroup == vEditNode[j].m_nGroup )
 										break;
 								}
 							}
@@ -3461,14 +3459,14 @@ BOOL CEditWnd::DoMouseWheel( WPARAM wParam, LPARAM lParam )
 							// 前のウィンドウ
 							for( j = i - 1; j >= 0; --j )
 							{
-								if( nGroup == pEditNodeArr[j].m_nGroup )
+								if( nGroup == vEditNode[j].m_nGroup )
 									break;
 							}
 							if( j < 0 )
 							{
 								for( j = nRowNum - 1; j > i; --j )
 								{
-									if( nGroup == pEditNodeArr[j].m_nGroup )
+									if( nGroup == vEditNode[j].m_nGroup )
 										break;
 								}
 							}
@@ -3476,10 +3474,8 @@ BOOL CEditWnd::DoMouseWheel( WPARAM wParam, LPARAM lParam )
 
 						/* 次の（or 前の）ウィンドウをアクティブにする */
 						if( i != j )
-							ActivateFrameWindow( pEditNodeArr[j].GetHwnd() );
+							ActivateFrameWindow( vEditNode[j].GetHwnd() );
 					}
-
-					delete []pEditNodeArr;
 				}
 				return TRUE;	// 処理した
 			}
@@ -4067,10 +4063,10 @@ LRESULT CEditWnd::PopupWinList( bool bMousePos )
 	}
 	else{
 		m_cMenuDrawer.ResetContents();	// 2009.06.02 ryoji 追加
-		EditNode*	pEditNodeArr;
+		std::vector<EditNode> vEditNode;
 		HMENU hMenu = ::CreatePopupMenu();	// 2006.03.23 fon
-		int nRowNum = CAppNodeManager::getInstance()->GetOpenedWindowArr( &pEditNodeArr, TRUE );
-		WinListMenu( hMenu, pEditNodeArr, nRowNum, TRUE );
+		int nRowNum = CAppNodeManager::getInstance()->GetOpenedWindowArr( vEditNode, TRUE );
+		WinListMenu( hMenu, vEditNode, TRUE );
 		// メニューを表示する
 		RECT rcWork;
 		GetMonitorWorkRect( pt, &rcWork );	// モニタのワークエリア
@@ -4078,7 +4074,6 @@ LRESULT CEditWnd::PopupWinList( bool bMousePos )
 									( pt.x > rcWork.left )? pt.x: rcWork.left,
 									( pt.y < rcWork.bottom )? pt.y: rcWork.bottom,
 									0, GetHwnd(), nullptr);
-		delete [] pEditNodeArr;
 		::DestroyMenu( hMenu );
 		::SendMessage( GetHwnd(), WM_COMMAND, (WPARAM)nId, (LPARAM)nullptr );
 	}
@@ -4090,11 +4085,12 @@ LRESULT CEditWnd::PopupWinList( bool bMousePos )
 	@date  2006.03.23 fon CEditWnd::InitMenuから移動。////が元からあるコメント。//>は追加コメントアウト。
 	@date 2009.06.02 ryoji アイテム数が多いときはアクセスキーを 1-9,A-Z の範囲で再使用する（従来は36個未満を仮定）
 */
-LRESULT CEditWnd::WinListMenu( HMENU hMenu, EditNode* pEditNodeArr, int nRowNum, [[maybe_unused]] BOOL bFull )
+LRESULT CEditWnd::WinListMenu( HMENU hMenu, const std::vector<EditNode>& vEditNode, [[maybe_unused]] BOOL bFull )
 {
 	int			i;
 	WCHAR		szMenu[_MAX_PATH * 2 + 3];
 	const EditInfo*	pfi;
+	auto nRowNum = static_cast<int>(vEditNode.size());
 
 	if( nRowNum > 0 ){
 		CFileNameManager::getInstance()->TransformFileName_MakeCache();
@@ -4105,13 +4101,13 @@ LRESULT CEditWnd::WinListMenu( HMENU hMenu, EditNode* pEditNodeArr, int nRowNum,
 		CDCFont dcFont(met.lfMenuFont, GetHwnd());
 		for( i = 0; i < nRowNum; ++i ){
 			/* トレイからエディタへの編集ファイル名要求通知 */
-			::SendMessage( pEditNodeArr[i].GetHwnd(), MYWM_GETFILEINFO, 0, 0 );
+			::SendMessage( vEditNode[i].GetHwnd(), MYWM_GETFILEINFO, 0, 0 );
 ////	From Here Oct. 4, 2000 JEPRO commented out & modified	開いているファイル数がわかるように履歴とは違って1から数える
 			pfi = (EditInfo*)&m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
-			CFileNameManager::getInstance()->GetMenuFullLabel_WinList( szMenu, int(std::size(szMenu)), pfi, pEditNodeArr[i].m_nId, i, dcFont.GetHDC() );
-			m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING, IDM_SELWINDOW + pEditNodeArr[i].m_nIndex, szMenu, L"" );
-			if( GetHwnd() == pEditNodeArr[i].GetHwnd() ){
-				::CheckMenuItem( hMenu, IDM_SELWINDOW + pEditNodeArr[i].m_nIndex, MF_BYCOMMAND | MF_CHECKED );
+			CFileNameManager::getInstance()->GetMenuFullLabel_WinList( szMenu, int(std::size(szMenu)), pfi, vEditNode[i].m_nId, i, dcFont.GetHDC() );
+			m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING, IDM_SELWINDOW + vEditNode[i].m_nIndex, szMenu, L"" );
+			if( GetHwnd() == vEditNode[i].GetHwnd() ){
+				::CheckMenuItem( hMenu, IDM_SELWINDOW + vEditNode[i].m_nIndex, MF_BYCOMMAND | MF_CHECKED );
 			}
 		}
 	}

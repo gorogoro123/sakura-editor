@@ -75,20 +75,19 @@ void CViewCommander::Command_TAB_CLOSEOTHER( )
 	int nGroup = 0;
 
 	// ウィンドウ一覧を取得する
-	EditNode* pEditNode;
-	int nCount = CAppNodeManager::getInstance()->GetOpenedWindowArr( &pEditNode, TRUE );
+	std::vector<EditNode> vEditNode;
+	int nCount = CAppNodeManager::getInstance()->GetOpenedWindowArr( vEditNode, TRUE );
 	if( 0 >= nCount )return;
 
 	for( int i = 0; i < nCount; i++ ){
-		if( pEditNode[i].m_hWnd == GetMainWindow() ){
-			pEditNode[i].m_hWnd = nullptr;		//自分自身は閉じない
-			nGroup = pEditNode[i].m_nGroup;
+		if( vEditNode[i].m_hWnd == GetMainWindow() ){
+			vEditNode[i].m_hWnd = nullptr;		//自分自身は閉じない
+			nGroup = vEditNode[i].m_nGroup;
 		}
 	}
 
 	//終了要求を出す
-	CAppNodeGroupHandle(nGroup).RequestCloseEditor( pEditNode, nCount, FALSE, TRUE, GetMainWindow() );
-	delete []pEditNode;
+	CAppNodeGroupHandle(nGroup).RequestCloseEditor( vEditNode, FALSE, TRUE, GetMainWindow() );
 	return;
 }
 
@@ -130,8 +129,8 @@ void CViewCommander::Command_CASCADE( )
 	int i;
 
 	/* 現在開いている編集窓のリストを取得する */
-	EditNode*	pEditNodeArr;
-	int			nRowNum = CAppNodeManager::getInstance()->GetOpenedWindowArr( &pEditNodeArr, TRUE/*FALSE*/, TRUE );
+	std::vector<EditNode> vEditNode;
+	int			nRowNum = CAppNodeManager::getInstance()->GetOpenedWindowArr( vEditNode, TRUE/*FALSE*/, TRUE );
 
 	if( nRowNum > 0 ){
 		struct WNDARR {
@@ -150,26 +149,26 @@ void CViewCommander::Command_CASCADE( )
 		// -----------------------------------------
 
 		for( i = 0; i < nRowNum; ++i ){
-			if( ::IsIconic( pEditNodeArr[i].GetHwnd() ) ){	//	最小化しているウィンドウは無視。
+			if( ::IsIconic( vEditNode[i].GetHwnd() ) ){	//	最小化しているウィンドウは無視。
 				continue;
 			}
-			if( !::IsWindowVisible( pEditNodeArr[i].GetHwnd() ) ){	//	不可視ウィンドウは無視。
+			if( !::IsWindowVisible( vEditNode[i].GetHwnd() ) ){	//	不可視ウィンドウは無視。
 				continue;
 			}
 			//	Mar. 20, 2004 genta
 			//	現在のウィンドウを末尾に持っていくためここではスキップ
-			if( pEditNodeArr[i].GetHwnd() == CEditWnd::getInstance()->GetHwnd() ){
+			if( vEditNode[i].GetHwnd() == CEditWnd::getInstance()->GetHwnd() ){
 				current_win_index = i;
 				continue;
 			}
-			vWndArr[count].hWnd = pEditNodeArr[i].GetHwnd();
+			vWndArr[count].hWnd = vEditNode[i].GetHwnd();
 			count++;
 		}
 
 		//	Mar. 20, 2004 genta
 		//	現在のウィンドウを末尾に挿入 inspired by crayonzen
 		if( current_win_index >= 0 ){
-			vWndArr[count].hWnd = pEditNodeArr[current_win_index].GetHwnd();
+			vWndArr[count].hWnd = vEditNode[current_win_index].GetHwnd();
 			count++;
 		}
 
@@ -256,7 +255,6 @@ void CViewCommander::Command_CASCADE( )
 			);
 		}
 
-		delete [] pEditNodeArr;
 	}
 	return;
 }
@@ -267,8 +265,8 @@ void CViewCommander::Command_TILE_V( )
 	int i;
 
 	/* 現在開いている編集窓のリストを取得する */
-	EditNode*	pEditNodeArr;
-	int			nRowNum = CAppNodeManager::getInstance()->GetOpenedWindowArr( &pEditNodeArr, TRUE/*FALSE*/, TRUE );
+	std::vector<EditNode> vEditNode;
+	int			nRowNum = CAppNodeManager::getInstance()->GetOpenedWindowArr( vEditNode, TRUE/*FALSE*/, TRUE );
 
 	if( nRowNum > 0 ){
 		std::vector<HWND> vHwndArr(nRowNum);
@@ -278,26 +276,25 @@ void CViewCommander::Command_TILE_V( )
 		//	May 01, 2004 genta マルチモニタ対応
 		::GetMonitorWorkRect( m_pCommanderView->GetHwnd(), &rcDesktop );
 		for( i = 0; i < nRowNum; ++i ){
-			if( ::IsIconic( pEditNodeArr[i].GetHwnd() ) ){	//	最小化しているウィンドウは無視。
+			if( ::IsIconic( vEditNode[i].GetHwnd() ) ){	//	最小化しているウィンドウは無視。
 				continue;
 			}
-			if( !::IsWindowVisible( pEditNodeArr[i].GetHwnd() ) ){	//	不可視ウィンドウは無視。
+			if( !::IsWindowVisible( vEditNode[i].GetHwnd() ) ){	//	不可視ウィンドウは無視。
 				continue;
 			}
 			//	From Here Jul. 28, 2002 genta
 			//	現在のウィンドウを先頭に持ってくる
-			if( pEditNodeArr[i].GetHwnd() == CEditWnd::getInstance()->GetHwnd() ){
+			if( vEditNode[i].GetHwnd() == CEditWnd::getInstance()->GetHwnd() ){
 				vHwndArr[count] = vHwndArr[0];
 				vHwndArr[0] = CEditWnd::getInstance()->GetHwnd();
 			}
 			else {
-				vHwndArr[count] = pEditNodeArr[i].GetHwnd();
+				vHwndArr[count] = vEditNode[i].GetHwnd();
 			}
 			//	To Here Jul. 28, 2002 genta
 			count++;
 		}
 		if( count == 0 ){
-			delete[] pEditNodeArr;
 			return;
 		}
 		int height = (rcDesktop.bottom - rcDesktop.top ) / count;
@@ -312,8 +309,6 @@ void CViewCommander::Command_TILE_V( )
 			);
 		}
 		::SetFocus( vHwndArr[0] );	// Aug. 17, 2002 MIK
-
-		delete [] pEditNodeArr;
 	}
 	return;
 }
@@ -324,8 +319,8 @@ void CViewCommander::Command_TILE_H( )
 	int i;
 
 	/* 現在開いている編集窓のリストを取得する */
-	EditNode*	pEditNodeArr;
-	int			nRowNum = CAppNodeManager::getInstance()->GetOpenedWindowArr( &pEditNodeArr, TRUE/*FALSE*/, TRUE );
+	std::vector<EditNode> vEditNode;
+	int			nRowNum = CAppNodeManager::getInstance()->GetOpenedWindowArr( vEditNode, TRUE/*FALSE*/, TRUE );
 
 	if( nRowNum > 0 ){
 		std::vector<HWND> vHwndArr(nRowNum);
@@ -335,26 +330,25 @@ void CViewCommander::Command_TILE_H( )
 		//	May 01, 2004 genta マルチモニタ対応
 		::GetMonitorWorkRect( m_pCommanderView->GetHwnd(), &rcDesktop );
 		for( i = 0; i < nRowNum; ++i ){
-			if( ::IsIconic( pEditNodeArr[i].GetHwnd() ) ){	//	最小化しているウィンドウは無視。
+			if( ::IsIconic( vEditNode[i].GetHwnd() ) ){	//	最小化しているウィンドウは無視。
 				continue;
 			}
-			if( !::IsWindowVisible( pEditNodeArr[i].GetHwnd() ) ){	//	不可視ウィンドウは無視。
+			if( !::IsWindowVisible( vEditNode[i].GetHwnd() ) ){	//	不可視ウィンドウは無視。
 				continue;
 			}
 			//	From Here Jul. 28, 2002 genta
 			//	現在のウィンドウを先頭に持ってくる
-			if( pEditNodeArr[i].GetHwnd() == CEditWnd::getInstance()->GetHwnd() ){
+			if( vEditNode[i].GetHwnd() == CEditWnd::getInstance()->GetHwnd() ){
 				vHwndArr[count] = vHwndArr[0];
 				vHwndArr[0] = CEditWnd::getInstance()->GetHwnd();
 			}
 			else {
-				vHwndArr[count] = pEditNodeArr[i].GetHwnd();
+				vHwndArr[count] = vEditNode[i].GetHwnd();
 			}
 			//	To Here Jul. 28, 2002 genta
 			count++;
 		}
 		if (count == 0) {
-			delete[] pEditNodeArr;
 			return;
 		}
 		int width = (rcDesktop.right - rcDesktop.left ) / count;
@@ -369,7 +363,6 @@ void CViewCommander::Command_TILE_H( )
 			);
 		}
 		::SetFocus( vHwndArr[0] );	// Aug. 17, 2002 MIK
-		delete [] pEditNodeArr;
 	}
 	return;
 }
@@ -501,24 +494,23 @@ void CViewCommander::Command_TAB_CLOSELEFT( )
 		int nGroup = 0;
 
 		// ウィンドウ一覧を取得する
-		EditNode* pEditNode;
-		int nCount = CAppNodeManager::getInstance()->GetOpenedWindowArr( &pEditNode, TRUE );
+		std::vector<EditNode> vEditNode;
+		int nCount = CAppNodeManager::getInstance()->GetOpenedWindowArr( vEditNode, TRUE );
 		BOOL bSelfFound = FALSE;
 		if( 0 >= nCount )return;
 
 		for( int i = 0; i < nCount; i++ ){
-			if( pEditNode[i].m_hWnd == GetMainWindow() ){
-				pEditNode[i].m_hWnd = nullptr;		//自分自身は閉じない
-				nGroup = pEditNode[i].m_nGroup;
+			if( vEditNode[i].m_hWnd == GetMainWindow() ){
+				vEditNode[i].m_hWnd = nullptr;		//自分自身は閉じない
+				nGroup = vEditNode[i].m_nGroup;
 				bSelfFound = TRUE;
 			}else if( bSelfFound ){
-				pEditNode[i].m_hWnd = nullptr;		//右は閉じない
+				vEditNode[i].m_hWnd = nullptr;		//右は閉じない
 			}
 		}
 
 		//終了要求を出す
-		CAppNodeGroupHandle(nGroup).RequestCloseEditor( pEditNode, nCount, FALSE, TRUE, GetMainWindow() );
-		delete []pEditNode;
+		CAppNodeGroupHandle(nGroup).RequestCloseEditor( vEditNode, FALSE, TRUE, GetMainWindow() );
 	}
 	return;
 }
@@ -530,24 +522,23 @@ void CViewCommander::Command_TAB_CLOSERIGHT( )
 		int nGroup = 0;
 
 		// ウィンドウ一覧を取得する
-		EditNode* pEditNode;
-		int nCount = CAppNodeManager::getInstance()->GetOpenedWindowArr( &pEditNode, TRUE );
+		std::vector<EditNode> vEditNode;
+		int nCount = CAppNodeManager::getInstance()->GetOpenedWindowArr( vEditNode, TRUE );
 		BOOL bSelfFound = FALSE;
 		if( 0 >= nCount )return;
 
 		for( int i = 0; i < nCount; i++ ){
-			if( pEditNode[i].m_hWnd == GetMainWindow() ){
-				pEditNode[i].m_hWnd = nullptr;		//自分自身は閉じない
-				nGroup = pEditNode[i].m_nGroup;
+			if( vEditNode[i].m_hWnd == GetMainWindow() ){
+				vEditNode[i].m_hWnd = nullptr;		//自分自身は閉じない
+				nGroup = vEditNode[i].m_nGroup;
 				bSelfFound = TRUE;
 			}else if( !bSelfFound ){
-				pEditNode[i].m_hWnd = nullptr;		//左は閉じない
+				vEditNode[i].m_hWnd = nullptr;		//左は閉じない
 			}
 		}
 
 		//終了要求を出す
-		CAppNodeGroupHandle(nGroup).RequestCloseEditor( pEditNode, nCount, FALSE, TRUE, GetMainWindow() );
-		delete []pEditNode;
+		CAppNodeGroupHandle(nGroup).RequestCloseEditor( vEditNode, FALSE, TRUE, GetMainWindow() );
 	}
 	return;
 }

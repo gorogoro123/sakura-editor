@@ -146,27 +146,25 @@ void CDlgWindowList::SetData()
 {
 	HWND hwndList = GetItemHwnd(IDC_LIST_WINDOW);
 	ListView_DeleteAllItems(hwndList);
-	EditNode *pEditNode;
-	int nRowNum = CAppNodeManager::getInstance()->GetOpenedWindowArr(&pEditNode, TRUE);
+	std::vector<EditNode> vEditNode;
+	int nRowNum = CAppNodeManager::getInstance()->GetOpenedWindowArr(vEditNode, TRUE);
 	if (0 < nRowNum) {
 		CTextWidthCalc calc(hwndList);
 		for (int i = 0; i < nRowNum; i++) {
-			::SendMessage(pEditNode[i].GetHwnd(), MYWM_GETFILEINFO, 0, 0);
+			::SendMessage(vEditNode[i].GetHwnd(), MYWM_GETFILEINFO, 0, 0);
 			const EditInfo* pEditInfo = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
 
 			WCHAR szName[512];
-			CFileNameManager::getInstance()->GetMenuFullLabel_WinListNoEscape(szName, int(std::size(szName)), pEditInfo, pEditNode[i].m_nId, i, calc.GetDC());
+			CFileNameManager::getInstance()->GetMenuFullLabel_WinListNoEscape(szName, int(std::size(szName)), pEditInfo, vEditNode[i].m_nId, i, calc.GetDC());
 
 			LV_ITEM lvi;
 			lvi.mask     = LVIF_TEXT | LVIF_PARAM;
 			lvi.pszText  = szName;
 			lvi.iItem    = i;
 			lvi.iSubItem = 0;
-			lvi.lParam   = (LPARAM)pEditNode[i].GetHwnd();
+			lvi.lParam   = (LPARAM)vEditNode[i].GetHwnd();
 			ListView_InsertItem(hwndList, &lvi);
 		}
-
-		delete [] pEditNode;
 	}
 	return;
 }

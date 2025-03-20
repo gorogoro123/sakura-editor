@@ -373,7 +373,7 @@ LRESULT CControlTray::DispatchEvent(
 	LPHELPINFO		lphi;
 
 	int			nRowNum;
-	EditNode*	pEditNodeArr;
+	std::vector<EditNode> vEditNode;
 	static HWND	hwndHtmlHelp;
 
 	static WORD		wHotKeyMods;
@@ -508,10 +508,7 @@ LRESULT CControlTray::DispatchEvent(
 		// タスクトレイのアイコンを常駐しない、または、トレイにアイコンを作っていない
 		if( !(m_pShareData->m_Common.m_sGeneral.m_bStayTaskTray && m_pShareData->m_Common.m_sGeneral.m_bUseTaskTray) || !m_bCreatedTrayIcon ){
 			// 現在開いている編集窓のリスト
-			nRowNum = CAppNodeManager::getInstance()->GetOpenedWindowArr( &pEditNodeArr, TRUE );
-			if( 0 < nRowNum ){
-				delete [] pEditNodeArr;
-			}
+			nRowNum = CAppNodeManager::getInstance()->GetOpenedWindowArr( vEditNode, TRUE );
 			// 編集ウィンドウの数が0になったら終了
 			if( 0 == nRowNum ){
 				::SendMessage( hwnd, WM_CLOSE, 0, 0 );
@@ -1374,16 +1371,16 @@ bool CControlTray::OpenNewEditor2(
 void CControlTray::ActiveNextWindow(HWND hwndParent)
 {
 	/* 現在開いている編集窓のリストを得る */
-	EditNode*	pEditNodeArr;
-	int			nRowNum = CAppNodeManager::getInstance()->GetOpenedWindowArr( &pEditNodeArr, TRUE );
+	std::vector<EditNode> vEditNode;
+	int			nRowNum = CAppNodeManager::getInstance()->GetOpenedWindowArr( vEditNode, TRUE );
 	if(  nRowNum > 0 ){
 		/* 自分のウィンドウを調べる */
 		int				nGroup = 0;
 		int				i;
 		for( i = 0; i < nRowNum; ++i ){
-			if( hwndParent == pEditNodeArr[i].GetHwnd() )
+			if( hwndParent == vEditNode[i].GetHwnd() )
 			{
-				nGroup = pEditNodeArr[i].m_nGroup;
+				nGroup = vEditNode[i].m_nGroup;
 				break;
 			}
 		}
@@ -1391,37 +1388,36 @@ void CControlTray::ActiveNextWindow(HWND hwndParent)
 			// 前のウィンドウ
 			int		j;
 			for( j = i - 1; j >= 0; --j ){
-				if( nGroup == pEditNodeArr[j].m_nGroup )
+				if( nGroup == vEditNode[j].m_nGroup )
 					break;
 			}
 			if( j < 0 ){
 				for( j = nRowNum - 1; j > i; --j ){
-					if( nGroup == pEditNodeArr[j].m_nGroup )
+					if( nGroup == vEditNode[j].m_nGroup )
 						break;
 				}
 			}
 			/* 前のウィンドウをアクティブにする */
-			HWND	hwndWork = pEditNodeArr[j].GetHwnd();
+			HWND	hwndWork = vEditNode[j].GetHwnd();
 			ActivateFrameWindow( hwndWork );
 			/* 最後のペインをアクティブにする */
 			::PostMessage( hwndWork, MYWM_SETACTIVEPANE, (WPARAM)-1, 1 );
 		}
-		delete [] pEditNodeArr;
 	}
 }
 
 void CControlTray::ActivePrevWindow(HWND hwndParent)
 {
 	/* 現在開いている編集窓のリストを得る */
-	EditNode*	pEditNodeArr;
-	int			nRowNum = CAppNodeManager::getInstance()->GetOpenedWindowArr( &pEditNodeArr, TRUE );
+	std::vector<EditNode> vEditNode;
+	int			nRowNum = CAppNodeManager::getInstance()->GetOpenedWindowArr( vEditNode, TRUE );
 	if(  nRowNum > 0 ){
 		/* 自分のウィンドウを調べる */
 		int				nGroup = 0;
 		int				i;
 		for( i = 0; i < nRowNum; ++i ){
-			if( hwndParent == pEditNodeArr[i].GetHwnd() ){
-				nGroup = pEditNodeArr[i].m_nGroup;
+			if( hwndParent == vEditNode[i].GetHwnd() ){
+				nGroup = vEditNode[i].m_nGroup;
 				break;
 			}
 		}
@@ -1429,22 +1425,21 @@ void CControlTray::ActivePrevWindow(HWND hwndParent)
 			// 次のウィンドウ
 			int		j;
 			for( j = i + 1; j < nRowNum; ++j ){
-				if( nGroup == pEditNodeArr[j].m_nGroup )
+				if( nGroup == vEditNode[j].m_nGroup )
 					break;
 			}
 			if( j >= nRowNum ){
 				for( j = 0; j < i; ++j ){
-					if( nGroup == pEditNodeArr[j].m_nGroup )
+					if( nGroup == vEditNode[j].m_nGroup )
 						break;
 				}
 			}
 			/* 次のウィンドウをアクティブにする */
-			HWND	hwndWork = pEditNodeArr[j].GetHwnd();
+			HWND	hwndWork = vEditNode[j].GetHwnd();
 			ActivateFrameWindow( hwndWork );
 			/* 最初のペインをアクティブにする */
 			::PostMessage( hwndWork, MYWM_SETACTIVEPANE, (WPARAM)-1, 0 );
 		}
-		delete [] pEditNodeArr;
 	}
 }
 
@@ -1495,17 +1490,16 @@ BOOL CControlTray::CloseAllEditor(
 	int		nGroup			//!< [in] グループID
 )
 {
-	EditNode*	pWndArr;
+	std::vector<EditNode> vEditNode;
 	int		n;
 
-	n = CAppNodeManager::getInstance()->GetOpenedWindowArr( &pWndArr, FALSE );
+	n = CAppNodeManager::getInstance()->GetOpenedWindowArr( vEditNode, FALSE );
 	if( 0 == n ){
 		return TRUE;
 	}
 	
 	/* 全編集ウィンドウへ終了要求を出す */
-	BOOL	bRes = CAppNodeGroupHandle(nGroup).RequestCloseEditor( pWndArr, n, bExit, bCheckConfirm, hWndFrom );	// 2007.02.13 ryoji bExitを引き継ぐ
-	delete []pWndArr;
+	BOOL	bRes = CAppNodeGroupHandle(nGroup).RequestCloseEditor( vEditNode, bExit, bCheckConfirm, hWndFrom );	// 2007.02.13 ryoji bExitを引き継ぐ
 	return bRes;
 }
 
