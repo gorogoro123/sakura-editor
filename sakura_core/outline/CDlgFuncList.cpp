@@ -23,7 +23,6 @@
 	Please contact the copyright holder to use this code for other purpose.
 */
 
-#include <climits>
 #include "outline/CDlgFuncList.h"
 #include "outline/CFuncInfo.h"
 #include "outline/CFuncInfoArr.h"// 2002/2/3 aroka
@@ -1381,10 +1380,9 @@ void CDlgFuncList::SetTree(HTREEITEM hInsertAfter, bool tagjump, bool nolabel)
 	int i;
 	int nFuncInfoArrNum = m_pcFuncInfoArr->GetNum();
 	int nStackPointer = 0;
-	int nStackDepth = 32; // phParentStack の確保している数
-	HTREEITEM* phParentStack;
-	phParentStack = (HTREEITEM*)malloc( nStackDepth * sizeof( HTREEITEM ) );
-	phParentStack[ nStackPointer ] = TVI_ROOT;
+	int nStackDepth = 32; // vhParentStack の確保している数
+	std::vector<HTREEITEM> vhParentStack(nStackDepth);
+	vhParentStack[ nStackPointer ] = TVI_ROOT;
 
 	m_cmemClipText.SetString(L"");
 	{
@@ -1412,7 +1410,7 @@ void CDlgFuncList::SetTree(HTREEITEM hInsertAfter, bool tagjump, bool nolabel)
 		*/
 		HTREEITEM hItem;
 		TV_INSERTSTRUCT cTVInsertStruct;
-		cTVInsertStruct.hParent = phParentStack[ nStackPointer ];
+		cTVInsertStruct.hParent = vhParentStack[ nStackPointer ];
 		cTVInsertStruct.hInsertAfter = hInsertAfter;
 		cTVInsertStruct.item.mask = TVIF_TEXT | TVIF_PARAM;
 		cTVInsertStruct.item.pszText = pcFuncInfo->m_cmemFuncName.GetStringPtr();
@@ -1428,19 +1426,13 @@ void CDlgFuncList::SetTree(HTREEITEM hInsertAfter, bool tagjump, bool nolabel)
 			// 2002.11.10 Moca 追加 確保したサイズでは足りなくなった。再確保
 			if( nStackDepth <= pcFuncInfo->m_nDepth + 1 ){
 				nStackDepth = pcFuncInfo->m_nDepth + 4; // 多めに確保しておく
-				HTREEITEM* phTi;
-				phTi = (HTREEITEM*)realloc( phParentStack, nStackDepth * sizeof( HTREEITEM ) );
-				if( nullptr != phTi ){
-					phParentStack = phTi;
-				}else{
-					goto end_of_func;
-				}
+				vhParentStack.resize(nStackDepth, nullptr);
 			}
 			nStackPointer = pcFuncInfo->m_nDepth;
-			cTVInsertStruct.hParent = phParentStack[ nStackPointer ];
+			cTVInsertStruct.hParent = vhParentStack[ nStackPointer ];
 		}
 		hItem = TreeView_InsertItem( hwndTree, &cTVInsertStruct );
-		phParentStack[ nStackPointer+1 ] = hItem;
+		vhParentStack[ nStackPointer+1 ] = hItem;
 
 		/* クリップボードコピー用テキストを作成する */
 		//	2003.06.22 Moca dummy要素はツリーに入れるがTAGJUMPには加えない
@@ -1483,11 +1475,7 @@ void CDlgFuncList::SetTree(HTREEITEM hInsertAfter, bool tagjump, bool nolabel)
 		}
 	}
 
-end_of_func:;
-
 	::EnableWindow( GetItemHwnd( IDC_BUTTON_COPY ), TRUE );
-
-	free( phParentStack );
 }
 
 void CDlgFuncList::SetDocLineFuncList()
