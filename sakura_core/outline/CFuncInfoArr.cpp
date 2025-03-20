@@ -31,18 +31,12 @@ CFuncInfoArr::~CFuncInfoArr()
 
 void CFuncInfoArr::Empty( )
 {
-	int i;
-	if( m_nFuncInfoArrNum > 0 && nullptr != m_ppcFuncInfoArr ){
-		for( i = 0; i < m_nFuncInfoArrNum; ++i ){
-			delete m_ppcFuncInfoArr[i];
-			m_ppcFuncInfoArr[i] = nullptr;
-		}
-		m_nFuncInfoArrNum = 0;
-		free( m_ppcFuncInfoArr );
-		m_ppcFuncInfoArr = nullptr;
+	for(auto& pcFuncInfo : m_pcFuncInfoArr) {
+		delete pcFuncInfo;
+		pcFuncInfo = nullptr;
 	}
+	m_pcFuncInfoArr.clear();
 	m_AppendTextArr.clear();
-	m_nAppendTextLenMax = 0;
 	return;
 }
 
@@ -50,23 +44,10 @@ void CFuncInfoArr::Empty( )
 /* データがない場合はNULLを返す */
 CFuncInfo* CFuncInfoArr::GetAt(size_t nIdx) noexcept
 {
-	if (m_nFuncInfoArrNum <= nIdx) {
+	if (m_pcFuncInfoArr.size() <= nIdx) {
 		return nullptr;
 	}
-	return m_ppcFuncInfoArr[nIdx];
-}
-
-/*! 配列の最後にデータを追加する */
-void CFuncInfoArr::AppendData( CFuncInfo* pcFuncInfo )
-{
-	if( 0 == m_nFuncInfoArrNum){
-		m_ppcFuncInfoArr = (CFuncInfo**)malloc( sizeof(CFuncInfo*) * (m_nFuncInfoArrNum + 1) );
-	}else{
-		m_ppcFuncInfoArr = (CFuncInfo**)realloc( m_ppcFuncInfoArr, sizeof(CFuncInfo*) * (m_nFuncInfoArrNum + 1) );
-	}
-	m_ppcFuncInfoArr[m_nFuncInfoArrNum] = pcFuncInfo;
-	m_nFuncInfoArrNum++;
-	return;
+	return m_pcFuncInfoArr[nIdx];
 }
 
 /*! 配列の最後にデータを追加する
@@ -87,7 +68,7 @@ void CFuncInfoArr::AppendData(
 	CFuncInfo* pcFuncInfo = new CFuncInfo( nFuncLineCRLF, nFuncColCRLF, nFuncLineLAYOUT, nFuncColLAYOUT,
 		pszFuncName, pszFileName, nInfo );
 	pcFuncInfo->m_nDepth = nDepth;
-	AppendData( pcFuncInfo );
+	m_pcFuncInfoArr.emplace_back(pcFuncInfo);
 	return;
 }
 
@@ -106,16 +87,15 @@ void CFuncInfoArr::AppendData(
 void CFuncInfoArr::DUMP( )
 {
 #ifdef _DEBUG
-	int i;
 	MYTRACE( L"=============================\n" );
-	for( i = 0; i < m_nFuncInfoArrNum; i++ ){
+	for( auto i = 0; i < m_pcFuncInfoArr.size(); i++ ){
 		MYTRACE( L"[%d]------------------\n", i );
-		MYTRACE( L"m_nFuncLineCRLF	=%d\n", m_ppcFuncInfoArr[i]->m_nFuncLineCRLF );
-		MYTRACE( L"m_nFuncLineLAYOUT	=%d\n", m_ppcFuncInfoArr[i]->m_nFuncLineLAYOUT );
-		MYTRACE( L"m_cmemFuncName	=[%s]\n", m_ppcFuncInfoArr[i]->m_cmemFuncName.GetStringPtr() );
+		MYTRACE( L"m_nFuncLineCRLF	=%d\n", m_pcFuncInfoArr[i]->m_nFuncLineCRLF );
+		MYTRACE( L"m_nFuncLineLAYOUT	=%d\n", m_pcFuncInfoArr[i]->m_nFuncLineLAYOUT );
+		MYTRACE( L"m_cmemFuncName	=[%s]\n", m_pcFuncInfoArr[i]->m_cmemFuncName.GetStringPtr() );
 		MYTRACE( L"m_cmemFileName	=[%s]\n",
-			(m_ppcFuncInfoArr[i]->m_cmemFileName.GetStringPtr() ? m_ppcFuncInfoArr[i]->m_cmemFileName.GetStringPtr() : L"NULL") );
-		MYTRACE( L"m_nInfo			=%d\n", m_ppcFuncInfoArr[i]->m_nInfo );
+			(m_pcFuncInfoArr[i]->m_cmemFileName.GetStringPtr() ? m_pcFuncInfoArr[i]->m_cmemFileName.GetStringPtr() : L"NULL") );
+		MYTRACE( L"m_nInfo			=%d\n", m_pcFuncInfoArr[i]->m_nInfo );
 	}
 	MYTRACE( L"=============================\n" );
 #endif
@@ -127,9 +107,6 @@ void CFuncInfoArr::SetAppendText( int info, std::wstring s, bool overwrite )
 		// キーが存在しない場合、追加する
 		std::pair<int, std::wstring> pair(info, s);
 		m_AppendTextArr.insert( pair );
-		if( m_nAppendTextLenMax < (int)s.length() ){
-			m_nAppendTextLenMax = (int)s.length();
-		}
 	}else{
 		// キーが存在する場合、値を書き換える
 		if( overwrite ){
