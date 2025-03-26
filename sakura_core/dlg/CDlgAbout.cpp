@@ -26,7 +26,6 @@
 #include "util/shell.h"
 #include "util/window.h"
 #include "sakura_rc.h" // 2002/2/10 aroka 復帰
-#include "version.h"
 #include "apiwrap/StdApi.h"
 #include "apiwrap/StdControl.h"
 #include "CSelectLang.h"
@@ -234,10 +233,10 @@ BOOL CDlgAbout::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 
 	// URLウィンドウをサブクラス化する
 	m_UrlUrWnd.SetSubclassWindow( GetItemHwnd( IDC_STATIC_URL_UR ) );
-#ifdef GIT_REMOTE_ORIGIN_URL
+#if defined( GIT_REMOTE_ORIGIN_URL )
 	m_UrlGitWnd.SetSubclassWindow( GetItemHwnd( IDC_STATIC_URL_GIT ) );
 #endif
-#ifdef CI_BUILD_NUMBER_LABEL
+#if defined( CI_BUILD_NUMBER_LABEL )
 	m_UrlBuildLinkWnd.SetSubclassWindow( GetItemHwnd( IDC_STATIC_URL_CI_BUILD ) );
 #endif
 #if defined( GITHUB_COMMIT_URL )
