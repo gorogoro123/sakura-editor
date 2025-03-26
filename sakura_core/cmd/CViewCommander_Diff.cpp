@@ -166,32 +166,32 @@ void CViewCommander::Command_COMPARE( )
 //From Here Oct. 10, 2000 JEPRO	チェックボックスをボタン化すれば以下の行(To Here まで)は不要のはずだが
 //	うまくいかなかったので元に戻してある…
 	if( GetDllShareData().m_Common.m_sCompare.m_bCompareAndTileHorz ){
-		HWND* phwndArr = new HWND[2];
-		phwndArr[0] = GetMainWindow();
-		phwndArr[1] = hwndCompareWnd;
-		
+		auto vHwndArr = std::to_array<HWND>({
+			GetMainWindow(),
+			hwndCompareWnd,
+		});
+
 		int i;	// Jan. 28, 2002 genta ループ変数 intの宣言を前に出した．
 				// 互換性対策．forの()内で宣言すると古い規格と新しい規格で矛盾するので．
 		for( i = 0; i < 2; ++i ){
-			if( ::IsZoomed( phwndArr[i] ) ){
-				::ShowWindow( phwndArr[i], SW_RESTORE );
+			if( ::IsZoomed( vHwndArr[i] ) ){
+				::ShowWindow( vHwndArr[i], SW_RESTORE );
 			}
 		}
 		//	デスクトップサイズを得る 2002.1.24 YAZAKI
 		RECT	rcDesktop;
 		//	May 01, 2004 genta マルチモニタ対応
-		::GetMonitorWorkRect( phwndArr[0], &rcDesktop );
+		::GetMonitorWorkRect( vHwndArr[0], &rcDesktop );
 		int width = (rcDesktop.right - rcDesktop.left ) / 2;
 		for( i = 1; i >= 0; i-- ){
 			::SetWindowPos(
-				phwndArr[i], nullptr,
+				vHwndArr[i], nullptr,
 				width * i + rcDesktop.left, rcDesktop.top, // Oct. 18, 2003 genta タスクバーが左にある場合を考慮
 				width, rcDesktop.bottom - rcDesktop.top,
 				SWP_NOOWNERZORDER | SWP_NOZORDER
 			);
 		}
 //		::TileWindows( NULL, MDITILE_VERTICAL, NULL, 2, phwndArr );
-		delete [] phwndArr;
 	}
 //To Here Oct. 10, 2000
 
