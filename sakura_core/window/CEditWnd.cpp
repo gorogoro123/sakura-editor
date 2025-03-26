@@ -28,7 +28,6 @@
 #include "_main/CCommandLine.h"	/// 2003/1/26 aroka
 #include "_main/CAppMode.h"
 #include "basis/CErrorInfo.h"
-#include "dlg/CDlgAbout.h"
 #include "dlg/CDlgPrintSetting.h"
 #include "env/CShareData.h"
 #include "env/CFileNameManager.h"

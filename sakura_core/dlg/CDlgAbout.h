@@ -16,6 +16,7 @@
 #pragma once
 
 #include "dlg/CDialog.h"
+#include "version.h"
 /*!
 	@brief About Box管理
 	
@@ -55,9 +56,17 @@ protected:
 	LPVOID GetHelpIdTable() override;	//@@@ 2002.01.18 add
 private:
 	CUrlWnd m_UrlUrWnd;
+#if defined( GIT_REMOTE_ORIGIN_URL )
 	CUrlWnd m_UrlGitWnd;
+#endif
+#if defined( CI_BUILD_NUMBER_LABEL )
 	CUrlWnd m_UrlBuildLinkWnd;
+#endif
+#if defined( GITHUB_COMMIT_URL )
 	CUrlWnd m_UrlGitHubCommitWnd;
+#endif
 	CUrlWnd m_UrlGitHubPRWnd;
+#if defined( GITHUB_PR_HEAD_URL )
 	CUrlWnd m_UrlOrgWnd;
+#endif
 };
