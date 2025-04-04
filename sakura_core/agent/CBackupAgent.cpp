@@ -6,7 +6,6 @@
 	SPDX-License-Identifier: Zlib
 */
 
-#include <ctime>
 #include "agent/CBackupAgent.h"
 #include "window/CEditWnd.h"
 #include "util/format.h" //GetDateTimeFormat
@@ -319,7 +318,7 @@ bool CBackupAgent::FormatBackUpPath(
 		__time64_t 	ltime = 0;
 		struct	tm result = {0};
 		wchar_t	szTime[64];
-		wchar_t	szForm[64];
+		std::wstring szForm;
 
 		auto pBase = szNewPath + wcslen( szNewPath );
 		const auto nBaseCount = newPathCount - wcslen( szNewPath );
@@ -342,27 +341,26 @@ bool CBackupAgent::FormatBackUpPath(
 			_time64( &ltime );				/* システム時刻を得ます */
 			_localtime64_s( &result, &ltime );/* 現地時間に変換する */
 
-			szForm[0] = L'\0';
 			if( bup_setting.GetBackupOpt(BKUP_YEAR) ){	/* バックアップファイル名：日付の年 */
-				wcscat( szForm, L"%Y" );
+				szForm += L"%Y";
 			}
 			if( bup_setting.GetBackupOpt(BKUP_MONTH) ){	/* バックアップファイル名：日付の月 */
-				wcscat( szForm, L"%m" );
+				szForm += L"%m";
 			}
 			if( bup_setting.GetBackupOpt(BKUP_DAY) ){	/* バックアップファイル名：日付の日 */
-				wcscat( szForm, L"%d" );
+				szForm += L"%d";
 			}
 			if( bup_setting.GetBackupOpt(BKUP_HOUR) ){	/* バックアップファイル名：日付の時 */
-				wcscat( szForm, L"%H" );
+				szForm += L"%H";
 			}
 			if( bup_setting.GetBackupOpt(BKUP_MIN) ){	/* バックアップファイル名：日付の分 */
-				wcscat( szForm, L"%M" );
+				szForm += L"%M";
 			}
 			if( bup_setting.GetBackupOpt(BKUP_SEC) ){	/* バックアップファイル名：日付の秒 */
-				wcscat( szForm, L"%S" );
+				szForm += L"%S";
 			}
 			/* YYYYMMDD時分秒 形式に変換 */
-			wcsftime( szTime, int(std::size(szTime)) - 1, szForm, &result );
+			wcsftime( szTime, std::size(szTime) - 1, szForm.c_str(), &result );
 			if( -1 == auto_snprintf_s( pBase, nBaseCount, L"%s_%ls%s", szFname, szTime, szExt ) ){
 				return false;
 			}
