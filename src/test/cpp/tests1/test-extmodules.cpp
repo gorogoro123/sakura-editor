@@ -78,8 +78,12 @@ REGISTER_TYPED_TEST_SUITE_P(
 using ExtModuleImplementations = ::testing::Types<
 	CBregexpDll2,
 	CMigemo,
-	CUchardet,
-	CPPA>;
+#ifdef _WIN64
+#else
+	CPPA,
+#endif
+	CUchardet
+	>;
 
 //! パラメータテストをインスタンス化する
 INSTANTIATE_TYPED_TEST_SUITE_P(
