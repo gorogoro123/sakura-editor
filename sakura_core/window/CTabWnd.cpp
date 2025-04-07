@@ -26,7 +26,7 @@
 #include "env/CShareData.h"
 #include "env/CSakuraEnvironment.h"
 #include "uiparts/CGraphics.h"
-#include "util/os.h" //WM_THEMECHANGED
+#include "util/os.h"
 #include "util/window.h"
 #include "util/module.h"
 #include "util/string_ex2.h"
@@ -146,10 +146,6 @@ LRESULT CTabWnd::TabWndDispatchEvent( [[maybe_unused]] HWND hwnd, UINT uMsg, WPA
 
 	case WM_HSCROLL:
 		::InvalidateRect( GetHwnd(), nullptr, TRUE );	// アクティブタブの位置が変わるのでトップバンドを更新する	// 2006.03.27 ryoji
-		break;
-
-	case WM_THEMECHANGED:
-		m_bVisualStyle = ::IsVisualStyle();
 		break;
 
 	default:
@@ -815,7 +811,6 @@ HWND CTabWnd::Open( HINSTANCE hInstance, HWND hwndParent )
 	m_hFont      = nullptr;
 	gm_pOldWndProc = nullptr;
 	m_hwndToolTip = nullptr;
-	m_bVisualStyle = ::IsVisualStyle();	// 2007.04.01 ryoji
 	m_eDragState = DRAG_NONE;	//	2005.09.29 ryoji
 	m_bHovering = FALSE;			// 2006.02.01 ryoji
 	m_bListBtnHilighted = FALSE;	// 2006.02.01 ryoji
