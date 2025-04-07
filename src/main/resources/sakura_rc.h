@@ -98,7 +98,7 @@
 #define IDC_CHECK_PLSQL                 1036
 #define IDC_CHECK_SHIFT                 1037
 #define IDC_CHK_FROMTHISTEXT            1038
-#define IDC_CHECK_TOOLBARISFLAT         1039
+//#define IDC_CHECK_TOOLBARISFLAT         1039
 #define IDC_CHECK_RELOADWHENEXECUTE     1040
 #define IDC_CHECK_DOCICON               1041
 #define IDC_CHECK_LCPOS2                1042

@@ -28,7 +28,6 @@ bool GetMonitorWorkRect(HMONITOR hMon, LPRECT prcWork, LPRECT prcMonitor = nullp
 // 2006.06.17 ryoji
 #define PACKVERSION( major, minor ) MAKELONG( minor, major )
 BOOL IsVisualStyle();						// 自分が現在ビジュアルスタイル表示状態かどうかを示す		// 2006.06.17 ryoji
-void PreventVisualStyle( HWND hWnd );		// 指定ウィンドウでビジュアルスタイルを使わないようにする	// 2006.06.23 ryoji
 void MyInitCommonControls();				// コモンコントロールを初期化する							// 2006.06.21 ryoji
 
 /* Wow64 のエミュレーション上で実行しているか判定する */

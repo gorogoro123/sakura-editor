@@ -1229,7 +1229,6 @@ void CShareData::InitToolButtons(DLLSHAREDATA* pShareData)
 
 	/* ツールバーボタンの数 */
 	pShareData->m_Common.m_sToolBar.m_nToolBarButtonNum = int(std::size(DEFAULT_TOOL_BUTTONS));
-	pShareData->m_Common.m_sToolBar.m_bToolBarIsFlat = !IsVisualStyle();			/* フラットツールバーにする／しない */	// 2006.06.23 ryoji ビジュアルスタイルでは初期値をノーマルにする
 }
 
 /*!	@brief 共有メモリ初期化/ポップアップメニュー

@@ -24,19 +24,6 @@ BOOL IsVisualStyle()
 	return ::IsThemeActive();
 }
 
-/*!	指定ウィンドウでビジュアルスタイルを使わないようにする
-
-	@param[in] hWnd ウィンドウ
-
-	@author ryoji
-	@date 2006.06.23 ryoji 新規
-*/
-void PreventVisualStyle( HWND hWnd )
-{
-	::SetWindowTheme( hWnd, L"", L"" );
-	return;
-}
-
 /*!	コモンコントロールを初期化する
 
 	@author ryoji

@@ -578,7 +578,7 @@
 #define HIDC_BUTTON_ADD_TOOLBAR					11003 //ツールバーへ機能追加
 #define HIDC_BUTTON_UP_TOOLBAR					11004 //ツールバーの機能を上へ移動
 #define HIDC_BUTTON_DOWN_TOOLBAR				11005 //ツールバーの機能を下へ移動
-#define HIDC_CHECK_TOOLBARISFLAT				11010 //フラットなボタン
+// #define HIDC_CHECK_TOOLBARISFLAT				11010 //フラットなボタン
 #define HIDC_COMBO_FUNCKIND_TOOLBAR				11030 //機能の種別
 #define HIDC_LIST_FUNC_TOOLBAR					11040 //機能一覧
 #define HIDC_LIST_RES_TOOLBAR					11041 //メニュー一覧

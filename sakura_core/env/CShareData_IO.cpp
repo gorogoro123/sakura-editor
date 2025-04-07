@@ -860,8 +860,6 @@ void CShareData_IO::ShareData_IO_Toolbar( CDataProfile& cProfile, CMenuDrawer* p
 	WCHAR			szText[MAX_PLUGIN_ID+20];
 	int				nInvalid = -1;
 
-	cProfile.IOProfileData( pszSecName, L"bToolBarIsFlat", toolbar.m_bToolBarIsFlat );
-
 	cProfile.IOProfileData( pszSecName, L"nToolBarButtonNum", toolbar.m_nToolBarButtonNum );
 	SetValueLimit( toolbar.m_nToolBarButtonNum, MAX_TOOLBAR_BUTTON_ITEMS );
 	int	nSize = toolbar.m_nToolBarButtonNum;

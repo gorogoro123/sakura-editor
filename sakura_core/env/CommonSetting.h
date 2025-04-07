@@ -441,7 +441,6 @@ struct CommonSetting_ToolBar
 {
 	int			m_nToolBarButtonNum;								//!< ツールバーボタンの数
 	int			m_nToolBarButtonIdxArr[MAX_TOOLBAR_BUTTON_ITEMS];	//!< ツールバーボタン構造体
-	int			m_bToolBarIsFlat;									//!< フラットツールバーにする／しない
 };
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //

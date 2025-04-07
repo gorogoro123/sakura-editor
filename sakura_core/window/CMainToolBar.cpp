@@ -109,7 +109,6 @@ void CMainToolBar::CreateToolBar( )
 	TBBUTTON		tbb;
 	int				i;
 	int				nIdx;
-	LONG_PTR		lToolType;
 	nFlag = 0;
 
 	// 2006.06.17 ryoji
@@ -131,10 +130,6 @@ void CMainToolBar::CreateToolBar( )
 		if( nullptr == m_hwndReBar ){
 			TopWarningMessage( m_pOwner->GetHwnd(), LS(STR_ERR_DLGEDITWND04) );
 			return;
-		}
-
-		if( GetDllShareData().m_Common.m_sToolBar.m_bToolBarIsFlat ){	/* フラットツールバーにする／しない */
-			PreventVisualStyle( m_hwndReBar );	// ビジュアルスタイル非適用のフラットな Rebar にする
 		}
 
 		::ZeroMemory(&rbi, sizeof(rbi));
@@ -164,9 +159,6 @@ void CMainToolBar::CreateToolBar( )
 		nullptr
 	);
 	if( nullptr == m_hwndToolBar ){
-		if( GetDllShareData().m_Common.m_sToolBar.m_bToolBarIsFlat ){	/* フラットツールバーにする／しない */
-			GetDllShareData().m_Common.m_sToolBar.m_bToolBarIsFlat = FALSE;
-		}
 		TopWarningMessage( m_pOwner->GetHwnd(), LS(STR_ERR_DLGEDITWND05) );
 		DestroyToolBar();	// 2006.06.17 ryoji
 	}
@@ -334,12 +326,6 @@ void CMainToolBar::CreateToolBar( )
 				break;
 			}
 			//@@@ 2002.06.15 MIK end
-		}
-		if( GetDllShareData().m_Common.m_sToolBar.m_bToolBarIsFlat ){	/* フラットツールバーにする／しない */
-			lToolType = ::GetWindowLongPtr(m_hwndToolBar, GWL_STYLE);
-			lToolType |= (TBSTYLE_FLAT);
-			::SetWindowLongPtr(m_hwndToolBar, GWL_STYLE, lToolType);
-			::InvalidateRect(m_hwndToolBar, nullptr, TRUE);
 		}
 		delete []pTbbArr;// 2005/8/29 aroka
 	}

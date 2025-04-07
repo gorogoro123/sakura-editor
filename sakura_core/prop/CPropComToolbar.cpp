@@ -37,7 +37,6 @@ static const DWORD p_helpids[] = {	//11000
 	IDC_BUTTON_ADD,					HIDC_BUTTON_ADD_TOOLBAR,				//ツールバーへ機能追加
 	IDC_BUTTON_UP,					HIDC_BUTTON_UP_TOOLBAR,					//ツールバーの機能を上へ移動
 	IDC_BUTTON_DOWN,				HIDC_BUTTON_DOWN_TOOLBAR,				//ツールバーの機能を下へ移動
-	IDC_CHECK_TOOLBARISFLAT,		HIDC_CHECK_TOOLBARISFLAT,				//フラットなボタン
 	IDC_COMBO_FUNCKIND,				HIDC_COMBO_FUNCKIND_TOOLBAR,			//機能の種別
 	IDC_LIST_FUNC,					HIDC_LIST_FUNC_TOOLBAR,					//機能一覧
 	IDC_LIST_RES,					HIDC_LIST_RES_TOOLBAR,					//ツールバー一覧
@@ -529,8 +528,6 @@ void CPropToolbar::SetData( HWND hwndDlg )
 	/* ツールバーの先頭の項目を選択(リストボックス)*/
 	ApiWrap::List_SetCurSel( hwndResList, 0 );	//Oct. 14, 2000 JEPRO ここをコメントアウトすると先頭項目が選択されなくなる
 
-	/* フラットツールバーにする／しない  */
-	::CheckDlgButton( hwndDlg, IDC_CHECK_TOOLBARISFLAT, m_Common.m_sToolBar.m_bToolBarIsFlat );
 	return;
 }
 
@@ -557,9 +554,6 @@ int CPropToolbar::GetData( HWND hwndDlg )
 		}
 	}
 	m_Common.m_sToolBar.m_nToolBarButtonNum = k;
-
-	/* フラットツールバーにする／しない  */
-	m_Common.m_sToolBar.m_bToolBarIsFlat = ::IsDlgButtonChecked( hwndDlg, IDC_CHECK_TOOLBARISFLAT );
 
 	return TRUE;
 }
