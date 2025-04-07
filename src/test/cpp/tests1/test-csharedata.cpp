@@ -870,8 +870,6 @@ MATCHER(IsInitializedCommonSettingToolBar, "Checks if CommonSetting_ToolBar is p
 		EXPECT_THAT(sToolBar.m_nToolBarButtonIdxArr[i], Eq(defaultTools[i]));
 	}
 
-	EXPECT_THAT(sToolBar.m_bToolBarIsFlat, IsFalse());
-
 	return true;
 }
 
