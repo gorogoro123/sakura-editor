@@ -60,6 +60,7 @@ public:
 	BOOL OnDestroy( ) override;
 	BOOL OnSize( WPARAM wParam, LPARAM lParam ) override;
 	BOOL OnLbnSelChange( HWND hwndCtl, int wID ) override;
+	BOOL OnMinMaxInfo( WPARAM wParam, LPARAM lParam ) override;
 
 	int KeyProc(WPARAM wParam, LPARAM lParam);
 

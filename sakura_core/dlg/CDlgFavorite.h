@@ -50,9 +50,8 @@ protected:
 	BOOL	OnNotify(NMHDR* pNMHDR) override;
 	BOOL	OnActivate( WPARAM wParam, LPARAM lParam ) override;
 	LPVOID	GetHelpIdTable( ) override;
-	INT_PTR DispatchEvent( HWND hWnd, UINT wMsg, WPARAM wParam, LPARAM lParam ) override;	// 標準以外のメッセージを捕捉する
 	BOOL	OnSize( WPARAM wParam, LPARAM lParam ) override;
-	BOOL	OnMinMaxInfo( LPARAM lParam );
+	BOOL	OnMinMaxInfo( WPARAM wParam, LPARAM lParam ) override;
 
 	void	SetData( ) override;	/* ダイアログデータの設定 */
 	int		GetData( ) override;	/* ダイアログデータの取得 */

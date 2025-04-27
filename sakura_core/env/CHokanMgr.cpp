@@ -442,13 +442,6 @@ INT_PTR CHokanMgr::DispatchEvent( HWND hWnd, UINT wMsg, WPARAM wParam, LPARAM lP
 			}
 		}
 		return TRUE;
-	case WM_GETMINMAXINFO:
-		// 最小サイズを制限する
-		MINMAXINFO *pmmi;
-		pmmi = (MINMAXINFO*)lParam;
-		pmmi->ptMinTrackSize.x = ::GetSystemMetrics(SM_CXVSCROLL) * 4;
-		pmmi->ptMinTrackSize.y = ::GetSystemMetrics(SM_CYHSCROLL) * 4;
-		break;
 	default:
 		break;
 	}
@@ -529,6 +522,15 @@ BOOL CHokanMgr::OnLbnSelChange( [[maybe_unused]] HWND hwndCtl, [[maybe_unused]] 
 {
 //	2001/06/18 asa-o:
 	ShowTip();	// 補完ウィンドウで選択中の単語にキーワードヘルプを表示
+	return TRUE;
+}
+
+BOOL CHokanMgr::OnMinMaxInfo( [[maybe_unused]] WPARAM wParam, LPARAM lParam )
+{
+	// 最小サイズを制限する
+	auto *pmmi = (LPMINMAXINFO)lParam;
+	pmmi->ptMinTrackSize.x = ::GetSystemMetrics(SM_CXVSCROLL) * 4;
+	pmmi->ptMinTrackSize.y = ::GetSystemMetrics(SM_CYHSCROLL) * 4;
 	return TRUE;
 }
 

@@ -227,17 +227,6 @@ LPVOID CDlgCompare::GetHelpIdTable()
 }
 //@@@ 2002.01.18 add end
 
-INT_PTR CDlgCompare::DispatchEvent( HWND hWnd, UINT wMsg, WPARAM wParam, LPARAM lParam )
-{
-	INT_PTR result;
-	result = CDialog::DispatchEvent( hWnd, wMsg, wParam, lParam );
-
-	if( wMsg == WM_GETMINMAXINFO ){
-		return OnMinMaxInfo( lParam );
-	}
-	return result;
-}
-
 BOOL CDlgCompare::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 {
 	CreateSizeBox();
@@ -293,15 +282,15 @@ BOOL CDlgCompare::OnSize( WPARAM wParam, LPARAM lParam )
 	return TRUE;
 }
 
-BOOL CDlgCompare::OnMinMaxInfo( LPARAM lParam )
+BOOL CDlgCompare::OnMinMaxInfo( [[maybe_unused]] WPARAM wParam, LPARAM lParam )
 {
-	LPMINMAXINFO lpmmi = (LPMINMAXINFO) lParam;
 	if( m_ptDefaultSize.x < 0 ){
-		return 0;
+		return FALSE;
 	}
+	auto lpmmi = (LPMINMAXINFO)lParam;
 	lpmmi->ptMinTrackSize.x = m_ptDefaultSize.x;
 	lpmmi->ptMinTrackSize.y = m_ptDefaultSize.y;
 	lpmmi->ptMaxTrackSize.x = m_ptDefaultSize.x*2;
 	lpmmi->ptMaxTrackSize.y = m_ptDefaultSize.y*3;
-	return 0;
+	return TRUE;
 }

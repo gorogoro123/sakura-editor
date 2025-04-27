@@ -462,17 +462,6 @@ LPVOID CDlgDiff::GetHelpIdTable( )
 	return (LPVOID)p_helpids;
 }
 
-INT_PTR CDlgDiff::DispatchEvent( HWND hWnd, UINT wMsg, WPARAM wParam, LPARAM lParam )
-{
-	INT_PTR result;
-	result = CDialog::DispatchEvent( hWnd, wMsg, wParam, lParam );
-
-	if( wMsg == WM_GETMINMAXINFO ){
-		return OnMinMaxInfo( lParam );
-	}
-	return result;
-}
-
 BOOL CDlgDiff::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 {
 	CreateSizeBox();
@@ -536,17 +525,17 @@ BOOL CDlgDiff::OnSize( WPARAM wParam, LPARAM lParam )
 	return TRUE;
 }
 
-BOOL CDlgDiff::OnMinMaxInfo( LPARAM lParam )
+BOOL CDlgDiff::OnMinMaxInfo( [[maybe_unused]] WPARAM wParam, LPARAM lParam )
 {
-	LPMINMAXINFO lpmmi = (LPMINMAXINFO) lParam;
 	if( m_ptDefaultSize.x < 0 ){
-		return 0;
+		return FALSE;
 	}
+	auto lpmmi = (LPMINMAXINFO)lParam;
 	lpmmi->ptMinTrackSize.x = m_ptDefaultSize.x;
 	lpmmi->ptMinTrackSize.y = m_ptDefaultSize.y;
 	lpmmi->ptMaxTrackSize.x = m_ptDefaultSize.x*2;
 	lpmmi->ptMaxTrackSize.y = m_ptDefaultSize.y*2;
-	return 0;
+	return TRUE;
 }
 
 BOOL CDlgDiff::OnLbnDblclk( [[maybe_unused]] int wID )

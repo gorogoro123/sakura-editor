@@ -179,17 +179,6 @@ LPVOID CDlgWindowList::GetHelpIdTable()
 	return (LPVOID)p_helpids;
 }
 
-INT_PTR CDlgWindowList::DispatchEvent(HWND hWnd, UINT wMsg, WPARAM wParam, LPARAM lParam)
-{
-	INT_PTR result;
-	result = CDialog::DispatchEvent(hWnd, wMsg, wParam, lParam);
-
-	if (wMsg == WM_GETMINMAXINFO) {
-		return OnMinMaxInfo(lParam);
-	}
-	return result;
-}
-
 BOOL CDlgWindowList::OnInitDialog(HWND hwndDlg, WPARAM wParam, LPARAM lParam)
 {
 	CreateSizeBox();
@@ -262,17 +251,17 @@ BOOL CDlgWindowList::OnSize(WPARAM wParam, LPARAM lParam)
 	return TRUE;
 }
 
-BOOL CDlgWindowList::OnMinMaxInfo(LPARAM lParam)
+BOOL CDlgWindowList::OnMinMaxInfo( [[maybe_unused]] WPARAM wParam, LPARAM lParam )
 {
-	LPMINMAXINFO lpmmi = (LPMINMAXINFO) lParam;
 	if (m_ptDefaultSize.x < 0) {
-		return 0;
+		return FALSE;
 	}
+	auto lpmmi = (LPMINMAXINFO)lParam;
 	lpmmi->ptMinTrackSize.x = m_ptDefaultSize.x;
 	lpmmi->ptMinTrackSize.y = m_ptDefaultSize.y;
 	lpmmi->ptMaxTrackSize.x = m_ptDefaultSize.x*3;
 	lpmmi->ptMaxTrackSize.y = m_ptDefaultSize.y*3;
-	return 0;
+	return TRUE;
 }
 
 BOOL CDlgWindowList::OnActivate(WPARAM wParam, LPARAM lParam)

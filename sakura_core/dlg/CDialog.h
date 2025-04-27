@@ -112,6 +112,7 @@ public:
 	virtual LRESULT OnCharToItem( [[maybe_unused]] WPARAM wParam, [[maybe_unused]] LPARAM lParam ) { return -1; }
 	virtual BOOL OnPopupHelp(WPARAM wPara, LPARAM lParam);	//@@@ 2002.01.18 add
 	virtual BOOL OnContextMenu(WPARAM wPara, LPARAM lParam);	//@@@ 2002.01.18 add
+	virtual BOOL OnMinMaxInfo( [[maybe_unused]] WPARAM wParam, [[maybe_unused]] LPARAM lParam ) { return FALSE; }
 	virtual LPVOID GetHelpIdTable();	//@@@ 2002.01.18 add
 
 	void ResizeItem( HWND hTarget, const POINT& ptDlgDefalut, const POINT& ptDlgNew, const RECT& rcItemDefault, EAnchorStyle anchor, bool bUpdate = true);
