@@ -273,8 +273,6 @@ INT_PTR CDlgFuncList::DispatchEvent( HWND hWnd, UINT wMsg, WPARAM wParam, LPARAM
 			return 1L;
 		}
 		break;
-	case WM_GETMINMAXINFO:
-		return OnMinMaxInfo( lParam );
 	case WM_SETTEXT:
 		if( IsDocking() ){
 			// キャプションを再描画する
@@ -2213,18 +2211,19 @@ BOOL CDlgFuncList::OnSize( WPARAM wParam, LPARAM lParam )
 	return TRUE;
 }
 
-BOOL CDlgFuncList::OnMinMaxInfo( LPARAM lParam )
+BOOL CDlgFuncList::OnMinMaxInfo( [[maybe_unused]] WPARAM wParam, LPARAM lParam )
 {
-	LPMINMAXINFO lpmmi = (LPMINMAXINFO) lParam;
 	if( m_ptDefaultSize.x < 0 ){
-		return 0;
+		return FALSE;
 	}
+	auto lpmmi = (LPMINMAXINFO)lParam;
 	lpmmi->ptMinTrackSize.x = m_ptDefaultSize.x/2;
 	lpmmi->ptMinTrackSize.y = m_ptDefaultSize.y/3;
 	lpmmi->ptMaxTrackSize.x = m_ptDefaultSize.x*2;
 	lpmmi->ptMaxTrackSize.y = m_ptDefaultSize.y*2;
-	return 0;
+	return TRUE;
 }
+
 static inline int CALLBACK Compare_by_ItemData(LPARAM lParam1, LPARAM lParam2, [[maybe_unused]] LPARAM lParamSort)
 {
 	if( lParam1< lParam2 )

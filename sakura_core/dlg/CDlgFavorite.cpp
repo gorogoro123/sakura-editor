@@ -1173,17 +1173,6 @@ static int CALLBACK CompareListViewFunc( LPARAM lParamItem1, LPARAM lParamItem2,
 	return pCompInfo->bAbsOrder ? nRet : -nRet;
 }
 
-INT_PTR CDlgFavorite::DispatchEvent( HWND hWnd, UINT wMsg, WPARAM wParam, LPARAM lParam )
-{
-	INT_PTR result;
-	result = CDialog::DispatchEvent( hWnd, wMsg, wParam, lParam );
-
-	if( wMsg == WM_GETMINMAXINFO ){
-		return OnMinMaxInfo( lParam );
-	}
-	return result;
-}
-
 BOOL CDlgFavorite::OnSize( WPARAM wParam, LPARAM lParam )
 {
 	/* 基底クラスメンバ */
@@ -1207,15 +1196,15 @@ BOOL CDlgFavorite::OnSize( WPARAM wParam, LPARAM lParam )
 	return TRUE;
 }
 
-BOOL CDlgFavorite::OnMinMaxInfo( LPARAM lParam )
+BOOL CDlgFavorite::OnMinMaxInfo( [[maybe_unused]] WPARAM wParam, LPARAM lParam )
 {
-	LPMINMAXINFO lpmmi = (LPMINMAXINFO) lParam;
 	if( m_ptDefaultSize.x < 0 ){
-		return 0;
+		return FALSE;
 	}
+	auto lpmmi = (LPMINMAXINFO)lParam;
 	lpmmi->ptMinTrackSize.x = m_ptDefaultSize.x;
 	lpmmi->ptMinTrackSize.y = m_ptDefaultSize.y;
 	lpmmi->ptMaxTrackSize.x = m_ptDefaultSize.x*2;
 	lpmmi->ptMaxTrackSize.y = m_ptDefaultSize.y*2;
-	return 0;
+	return TRUE;
 }
