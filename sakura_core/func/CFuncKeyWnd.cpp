@@ -314,7 +314,7 @@ LRESULT CFuncKeyWnd::OnTimer( [[maybe_unused]] HWND hwnd, [[maybe_unused]] UINT 
 }
 
 // WM_DESTROY処理
-LRESULT CFuncKeyWnd::OnDestroy( [[maybe_unused]] HWND hwnd, [[maybe_unused]] UINT uMsg, [[maybe_unused]] WPARAM wParam, [[maybe_unused]] LPARAM lParam )
+LRESULT CFuncKeyWnd::OnDestroyImpl()
 {
 	int i;
 
@@ -334,8 +334,6 @@ LRESULT CFuncKeyWnd::OnDestroy( [[maybe_unused]] HWND hwnd, [[maybe_unused]] UIN
 		::DestroyWindow( m_hwndSizeBox );
 		m_hwndSizeBox = nullptr;
 	}
-
-	_SetHwnd(nullptr);
 
 	return 0L;
 }
