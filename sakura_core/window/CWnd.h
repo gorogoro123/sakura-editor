@@ -93,8 +93,14 @@ protected:
 	virtual DECLH( OnMouseMove		);	// WM_MOUSEMOVE
 	virtual DECLH( OnTimer			);	// WM_TIMER
 	virtual DECLH( OnSize			);	// WM_SIZE
-	virtual DECLH( OnDestroy		);	// WM_DSESTROY
+	virtual LRESULT OnDestroyImpl() { return 0L; }
+	virtual LRESULT OnDestroy([[maybe_unused]] HWND hwnd, [[maybe_unused]] UINT msg, [[maybe_unused]] WPARAM wp, [[maybe_unused]] LPARAM lp ) final
+	{
+		OnDestroyImpl();
 
+		m_hWnd = nullptr;
+		return 0L;
+	}
 	virtual DECLH( OnMeasureItem	);	// WM_MEASUREITEM
 	virtual DECLH( OnNotify			);	// WM_NOTIFY	//@@@ 2003.05.31 MIK
 	virtual DECLH( OnDrawItem		);	// WM_DRAWITEM	// 2006.02.01 ryoji
@@ -108,9 +114,6 @@ public:
 	HWND GetHwnd() const{ return m_hWnd; }
 	HWND GetParentHwnd() const{ return m_hwndParent; }
 	HINSTANCE GetAppInstance() const{ return m_hInstance; }
-
-	//特殊インターフェース (使用は好ましくない)
-	void _SetHwnd(HWND hwnd){ m_hWnd = hwnd; }
 
 	//ウィンドウ標準操作
 	void DestroyWindow();

@@ -1011,7 +1011,7 @@ LRESULT CTabWnd::OnSize( [[maybe_unused]] HWND hwnd, [[maybe_unused]] UINT uMsg,
 }
 
 //WM_DSESTROY処理
-LRESULT CTabWnd::OnDestroy( HWND hwnd, [[maybe_unused]] UINT uMsg, [[maybe_unused]] WPARAM wParam, [[maybe_unused]] LPARAM lParam )
+LRESULT CTabWnd::OnDestroyImpl()
 {
 	//タブコントロールを削除
 	if( m_hwndTab )
@@ -1034,9 +1034,7 @@ LRESULT CTabWnd::OnDestroy( HWND hwnd, [[maybe_unused]] UINT uMsg, [[maybe_unuse
 		m_hIml = nullptr;
 	}
 
-	::KillTimer( hwnd, 1 );	//	2006.02.01 ryoji
-
-	_SetHwnd(nullptr);
+	::KillTimer( GetHwnd(), 1 );	//	2006.02.01 ryoji
 
 	return 0L;
 }

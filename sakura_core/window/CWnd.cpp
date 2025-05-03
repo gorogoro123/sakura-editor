@@ -51,9 +51,6 @@ namespace CWindowCreationHook
 
 			//ウィンドウにCWndを関連付ける
 			::SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)pcWnd);
-
-			//CWndにウィンドウを関連付ける
-			pcWnd->_SetHwnd(hwnd);
 		}
 next:
 		return ::CallNextHookEx(g_hHook, nCode, wParam, lParam);
