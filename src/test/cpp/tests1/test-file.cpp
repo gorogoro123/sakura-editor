@@ -21,6 +21,7 @@
 #include "_main/CCommandLine.h"
 #include "_main/CControlProcess.h"
 #include "env/CDataProfile.h"
+#include "env/CFileNameManager.h"
 #include "util/file.h"
 
 std::filesystem::path GetIniFileNameForIO(bool bWrite);

@@ -21,6 +21,7 @@
 #include "uiparts/CMenuDrawer.h"	//	これでいいのか？
 #include "util/string_ex2.h"
 #include "util/window.h"
+#include "env/CFileNameManager.h"
 
 /*!	コンストラクタ
 

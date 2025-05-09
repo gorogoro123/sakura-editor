@@ -46,6 +46,7 @@
 #include "debug/CRunningTimer.h"
 #include "env/CSakuraEnvironment.h"
 #include "env/CShareData.h"
+#include "env/CFileNameManager.h"
 #include "env/DLLSHAREDATA.h"
 #include "func/Funccode.h"
 #include "outline/CFuncInfoArr.h" /// 2002/2/3 aroka

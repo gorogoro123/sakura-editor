@@ -15,7 +15,6 @@
 #include "env/CommonSetting.h"
 #include "env/CSearchKeywordManager.h"	//SShare_SearchKeywords
 #include "env/CTagJumpManager.h"		//SShare_TagJump
-#include "env/CFileNameManager.h"		//SShare_FileNameManagement
 
 #include "basis/EditInfo.h"
 #include "types/CType.h" // STypeConfig
