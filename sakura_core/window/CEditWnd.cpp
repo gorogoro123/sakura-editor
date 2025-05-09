@@ -856,7 +856,7 @@ void CEditWnd::LayoutMainMenu()
 					const CJackManager* pcJackManager = CJackManager::getInstance();
 
 					CPlug::Array plugs = pcJackManager->GetPlugs( PP_COMMAND );
-					for( CPlug::ArrayIter it = plugs.cbegin(); it != plugs.cend(); it++ ){
+					for (const auto& it : plugs) {
 						nCount++;
 					}
 				}
@@ -2533,8 +2533,8 @@ bool CEditWnd::InitMenu_Special(HMENU hMenu, EFunctionCode eFunc)
 			HMENU hMenuPlugin = nullptr;
 
 			CPlug::Array plugs = pcJackManager->GetPlugs( PP_COMMAND );
-			for( CPlug::ArrayIter it = plugs.cbegin(); it != plugs.cend(); it++ ){
-				const CPlugin* curPlugin = &(*it)->m_cPlugin;
+			for (const auto& it : plugs) {
+				const CPlugin* curPlugin = &it->m_cPlugin;
 				if( curPlugin != prevPlugin ){
 					//プラグインが変わったらプラグインポップアップメニューを登録
 					hMenuPlugin = ::CreatePopupMenu();
@@ -2544,8 +2544,8 @@ bool CEditWnd::InitMenu_Special(HMENU hMenu, EFunctionCode eFunc)
 
 				//コマンドを登録
 				m_cMenuDrawer.MyAppendMenu( hMenuPlugin, MF_BYPOSITION | MF_STRING,
-					(*it)->GetFunctionCode(), (*it)->m_sLabel.c_str(), L"",
-					TRUE, (*it)->GetFunctionCode() );
+					it->GetFunctionCode(), it->m_sLabel.c_str(), L"",
+					TRUE, it->GetFunctionCode() );
 			}
 			bInList = (prevPlugin != nullptr);
 		}
@@ -4712,8 +4712,8 @@ void CEditWnd::RegisterPluginCommand( int idCommand )
 void CEditWnd::RegisterPluginCommand()
 {
 	const CPlug::Array& plugs = CJackManager::getInstance()->GetPlugs( PP_COMMAND );
-	for( CPlug::ArrayIter it = plugs.begin(); it != plugs.end(); it++ ) {
-		RegisterPluginCommand( *it );
+	for (const auto& it : plugs) {
+		RegisterPluginCommand(it);
 	}
 }
 
