@@ -24,6 +24,7 @@
 #include "_main/global.h"
 #include "charset/charcode.h"
 #include "env/CShareData.h"
+#include "env/CFileNameManager.h"
 #include "env/CSakuraEnvironment.h"
 #include "uiparts/CGraphics.h"
 #include "util/os.h"

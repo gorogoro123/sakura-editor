@@ -30,6 +30,7 @@
 #include "sakura_rc.h"
 #include "sakura.hh"
 #include "config/system_constants.h"
+#include "env/CFileNameManager.h"
 
 const DWORD p_helpids[] = {	//13200
 	IDC_BUTTON_DIFF_DST,		HIDC_BUTTON_DIFF_DST,

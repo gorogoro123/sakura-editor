@@ -33,6 +33,7 @@
 #include "dlg/CDlgAbout.h"
 #include "dlg/CDlgPrintSetting.h"
 #include "env/CShareData.h"
+#include "env/CFileNameManager.h"
 #include "env/CSakuraEnvironment.h"
 #include "charset/CCodeFactory.h"
 #include "charset/CCodeBase.h"

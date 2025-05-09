@@ -53,6 +53,7 @@
 #include "sakura_rc.h"
 #include "config/system_constants.h"
 #include "config/app_constants.h"
+#include "env/CFileNameManager.h"
 
 #define ID_HOTKEY_TRAYMENU	0x1234
 

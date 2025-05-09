@@ -31,6 +31,7 @@
 #include "sakura_rc.h"
 #include "sakura.hh"
 #include "config/system_constants.h"
+#include "env/CFileNameManager.h"
 
 struct EditInfo;
 

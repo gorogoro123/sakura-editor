@@ -28,6 +28,7 @@
 #include "sakura_rc.h"
 #include "sakura.hh"
 #include "config/system_constants.h"
+#include "env/CFileNameManager.h"
 
 // ファイル内容比較 CDlgCompare.cpp	//@@@ 2002.01.07 add start MIK
 const DWORD p_helpids[] = {	//12300
