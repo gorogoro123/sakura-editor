@@ -207,12 +207,11 @@ INT_PTR CPropCommon::DoPropertySheet( int nPageNum, bool bTrayProc )
 	};
 
 	std::wstring		sTabname[std::size(ComPropSheetInfoList)];
-	PROPSHEETPAGE		psp[std::size(ComPropSheetInfoList)];
+	PROPSHEETPAGE		psp[std::size(ComPropSheetInfoList)] = {};
 	for( nIdx = 0; nIdx < int(std::size(ComPropSheetInfoList)); nIdx++ ){
 		sTabname[nIdx] = LS(ComPropSheetInfoList[nIdx].m_nTabNameId);
 
 		PROPSHEETPAGE *p = &psp[nIdx];
-		memset_raw( p, 0, sizeof_raw( *p ) );
 		p->dwSize      = sizeof_raw( *p );
 		p->dwFlags     = PSP_USETITLE | PSP_HASHELP;
 		p->hInstance   = CSelectLang::getLangRsrcInstance();
