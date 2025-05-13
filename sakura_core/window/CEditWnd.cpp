@@ -1453,13 +1453,12 @@ LRESULT CEditWnd::DispatchEvent(
 		// 2008.11.03 syat   矩形範囲選択開始のツールチップで80文字超えていたのでlpszTextに変更。
 		case TTN_NEEDTEXT:
 			{
-				static WCHAR szText[256];
-				memset(szText, 0, sizeof(szText));
+				m_szToolTipText.resize(256);
 
 				//ツールチップテキスト取得、設定
-				LPTOOLTIPTEXT lptip = (LPTOOLTIPTEXT)pnmh;
-				GetTooltipText(szText, int(std::size(szText)), lptip->hdr.idFrom);
-				lptip->lpszText = szText;
+				auto lptip = (LPTOOLTIPTEXT)pnmh;
+				GetTooltipText(m_szToolTipText.data(), m_szToolTipText.size(), (int)lptip->hdr.idFrom);
+				lptip->lpszText = m_szToolTipText.data();
 			}
 			break;
 

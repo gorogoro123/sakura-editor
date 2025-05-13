@@ -417,6 +417,7 @@ private:
 	//その他フラグ
 	BOOL				m_bUIPI;		// エディタ－トレイ間でのUI特権分離確認用フラグ	// 2007.06.07 ryoji
 	EIconClickStatus	m_IconClicked = icNone;
+	std::wstring 		m_szToolTipText; // ツールチップ
 
 public:
 	ESelectCountMode	m_nSelectCountMode = SELECT_COUNT_TOGGLE; // 選択文字カウント方法
