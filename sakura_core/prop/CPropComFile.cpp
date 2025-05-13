@@ -101,9 +101,7 @@ INT_PTR CPropFile::DispatchEvent(
 	NMHDR*		pNMHDR;
 	NM_UPDOWN*	pMNUD;
 	int			idCtrl;
-//	int			nVal;
 	int			nVal;	//Sept.21, 2000 JEPRO スピン要素を加えたので復活させた
-//	char		szFolder[_MAX_PATH];
 
 	switch( uMsg ){
 	case WM_INITDIALOG:
@@ -177,12 +175,7 @@ INT_PTR CPropFile::DispatchEvent(
 			if( pMNUD->iDelta > 0 ){
 				--nVal;
 			}
-			if( nVal < 1 ){
-				nVal = 1;
-			}
-			if( nVal > 99 ){
-				nVal = 99;
-			}
+			nVal = std::clamp(nVal, 1, 99);
 			::SetDlgItemInt( hwndDlg, IDC_EDIT_nDropFileNumMax, nVal, FALSE );
 			return TRUE;
 //@@@ 2001.03.21 Start by MIK
@@ -197,12 +190,7 @@ INT_PTR CPropFile::DispatchEvent(
 			if( pMNUD->iDelta > 0 ){
 				--nVal;
 			}
-			if( nVal < 1 ){
-				nVal = 1;
-			}
-			if( nVal > 35791 ){
-				nVal = 35791;
-			}
+			nVal = std::clamp(nVal, 1, 35791);
 			::SetDlgItemInt( hwndDlg, IDC_EDIT_AUTOBACKUP_INTERVAL, nVal, FALSE );
 			return TRUE;
 		case IDC_SPIN_ALERT_FILESIZE:
@@ -214,12 +202,7 @@ INT_PTR CPropFile::DispatchEvent(
 			if( pMNUD->iDelta > 0 ){
 				--nVal;
 			}
-			if( nVal < 1 ){
-				nVal = 1;
-			}
-			if( nVal > 2048 ){
-				nVal = 2048;  // 最大 2GB まで
-			}
+			nVal = std::clamp(nVal, 1, 2048); // 最大 2GB まで
 			::SetDlgItemInt( hwndDlg, IDC_EDIT_ALERT_FILESIZE, nVal, FALSE );
 			return TRUE;
 			/*NOTREACHED*/
