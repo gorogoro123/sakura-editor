@@ -18,7 +18,6 @@
 	Please contact the copyright holder to use this code for other purpose.
 */
 
-#include "StdAfx.h"
 #include <shobjidl.h>
 #include "charset/CCodePage.h"
 #include "dlg/CDlgOpenFile.h"

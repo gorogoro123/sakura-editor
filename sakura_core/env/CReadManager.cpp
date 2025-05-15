@@ -5,7 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#include "StdAfx.h"
 #include "env/CReadManager.h"
 #include "CEditApp.h"	// CAppExitException
 #include "window/CEditWnd.h"

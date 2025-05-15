@@ -65,6 +65,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <ForcedIncludeFiles>StdAfx.h</ForcedIncludeFiles>
     </ClCompile>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\src\main\resources;..\sakura_core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

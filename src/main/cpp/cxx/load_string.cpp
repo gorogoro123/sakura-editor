@@ -4,7 +4,6 @@
 	SPDX-License-Identifier: Zlib
  */
 
-#include "StdAfx.h"
 #include "cxx/load_string.hpp"
 
 #include "cxx/lock_resource.hpp"

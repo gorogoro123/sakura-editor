@@ -12,7 +12,6 @@
 // 2000.10.17 JEPRO  色分け表示するように変更(最初のFALSE→TRUE)
 // 2008.03.27 kobake 大整理
 
-#include "StdAfx.h"
 #include "doc/CDocTypeSetting.h"
 
 #include "view/colors/EColorIndexType.h"
