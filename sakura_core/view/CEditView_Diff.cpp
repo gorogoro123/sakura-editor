@@ -19,7 +19,6 @@
 	SPDX-License-Identifier: Zlib
 */
 
-#include "StdAfx.h"
 #include "view/CEditView.h"
 #include "_main/global.h"
 #include "_main/CMutex.h"

@@ -11,7 +11,6 @@
 	SPDX-License-Identifier: Zlib
 */
 
-#include "StdAfx.h"
 #include "env/CSortedTagJumpList.h"
 #include "util/tchar_convert.h"
 

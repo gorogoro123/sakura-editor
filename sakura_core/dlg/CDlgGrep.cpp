@@ -16,7 +16,6 @@
 	This source code is designed for sakura editor.
 	Please contact the copyright holder to use this code for other purpose.
 */
-#include "StdAfx.h"
 #include "dlg/CDlgGrep.h"
 #include "agent/CGrepAgent.h"
 #include "grep/CGrepEnumKeys.h"

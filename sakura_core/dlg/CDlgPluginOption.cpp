@@ -11,7 +11,6 @@
 	SPDX-License-Identifier: Zlib
 */
 
-#include "StdAfx.h"
 #include <climits>
 #include "dlg/CDlgPluginOption.h"
 #include "prop/CPropCommon.h"

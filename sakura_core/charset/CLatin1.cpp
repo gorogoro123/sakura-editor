@@ -10,11 +10,9 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#include "StdAfx.h"
 #include "CLatin1.h"
 #include "charset/charcode.h"
 #include "charset/codechecker.h"
-//#include "env/CShareData.h"
 #include "env/CommonSetting.h"
 
 //! 指定した位置の文字が何バイト文字かを返す

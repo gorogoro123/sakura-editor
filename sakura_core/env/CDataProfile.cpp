@@ -4,5 +4,4 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#include "StdAfx.h"
 #include "env/CDataProfile.h"

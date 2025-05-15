@@ -4,7 +4,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#include "StdAfx.h"
 #include "agent/CGrepAgent.h"
 #include "grep/CGrepEnumKeys.h"
 #include "grep/CGrepEnumFilterFiles.h"
