@@ -21,7 +21,7 @@
 #include "StdAfx.h"
 #include "CCommandLine.h"
 #include "mem/CMemory.h"
-#include <string.h>
+#include <cstring>
 #include "debug/CRunningTimer.h"
 #include "charset/charcode.h"  // 2006.06.28 rastiv
 #include "io/CTextStream.h"

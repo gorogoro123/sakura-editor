@@ -12,8 +12,8 @@
 */
 
 #include "StdAfx.h"
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 #include "basis/CFileExt.h"
 #include "env/CDocTypeManager.h"
 
