@@ -26,9 +26,9 @@ public:
 	~CSearchStringPattern();
 	void Reset();
 	bool SetPattern(HWND hwnd, std::span<const wchar_t> szPattern, const SSearchOption& sSearchOption, CBregexp* pRegexp){
-		return SetPattern(hwnd, szPattern, nullptr, sSearchOption, pRegexp, false);
+		return SetPattern(hwnd, szPattern, nullptr, sSearchOption, pRegexp);
 	}
-	bool SetPattern(HWND hwnd, std::span<const wchar_t> szPattern, const wchar_t* pszPattern2, const SSearchOption& sSearchOption, CBregexp* pRegexp, bool bGlobal);
+	bool SetPattern(HWND hwnd, std::span<const wchar_t> szPattern, const wchar_t* pszPattern2, const SSearchOption& sSearchOption, CBregexp* pRegexp);
 	const wchar_t* GetKey() const{ return m_pszKey; }
 	const wchar_t* GetCaseKey() const{ return m_pszCaseKeyRef; }
 	int GetLen() const{ return m_nPatternLen; }

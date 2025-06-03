@@ -471,7 +471,7 @@ DWORD CGrepAgent::DoGrep(
 		if( bGrepReplace && !bGrepPaste ){
 			// Grep置換
 			// 2015.03.03 Grep置換がoptGlobalじゃないバグを修正
-			bError = !pattern.SetPattern(pcViewDst->GetHwnd(), pcmGrepKey->GetString(), cmemReplace.GetStringPtr(), sSearchOption, &cRegexp, true);
+			bError = !pattern.SetPattern(pcViewDst->GetHwnd(), pcmGrepKey->GetString(), cmemReplace.GetStringPtr(), sSearchOption, &cRegexp);
 		}else{
 			bError = !pattern.SetPattern(pcViewDst->GetHwnd(), pcmGrepKey->GetString(), sSearchOption, &cRegexp);
 		}
