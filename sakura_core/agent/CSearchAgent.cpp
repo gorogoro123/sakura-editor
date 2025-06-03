@@ -50,8 +50,7 @@ bool CSearchStringPattern::SetPattern(
 	std::span<const wchar_t> szPattern,
 	const wchar_t* pszPattern2,
 	const SSearchOption& sSearchOption,
-	CBregexp* regexp,
-	bool bGlobal
+	CBregexp* regexp
 )
 {
 	auto nPatternLen = int(szPattern.size());
@@ -67,8 +66,8 @@ bool CSearchStringPattern::SetPattern(
 		if( !InitRegexp( hwnd, *m_pRegexp, true ) ){
 			return false;
 		}
-		int nFlag = (GetLoHiCase() ? CBregexp::optCaseSensitive : CBregexp::optNothing);
-		if( bGlobal ){
+		int nFlag = GetLoHiCase() ? CBregexp::optCaseSensitive : CBregexp::optNothing;
+		if( pszPattern2 ){ // Grep置換
 			nFlag |= CBregexp::optGlobal;
 		}
 		/* 検索パターンのコンパイル */
