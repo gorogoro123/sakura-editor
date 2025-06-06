@@ -128,7 +128,7 @@ int CDlgAbout::DoModal( HINSTANCE hInstance, HWND hwndParent )
 	@date 2011.04.10 nasukoji	各国語メッセージリソース対応
 	@date 2013.04.07 novice svn revision 情報追加
 */
-BOOL CDlgAbout::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
+BOOL CDlgAbout::OnInitDialog([[maybe_unused]] HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 {
 	SFilePath	szFile;
 
@@ -331,14 +331,9 @@ BOOL CUrlWnd::SetSubclassWindow( HWND hWnd )
 		return FALSE;
 
 	// サブクラス化を実行する
-	LONG_PTR lptr;
-	SetLastError( 0 );
-	lptr = SetWindowLongPtr( hWnd, GWLP_USERDATA, (LONG_PTR)this );
-	if( lptr == 0 && GetLastError() != 0 )
+	if( !::SetWindowSubclass(hWnd, &UrlWndProc, 0, (DWORD_PTR)this) ){
 		return FALSE;
-	m_pOldProc = (WNDPROC)SetWindowLongPtr( hWnd, GWLP_WNDPROC, (LONG_PTR)UrlWndProc );
-	if( m_pOldProc == nullptr )
-		return FALSE;
+	}
 	m_hWnd = hWnd;
 
 	// 下線付きフォントに変更する
@@ -355,16 +350,16 @@ BOOL CUrlWnd::SetSubclassWindow( HWND hWnd )
 	std::wstring strText;
 	if( ApiWrap::Wnd_GetText( hWnd, strText ) ){
 		// サイズを調整する
-		auto retSetText = OnSetText( strText.data(), strText.length() );
-		return retSetText ? TRUE : FALSE;
+		auto ret = SendMessage( hWnd, WM_SETTEXT, (WPARAM)0, (LPARAM)strText.data() );
+		return ret ? TRUE : FALSE;
 	}
 
 	return FALSE;
 }
 
-LRESULT CALLBACK CUrlWnd::UrlWndProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
+LRESULT CALLBACK CUrlWnd::UrlWndProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData )
 {
-	CUrlWnd* pUrlWnd = (CUrlWnd*)GetWindowLongPtr( hWnd, GWLP_USERDATA );
+	auto pUrlWnd = (CUrlWnd *)dwRefData;
 
 	HDC hdc;
 	POINT pt;
@@ -467,21 +462,26 @@ LRESULT CALLBACK CUrlWnd::UrlWndProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM
 	case WM_DESTROY:
 		// 後始末
 		KillTimer( hWnd, 1 );
-		SetWindowLongPtr( hWnd, GWLP_WNDPROC, (LONG_PTR)pUrlWnd->m_pOldProc );
+		::RemoveWindowSubclass(hWnd, &UrlWndProc, uIdSubclass);
 		if( pUrlWnd->m_hFont != nullptr )
 			DeleteObject( pUrlWnd->m_hFont );
 		pUrlWnd->m_hWnd = nullptr;
 		pUrlWnd->m_hFont = nullptr;
 		pUrlWnd->m_bHilighted = FALSE;
-		pUrlWnd->m_pOldProc = nullptr;
 		return (LRESULT)0;
 	case WM_SETTEXT:
-		return pUrlWnd->OnSetText( (LPCWSTR)lParam ) ? TRUE : FALSE;
+	{
+		LRESULT ret = ::DefSubclassProc(hWnd, msg, wParam, lParam);
+		std::wstring text;
+		ApiWrap::Wnd_GetText(hWnd, text);
+		pUrlWnd->OnSetText(text.data(), text.length());
+		return ret;
+	}
 	default:
 		break;
 	}
 
-	return CallWindowProc( pUrlWnd->m_pOldProc, hWnd, msg, wParam, lParam );
+	return ::DefSubclassProc(hWnd, msg, wParam, lParam);
 }
 //@@@ 2002.01.18 add end
 
@@ -489,10 +489,8 @@ LRESULT CALLBACK CUrlWnd::UrlWndProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM
 //https://docs.microsoft.com/en-us/windows/desktop/winmsg/wm-settext
 bool CUrlWnd::OnSetText( _In_opt_z_ LPCWSTR pchText, _In_opt_ size_t cchText ) const
 {
-	// 標準のメッセージハンドラに処理させる
-	auto retSetText = ::CallWindowProc( m_pOldProc, GetHwnd(), WM_SETTEXT, 0, (LPARAM)pchText );
-	if ( retSetText == FALSE ) {
-		return false;
+	if (!pchText) {
+		pchText = L"";
 	}
 
 	// サイズを調整のためにDCを取得
