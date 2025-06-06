@@ -32,15 +32,12 @@ public:
 	HWND GetHwnd() const{ return m_hWnd; }
 protected:
 	HFONT GetFont() const { return m_hFont; }
-protected:
-	static LRESULT CALLBACK UrlWndProc( HWND hWnd, UINT msg, WPARAM wp, LPARAM lp );
-protected:
+	static LRESULT CALLBACK UrlWndProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData );
 	bool OnSetText( _In_opt_z_ LPCWSTR pchText, _In_opt_ size_t cchText = 0 ) const;
 protected:
 	HWND m_hWnd = nullptr;
 	HFONT m_hFont = nullptr;
 	BOOL m_bHilighted = FALSE;
-	WNDPROC m_pOldProc = nullptr;
 };
 
 class CDlgAbout final : public CDialog
