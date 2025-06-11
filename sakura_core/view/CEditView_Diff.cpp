@@ -104,7 +104,12 @@ void CEditView::ViewDiffInfo(
 	SFilePath	szExePath;
 
 	WCHAR	cmdline[1024];
-	GetExedir( szExePath, L"diff.exe" );
+	const SFilePath& szDiffExe = GetDllShareData().m_Common.m_sHelper.m_szDiffExe;
+	if (szDiffExe.empty()){
+		GetExedir( szExePath, L"diff.exe" );
+	} else {
+		szExePath = szDiffExe;
+	}
 
 	//	From Here Dec. 28, 2002 MIK
 	//	diff.exeの存在チェック

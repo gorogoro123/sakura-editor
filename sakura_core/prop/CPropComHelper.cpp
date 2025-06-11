@@ -153,6 +153,9 @@ INT_PTR CPropHelper::DispatchEvent(
 					}
 				}
 				return TRUE;
+			case IDC_BUTTON_OPENDIFF:	/* diff場所指定「参照...」ボタン */
+				CDlgOpenFile::SelectFile(hwndDlg, GetDlgItem(hwndDlg, IDC_EDIT_DIFF_EXE), L"*.exe", true, EFITER_NONE);
+				return TRUE;
 			default:
 				break;
 			}
@@ -247,6 +250,9 @@ void CPropHelper::SetData( HWND hwndDlg )
 	//migemo dict
 	ApiWrap::DlgItem_SetText( hwndDlg, IDC_EDIT_MIGEMO_DLL, m_Common.m_sHelper.m_szMigemoDll);
 	ApiWrap::DlgItem_SetText( hwndDlg, IDC_EDIT_MIGEMO_DICT, m_Common.m_sHelper.m_szMigemoDict);
+
+	//diff
+	ApiWrap::DlgItem_SetText( hwndDlg, IDC_EDIT_DIFF_EXE, m_Common.m_sHelper.m_szDiffExe);
 }
 
 /* ダイアログデータの取得 Helper */
@@ -269,6 +275,9 @@ int CPropHelper::GetData( HWND hwndDlg )
 	//migemo dict
 	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_MIGEMO_DLL, m_Common.m_sHelper.m_szMigemoDll, m_Common.m_sHelper.m_szMigemoDll.capacity());
 	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_MIGEMO_DICT, m_Common.m_sHelper.m_szMigemoDict, m_Common.m_sHelper.m_szMigemoDict.capacity());
+
+	//diff
+	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_DIFF_EXE, m_Common.m_sHelper.m_szDiffExe, m_Common.m_sHelper.m_szDiffExe.capacity() );
 
 	return TRUE;
 }
