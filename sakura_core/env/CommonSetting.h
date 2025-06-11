@@ -469,6 +469,9 @@ struct CommonSetting_Helper
 	SFilePath	m_szMigemoDll;					//!< migemo dll
 	SFilePath	m_szMigemoDict;					//!< migemo dict
 
+	//diff設定
+	SFilePath	m_szDiffExe;					//!< diff.exe
+
 	//キーワードヘルプ
 	LOGFONT		m_lf;							//!< キーワードヘルプのフォント情報		// ai 02/05/21 Add
 	INT			m_nPointSize;					//!< キーワードヘルプのフォントサイズ（1/10ポイント単位）	// 2009.10.01 ryoji

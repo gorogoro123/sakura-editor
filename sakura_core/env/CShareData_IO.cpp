@@ -565,6 +565,7 @@ void CShareData_IO::ShareData_IO_Common( CDataProfile& cProfile )
 	
 	cProfile.IOProfileData(pszSecName, L"szMigemoDll", common.m_sHelper.m_szMigemoDll);
 	cProfile.IOProfileData(pszSecName, L"szMigemoDict", common.m_sHelper.m_szMigemoDict);
+	cProfile.IOProfileData(pszSecName, L"szDiffExe", common.m_sHelper.m_szDiffExe);
 	
 	// ai 02/05/23 Add S
 	{// Keword Help Font
