@@ -21,7 +21,6 @@
 	Please contact the copyright holders to use this code for other purpose.
 */
 
-#include <process.h> // _beginthreadex
 #include <climits>
 #include "CEditView.h"
 #include "_main/CAppMode.h"
@@ -1529,15 +1528,6 @@ void CEditView::OnLBUTTONUP( [[maybe_unused]] WPARAM fwKeys, [[maybe_unused]] in
 	return;
 }
 
-/* ShellExecuteを呼び出すプロシージャ */
-static unsigned __stdcall ShellExecuteProc( LPVOID lpParameter )
-{
-	LPWSTR pszFile = (LPWSTR)lpParameter;
-	::ShellExecute( nullptr, L"open", pszFile, nullptr, nullptr, SW_SHOW );
-	free( pszFile );
-	return 0;
-}
-
 // マウス左ボタンダブルクリック
 // 2007.01.18 kobake IsCurrentPositionURL仕様変更に伴い、処理の書き換え
 void CEditView::OnLBUTTONDBLCLK( WPARAM fwKeys, int _xPos , int _yPos )
@@ -1581,20 +1571,19 @@ void CEditView::OnLBUTTONDBLCLK( WPARAM fwKeys, int _xPos , int _yPos )
 				// 2009.05.21 syat UNCパスだと1分以上無応答になることがあるのでスレッド化
 				CWaitCursor cWaitCursor( GetHwnd() );	// カーソルを砂時計にする
 
-				unsigned int nThreadId;
-				LPCWSTR szUrl = strOPEN.c_str();
-				LPWSTR szUrlDup = _wcsdup( szUrl );
-				HANDLE hThread = (HANDLE)_beginthreadex( nullptr, 0, ShellExecuteProc, (LPVOID)szUrlDup, 0, &nThreadId );
-				if( hThread != INVALID_HANDLE_VALUE ){
+				std::wstring szUrl = strOPEN.c_str();
+				std::thread hThread([szUrl]() {
+					::ShellExecute( nullptr, L"open", szUrl.c_str(), nullptr, nullptr, SW_SHOW );
+				});
+
+				{
 					// ユーザーのURL起動指示に反応した目印としてちょっとの時間だけ砂時計カーソルを表示しておく
 					// ShellExecute は即座にエラー終了することがちょくちょくあるので WaitForSingleObject ではなく Sleep を使用（ex.存在しないパスの起動）
 					// 【補足】いずれの API でも待ちを長め（2～3秒）にするとなぜか Web ブラウザ未起動からの起動が重くなる模様（PCタイプ, XP/Vista, IE/FireFox に関係なく）
 					::Sleep(200);
-					::CloseHandle(hThread);
-				}else{
-					//スレッド作成失敗
-					free( szUrlDup );
 				}
+
+				hThread.detach();
 			}
 			return;
 		}
