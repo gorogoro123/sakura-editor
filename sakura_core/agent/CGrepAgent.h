@@ -46,6 +46,18 @@ public:
 	static void CreateFolders( const WCHAR* pszPath, std::vector<std::wstring>& vPaths );
 	static std::wstring ChopYen( const std::wstring& str );
 	void AddTail( CEditView* pcEditView, const CNativeW& cmem, bool bAddStdout );
+	void GrepMode(bool bGrepMode)
+	{
+		m_bGrepMode = bGrepMode;
+	}
+	bool GrepMode() const
+	{
+		return m_bGrepMode;
+	}
+	bool GrepRunning() const
+	{
+		return m_bGrepRunning;
+	}
 
 	// Grep実行
 	DWORD DoGrep(
@@ -160,8 +172,6 @@ private:
 	DWORD m_dwTickAddTail = 0;	// AddTail() を呼び出した時間
 	DWORD m_dwTickUICheck = 0;	// 処理中にユーザーによるUI操作が行われていないか確認した時間
 	DWORD m_dwTickUIFileName = 0;	// Cancelダイアログのファイル名表示更新を行った時間
-
-public: //$$ 仮
 	bool	m_bGrepMode = false;		//!< Grepモードか
 	bool	m_bGrepRunning = false;		//!< Grep処理中
 };

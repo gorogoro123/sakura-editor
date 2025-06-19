@@ -352,12 +352,12 @@ DWORD CGrepAgent::DoGrep(
 	MY_RUNNINGTIMER( cRunningTimer, L"CEditView::DoGrep" );
 
 	// 再入不可
-	if( this->m_bGrepRunning ){
-		assert_warning( false == this->m_bGrepRunning );
+	if( m_bGrepRunning ){
+		assert_warning( false == m_bGrepRunning );
 		return 0xffffffff;
 	}
 
-	this->m_bGrepRunning = true;
+	m_bGrepRunning = true;
 
 	int			nHitCount = 0;
 	CDlgCancel	cDlgCancel;
@@ -403,7 +403,7 @@ DWORD CGrepAgent::DoGrep(
 			bool bColmnSelect;
 			bool bLineSelect = false;
 			if( !pcViewDst->MyGetClipboardData( cmemReplace, &bColmnSelect, GetDllShareData().m_Common.m_sEdit.m_bEnableLineModePaste? &bLineSelect: nullptr ) ){
-				this->m_bGrepRunning = false;
+				m_bGrepRunning = false;
 				pcViewDst->m_bDoing_UndoRedo = false;
 				ErrorMessage( pcViewDst->m_hwndParent, LS(STR_DLGREPLC_CLIPBOARD) );
 				return 0;
@@ -437,7 +437,7 @@ DWORD CGrepAgent::DoGrep(
 	*/
 	if( !pcViewDst->m_sSearchPattern.SetPattern(pcViewDst->GetHwnd(), pcViewDst->m_strCurSearchKey.c_str(), pcViewDst->m_strCurSearchKey.size(),
 			pcViewDst->m_sCurSearchOption, &pcViewDst->m_CurRegexp) ){
-		this->m_bGrepRunning = false;
+		m_bGrepRunning = false;
 		pcViewDst->m_bDoing_UndoRedo = false;
 		pcViewDst->SetUndoBuffer();
 		return 0;
@@ -461,7 +461,7 @@ DWORD CGrepAgent::DoGrep(
 	//	(正規表現が途中で途切れると困るので)
 	//	2011.12.10 Moca 表示の際に...に切り捨てられるので登録するように
 	CAppMode::getInstance()->m_szGrepKey = pcmGrepKey->GetStringPtr();
-	this->m_bGrepMode = true;
+	m_bGrepMode = true;
 
 	//	2007.07.22 genta
 	//	バージョン番号取得のため，処理を前の方へ移動した
@@ -479,7 +479,7 @@ DWORD CGrepAgent::DoGrep(
 				sSearchOption, &cRegexp);
 		}
 		if( bError ){
-			this->m_bGrepRunning = false;
+			m_bGrepRunning = false;
 			pcViewDst->m_bDoing_UndoRedo = false;
 			pcViewDst->SetUndoBuffer();
 			return 0;
@@ -522,7 +522,7 @@ DWORD CGrepAgent::DoGrep(
 	{
 		int nErrorNo = cGrepEnumKeys.SetFileKeys( pcmGrepFile->GetStringPtr() );
 		if( nErrorNo != 0 ){
-			this->m_bGrepRunning = false;
+			m_bGrepRunning = false;
 			pcViewDst->m_bDoing_UndoRedo = false;
 			pcViewDst->SetUndoBuffer();
 
@@ -829,7 +829,7 @@ DWORD CGrepAgent::DoGrep(
 	//	Grep実行後はファイルを変更無しの状態にする．
 	pcViewDst->m_pcEditDoc->m_cDocEditor.SetModified(false,false);
 
-	this->m_bGrepRunning = false;
+	m_bGrepRunning = false;
 	pcViewDst->m_bDoing_UndoRedo = false;
 
 	/* 表示処理ON/OFF */
