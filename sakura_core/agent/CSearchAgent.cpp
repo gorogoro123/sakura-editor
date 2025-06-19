@@ -752,7 +752,7 @@ void CSearchAgent::ReplaceData( DocLineReplaceArg* pArg, bool bEnableExtEol )
 	const CLogicInt nDelLines = pArg->sDelRange.GetTo().y - pArg->sDelRange.GetFrom().y;
 	const CLogicInt nEditLines = (std::max<CLogicInt>)(CLogicInt(1), nDelLines + CLogicInt(pArg->pInsData ? pArg->pInsData->size(): 0));
 	if( const CGrepAgent *pcGrepAgent = CEditApp::getInstance()->GetGrepAgent();
-	    pcGrepAgent && !pcGrepAgent->m_bGrepRunning ){
+	    pcGrepAgent && !pcGrepAgent->GrepRunning() ){
 		if( 3000 < nEditLines ){
 			/* 進捗ダイアログの表示 */
 			pCDlgCancel = new CDlgCancel;

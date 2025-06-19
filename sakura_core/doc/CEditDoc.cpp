@@ -272,7 +272,7 @@ void CEditDoc::InitDoc()
 	CAppMode::getInstance()->SetViewMode(false);	// ビューモード $$ 今後OnClearDocを用意したい
 	CAppMode::getInstance()->m_szGrepKey[0] = L'\0';	//$$
 
-	CEditApp::getInstance()->GetGrepAgent()->m_bGrepMode = false;	/* Grepモード */	//$$同上
+	CEditApp::getInstance()->GetGrepAgent()->GrepMode(false);	/* Grepモード */	//$$同上
 	m_cAutoReloadAgent.m_eWatchUpdate = WatchUpdate::WU_QUERY; // Dec. 4, 2002 genta 更新監視方法 $$
 
 	// 2005.06.24 Moca バグ修正
@@ -501,7 +501,7 @@ void CEditDoc::GetEditInfo(
 	pfi->m_nTypeId = m_cDocType.GetDocumentAttribute().m_id;
 
 	//GREPモード
-	pfi->m_bIsGrep = CEditApp::getInstance()->GetGrepAgent()->m_bGrepMode;
+	pfi->m_bIsGrep = CEditApp::getInstance()->GetGrepAgent()->GrepMode();
 	pfi->m_szGrepKey = CAppMode::getInstance()->m_szGrepKey;
 
 	//デバッグモニタ (アウトプットウインドウ) モード
@@ -560,7 +560,7 @@ bool CEditDoc::IsAcceptLoad() const
 {
 	if(m_cDocEditor.IsModified())return false;
 	if(m_cDocFile.GetFilePathClass().IsValidPath())return false;
-	if(CEditApp::getInstance()->GetGrepAgent()->m_bGrepMode)return false;
+	if(CEditApp::getInstance()->GetGrepAgent()->GrepMode())return false;
 	if(CAppMode::getInstance()->IsDebugMode())return false;
 	return true;
 }
@@ -858,7 +858,7 @@ BOOL CEditDoc::OnFileClose(bool bGrepNoConfirm)
 
 	//GREPモードで、かつ、「GREPモードで保存確認するか」がOFFだったら、保存確認しない
 	// 2011.11.13 GrepモードでGrep直後は"未編集"状態になっているが保存確認が必要
-	if( CEditApp::getInstance()->GetGrepAgent()->m_bGrepMode ){
+	if( CEditApp::getInstance()->GetGrepAgent()->GrepMode() ){
 		if( bGrepNoConfirm ){ // Grepで保存確認しないモード
 			return TRUE;
 		}
@@ -875,7 +875,7 @@ BOOL CEditDoc::OnFileClose(bool bGrepNoConfirm)
 	// -- -- 保存確認 -- -- //
 	WCHAR szGrepTitle[90];
 	LPCWSTR pszTitle = m_cDocFile.GetFilePathClass().IsValidPath() ? m_cDocFile.GetFilePath() : nullptr;
-	if( CEditApp::getInstance()->GetGrepAgent()->m_bGrepMode ){
+	if( CEditApp::getInstance()->GetGrepAgent()->GrepMode() ){
 		LPCWSTR		pszGrepKey = CAppMode::getInstance()->m_szGrepKey;
 		int			nLen = (int)wcslen( pszGrepKey );
 		CNativeW	cmemDes;

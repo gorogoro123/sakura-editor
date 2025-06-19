@@ -1143,7 +1143,7 @@ bool IsFuncEnable( const CEditDoc* pcEditDoc, const DLLSHAREDATA* pShareData, EF
 	case F_TAGJUMP_KEYWORD:	//キーワードを指定してダイレクトタグジャンプ	//@@@ 2005.03.31 MIK
 	//	2003.05.12 MIK タグファイル作成先を選べるようにしたので、常に作成可能とする
 //	case F_TAGS_MAKE:	//タグファイルの作成	//@@@ 2003.04.13 MIK
-		if( false == CEditApp::getInstance()->GetGrepAgent()->m_bGrepMode
+		if( false == CEditApp::getInstance()->GetGrepAgent()->GrepMode()
 			&& pcEditDoc->m_cDocFile.GetFilePathClass().IsValidPath() ){
 			return true;
 		}else{
