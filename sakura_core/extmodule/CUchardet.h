@@ -8,7 +8,7 @@
 
 #include "CDllHandler.h"
 
-typedef struct uchardet * uchardet_t;
+using uchardet_t = struct uchardet *;
 
 /*!
  * uchardet ライブラリ(uchardet.dll) をラップするクラス

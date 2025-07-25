@@ -11,10 +11,10 @@
 
 template <class INT_TYPE, class POINT_TYPE> class CStrictRect{
 private:
-	typedef CStrictRect<INT_TYPE, POINT_TYPE> Me;
+	using Me = CStrictRect<INT_TYPE, POINT_TYPE>;
 public:
-	typedef INT_TYPE	IntType;
-	typedef POINT_TYPE	PointType;
+	using IntType = INT_TYPE;
+	using PointType = POINT_TYPE;
 public:
 	//メンバ変数は公開
 	IntType left;

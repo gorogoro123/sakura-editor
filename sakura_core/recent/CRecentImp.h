@@ -15,8 +15,8 @@ template < class DATA_TYPE, class RECEIVE_TYPE = const DATA_TYPE* >
 class CRecentImp : public CRecent{
 	using Me = CRecentImp<DATA_TYPE, RECEIVE_TYPE>;
 
-	typedef DATA_TYPE							DataType;
-	typedef RECEIVE_TYPE						ReceiveType;
+	using DataType = DATA_TYPE;
+	using ReceiveType = RECEIVE_TYPE;
 
 public:
 	CRecentImp(){ Terminate(); }

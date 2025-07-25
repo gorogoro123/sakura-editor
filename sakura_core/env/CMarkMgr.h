@@ -58,8 +58,8 @@ public:
 	// GENERATE_FACTORY(CMark,CMarkFactory);	//	CMark用Factory class
 
 	//	型宣言
-	typedef std::vector<CMark> CMarkChain;
-	typedef std::vector<CMark>::const_iterator	CMarkIterator;
+	using CMarkChain = std::vector<CMark>;
+	using CMarkIterator = std::vector<CMark>::const_iterator;
 
 	//	Interface
 	//	constructor

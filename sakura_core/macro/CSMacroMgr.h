@@ -46,7 +46,7 @@ struct MacroFuncInfo {
 	MacroFuncInfoEx*	m_pData;
 };
 //マクロ関数情報構造体配列
-typedef MacroFuncInfo* MacroFuncInfoArray;
+using MacroFuncInfoArray = MacroFuncInfo *;
 
 /*-----------------------------------------------------------------------
 クラスの宣言

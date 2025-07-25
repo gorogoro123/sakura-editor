@@ -12,7 +12,7 @@ class CRangeBase{
 	using Me = CRangeBase<PointType>;
 
 public:
-	typedef typename PointType::IntType IntType;
+	using IntType = typename PointType::IntType;
 public:
 	//コンストラクタ
 	CRangeBase() = default;

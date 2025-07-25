@@ -15,7 +15,7 @@
 #define	PII_DLL							L"Dll"			//DLL情報
 #define	PII_DLL_NAME					L"Name"			//名前
 
-typedef void (*DllPlugHandler)();
+using DllPlugHandler = void (*)();
 
 class CDllPlug final
 	: public CPlug

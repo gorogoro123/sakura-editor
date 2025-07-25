@@ -272,7 +272,7 @@ int CKeyWordSetMgr::DelKeyWord( int nIdx, LPARAM lParam )
 	@param nIdx [in] キーワードセット番号
 
 */
-typedef int (__cdecl *qsort_callback)(const void *, const void *);
+using qsort_callback = int (__cdecl *)(const void *, const void *);
 void CKeyWordSetMgr::SortKeyWord( int nIdx )
 {
 	//nIdxのセットをソートする。

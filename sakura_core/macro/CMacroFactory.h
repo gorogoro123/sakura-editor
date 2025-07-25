@@ -39,7 +39,7 @@ class CMacroFactory final : public TSingleton<CMacroFactory> {
 	CMacroFactory();
 
 public:
-	typedef CMacroManagerBase* (*Creator)(const WCHAR*);
+	using Creator = CMacroManagerBase *(*)(const WCHAR *);
 
 	bool RegisterCreator(Creator f);
 	// Jan. 31, 2004 genta
@@ -55,7 +55,7 @@ private:
 	// Jan. 31, 2004 genta
 	// バイナリサイズ削減のため拡張子保持用mapを削除
 	//	typedef std::map<std::string, Creator> MacroTypeRep;
-	typedef std::list<Creator> MacroEngineRep;
+	using MacroEngineRep = std::list<Creator>;
 
 	// Jan. 31, 2004 genta
 	// バイナリサイズ削減のため

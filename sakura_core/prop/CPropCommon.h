@@ -144,7 +144,7 @@ protected:
 	static INT_PTR DlgProc2( //独立ウィンドウ用
 		INT_PTR (CPropCommon::*DispatchPage)( HWND, UINT, WPARAM, LPARAM ),
 		HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam );
-	typedef	INT_PTR (CPropCommon::*pDispatchPage)( HWND, UINT, WPARAM, LPARAM );
+	using pDispatchPage = INT_PTR (CPropCommon::*)(HWND, UINT, WPARAM, LPARAM);
 
 	int nLastPos_Macro; //!< 前回フォーカスのあった場所
 	int m_nLastPos_FILENAME; //!< 前回フォーカスのあった場所 ファイル名タブ用

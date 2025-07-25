@@ -282,8 +282,8 @@ public:
 
 private:
 	//型
-	typedef TOriginalHolder<COLORREF>	COrgColor;
-	typedef TOriginalHolder<int>		COrgInt;
+	using COrgColor = TOriginalHolder<COLORREF>;
+	using COrgInt = TOriginalHolder<int>;
 private:
 	HDC					m_hdc;
 

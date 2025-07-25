@@ -36,7 +36,7 @@
 //                      メッセージ処理                         //
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 
-typedef INT_PTR (CPropTypes::*DISPATCH_EVENT_TYPE)(HWND,UINT,WPARAM,LPARAM);
+using DISPATCH_EVENT_TYPE = INT_PTR (CPropTypes::*)(HWND,UINT,WPARAM,LPARAM);
 
 // 共通ダイアログプロシージャ
 INT_PTR CALLBACK PropTypesCommonProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam, DISPATCH_EVENT_TYPE pDispatch)

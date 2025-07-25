@@ -17,9 +17,9 @@
 #include "util/design_template.h"
 
 //! プラグインの管理番号index
-typedef int PluginId;
+using PluginId = int;
 //! プラグの管理番号 プラグインのコマンドプラグごとに一意。ほかは0
-typedef int PlugId;
+using PlugId = int;
 
 //プラグイン定義ファイル名
 #define PII_FILENAME				L"plugin.def"
@@ -58,8 +58,8 @@ public:
 	  insert/eraseの第一引数に指定すると、VC2005でビルドエラーが出る。
 	  かわりにbegin/endからの相対位置指定や、インデックス指定を使うこと。
 	*/
-	typedef std::vector<CPlug*> Array;			//プラグのリスト
-	typedef Array::const_iterator ArrayIter;	//そのイテレータ
+	using Array = std::vector<CPlug*>;			//プラグのリスト
+	using ArrayIter = Array::const_iterator;	//そのイテレータ
 
 	//コンストラクタ
 public:
@@ -156,8 +156,8 @@ class CPluginOption
 {
 	//型定義
 public:
-	typedef std::vector<CPluginOption*> Array;	// オプションのリスト
-	typedef Array::const_iterator ArrayIter;	// そのイテレータ
+	using Array = std::vector<CPluginOption*>;	// オプションのリスト
+	using ArrayIter = Array::const_iterator;	// そのイテレータ
 
 	//コンストラクタ
 public:
@@ -209,8 +209,8 @@ class CPlugin
 {
 	//型定義
 public:
-	typedef std::list<CPlugin*> List;		//プラグインのリスト
-	typedef List::const_iterator ListIter;	//そのイテレータ
+	using List = std::list<CPlugin*>;		//プラグインのリスト
+	using ListIter = List::const_iterator;	//そのイテレータ
 
 	//コンストラクタ
 	CPlugin(std::wstring_view baseDir);

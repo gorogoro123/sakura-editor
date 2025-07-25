@@ -255,7 +255,7 @@ struct MyRGBQUAD : tagRGBQUAD
 };
 
 // HLS色情報タプル
-typedef std::tuple<double, double, double> _HlsTuple;
+using _HlsTuple = std::tuple<double, double, double>;
 enum { HLS_H, HLS_S, HLS_L, };
 
 /*!

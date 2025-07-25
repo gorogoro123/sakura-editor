@@ -47,7 +47,7 @@ static	SCodeSet	ASCodeSet[] = {
 };
 
 // 文字コードセット
-typedef	std::map<int, SCodeSet>	MSCodeSet;
+using MSCodeSet = std::map<int, SCodeSet>;
 static MSCodeSet				msCodeSet;
 // 表示順
 static std::vector<ECodeType>	vDispIdx;

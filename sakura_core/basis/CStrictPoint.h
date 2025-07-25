@@ -23,10 +23,10 @@ public:
 */
 template <class SUPER, class INT_TYPE, class SUPER_INT_TYPE = INT_TYPE> class CStrictPoint : public SUPER{
 private:
-	typedef CStrictPoint<SUPER, INT_TYPE> Me;
+	using Me = CStrictPoint<SUPER, INT_TYPE>;
 public:
-	typedef INT_TYPE       IntType;
-	typedef SUPER_INT_TYPE SuperIntType;
+	using IntType = INT_TYPE;
+	using SuperIntType = SUPER_INT_TYPE;
 public:
 	using SUPER::x;
 	using SUPER::y;
