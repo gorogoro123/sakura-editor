@@ -29,14 +29,14 @@ class ImplementsIUnknown: public Base
 
 class CInterfaceObject: public ImplementsIUnknown<IDispatch>
  */
-typedef void (*ScriptErrorHandler)(BSTR Description, BSTR Source, void *Data);
+using ScriptErrorHandler = void (*)(BSTR Description, BSTR Source, void *Data);
 
 class CWSHClient final : IWSHClient
 {
 public:
 	// 型定義
-	typedef std::vector<CIfObj*> List;      // 所有しているインターフェースオブジェクトのリスト
-	typedef List::const_iterator ListIter;	// そのイテレータ
+	using List = std::vector<CIfObj *>;      // 所有しているインターフェースオブジェクトのリスト
+	using ListIter = List::const_iterator;	// そのイテレータ
 
 	// コンストラクタ・デストラクタ
 	CWSHClient(const wchar_t *AEngine, ScriptErrorHandler AErrorHandler, void *AData);

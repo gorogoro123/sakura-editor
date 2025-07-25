@@ -17,7 +17,7 @@
 #include <algorithm>
 #include "apiwrap/StdControl.h"
 
-typedef BOOL (WINAPI *pfn_GetCPInfoExT_t)(UINT, DWORD, CPINFOEX*);
+using pfn_GetCPInfoExT_t = BOOL (WINAPI *)(UINT, DWORD, CPINFOEX*);
 
 const DWORD nToWideCharFlags  = 0;
 const DWORD nToMultiByteFlags = WC_SEPCHARS;

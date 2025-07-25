@@ -31,7 +31,7 @@ protected:
 	const STypeConfig* m_pTypeData;
 };
 
-typedef int FigureRenderType;
+using FigureRenderType = int;
 
 //! 通常テキスト描画
 class CFigure_Text final : public CFigure{

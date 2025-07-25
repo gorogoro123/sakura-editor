@@ -24,10 +24,10 @@ struct TagJump {
 //2005.04.03 MIK キーワード指定タグジャンプ
 struct SShare_TagJump{
 	//型
-	typedef StaticVector<
+	using ATagJumpKeywords = StaticVector<
 		StaticString<_MAX_PATH>,
 		MAX_TAGJUMP_KEYWORD
-	>					ATagJumpKeywords;
+	>;
 
 	//データ
 	int					m_TagJumpNum;					//!< タグジャンプ情報の有効データ数

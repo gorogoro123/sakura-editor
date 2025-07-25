@@ -32,7 +32,7 @@ public:
 	int nSeq;
 };
 
-typedef std::vector<CLineData> COpeLineData;
+using COpeLineData = std::vector<CLineData>;
 
 /*!
 	編集操作要素

@@ -94,7 +94,7 @@ public:
 class CLayoutMgr : public CProgressSubject
 {
 private:
-	typedef CLayoutInt (CLayoutMgr::*CalcIndentProc)( CLayout* );
+	using CalcIndentProc = CLayoutInt (CLayoutMgr::*)(CLayout *);
 
 public:
 	//生成と破棄
@@ -335,7 +335,7 @@ protected:
 		CLayout* _CreateLayout(CLayoutMgr* mgr);
 	};
 	//関数ポインタ
-	typedef void (CLayoutMgr::*PF_OnLine)(SLayoutWork*);
+	using PF_OnLine = void (CLayoutMgr::*)(SLayoutWork *);
 	//DoLayout用
 	bool _DoKinsokuSkip(SLayoutWork* pWork, PF_OnLine pfOnLine);
 	void _DoWordWrap(SLayoutWork* pWork, PF_OnLine pfOnLine);

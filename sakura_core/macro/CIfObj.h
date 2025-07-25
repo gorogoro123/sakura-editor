@@ -45,7 +45,7 @@ public:
 //WSH一般
 
 class CIfObj;
-typedef HRESULT (CIfObj::*CIfObjMethod)(int ID, DISPPARAMS *Arguments, VARIANT* Result, void *Data);
+using CIfObjMethod = HRESULT (CIfObj::*)(int ID, DISPPARAMS *Arguments, VARIANT* Result, void *Data);
 
 //CIfObjが必要とするWSHClientのインターフェース
 class IWSHClient
@@ -69,7 +69,7 @@ public:
 		ELEMDESC		Arguments[9];
 		int				ID;
 	};
-	typedef std::vector<CMethodInfo> CMethodInfoList;
+	using CMethodInfoList = std::vector<CMethodInfo>;
 
 	// コンストラクタ・デストラクタ
 	CIfObj(const wchar_t* name, bool isGlobal);

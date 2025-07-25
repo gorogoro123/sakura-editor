@@ -329,7 +329,7 @@ bool CEditView::ExecCmd( const WCHAR* pszCmd, int nFlgOpt, const WCHAR* pszCurDi
 		}
 		
 		//charで読む
-		typedef char PIPE_CHAR;
+		using PIPE_CHAR = char;
 		const int WORK_NULL_TERMS = sizeof(wchar_t); // 出力用\0の分
 		const int MAX_BUFIDX = 10; // bufidxの分
 		const DWORD MAX_WORK_READ = 1024*5; // 5KiB ReadFileで読み込む限界値
