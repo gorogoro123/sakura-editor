@@ -99,7 +99,7 @@ private:
 	int		SearchBestTag( );	//もっとも確率の高そうなインデックスを返す。
 	//	@@ 2005.03.31 MIK
 	const WCHAR *GetFileName( );
-	const WCHAR *GetFilePath( ){ return m_pszFileName != nullptr ? m_pszFileName : L""; }
+	const WCHAR *GetFilePath( ){ return m_szFileName.c_str(); }
 	void Empty( );
 	void SetTextDir();
 	void FindNext(bool bNewFind);
@@ -126,7 +126,7 @@ private:
 	bool	m_bDirectTagJump;
 
 	int		m_nIndex = -1;		//!< 選択された要素番号
-	WCHAR	*m_pszFileName = nullptr;	//!< 編集中のファイル名
+	std::wstring m_szFileName;	//!< 編集中のファイル名
 	wchar_t	*m_pszKeyword = nullptr;	//!< キーワード(DoModalのlParam!=0を指定した場合に指定できる)
 	int		m_nLoop = -1;		//!< さかのぼれる階層数
 	CSortedTagJumpList*	m_pcList = nullptr;	//!< タグジャンプ情報
