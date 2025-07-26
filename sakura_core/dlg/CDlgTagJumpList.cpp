@@ -138,8 +138,6 @@ CDlgTagJumpList::~CDlgTagJumpList()
 {
 	Empty();
 
-	if( m_pszFileName ) free( m_pszFileName );
-	m_pszFileName = nullptr;
 	if( m_pszKeyword ) free( m_pszKeyword );
 	m_pszKeyword = nullptr;
 
@@ -798,11 +796,9 @@ void CDlgTagJumpList::SetFileName( const WCHAR *pszFileName )
 	assert_warning( pszFileName );
 	if( nullptr == pszFileName ) return;
 
-	if( m_pszFileName ) free( m_pszFileName );
-
-	m_pszFileName = _wcsdup( pszFileName );
+	m_szFileName = pszFileName;
 	
-	m_nLoop = CalcMaxUpDirectory( m_pszFileName );
+	m_nLoop = CalcMaxUpDirectory( m_szFileName.c_str() );
 }
 
 /*!
@@ -851,7 +847,7 @@ typedef struct tagTagPathInfo {
 int CDlgTagJumpList::SearchBestTag( )
 {
 	if( m_pcList->GetCount() <= 0 ) return -1;	//選べません。
-	if( nullptr == m_pszFileName ) return 0;
+	if( m_szFileName.empty() ) return 0;
 
 	auto mem_lpPathInfo = std::make_unique<TagPathInfo>();
 	TagPathInfo* lpPathInfo= mem_lpPathInfo.get();
@@ -869,7 +865,7 @@ int CDlgTagJumpList::SearchBestTag( )
 	lpPathInfo->szPathSrc[0] = L'\0';
 	lpPathInfo->szFileSrc[0] = L'\0';
 	lpPathInfo->szExtSrc[0] = L'\0';
-	_wsplitpath_s( m_pszFileName, lpPathInfo->szDriveSrc, lpPathInfo->szPathSrc, lpPathInfo->szFileSrc, lpPathInfo->szExtSrc );
+	_wsplitpath_s( m_szFileName.c_str(), lpPathInfo->szDriveSrc, lpPathInfo->szPathSrc, lpPathInfo->szFileSrc, lpPathInfo->szExtSrc );
 	lpPathInfo->nDriveSrc = wcslen(lpPathInfo->szDriveSrc);
 	lpPathInfo->nPathSrc = wcslen(lpPathInfo->szPathSrc);
 	lpPathInfo->nFileSrc = wcslen(lpPathInfo->szFileSrc);
@@ -899,7 +895,7 @@ int CDlgTagJumpList::SearchBestTag( )
 		lpPathInfo->nFileDst = wcslen(lpPathInfo->szFileDst);
 		lpPathInfo->nExtDst = wcslen(lpPathInfo->szExtDst);
 		
-		if(_wcsicmp(m_pszFileName, lpPathInfo->szFileNameDst) == 0){
+		if(_wcsicmp(m_szFileName.c_str(), lpPathInfo->szFileNameDst) == 0){
 			return i;	//同一ファイルを見つけた
 		}
 
