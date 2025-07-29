@@ -90,27 +90,18 @@ private:
 	};
 
 	struct FavoriteInfo {
-		CRecent*	m_pRecent;			//オブジェクトへのポインタ
-		std::wstring	m_strCaption;	//キャプション
-		const WCHAR*	m_pszCaption;	//キャプション
-		int			m_nId;				//コントロールのID
-		bool		m_bHaveFavorite;	//お気に入りを持っているか？
-		bool		m_bHaveView;		//表示数変更機能をもっているか？
-		bool		m_bFilePath;		//ファイル/フォルダーか？
-		bool		m_bEditable;		//編集可能
-		bool		m_bAddExcept;		//除外へ追加
-		int			m_nViewCount;		//カレントの表示数
-		FavoriteInfo():
-			m_pRecent(nullptr)
-			,m_pszCaption(nullptr)
-			,m_nId(0)
-			,m_bHaveFavorite(false)
-			,m_bHaveView(false)
-			,m_bFilePath(false)
-			,m_bEditable(false)
-			,m_bAddExcept(false)
-			,m_nViewCount(0)
-		{};
+		CRecent*	m_pRecent = nullptr;		//オブジェクトへのポインタ
+		std::wstring	m_strCaption;			//キャプション
+		const WCHAR*	m_pszCaption = nullptr;	//キャプション
+		int			m_nId = 0;					//コントロールのID
+		bool		m_bHaveFavorite = false;	//お気に入りを持っているか？
+		bool		m_bHaveView = false;		//表示数変更機能をもっているか？
+		bool		m_bFilePath = false;		//ファイル/フォルダーか？
+		bool		m_bEditable = false;		//編集可能
+		bool		m_bAddExcept = false;		//除外へ追加
+		int			m_nViewCount = 0;			//カレントの表示数
+		FavoriteInfo()
+		{}
 	};
 	struct ListViewSortInfo {
 		HWND	hListView; //!< リストビューの HWND
