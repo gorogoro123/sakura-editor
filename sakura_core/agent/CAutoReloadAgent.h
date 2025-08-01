@@ -41,10 +41,10 @@ public://#####仮
 	void CheckFileTimeStamp();	// ファイルのタイムスタンプのチェック処理
 
 public:
-	WatchUpdate		m_eWatchUpdate;	//!< 更新監視方法
+	WatchUpdate		m_eWatchUpdate = WU_QUERY;	//!< 更新監視方法
 
 private:
-	int m_nPauseCount;	//これが1以上の場合は監視をしない
+	int m_nPauseCount = 0;	//これが1以上の場合は監視をしない
 	int m_nDelayCount;	//未編集で再ロード時の遅延カウンタ
 };
 #endif /* SAKURA_CAUTORELOADAGENT_6340340B_4677_4748_8240_689427F4AE3D_H_ */

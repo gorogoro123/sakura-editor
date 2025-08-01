@@ -6,7 +6,6 @@
 	SPDX-License-Identifier: Zlib
 */
 #include "agent/CAutoReloadAgent.h"
-// #include "doc/CEditDoc.h"	//  in under CEditWnd.h
 #include "window/CEditWnd.h"
 #include "dlg/CDlgFileUpdateQuery.h"
 #include "CSelectLang.h"
@@ -17,8 +16,6 @@
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 
 CAutoReloadAgent::CAutoReloadAgent()
-: m_eWatchUpdate( WU_QUERY )
-, m_nPauseCount(0)
 {
 }
 
