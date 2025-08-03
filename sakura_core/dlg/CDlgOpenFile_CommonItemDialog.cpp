@@ -438,7 +438,7 @@ void CDlgOpenFile_CommonItemDialog::Create(
 		WCHAR szDrive[_MAX_DRIVE];
 		WCHAR szDir[_MAX_DIR];
 		//	Jun. 23, 2002 genta
-		my_splitpath_t( pszDefaultPath, szDrive, szDir, nullptr, nullptr );
+		my_splitpath_w( pszDefaultPath, szDrive, szDir, nullptr, nullptr );
 		// 2010.08.28 相対パス解決
 		WCHAR szRelPath[_MAX_PATH];
 		auto_sprintf( szRelPath, L"%s%s", szDrive, szDir );
