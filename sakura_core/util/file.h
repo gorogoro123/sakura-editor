@@ -95,7 +95,6 @@ bool GetLastWriteTimestamp( const WCHAR* filename, CFileTime* pcFileTime ); //	O
 
 //文字列分割
 void my_splitpath_w ( const wchar_t *comln , wchar_t *drv,wchar_t *dir,wchar_t *fnm,wchar_t *ext );
-#define my_splitpath_t my_splitpath_w
 
 int FileMatchScoreSepExt( std::wstring_view file1, std::wstring_view file2 );
 

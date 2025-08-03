@@ -675,7 +675,7 @@ void CDlgOpenFile_CommonFileDialog::Create(
 		WCHAR szDrive[_MAX_DRIVE];
 		WCHAR szDir[_MAX_DIR];
 		//	Jun. 23, 2002 genta
-		my_splitpath_t( pszDefaultPath, szDrive, szDir, nullptr, nullptr );
+		my_splitpath_w( pszDefaultPath, szDrive, szDir, nullptr, nullptr );
 		// 2010.08.28 相対パス解決
 		WCHAR szRelPath[_MAX_PATH];
 		auto_sprintf( szRelPath, L"%s%s", szDrive, szDir );
@@ -744,7 +744,7 @@ bool CDlgOpenFile_CommonFileDialog::DoModal_GetOpenFileName( WCHAR* pszPath, EFi
 		WCHAR szExt  [_MAX_EXT];
 
 		//	Jun. 23, 2002 Thanks to sui
-		my_splitpath_t( pszPath, szDrive, szDir, szName, szExt );
+		my_splitpath_w( pszPath, szDrive, szDir, szName, szExt );
 
 		//	指定されたファイルが存在しないとき szName == NULL
 		//	ファイルの場所にディレクトリを指定するとエラーになるので
