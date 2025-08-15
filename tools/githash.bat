@@ -180,9 +180,6 @@ exit /b 0
 		echo #define CI_REPO_NAME "%CI_REPO_NAME%"
 	)
 
-	@rem enable 'dev version' macro which will be disabled on release branches
-	echo #define DEV_VERSION
-
 	if "%CI_ACCOUNT_NAME%" == "" (
 		echo // CI_ACCOUNT_NAME is not defined
 	) else (

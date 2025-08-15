@@ -21,12 +21,6 @@ if "%configuration%" == "Release" (
 	exit /b 1
 )
 
-if "%platform%" == "x64" (
-	set ALPHA=1
-) else (
-	set ALPHA=0
-)
-
 set ZIP_CMD=%~dp0tools\zip\zip.bat
 set LIST_ZIP_CMD=%~dp0tools\zip\listzip.bat
 
@@ -43,7 +37,7 @@ if "%CI_REPO_NAME%" == "sakura-editor/sakura" (
 ) else if "%CI_REPO_NAME%" == "" (
 	set BUILD_ACCOUNT=
 ) else (
-	set BUILD_ACCOUNT=%CI_ACCOUNT_NAME%
+	set BUILD_ACCOUNT=
 )
 
 @echo checking CI_BUILD_NUMBER %CI_BUILD_NUMBER%
@@ -75,12 +69,6 @@ if not "%GITHUB_PR_NUMBER%" == "" (
 
 @echo hash name
 set SHORTHASH=%GIT_SHORT_COMMIT_HASH%
-
-if "%ALPHA%" == "1" (
-	set RELEASE_PHASE=alpha
-) else (
-	set RELEASE_PHASE=
-)
 
 @rem ----------------------------------------------------------------
 @rem build BASENAME
@@ -121,10 +109,6 @@ if not "%SHORTHASH%" == "" (
 set BASENAME=%BASENAME%-%platform%-%configuration%
 @echo BASENAME = %BASENAME%
 
-@echo adding RELEASE_PHASE
-if not "%RELEASE_PHASE%" == "" (
-	set BASENAME=%BASENAME%-%RELEASE_PHASE%
-)
 @echo BASENAME = %BASENAME%
 
 @rem ---------------------- BASENAME ---------------------------------
@@ -135,7 +119,6 @@ if not "%RELEASE_PHASE%" == "" (
 @rem SHORTHASH    : (option) hash or "buildLocal" (hash is leading 8 charactors)
 @rem platform     : Platform ("Win32" or "x64")
 @rem configuration: Configuration ("Debug" or "Release")
-@rem RELEASE_PHASE: (option) "alpha" (x64 build only)
 @rem ----------------------------------------------------------------
 
 @rem ----------------------------------------------------------------
@@ -223,17 +206,10 @@ if exist "doxygen-%platform%-%configuration%.log" (
 )
 
 copy /Y installer\warning.txt   %WORKDIR%\
-if "%ALPHA%" == "1" (
-	copy /Y installer\warning-alpha.txt   %WORKDIR%\
-)
 
 pushd %WORKDIR_LOG%  && call %ZIP_CMD%       %OUTFILE_LOG%  .  && popd
 
 @rem copy text files for warning after zipping %OUTFILE% because %WORKDIR% is the parent directory of %WORKDIR_EXE% and %WORKDIR_INST%.
-if "%ALPHA%" == "1" (
-	copy /Y installer\warning-alpha.txt   %WORKDIR_EXE%\
-	copy /Y installer\warning-alpha.txt   %WORKDIR_INST%\
-)
 copy /Y installer\warning.txt        %WORKDIR_EXE%\
 copy /Y installer\warning.txt        %WORKDIR_INST%\
 

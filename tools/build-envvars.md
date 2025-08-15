@@ -34,7 +34,6 @@
 |GIT_REMOTE_ORIGIN_URL|常に|`GITHUB_SERVER_URL`/`GITHUB_REPOSITORY`|
 |GIT_COMMIT_HASH|常に|``|
 |BUILD_VERSION|.git がある|カレントブランチの累積コミット数|
-|DEV_VERSION|32bit以外|(値なし)|
 |CI_BUILD_NUMBER_INT|pull_request のみ|CI_BUILD_NUMBERを数値化。|
 |CI_BUILD_NUMBER_LABEL|pull_request のみ|"Build %CI_BUILD_NUMBER%"|
 |GITHUB_PR_NUMBER_INT|pull_request のみ|GITHUB_PR_NUMBERを数値化。|
@@ -59,13 +58,11 @@
 
 |生成する環境変数|説明|有効性|
 ----|----|----
-|ALPHA|alphaバージョンの場合1|x64ビルドの場合|
 |BUILD_ACCOUNT|CIのビルドアカウント名|sakuraeditor用のアカウントの場合空|
 |TAG_NAME|"tag_"+tag名|tagが有効な場合|
 |BUILD_NUMBER|"build"+ビルド番号|CIビルド以外の場合"buildLocal"|
 |PR_NAME|"PR"+PR番号|CIでのPRのビルドのみ有効|
 |SHORTHASH|commithashの先頭8文字|実体はGIT_SHORT_COMMIT_HASH|
-|RELEASE_PHASE|"alpha"または空|x64ビルドの場合のみ有効|
 |BASENAME|成果物のzipファイル名(拡張子含まない部分)|常に有効|
 |WORKDIR|作業用フォルダー|常に有効|
 |WORKDIR_LOG|ログファイル用の作業用フォルダー|常に有効|
