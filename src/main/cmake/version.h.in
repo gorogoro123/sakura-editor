@@ -11,9 +11,6 @@
 #define BUILD_ENV_NAME "@BUILD_ENV_NAME@"
 #define BUILD_VERSION @BUILD_VERSION@
 
-/* enable 'dev version' macro which will be disabled on release branches */
-#define DEV_VERSION
-
 // バージョン定義 //
 #define VER_A	@SAKURA_MAJOR_VERSION@	// メジャーバージョン(2固定)
 #define VER_B	@SAKURA_MINOR_VERSION@	// マイナーバージョン(4以降はGitHub版)
