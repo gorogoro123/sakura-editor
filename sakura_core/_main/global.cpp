@@ -24,12 +24,6 @@
 #include "window/CEditWnd.h"
 #include "version.h"
 
-#ifdef DEV_VERSION
-#pragma message("-------------------------------------------------------------------------------------")
-#pragma message("---  This is a Dev version and under development. Be careful to use this version. ---")
-#pragma message("-------------------------------------------------------------------------------------")
-#endif
-
 /*!
 	アプリ名を取得します。
 	プロセスの生成前にアプリ名を取得することはできません。
