@@ -59,8 +59,6 @@
 #include "sakura_rc.h"
 #include "config/app_constants.h"
 
-#pragma comment(lib, "windowscodecs.lib")
-
 #define IDT_ROLLMOUSE	1
 
 //! 編集禁止コマンド

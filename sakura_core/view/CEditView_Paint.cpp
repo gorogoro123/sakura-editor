@@ -8,7 +8,6 @@
 
 #include <vector>
 #include <climits>
-#pragma comment(lib, "Msimg32.lib")
 #include "view/CEditView_Paint.h"
 #include "view/CEditView.h"
 #include "view/CViewFont.h"
