@@ -18,7 +18,7 @@
 #include "mem/CNativeW.h"
 
 //! アンドゥバッファ用 操作コード
-enum EOpeCode {
+enum class EOpeCode {
 	OPE_UNKNOWN		= 0, //!< 不明(未使用)
 	OPE_INSERT		= 1, //!< 挿入
 	OPE_DELETE		= 2, //!< 削除
@@ -61,7 +61,7 @@ public:
 //!削除
 class CDeleteOpe final : public COpe{
 public:
-	CDeleteOpe() : COpe(OPE_DELETE)
+	CDeleteOpe() : COpe(EOpeCode::OPE_DELETE)
 	{
 		m_ptCaretPos_PHY_To.Set(CLogicInt(0),CLogicInt(0));
 	}
@@ -75,7 +75,7 @@ public:
 //!挿入
 class CInsertOpe final : public COpe{
 public:
-	CInsertOpe() : COpe(OPE_INSERT) { }
+	CInsertOpe() : COpe(EOpeCode::OPE_INSERT) { }
 	void DUMP( ) override;	/* 編集操作要素のダンプ */
 public:
 	COpeLineData	m_cOpeLineData;			//!< 操作に関連するデータ				[DELETE/INSERT]
@@ -85,7 +85,7 @@ public:
 //!置換
 class CReplaceOpe final : public COpe{
 public:
-	CReplaceOpe() : COpe(OPE_REPLACE)
+	CReplaceOpe() : COpe(EOpeCode::OPE_REPLACE)
 	{
 		m_ptCaretPos_PHY_To.Set(CLogicInt(0),CLogicInt(0));
 	}
@@ -100,15 +100,15 @@ public:
 //!キャレット移動
 class CMoveCaretOpe final : public COpe{
 public:
-	CMoveCaretOpe() : COpe(OPE_MOVECARET) { }
+	CMoveCaretOpe() : COpe(EOpeCode::OPE_MOVECARET) { }
 	CMoveCaretOpe(const CLogicPoint& ptBefore, const CLogicPoint& ptAfter)
-	: COpe(OPE_MOVECARET)
+	: COpe(EOpeCode::OPE_MOVECARET)
 	{
 		m_ptCaretPos_PHY_Before = ptBefore;
 		m_ptCaretPos_PHY_After = ptAfter;
 	}
 	CMoveCaretOpe(const CLogicPoint& ptCaretPos)
-	: COpe(OPE_MOVECARET)
+	: COpe(EOpeCode::OPE_MOVECARET)
 	{
 		m_ptCaretPos_PHY_Before = ptCaretPos;
 		m_ptCaretPos_PHY_After = ptCaretPos;
