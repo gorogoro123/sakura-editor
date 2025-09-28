@@ -350,7 +350,7 @@ void CViewCommander::Command_UNDO( )
 			}
 
 			switch( pcOpe->GetCode() ){
-			case OPE_INSERT:
+			case EOpeCode::OPE_INSERT:
 				{
 					CInsertOpe* pcInsertOpe = static_cast<CInsertOpe*>(pcOpe);
 
@@ -384,7 +384,7 @@ void CViewCommander::Command_UNDO( )
 					m_pCommanderView->GetSelectionInfo().m_sSelect.Clear(-1);
 				}
 				break;
-			case OPE_DELETE:
+			case EOpeCode::OPE_DELETE:
 				{
 					CDeleteOpe* pcDeleteOpe = static_cast<CDeleteOpe*>(pcOpe);
 
@@ -410,7 +410,7 @@ void CViewCommander::Command_UNDO( )
 					pcDeleteOpe->m_cOpeLineData.clear();
 				}
 				break;
-			case OPE_REPLACE:
+			case EOpeCode::OPE_REPLACE:
 				{
 					CReplaceOpe* pcReplaceOpe = static_cast<CReplaceOpe*>(pcOpe);
 
@@ -436,7 +436,7 @@ void CViewCommander::Command_UNDO( )
 					pcReplaceOpe->m_pcmemDataDel.clear();
 				}
 				break;
-			case OPE_MOVECARET:
+			case EOpeCode::OPE_MOVECARET:
 				/* カーソルを移動 */
 				if( bFastMode ){
 					GetCaret().MoveCursorFastMode( pcOpe->m_ptCaretPos_PHY_After );
@@ -614,7 +614,7 @@ void CViewCommander::Command_REDO( )
 				}
 			}
 			switch( pcOpe->GetCode() ){
-			case OPE_INSERT:
+			case EOpeCode::OPE_INSERT:
 				{
 					CInsertOpe* pcInsertOpe = static_cast<CInsertOpe*>(pcOpe);
 
@@ -640,7 +640,7 @@ void CViewCommander::Command_REDO( )
 					pcInsertOpe->m_cOpeLineData.clear();
 				}
 				break;
-			case OPE_DELETE:
+			case EOpeCode::OPE_DELETE:
 				{
 					CDeleteOpe* pcDeleteOpe = static_cast<CDeleteOpe*>(pcOpe);
 
@@ -669,7 +669,7 @@ void CViewCommander::Command_REDO( )
 					);
 				}
 				break;
-			case OPE_REPLACE:
+			case EOpeCode::OPE_REPLACE:
 				{
 					CReplaceOpe* pcReplaceOpe = static_cast<CReplaceOpe*>(pcOpe);
 
@@ -699,7 +699,7 @@ void CViewCommander::Command_REDO( )
 					pcReplaceOpe->m_pcmemDataIns.clear();
 				}
 				break;
-			case OPE_MOVECARET:
+			case EOpeCode::OPE_MOVECARET:
 				break;
 			default:
 				break;
