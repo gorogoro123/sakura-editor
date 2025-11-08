@@ -1529,10 +1529,9 @@ void CDlgFuncList::SetTreeFile()
 	int nFuncInfo = 0;
 	std::vector<HTREEITEM> hParentTree;
 	hParentTree.push_back(TVI_ROOT);
-	for( int i = 0; i < (int)m_fileTreeSetting.m_aItems.size(); i++ ){
+	for (const auto& item : m_fileTreeSetting.m_aItems){
 		WCHAR szPath[_MAX_PATH];
 		WCHAR szPath2[_MAX_PATH];
-		const SFileTreeItem& item = m_fileTreeSetting.m_aItems[i];
 		// item.m_szTargetPath => szPath メタ文字の展開
 		if( !CFileNameManager::ExpandMetaToFolder(item.m_szTargetPath, szPath, int(std::size(szPath))) ){
 			wcscpy_s(szPath, std::size(szPath), L"<Error:Long Path>");
