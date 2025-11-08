@@ -119,12 +119,12 @@ void CViewCommander::Command_FILEOPEN( const WCHAR* filename, ECodeType nCharCod
 		);
 		if(!bDlgResult)return;
 
-		for(size_t i = 0; i < files.size(); i++ ){
-			if (files[i].length() >= _MAX_PATH){
+		for (const auto& file : files){
+			if (file.length() >= _MAX_PATH){
 				ErrorMessage(
 					CEditWnd::getInstance()->GetHwnd(),
 					LS(STR_ERR_FILEPATH_TOO_LONG),
-					files[i].c_str()
+					file.c_str()
 				);
 				return;
 			}
