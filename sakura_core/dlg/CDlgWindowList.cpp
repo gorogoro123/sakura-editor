@@ -119,11 +119,11 @@ void CDlgWindowList::CommandSave()
 {
 	std::vector<HWND> aHwndList;
 	GetDataListView(aHwndList);
-	for (int i = 0; i < (int)aHwndList.size(); i++) {
-		DWORD dwPid;
-		::GetWindowThreadProcessId(aHwndList[i], &dwPid);
+	for (const auto hwnd : aHwndList){
+		DWORD dwPid = 0;
+		::GetWindowThreadProcessId(hwnd, &dwPid);
 		::AllowSetForegroundWindow(dwPid);
-		::SendMessage(aHwndList[i], WM_COMMAND, MAKELONG(F_FILESAVE, 0), 0);
+		::SendMessage(hwnd, WM_COMMAND, MAKELONG(F_FILESAVE, 0), 0);
 	}
 	SetData();
 }
@@ -132,11 +132,11 @@ void CDlgWindowList::CommandClose()
 {
 	std::vector<HWND> aHwndList;
 	GetDataListView(aHwndList);
-	for (int i = 0; i < (int)aHwndList.size(); i++) {
-		DWORD dwPid;
-		::GetWindowThreadProcessId(aHwndList[i], &dwPid);
+	for (const auto hwnd : aHwndList){
+		DWORD dwPid = 0;
+		::GetWindowThreadProcessId(hwnd, &dwPid);
 		::AllowSetForegroundWindow(dwPid);
-		::SendMessage(aHwndList[i], MYWM_CLOSE, 0, 0);
+		::SendMessage(hwnd, MYWM_CLOSE, 0, 0);
 	}
 	SetData();
 }
