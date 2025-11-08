@@ -72,8 +72,7 @@ public:
 		ClearItems();
 		
 		std::vector< std::wstring > patterns = SplitPattern(lpKeys);
-		for (size_t i = 0; i < patterns.size(); i++) {
-			const std::wstring& element = patterns[i];
+		for (const auto& element : patterns){
 			const WCHAR* token = element.c_str();
 
 			//フィルタを種類ごとに振り分ける
@@ -194,8 +193,8 @@ private:
 		return;
 	}
 	void ClearEnumKeys( VGrepEnumKeys& keys ){
-		for( int i = 0; i < (int)keys.size(); i++ ){
-			delete [] keys[ i ];
+		for (auto& key : keys){
+			delete [] key;
 		}
 		keys.clear();
 	}
@@ -209,8 +208,8 @@ private:
 	}
 
 	BOOL IsExist( VGrepEnumKeys& keys, LPCWSTR addKey ){
-		for( int i = 0; i < (int)keys.size(); i++ ){
-			if( wcscmp( keys[ i ], addKey ) == 0 ){
+		for (const auto& key : keys){
+			if( wcscmp( key, addKey ) == 0 ){
 				return TRUE;
 			}
 		}
@@ -243,8 +242,7 @@ private:
 	int ParseAndAddException(LPCWSTR lpKeys, VGrepEnumKeys& exceptionKeys, VGrepEnumKeys & exceptionAbsoluteKeys) {
 		std::vector< std::wstring > patterns = SplitPattern(lpKeys);
 
-		for (size_t i = 0; i < patterns.size(); i++) {
-			const std::wstring& element = patterns[i];
+		for (const auto& element : patterns){
 			const WCHAR* token = element.c_str();
 
 			bool bRelPath = _IS_REL_PATH(token);
