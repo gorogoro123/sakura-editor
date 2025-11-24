@@ -83,20 +83,19 @@ protected:
 	//! 文字コード自動検出のために読み込む最大サイズ(byte)
 	static constexpr LONGLONG m_nAutoDetectReadLen = 32768LL;
 
-//	LPWSTR	m_pszFileName;	// ファイル名
-	HANDLE	m_hFile;		// ファイルハンドル
+	HANDLE	m_hFile = nullptr;		// ファイルハンドル
 	HANDLE	m_hFileMapping = nullptr;	// メモリマップドファイルハンドル
-	LONGLONG	m_nFileSize;	// ファイルサイズ(64bit)
-	LONGLONG	m_nFileDataLen;	// ファイルデータ長からBOM長を引いたバイト数
-	int		m_nLineIndex;	// 現在ロードしている論理行(0開始)
-	ECodeType	m_CharCode;		// 文字コード
-	CCodeBase*	m_pCodeBase;	////
-	EEncodingTrait	m_encodingTrait;
+	LONGLONG	m_nFileSize = 0;	// ファイルサイズ(64bit)
+	LONGLONG	m_nFileDataLen = 0;	// ファイルデータ長からBOM長を引いたバイト数
+	int		m_nLineIndex = -1;	// 現在ロードしている論理行(0開始)
+	ECodeType	m_CharCode = CODE_DEFAULT;		// 文字コード
+	CCodeBase*	m_pCodeBase = nullptr;	////
+	EEncodingTrait	m_encodingTrait = ENCODING_TRAIT_ASCII;
 	CMemory			m_memEols[3];
 	bool	m_bEolEx;		//!< CR/LF以外のEOLが有効か
 	int		m_nMaxEolLen;	//!< EOLの長さ
-	bool	m_bBomExist;	// ファイルのBOMが付いているか Jun. 08, 2003 Moca 
-	int		m_nFlag;		// 文字コードの変換オプション
+	bool	m_bBomExist = false;	// ファイルのBOMが付いているか Jun. 08, 2003 Moca 
+	int		m_nFlag = 0;		// 文字コードの変換オプション
 	//	Jun. 13, 2003 Moca
 	//	状態をenumとしてわかりやすく．
 	enum enumFileLoadMode{
@@ -105,7 +104,7 @@ protected:
 		FLMODE_READY, //!< 順アクセスOK
 		FLMODE_READBUFEND //!<ファイルの終端までバッファに入れた
 	};
-	enumFileLoadMode	m_eMode;		// 現在の読み込み状態
+	enumFileLoadMode	m_eMode = FLMODE_CLOSE;		// 現在の読み込み状態
 
 	// 読み込みバッファ系
 	const char*	m_pReadBufTop = nullptr;	// 読み込みバッファの先頭を指すポインタ
