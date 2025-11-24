@@ -14,9 +14,6 @@
 	SPDX-License-Identifier: Zlib
 */
 
-#include <cstdlib>
-#include <cstring>
-#include <algorithm>
 #include "_main/global.h"
 #include "mem/CMemory.h"
 #include "basis/CEol.h"
@@ -82,20 +79,8 @@ std::wstring CFileLoad::GetSizeStringForHuman(ULONGLONG size)
 
 /*! コンストラクタ */
 CFileLoad::CFileLoad( const SEncodingConfig& encode )
+: m_pEencoding(&encode)
 {
-	m_pEencoding = &encode;
-
-	m_hFile			= nullptr;
-	m_nFileSize		= 0;
-	m_nFileDataLen	= 0;
-	m_CharCode		= CODE_DEFAULT;
-	m_pCodeBase		= nullptr;////
-	m_encodingTrait = ENCODING_TRAIT_ASCII;
-	m_bBomExist		= false;	// Jun. 08, 2003 Moca
-	m_nFlag 		= 0;
-	m_eMode			= FLMODE_CLOSE;	// Jun. 08, 2003 Moca
-
-	m_nLineIndex	= -1;
 }
 
 /*! デストラクタ */
