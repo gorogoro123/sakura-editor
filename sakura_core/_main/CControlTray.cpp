@@ -686,9 +686,8 @@ LRESULT CControlTray::DispatchEvent(
 						// アイコンの登録
 						const CPlug::Array& plugs = CJackManager::getInstance()->GetPlugs( PP_COMMAND );
 						m_cMenuDrawer.m_pcIcons->ResetExtend();
-						for( CPlug::ArrayIter it = plugs.cbegin(); it != plugs.cend(); it++ ) {
+						for (const auto &plug : plugs) {
 							int iBitmap = CMenuDrawer::TOOLBAR_ICON_PLUGCOMMAND_DEFAULT - 1;
-							const CPlug* plug = *it;
 							if( !plug->m_sIcon.empty() ){
 								iBitmap = m_cMenuDrawer.m_pcIcons->Add( plug->m_cPlugin.GetFilePath( plug->m_sIcon ).c_str() );
 							}
