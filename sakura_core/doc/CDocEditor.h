@@ -69,10 +69,10 @@ public:
 	CEditDoc*		m_pcDocRef;
 	CEol 			m_cNewLineCode;				//!< Enter押下時に挿入する改行コード種別
 	COpeBuf			m_cOpeBuf;					//!< アンドゥバッファ
-	COpeBlk*		m_pcOpeBlk;					//!< 操作ブロック
+	COpeBlk*		m_pcOpeBlk = nullptr;		//!< 操作ブロック
 	int				m_nOpeBlkRedawCount;		//!< OpeBlkの再描画非対象数
-	bool			m_bInsMode;					//!< 挿入・上書きモード Oct. 2, 2005 genta
-	bool			m_bIsDocModified;
+	bool			m_bInsMode = true;			//!< 挿入・上書きモード Oct. 2, 2005 genta
+	bool			m_bIsDocModified = false;
 };
 
 class CDocEditAgent{
