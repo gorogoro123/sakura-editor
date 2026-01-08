@@ -21,45 +21,43 @@
 	#include "CStrictInteger.h"
 
 	//ロジック単位
-	typedef CStrictInteger <
+	using CLogicInt = CStrictInteger <
 		0,		//!< 型を分けるための数値。
 		true,	//!< intとの比較を許すかどうか
 		true,	//!< intとの加減算を許すかどうか
 		true,	//!< intへの暗黙の変換を許すかどうか
 		true	//!< intの代入を許すかどうか
-	>
-	CLogicInt;
+	>;
 
 	//レイアウト単位
-	typedef CStrictInteger <
+	using CLayoutInt = CStrictInteger <
 		1,		//!< 型を分けるための数値。
 		true,	//!< intとの比較を許すかどうか
 		true,	//!< intとの加減算を許すかどうか
 		false,	//!< intへの暗黙の変換を許すかどうか
 		true	//!< intの代入を許すかどうか
-	>
-	CLayoutInt;
+	>;
 
 #else
 	// -- -- 通常のintで単位型を定義
 
 	//ロジック単位
-	typedef int CLogicInt;
+	using CLogicInt = int;
 
 	//レイアウト単位
-	typedef int CLayoutInt;
+	using CLayoutInt = int;
 
 #endif
 
-typedef CLogicInt  CLogicXInt;
-typedef CLogicInt  CLogicYInt;
-typedef CLayoutInt CLayoutXInt;
-typedef CLayoutInt CLayoutYInt;
-typedef int CPixelYInt;
-typedef int CPixelXInt;
+using CLogicXInt = CLogicInt;
+using CLogicYInt = CLogicInt;
+using CLayoutXInt = CLayoutInt;
+using CLayoutYInt = CLayoutInt;
+using CPixelYInt = int;
+using CPixelXInt = int;
 
-typedef CLayoutXInt CHabaXInt;
-typedef int         CKetaXInt;
+using CHabaXInt = CLayoutXInt;
+using CKetaXInt = int;
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                      ２次元型の定義                         //
@@ -71,19 +69,19 @@ typedef int         CKetaXInt;
 
 //ロジック単位
 struct SLogicPoint{ CLogicInt x; CLogicInt y; }; //基底構造体
-typedef CStrictPoint<SLogicPoint, CLogicInt>	CLogicPoint;
-typedef CRangeBase<CLogicPoint>					CLogicRange;
-typedef CStrictRect<CLogicInt, CLogicPoint>		CLogicRect;
+using CLogicPoint = CStrictPoint<SLogicPoint, CLogicInt>;
+using CLogicRange = CRangeBase<CLogicPoint>	;
+using CLogicRect = CStrictRect<CLogicInt, CLogicPoint>;
 
 //レイアウト単位
 struct SLayoutPoint{ CLayoutInt x; CLayoutInt y; }; //基底構造体
-typedef CStrictPoint<SLayoutPoint, CLayoutInt>	CLayoutPoint;
-typedef CRangeBase<CLayoutPoint>				CLayoutRange;
-typedef CStrictRect<CLayoutInt, CLayoutPoint>	CLayoutRect;
+using CLayoutPoint = CStrictPoint<SLayoutPoint, CLayoutInt>;
+using CLayoutRange = CRangeBase<CLayoutPoint>;
+using CLayoutRect = CStrictRect<CLayoutInt, CLayoutPoint>;
 
 //ゆるい単位
 #include "CMyPoint.h"
-typedef CRangeBase<CMyPoint>     SelectionRange;
+using SelectionRange = CRangeBase<CMyPoint>;
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                          ツール                             //
