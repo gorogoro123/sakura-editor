@@ -92,37 +92,6 @@ int AddLastChar( WCHAR* pszPath, int nMaxLen, WCHAR c ){
 	return 0;
 }
 
-/* CR0LF0,CRLF,LF,CRで区切られる「行」を返す。改行コードは行長に加えない */
-const char* GetNextLine(
-	const char*		pData,
-	int				nDataLen,
-	int*			pnLineLen,
-	int*			pnBgn,
-	CEol*			pcEol
-)
-{
-	int		i;
-	int		nBgn;
-	nBgn = *pnBgn;
-
-	//	May 15, 2000 genta
-	pcEol->SetType( EEolType::none );
-	if( *pnBgn >= nDataLen ){
-		return nullptr;
-	}
-	for( i = *pnBgn; i < nDataLen; ++i ){
-		/* 改行コードがあった */
-		if( pData[i] == '\n' || pData[i] == '\r' ){
-			/* 行終端子の種類を調べる */
-			pcEol->SetTypeByString( &pData[i], nDataLen - i );
-			break;
-		}
-	}
-	*pnBgn = i + pcEol->GetLen();
-	*pnLineLen = i - nBgn;
-	return &pData[nBgn];
-}
-
 /*!
 	GetNextLineのwchar_t版
 	GetNextLineより作成
