@@ -41,6 +41,6 @@ struct GrepInfo {
 	bool			bGrepBackup = false;			//!< 置換でバックアップを保存
 
 	// コンストラクタ
-	GrepInfo() noexcept;
+	GrepInfo() = default;
 };
 #endif /* SAKURA_GREPINFO_9A59ABAF_04F9_4D29_B216_0B0784DD2290_H_ */
