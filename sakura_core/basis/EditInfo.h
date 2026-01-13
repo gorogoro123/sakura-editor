@@ -57,6 +57,6 @@ struct EditInfo {
 	int			m_nWindowOriginY = CW_USEDEFAULT;		//!< ウィンドウ  物理位置(ピクセル数・マイナス値も有効)
 
 	// コンストラクタ
-	EditInfo() noexcept;
+	EditInfo() = default;
 };
 #endif /* SAKURA_EDITINFO_27D29614_33E6_4D60_B4B1_05115049CD16_H_ */

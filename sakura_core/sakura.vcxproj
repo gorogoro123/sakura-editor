@@ -667,7 +667,6 @@
     <ClCompile Include="..\sakura_core\doc\layout\CTsvModeInfo.cpp" />
     <ClCompile Include="..\sakura_core\doc\logic\CDocLine.cpp" />
     <ClCompile Include="..\sakura_core\doc\logic\CDocLineMgr.cpp" />
-    <ClCompile Include="..\sakura_core\basis\EditInfo.cpp" />
     <ClCompile Include="..\sakura_core\env\CAppNodeManager.cpp" />
     <ClCompile Include="..\sakura_core\env\CDocTypeManager.cpp" />
     <ClCompile Include="..\sakura_core\env\CFileNameManager.cpp" />
@@ -689,7 +688,6 @@
     <ClCompile Include="..\sakura_core\func\CFuncLookup.cpp" />
     <ClCompile Include="..\sakura_core\func\CKeyBind.cpp" />
     <ClCompile Include="..\sakura_core\func\Funccode.cpp" />
-    <ClCompile Include="..\sakura_core\basis\GrepInfo.cpp" />
     <ClCompile Include="..\sakura_core\io\CBinaryStream.cpp" />
     <ClCompile Include="..\sakura_core\io\CFile.cpp" />
     <ClCompile Include="..\sakura_core\io\CFileLoad.cpp" />
