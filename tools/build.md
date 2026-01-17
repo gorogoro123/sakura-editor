@@ -213,7 +213,7 @@ winget install --id MSYS2.MSYS2
    ```
 4. MinGW-w64をインストール:
    ```bash
-   pacman -S --noconfirm mingw-w64-x86_64-iconv mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake mingw-w64-x86_64-make mingw-w64-x86_64-7zip
+   pacman -S --noconfirm mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-make mingw-w64-ucrt-x86_64-iconv mingw-w64-ucrt-x86_64-7zip
    ```
 
 <!-- リンク定義 -->
