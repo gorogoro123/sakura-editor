@@ -99,21 +99,22 @@ void CRuler::DrawRulerBg(CGraphics& gr)
 		m_hFont = nullptr;
 	}
 	if (m_hFont == nullptr) {
-		LOGFONT	lf = {0};
-		lf.lfHeight			= DpiScaleY(1 - pCommon->m_sWindow.m_nRulerHeight);	//	2002/05/13 ai
-		lf.lfWidth			= 0;
-		lf.lfEscapement		= 0;
-		lf.lfOrientation	= 0;
-		lf.lfWeight			= 400;
-		lf.lfItalic			= 0;
-		lf.lfUnderline		= 0;
-		lf.lfStrikeOut		= 0;
-		lf.lfCharSet		= 0;
-		lf.lfOutPrecision	= 3;
-		lf.lfClipPrecision	= 2;
-		lf.lfQuality		= 1;
-		lf.lfPitchAndFamily	= 34;
-		wcscpy_s( lf.lfFaceName, L"Arial" );
+		LOGFONT	lf = {
+			.lfHeight			= DpiScaleY(1 - pCommon->m_sWindow.m_nRulerHeight),	//	2002/05/13 ai
+			.lfWidth			= 0,
+			.lfEscapement		= 0,
+			.lfOrientation		= 0,
+			.lfWeight			= 400,
+			.lfItalic			= 0,
+			.lfUnderline		= 0,
+			.lfStrikeOut		= 0,
+			.lfCharSet			= 0,
+			.lfOutPrecision		= 3,
+			.lfClipPrecision	= 2,
+			.lfQuality			= 1,
+			.lfPitchAndFamily	= 34,
+			.lfFaceName			= L"Arial",
+		};
 		m_hFont = ::CreateFontIndirect( &lf );
 		m_nRulerHeight = pCommon->m_sWindow.m_nRulerHeight;
 	}
