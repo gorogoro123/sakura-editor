@@ -87,14 +87,12 @@ bool CShareData_IO::ShareData_IO_2( bool bRead )
 		cProfile.SetWritingMode();
 	}
 
-	WCHAR	szIniFileName[_MAX_PATH + 1];
-	const auto iniPath = GetIniFileNameForIO(!bRead);
-	::wcsncpy_s(szIniFileName, iniPath.c_str(), _TRUNCATE);
+	const auto szIniFileName = GetIniFileNameForIO(!bRead);
 
 //	MYTRACE( L"Iniファイル処理-1 所要時間(ミリ秒) = %d\n", cRunningTimer.Read() );
 
 	if( bRead ){
-		if( !cProfile.ReadProfile( szIniFileName ) ){
+		if( !cProfile.ReadProfile( szIniFileName.c_str() ) ){
 			/* 設定ファイルが存在しない */
 			LANGID langId = GetUserDefaultUILanguage();
 			// Windowsの表示言語が日本語でない場合は言語設定を英語にする
@@ -123,10 +121,9 @@ bool CShareData_IO::ShareData_IO_2( bool bRead )
 		if( pShareData->m_sVersion.m_dwProductVersionMS > dwMS
 			|| (pShareData->m_sVersion.m_dwProductVersionMS == dwMS && pShareData->m_sVersion.m_dwProductVersionLS > dwLS) )
 		{
-			WCHAR szBkFileName[std::size(szIniFileName) + 4];
-			::wcsncpy_s(szBkFileName, szIniFileName, _TRUNCATE);
-			::wcsncat_s(szBkFileName, L".bak", _TRUNCATE);
-			::CopyFile(szIniFileName, szBkFileName, FALSE);
+			auto szBkFileName = szIniFileName;
+			szBkFileName += L".bak";
+			::CopyFile(szIniFileName.c_str(), szBkFileName.c_str(), FALSE);
 		}
 	}
 //	MYTRACE( L"Iniファイル処理 0 所要時間(ミリ秒) = %d\n", cRunningTimer.Read() );
@@ -164,7 +161,7 @@ bool CShareData_IO::ShareData_IO_2( bool bRead )
 	if( !bRead ){
 		// 2014.12.08 sakura.iniの読み取り専用
 		if( !GetDllShareData().m_Common.m_sOthers.m_bIniReadOnly ){
-			cProfile.WriteProfile( szIniFileName, L" sakura.ini テキストエディタ設定ファイル" );
+			cProfile.WriteProfile( szIniFileName.c_str(), L" sakura.ini テキストエディタ設定ファイル" );
 		}
 	}
 
