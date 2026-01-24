@@ -1137,7 +1137,7 @@ void CMenuDrawer::DrawItem( DRAWITEMSTRUCT* lpdis )
 
 	int nBkModeOld = ::SetBkMode( hdc, TRANSPARENT );
 	HFONT hFontOld = (HFONT)::SelectObject( hdc, m_hFontMenu );
-	COLORREF textColorOld = (COLORREF)::SetTextColor( hdc, textColor );
+	COLORREF textColorOld = ::SetTextColor( hdc, textColor );
 
 	/* TAB文字の前と後ろに分割してテキストを描画する */
 	size_t j;

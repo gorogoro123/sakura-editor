@@ -852,7 +852,7 @@ void CLayoutMgr::LogicToLayout(
 			//	TAB幅を正確に計算するには当初からインデント分を加えておく必要がある．
 			nCaretPosX = pLayout->GetIndent();
 			const wchar_t*	pData = pLayout->GetDocLineRef()->GetPtr() + pLayout->GetLogicOffset(); // 2002/2/10 aroka CMemory変更
-			CLogicInt	nDataLen = (CLogicInt)pLayout->GetLengthWithEOL();
+			CLogicInt	nDataLen = pLayout->GetLengthWithEOL();
 
 			CLogicInt i;
 			for( i = CLogicInt(0); i < nDataLen; ++i ){

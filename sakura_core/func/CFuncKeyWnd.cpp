@@ -302,7 +302,7 @@ LRESULT CFuncKeyWnd::OnTimer( [[maybe_unused]] HWND hwnd, [[maybe_unused]] UINT 
 		m_nTimerCount = 0;
 		/* 機能が利用可能か調べる */
 		for( i = 0; i < int(std::size(m_szFuncNameArr)); ++i ){
-			if( IsFuncEnable( (CEditDoc*)m_pcEditDoc, m_pShareData, m_nFuncCodeArr[i]  ) ){
+			if( IsFuncEnable( m_pcEditDoc, m_pShareData, m_nFuncCodeArr[i]  ) ){
 				::EnableWindow( m_hwndButtonArr[i], TRUE );
 			}else{
 				::EnableWindow( m_hwndButtonArr[i], FALSE );

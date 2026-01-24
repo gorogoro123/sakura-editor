@@ -89,7 +89,7 @@ BOOL BlockingHook( HWND hwndDlgCancel )
 	MSG		msg;
 	BOOL	ret;
 	//	Jun. 04, 2003 genta メッセージをあるだけ処理するように
-	while(( ret = (BOOL)::PeekMessage( &msg, nullptr, 0, 0, PM_REMOVE )) != 0 ){
+	while(( ret = ::PeekMessage( &msg, nullptr, 0, 0, PM_REMOVE )) != 0 ){
 		if ( msg.message == WM_QUIT ){
 			return FALSE;
 		}
@@ -380,7 +380,7 @@ HFONT GetSystemBasedFont( LONG nLogicalHeight )
 BOOL CALLBACK SetFontRecursiveProc( HWND hwnd, LPARAM hFont )
 {
 	SendMessage( hwnd, WM_SETFONT, (WPARAM)hFont, (LPARAM)FALSE );
-	EnumChildWindows( hwnd, SetFontRecursiveProc, (LPARAM)hFont );
+	EnumChildWindows( hwnd, SetFontRecursiveProc, hFont );
 	return TRUE;
 }
 

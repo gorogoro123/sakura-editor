@@ -61,7 +61,7 @@ WCHAR* tcstostr( WCHAR* dest, const WCHAR* src, size_t count){
 	WCHAR* pr = const_cast<WCHAR*>(src);
 	WCHAR* pw = dest;
 	for( ; pr < src+count; ++pr ){
-		*pw = static_cast<WCHAR>(*pr);
+		*pw = (*pr);
 		++pw;
 	}
 	return pw;
@@ -82,7 +82,7 @@ WCHAR* strtotcs( WCHAR* dest, const WCHAR* src, size_t count )
 	WCHAR* pr = const_cast<WCHAR*>(src);
 	WCHAR* pw = dest;
 	for( ; pr < src+count; ++pr ){
-		*pw = static_cast<WCHAR>(*pr);
+		*pw = (*pr);
 		++pw;
 	}
 	return pw;

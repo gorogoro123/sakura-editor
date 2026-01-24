@@ -603,7 +603,7 @@ bool CClipboard::GetClipboardByFormat(CNativeW& mem, const wchar_t* pFormatName,
 			// バイナリモード。1byteをU+00-U+ffにマッピング
 			mem.AllocStringBuffer(nLength);
 			mem._SetStringLength(nLength);
-			wchar_t* pBuf = (wchar_t *)mem.GetStringPtr();
+			wchar_t* pBuf = mem.GetStringPtr();
 			for( size_t i = 0; i < nLength; i++ ){
 				pBuf[i] = (unsigned char)pData[i];
 			}

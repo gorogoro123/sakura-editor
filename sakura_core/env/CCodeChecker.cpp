@@ -189,7 +189,7 @@ ECallbackResult CCodeChecker::OnCheckSave(SSaveInfo* pSaveInfo)
 			GSTR_APPNAME,
 			LS(STR_CODECHECKER_CONFORM_LOSESOME),
 			szCpName,
-			(int)((Int)point.y + 1),
+			((Int)point.y + 1),
 			szLineNum,
 			cmemChar.GetStringPtr(),
 			szCharCode

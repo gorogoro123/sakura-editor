@@ -1592,7 +1592,7 @@ LRESULT CEditWnd::DispatchEvent(
 
 	case MYWM_GETFILEINFO:
 		/* トレイからエディタへの編集ファイル名要求通知 */
-		pfi = (EditInfo*)&m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
+		pfi = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
 
 		/* 編集ファイル情報を格納 */
 		GetDocument()->GetEditInfo( pfi );
@@ -2677,7 +2677,7 @@ void CEditWnd::OnDropFiles( HDROP hDrop )
 		/* 指定ファイルが開かれているか調べる */
 		if( CShareData::getInstance()->IsPathOpened( szFile, &hWndOwner ) ){
 			::SendMessage( hWndOwner, MYWM_GETFILEINFO, 0, 0 );
-			pfi = (EditInfo*)&m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
+			pfi = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
 			/* アクティブにする */
 			ActivateFrameWindow( hWndOwner );
 			/* MRUリストへの登録 */
@@ -4088,7 +4088,7 @@ LRESULT CEditWnd::WinListMenu( HMENU hMenu, const std::vector<EditNode>& vEditNo
 			/* トレイからエディタへの編集ファイル名要求通知 */
 			::SendMessage( vEditNode[i].GetHwnd(), MYWM_GETFILEINFO, 0, 0 );
 ////	From Here Oct. 4, 2000 JEPRO commented out & modified	開いているファイル数がわかるように履歴とは違って1から数える
-			pfi = (EditInfo*)&m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
+			pfi = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
 			CFileNameManager::getInstance()->GetMenuFullLabel_WinList( szMenu, int(std::size(szMenu)), pfi, vEditNode[i].m_nId, i, dcFont.GetHDC() );
 			m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING, IDM_SELWINDOW + vEditNode[i].m_nIndex, szMenu, L"" );
 			if( GetHwnd() == vEditNode[i].GetHwnd() ){

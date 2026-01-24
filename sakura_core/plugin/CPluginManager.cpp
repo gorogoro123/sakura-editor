@@ -375,7 +375,7 @@ int CPluginManager::InstallPlugin( CommonSetting& common, const WCHAR* pszPlugin
 				const WCHAR* msg = LS(STR_PLGMGR_INST_NAME);
 				// 2010.08.04 削除中のIDは元の位置へ追加(復活させる)
 				if( plugin_table[iNo].m_state != PLS_DELETED &&
-				  ConfirmMessage( hWndOwner, msg, static_cast<const WCHAR*>(pszPluginName), static_cast<const WCHAR*>(plugin_table[iNo].m_szName) ) != IDYES ){
+				  ConfirmMessage( hWndOwner, msg, pszPluginName, static_cast<const WCHAR*>(plugin_table[iNo].m_szName) ) != IDYES ){
 					errorMsg = LS(STR_PLGMGR_INST_USERCANCEL);
 					return -1;
 				}

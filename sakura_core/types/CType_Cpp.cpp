@@ -1244,12 +1244,12 @@ void CDocOutline::MakeFuncList_C( CFuncInfoArr* pcFuncInfoArr ,EOutlineType& nOu
 						}else if( nMode2 == M2_NORMAL && C_IsOperator(szWordPrev, nLen) ){
 							// 演算子のオペレータだった operator +
 							wcscpy(szWord, szWordPrev);
-							nWordIdx = (int)nLen -1;
+							nWordIdx = nLen -1;
 							nMode2 = M2_OPERATOR_WORD;
 						}else if( nMode2 == M2_OPERATOR_WORD ){
 							// operator 継続中
 							wcscpy(szWord, szWordPrev);
-							nWordIdx = (int)nLen -1;
+							nWordIdx = nLen -1;
 						}else{
 							wcscpy(szWordPrev, szWord);
 							nWordIdx = -1;

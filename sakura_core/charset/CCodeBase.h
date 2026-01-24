@@ -109,7 +109,7 @@ public:
 		if( pResult ){
 			*pResult = result == RESULT_COMPLETE;
 		}
-		return BinarySequence( static_cast<std::byte*>(cDest.GetRawPtr()), cDest.GetRawLength() );
+		return BinarySequence( cDest.GetRawPtr(), cDest.GetRawLength() );
 	}
 
 	//文字コード変換
@@ -158,5 +158,5 @@ inline int CCodeBase::BinToText( const unsigned char *pSrc, const int nLen, unsi
 */
 inline int CCodeBase::TextToBin( const unsigned short cSrc )
 {
-	return static_cast<int>((cSrc - 0xdc00) & 0x00ff);
+	return ((cSrc - 0xdc00) & 0x00ff);
 }
