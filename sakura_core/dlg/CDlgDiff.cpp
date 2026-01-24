@@ -263,7 +263,7 @@ void CDlgDiff::SetData( )
 			{
 				/* トレイからエディタへの編集ファイル名要求通知 */
 				::SendMessage( vEditNode[i].GetHwnd(), MYWM_GETFILEINFO, 0, 0 );
-				pFileInfo = (EditInfo*)&m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
+				pFileInfo = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
 
 				/* 自分ならスキップ */
 				if ( vEditNode[i].GetHwnd() == CEditWnd::getInstance()->GetHwnd() )
@@ -380,7 +380,7 @@ int CDlgDiff::GetData( )
 
 			/* トレイからエディタへの編集ファイル名要求通知 */
 			::SendMessage( m_hWnd_Dst, MYWM_GETFILEINFO, 0, 0 );
-			pFileInfo = (EditInfo*)&m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
+			pFileInfo = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
 
 			m_szFile2 = pFileInfo->m_szPath;
 			m_bIsModifiedDst = pFileInfo->m_bIsModified;

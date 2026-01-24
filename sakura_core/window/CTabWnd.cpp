@@ -1642,7 +1642,7 @@ void CTabWnd::TabWindowNotify( WPARAM wParam, LPARAM lParam )
 
 			tcitem.mask    = TCIF_TEXT | TCIF_PARAM;
 			tcitem.pszText = szName;
-			tcitem.lParam  = (LPARAM)lParam;
+			tcitem.lParam  = lParam;
 
 			// 2006.01.28 ryoji タブにアイコンイメージを追加する
 			tcitem.mask |= TCIF_IMAGE;

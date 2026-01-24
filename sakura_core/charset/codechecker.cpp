@@ -387,9 +387,9 @@ int _CheckJisAnyPart(
 
 	*peNextEsc = emyesc;
 	if( pr < pr_end ){
-		*ppNextChar = const_cast<const char*>(pr) + nesclen;
+		*ppNextChar = pr + nesclen;
 	}else{
-		*ppNextChar = const_cast<const char*>(pr_end);
+		*ppNextChar = pr_end;
 		pr = pr_end;
 	}
 

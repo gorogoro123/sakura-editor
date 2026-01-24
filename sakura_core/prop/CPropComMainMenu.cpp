@@ -627,7 +627,7 @@ INT_PTR CPropMainMenu::DispatchEvent(
 
 					// TreeViewに挿入
 					pFuncWk = &msMenu[nMenuCnt];
-					pFuncWk->m_nFunc = (EFunctionCode)eFuncCode;
+					pFuncWk->m_nFunc = eFuncCode;
 					pFuncWk->m_sName = szLabel;
 					pFuncWk->m_bDupErr = false;
 					pFuncWk->m_bIsNode = bIsNode;

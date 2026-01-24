@@ -441,7 +441,7 @@ BOOL CCaret::GetAdjustCursorPos(
 			ptPosXY2.y = nLayoutLineCount - 1;
 			const CLayout* pcLayout = m_pEditDoc->m_cLayoutMgr.SearchLineByLayoutY( ptPosXY2.GetY2() );
 			if( pcLayout->GetLayoutEol().IsNone() ){
-				ptPosXY2.x = m_pEditView->LineIndexToColumn( pcLayout, (CLogicInt)pcLayout->GetLengthWithEOL() );
+				ptPosXY2.x = m_pEditView->LineIndexToColumn( pcLayout, pcLayout->GetLengthWithEOL() );
 				// [EOF]のみ折り返すのはやめる	// 2009.02.17 ryoji
 				// 復活するなら ptPosXY2.x に折り返し行インデントを適用するのがよい
 

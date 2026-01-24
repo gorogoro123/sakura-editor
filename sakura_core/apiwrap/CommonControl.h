@@ -36,7 +36,7 @@ namespace ApiWrap
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 	//                      HotKey コントロール                    //
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
-	inline LRESULT HotKey_GetHotKey(HWND hwndCtl)								{ return (LRESULT)::SendMessage(hwndCtl, HKM_GETHOTKEY, 0L, 0L); }
+	inline LRESULT HotKey_GetHotKey(HWND hwndCtl)								{ return ::SendMessage(hwndCtl, HKM_GETHOTKEY, 0L, 0L); }
 	inline void HotKey_SetHotKey(HWND hwndCtl, DWORD vk_code, DWORD modifier)	{ ::SendMessage(hwndCtl, HKM_SETHOTKEY, MAKEWORD(vk_code, modifier), 0L); }
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //

@@ -400,7 +400,7 @@ void __stdcall CPPA::stdProc(
 	//tmpArgumentsを解放
 	for(int i=0;i<ArgSize;i++){
 		if(tmpArguments2[i]){
-			WCHAR* p=const_cast<WCHAR*>(tmpArguments2[i]);
+			WCHAR* p=tmpArguments2[i];
 			delete[] p;
 		}
 	}

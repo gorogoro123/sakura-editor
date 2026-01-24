@@ -57,7 +57,7 @@ public:
 	//行データへのアクセス
 	const CDocLine* GetLine( CLogicInt nLine ) const;						//!< 指定行を取得
 	CDocLine* GetLine( CLogicInt nLine ){
-		return const_cast<CDocLine*>(const_cast<CDocLine*>(static_cast<const CDocLineMgr*>(this)->GetLine( nLine )));
+		return const_cast<CDocLine*>(static_cast<const CDocLineMgr*>(this)->GetLine( nLine ));
 	}
 	const CDocLine* GetDocLineTop() const { return m_pDocLineTop; }		//!< 先頭行を取得
 	CDocLine* GetDocLineTop() { return m_pDocLineTop; }		//!< 先頭行を取得

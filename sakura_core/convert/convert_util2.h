@@ -320,7 +320,7 @@ inline BYTE _UUDECODE_CHAR( WCHAR c )
 	if( c_ == L'`' || c_ == L'~' ){
 		c_ = L' ';
 	}
-	return static_cast<BYTE>((static_cast<BYTE>(c_) - 0x20) & 0x3f);
+	return static_cast<BYTE>((c_ - 0x20) & 0x3f);
 }
 inline BYTE _UUDECODE_CHAR( ACHAR c )
 {
