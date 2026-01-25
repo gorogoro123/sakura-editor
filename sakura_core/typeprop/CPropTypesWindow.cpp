@@ -197,8 +197,7 @@ INT_PTR CPropTypesWindow::DispatchEvent(
 				ImeSetOpen(hwndCtl, s_isImmOpenBkup, nullptr);
 			if(wID == IDC_EDIT_BACKIMG_TRANSPARENCY){
 				int nVal = ::GetDlgItemInt( hwndDlg, IDC_EDIT_BACKIMG_TRANSPARENCY, nullptr, FALSE );
-				if(nVal < 0) nVal = 0;
-				if(nVal > 255) nVal = 255;
+				nVal = std::clamp(nVal, 0, 255);
 				ApiWrap::TrackBarCtl_SetPos( ::GetDlgItem( hwndDlg, IDC_TRACKBAR_BACKIMG_TRANSPARENCY ), TRUE, nVal );
 			}
 			break;
@@ -241,12 +240,7 @@ INT_PTR CPropTypesWindow::DispatchEvent(
 			if( pMNUD->iDelta > 0 ){
 				--nVal;
 			}
-			if( nVal < LINENUMWIDTH_MIN ){
-				nVal = LINENUMWIDTH_MIN;
-			}
-			if( nVal > LINENUMWIDTH_MAX ){
-				nVal = LINENUMWIDTH_MAX;
-			}
+			nVal = std::clamp(nVal, LINENUMWIDTH_MIN, LINENUMWIDTH_MAX);
 			::SetDlgItemInt( hwndDlg, IDC_EDIT_LINENUMWIDTH, nVal, FALSE );
 			return TRUE;
 		}
@@ -582,12 +576,7 @@ int CPropTypesWindow::GetData( HWND hwndDlg )
 
 	/* 行番号の最小桁数 */	// 追加 2014.08.02 katze
 	m_Types.m_nLineNumWidth = ::GetDlgItemInt( hwndDlg, IDC_EDIT_LINENUMWIDTH, nullptr, FALSE );
-	if( m_Types.m_nLineNumWidth < LINENUMWIDTH_MIN ){
-		m_Types.m_nLineNumWidth = LINENUMWIDTH_MIN;
-	}
-	if( m_Types.m_nLineNumWidth > LINENUMWIDTH_MAX ){
-		m_Types.m_nLineNumWidth = LINENUMWIDTH_MAX;
-	}
+	m_Types.m_nLineNumWidth = std::clamp(m_Types.m_nLineNumWidth, LINENUMWIDTH_MIN, LINENUMWIDTH_MAX);
 
 	return TRUE;
 }
