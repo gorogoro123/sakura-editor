@@ -460,21 +460,21 @@ bool CDlgOpenFile_CommonItemDialog::DoModal_GetOpenFileName( WCHAR* pszPath, EFi
 	std::vector<std::wstring> strs;
 	strs.reserve(8);
 
-	strs.push_back(LS(STR_DLGOPNFL_EXTNAME1));
-	specs.push_back(COMDLG_FILTERSPEC{strs.back().c_str(), m_strDefaultWildCard.c_str()});
+	strs.emplace_back(LS(STR_DLGOPNFL_EXTNAME1));
+	specs.emplace_back(COMDLG_FILTERSPEC{strs.back().c_str(), m_strDefaultWildCard.c_str()});
 
 	switch( eAddFilter ){
 	case EFITER_TEXT:
-		strs.push_back(LS(STR_DLGOPNFL_EXTNAME2));
-		specs.push_back(COMDLG_FILTERSPEC{strs.back().c_str(), L"*.txt"});
+		strs.emplace_back(LS(STR_DLGOPNFL_EXTNAME2));
+		specs.emplace_back(COMDLG_FILTERSPEC{strs.back().c_str(), L"*.txt"});
 		break;
 	case EFITER_MACRO:
-		specs.push_back(COMDLG_FILTERSPEC{L"Macros", L"*.js;*.vbs;*.ppa;*.py;*.mac"});
-		specs.push_back(COMDLG_FILTERSPEC{L"JScript", L"*.js"});
-		specs.push_back(COMDLG_FILTERSPEC{L"VBScript", L"*.vbs"});
-		specs.push_back(COMDLG_FILTERSPEC{L"Pascal", L"*.ppa"});
-		specs.push_back(COMDLG_FILTERSPEC{L"Python", L"*.py"});
-		specs.push_back(COMDLG_FILTERSPEC{L"Key Macro", L"*.mac"});
+		specs.emplace_back(COMDLG_FILTERSPEC{L"Macros", L"*.js;*.vbs;*.ppa;*.py;*.mac"});
+		specs.emplace_back(COMDLG_FILTERSPEC{L"JScript", L"*.js"});
+		specs.emplace_back(COMDLG_FILTERSPEC{L"VBScript", L"*.vbs"});
+		specs.emplace_back(COMDLG_FILTERSPEC{L"Pascal", L"*.ppa"});
+		specs.emplace_back(COMDLG_FILTERSPEC{L"Python", L"*.py"});
+		specs.emplace_back(COMDLG_FILTERSPEC{L"Key Macro", L"*.mac"});
 		break;
 	case EFITER_NONE:
 	default:
@@ -482,8 +482,8 @@ bool CDlgOpenFile_CommonItemDialog::DoModal_GetOpenFileName( WCHAR* pszPath, EFi
 	}
 
 	if (m_strDefaultWildCard != L"*.*") {
-		strs.push_back(LS(STR_DLGOPNFL_EXTNAME3));
-		specs.push_back(COMDLG_FILTERSPEC{strs.back().c_str(), L"*.*"});
+		strs.emplace_back(LS(STR_DLGOPNFL_EXTNAME3));
+		specs.emplace_back(COMDLG_FILTERSPEC{strs.back().c_str(), L"*.*"});
 	}
 
 	m_customizeSetting.bCustomize = false;
