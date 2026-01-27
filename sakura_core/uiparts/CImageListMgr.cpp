@@ -17,12 +17,6 @@
 	Please contact the copyright holders to use this code for other purpose.
 */
 #include "CImageListMgr.h"
-
-#include <cmath>
-#include <array>
-#include <list>
-#include <functional>
-
 #include "env/CommonSetting.h"
 #include "util/module.h"
 #include "debug/CRunningTimer.h"
@@ -37,10 +31,7 @@ const int MAX_Y = MAX_TOOLBAR_ICON_Y;	//2002.01.17
 
 /*! コンストラクタ */
 CImageListMgr::CImageListMgr()
-	: m_cx( 16 ), m_cy( 16 )
-	, m_cTrans( RGB( 0, 0, 0 ))
-	, m_hIconBitmap( nullptr )
-	, m_nIconCount( MAX_TOOLBAR_ICON_COUNT )
+	: m_nIconCount( MAX_TOOLBAR_ICON_COUNT )
 {
 }
 

@@ -81,19 +81,19 @@ public:
 	void  SetToolBarImages([[maybe_unused]] HWND hToolBar, [[maybe_unused]] int id = 0) const { }
 
 protected:
-	int m_cx;			//!<	width of icon
-	int m_cy;			//!<	height of icon
+	int m_cx = 16;			//!<	width of icon
+	int m_cy = 16;			//!<	height of icon
 	/*!	@brief 透過色
 	
 		描画を自前で行うため，透過色を覚えておく必要がある．
 		@date 2003.07.21 genta
 	*/
-	COLORREF m_cTrans;
+	COLORREF m_cTrans = RGB( 0, 0, 0 );
 	
 	/*! アイコン用ビットマップを保持する
 		@date 2003.07.21 genta
 	*/
-	HBITMAP m_hIconBitmap;
+	HBITMAP m_hIconBitmap = nullptr;
 
 	int m_nIconCount;	//!<	アイコンの個数
 
