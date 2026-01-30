@@ -2348,9 +2348,9 @@ BOOL CDlgFuncList::OnCbnSelEndOk( HWND hwndCtl, int wID )
 			SetTypeConfig( CTypeConfig(m_nDocType), *type );
 			delete type;
 			HWND hWndTree = GetItemHwnd(IDC_TREE_FL);
-			::SendMessageAny(hWndTree, WM_SETREDRAW, (WPARAM)FALSE, 0);
+			::SendMessage(hWndTree, WM_SETREDRAW, (WPARAM)FALSE, 0);
 			SortTree(hWndTree,TVI_ROOT);
-			::SendMessageAny(hWndTree, WM_SETREDRAW, (WPARAM)TRUE, 0);
+			::SendMessage(hWndTree, WM_SETREDRAW, (WPARAM)TRUE, 0);
 		}
 		return TRUE;
 	default:
@@ -2490,13 +2490,13 @@ BOOL CDlgFuncList::OnJump( bool bCheckAutoClose, bool bFileJump )	//2002.02.08 h
 				m_pShareData->m_sWorkBuffer.m_LogicPoint = poCaret;
 
 				//	2006.07.09 genta 移動時に選択状態を保持するように
-				::SendMessageAny( GetEditWnd().GetHwnd(),
+				::SendMessage( GetEditWnd().GetHwnd(),
 					MYWM_SETCARETPOS, 0, PM_SETCARETPOS_KEEPSELECT );
 			}
 			if( bCheckAutoClose && bFileJumpSelf ){
 				/* アウトライン ダイアログを自動的に閉じる */
 				if( IsDocking() ){
-					::PostMessageAny( ((CEditView*)m_lParam)->GetHwnd(), MYWM_SETACTIVEPANE, 0, 0 );
+					::PostMessage( ((CEditView*)m_lParam)->GetHwnd(), MYWM_SETACTIVEPANE, 0, 0 );
 				}
 				else if( m_pShareData->m_Common.m_sOutline.m_bAutoCloseDlgFuncList ){
 					::DestroyWindow( GetHwnd() );
@@ -2816,7 +2816,7 @@ BOOL CDlgFuncList::OnTimer( HWND hwnd, [[maybe_unused]] UINT uMsg, WPARAM wParam
 			if( m_bTimerJumpAutoClose ){
 				if( IsDocking() ){
 					if( bSelf ){
-						::PostMessageAny( pcView->GetHwnd(), MYWM_SETACTIVEPANE, 0, 0 );
+						::PostMessage( pcView->GetHwnd(), MYWM_SETACTIVEPANE, 0, 0 );
 					}
 				}
 				else if( m_pShareData->m_Common.m_sOutline.m_bAutoCloseDlgFuncList ){
@@ -2851,7 +2851,7 @@ BOOL CDlgFuncList::OnTimer( HWND hwnd, [[maybe_unused]] UINT uMsg, WPARAM wParam
 		::GetCursorPos( &pt );
 		::GetWindowRect( hwnd, &rc );
 		if( !::PtInRect( &rc, pt ) ){
-			::SendMessageAny( hwnd, WM_NCMOUSEMOVE, 0, MAKELONG( pt.x, pt.y ) );
+			::SendMessage( hwnd, WM_NCMOUSEMOVE, 0, MAKELONG( pt.x, pt.y ) );
 		}
 	}
 

@@ -393,7 +393,7 @@ LRESULT CALLBACK CDlgSameColor::ColorStatic_SubclassProc( HWND hwnd, UINT uMsg, 
 
 		// 親にWM_CTLCOLORSTATICを送って背景ブラシを取得し、背景描画する
 		{
-			HBRUSH	hBrush = (HBRUSH)::SendMessageAny( GetParent( hwnd ), WM_CTLCOLORSTATIC, wParam, (LPARAM)hwnd );
+			HBRUSH	hBrush = (HBRUSH)::SendMessage( GetParent( hwnd ), WM_CTLCOLORSTATIC, wParam, (LPARAM)hwnd );
 			::MyFillRect( hDC, rc, hBrush );
 		}
 		return (LRESULT)1;

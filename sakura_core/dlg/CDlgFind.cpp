@@ -98,7 +98,7 @@ BOOL CDlgFind::OnInitDialog( HWND hwnd, WPARAM wParam, LPARAM lParam )
 	SetComboBoxDeleter(GetItemHwnd(IDC_COMBO_TEXT), &m_cRecentSearch);
 
 	// フォント設定	2012/11/27 Uchi
-	HFONT hFontOld = (HFONT)::SendMessageAny( GetItemHwnd( IDC_COMBO_TEXT ), WM_GETFONT, 0, 0 );
+	HFONT hFontOld = (HFONT)::SendMessage( GetItemHwnd( IDC_COMBO_TEXT ), WM_GETFONT, 0, 0 );
 	HFONT hFont = SetMainFont( GetItemHwnd( IDC_COMBO_TEXT ) );
 	m_cFontText.SetFont( hFontOld, hFont, GetItemHwnd( IDC_COMBO_TEXT ) );
 	return bRet;

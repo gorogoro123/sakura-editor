@@ -325,8 +325,8 @@ BOOL CDlgGrep::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 	//	Dec, 2, 2002 genta アイコン読み込み方法変更
 	hIconBig   = GetAppIcon( m_hInstance, ICON_DEFAULT_GREP, FN_GREP_ICON, false );
 	hIconSmall = GetAppIcon( m_hInstance, ICON_DEFAULT_GREP, FN_GREP_ICON, true );
-	::SendMessageAny( GetHwnd(), WM_SETICON, ICON_SMALL, (LPARAM)hIconSmall );
-	::SendMessageAny( GetHwnd(), WM_SETICON, ICON_BIG, (LPARAM)hIconBig );
+	::SendMessage( GetHwnd(), WM_SETICON, ICON_SMALL, (LPARAM)hIconSmall );
+	::SendMessage( GetHwnd(), WM_SETICON, ICON_BIG, (LPARAM)hIconBig );
 
 	// 2002/09/22 Moca Add
 	int i;
@@ -356,7 +356,7 @@ BOOL CDlgGrep::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 	m_cFontDeleters.resize( int(std::size(nItemIds)) );
 	for( size_t i2 = 0; i2 < int(std::size(nItemIds)); ++i2 ){
 		HWND hwndItem = GetItemHwnd( nItemIds[i2] );
-		HFONT hFontOld = (HFONT)::SendMessageAny( hwndItem, WM_GETFONT, 0, 0 );
+		HFONT hFontOld = (HFONT)::SendMessage( hwndItem, WM_GETFONT, 0, 0 );
 		HFONT hFont = SetMainFont( hwndItem );
 		m_cFontDeleters[i2].SetFont( hFontOld, hFont, hwndItem );
 	}

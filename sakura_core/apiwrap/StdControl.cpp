@@ -176,7 +176,7 @@ namespace ApiWrap{
 		HTREEITEM	htiItem;
 		HTREEITEM	htiNext;
 
-		::SendMessageAny(hwndTree, WM_SETREDRAW, (WPARAM)FALSE, 0);
+		::SendMessage(hwndTree, WM_SETREDRAW, (WPARAM)FALSE, 0);
 
 		htiCur = htiItem = TreeView_GetSelection( hwndTree );
 		if (!bExpand && htiCur != nullptr) {
@@ -217,6 +217,6 @@ namespace ApiWrap{
 			TreeView_SelectSetFirstVisible( hwndTree, htiCur );
 		}
 
-		::SendMessageAny(hwndTree, WM_SETREDRAW, (WPARAM)TRUE, 0);
+		::SendMessage(hwndTree, WM_SETREDRAW, (WPARAM)TRUE, 0);
 	}
 }

@@ -137,7 +137,7 @@ BOOL CDlgGrepReplace::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 	BOOL bRet = CDlgGrep::OnInitDialog( hwndDlg, wParam, lParam );
 	if( !bRet ) return bRet;
 
-	HFONT hFontOld = (HFONT)::SendMessageAny( GetItemHwnd( IDC_COMBO_TEXT2 ), WM_GETFONT, 0, 0 );
+	HFONT hFontOld = (HFONT)::SendMessage( GetItemHwnd( IDC_COMBO_TEXT2 ), WM_GETFONT, 0, 0 );
 	HFONT hFont = SetMainFont( GetItemHwnd( IDC_COMBO_TEXT2 ) );
 	m_cFontText2.SetFont( hFontOld, hFont, GetItemHwnd( IDC_COMBO_TEXT2 ) );
 

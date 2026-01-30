@@ -355,11 +355,11 @@ BOOL CDlgReplace::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 	if( !bRet ) return bRet;
 
 	// フォント設定	2012/11/27 Uchi
-	HFONT hFontOld = (HFONT)::SendMessageAny( GetItemHwnd( IDC_COMBO_TEXT ), WM_GETFONT, 0, 0 );
+	HFONT hFontOld = (HFONT)::SendMessage( GetItemHwnd( IDC_COMBO_TEXT ), WM_GETFONT, 0, 0 );
 	HFONT hFont = SetMainFont( GetItemHwnd( IDC_COMBO_TEXT ) );
 	m_cFontText.SetFont( hFontOld, hFont, GetItemHwnd( IDC_COMBO_TEXT ) );
 
-	hFontOld = (HFONT)::SendMessageAny( GetItemHwnd( IDC_COMBO_TEXT2 ), WM_GETFONT, 0, 0 );
+	hFontOld = (HFONT)::SendMessage( GetItemHwnd( IDC_COMBO_TEXT2 ), WM_GETFONT, 0, 0 );
 	hFont = SetMainFont( GetItemHwnd( IDC_COMBO_TEXT2 ) );
 	m_cFontText2.SetFont( hFontOld, hFont, GetItemHwnd( IDC_COMBO_TEXT2 ) );
 

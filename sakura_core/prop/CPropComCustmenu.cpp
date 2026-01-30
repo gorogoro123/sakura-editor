@@ -170,7 +170,7 @@ INT_PTR CPropCustmenu::DispatchEvent(
 		hwndLIST_RES = ::GetDlgItem( hwndDlg, IDC_LIST_RES );
 
 		/* キー選択時の処理 */
-		::SendMessageCmd( hwndDlg, WM_COMMAND, MAKELONG( IDC_COMBO_FUNCKIND, CBN_SELCHANGE ), (LPARAM)hwndCOMBO_FUNCKIND );
+		::SendMessage( hwndDlg, WM_COMMAND, MAKELONG( IDC_COMBO_FUNCKIND, CBN_SELCHANGE ), (LPARAM)hwndCOMBO_FUNCKIND );
 
 		::SetTimer( hwndDlg, 1, 300, nullptr );
 		SetDlgItemsEnableState( hwndDlg, hwndCOMBO_MENU, hwndLIST_RES, hwndCOMBO_FUNCKIND, hwndLIST_FUNC, m_cLookup, m_Common );
@@ -741,7 +741,7 @@ void CPropCustmenu::Import( HWND hwndDlg )
 	
 	// 画面更新
 	HWND	hwndCtrl = ::GetDlgItem( hwndDlg, IDC_COMBO_MENU );
-	::SendMessageCmd( hwndDlg, WM_COMMAND, MAKELONG( IDC_COMBO_MENU, CBN_SELCHANGE ), (LPARAM)hwndCtrl );
+	::SendMessage( hwndDlg, WM_COMMAND, MAKELONG( IDC_COMBO_MENU, CBN_SELCHANGE ), (LPARAM)hwndCtrl );
 }
 
 /* カスタムメニュー設定をエクスポートする */

@@ -90,7 +90,7 @@ bool CDocTypeManager::GetTypeConfig(CTypeConfig cDocumentType, STypeConfig& type
 			return true;
 		}else{
 			LockGuard<CMutex> guard( g_cDocTypeMutex );
-			 if( SendMessageAny( m_pShareData->m_sHandles.m_hwndTray, MYWM_GET_TYPESETTING, (WPARAM)n, 0 ) ){
+			 if( SendMessage( m_pShareData->m_sHandles.m_hwndTray, MYWM_GET_TYPESETTING, (WPARAM)n, 0 ) ){
 				type = m_pShareData->m_sWorkBuffer.m_TypeConfig;
 				return true;
 			}
@@ -105,7 +105,7 @@ bool CDocTypeManager::SetTypeConfig(CTypeConfig cDocumentType, const STypeConfig
 	if( 0 <= n && n < m_pShareData->m_nTypesCount ){
 		LockGuard<CMutex> guard( g_cDocTypeMutex );
 		m_pShareData->m_sWorkBuffer.m_TypeConfig = type;
-		if( SendMessageAny( m_pShareData->m_sHandles.m_hwndTray, MYWM_SET_TYPESETTING, (WPARAM)n, 0 ) ){
+		if( SendMessage( m_pShareData->m_sHandles.m_hwndTray, MYWM_SET_TYPESETTING, (WPARAM)n, 0 ) ){
 			return true;
 		}
 	}
@@ -132,13 +132,13 @@ bool CDocTypeManager::SetTypeConfig(CTypeConfig cDocumentType, const STypeConfig
 bool CDocTypeManager::AddTypeConfig(CTypeConfig cDocumentType)
 {
 	LockGuard<CMutex> guard( g_cDocTypeMutex );
-	return FALSE != SendMessageAny( m_pShareData->m_sHandles.m_hwndTray, MYWM_ADD_TYPESETTING, (WPARAM)cDocumentType.GetIndex(), 0 );
+	return FALSE != SendMessage( m_pShareData->m_sHandles.m_hwndTray, MYWM_ADD_TYPESETTING, (WPARAM)cDocumentType.GetIndex(), 0 );
 }
 
 bool CDocTypeManager::DelTypeConfig(CTypeConfig cDocumentType)
 {
 	LockGuard<CMutex> guard( g_cDocTypeMutex );
-	return FALSE != SendMessageAny( m_pShareData->m_sHandles.m_hwndTray, MYWM_DEL_TYPESETTING, (WPARAM)cDocumentType.GetIndex(), 0 );
+	return FALSE != SendMessage( m_pShareData->m_sHandles.m_hwndTray, MYWM_DEL_TYPESETTING, (WPARAM)cDocumentType.GetIndex(), 0 );
 }
 
 /*!

@@ -479,7 +479,7 @@ LRESULT CTabWnd::OnTabTimer( WPARAM wParam, [[maybe_unused]] LPARAM lParam )
 		::ScreenToClient( m_hwndTab, &hitinfo.pt );
 		int nDstTab = TabCtrl_HitTest( m_hwndTab, (LPARAM)&hitinfo );
 		if( nDstTab < 0 )
-			::SendMessageAny( m_hwndTab, WM_MOUSEMOVE, 0, MAKELONG( hitinfo.pt.x, hitinfo.pt.y ) );
+			::SendMessage( m_hwndTab, WM_MOUSEMOVE, 0, MAKELONG( hitinfo.pt.x, hitinfo.pt.y ) );
 	}
 
 	return 0L;
@@ -784,7 +784,7 @@ LRESULT CTabWnd::ExecTabCommand( int nId, POINTS pts )
 	ShowHideWindow( hWnd, TRUE );
 
 	// コマンドを対象ウインドウに送る。
-	::PostMessageCmd( hWnd, WM_COMMAND, MAKEWPARAM( nId, 0 ), (LPARAM)nullptr );
+	::PostMessage( hWnd, WM_COMMAND, MAKEWPARAM( nId, 0 ), (LPARAM)nullptr );
 
 	return 0L;
 }
@@ -907,7 +907,7 @@ HWND CTabWnd::Open( HINSTANCE hInstance, HWND hwndParent )
 		m_lf = m_pShareData->m_Common.m_sTabBar.m_lf;
 		m_hFont = ::CreateFontIndirect( &m_lf );
 		/* フォント変更 */
-		::SendMessageAny( m_hwndTab, WM_SETFONT, (WPARAM)m_hFont, MAKELPARAM(TRUE, 0) );
+		::SendMessage( m_hwndTab, WM_SETFONT, (WPARAM)m_hFont, MAKELPARAM(TRUE, 0) );
 
 		//ツールチップを作成する。（タブではなく「閉じる」などのボタン用）
 		//	2005.08.11 ryoji 「重ねて表示」のZ-orderがおかしくなるのでTOPMOST指定を解除
@@ -1053,7 +1053,7 @@ LRESULT CTabWnd::OnDestroy( HWND hwnd, [[maybe_unused]] UINT uMsg, [[maybe_unuse
 LRESULT CTabWnd::OnLButtonDblClk( [[maybe_unused]] HWND hwnd, [[maybe_unused]] UINT uMsg, [[maybe_unused]] WPARAM wParam, [[maybe_unused]] LPARAM lParam )
 {
 	// 新規作成コマンドを実行する
-	::SendMessageCmd( GetParentHwnd(), WM_COMMAND, MAKEWPARAM( F_FILENEW, 0 ), (LPARAM)nullptr );
+	::SendMessage( GetParentHwnd(), WM_COMMAND, MAKEWPARAM( F_FILENEW, 0 ), (LPARAM)nullptr );
 	return 0L;
 }
 
@@ -1143,7 +1143,7 @@ LRESULT CTabWnd::OnLButtonUp( [[maybe_unused]] HWND hwnd, [[maybe_unused]] UINT 
 				{
 					nId = F_EXITALLEDITORS;	// 編集の全終了（タイトルバーの閉じるボタンは１個だけ閉じる）
 				}
-				::PostMessageAny( GetParentHwnd(), WM_COMMAND, MAKEWPARAM( nId, 0 ), (LPARAM)nullptr );
+				::PostMessage( GetParentHwnd(), WM_COMMAND, MAKEWPARAM( nId, 0 ), (LPARAM)nullptr );
 			}
 		}
 
@@ -1528,7 +1528,7 @@ LRESULT CTabWnd::OnTimer( HWND hwnd, [[maybe_unused]] UINT uMsg, WPARAM wParam, 
 		::ScreenToClient( hwnd, &pt );
 		::GetClientRect( hwnd, &rc );
 		if( !::PtInRect( &rc, pt ) )
-			::SendMessageAny( hwnd, WM_MOUSEMOVE, 0, MAKELONG( pt.x, pt.y ) );
+			::SendMessage( hwnd, WM_MOUSEMOVE, 0, MAKELONG( pt.x, pt.y ) );
 	}
 
 	return 0L;
@@ -1699,7 +1699,7 @@ void CTabWnd::TabWindowNotify( WPARAM wParam, LPARAM lParam )
 				nScrollPos = LOWORD( ApiWrap::UpDown_GetPos( hwndUpDown ) );
 
 				// 現在位置 nScrollPos と画面表示とを一致させる
-				::SendMessageAny( m_hwndTab, WM_HSCROLL, MAKEWPARAM(SB_THUMBPOSITION, LOWORD( nScrollPos ) ), (LPARAM)nullptr );	// 設定位置にタブをスクロール
+				::SendMessage( m_hwndTab, WM_HSCROLL, MAKEWPARAM(SB_THUMBPOSITION, LOWORD( nScrollPos ) ), (LPARAM)nullptr );	// 設定位置にタブをスクロール
 			}
 		}
 		break;
@@ -1898,7 +1898,7 @@ void CTabWnd::Refresh( BOOL bEnsureVisible/* = TRUE*/, BOOL bRebuild/* = FALSE*/
 	}
 	else
 	{
-		::SendMessageAny( m_hwndTab, WM_SETREDRAW, (WPARAM)FALSE, (LPARAM)0 );	// 2005.09.01 ryoji 再描画禁止
+		::SendMessage( m_hwndTab, WM_SETREDRAW, (WPARAM)FALSE, (LPARAM)0 );	// 2005.09.01 ryoji 再描画禁止
 
 		if( bRebuild )
 			TabCtrl_DeleteAllItems( m_hwndTab );	// 作成しなおす
@@ -1977,7 +1977,7 @@ void CTabWnd::Refresh( BOOL bEnsureVisible/* = TRUE*/, BOOL bRebuild/* = FALSE*/
 			j++;
 		}
 
-		::SendMessageAny( m_hwndTab, WM_SETREDRAW, (WPARAM)TRUE, (LPARAM)0 );	// 2005.09.01 ryoji 再描画許可
+		::SendMessage( m_hwndTab, WM_SETREDRAW, (WPARAM)TRUE, (LPARAM)0 );	// 2005.09.01 ryoji 再描画許可
 
 		// 選択タブを可視位置にする
 		if( bEnsureVisible )
@@ -1985,8 +1985,8 @@ void CTabWnd::Refresh( BOOL bEnsureVisible/* = TRUE*/, BOOL bRebuild/* = FALSE*/
 			// TabCtrl_SetCurSel() を使うと等幅タブのときに選択タブが左端のほうに寄ってしまう
 //			TabCtrl_SetCurSel( m_hwndTab, 0 );
 //			TabCtrl_SetCurSel( m_hwndTab, nSel );
-			::PostMessageAny( m_hwndTab, TCM_SETCURSEL, 0, 0 );
-			::PostMessageAny( m_hwndTab, TCM_SETCURSEL, nSel, 0 );
+			::PostMessage( m_hwndTab, TCM_SETCURSEL, 0, 0 );
+			::PostMessage( m_hwndTab, TCM_SETCURSEL, nSel, 0 );
 		}
 	}
 
@@ -2227,7 +2227,7 @@ void CTabWnd::LayoutTab( )
 		HFONT hFontOld = m_hFont;
 		m_lf = m_pShareData->m_Common.m_sTabBar.m_lf;
 		m_hFont = ::CreateFontIndirect( &m_lf );
-		::SendMessageAny( m_hwndTab, WM_SETFONT, (WPARAM)m_hFont, MAKELPARAM(TRUE, 0) );
+		::SendMessage( m_hwndTab, WM_SETFONT, (WPARAM)m_hFont, MAKELPARAM(TRUE, 0) );
 		::DeleteObject( hFontOld );
 		// ウィンドウの高さを修正
 	}

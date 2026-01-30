@@ -86,7 +86,7 @@ BOOL CViewCommander::Command_FUNCLIST(
 				if( GetEditWindow()->m_cDlgFuncList.IsDocking() )
 					::DestroyWindow( GetEditWindow()->m_cDlgFuncList.GetHwnd() );
 				else
-					::SendMessageAny( GetEditWindow()->m_cDlgFuncList.GetHwnd(), WM_CLOSE, 0, 0 );
+					::SendMessage( GetEditWindow()->m_cDlgFuncList.GetHwnd(), WM_CLOSE, 0, 0 );
 				bIsProcessing = false;
 				return TRUE;
 			}

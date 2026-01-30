@@ -123,7 +123,7 @@ INT_PTR CPropTypesKeyHelp::DispatchEvent(
 		}
 
 		/* 初期状態を設定 */
-		SendMessageCmd(hwndDlg, WM_COMMAND, (WPARAM)MAKELONG(IDC_CHECK_KEYHELP,BN_CLICKED), 0 );
+		SendMessage(hwndDlg, WM_COMMAND, (WPARAM)MAKELONG(IDC_CHECK_KEYHELP,BN_CLICKED), 0 );
 
 		return TRUE;
 
