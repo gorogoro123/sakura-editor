@@ -582,7 +582,7 @@ BOOL CDialog::OnCbnDropDown( HWND hwndCtl, bool scrollBar )
 	hDC = ::GetDC( hwndCtl );
 	if( nullptr == hDC )
 		return FALSE;
-	hFont = (HFONT)::SendMessageAny( hwndCtl, WM_GETFONT, 0, (LPARAM)nullptr );
+	hFont = (HFONT)::SendMessage( hwndCtl, WM_GETFONT, 0, (LPARAM)nullptr );
 	hFont = (HFONT)::SelectObject( hDC, hFont );
 	nItem = ApiWrap::Combo_GetCount( hwndCtl );
 	::GetWindowRect( hwndCtl, &rc );

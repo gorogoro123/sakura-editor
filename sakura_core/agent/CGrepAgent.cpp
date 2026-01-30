@@ -110,7 +110,7 @@ public:
 			}
 			m_nLineCurrent = 0;
 			m_nLineNum = (int)dwMsgResult;
-			::SendMessageAny(m_hWnd, MYWM_GETFILEINFO, 0, 0);
+			::SendMessage(m_hWnd, MYWM_GETFILEINFO, 0, 0);
 			const EditInfo* editInfo = &GetDllShareData().m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
 			return editInfo->m_nCharCode;
 		}
@@ -130,7 +130,7 @@ public:
 				// m_sWorkBuffer#m_Workの排他制御。外部コマンド出力/TraceOut/Diffが対象
 				LockGuard<CMutex> guard( CShareData::GetMutexShareWork() );
 				{
-					nLineLen = (int)::SendMessageAny(m_hWnd, MYWM_GETLINEDATA, m_nLineCurrent, nLineOffset);
+					nLineLen = (int)::SendMessage(m_hWnd, MYWM_GETLINEDATA, m_nLineCurrent, nLineOffset);
 					if( nLineLen == 0 ){ return RESULT_FAILURE; } // EOF => 正常終了
 					if( nLineLen < 0 ){ return RESULT_FAILURE; } // 何かエラー
 					buffer->AllocStringBuffer(max_size);
@@ -279,7 +279,7 @@ int GetHwndTitle(HWND& hWndTarget, CNativeW* pmemTitle, WCHAR* pszWindowName, WC
 		const wchar_t* p = L"Window:[";
 		pmemTitle->SetStringHoldBuffer(p, 8);
 	}
-	::SendMessageAny(hWndTarget, MYWM_GETFILEINFO, 0, 0);
+	::SendMessage(hWndTarget, MYWM_GETFILEINFO, 0, 0);
 	EditInfo* editInfo = &(GetDllShareData().m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO);
 	if( '\0' == editInfo->m_szPath[0] ){
 		// Grepかアウトプットか無題

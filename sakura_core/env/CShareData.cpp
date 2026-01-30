@@ -889,7 +889,7 @@ BOOL CShareData::IsPathOpened( const WCHAR* pszPath, HWND* phwndOwner )
 	for( int i = 0; i < m_pShareData->m_sNodes.m_nEditArrNum; ++i ){
 		if( IsSakuraMainWindow( m_pShareData->m_sNodes.m_pEditArr[i].m_hWnd ) ){
 			// トレイからエディタへの編集ファイル名要求通知
-			::SendMessageAny( m_pShareData->m_sNodes.m_pEditArr[i].m_hWnd, MYWM_GETFILEINFO, 1, 0 );
+			::SendMessage( m_pShareData->m_sNodes.m_pEditArr[i].m_hWnd, MYWM_GETFILEINFO, 1, 0 );
 			pfi = (EditInfo*)&m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
 
 			// 同一パスのファイルが既に開かれているか
@@ -926,7 +926,7 @@ BOOL CShareData::ActiveAlreadyOpenedWindow( const WCHAR* pszPath, HWND* phwndOwn
 		
 		//文字コードの一致確認
 		EditInfo*		pfi;
-		::SendMessageAny( *phwndOwner, MYWM_GETFILEINFO, 0, 0 );
+		::SendMessage( *phwndOwner, MYWM_GETFILEINFO, 0, 0 );
 		pfi = (EditInfo*)&m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
 		if(nCharCode != CODE_AUTODETECT){
 			WCHAR szCpNameCur[100];

@@ -150,7 +150,7 @@ void CDlgWindowList::SetData()
 	if (0 < nRowNum) {
 		CTextWidthCalc calc(hwndList);
 		for (int i = 0; i < nRowNum; i++) {
-			::SendMessageAny(pEditNode[i].GetHwnd(), MYWM_GETFILEINFO, 0, 0);
+			::SendMessage(pEditNode[i].GetHwnd(), MYWM_GETFILEINFO, 0, 0);
 			const EditInfo* pEditInfo = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
 
 			WCHAR szName[512];

@@ -153,7 +153,7 @@ void CViewCommander::Command_COMPARE( )
 	// カーソル位置取得 -> poDes
 	CLogicPoint	poDes;
 	{
-		::SendMessageAny( hwndCompareWnd, MYWM_GETCARETPOS, 0, 0 );
+		::SendMessage( hwndCompareWnd, MYWM_GETCARETPOS, 0, 0 );
 		CLogicPoint* ppoCaretDes = &(GetDllShareData().m_sWorkBuffer.m_LogicPoint);
 		poDes.x = ppoCaretDes->x;
 		poDes.y = ppoCaretDes->y;
@@ -205,11 +205,11 @@ void CViewCommander::Command_COMPARE( )
 			比較相手は、別プロセスなのでメッセージを飛ばす。
 		*/
 		GetDllShareData().m_sWorkBuffer.m_LogicPoint = poDes;
-		::SendMessageAny( hwndCompareWnd, MYWM_SETCARETPOS, 0, 0 );
+		::SendMessage( hwndCompareWnd, MYWM_SETCARETPOS, 0, 0 );
 
 		/* カーソルを移動させる */
 		GetDllShareData().m_sWorkBuffer.m_LogicPoint = poSrc;
-		::PostMessageAny( GetMainWindow(), MYWM_SETCARETPOS, 0, 0 );
+		::PostMessage( GetMainWindow(), MYWM_SETCARETPOS, 0, 0 );
 		TopWarningMessage( hwndMsgBox, LS(STR_ERR_CEDITVIEW_CMD23) );	// 位置を変更してからメッセージ	2008/4/27 Uchi
 	}
 

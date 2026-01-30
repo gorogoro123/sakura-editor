@@ -233,7 +233,7 @@ LRESULT CFuncKeyWnd::OnCommand( HWND hwnd, [[maybe_unused]] UINT msg, [[maybe_un
 		for( i = 0; i < int(std::size(m_hwndButtonArr)); ++i ){
 			if( hwndCtl == m_hwndButtonArr[i] ){
 				if( 0 != m_nFuncCodeArr[i] ){
-					::SendMessageCmd( GetParentHwnd(), WM_COMMAND, MAKELONG( m_nFuncCodeArr[i], 0 ),  (LPARAM)hwnd );
+					::SendMessage( GetParentHwnd(), WM_COMMAND, MAKELONG( m_nFuncCodeArr[i], 0 ),  (LPARAM)hwnd );
 				}
 				break;
 			}
@@ -400,7 +400,7 @@ void CFuncKeyWnd::CreateButtons( )
 			nullptr				// pointer not needed
 		);
 		/* フォント変更 */
-		::SendMessageAny( m_hwndButtonArr[i], WM_SETFONT, (WPARAM)m_hFont, MAKELPARAM(TRUE, 0) );
+		::SendMessage( m_hwndButtonArr[i], WM_SETFONT, (WPARAM)m_hFont, MAKELPARAM(TRUE, 0) );
 	}
 	m_nCurrentKeyState = -1;
 	return;

@@ -491,7 +491,7 @@ void CViewCommander::Command_TAGJUMPBACK( )
 
 	/* カーソルを移動させる */
 	GetDllShareData().m_sWorkBuffer.m_LogicPoint = tagJump.point;
-	::SendMessageAny( tagJump.hwndReferer, MYWM_SETCARETPOS, 0, 0 );
+	::SendMessage( tagJump.hwndReferer, MYWM_SETCARETPOS, 0, 0 );
 
 	return;
 }

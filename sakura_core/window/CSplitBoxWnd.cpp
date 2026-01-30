@@ -368,7 +368,7 @@ LRESULT CSplitBoxWnd::OnLButtonUp( HWND hwnd, [[maybe_unused]] UINT uMsg, [[mayb
 		::ReleaseDC( ::GetParent( GetParentHwnd() ), hdc );
 
 		/* 親ウィンドウに、メッセージをポストする */
-		::PostMessageAny( GetParentHwnd(), MYWM_DOSPLIT, (WPARAM)0, (LPARAM)m_nDragPosY );
+		::PostMessage( GetParentHwnd(), MYWM_DOSPLIT, (WPARAM)0, (LPARAM)m_nDragPosY );
 
 	}else{
 		::GetClientRect( ::GetParent( GetParentHwnd() ), &rc );
@@ -394,7 +394,7 @@ LRESULT CSplitBoxWnd::OnLButtonUp( HWND hwnd, [[maybe_unused]] UINT uMsg, [[mayb
 		::ReleaseDC( GetParentHwnd(), hdc );
 
 		/* 親ウィンドウに、メッセージをポストする */
-		::PostMessageAny( GetParentHwnd(), MYWM_DOSPLIT, (WPARAM)m_nDragPosX, (LPARAM)0 );
+		::PostMessage( GetParentHwnd(), MYWM_DOSPLIT, (WPARAM)m_nDragPosX, (LPARAM)0 );
 	}
 	::ReleaseCapture();
 	return 0L;
@@ -411,7 +411,7 @@ LRESULT CSplitBoxWnd::OnLButtonDblClk( [[maybe_unused]] HWND hwnd, [[maybe_unuse
 		rc.bottom -= nCyHScroll;
 
 		/* 親ウィンドウに、メッセージをポストする */
-		::PostMessageAny( GetParentHwnd(), MYWM_DOSPLIT, (WPARAM)0, (LPARAM)(rc.bottom / 2) );
+		::PostMessage( GetParentHwnd(), MYWM_DOSPLIT, (WPARAM)0, (LPARAM)(rc.bottom / 2) );
 	}
 	else{
 		::GetClientRect( GetParentHwnd(), &rc );
@@ -419,7 +419,7 @@ LRESULT CSplitBoxWnd::OnLButtonDblClk( [[maybe_unused]] HWND hwnd, [[maybe_unuse
 		rc.bottom -= nCyHScroll;
 
 		/* 親ウィンドウに、メッセージをポストする */
-		::PostMessageAny( GetParentHwnd(), MYWM_DOSPLIT, (WPARAM)(rc.right / 2), (LPARAM)0 );
+		::PostMessage( GetParentHwnd(), MYWM_DOSPLIT, (WPARAM)(rc.right / 2), (LPARAM)0 );
 	}
 	return 0L;
 }

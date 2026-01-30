@@ -40,7 +40,7 @@ LRESULT APIENTRY HokanList_SubclassProc( HWND hwnd, UINT uMsg, WPARAM wParam, LP
 	case WM_LBUTTONDBLCLK:
 		{
 			// アクティブ化を防止するために自前でリスト選択処理を実施する
-			LRESULT lResult = ::SendMessageAny( hwnd, LB_ITEMFROMPOINT, 0, lParam );
+			LRESULT lResult = ::SendMessage( hwnd, LB_ITEMFROMPOINT, 0, lParam );
 			if( HIWORD(lResult) == 0 ){	// クライアントエリア内
 				if( uMsg == WM_LBUTTONDOWN ){
 					ApiWrap::List_SetCurSel( hwnd, LOWORD(lResult) );

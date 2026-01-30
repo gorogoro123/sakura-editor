@@ -565,7 +565,7 @@ void CSplitterWnd::DoSplit( int nHorizontal, int nVertical )
 
 	/* アクティブになったことをペインに通知 */
 	if( m_ChildWndArr[nActivePane] != nullptr ){
-		::PostMessageAny( m_ChildWndArr[nActivePane], MYWM_SETACTIVEPANE, 0, 0 );
+		::PostMessage( m_ChildWndArr[nActivePane], MYWM_SETACTIVEPANE, 0, 0 );
 	}
 
 	return;

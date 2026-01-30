@@ -158,7 +158,7 @@ CTextWidthCalc::CTextWidthCalc(HWND hParent, int nID)
 	hwnd = ::GetDlgItem(hParent, nID);
 	hDC = ::GetDC( hwnd );
 	assert(hDC);
-	hFont = (HFONT)::SendMessageAny(hwnd, WM_GETFONT, 0, 0);
+	hFont = (HFONT)::SendMessage(hwnd, WM_GETFONT, 0, 0);
 	hFontOld = (HFONT)::SelectObject(hDC, hFont);
 	nCx = 0;
 	nExt = 0;
@@ -173,7 +173,7 @@ CTextWidthCalc::CTextWidthCalc(HWND hwndThis)
 	hwnd = hwndThis;
 	hDC = ::GetDC( hwnd );
 	assert(hDC);
-	hFont = (HFONT)::SendMessageAny(hwnd, WM_GETFONT, 0, 0);
+	hFont = (HFONT)::SendMessage(hwnd, WM_GETFONT, 0, 0);
 	hFontOld = (HFONT)::SelectObject(hDC, hFont);
 	nCx = 0;
 	nExt = 0;
@@ -379,7 +379,7 @@ HFONT GetSystemBasedFont( LONG nLogicalHeight )
 */
 BOOL CALLBACK SetFontRecursiveProc( HWND hwnd, LPARAM hFont )
 {
-	SendMessageAny( hwnd, WM_SETFONT, (WPARAM)hFont, (LPARAM)FALSE );
+	SendMessage( hwnd, WM_SETFONT, (WPARAM)hFont, (LPARAM)FALSE );
 	EnumChildWindows( hwnd, SetFontRecursiveProc, (LPARAM)hFont );
 	return TRUE;
 }
@@ -391,7 +391,7 @@ BOOL CALLBACK SetFontRecursiveProc( HWND hwnd, LPARAM hFont )
 */
 void SetFontRecursive( HWND hwnd, HFONT hFont )
 {
-	SendMessageAny( hwnd, WM_SETFONT, (WPARAM)hFont, (LPARAM)FALSE );
+	SendMessage( hwnd, WM_SETFONT, (WPARAM)hFont, (LPARAM)FALSE );
 	EnumChildWindows( hwnd, SetFontRecursiveProc, (LPARAM)hFont );
 }
 
@@ -403,7 +403,7 @@ void SetFontRecursive( HWND hwnd, HFONT hFont )
 */
 HFONT UpdateDialogFont( HWND hwnd, BOOL force )
 {
-	HFONT hFontDialog = (HFONT)::SendMessageAny( hwnd, WM_GETFONT, 0, (LPARAM)nullptr );
+	HFONT hFontDialog = (HFONT)::SendMessage( hwnd, WM_GETFONT, 0, (LPARAM)nullptr );
 
 	if( !force && wcsncmp_literal( CSelectLang::getDefaultLangString(), L"Japanese" ) != 0 ){
 		return hFontDialog;
