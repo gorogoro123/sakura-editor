@@ -91,12 +91,16 @@
     </ClCompile>
     <Link>
       <LargeAddressAware>true</LargeAddressAware>
+      <AdditionalManifestDependencies>"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'"</AdditionalManifestDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
     <ClCompile>
       <PreprocessorDefinitions>X64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <Link>
+      <AdditionalManifestDependencies>"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='amd64' publicKeyToken='6595b64144ccf1df' language='*'"</AdditionalManifestDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <Import Project="..\src\main\msbuild\cmake.props" />
   <Import Project="..\src\test\msbuild\googletest.props" />
