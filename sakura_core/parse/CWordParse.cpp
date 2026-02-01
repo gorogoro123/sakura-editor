@@ -390,23 +390,23 @@ struct _url_table_t {
 	bool				is_mail = false;
 };
 
-constexpr std::array url_table = {
+static constexpr auto url_table = std::to_array<_url_table_t>({
 	/* アルファベット順 */
-	_url_table_t{ L"file://",		false }, /* 1 */
-	_url_table_t{ L"ftp://",		false }, /* 2 */
-	_url_table_t{ L"gopher://",		false }, /* 3 */
-	_url_table_t{ L"http://",		false }, /* 4 */
-	_url_table_t{ L"https://",		false }, /* 5 */
-	_url_table_t{ L"mailto:",		true  }, /* 6 */
-	_url_table_t{ L"news:",			false }, /* 7 */
-	_url_table_t{ L"nntp://",		false }, /* 8 */
-	_url_table_t{ L"prospero://",	false }, /* 9 */
-	_url_table_t{ L"telnet://",		false }, /* 10 */
-	_url_table_t{ L"tp://",			false }, /* 11 */
-	_url_table_t{ L"ttp://",		false }, /* 12 */
-	_url_table_t{ L"wais://",		false }, /* 13 */
-	_url_table_t{ L"{",				false }  /* 14 */  /* '{' is 'z'+1 : terminate */
-};
+	{ L"file://",		false }, /* 1 */
+	{ L"ftp://",		false }, /* 2 */
+	{ L"gopher://",		false }, /* 3 */
+	{ L"http://",		false }, /* 4 */
+	{ L"https://",		false }, /* 5 */
+	{ L"mailto:",		true  }, /* 6 */
+	{ L"news:",			false }, /* 7 */
+	{ L"nntp://",		false }, /* 8 */
+	{ L"prospero://",	false }, /* 9 */
+	{ L"telnet://",		false }, /* 10 */
+	{ L"tp://",			false }, /* 11 */
+	{ L"ttp://",		false }, /* 12 */
+	{ L"wais://",		false }, /* 13 */
+	{ L"{",				false }  /* 14 */  /* '{' is 'z'+1 : terminate */
+});
 
 constexpr auto get_index_of(std::wstring_view urlHeader)
 {
