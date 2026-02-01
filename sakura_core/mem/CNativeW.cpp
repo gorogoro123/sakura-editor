@@ -228,7 +228,7 @@ int CNativeW::Compare(const CNativeW& rhs) const noexcept
 	// データ長が短い方を基準に比較を行う
 	const int lhsLength = static_cast<int>(GetStringLength());
 	const int rhsLength = static_cast<int>(rhs.GetStringLength());
-	const int minLength = std::min(lhsLength, rhsLength);
+	const int minLength = (std::min)(lhsLength, rhsLength);
 	// データ長の範囲で文字列を比較する
 	auto cmp = wmemcmp(GetStringPtr(), rhs.GetStringPtr(), minLength);
 	if (!cmp) cmp = lhsLength - rhsLength;

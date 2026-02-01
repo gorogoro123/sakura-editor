@@ -562,7 +562,7 @@ int CPropTypesWindow::GetData( HWND hwndDlg )
 	m_Types.m_backImgScrollY = IsDlgButtonCheckedBool(hwndDlg, IDC_CHECK_BACKIMG_SCR_Y);
 	m_Types.m_backImgPosOffset.x = GetDlgItemInt(hwndDlg, IDC_EDIT_BACKIMG_OFFSET_X, nullptr, TRUE);
 	m_Types.m_backImgPosOffset.y = GetDlgItemInt(hwndDlg, IDC_EDIT_BACKIMG_OFFSET_Y, nullptr, TRUE);
-	m_Types.m_backImgOpacity = 255 - (BYTE)std::min(255U, GetDlgItemInt(hwndDlg, IDC_EDIT_BACKIMG_TRANSPARENCY, nullptr, FALSE));
+	m_Types.m_backImgOpacity = 255 - (BYTE)(std::min)(255U, GetDlgItemInt(hwndDlg, IDC_EDIT_BACKIMG_TRANSPARENCY, nullptr, FALSE));
 
 	/* 行番号区切り  0=なし 1=縦線 2=任意 */
 	if( ::IsDlgButtonChecked( hwndDlg, IDC_RADIO_LINETERMTYPE0 ) ){

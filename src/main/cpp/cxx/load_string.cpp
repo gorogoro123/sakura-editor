@@ -21,7 +21,7 @@ namespace cxx {
  */
 std::wstring_view load_string(UINT id, const std::optional<HMODULE>& optModule)
 {
-	if (std::numeric_limits<WORD>::max() < id) {
+	if ((std::numeric_limits<WORD>::max)() < id) {
 		throw std::invalid_argument("string resource id should be in WORD range!");
 	}
 

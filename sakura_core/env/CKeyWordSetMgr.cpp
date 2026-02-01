@@ -369,7 +369,7 @@ int CKeyWordSetMgr::SearchKeyWord2( int nIdx, const wchar_t* pszKeyWord, int nKe
 			if( wcslen( m_szKeyWordArr[pc] ) > static_cast<size_t>(nKeyWordLen) ) {
 				// 始まりは一致したが長さが足りない。
 				if( 0 <= result ) {
-					result = std::numeric_limits<int>::max();
+					result = (std::numeric_limits<int>::max)();
 					break;
 				}
 				result = -2;
@@ -378,7 +378,7 @@ int CKeyWordSetMgr::SearchKeyWord2( int nIdx, const wchar_t* pszKeyWord, int nKe
 			} else {
 				// 一致するキーワードが見つかった。
 				if( result == -2 ) {
-					result = std::numeric_limits<int>::max();
+					result = (std::numeric_limits<int>::max)();
 					break;
 				}
 				result = pc - m_nStartIdx[nIdx];

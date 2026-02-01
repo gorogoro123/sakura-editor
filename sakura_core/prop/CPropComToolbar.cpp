@@ -210,7 +210,7 @@ INT_PTR CPropToolbar::DispatchEvent(
 			// 2014.11.25 フォントの高さが正しくなかったバグを修正
 			CTextWidthCalc calc(hwndResList);
 			int nFontHeight = calc.GetTextHeight();
-			nListItemHeight = std::max(nFontHeight, GetSystemMetrics(SM_CYSMICON)) + cyEdge;
+			nListItemHeight = (std::max)(nFontHeight, GetSystemMetrics(SM_CYSMICON)) + cyEdge;
 		}
 		/* ダイアログデータの設定 Toolbar */
 		SetData( hwndDlg );
@@ -514,7 +514,7 @@ void CPropToolbar::SetData( HWND hwndDlg )
 	// 2014.11.25 フォントの高さが正しくなかったバグを修正
 	int nFontHeight = CTextWidthCalc(hwndResList).GetTextHeight();
 
-	nListItemHeight = std::max(nFontHeight, GetSystemMetrics(SM_CYSMICON)) + cyEdge;
+	nListItemHeight = (std::max)(nFontHeight, GetSystemMetrics(SM_CYSMICON)) + cyEdge;
 
 	/* ツールバーボタンの情報をセット(リストボックス)*/
 	for( i = 0; i < m_Common.m_sToolBar.m_nToolBarButtonNum; ++i ){

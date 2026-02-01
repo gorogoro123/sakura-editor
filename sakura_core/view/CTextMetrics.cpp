@@ -38,13 +38,13 @@ void CTextMetrics::Update(HDC hdc, HFONT hFont, int nLineSpace, int nColmSpace)
 	m_nCharWidth = (sz.cx / 26 + 1) / 2;
 	if( nLineSpace < 0 ){
 		// マイナスの場合は文字の高さも引く
-		m_nCharHeight = std::max(1, static_cast<int>(sz.cy) + nLineSpace);
+		m_nCharHeight = (std::max)(1, static_cast<int>(sz.cy) + nLineSpace);
 	} else {
 		m_nCharHeight = sz.cy;
 	}
 	m_nDxBasis = m_nCharWidth + nColmSpace;
 	std::fill(m_anHankakuDx.begin(), m_anHankakuDx.end(), m_nDxBasis);
-	m_nDyBasis = std::max(1, static_cast<int>(sz.cy) + nLineSpace);
+	m_nDyBasis = (std::max)(1, static_cast<int>(sz.cy) + nLineSpace);
 }
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
