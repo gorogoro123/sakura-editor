@@ -15,6 +15,7 @@
 #include "CSelectLang.h"
 
 #include "_main/CProcess.h"
+#include "util/file.h"
 
 //! メッセージリソース用コンストラクタ
 CSelectLang::SSelLangInfo::SSelLangInfo(const std::filesystem::path& path)
