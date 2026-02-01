@@ -266,8 +266,8 @@ _HlsTuple ToHLS( const COLORREF color )
 	auto R = (double) GetRValue( color ) / 255.;
 	auto G = (double) GetGValue( color ) / 255.;
 	auto B = (double) GetBValue( color ) / 255.;
-	auto MIN = std::min( { R, G, B } );
-	auto MAX = std::max( { R, G, B } );
+	auto MIN = (std::min)( { R, G, B } );
+	auto MAX = (std::max)( { R, G, B } );
 	auto M = MAX + MIN;
 	auto m = MAX - MIN;
 	double H;

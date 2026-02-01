@@ -937,7 +937,7 @@ int CMenuDrawer::MeasureItem( int nFuncID, int* pnItemHeight )
 	}
 	// アイコンと枠 or フォント高さと太枠
 	// 2+[2+16+2]+2 or 2+9+2
-	*pnItemHeight = std::max(cySmIcon + cyEdge * 4, m_nMenuHeight + cyEdge * 2);
+	*pnItemHeight = (std::max)(cySmIcon + cyEdge * 4, m_nMenuHeight + cyEdge * 2);
 	return nMenuWidth;
 }
 

@@ -68,7 +68,7 @@ static bool Commander_COMPARE_core(CViewCommander& commander, bool& bDifferent, 
 				if( pLineSrc == nullptr || 0 == nLineLenDes ){
 					return true;
 				}
-				int nDstEndPos = std::min( nLineLenDes, max_size ) + nLineOffset;
+				int nDstEndPos = (std::min)( nLineLenDes, max_size ) + nLineOffset;
 				if( poDes.x < nLineOffset ){
 					// 1行目行頭データ読み飛ばし
 					if( nLineLenDes < poDes.x ){

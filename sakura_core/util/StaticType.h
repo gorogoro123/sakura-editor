@@ -147,7 +147,7 @@ public:
 	 */
 	constexpr errno_t assign(std::wstring_view src) noexcept
 	{
-		const auto count = std::min<size_t>(std::size(src), size() - 1);
+		const auto count = (std::min<size_t>)(std::size(src), size() - 1);
 		Traits::move(data(), std::data(src), count);
 		Traits::assign(data()[count], L'\0');
 		return count < std::size(src) ? STRUNCATE : 0;

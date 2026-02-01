@@ -246,7 +246,7 @@ int CTextArea::DetectWidthOfLineNumberArea_calculate(const CLayoutMgr* pLayoutMg
 		/* 表示している行数の桁数を求める */
 		nWork = (int)(log10( (double)nAllLines) +1);	// 10を底とする対数(小数点以下切り捨て)+1で桁数
 		/* 設定値と比較し、大きい方を取る */
-		i = std::max( nWork, pView->m_pTypeData->m_nLineNumWidth );
+		i = (std::max)( nWork, pView->m_pTypeData->m_nLineNumWidth );
 		// 先頭の空白分を加算する
 		return (i +1);
 #else

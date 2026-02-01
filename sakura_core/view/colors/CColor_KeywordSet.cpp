@@ -65,7 +65,7 @@ bool CColor_KeywordSet::BeginColor(const CStringRef& cStr, int nPos)
 			if( 0 <= ret ) {
 				// 登録されたキーワードだった。
 				posWordEnd = posWordEndCandidate;
-				if( ret == std::numeric_limits<int>::max() ) {
+				if( ret == (std::numeric_limits<int>::max)() ) {
 					// より長いキーワードも存在するので延長してリトライ。
 					continue;
 				}

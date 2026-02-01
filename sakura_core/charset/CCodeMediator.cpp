@@ -65,7 +65,7 @@ ECodeType CCodeMediator::CheckKanjiCodeOfFile(const WCHAR* pszFile)
 	}
 
 	// データ長取得
-	auto size = std::min<size_t>(in.GetLength(), CheckKanjiCode_MAXREADLENGTH);
+	auto size = (std::min<size_t>)(in.GetLength(), CheckKanjiCode_MAXREADLENGTH);
 
 	std::unique_ptr<char[]> buff;
 	if (size > 0)

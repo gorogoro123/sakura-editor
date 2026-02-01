@@ -71,7 +71,7 @@
 		}
 	}
 
-	return std::min( nIndex, nIndexMax );
+	return (std::min)( nIndex, nIndexMax );
 }
 
 /*!
@@ -106,7 +106,7 @@
 		++nIndex;
 	}
 
-	return std::max( 0, nIndex );
+	return (std::max)( 0, nIndex );
 }
 
 /*!
@@ -139,8 +139,8 @@ bool GetZoomedValue( const ZoomSetting& zoomSetting, double nBaseValue, double n
 	}
 
 	const double nCurrentValue = GetQuantizedValue( nBaseValue * nCurrentZoom, zoomSetting.m_nValueUnit );
-	const double nValueMin = std::min( {zoomSetting.m_nValueMin, nBaseValue, nCurrentValue} );
-	const double nValueMax = std::max( {zoomSetting.m_nValueMax, nBaseValue, nCurrentValue} );
+	const double nValueMin = (std::min)( {zoomSetting.m_nValueMin, nBaseValue, nCurrentValue} );
+	const double nValueMax = (std::max)( {zoomSetting.m_nValueMax, nBaseValue, nCurrentValue} );
 
 	int nNextIndex;
 	if( bZoomUp ){

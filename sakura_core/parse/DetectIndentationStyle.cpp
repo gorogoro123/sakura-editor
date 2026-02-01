@@ -48,7 +48,7 @@ constexpr std::string_view trim(std::string_view s) noexcept {
 }
 
 inline bool strieq(std::string_view lhs, std::string_view rhs) {
-	return 0 == _strnicmp(lhs.data(), rhs.data(), std::min(lhs.size(), rhs.size()));
+	return 0 == _strnicmp(lhs.data(), rhs.data(), (std::min)(lhs.size(), rhs.size()));
 }
 
 inline void tolower(std::string& s) {

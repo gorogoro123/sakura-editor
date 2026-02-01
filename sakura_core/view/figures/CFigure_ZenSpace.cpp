@@ -100,7 +100,7 @@ void Draw_ZenSpace( CGraphics& gr, const CMyRect& rc )
 	::GetTextMetrics(gr, &tm);
 	// 正方形にする
 	CMyRect rc2;
-	int minWidth = std::max<int>(1, std::min<int>(tm.tmAscent, std::min<int>(rc.Height(), rc.Width())) - 2);
+	int minWidth = (std::max<int>)(1, (std::min<int>)(tm.tmAscent, (std::min<int>)(rc.Height(), rc.Width())) - 2);
 	minWidth -= (minWidth + 5) / 10;
 	rc2.SetPos(
 		rc.left + (rc.Width() - minWidth) / 2,
