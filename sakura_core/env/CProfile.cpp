@@ -29,6 +29,7 @@
 #include "basis/CEol.h"
 #include "util/file.h"
 #include "apiwrap/StdApi.h"
+#include "basis/CMyString.h"
 
 /*!
 	sakura.iniの1行を処理する．

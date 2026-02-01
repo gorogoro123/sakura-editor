@@ -20,8 +20,8 @@
 #include "charset/CCodeBase.h"
 #include "charset/CCodePage.h"
 #include "util/design_template.h"
+#include "types/CType.h" //SEncodingConfig
 
-struct SEncodingConfig;
 class CCodeBase;
 
 /*!

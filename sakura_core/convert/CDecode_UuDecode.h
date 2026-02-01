@@ -13,6 +13,7 @@
 #define SAKURA_CDECODE_UUDECODE_E299AA83_2825_45E6_866A_A08D73F8F47F_H_
 #pragma once
 
+#include "basis/CMyString.h" //SFilePath
 #include "convert/CDecode.h"
 
 class CDecode_UuDecode final : public CDecode{

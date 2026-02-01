@@ -9,6 +9,7 @@
 	SPDX-License-Identifier: Zlib
 */
 #include "io/CZipFile.h"
+#include "util/string_ex.h"
 
 // コンストラクタ
 CZipFile::CZipFile() {
