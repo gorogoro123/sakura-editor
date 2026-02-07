@@ -68,16 +68,15 @@ int CDlgExec::DoModal( HINSTANCE hInstance, HWND hwndParent, LPARAM lParam )
 
 BOOL CDlgExec::OnInitDialog( HWND hwnd, WPARAM wParam, LPARAM lParam )
 {
-	ECodeType codes[] = { CODE_SJIS, CODE_UNICODE, CODE_UTF8 };
+	const auto codes = std::to_array<ECodeType>({ CODE_SJIS, CODE_UNICODE, CODE_UTF8 });
 	HWND hwndCombo;
-	int i;
 	hwndCombo = GetItemHwnd( IDC_COMBO_CODE_GET );
-	for( i = 0; i < int(std::size(codes)); ++i ){
-		ApiWrap::Combo_AddString( hwndCombo, CCodeTypeName(codes[i]).Normal() );
+	for (const auto code : codes){
+		ApiWrap::Combo_AddString( hwndCombo, CCodeTypeName(code).Normal() );
 	}
 	hwndCombo = GetItemHwnd( IDC_COMBO_CODE_SEND );
-	for( i = 0; i < int(std::size(codes)); ++i ){
-		ApiWrap::Combo_AddString( hwndCombo, CCodeTypeName(codes[i]).Normal() );
+	for (const auto code : codes){
+		ApiWrap::Combo_AddString( hwndCombo, CCodeTypeName(code).Normal() );
 	}
 
 	BOOL bRet = CDialog::OnInitDialog(hwnd, wParam, lParam);
