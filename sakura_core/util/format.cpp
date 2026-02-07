@@ -36,22 +36,31 @@ std::wstring GetDateTimeFormat( std::wstring_view format, const SYSTEMTIME& syst
 	for( const auto f : format ){
 		if( inSpecifier ){
 			inSpecifier = false;
-			if( f == L'Y' ){
-				swprintf( str, int(std::size(str)), L"%d", systime.wYear );
-			}else if( f == L'y' ){
-				swprintf( str, int(std::size(str)), L"%02d", systime.wYear % 100 );
-			}else if( f == L'm' ){
-				swprintf( str, int(std::size(str)), L"%02d", systime.wMonth );
-			}else if( f == L'd' ){
-				swprintf( str, int(std::size(str)), L"%02d", systime.wDay );
-			}else if( f == L'H' ){
-				swprintf( str, int(std::size(str)), L"%02d", systime.wHour );
-			}else if( f == L'M' ){
-				swprintf( str, int(std::size(str)), L"%02d", systime.wMinute );
-			}else if( f == L'S' ){
-				swprintf( str, int(std::size(str)), L"%02d", systime.wSecond );
-			}else{
-				swprintf( str, int(std::size(str)), L"%c", f );
+			switch (f) {
+			case L'Y':
+				auto_snprintf_s( str, std::size(str), L"%d", systime.wYear );
+				break;
+			case L'y':
+				auto_snprintf_s( str, std::size(str), L"%02d", systime.wYear % 100 );
+				break;
+			case L'm':
+				auto_snprintf_s( str, std::size(str), L"%02d", systime.wMonth );
+				break;
+			case L'd':
+				auto_snprintf_s( str, std::size(str), L"%02d", systime.wDay );
+				break;
+			case L'H':
+				auto_snprintf_s( str, std::size(str), L"%02d", systime.wHour );
+				break;
+			case L'M':
+				auto_snprintf_s( str, std::size(str), L"%02d", systime.wMinute );
+				break;
+			case L'S':
+				auto_snprintf_s( str, std::size(str), L"%02d", systime.wSecond );
+				break;
+			default:
+				auto_snprintf_s( str, std::size(str), L"%c", f );
+				break;
 			}
 			result.append( str );
 		}else if( f == L'%' ){
