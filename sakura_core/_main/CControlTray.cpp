@@ -134,20 +134,20 @@ void CControlTray::DoGrepCreateWindow(HINSTANCE hinst, HWND msgParent, CDlgGrep&
 	cCmdLine.AppendString(szTemp);
 
 	//GOPTオプション
-	WCHAR pOpt[64] = L"";
-	if( cDlgGrep.m_bSubFolder					)wcscat( pOpt, L"S" );	// サブフォルダーからも検索する
-	if( cDlgGrep.m_sSearchOption.bLoHiCase		)wcscat( pOpt, L"L" );	// 英大文字と英小文字を区別する
-	if( cDlgGrep.m_sSearchOption.bRegularExp	)wcscat( pOpt, L"R" );	// 正規表現
-	if( cDlgGrep.m_nGrepOutputLineType == 1     )wcscat( pOpt, L"P" );	// 行を出力する
-	if( cDlgGrep.m_nGrepOutputLineType == 2     )wcscat( pOpt, L"N" );	// 否ヒット行を出力する 2014.09.23
-	if( cDlgGrep.m_sSearchOption.bWordOnly		)wcscat( pOpt, L"W" );	// 単語単位で探す
-	if( 1 == cDlgGrep.m_nGrepOutputStyle		)wcscat( pOpt, L"1" );	// Grep: 出力形式
-	if( 2 == cDlgGrep.m_nGrepOutputStyle		)wcscat( pOpt, L"2" );	// Grep: 出力形式
-	if( 3 == cDlgGrep.m_nGrepOutputStyle		)wcscat( pOpt, L"3" );
-	if( cDlgGrep.m_bGrepOutputFileOnly		)wcscat( pOpt, L"F" );
-	if( cDlgGrep.m_bGrepOutputBaseFolder		)wcscat( pOpt, L"B" );
-	if( cDlgGrep.m_bGrepSeparateFolder		)wcscat( pOpt, L"D" );
-	if( pOpt[0] != L'\0' ){
+	std::wstring pOpt;
+	if( cDlgGrep.m_bSubFolder					) pOpt += L"S";	// サブフォルダーからも検索する
+	if( cDlgGrep.m_sSearchOption.bLoHiCase		) pOpt += L"L";	// 英大文字と英小文字を区別する
+	if( cDlgGrep.m_sSearchOption.bRegularExp	) pOpt += L"R";	// 正規表現
+	if( cDlgGrep.m_nGrepOutputLineType == 1     ) pOpt += L"P";	// 行を出力する
+	if( cDlgGrep.m_nGrepOutputLineType == 2     ) pOpt += L"N";	// 否ヒット行を出力する 2014.09.23
+	if( cDlgGrep.m_sSearchOption.bWordOnly		) pOpt += L"W";	// 単語単位で探す
+	if( 1 == cDlgGrep.m_nGrepOutputStyle		) pOpt += L"1";	// Grep: 出力形式
+	if( 2 == cDlgGrep.m_nGrepOutputStyle		) pOpt += L"2";	// Grep: 出力形式
+	if( 3 == cDlgGrep.m_nGrepOutputStyle		) pOpt += L"3";
+	if( cDlgGrep.m_bGrepOutputFileOnly			) pOpt += L"F";
+	if( cDlgGrep.m_bGrepOutputBaseFolder		) pOpt += L"B";
+	if( cDlgGrep.m_bGrepSeparateFolder			) pOpt += L"D";
+	if( !pOpt.empty()) {
 		cCmdLine.AppendString( L" -GOPT=" );
 		cCmdLine.AppendString( pOpt );
 	}
