@@ -1062,7 +1062,7 @@ void CDlgFuncList::SetTreeJava( [[maybe_unused]] HWND hwndDlg, HTREEITEM hInsert
 					tvis.hParent = htiParent;
 					tvis.hInsertAfter = hInsertAfter;
 					tvis.item.mask = TVIF_TEXT | TVIF_PARAM;
-					tvis.item.pszText = const_cast<WCHAR*>(strClassName.c_str());
+					tvis.item.pszText = strClassName.data();
 					// 2016.03.06 item.lParamは登録順の連番に変更
 					tvis.item.lParam = nlParamCount;
 					m_vecDummylParams.push_back(nlParamCount);
@@ -1099,7 +1099,6 @@ void CDlgFuncList::SetTreeJava( [[maybe_unused]] HWND hwndDlg, HTREEITEM hInsert
 					tvg.hParent = TVI_ROOT;
 					tvg.hInsertAfter = hInsertAfter;
 					tvg.item.mask = TVIF_TEXT | TVIF_PARAM;
-					//tvg.item.pszText = const_cast<WCHAR*>(L"グローバル");
 					tvg.item.pszText = const_cast<WCHAR*>(sGlobal.c_str());
 					tvg.item.lParam = nlParamCount;
 					m_vecDummylParams.push_back(nlParamCount);
@@ -1126,7 +1125,7 @@ void CDlgFuncList::SetTreeJava( [[maybe_unused]] HWND hwndDlg, HTREEITEM hInsert
 		tvis.hParent = htiClass;
 		tvis.hInsertAfter = hInsertAfter;
 		tvis.item.mask = TVIF_TEXT | TVIF_PARAM;
-		tvis.item.pszText = const_cast<WCHAR*>(strFuncName.c_str());
+		tvis.item.pszText = strFuncName.data();
 		tvis.item.lParam = nlParamCount;
 		nlParamCount++;
 		htiItem = TreeView_InsertItem( hwndTree, &tvis );

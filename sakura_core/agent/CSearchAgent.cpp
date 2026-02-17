@@ -949,7 +949,7 @@ void CSearchAgent::ReplaceData( DocLineReplaceArg* pArg, bool bEnableExtEol )
 				if( pCDocLine->_GetDocLineData().capacity() * 9 / 10 < nNewLen
 					&& nNewLen <= pCDocLine->_GetDocLineData().capacity() ){
 					CNativeW& ref = pCDocLine->_GetDocLineData();
-					WCHAR* pBuf = const_cast<WCHAR*>(ref.GetStringPtr());
+					WCHAR* pBuf = ref.GetStringPtr();
 					if( nWorkLen != nInsLen ){
 						wmemmove(&pBuf[nWorkPos + nInsLen], &pLine[nWorkPos + nWorkLen], nAfterLen);
 					}
