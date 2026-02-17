@@ -584,7 +584,7 @@ void CPropTypesRegex::SetDataKeywordList( HWND hwndDlg )
 		if( *pKeyword == L'\0' ) break;
 		
 		lvi.mask     = LVIF_TEXT | LVIF_PARAM;
-		lvi.pszText  = const_cast<WCHAR*>(pKeyword);
+		lvi.pszText  = pKeyword;
 		lvi.iItem    = i;
 		lvi.iSubItem = 0;
 		lvi.lParam   = 0; //m_Types.m_RegexKeywordArr[i].m_nColorIndex;

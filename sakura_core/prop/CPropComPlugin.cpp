@@ -358,7 +358,7 @@ void CPropPlugin::SetData_LIST( HWND hwndDlg )
 		sItem.mask = LVIF_TEXT;
 		sItem.iSubItem = 1;
 		if( plugin ){
-			sItem.pszText = const_cast<LPWSTR>( plugin->m_sName.c_str() );
+			sItem.pszText = plugin->m_sName.data();
 		}else{
 			sItem.pszText = const_cast<WCHAR*>(L"-");
 		}
@@ -403,7 +403,7 @@ void CPropPlugin::SetData_LIST( HWND hwndDlg )
 		case PLS_LOADED:
 			if( plugin ){
 				sDirName = plugin->GetFolderName();
-				sItem.pszText = const_cast<LPWSTR>( sDirName.c_str() );
+				sItem.pszText = sDirName.data();
 			}else{
 				sItem.pszText = const_cast<LPWSTR>( plugin_table[index].m_szName );
 			}

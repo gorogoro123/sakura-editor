@@ -399,7 +399,7 @@ BOOL CDlgFavorite::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 
 	// リストビューのItem/SubItem幅を計算
 	std::wstring pszFavTest = LS( STR_DLGFAV_FAVORITE );
-	WCHAR* pszFAVORITE_TEXT = const_cast<WCHAR*>(pszFavTest.c_str());
+	WCHAR* pszFAVORITE_TEXT = pszFavTest.data();
 	const int nListViewWidthClient = rc.right - rc.left
 		 - CTextWidthCalc::WIDTH_MARGIN_SCROLLBER - ::GetSystemMetrics(SM_CXVSCROLL);
 	// 初期値は従来方式の%指定
