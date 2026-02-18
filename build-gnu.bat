@@ -56,7 +56,6 @@ if errorlevel 1 (
 exit /b 0
 
 :setmsys64path
-path=C:\msys64\usr\bin;%path:C:\msys64\usr\bin;=%
 path=C:\msys64\ucrt64\bin;%path:C:\msys64\ucrt64\bin;=%
 exit /b 0
 
