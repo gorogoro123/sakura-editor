@@ -506,7 +506,7 @@ void CViewCommander::Command_TAGJUMPBACK( )
 */
 bool CViewCommander::Command_TagsMake( )
 {
-#define	CTAGS_COMMAND	L"ctags.exe"
+	constexpr auto CTAGS_COMMAND = L"ctags.exe";
 
 	WCHAR	szTargetPath[1024 /*_MAX_PATH+1*/ ];
 	if( GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() )
@@ -525,14 +525,13 @@ bool CViewCommander::Command_TagsMake( )
 	if( !cDlgTagsMake.DoModal( G_AppInstance(), m_pCommanderView->GetHwnd(), 0, szTargetPath ) ) return false;
 
 	WCHAR	cmdline[1024];
-	/* exeのあるフォルダー */
-	WCHAR	szExeFolder[_MAX_PATH + 1];
+	/* ctags.exeのあるパス */
+	WCHAR	szExePath[_MAX_PATH + 1];
 
-	GetExedir( cmdline, CTAGS_COMMAND );
-	SplitPath_FolderAndFile( cmdline, szExeFolder, nullptr );
+	GetExedir( szExePath, CTAGS_COMMAND );
 
 	//ctags.exeの存在チェック
-	if( (DWORD)-1 == ::GetFileAttributes( cmdline ) )
+	if( (DWORD)-1 == ::GetFileAttributes(szExePath) )
 	{
 		WarningMessage( m_pCommanderView->GetHwnd(), LS(STR_ERR_CEDITVIEW_CMD03) );
 		return false;
@@ -542,12 +541,10 @@ bool CViewCommander::Command_TagsMake( )
 	CDlgCancel	cDlgCancel;
 	CWaitCursor	cWaitCursor( m_pCommanderView->GetHwnd() );
 
-	PROCESS_INFORMATION	pi;
-	ZeroMemory( &pi, sizeof(pi) );
+	PROCESS_INFORMATION	pi = {};
 
 	//子プロセスの標準出力と接続するパイプを作成
-	SECURITY_ATTRIBUTES	sa;
-	ZeroMemory( &sa, sizeof(sa) );
+	SECURITY_ATTRIBUTES	sa = {};
 	sa.nLength              = sizeof(sa);
 	sa.bInheritHandle       = TRUE;
 	sa.lpSecurityDescriptor = nullptr;
@@ -564,8 +561,7 @@ bool CViewCommander::Command_TagsMake( )
 				0, FALSE, DUPLICATE_SAME_ACCESS );
 
 	//CreateProcessに渡すSTARTUPINFOを作成
-	STARTUPINFO	sui;
-	ZeroMemory( &sui, sizeof(sui) );
+	STARTUPINFO	sui = {};
 	sui.cb          = sizeof(sui);
 	sui.dwFlags     = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
 	sui.wShowWindow = SW_HIDE;
@@ -591,12 +587,11 @@ bool CViewCommander::Command_TagsMake( )
 		WCHAR szCmdDir[_MAX_PATH];
 		::GetSystemDirectory(szCmdDir, int(std::size(szCmdDir)));
 		//	2006.08.04 genta add /D to disable autorun
-		auto_sprintf( cmdline, L"\"%s\\cmd.exe\" /D /C \"\"%s\\%s\" %s\"",
-				szCmdDir,
-				szExeFolder,	//sakura.exeパス
-				CTAGS_COMMAND,	//ctags.exe
-				options			//ctagsオプション
-			);
+		auto_snprintf_s( cmdline, std::size(cmdline), L"\"%s\\cmd.exe\" /D /C \"\"%s\" %s\"",
+			szCmdDir,
+			szExePath,		//ctags.exe
+			options			//ctagsオプション
+		);
 	}
 
 	//コマンドライン実行
