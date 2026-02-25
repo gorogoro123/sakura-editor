@@ -19,7 +19,6 @@
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 
 CDllImp::CDllImp()
-	: m_hInstance( nullptr )
 {
 }
 
