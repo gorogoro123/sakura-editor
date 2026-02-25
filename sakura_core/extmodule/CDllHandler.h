@@ -192,7 +192,7 @@ protected:
 	//                        メンバ変数                           //
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 private:
-	HINSTANCE		m_hInstance;
+	HINSTANCE		m_hInstance = nullptr;
 	std::wstring	m_strLoadedDllName;
 };
 #endif /* SAKURA_CDLLHANDLER_B27A5A93_E49F_4618_8958_6883D63BBABB_H_ */
