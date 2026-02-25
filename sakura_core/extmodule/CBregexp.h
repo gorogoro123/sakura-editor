@@ -197,8 +197,8 @@ private:
 	wchar_t* MakePatternAlternate( const wchar_t* const szSearch, const wchar_t* const szReplace, int nOption );
 
 	//	メンバ変数
-	BREGEXP_W*			m_pRegExp;			//!< コンパイル構造体
-	int					m_ePatType;			//!< 検索文字列パターン種別
+	BREGEXP_W*			m_pRegExp = nullptr;		//!< コンパイル構造体
+	int					m_ePatType = PAT_NORMAL;	//!< 検索文字列パターン種別
 	const wchar_t*		m_szTarget;			//!< 対象文字列へのポインタ
 	wchar_t				m_szMsg[80];		//!< BREGEXP_Wからのメッセージを保持する
 

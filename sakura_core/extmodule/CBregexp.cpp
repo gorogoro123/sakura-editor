@@ -22,9 +22,6 @@
 	SPDX-License-Identifier: Zlib
 */
 
-#include <string>
-#include <stdio.h>
-#include <string.h>
 #include "CBregexp.h"
 #include "charset/charcode.h"
 #include "env/CShareData.h"
@@ -35,8 +32,6 @@
 const wchar_t CBregexp::m_tmpBuf[2] = L"\0";
 
 CBregexp::CBregexp()
-: m_pRegExp( nullptr )
-, m_ePatType( PAT_NORMAL )	//	Jul, 25, 2002 genta
 {
 	m_szMsg[0] = L'\0';
 }
