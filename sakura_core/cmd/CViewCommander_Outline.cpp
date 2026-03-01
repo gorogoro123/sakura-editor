@@ -21,7 +21,6 @@
 
 #include "CViewCommander.h"
 #include "CViewCommander_inline.h"
-
 #include "outline/CFuncInfoArr.h"
 #include "plugin/CJackManager.h"
 #include "plugin/COutlineIfObj.h"
@@ -161,7 +160,7 @@ BOOL CViewCommander::Command_FUNCLIST(
 	}
 
 	/* 解析対象ファイル名 */
-	wcscpy( cFuncInfoArr.m_szFilePath, GetDocument()->m_cDocFile.GetFilePath() );
+	cFuncInfoArr.m_szFilePath = GetDocument()->m_cDocFile.GetFilePath();
 
 	/* アウトライン ダイアログの表示 */
 	CLayoutPoint poCaret = GetCaret().GetCaretLayoutPos();
