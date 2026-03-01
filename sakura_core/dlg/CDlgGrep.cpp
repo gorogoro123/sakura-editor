@@ -250,20 +250,20 @@ int CDlgGrep::DoModal( HINSTANCE hInstance, HWND hwndParent, const WCHAR* pszCur
 	// 2013.05.21 コンストラクタからDoModalに移動
 	// m_strText は呼び出し元で設定済み
 	if( m_szFile[0] == L'\0' && m_pShareData->m_sSearchKeywords.m_aGrepFiles.size() ){
-		wcscpy( m_szFile, m_pShareData->m_sSearchKeywords.m_aGrepFiles[0] );		/* 検索ファイル */
+		m_szFile = m_pShareData->m_sSearchKeywords.m_aGrepFiles[0];		/* 検索ファイル */
 	}
 	if( m_szFolder[0] == L'\0' && m_pShareData->m_sSearchKeywords.m_aGrepFolders.size() ){
-		wcscpy( m_szFolder, m_pShareData->m_sSearchKeywords.m_aGrepFolders[0] );	/* 検索フォルダー */
+		m_szFolder = m_pShareData->m_sSearchKeywords.m_aGrepFolders[0];	/* 検索フォルダー */
 	}
 	
 	/* 除外ファイル */
 	if (m_szExcludeFile[0] == L'\0') {
 		if (m_pShareData->m_sSearchKeywords.m_aExcludeFiles.size()) {
-			wcscpy(m_szExcludeFile, m_pShareData->m_sSearchKeywords.m_aExcludeFiles[0]);
+			m_szExcludeFile = m_pShareData->m_sSearchKeywords.m_aExcludeFiles[0];
 		}
 		else {
 			/* ユーザーの利便性向上のために除外ファイルに対して初期値を設定する */
-			wcscpy(m_szExcludeFile, DEFAULT_EXCLUDE_FILE_PATTERN);	/* 除外ファイル */
+			m_szExcludeFile = DEFAULT_EXCLUDE_FILE_PATTERN;	/* 除外ファイル */
 
 			/* 履歴に残して後で選択できるようにする */
 			m_pShareData->m_sSearchKeywords.m_aExcludeFiles.push_back(DEFAULT_EXCLUDE_FILE_PATTERN);
@@ -273,11 +273,11 @@ int CDlgGrep::DoModal( HINSTANCE hInstance, HWND hwndParent, const WCHAR* pszCur
 	/* 除外フォルダー */
 	if (m_szExcludeFolder[0] == L'\0') {
 		if (m_pShareData->m_sSearchKeywords.m_aExcludeFolders.size()) {
-			wcscpy(m_szExcludeFolder, m_pShareData->m_sSearchKeywords.m_aExcludeFolders[0]);
+			m_szExcludeFolder = m_pShareData->m_sSearchKeywords.m_aExcludeFolders[0];
 		}
 		else {
 			/* ユーザーの利便性向上のために除外フォルダーに対して初期値を設定する */
-			wcscpy(m_szExcludeFolder, DEFAULT_EXCLUDE_FOLDER_PATTERN);	/* 除外フォルダー */
+			m_szExcludeFolder = DEFAULT_EXCLUDE_FOLDER_PATTERN;	/* 除外フォルダー */
 			
 			/* 履歴に残して後で選択できるようにする */
 			m_pShareData->m_sSearchKeywords.m_aExcludeFolders.push_back(DEFAULT_EXCLUDE_FOLDER_PATTERN);
@@ -285,7 +285,7 @@ int CDlgGrep::DoModal( HINSTANCE hInstance, HWND hwndParent, const WCHAR* pszCur
 	}
 
 	if( pszCurrentFilePath ){	// 2010.01.10 ryoji
-		wcscpy(m_szCurrentFilePath, pszCurrentFilePath);
+		m_szCurrentFilePath = pszCurrentFilePath;
 	}
 
 	return (int)CDialog::DoModal( hInstance, hwndParent, IDD_GREP, (LPARAM)nullptr );
@@ -571,16 +571,16 @@ BOOL CDlgGrep::OnBnClicked( int wID )
 //		::EndDialog( hwndDlg, FALSE );
 		if (m_bSelectOnceThisText) {
 			if (m_pShareData->m_sSearchKeywords.m_aGrepFiles.size()) {
-				wcsncpy_s(m_szFile, std::size(m_szFile), m_pShareData->m_sSearchKeywords.m_aGrepFiles[0], _TRUNCATE);	/* 検索ファイル */
+				m_szFile = m_pShareData->m_sSearchKeywords.m_aGrepFiles[0];	/* 検索ファイル */
 			}
 			if (m_pShareData->m_sSearchKeywords.m_aGrepFolders.size()) {
-				wcsncpy_s(m_szFolder, std::size(m_szFolder), m_pShareData->m_sSearchKeywords.m_aGrepFolders[0], _TRUNCATE);	/* 検索フォルダー */
+				m_szFolder = m_pShareData->m_sSearchKeywords.m_aGrepFolders[0];	/* 検索フォルダー */
 			}
 			if (m_pShareData->m_sSearchKeywords.m_aExcludeFiles.size()) {
-				wcsncpy_s(m_szExcludeFile, std::size(m_szExcludeFile), m_pShareData->m_sSearchKeywords.m_aExcludeFiles[0], _TRUNCATE);	/* 除外ファイル */
+				m_szExcludeFile = m_pShareData->m_sSearchKeywords.m_aExcludeFiles[0];	/* 除外ファイル */
 			}
 			if (m_pShareData->m_sSearchKeywords.m_aExcludeFolders.size()) {
-				wcsncpy_s(m_szExcludeFolder, std::size(m_szExcludeFolder), m_pShareData->m_sSearchKeywords.m_aExcludeFolders[0], _TRUNCATE);	/* 除外フォルダー */
+				m_szExcludeFolder = m_pShareData->m_sSearchKeywords.m_aExcludeFolders[0];	/* 除外フォルダー */
 			}
 		}
 		CloseDialog( FALSE );
@@ -740,7 +740,7 @@ void CDlgGrep::SetDataFromThisText( bool bChecked )
 	}else{
 		std::wstring strFile(m_szFile);
 		if (strFile.substr(0, 6) == L":HWND:") {
-			wcsncpy_s(m_szFile, std::size(m_szFile), L"*.*", _TRUNCATE);
+			m_szFile = L"*.*";
 		}
 		ApiWrap::DlgItem_SetText(GetHwnd(), IDC_COMBO_FILE, m_szFile);
 		ApiWrap::DlgItem_SetText(GetHwnd(), IDC_COMBO_FOLDER, m_szFolder);
@@ -868,7 +868,7 @@ int CDlgGrep::GetData( )
 		//	Jun. 16, 2003 Moca
 		//	検索パターンが指定されていない場合のメッセージ表示をやめ、
 		//	「*.*」が指定されたものと見なす．
-		wcscpy( m_szFile, L"*.*" );
+		m_szFile = L"*.*";
 	}
 	if( m_szFolder[0] == L'\0' ){
 		WarningMessage(	GetHwnd(), LS(STR_DLGGREP4) );
@@ -913,7 +913,7 @@ int CDlgGrep::GetData( )
 			wcscat( szFolder, szFolderItem );
 			nFolderLen = (int)wcslen( szFolder );
 		}
-		wcscpy( m_szFolder, szFolder );
+		m_szFolder = szFolder;
 	}
 
 //@@@ 2002.2.2 YAZAKI CShareData.AddToSearchKeyArr()追加に伴う変更
