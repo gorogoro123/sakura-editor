@@ -146,16 +146,12 @@ public:
 		std::vector< std::wstring > patterns;
 
 		const WCHAR* WILDCARD_DELIMITER = L" ;,";	//リストの区切り
-		auto nWildCardLen = int(wcslen(lpKeys));
-		WCHAR* pWildCard = new WCHAR[nWildCardLen + 1];
-		if (!pWildCard) {
-			return patterns;
-		}
-		wcscpy(pWildCard, lpKeys);
+		std::wstring szWildCard(lpKeys);
+		auto nWildCardLen = szWildCard.length();
 
 		int nPos = 0;
 		WCHAR*	token;
-		while (nullptr != (token = my_strtok(pWildCard, nWildCardLen, &nPos, WILDCARD_DELIMITER))) {	//トークン毎に繰り返す。
+		while (nullptr != (token = my_strtok(szWildCard.data(), nWildCardLen, &nPos, WILDCARD_DELIMITER))) {	//トークン毎に繰り返す。
 			// "を取り除いて左に詰める
 			WCHAR* p;
 			WCHAR* q;
@@ -174,7 +170,6 @@ public:
 			std::wstring element(token);
 			patterns.push_back(element);
 		}
-		delete[] pWildCard;
 		return patterns;
 	}
 
