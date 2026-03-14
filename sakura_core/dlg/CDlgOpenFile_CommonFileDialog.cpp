@@ -390,13 +390,13 @@ UINT_PTR CALLBACK CDlgOpenFile_CommonFileDialog::OFNHookProc(
 					while( *pszCur == L' ' )	// 空白を読み飛ばす
 						pszCur = ::CharNext(pszCur);
 					if( *pszCur == L'\"' ){	// 二重引用部で始まっている
-						::wcsncpy_s(pData->m_szPath, pData->m_pOf->lpstrFile, _TRUNCATE);
+						pData->m_szPath = pData->m_pOf->lpstrFile;
 					}
 					else{
 						_wsplitpath_s( pData->m_pOf->lpstrFile, nullptr, 0, nullptr, 0, nullptr, 0, szDefExt, std::size(szDefExt) );
 						if( szDefExt[0] == L'.' /* && szDefExt[1] != L'\0' */ ){	// 既に拡張子がついている	2文字目のチェックの削除	2008/6/14 Uchi
 							// .のみの場合にも拡張子付きとみなす。
-							::wcsncpy_s(pData->m_szPath, pData->m_pOf->lpstrFile, _TRUNCATE);
+							pData->m_szPath = pData->m_pOf->lpstrFile;
 						}
 						else{
 							switch( pData->m_pOf->nFilterIndex ){	// 選択されているファイルの種類
@@ -424,7 +424,7 @@ UINT_PTR CALLBACK CDlgOpenFile_CommonFileDialog::OFNHookProc(
 							}
 							::wcsncpy_s(szBuf, pData->m_pOf->lpstrFile, _TRUNCATE);
 							::wcscat(szBuf, szDefExt);
-							::wcsncpy_s(pData->m_szPath, szBuf, _TRUNCATE);
+							pData->m_szPath = szBuf;
 						}
 					}
 
@@ -649,8 +649,8 @@ CDlgOpenFile_CommonFileDialog::CDlgOpenFile_CommonFileDialog()
 		szFile, int(std::size(szFile))
 	);
 	_wsplitpath_s( szFile, szDrive, std::size(szDrive), szDir, std::size(szDir), nullptr, 0, nullptr, 0 );
-	wcscpy( m_szInitialDir, szDrive );
-	wcscat( m_szInitialDir, szDir );
+	m_szInitialDir = szDrive;
+	m_szInitialDir.append(szDir);
 
 	return;
 }
@@ -684,7 +684,7 @@ void CDlgOpenFile_CommonFileDialog::Create(
 		auto_sprintf( szRelPath, L"%s%s", szDrive, szDir );
 		const WCHAR* p = szRelPath;
 		if( ! ::GetLongFileName( p, m_szInitialDir ) ){
-			wcscpy(m_szInitialDir, p );
+			m_szInitialDir = p;
 		}
 	}
 	m_vMRU = vMRU;
