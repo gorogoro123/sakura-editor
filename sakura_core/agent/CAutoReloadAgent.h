@@ -12,7 +12,7 @@
 #include "doc/CDocListener.h"
 
 // ファイルが更新された場合に再読込を行うかどうかのフラグ
-enum WatchUpdate {
+enum class WatchUpdate : int {
 	WU_QUERY,	//!< 再読込を行うかどうかダイアログボックスで問い合わせる
 	WU_NOTIFY,	//!< 更新されたことをステータスバーで通知
 	WU_NONE,	//!< 更新監視を行わない
@@ -41,7 +41,7 @@ public://#####仮
 	void CheckFileTimeStamp();	// ファイルのタイムスタンプのチェック処理
 
 public:
-	WatchUpdate		m_eWatchUpdate = WU_QUERY;	//!< 更新監視方法
+	WatchUpdate		m_eWatchUpdate = WatchUpdate::WU_QUERY;	//!< 更新監視方法
 
 private:
 	int m_nPauseCount = 0;	//これが1以上の場合は監視をしない
