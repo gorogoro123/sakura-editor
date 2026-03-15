@@ -709,7 +709,7 @@ bool CShareData::InitShareData()
 
 			m_pShareData->m_sHistory.m_aExceptMRU.clear();
 
-			wcscpy( m_pShareData->m_sHistory.m_szIMPORTFOLDER, szIniFolder );	/* 設定インポート用フォルダー */
+			m_pShareData->m_sHistory.m_szIMPORTFOLDER = szIniFolder;	/* 設定インポート用フォルダー */
 
 			m_pShareData->m_sHistory.m_aCommands.clear();
 			m_pShareData->m_sHistory.m_aCurDirs.clear();
