@@ -14,9 +14,6 @@
 	This source code is designed for sakura editor.
 	Please contact the copyright holder to use this code for other purpose.
 */
-
-#ifndef SAKURA_CWND_86C8E4DA_7921_4D79_A481_E3AB0557D767_H_
-#define SAKURA_CWND_86C8E4DA_7921_4D79_A481_E3AB0557D767_H_
 #pragma once
 
 #include <Windows.h>
@@ -126,4 +123,3 @@ private: // 2002/2/10 aroka アクセス権変更
 	WCHAR		m_szClassInheritances[1024];
 #endif
 };
-#endif /* SAKURA_CWND_86C8E4DA_7921_4D79_A481_E3AB0557D767_H_ */

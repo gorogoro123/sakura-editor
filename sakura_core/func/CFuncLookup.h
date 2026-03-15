@@ -14,9 +14,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-
-#ifndef SAKURA_CFUNCLOOKUP_9470508D_849D_463F_B507_7843D4D85B4A_H_
-#define SAKURA_CFUNCLOOKUP_9470508D_849D_463F_B507_7843D4D85B4A_H_
 #pragma once
 
 #include <Windows.h>
@@ -75,6 +72,3 @@ private:
 	
 	CommonSetting* m_pCommon;	//! 共通設定データ領域へのポインタ
 };
-
-/* [EOF] */
-#endif /* SAKURA_CFUNCLOOKUP_9470508D_849D_463F_B507_7843D4D85B4A_H_ */

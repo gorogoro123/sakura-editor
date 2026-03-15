@@ -11,9 +11,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-
-#ifndef SAKURA_CDLGDIFF_57739DBD_0797_4F83_9DB0_F4D51A54157F_H_
-#define SAKURA_CDLGDIFF_57739DBD_0797_4F83_9DB0_F4D51A54157F_H_
 #pragma once
 
 #include "dlg/CDialog.h"
@@ -71,4 +68,3 @@ public:
 	int			m_nDiffFlgOpt = 0;	// DIFFオプション
 	HWND		m_hWnd_Dst = nullptr;		// 相手ウインドウハンドル
 };
-#endif /* SAKURA_CDLGDIFF_57739DBD_0797_4F83_9DB0_F4D51A54157F_H_ */

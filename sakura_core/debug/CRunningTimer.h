@@ -13,9 +13,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-
-#ifndef SAKURA_CRUNNINGTIMER_B4A1B7C4_EA83_41F2_9132_21DE3A57470D_H_
-#define SAKURA_CRUNNINGTIMER_B4A1B7C4_EA83_41F2_9132_21DE3A57470D_H_
 #pragma once
 
 #include "util/string_ex.h"
@@ -148,4 +145,3 @@ private:
 	size_t			m_nNameOutputWidth = 40;	// タイマー名出力幅(文字数)(初期値は最小幅)
 	std::vector<TraceEntry> m_pendingTraces;	// 出力保留中の情報
 };
-#endif /* SAKURA_CRUNNINGTIMER_B4A1B7C4_EA83_41F2_9132_21DE3A57470D_H_ */

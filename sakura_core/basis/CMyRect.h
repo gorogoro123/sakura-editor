@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CMYRECT_81DBCEE2_C3DC_4D81_862E_0E984105F371_H_
-#define SAKURA_CMYRECT_81DBCEE2_C3DC_4D81_862E_0E984105F371_H_
 #pragma once
 
 #include <Windows.h> //RECT
@@ -83,4 +81,3 @@ public:
 
 //!CRect合成。rc1,rc2を含む最小の矩形を生成する。
 CMyRect MergeRect(const CMyRect& rc1, const CMyRect& rc2);
-#endif /* SAKURA_CMYRECT_81DBCEE2_C3DC_4D81_862E_0E984105F371_H_ */

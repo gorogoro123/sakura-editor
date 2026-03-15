@@ -4,9 +4,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-
-#ifndef SAKURA_CPOOLRESOURCE_4DEA6BEC_4D80_408F_9AEE_67AAF95BFE90_H_
-#define SAKURA_CPOOLRESOURCE_4DEA6BEC_4D80_408F_9AEE_67AAF95BFE90_H_
 #pragma once
 
 #include <memory_resource>
@@ -130,4 +127,3 @@ private:
 
 	std::mutex m_mtx;
 };
-#endif /* SAKURA_CPOOLRESOURCE_4DEA6BEC_4D80_408F_9AEE_67AAF95BFE90_H_ */

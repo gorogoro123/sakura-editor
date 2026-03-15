@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CEUC_321D75BD_0B34_4417_BC69_6BF9AAAE794C_H_
-#define SAKURA_CEUC_321D75BD_0B34_4417_BC69_6BF9AAAE794C_H_
 #pragma once
 
 #include <mbstring.h>
@@ -172,4 +170,3 @@ inline int CEuc::_UniToEucjp_char( const unsigned short* pSrc, unsigned char* pD
 
 	return nret;
 }
-#endif /* SAKURA_CEUC_321D75BD_0B34_4417_BC69_6BF9AAAE794C_H_ */

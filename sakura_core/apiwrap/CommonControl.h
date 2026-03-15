@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_COMMONCONTROL_27CF9891_7D70_469F_8AC4_155FA493D7CC_H_
-#define SAKURA_COMMONCONTROL_27CF9891_7D70_469F_8AC4_155FA493D7CC_H_
 #pragma once
 
 #include <CommCtrl.h> // コモンコントロール
@@ -86,5 +84,3 @@ namespace ApiWrap
 	inline void Tooltip_UpdateTipText(HWND hwndCtl, TOOLINFO* info)		{ ::SendMessage(hwndCtl, TTM_UPDATETIPTEXT, 0L, (LPARAM)info); }
 	inline void Tooltip_Activate(HWND hwndCtl, BOOL enable)				{ ::SendMessage(hwndCtl, TTM_ACTIVATE, (WPARAM)enable, (LPARAM)0); }
 }
-
-#endif /* SAKURA_COMMONCONTROL_27CF9891_7D70_469F_8AC4_155FA493D7CC_H_ */

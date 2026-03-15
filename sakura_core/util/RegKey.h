@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_REGKEY_6B5694D7_BDD3_4835_8B34_356D3FC110C7_H_
-#define SAKURA_REGKEY_6B5694D7_BDD3_4835_8B34_356D3FC110C7_H_
 #pragma once
 
 class CRegKey
@@ -179,4 +177,3 @@ public:
 		return RegDeleteKey(root, path);
 	}
 };
-#endif /* SAKURA_REGKEY_6B5694D7_BDD3_4835_8B34_356D3FC110C7_H_ */

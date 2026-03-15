@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CRECENTCMD_4EB34D07_2F92_4BE4_9AB1_767141022C54_H_
-#define SAKURA_CRECENTCMD_4EB34D07_2F92_4BE4_9AB1_767141022C54_H_
 #pragma once
 
 #include "CRecentImp.h"
@@ -30,4 +28,3 @@ public:
 	bool			ValidateReceiveType( LPCWSTR p ) const override;
 	size_t			GetTextMaxLength() const override;
 };
-#endif /* SAKURA_CRECENTCMD_4EB34D07_2F92_4BE4_9AB1_767141022C54_H_ */

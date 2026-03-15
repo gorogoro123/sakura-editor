@@ -18,9 +18,6 @@
 	This source code is designed for sakura editor.
 	Please contact the copyright holders to use this code for other purpose.
 */
-
-#ifndef SAKURA_CPROPTYPES_2A255D3D_78BC_4B7A_85F7_7BA7ABBF3DF2_H_
-#define SAKURA_CPROPTYPES_2A255D3D_78BC_4B7A_85F7_7BA7ABBF3DF2_H_
 #pragma once
 
 #include "types/CType.h" // STypeConfig
@@ -262,4 +259,3 @@ void InitTypeNameId2( std::vector<TYPE_NAME_ID2<T> >& vec, TYPE_NAME_ID<T>* arr,
 		vec.push_back( item );
 	}
 }
-#endif /* SAKURA_CPROPTYPES_2A255D3D_78BC_4B7A_85F7_7BA7ABBF3DF2_H_ */

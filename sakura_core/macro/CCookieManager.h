@@ -8,9 +8,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-
-#ifndef SAKURA_CCOOKIEMANAGER_69A96E71_61BD_417E_BD29_10B3D27AA11D_H_
-#define SAKURA_CCOOKIEMANAGER_69A96E71_61BD_417E_BD29_10B3D27AA11D_H_
 #pragma once
 
 #include <map>
@@ -34,4 +31,3 @@ private:
 	std::map<std::wstring, std::wstring> m_cookieWindow;
 	std::map<std::wstring, std::wstring> m_cookieDocument;
 };
-#endif /* SAKURA_CCOOKIEMANAGER_69A96E71_61BD_417E_BD29_10B3D27AA11D_H_ */

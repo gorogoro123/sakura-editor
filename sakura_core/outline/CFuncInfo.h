@@ -13,9 +13,6 @@
 	This source code is designed for sakura editor.
 	Please contact the copyright holder to use this code for other purpose.
 */
-
-#ifndef SAKURA_CFUNCINFO_9A6DFB84_EFEE_4E20_8E60_9F6F4D83B93C_H_
-#define SAKURA_CFUNCINFO_9A6DFB84_EFEE_4E20_8E60_9F6F4D83B93C_H_
 #pragma once
 
 class CFuncInfo;
@@ -54,4 +51,3 @@ class CFuncInfo {
 		int			m_nInfo;		/*!< 付加情報 */
 		int			m_nDepth;		/*!< 深さ */
 };
-#endif /* SAKURA_CFUNCINFO_9A6DFB84_EFEE_4E20_8E60_9F6F4D83B93C_H_ */

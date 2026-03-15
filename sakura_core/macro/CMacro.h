@@ -13,9 +13,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-
-#ifndef SAKURA_CMACRO_E1ABA5D8_7ACF_417B_A668_A7AD9714118A_H_
-#define SAKURA_CMACRO_E1ABA5D8_7ACF_417B_A668_A7AD9714118A_H_
 #pragma once
 
 #include <Windows.h>
@@ -123,4 +120,3 @@ protected:
 	CMacroParam*	m_pParamBot;
 	CMacro*			m_pNext;		//	次のマクロへのポインタ
 };
-#endif /* SAKURA_CMACRO_E1ABA5D8_7ACF_417B_A668_A7AD9714118A_H_ */

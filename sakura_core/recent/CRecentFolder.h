@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CRECENTFOLDER_E26A46E2_C8DF_4228_A0D6_24A2712392E9_H_
-#define SAKURA_CRECENTFOLDER_E26A46E2_C8DF_4228_A0D6_24A2712392E9_H_
 #pragma once
 
 #include "CRecentImp.h"
@@ -29,4 +27,3 @@ public:
 	bool			ValidateReceiveType( LPCWSTR p ) const override;
 	size_t			GetTextMaxLength() const override;
 };
-#endif /* SAKURA_CRECENTFOLDER_E26A46E2_C8DF_4228_A0D6_24A2712392E9_H_ */

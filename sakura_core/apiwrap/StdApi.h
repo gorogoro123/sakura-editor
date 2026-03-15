@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_STDAPI_29C8A971_234C_46ED_96DB_A2D479992ABE_H_
-#define SAKURA_STDAPI_29C8A971_234C_46ED_96DB_A2D479992ABE_H_
 #pragma once
 
 namespace ApiWrap
@@ -43,4 +41,3 @@ namespace ApiWrap
 		return (::GetKeyState(VK_MENU)&0x8000)!=0;
 	}
 }
-#endif /* SAKURA_STDAPI_29C8A971_234C_46ED_96DB_A2D479992ABE_H_ */

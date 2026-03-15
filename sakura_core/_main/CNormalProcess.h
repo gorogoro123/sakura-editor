@@ -11,9 +11,6 @@
 	This source code is designed for sakura editor.
 	Please contact the copyright holder to use this code for other purpose.
 */
-
-#ifndef SAKURA_CNORMALPROCESS_F2808B31_61DC_4BE0_8661_9626478AC7F9_H_
-#define SAKURA_CNORMALPROCESS_F2808B31_61DC_4BE0_8661_9626478AC7F9_H_
 #pragma once
 
 #include "global.h"
@@ -54,4 +51,3 @@ private:
 	CEditApp*	m_pcEditApp = nullptr;	//2007.10.23 kobake
 	CMigemo		m_cMigemo;
 };
-#endif /* SAKURA_CNORMALPROCESS_F2808B31_61DC_4BE0_8661_9626478AC7F9_H_ */

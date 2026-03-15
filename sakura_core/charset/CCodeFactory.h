@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CCODEFACTORY_A5C6C204_F9BD_42BA_A5CD_1B086833CCA4_H_
-#define SAKURA_CCODEFACTORY_A5C6C204_F9BD_42BA_A5CD_1B086833CCA4_H_
 #pragma once
 
 #include "charset/CUnicode.h"
@@ -30,5 +28,3 @@ public:
 	static SLoadFromCodeResult	LoadFromCode(ECodeType eCodeType, std::string_view code);
 	static SConvertToCodeResult	ConvertToCode(ECodeType eCodeType, std::wstring_view wide);
 };
-
-#endif /* SAKURA_CCODEFACTORY_A5C6C204_F9BD_42BA_A5CD_1B086833CCA4_H_ */

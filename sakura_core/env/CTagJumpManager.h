@@ -8,8 +8,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CTAGJUMPMANAGER_487A43FC_EB78_44CF_B1E4_6FD78EF1F35A_H_
-#define SAKURA_CTAGJUMPMANAGER_487A43FC_EB78_44CF_B1E4_6FD78EF1F35A_H_
 #pragma once
 
 #include "basis/SakuraBasis.h"
@@ -55,4 +53,3 @@ public:
 private:
 	DLLSHAREDATA* m_pShareData;
 };
-#endif /* SAKURA_CTAGJUMPMANAGER_487A43FC_EB78_44CF_B1E4_6FD78EF1F35A_H_ */

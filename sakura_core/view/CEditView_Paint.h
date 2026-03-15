@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CEDITVIEW_PAINT_0202B897_3D47_48DD_9279_45594D80F726_H_
-#define SAKURA_CEDITVIEW_PAINT_0202B897_3D47_48DD_9279_45594D80F726_H_
 #pragma once
 
 class CEditView;
@@ -32,4 +30,3 @@ public:
 		bool bUseMemoryDC //!< メモリDCを使用する
 	);
 };
-#endif /* SAKURA_CEDITVIEW_PAINT_0202B897_3D47_48DD_9279_45594D80F726_H_ */

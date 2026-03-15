@@ -10,8 +10,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CDLGPROFILEMGR_E77A329C_4D06_436A_84E3_01B4D8F34A9A_H_
-#define SAKURA_CDLGPROFILEMGR_E77A329C_4D06_436A_84E3_01B4D8F34A9A_H_
 #pragma once
 
 #include "dlg/CDialog.h"
@@ -72,5 +70,3 @@ std::filesystem::path GetProfileMgrFileName();
 std::filesystem::path GetProfileDirectory(std::wstring_view name);
 
 [[nodiscard]] std::wstring GetProfileMgrFileName(std::wstring_view name);
-
-#endif /* SAKURA_CDLGPROFILEMGR_E77A329C_4D06_436A_84E3_01B4D8F34A9A_H_ */

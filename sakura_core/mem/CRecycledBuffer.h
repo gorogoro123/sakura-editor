@@ -9,8 +9,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CRECYCLEDBUFFER_874E819F_4E31_4431_B5A6_F4BA89FB963E_H_
-#define SAKURA_CRECYCLEDBUFFER_874E819F_4E31_4431_B5A6_F4BA89FB963E_H_
 #pragma once
 
 class CRecycledBuffer{
@@ -99,4 +97,3 @@ private:
 	BYTE* m_buf[CHAIN_COUNT];
 	int   m_current;
 };
-#endif /* SAKURA_CRECYCLEDBUFFER_874E819F_4E31_4431_B5A6_F4BA89FB963E_H_ */

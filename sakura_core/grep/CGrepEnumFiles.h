@@ -11,8 +11,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CGREPENUMFILES_0C041F0A_3D17_475F_BA25_26D30E055E9D_H_
-#define SAKURA_CGREPENUMFILES_0C041F0A_3D17_475F_BA25_26D30E055E9D_H_
 #pragma once
 
 #include "grep/CGrepEnumFileBase.h"
@@ -36,4 +34,3 @@ public:
 		return FALSE;
 	}
 };
-#endif /* SAKURA_CGREPENUMFILES_0C041F0A_3D17_475F_BA25_26D30E055E9D_H_ */

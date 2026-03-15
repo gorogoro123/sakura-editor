@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CCONVERT_781CEC40_5400_4D47_959B_0718AEA82A9B_H_
-#define SAKURA_CCONVERT_781CEC40_5400_4D47_959B_0718AEA82A9B_H_
 #pragma once
 
 #include "Funccode_enum.h"		// EFunctionCode
@@ -59,5 +57,3 @@ public:
 	//実装
 	virtual bool DoConvert(CNativeW* pcData) = 0;
 };
-
-#endif /* SAKURA_CCONVERT_781CEC40_5400_4D47_959B_0718AEA82A9B_H_ */

@@ -15,8 +15,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CDOCLISTENER_BEF5B814_A5B8_4D07_9B2F_009A5CB29B2F_H_
-#define SAKURA_CDOCLISTENER_BEF5B814_A5B8_4D07_9B2F_009A5CB29B2F_H_
 #pragma once
 
 #include "basis/CMyString.h"
@@ -196,5 +194,3 @@ class CFlowInterruption : public std::exception{
 public:
 	const char* what() const throw() override{ return "CFlowInterruption"; }
 };
-
-#endif /* SAKURA_CDOCLISTENER_BEF5B814_A5B8_4D07_9B2F_009A5CB29B2F_H_ */

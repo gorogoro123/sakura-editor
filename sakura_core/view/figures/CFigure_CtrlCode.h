@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CFIGURE_CTRLCODE_53EB409B_17F7_4B7F_9AD2_A00C29CDC792_H_
-#define SAKURA_CFIGURE_CTRLCODE_53EB409B_17F7_4B7F_9AD2_A00C29CDC792_H_
 #pragma once
 
 #include "view/figures/CFigureStrategy.h"
@@ -27,5 +25,3 @@ public:
 	}
 	EColorIndexType GetColorIdx() const override { return COLORIDX_CTRLCODE; }
 };
-
-#endif /* SAKURA_CFIGURE_CTRLCODE_53EB409B_17F7_4B7F_9AD2_A00C29CDC792_H_ */

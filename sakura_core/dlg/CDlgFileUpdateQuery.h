@@ -12,8 +12,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CDLGFILEUPDATEQUERY_1A03B33B_FB78_44D9_BB96_96506DAD0C2E_H_
-#define SAKURA_CDLGFILEUPDATEQUERY_1A03B33B_FB78_44D9_BB96_96506DAD0C2E_H_
 #pragma once
 
 #include "dlg/CDialog.h"
@@ -40,4 +38,3 @@ private:
 	const WCHAR* m_pFilename;
 	bool m_bModified;
 };
-#endif /* SAKURA_CDLGFILEUPDATEQUERY_1A03B33B_FB78_44D9_BB96_96506DAD0C2E_H_ */

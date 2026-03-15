@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_WINDOW_A0833476_5E32_46BE_87B6_ECD55F10D34A_H_
-#define SAKURA_WINDOW_A0833476_5E32_46BE_87B6_ECD55F10D34A_H_
 #pragma once
 
 /*!
@@ -200,5 +198,3 @@ HFONT UpdateDialogFont( HWND hwnd, BOOL force = FALSE );
 bool GetSystemAccentColor( COLORREF* pColorOut );
 
 #define PSZ_ARGS(pszText) (pszText), int(pszText ? ::wcslen(pszText) : 0)
-
-#endif /* SAKURA_WINDOW_A0833476_5E32_46BE_87B6_ECD55F10D34A_H_ */

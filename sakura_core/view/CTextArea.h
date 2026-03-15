@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CTEXTAREA_E3BB290D_608F_4F86_B460_8D84F171CB11_H_
-#define SAKURA_CTEXTAREA_E3BB290D_608F_4F86_B460_8D84F171CB11_H_
 #pragma once
 
 #include "DispPos.h"
@@ -231,4 +229,3 @@ public:
 	//その他
 	int		m_nViewAlignLeftCols;	/* 行番号域の桁数 */
 };
-#endif /* SAKURA_CTEXTAREA_E3BB290D_608F_4F86_B460_8D84F171CB11_H_ */

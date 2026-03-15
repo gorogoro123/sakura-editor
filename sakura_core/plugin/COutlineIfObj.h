@@ -8,8 +8,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_COUTLINEIFOBJ_F8D635A3_FB5F_4619_95B8_BE6A557A518C_H_
-#define SAKURA_COUTLINEIFOBJ_F8D635A3_FB5F_4619_95B8_BE6A557A518C_H_
 #pragma once
 
 #include "macro/CWSHIfObj.h"
@@ -147,4 +145,3 @@ MacroFuncInfo COutlineIfObj::m_MacroFuncInfoArr[] =
 	//	終端
 	{F_INVALID,	nullptr, {VT_EMPTY, VT_EMPTY, VT_EMPTY, VT_EMPTY},	VT_EMPTY,	nullptr}
 };
-#endif /* SAKURA_COUTLINEIFOBJ_F8D635A3_FB5F_4619_95B8_BE6A557A518C_H_ */

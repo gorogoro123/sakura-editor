@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CCONVERT_TOHANKAKU_B22F6D13_783E_4D93_B078_8A42BE57FC7B_H_
-#define SAKURA_CCONVERT_TOHANKAKU_B22F6D13_783E_4D93_B078_8A42BE57FC7B_H_
 #pragma once
 
 #include "CConvert.h"
@@ -22,4 +20,3 @@ enum EToHankakuMode{
 	TO_HIRAGANA	= 0x02, //!< ひらがなに影響アリ
 	TO_EISU		= 0x04, //!< 英数字に影響アリ
 };
-#endif /* SAKURA_CCONVERT_TOHANKAKU_B22F6D13_783E_4D93_B078_8A42BE57FC7B_H_ */

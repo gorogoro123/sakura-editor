@@ -10,9 +10,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-
-#ifndef SAKURA_CDLGTYPEASCERTAIN_7000A035_D26C_4FB2_AE75_6A63F3F806B9_H_
-#define SAKURA_CDLGTYPEASCERTAIN_7000A035_D26C_4FB2_AE75_6A63F3F806B9_H_
 #pragma once
 
 #include "dlg/CDialog.h"
@@ -50,4 +47,3 @@ protected:
 private:
 	SAscertainInfo* m_psi;			// インターフェース
 };
-#endif /* SAKURA_CDLGTYPEASCERTAIN_7000A035_D26C_4FB2_AE75_6A63F3F806B9_H_ */

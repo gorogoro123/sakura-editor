@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CSTRICTRANGE_270CB3D2_3CD3_4A6F_8319_482FB010C0BB_H_
-#define SAKURA_CSTRICTRANGE_270CB3D2_3CD3_4A6F_8319_482FB010C0BB_H_
 #pragma once
 
 template <class PointType>
@@ -130,4 +128,3 @@ private:
 	PointType m_ptFrom;
 	PointType m_ptTo;
 };
-#endif /* SAKURA_CSTRICTRANGE_270CB3D2_3CD3_4A6F_8319_482FB010C0BB_H_ */

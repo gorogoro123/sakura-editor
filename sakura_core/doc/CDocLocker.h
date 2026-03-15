@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CDOCLOCKER_6B8C1CF4_B0FD_4631_ADB4_E53776A2FAAE_H_
-#define SAKURA_CDOCLOCKER_6B8C1CF4_B0FD_4631_ADB4_E53776A2FAAE_H_
 #pragma once
 
 #include "doc/CDocListener.h"
@@ -34,4 +32,3 @@ public:
 private:
 	bool m_bIsDocWritable;
 };
-#endif /* SAKURA_CDOCLOCKER_6B8C1CF4_B0FD_4631_ADB4_E53776A2FAAE_H_ */

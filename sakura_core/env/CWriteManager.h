@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CWRITEMANAGER_1FC8A485_C76D_40D7_8505_5EECFCD98155_H_
-#define SAKURA_CWRITEMANAGER_1FC8A485_C76D_40D7_8505_5EECFCD98155_H_
 #pragma once
 
 #include "doc/CDocListener.h"
@@ -24,4 +22,3 @@ public:
 		const SSaveInfo&	sSaveInfo		//!< [in]
 	);
 };
-#endif /* SAKURA_CWRITEMANAGER_1FC8A485_C76D_40D7_8505_5EECFCD98155_H_ */

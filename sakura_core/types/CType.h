@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CTYPE_B057F55F_C082_47DB_9CB4_E8B1BBA5BF77_H_
-#define SAKURA_CTYPE_B057F55F_C082_47DB_9CB4_E8B1BBA5BF77_H_
 #pragma once
 
 #include "basis/CEol.h"
@@ -347,5 +345,3 @@ inline bool C_IsSpace( wchar_t c, bool bExtEol )
 
 //! C/C++のファイル名による判定
 EOutlineType GetCLangOutlineType( const wchar_t* pszFileName );
-
-#endif /* SAKURA_CTYPE_B057F55F_C082_47DB_9CB4_E8B1BBA5BF77_H_ */

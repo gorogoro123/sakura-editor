@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CTYPESUPPORT_D3B23860_9050_4422_B610_1A9E6A053736_H_
-#define SAKURA_CTYPESUPPORT_D3B23860_9050_4422_B610_1A9E6A053736_H_
 #pragma once
 
 #include "uiparts/CGraphics.h"
@@ -135,4 +133,3 @@ private:
 
 	CGraphics* m_gr;        //設定を変更したHDC
 };
-#endif /* SAKURA_CTYPESUPPORT_D3B23860_9050_4422_B610_1A9E6A053736_H_ */

@@ -11,8 +11,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CWSHIFOBJ_7C4DEA59_C6E2_4814_9209_8818D90096DE_H_
-#define SAKURA_CWSHIFOBJ_7C4DEA59_C6E2_4814_9209_8818D90096DE_H_
 #pragma once
 
 #include "_os/OleTypes.h"
@@ -71,5 +69,3 @@ protected:
 
 	CEditView* m_pView = nullptr;
 };
-
-#endif /* SAKURA_CWSHIFOBJ_7C4DEA59_C6E2_4814_9209_8818D90096DE_H_ */

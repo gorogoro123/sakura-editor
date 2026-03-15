@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CTEXTMETRICS_7972A864_FDFF_4852_9EA5_A91D39657A7F_H_
-#define SAKURA_CTEXTMETRICS_7972A864_FDFF_4852_9EA5_A91D39657A7F_H_
 #pragma once
 
 //2007.08.25 kobake 追加
@@ -104,4 +102,3 @@ private:
 	int m_nDyBasis;        //!< 半角文字の行間隔 (縦幅+α)
 	std::array<int, 64> m_anHankakuDx; //!< 半角用文字間隔配列
 };
-#endif /* SAKURA_CTEXTMETRICS_7972A864_FDFF_4852_9EA5_A91D39657A7F_H_ */

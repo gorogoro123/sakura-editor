@@ -11,8 +11,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CDLGPROPERTY_FF915918_FBA0_4D89_9A72_5E1409D7F88A_H_
-#define SAKURA_CDLGPROPERTY_FF915918_FBA0_4D89_9A72_5E1409D7F88A_H_
 #pragma once
 
 class CDlgProperty;
@@ -33,4 +31,3 @@ protected:
 	void SetData( ) override;	/* ダイアログデータの設定 */
 	LPVOID GetHelpIdTable() override;	//@@@ 2002.01.18 add
 };
-#endif /* SAKURA_CDLGPROPERTY_FF915918_FBA0_4D89_9A72_5E1409D7F88A_H_ */

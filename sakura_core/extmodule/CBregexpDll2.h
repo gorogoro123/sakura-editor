@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CBREGEXPDLL2_033C910A_6B78_47CB_9993_675C48A2AB64_H_
-#define SAKURA_CBREGEXPDLL2_033C910A_6B78_47CB_9993_675C48A2AB64_H_
 #pragma once
 
 #include "CDllHandler.h"
@@ -98,4 +96,3 @@ private:
 	BREGEXP_BMatchExW2       m_BMatchEx;
 	BREGEXP_BSubstExW2       m_BSubstEx;
 };
-#endif /* SAKURA_CBREGEXPDLL2_033C910A_6B78_47CB_9993_675C48A2AB64_H_ */

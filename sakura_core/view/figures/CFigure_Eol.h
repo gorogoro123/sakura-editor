@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CFIGURE_EOL_C51A4502_29AE_4D38_8056_5B0CFCC3686B_H_
-#define SAKURA_CFIGURE_EOL_C51A4502_29AE_4D38_8056_5B0CFCC3686B_H_
 #pragma once
 
 #include "view/figures/CFigureStrategy.h"
@@ -45,5 +43,3 @@ private:
 	HPEN m_hPen = nullptr;
 	COLORREF m_clrPen;
 };
-
-#endif /* SAKURA_CFIGURE_EOL_C51A4502_29AE_4D38_8056_5B0CFCC3686B_H_ */

@@ -7,8 +7,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_SHELL_0A8B6454_B007_46E5_9606_8D2FD7993B91_H_
-#define SAKURA_SHELL_0A8B6454_B007_46E5_9606_8D2FD7993B91_H_
 #pragma once
 
 #include <Windows.h>
@@ -31,4 +29,3 @@ INT_PTR MyPropertySheet( LPPROPSHEETHEADER lppsph );	// 独自拡張プロパテ
 
 //!フォント選択ダイアログ
 BOOL MySelectFont( LOGFONT* plf, INT* piPointSize, HWND hwndDlgOwner, bool );	// 2009.10.01 ryoji ポイントサイズ（1/10ポイント単位）引数追加
-#endif /* SAKURA_SHELL_0A8B6454_B007_46E5_9606_8D2FD7993B91_H_ */

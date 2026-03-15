@@ -17,9 +17,6 @@
 /*
 PPA(Poor-Pascal for Application)はDelphi/C++Builder用のPascalインタープリタコンポーネントです。
 */
-
-#ifndef SAKURA_CPPA_FB41BBAE_DFBC_449D_9342_5D9424CFE086_H_
-#define SAKURA_CPPA_FB41BBAE_DFBC_449D_9342_5D9424CFE086_H_
 #pragma once
 
 #include <ObjIdl.h>  // VARIANT等
@@ -282,5 +279,3 @@ private:
 public:
 	static void CallErrorProc(PpaExecInfo& info, int Err_CD, _In_opt_z_ LPCSTR Err_Mes);
 };
-
-#endif /* SAKURA_CPPA_FB41BBAE_DFBC_449D_9342_5D9424CFE086_H_ */

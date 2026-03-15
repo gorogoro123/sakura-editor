@@ -13,8 +13,6 @@
 	This source code is designed for sakura editor.
 	Please contact the copyright holder to use this code for other purpose.
 */
-#ifndef SAKURA_CMEMORYITERATOR_18230378_FC9C_4FF2_B95B_3D51A75E3660_H_
-#define SAKURA_CMEMORYITERATOR_18230378_FC9C_4FF2_B95B_3D51A75E3660_H_
 #pragma once
 
 //	sakura
@@ -150,4 +148,3 @@ private:
 	CLogicInt	m_nIndex_Delta;  //index増分
 	CLayoutInt	m_nColumn_Delta; //column増分
 };
-#endif /* SAKURA_CMEMORYITERATOR_18230378_FC9C_4FF2_B95B_3D51A75E3660_H_ */

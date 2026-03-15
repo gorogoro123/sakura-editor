@@ -13,8 +13,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CESI_C5EC4EE4_9EEA_47B9_9D02_236EF1F3222C_H_
-#define SAKURA_CESI_C5EC4EE4_9EEA_47B9_9D02_236EF1F3222C_H_
 #pragma once
 
 struct SEncodingConfig;
@@ -256,4 +254,3 @@ ECodeType CESI::DetectUnicodeBom(const char* buff, size_t size) noexcept
 
 	return CODE_NONE;
 }
-#endif /* SAKURA_CESI_C5EC4EE4_9EEA_47B9_9D02_236EF1F3222C_H_ */

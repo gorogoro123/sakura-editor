@@ -10,8 +10,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CDLGPLUGINOPTION_AF75E03E_99DB_4AEF_93AF_BFF669310DE6_H_
-#define SAKURA_CDLGPLUGINOPTION_AF75E03E_99DB_4AEF_93AF_BFF669310DE6_H_
 #pragma once
 
 #include "dlg/CDialog.h"
@@ -78,4 +76,3 @@ private:
 	int				m_Line;			// 現在編集中のオプション行番号
 	std::wstring	m_sReadMeName;	// ReadMe ファイル名
 };
-#endif /* SAKURA_CDLGPLUGINOPTION_AF75E03E_99DB_4AEF_93AF_BFF669310DE6_H_ */

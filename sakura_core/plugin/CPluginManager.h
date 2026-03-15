@@ -8,8 +8,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CPLUGINMANAGER_CE705DAD_1876_4B21_9052_07A9BFD292DE_H_
-#define SAKURA_CPLUGINMANAGER_CE705DAD_1876_4B21_9052_07A9BFD292DE_H_
 #pragma once
 
 #include "plugin/CPlugin.h"
@@ -50,4 +48,3 @@ private:
 	std::wstring m_sBaseDir;			//pluginsフォルダーのパス
 	std::wstring m_sExePluginDir;		//Exeフォルダー配下pluginsフォルダーのパス
 };
-#endif /* SAKURA_CPLUGINMANAGER_CE705DAD_1876_4B21_9052_07A9BFD292DE_H_ */

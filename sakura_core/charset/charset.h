@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CHARSET_CD85F6F9_5224_44A2_9BC4_5F631B467701_H_
-#define SAKURA_CHARSET_CD85F6F9_5224_44A2_9BC4_5F631B467701_H_
 #pragma once
 
 #include <Windows.h>
@@ -123,5 +121,3 @@ public:
 	ECodeType	GetCode(size_t nIndex) const;
 	LPCWSTR		GetName(size_t nIndex) const;
 };
-
-#endif /* SAKURA_CHARSET_CD85F6F9_5224_44A2_9BC4_5F631B467701_H_ */

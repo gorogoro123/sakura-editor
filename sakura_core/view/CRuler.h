@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CRULER_2D5B66C2_E499_4C3D_8113_F26B9C28F940_H_
-#define SAKURA_CRULER_2D5B66C2_E499_4C3D_8113_F26B9C28F940_H_
 #pragma once
 
 class CTextArea;
@@ -63,4 +61,3 @@ private:
 	std::vector<POINT> m_apt;
 	std::vector<DWORD> m_asz;
 };
-#endif /* SAKURA_CRULER_2D5B66C2_E499_4C3D_8113_F26B9C28F940_H_ */

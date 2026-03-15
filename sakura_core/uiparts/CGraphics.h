@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CGRAPHICS_B5576115_8D9B_4000_953C_7561307A462C_H_
-#define SAKURA_CGRAPHICS_B5576115_8D9B_4000_953C_7561307A462C_H_
 #pragma once
 
 /*
@@ -310,4 +308,3 @@ private:
 	HBRUSH				m_hbrCurrent;
 	bool				m_bDynamicBrush;	//m_hbrCurrentを動的に作成した場合はtrue
 };
-#endif /* SAKURA_CGRAPHICS_B5576115_8D9B_4000_953C_7561307A462C_H_ */

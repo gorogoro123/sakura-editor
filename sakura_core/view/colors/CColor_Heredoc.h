@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CCOLOR_HEREDOC_88B5007B_1615_411C_AED2_73E7AF92C146_H_
-#define SAKURA_CCOLOR_HEREDOC_88B5007B_1615_411C_AED2_73E7AF92C146_H_
 #pragma once
 
 #include "view/colors/CColorStrategy.h"
@@ -26,5 +24,3 @@ private:
 	size_t			m_nSize = 0;
 	size_t			m_nCOMMENTEND = 0;
 };
-
-#endif /* SAKURA_CCOLOR_HEREDOC_88B5007B_1615_411C_AED2_73E7AF92C146_H_ */

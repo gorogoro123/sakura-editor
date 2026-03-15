@@ -13,9 +13,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-
-#ifndef SAKURA_CMEMORY_EE37AF3F_6B73_412E_8F0C_8A64F4250AE3_H_
-#define SAKURA_CMEMORY_EE37AF3F_6B73_412E_8F0C_8A64F4250AE3_H_
 #pragma once
 
 #include <cstddef>
@@ -82,5 +79,3 @@ private: // 2002/2/10 aroka アクセス権変更
 	unsigned	m_nRawLen = 0;			//!< データサイズ(m_nDataBufSize未満)。バイト単位。
 	unsigned	m_nDataBufSize = 0;		//!< バッファサイズ。バイト単位。
 };
-
-#endif /* SAKURA_CMEMORY_EE37AF3F_6B73_412E_8F0C_8A64F4250AE3_H_ */

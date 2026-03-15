@@ -10,9 +10,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-
-#ifndef SAKURA_CDLGSAMECOLOR_181C0F46_A420_4A62_A543_FE2B88C20FBE_H_
-#define SAKURA_CDLGSAMECOLOR_181C0F46_A420_4A62_A543_FE2B88C20FBE_H_
 #pragma once
 
 #include "dlg/CDialog.h"
@@ -47,4 +44,3 @@ protected:
 	STypeConfig* m_pTypes = nullptr;	//!< タイプ別設定データ
 	COLORREF m_cr = 0;		//!< 指定色
 };
-#endif /* SAKURA_CDLGSAMECOLOR_181C0F46_A420_4A62_A543_FE2B88C20FBE_H_ */

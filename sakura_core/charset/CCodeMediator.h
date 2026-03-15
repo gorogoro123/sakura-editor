@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CCODEMEDIATOR_26846888_8435_4071_81A6_9DB01C8FB718_H_
-#define SAKURA_CCODEMEDIATOR_26846888_8435_4071_81A6_9DB01C8FB718_H_
 #pragma once
 
 #include "types/CType.h" //SEncodingConfig
@@ -31,4 +29,3 @@ public:
 private:
 	const SEncodingConfig& m_sEncodingConfig;
 };
-#endif /* SAKURA_CCODEMEDIATOR_26846888_8435_4071_81A6_9DB01C8FB718_H_ */

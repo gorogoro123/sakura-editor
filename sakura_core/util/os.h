@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_OS_0C5BD7E8_67ED_467C_916F_CCDC1F9A26BF_H_
-#define SAKURA_OS_0C5BD7E8_67ED_467C_916F_CCDC1F9A26BF_H_
 #pragma once
 
 #include <ObjIdl.h> // LPDATAOBJECT
@@ -94,4 +92,3 @@ BOOL IsPowerShellAvailable();
 	@return	手続きが成功したら true 失敗したら false
 */
 BOOL ImeSetOpen(HWND hWnd, BOOL bOpen, BOOL* pBackup);
-#endif /* SAKURA_OS_0C5BD7E8_67ED_467C_916F_CCDC1F9A26BF_H_ */

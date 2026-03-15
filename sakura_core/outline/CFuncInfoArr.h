@@ -12,9 +12,6 @@
 	This source code is designed for sakura editor.
 	Please contact the copyright holder to use this code for other purpose.
 */
-
-#ifndef SAKURA_CFUNCINFOARR_6E07CB18_7314_42F8_BA10_7C20E5ADCB76_H_
-#define SAKURA_CFUNCINFOARR_6E07CB18_7314_42F8_BA10_7C20E5ADCB76_H_
 #pragma once
 
 class CFuncInfo;
@@ -59,4 +56,3 @@ private:
 
 	DISALLOW_COPY_AND_ASSIGN(CFuncInfoArr);
 };
-#endif /* SAKURA_CFUNCINFOARR_6E07CB18_7314_42F8_BA10_7C20E5ADCB76_H_ */

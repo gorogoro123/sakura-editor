@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CRECENTREPLACE_F287196B_19A2_4CEA_9225_9E9C681774F7_H_
-#define SAKURA_CRECENTREPLACE_F287196B_19A2_4CEA_9225_9E9C681774F7_H_
 #pragma once
 
 #include "CRecentImp.h"
@@ -29,4 +27,3 @@ public:
 	bool			ValidateReceiveType( LPCWSTR p ) const override;
 	size_t			GetTextMaxLength() const override;
 };
-#endif /* SAKURA_CRECENTREPLACE_F287196B_19A2_4CEA_9225_9E9C681774F7_H_ */

@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CMYPOINT_267964EB_3FB3_4AC3_AA75_58B756396229_H_
-#define SAKURA_CMYPOINT_267964EB_3FB3_4AC3_AA75_58B756396229_H_
 #pragma once
 
 #include <Windows.h> //POINT
@@ -102,4 +100,3 @@ inline void TwoPointToRect(
 		prcRect->right	= (Int)pt1.x;
 	}
 }
-#endif /* SAKURA_CMYPOINT_267964EB_3FB3_4AC3_AA75_58B756396229_H_ */

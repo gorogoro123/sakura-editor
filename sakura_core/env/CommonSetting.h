@@ -6,8 +6,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_COMMONSETTING_2CBDBC26_EA7F_466E_842F_AFB0D93207D2_H_
-#define SAKURA_COMMONSETTING_2CBDBC26_EA7F_466E_842F_AFB0D93207D2_H_
 #pragma once
 
 #include "CKeyWordSetMgr.h"
@@ -728,4 +726,3 @@ struct CommonSetting
 	CommonSetting_Plugin			m_sPlugin;			//!< プラグイン 2009/11/30 syat
 	CommonSetting_MainMenu			m_sMainMenu;		//!< メインメニュー		// 2010/5/15 Uchi
 };
-#endif /* SAKURA_COMMONSETTING_2CBDBC26_EA7F_466E_842F_AFB0D93207D2_H_ */

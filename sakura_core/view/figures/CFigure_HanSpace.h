@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CFIGURE_HANSPACE_38751BA0_6F58_4929_A24D_1937F2FB3E6A_H_
-#define SAKURA_CFIGURE_HANSPACE_38751BA0_6F58_4929_A24D_1937F2FB3E6A_H_
 #pragma once
 
 #include "view/figures/CFigureStrategy.h"
@@ -21,4 +19,3 @@ public:
 	void DispSpace(CGraphics& gr, DispPos* pDispPos, CEditView* pcView, bool trans) const override;
 	EColorIndexType GetColorIdx() const override { return COLORIDX_SPACE; }
 };
-#endif /* SAKURA_CFIGURE_HANSPACE_38751BA0_6F58_4929_A24D_1937F2FB3E6A_H_ */

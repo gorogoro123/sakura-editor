@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CUTF8_0BA7EBF5_EAEF_4EA0_BC3A_8337CDD524DF_H_
-#define SAKURA_CUTF8_0BA7EBF5_EAEF_4EA0_BC3A_8337CDD524DF_H_
 #pragma once
 
 #include "CCodeBase.h"
@@ -139,4 +137,3 @@ inline int CUtf8::_UniToUtf8_char( const unsigned short* pSrc, const int nSrcLen
 
 	return nret;
 }
-#endif /* SAKURA_CUTF8_0BA7EBF5_EAEF_4EA0_BC3A_8337CDD524DF_H_ */
