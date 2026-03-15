@@ -11,9 +11,6 @@
 	This source code is designed for sakura editor.
 	Please contact the copyright holder to use this code for other purpose.
 */
-
-#ifndef SAKURA_CSELECTLANG_657416B2_2B3D_455C_AC28_8B86244F5F83_H_
-#define SAKURA_CSELECTLANG_657416B2_2B3D_455C_AC28_8B86244F5F83_H_
 #pragma once
 
 #include "cxx/ResourceHolder.hpp"
@@ -167,5 +164,3 @@ public:
 // 文字列ロード簡易化テンプレート
 template<typename T> requires (std::is_integral_v<T> || std::is_convertible_v<T, int>)
 inline LPCWSTR LS(T id) { return CLoadString::LoadStringSt(UINT(id)); }
-
-#endif /* SAKURA_CSELECTLANG_657416B2_2B3D_455C_AC28_8B86244F5F83_H_ */

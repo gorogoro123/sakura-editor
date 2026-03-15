@@ -12,8 +12,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CTEXTSTREAM_CF4FEC73_4575_4B80_98F7_CFCBC0B433CD_H_
-#define SAKURA_CTEXTSTREAM_CF4FEC73_4575_4B80_98F7_CFCBC0B433CD_H_
 #pragma once
 
 #include <string>
@@ -68,4 +66,3 @@ class CTextInputStream_AbsIni final : public CTextInputStream{
 public:
 	CTextInputStream_AbsIni(const WCHAR* pszPath, bool bOrExedir = true);
 };
-#endif /* SAKURA_CTEXTSTREAM_CF4FEC73_4575_4B80_98F7_CFCBC0B433CD_H_ */

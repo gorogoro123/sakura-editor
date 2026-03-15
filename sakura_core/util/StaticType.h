@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_STATICTYPE_54CC2BD5_4C7C_4584_B515_EF8C533B90EA_H_
-#define SAKURA_STATICTYPE_54CC2BD5_4C7C_4584_B515_EF8C533B90EA_H_
 #pragma once
 
 #include <stdexcept>
@@ -203,5 +201,3 @@ public:
 private:
 	ArrayType	m_szData{};
 };
-
-#endif /* SAKURA_STATICTYPE_54CC2BD5_4C7C_4584_B515_EF8C533B90EA_H_ */

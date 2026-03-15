@@ -9,8 +9,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CCODEPAGE_2FB24C14_37A2_4D64_BF97_973E456462CE_H_
-#define SAKURA_CCODEPAGE_2FB24C14_37A2_4D64_BF97_973E456462CE_H_
 #pragma once
 
 #include "CCodeBase.h"
@@ -77,4 +75,3 @@ protected:
 	static int S_UnicodeToUTF32LE(const wchar_t* pSrc, int nSrcLen, char* pDst, int nDstLen);
 	static int S_UnicodeToUTF32BE(const wchar_t* pSrc, int nSrcLen, char* pDst, int nDstLen);
 };
-#endif /* SAKURA_CCODEPAGE_2FB24C14_37A2_4D64_BF97_973E456462CE_H_ */

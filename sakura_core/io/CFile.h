@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CFILE_53DA3C63_95C0_49D0_9ED1_1C0131493912_H_
-#define SAKURA_CFILE_53DA3C63_95C0_49D0_9ED1_1C0131493912_H_
 #pragma once
 
 #include "basis/CMyString.h" //CFilePath
@@ -67,4 +65,3 @@ public:
 private:
 	FILE* m_fp;
 };
-#endif /* SAKURA_CFILE_53DA3C63_95C0_49D0_9ED1_1C0131493912_H_ */

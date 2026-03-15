@@ -9,8 +9,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CSMARTINDENTIFOBJ_7F0A25BE_E50A_45C4_B20E_C9683FD04BB8_H_
-#define SAKURA_CSMARTINDENTIFOBJ_7F0A25BE_E50A_45C4_B20E_C9683FD04BB8_H_
 #pragma once
 
 #include "macro/CWSHIfObj.h"
@@ -77,5 +75,3 @@ public:
 	// メンバ変数
 	wchar_t m_wcChar;
 };
-
-#endif /* SAKURA_CSMARTINDENTIFOBJ_7F0A25BE_E50A_45C4_B20E_C9683FD04BB8_H_ */

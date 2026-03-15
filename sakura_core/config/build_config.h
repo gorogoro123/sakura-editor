@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_BUILD_CONFIG_DB7D8D47_EA6A_4ABF_A081_A31875D78808_H_
-#define SAKURA_BUILD_CONFIG_DB7D8D47_EA6A_4ABF_A081_A31875D78808_H_
 #pragma once
 
 //ビルド(コンパイル)設定
@@ -85,5 +83,3 @@
 #else
     #define DBG_NEW new
 #endif
-
-#endif /* SAKURA_BUILD_CONFIG_DB7D8D47_EA6A_4ABF_A081_A31875D78808_H_ */

@@ -4,8 +4,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_VERSION_F8EBA970_BB7A_43D9_B89A_04FB0B586A8A_H_
-#define SAKURA_VERSION_F8EBA970_BB7A_43D9_B89A_04FB0B586A8A_H_
 #pragma once
 
 #define BUILD_ENV_NAME "@BUILD_ENV_NAME@"
@@ -47,5 +45,3 @@
 #else
 #define VERSION_HASH " (Undefined)"
 #endif
-
-#endif /* SAKURA_VERSION_F8EBA970_BB7A_43D9_B89A_04FB0B586A8A_H_ */

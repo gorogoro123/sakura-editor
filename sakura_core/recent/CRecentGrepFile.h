@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CRECENTGREPFILE_E23BE08A_1B53_492D_85EE_4370AA956BB5_H_
-#define SAKURA_CRECENTGREPFILE_E23BE08A_1B53_492D_85EE_4370AA956BB5_H_
 #pragma once
 
 #include "CRecentImp.h"
@@ -30,4 +28,3 @@ public:
 	bool			ValidateReceiveType( LPCWSTR p ) const override;
 	size_t			GetTextMaxLength() const override;
 };
-#endif /* SAKURA_CRECENTGREPFILE_E23BE08A_1B53_492D_85EE_4370AA956BB5_H_ */

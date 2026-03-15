@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CODEUTIL_72398A53_6BF2_4A77_93D9_506C19E55681_H_
-#define SAKURA_CODEUTIL_72398A53_6BF2_4A77_93D9_506C19E55681_H_
 #pragma once
 
 #include <Windows.h>
@@ -193,4 +191,3 @@ inline int MyMultiByteToWideChar_JP( const unsigned char* pSrc, const int nSrcLe
 
 	return nret;
 }
-#endif /* SAKURA_CODEUTIL_72398A53_6BF2_4A77_93D9_506C19E55681_H_ */

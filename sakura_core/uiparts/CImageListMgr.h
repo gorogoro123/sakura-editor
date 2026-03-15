@@ -11,9 +11,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-
-#ifndef SAKURA_CIMAGELISTMGR_4FA1F1E8_0029_42BD_A346_C51BB0A70B0C_H_
-#define SAKURA_CIMAGELISTMGR_4FA1F1E8_0029_42BD_A346_C51BB0A70B0C_H_
 #pragma once
 
 #include "_main/global.h"
@@ -117,4 +114,3 @@ protected:
 	//! ビットマップを一行拡張する
 	void Extend(bool = true);
 };
-#endif /* SAKURA_CIMAGELISTMGR_4FA1F1E8_0029_42BD_A346_C51BB0A70B0C_H_ */

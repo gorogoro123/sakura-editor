@@ -4,8 +4,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CHARSETDETECTOR_23D1755A_0001_4BAE_96C1_C3BD492E6BD0_H_
-#define SAKURA_CHARSETDETECTOR_23D1755A_0001_4BAE_96C1_C3BD492E6BD0_H_
 #pragma once
 
 #include <string_view>
@@ -30,4 +28,3 @@ public:
 
 	ECodeType Detect(const std::string_view& bytes);
 };
-#endif /* SAKURA_CHARSETDETECTOR_23D1755A_0001_4BAE_96C1_C3BD492E6BD0_H_ */

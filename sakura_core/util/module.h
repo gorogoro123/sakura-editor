@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_MODULE_865764F5_F6C8_4B99_B2DB_A29F375539FE_H_
-#define SAKURA_MODULE_865764F5_F6C8_4B99_B2DB_A29F375539FE_H_
 #pragma once
 
 void GetAppVersionInfo( HINSTANCE hInstance, int nVersionResourceID,
@@ -20,4 +18,3 @@ void ChangeCurrentDirectoryToExeDir();
 
 //! カレントディレクトリ移動機能付LoadLibrary
 HMODULE LoadLibraryExedir( LPCWSTR pszDll);
-#endif /* SAKURA_MODULE_865764F5_F6C8_4B99_B2DB_A29F375539FE_H_ */

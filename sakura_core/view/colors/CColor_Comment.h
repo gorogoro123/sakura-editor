@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CCOLOR_COMMENT_C056FE79_A77B_4451_AA5E_1FA5517C0EC1_H_
-#define SAKURA_CCOLOR_COMMENT_C056FE79_A77B_4451_AA5E_1FA5517C0EC1_H_
 #pragma once
 
 #include "view/colors/CColorStrategy.h"
@@ -63,4 +61,3 @@ private:
 	const CBlockComment* m_pcBlockComment;
 	int m_nCOMMENTEND;
 };
-#endif /* SAKURA_CCOLOR_COMMENT_C056FE79_A77B_4451_AA5E_1FA5517C0EC1_H_ */

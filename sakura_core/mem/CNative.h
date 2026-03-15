@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CNATIVE_D712C69D_7FA3_49CE_B63A_49273441B558_H_
-#define SAKURA_CNATIVE_D712C69D_7FA3_49CE_B63A_49273441B558_H_
 #pragma once
 
 #include "mem/CMemory.h"
@@ -25,5 +23,3 @@ public:
 
 // 派生クラスでメンバー追加禁止
 static_assert(sizeof(CNative) == sizeof(CMemory), "size check");
-
-#endif /* SAKURA_CNATIVE_D712C69D_7FA3_49CE_B63A_49273441B558_H_ */

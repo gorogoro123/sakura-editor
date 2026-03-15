@@ -8,8 +8,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CZIPFILE_EA7F9762_A67F_449D_B346_EAB3075A9E2C_H_
-#define SAKURA_CZIPFILE_EA7F9762_A67F_449D_B346_EAB3075A9E2C_H_
 #pragma once
 
 #include "cxx/com_pointer.hpp"
@@ -39,5 +37,3 @@ private:
 	FolderPtr			m_pZipFolder = nullptr;
 	std::wstring		m_ZipPath;
 };
-
-#endif /* SAKURA_CZIPFILE_EA7F9762_A67F_449D_B346_EAB3075A9E2C_H_ */

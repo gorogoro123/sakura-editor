@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CMODIFYMANAGER_12000875_531F_42DC_A6B0_231385193CB8_H_
-#define SAKURA_CMODIFYMANAGER_12000875_531F_42DC_A6B0_231385193CB8_H_
 #pragma once
 
 #include "util/design_template.h" //TSingleton
@@ -49,4 +47,3 @@ public:
 	//一括操作
 	void ResetAllModifyFlag(CDocLineMgr* pcDocLineMgr, int nSeq);	// 行変更状態をすべてリセット
 };
-#endif /* SAKURA_CMODIFYMANAGER_12000875_531F_42DC_A6B0_231385193CB8_H_ */

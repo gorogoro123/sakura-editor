@@ -10,8 +10,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CONTAINER_30F2CB18_623C_48C4_BC32_ED3563FB2763_H_
-#define SAKURA_CONTAINER_30F2CB18_623C_48C4_BC32_ED3563FB2763_H_
 #pragma once
 
 #include <vector>
@@ -43,4 +41,3 @@ public:
 		return false;
 	}
 };
-#endif /* SAKURA_CONTAINER_30F2CB18_623C_48C4_BC32_ED3563FB2763_H_ */

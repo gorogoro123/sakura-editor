@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_DISPPOS_137BC8BB_8876_4183_9777_BE5A451434E1_H_
-#define SAKURA_DISPPOS_137BC8BB_8876_4183_9777_BE5A451434E1_H_
 #pragma once
 
 #include "doc/CEditDoc.h"
@@ -98,4 +96,3 @@ private:
 	//キャッシュ############
 	const CLayout*		m_pcLayoutRef;
 };
-#endif /* SAKURA_DISPPOS_137BC8BB_8876_4183_9777_BE5A451434E1_H_ */

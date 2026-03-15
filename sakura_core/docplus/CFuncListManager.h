@@ -6,8 +6,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CFUNCLISTMANAGER_C2C5861D_3B93_4B1F_B241_E3314414A2C1_H_
-#define SAKURA_CFUNCLISTMANAGER_C2C5861D_3B93_4B1F_B241_E3314414A2C1_H_
 #pragma once
 
 #include "basis/SakuraBasis.h"
@@ -43,4 +41,3 @@ public:
 	//一括操作
 	void ResetAllFucListMark(CDocLineMgr* pcDocLineMgr, bool bFlag);	// 関数リストマークをすべてリセット
 };
-#endif /* SAKURA_CFUNCLISTMANAGER_C2C5861D_3B93_4B1F_B241_E3314414A2C1_H_ */

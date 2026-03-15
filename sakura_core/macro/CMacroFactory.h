@@ -11,9 +11,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-
-#ifndef SAKURA_CMACROFACTORY_67B6F8F6_0951_4717_84AD_C67E6D5F68AB_H_
-#define SAKURA_CMACROFACTORY_67B6F8F6_0951_4717_84AD_C67E6D5F68AB_H_
 #pragma once
 
 #include <map>
@@ -69,4 +66,3 @@ private:
 	*/
 	MacroEngineRep m_mMacroCreators;
 };
-#endif /* SAKURA_CMACROFACTORY_67B6F8F6_0951_4717_84AD_C67E6D5F68AB_H_ */

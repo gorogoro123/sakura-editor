@@ -13,9 +13,6 @@
 	This source code is designed for sakura editor.
 	Please contact the copyright holder to use this code for other purpose.
 */
-
-#ifndef SAKURA_CDROPTARGET_365C215D_E844_49BD_8E96_549970AE0A50_H_
-#define SAKURA_CDROPTARGET_365C215D_E844_49BD_8E96_549970AE0A50_H_
 #pragma once
 
 #include <Unknwn.h>
@@ -187,4 +184,3 @@ public:
 	STDMETHOD( Reset )(void);
 	STDMETHOD( Clone )(IEnumFORMATETC** ppenum);
 };
-#endif /* SAKURA_CDROPTARGET_365C215D_E844_49BD_8E96_549970AE0A50_H_ */

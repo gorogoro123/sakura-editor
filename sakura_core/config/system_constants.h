@@ -15,8 +15,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_SYSTEM_CONSTANTS_DACC287C_DAC4_4FC7_8AEC_8DB5BE6BFB8B_H_
-#define SAKURA_SYSTEM_CONSTANTS_DACC287C_DAC4_4FC7_8AEC_8DB5BE6BFB8B_H_
 #pragma once
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
@@ -749,4 +747,3 @@ enum e_PM_SETCARETPOS_SELECTSTATE {
 
 //! 行数を取得
 #define MYWM_GETLINECOUNT (WM_APP+226)
-#endif /* SAKURA_SYSTEM_CONSTANTS_DACC287C_DAC4_4FC7_8AEC_8DB5BE6BFB8B_H_ */

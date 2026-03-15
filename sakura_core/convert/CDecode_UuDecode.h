@@ -9,8 +9,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CDECODE_UUDECODE_E299AA83_2825_45E6_866A_A08D73F8F47F_H_
-#define SAKURA_CDECODE_UUDECODE_E299AA83_2825_45E6_866A_A08D73F8F47F_H_
 #pragma once
 
 #include "basis/CMyString.h" //SFilePath
@@ -24,5 +22,3 @@ public:
 	bool DoDecode(const CNativeW& cData, CMemory* pDst) override;
 	void CopyFilename(std::span<WCHAR> dst) const { ::wcsncpy_s(std::data(dst), std::size(dst), m_aFilename, _TRUNCATE); }
 };
-
-#endif /* SAKURA_CDECODE_UUDECODE_E299AA83_2825_45E6_866A_A08D73F8F47F_H_ */

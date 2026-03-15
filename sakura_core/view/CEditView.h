@@ -20,9 +20,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-
-#ifndef SAKURA_CEDITVIEW_54DE503F_6F97_4A16_8165_27F5F0D232E2_H_
-#define SAKURA_CEDITVIEW_54DE503F_6F97_4A16_8165_27F5F0D232E2_H_
 #pragma once
 
 #include <Windows.h>
@@ -769,4 +766,3 @@ public:
 	virtual bool IsEnableRunningDlg(){ return true; }
 	virtual bool IsActiveDebugWindow(){ return true; }
 };
-#endif /* SAKURA_CEDITVIEW_54DE503F_6F97_4A16_8165_27F5F0D232E2_H_ */

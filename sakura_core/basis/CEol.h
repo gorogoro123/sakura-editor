@@ -11,9 +11,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-
-#ifndef SAKURA_CEOL_036E1E16_7462_46A4_8F59_51D8E171E657_H_
-#define SAKURA_CEOL_036E1E16_7462_46A4_8F59_51D8E171E657_H_
 #pragma once
 
 #include "_main/global.h"
@@ -136,5 +133,3 @@ bool operator == ( const CEol& lhs, const CEol& rhs ) noexcept;
 bool operator != ( const CEol& lhs, const CEol& rhs ) noexcept;
 bool operator == ( EEolType lhs, const CEol& rhs ) noexcept;
 bool operator != ( EEolType lhs, const CEol& rhs ) noexcept;
-
-#endif /* SAKURA_CEOL_036E1E16_7462_46A4_8F59_51D8E171E657_H_ */

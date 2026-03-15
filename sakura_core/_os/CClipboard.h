@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CCLIPBOARD_4E783022_214C_4E51_A2E0_54EC343500F6_H_
-#define SAKURA_CCLIPBOARD_4E783022_214C_4E51_A2E0_54EC343500F6_H_
 #pragma once
 
 #include "mem/CNativeW.h"
@@ -106,4 +104,3 @@ protected:
 	virtual HGLOBAL GlobalAlloc(UINT uFlags, SIZE_T dwBytes) const;
 	virtual LPVOID GlobalLock(HGLOBAL hMem) const;
 };
-#endif /* SAKURA_CCLIPBOARD_4E783022_214C_4E51_A2E0_54EC343500F6_H_ */

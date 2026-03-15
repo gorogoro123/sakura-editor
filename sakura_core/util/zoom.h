@@ -6,9 +6,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-
-#ifndef SAKURA_ZOOM_0CD4E589_F708_48BF_8601_8BF851827765_H_
-#define SAKURA_ZOOM_0CD4E589_F708_48BF_8601_8BF851827765_H_
 #pragma once
 
 #include <vector>
@@ -46,4 +43,3 @@ struct ZoomSetting
 };
 
 bool GetZoomedValue( const ZoomSetting& zoomSetting, double nBaseValue, double nCurrentZoom, int nSteps, double* pnValueOut, double* pnZoomOut );
-#endif /* SAKURA_ZOOM_0CD4E589_F708_48BF_8601_8BF851827765_H_ */

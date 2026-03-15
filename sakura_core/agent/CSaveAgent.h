@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CSAVEAGENT_9EDD4D3A_82B2_4651_82E5_AE471A54812B_H_
-#define SAKURA_CSAVEAGENT_9EDD4D3A_82B2_4651_82E5_AE471A54812B_H_
 #pragma once
 
 #include "doc/CDocListener.h"
@@ -22,4 +20,3 @@ public:
 private:
 	SSaveInfo	m_sSaveInfoForRollback;
 };
-#endif /* SAKURA_CSAVEAGENT_9EDD4D3A_82B2_4651_82E5_AE471A54812B_H_ */

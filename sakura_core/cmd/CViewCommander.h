@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CVIEWCOMMANDER_2790DAD1_148B_4DC5_8BCB_A2CE3D595F50_H_
-#define SAKURA_CVIEWCOMMANDER_2790DAD1_148B_4DC5_8BCB_A2CE3D595F50_H_
 #pragma once
 
 #include "basis/CEol.h"
@@ -400,4 +398,3 @@ public:
 	ptrdiff_t ConvertEol(const wchar_t* pszText, ptrdiff_t nTextLen, wchar_t* pszConvertedText);
 	void Sub_BoxSelectLock(LPARAM flags) noexcept;
 };
-#endif /* SAKURA_CVIEWCOMMANDER_2790DAD1_148B_4DC5_8BCB_A2CE3D595F50_H_ */

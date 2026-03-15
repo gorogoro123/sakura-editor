@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CCOLORSTRATEGY_96B6EB56_C928_4B89_8841_166AAAB8D760_H_
-#define SAKURA_CCOLORSTRATEGY_96B6EB56_C928_4B89_8841_166AAAB8D760_H_
 #pragma once
 
 // 要先行定義
@@ -226,5 +224,3 @@ private:
 	bool	m_bSkipBeforeLayoutGeneral = false;
 	bool	m_bSkipBeforeLayoutFound = false;
 };
-
-#endif /* SAKURA_CCOLORSTRATEGY_96B6EB56_C928_4B89_8841_166AAAB8D760_H_ */

@@ -13,9 +13,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-
-#ifndef SAKURA_CPROFILE_1871E9A6_3FD3_45B5_A67D_6CC42F60363E_H_
-#define SAKURA_CPROFILE_1871E9A6_3FD3_45B5_A67D_6CC42F60363E_H_
 #pragma once
 
 /*-----------------------------------------------------------------------
@@ -69,5 +66,3 @@ private:
 	bool						m_ReadingMode = true;	//!< モード(true=読み込み/false=書き出し)
 	std::vector<SectionType>	m_ProfileData{};
 };
-
-#endif /* SAKURA_CPROFILE_1871E9A6_3FD3_45B5_A67D_6CC42F60363E_H_ */

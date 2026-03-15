@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CSOUNDSET_2EB52973_40E4_438F_A670_6FFA850251E6_H_
-#define SAKURA_CSOUNDSET_2EB52973_40E4_438F_A670_6FFA850251E6_H_
 #pragma once
 
 class CSoundSet{
@@ -18,4 +16,3 @@ public:
 private:
 	int	m_nMuteCount;
 };
-#endif /* SAKURA_CSOUNDSET_2EB52973_40E4_438F_A670_6FFA850251E6_H_ */

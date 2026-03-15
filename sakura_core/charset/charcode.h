@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CHARCODE_4C34C669_0BAB_441A_9B1D_2B9AC1895380_H_
-#define SAKURA_CHARCODE_4C34C669_0BAB_441A_9B1D_2B9AC1895380_H_
 #pragma once
 
 //2007.09.13 kobake 作成
@@ -270,5 +268,3 @@ namespace WCODE {
 		return !IsHankaku(wc, cache);
 	}
 }
-
-#endif /* SAKURA_CHARCODE_4C34C669_0BAB_441A_9B1D_2B9AC1895380_H_ */

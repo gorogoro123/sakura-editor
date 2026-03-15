@@ -12,9 +12,6 @@
 	This source code is designed for sakura editor.
 	Please contact the copyright holder to use this code for other purpose.
 */
-
-#ifndef SAKURA_CDLGTYPELIST_BF7E3CFF_28C8_4424_ACC3_068C04462C86_H_
-#define SAKURA_CDLGTYPELIST_BF7E3CFF_28C8_4424_ACC3_068C04462C86_H_
 #pragma once
 
 #include "dlg/CDialog.h"
@@ -66,4 +63,3 @@ private:
 	bool m_bAlertFileAssociation;			//関連付け警告の表示フラグ
 	bool m_bEnableTempChange;				//一時適用の有効化
 };
-#endif /* SAKURA_CDLGTYPELIST_BF7E3CFF_28C8_4424_ACC3_068C04462C86_H_ */

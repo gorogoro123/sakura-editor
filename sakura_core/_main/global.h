@@ -18,9 +18,6 @@
 	This source code is designed for sakura editor.
 	Please contact the copyright holder to use this code for other purpose.
 */
-
-#ifndef SAKURA_GLOBAL_BD124BE7_A850_41F3_9F5D_8A4F0E45A4C9_H_
-#define SAKURA_GLOBAL_BD124BE7_A850_41F3_9F5D_8A4F0E45A4C9_H_
 #pragma once
 
 #include <Windows.h>
@@ -167,5 +164,3 @@ struct SSearchOption{
 HINSTANCE G_AppInstance();
 
 LPCWSTR		GetProfileName() noexcept;
-
-#endif /* SAKURA_GLOBAL_BD124BE7_A850_41F3_9F5D_8A4F0E45A4C9_H_ */

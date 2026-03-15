@@ -10,9 +10,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-
-#ifndef SAKURA_CIMPEXPMANAGER_12EC6C8E_1661_485E_8972_A7A9AE419BC8_H_
-#define SAKURA_CIMPEXPMANAGER_12EC6C8E_1661_485E_8972_A7A9AE419BC8_H_
 #pragma once
 
 #include "env/CDataProfile.h"
@@ -306,4 +303,3 @@ public:
 private:
 	std::vector<SFileTreeItem>&		m_aFileTreeItems;
 };
-#endif /* SAKURA_CIMPEXPMANAGER_12EC6C8E_1661_485E_8972_A7A9AE419BC8_H_ */

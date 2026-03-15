@@ -6,8 +6,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CRECENTIMP_B18E6196_5684_44E4_91E0_ADB1542BF7E1_H_
-#define SAKURA_CRECENTIMP_B18E6196_5684_44E4_91E0_ADB1542BF7E1_H_
 #pragma once
 
 #include "recent/CRecent.h"
@@ -103,4 +101,3 @@ protected:
 	size_t		m_nTextMaxLength;		//!< 最大テキスト長(終端含む)
 };
 
-#endif /* SAKURA_CRECENTIMP_B18E6196_5684_44E4_91E0_ADB1542BF7E1_H_ */

@@ -8,8 +8,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CJACKMANAGER_99C6FE17_62C7_45E8_82F2_C36441FF809C_H_
-#define SAKURA_CJACKMANAGER_99C6FE17_62C7_45E8_82F2_C36441FF809C_H_
 #pragma once
 
 #include "plugin/CPlugin.h"
@@ -84,4 +82,3 @@ private:
 	DLLSHAREDATA* m_pShareData;
 	std::vector<JackDef> m_Jacks;	//ジャック定義の一覧
 };
-#endif /* SAKURA_CJACKMANAGER_99C6FE17_62C7_45E8_82F2_C36441FF809C_H_ */

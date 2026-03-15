@@ -11,9 +11,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-
-#ifndef SAKURA_CPRINT_CB147282_3673_4A39_9B0A_C5C323C39C56_H_
-#define SAKURA_CPRINT_CB147282_3673_4A39_9B0A_C5C323C39C56_H_
 #pragma once
 
 #include <WinSpool.h>
@@ -191,4 +188,3 @@ private:
 	HGLOBAL	m_hDevMode = nullptr;				//!< 現在プリンターのDEVMODEへのメモリハンドル
 	HGLOBAL	m_hDevNames = nullptr;				//!< 現在プリンターのDEVNAMESへのメモリハンドル
 };
-#endif /* SAKURA_CPRINT_CB147282_3673_4A39_9B0A_C5C323C39C56_H_ */

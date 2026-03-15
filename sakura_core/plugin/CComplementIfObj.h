@@ -9,8 +9,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CCOMPLEMENTIFOBJ_674B3C16_A1FD_4FE6_B3F5_054A5D1C71DB_H_
-#define SAKURA_CCOMPLEMENTIFOBJ_674B3C16_A1FD_4FE6_B3F5_054A5D1C71DB_H_
 #pragma once
 
 #include "macro/CWSHIfObj.h"
@@ -117,4 +115,3 @@ MacroFuncInfo CComplementIfObj::m_MacroFuncInfoArr[] =
 	//	終端
 	{F_INVALID,	nullptr, {VT_EMPTY, VT_EMPTY, VT_EMPTY, VT_EMPTY},	VT_EMPTY,	nullptr}
 };
-#endif /* SAKURA_CCOMPLEMENTIFOBJ_674B3C16_A1FD_4FE6_B3F5_054A5D1C71DB_H_ */

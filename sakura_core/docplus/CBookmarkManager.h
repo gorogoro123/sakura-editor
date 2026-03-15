@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CBOOKMARKMANAGER_982C4B01_0D6B_4F6E_9DD8_5CA15DE5EC17_H_
-#define SAKURA_CBOOKMARKMANAGER_982C4B01_0D6B_4F6E_9DD8_5CA15DE5EC17_H_
 #pragma once
 
 #include "_main/global.h" // ESearchDirection, SSearchOption
@@ -59,4 +57,3 @@ public:
 private:
 	CDocLineMgr* m_pcDocLineMgr;
 };
-#endif /* SAKURA_CBOOKMARKMANAGER_982C4B01_0D6B_4F6E_9DD8_5CA15DE5EC17_H_ */

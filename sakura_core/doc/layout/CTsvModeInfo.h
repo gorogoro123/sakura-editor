@@ -7,8 +7,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CTSVMODEINFO_3AD2F099_5EBE_493E_9DD3_FEBAEDDE9513_H_
-#define SAKURA_CTSVMODEINFO_3AD2F099_5EBE_493E_9DD3_FEBAEDDE9513_H_
 #pragma once
 
 #include <vector>
@@ -35,4 +33,3 @@ public:
 private:
 	std::vector<int> m_tabLength;
 };
-#endif /* SAKURA_CTSVMODEINFO_3AD2F099_5EBE_493E_9DD3_FEBAEDDE9513_H_ */

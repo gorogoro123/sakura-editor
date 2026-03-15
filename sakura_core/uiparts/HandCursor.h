@@ -10,13 +10,9 @@
 
 	SPDX-License-Identifier: Zlib
 */
-
-#ifndef SAKURA_HANDCURSOR_096969CA_716E_4F14_9CE4_1C1CAED014EA_H_
-#define SAKURA_HANDCURSOR_096969CA_716E_4F14_9CE4_1C1CAED014EA_H_
 #pragma once
 
 inline void SetHandCursor ()
 {
 	SetCursor( LoadCursor( nullptr, IDC_HAND ) );
 }
-#endif /* SAKURA_HANDCURSOR_096969CA_716E_4F14_9CE4_1C1CAED014EA_H_ */

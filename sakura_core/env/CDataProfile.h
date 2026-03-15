@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CDATAPROFILE_401640FD_5B27_454A_B0DE_098E1C4FAEAD_H_
-#define SAKURA_CDATAPROFILE_401640FD_5B27_454A_B0DE_098E1C4FAEAD_H_
 #pragma once
 
 #include "env/CProfile.h"
@@ -326,5 +324,3 @@ public:
 		return IOProfileData(sectionName, entryKey, std::span<WCHAR, N>{ szEntryValue });
 	}
 };
-
-#endif /* SAKURA_CDATAPROFILE_401640FD_5B27_454A_B0DE_098E1C4FAEAD_H_ */

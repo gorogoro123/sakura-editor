@@ -18,9 +18,6 @@
 /*
 Migemo はローマ字のまま日本語をインクリメンタル検索するためのツールです。
 */
-
-#ifndef SAKURA_CMIGEMO_BEF7C3E9_DC35_4C9D_BC69_8B7F9EBB4463_H_
-#define SAKURA_CMIGEMO_BEF7C3E9_DC35_4C9D_BC69_8B7F9EBB4463_H_
 #pragma once
 
 #include "basis/primitive.h"
@@ -69,5 +66,3 @@ public:
 	int				migemo_is_enable() noexcept;
 	std::wstring	migemo_query_w(std::wstring_view query) noexcept;
 };
-
-#endif /* SAKURA_CMIGEMO_BEF7C3E9_DC35_4C9D_BC69_8B7F9EBB4463_H_ */

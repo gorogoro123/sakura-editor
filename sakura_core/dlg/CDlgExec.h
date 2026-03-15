@@ -12,8 +12,6 @@
 	This source code is designed for sakura editor.
 	Please contact the copyright holder to use this code for other purpose.
 */
-#ifndef SAKURA_CDLGEXEC_4A4BE162_D6C9_4E28_B1AC_091DFFE7DD72_H_
-#define SAKURA_CDLGEXEC_4A4BE162_D6C9_4E28_B1AC_091DFFE7DD72_H_
 #pragma once
 
 #include "dlg/CDialog.h"
@@ -49,4 +47,3 @@ protected:
 	BOOL OnBnClicked(int wID) override;
 	LPVOID GetHelpIdTable() override;	//@@@ 2002.01.18 add
 };
-#endif /* SAKURA_CDLGEXEC_4A4BE162_D6C9_4E28_B1AC_091DFFE7DD72_H_ */

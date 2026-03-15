@@ -18,9 +18,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-
-#ifndef SAKURA_CPROPCOMMON_82053028_AB71_4E4C_AE50_0E46E173828C_H_
-#define SAKURA_CPROPCOMMON_82053028_AB71_4E4C_AE50_0E46E173828C_H_
 #pragma once
 
 #include "func/CFuncLookup.h"
@@ -525,4 +522,3 @@ private:
 	bool Check_MainMenu_Sub(HWND hwndTree, HTREEITEM htiTrg, int nLevel, std::wstring& sErrMsg);	// メニューの検査
 	static LRESULT CALLBACK TreeViewProc(HWND hwndTree, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData);
 };
-#endif /* SAKURA_CPROPCOMMON_82053028_AB71_4E4C_AE50_0E46E173828C_H_ */

@@ -17,9 +17,6 @@
 	This source code is designed for sakura editor.
 	Please contact the copyright holder to use this code for other purpose.
 */
-
-#ifndef SAKURA_CDOCLINEMGR_2896A92E_87D2_4BA6_A745_95A5C157E59D_H_
-#define SAKURA_CDOCLINEMGR_2896A92E_87D2_4BA6_A745_95A5C157E59D_H_
 #pragma once
 
 #include <Windows.h>
@@ -108,4 +105,3 @@ public:
 
 	DISALLOW_COPY_AND_ASSIGN(CDocLineMgr);
 };
-#endif /* SAKURA_CDOCLINEMGR_2896A92E_87D2_4BA6_A745_95A5C157E59D_H_ */

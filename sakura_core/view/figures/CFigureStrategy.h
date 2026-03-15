@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CFIGURESTRATEGY_5D122522_91F9_4FC5_A31A_E78FB5DB0D0F_H_
-#define SAKURA_CFIGURESTRATEGY_5D122522_91F9_4FC5_A31A_E78FB5DB0D0F_H_
 #pragma once
 
 #include <vector>
@@ -101,4 +99,3 @@ protected:
 protected:
 	EColorIndexType m_nDispColorIndex;
 };
-#endif /* SAKURA_CFIGURESTRATEGY_5D122522_91F9_4FC5_A31A_E78FB5DB0D0F_H_ */

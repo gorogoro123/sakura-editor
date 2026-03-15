@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CRECENTFILE_11698DF0_9914_4163_8A68_8E611163D2E9_H_
-#define SAKURA_CRECENTFILE_11698DF0_9914_4163_8A68_8E611163D2E9_H_
 #pragma once
 
 #include "CRecentImp.h"
@@ -29,4 +27,3 @@ public:
 	//固有インターフェース
 	int FindItemByPath(const WCHAR* pszPath) const;
 };
-#endif /* SAKURA_CRECENTFILE_11698DF0_9914_4163_8A68_8E611163D2E9_H_ */

@@ -6,8 +6,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CWORDPARSE_C025B28F_9FBB_464A_9831_5E9DDAAEAA35_H_
-#define SAKURA_CWORDPARSE_C025B28F_9FBB_464A_9831_5E9DDAAEAA35_H_
 #pragma once
 
 #include "basis/SakuraBasis.h"
@@ -255,5 +253,3 @@ end_func:
 	}
 	return int(pr - pS);
 }
-
-#endif /* SAKURA_CWORDPARSE_C025B28F_9FBB_464A_9831_5E9DDAAEAA35_H_ */

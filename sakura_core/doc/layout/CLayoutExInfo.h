@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CLAYOUTEXINFO_735DC1F2_72C6_4B21_934B_7D9F8C234154_H_
-#define SAKURA_CLAYOUTEXINFO_735DC1F2_72C6_4B21_934B_7D9F8C234154_H_
 #pragma once
 
 #include "util/design_template.h"
@@ -44,4 +42,3 @@ private:
 
 	DISALLOW_COPY_AND_ASSIGN(CLayoutExInfo);
 };
-#endif /* SAKURA_CLAYOUTEXINFO_735DC1F2_72C6_4B21_934B_7D9F8C234154_H_ */

@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CSTRICTRECT_B41F0F96_8886_4ED1_B6FE_1B4EA70F58D8_H_
-#define SAKURA_CSTRICTRECT_B41F0F96_8886_4ED1_B6FE_1B4EA70F58D8_H_
 #pragma once
 
 #include "util/std_macro.h"
@@ -51,4 +49,3 @@ public:
 		return *this;
 	}
 };
-#endif /* SAKURA_CSTRICTRECT_B41F0F96_8886_4ED1_B6FE_1B4EA70F58D8_H_ */

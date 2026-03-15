@@ -15,9 +15,6 @@
 	This source code is designed for sakura editor.
 	Please contact the copyright holder to use this code for other purpose.
 */
-
-#ifndef SAKURA_CDOCLINE_B592082C_24CC_41A6_A931_774BE9675F42_H_
-#define SAKURA_CDOCLINE_B592082C_24CC_41A6_A931_774BE9675F42_H_
 #pragma once
 
 #include "util/design_template.h"
@@ -128,4 +125,3 @@ private:
 };
 
 #pragma pack(pop)
-#endif /* SAKURA_CDOCLINE_B592082C_24CC_41A6_A931_774BE9675F42_H_ */

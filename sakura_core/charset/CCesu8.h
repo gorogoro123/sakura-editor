@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CCESU8_25BC6708_E05F_44A8_936C_8C2FE260AA72_H_
-#define SAKURA_CCESU8_25BC6708_E05F_44A8_936C_8C2FE260AA72_H_
 #pragma once
 
 #include "CCodeBase.h"
@@ -26,4 +24,3 @@ public:
 		return CUtf8()._UnicodeToHex( cSrc, iSLen, pDst, psStatusbar, true );
 	}
 };
-#endif /* SAKURA_CCESU8_25BC6708_E05F_44A8_936C_8C2FE260AA72_H_ */

@@ -5,8 +5,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#ifndef SAKURA_CJIS_BD9F2F30_4502_4183_BB00_768B9EDC9002_H_
-#define SAKURA_CJIS_BD9F2F30_4502_4183_BB00_768B9EDC9002_H_
 #pragma once
 
 #include "CCodeBase.h"
@@ -90,4 +88,3 @@ enum EJisESCSeqType {
 };
 
 #endif
-#endif /* SAKURA_CJIS_BD9F2F30_4502_4183_BB00_768B9EDC9002_H_ */
