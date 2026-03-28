@@ -968,8 +968,8 @@ bool CDlgOpenFile_CommonFileDialog::DoModalSaveDlg(
 	cFileExt.AppendExtRaw( LS(STR_DLGOPNFL_EXTNAME3), L"*.*" );
 
 	// ファイル名の初期設定	// 2006.11.10 ryoji
-	if( pSaveInfo->cFilePath[0] == L'\0' )
-		::wcsncpy_s(pSaveInfo->cFilePath, LS(STR_NO_TITLE2), _TRUNCATE);	// 無題
+	if( pSaveInfo->cFilePath[0] == L'\0')
+		pSaveInfo->cFilePath = LS(STR_NO_TITLE2);	// 無題
 
 	//OPENFILENAME構造体の初期化
 	InitOfn( &pData->m_ofn );		// 2005.10.29 ryoji
@@ -1024,7 +1024,7 @@ bool CDlgOpenFile_CommonFileDialog::DoModalSaveDlg(
 	if( GetSaveFileNameRecover( &pData->m_ofn ) ){
 		pSaveInfo->cFilePath = pData->m_ofn.lpstrFile;
 		if( pData->m_ofn.Flags & OFN_ENABLEHOOK )
-			::wcsncpy_s(pSaveInfo->cFilePath, pData->m_szPath, _TRUNCATE);	// 自前で拡張子の補完を行ったときのファイルパス	// 2006.11.10 ryoji
+			pSaveInfo->cFilePath  = pData->m_szPath.c_str();	// 自前で拡張子の補完を行ったときのファイルパス	// 2006.11.10 ryoji
 
 		pSaveInfo->eCharCode = pData->m_nCharCode;
 
