@@ -220,13 +220,13 @@ retry:;
 
 	/* 現在カーソル位置単語または選択範囲より検索等のキーを取得 */
 	m_pCommanderView->GetCurrentTextForSearch( cmemCurText, false );
-	WCHAR path[_MAX_PATH];
+	SFilePath path;
 	if( _IS_REL_PATH( helpfile ) ){
 		// 2003.06.23 Moca 相対パスは実行ファイルからのパス
 		// 2007.05.21 ryoji 相対パスは設定ファイルからのパスを優先
 		GetInidirOrExedir( path, helpfile );
 	}else{
-		wcscpy( path, helpfile );
+		path = helpfile;
 	}
 	// 2012.09.26 Moca HTMLHELP対応
 	WCHAR	szExt[_MAX_EXT];
