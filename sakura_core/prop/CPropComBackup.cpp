@@ -134,12 +134,7 @@ INT_PTR CPropBackup::DispatchEvent( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			if( pMNUD->iDelta > 0 ){
 				--nVal;
 			}
-			if( nVal < 1 ){
-				nVal = 1;
-			}
-			if( nVal > 99 ){
-				nVal = 99;
-			}
+			nVal = std::clamp(nVal, 1, 99);
 			::SetDlgItemInt( hwndDlg, IDC_EDIT_BACKUP_3, nVal, FALSE );
 			return TRUE;
 		}
@@ -316,8 +311,7 @@ void CPropBackup::SetData( HWND hwndDlg )
 
 	//	From Here Aug. 16, 2000 genta
 	int nN = m_Common.m_sBackup.GetBackupCount();
-	nN = nN < 1  ?  1 : nN;
-	nN = nN > 99 ? 99 : nN;
+	nN = std::clamp(nN, 1, 99);
 
 	::SetDlgItemInt( hwndDlg, IDC_EDIT_BACKUP_3, nN, FALSE );	//	Oct. 29, 2001 genta
 	//	To Here Aug. 16, 2000 genta
@@ -412,16 +406,7 @@ int CPropBackup::GetData( HWND hwndDlg )
 	//	世代数の取得
 	int	 nN;
 	nN = ::GetDlgItemInt( hwndDlg, IDC_EDIT_BACKUP_3, nullptr, FALSE );	//	Oct. 29, 2001 genta
-
-//	for( nN = 0, pDigit = szNumBuf; *pDigit != '\0'; pDigit++ ){
-//		if( '0' <= *pDigit && *pDigit <= '9' ){
-//			nN = nN * 10 + *pDigit - '0';
-//		}
-//		else
-//			break;
-//	}
-	nN = nN < 1  ?  1 : nN;
-	nN = nN > 99 ? 99 : nN;
+	nN = std::clamp(nN, 1, 99);
 	m_Common.m_sBackup.SetBackupCount( nN );
 	//	To Here Aug. 16, 2000 genta
 
