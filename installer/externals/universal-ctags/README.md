@@ -13,7 +13,6 @@
 
 - [2023-12-29/v6.1.0](https://github.com/universal-ctags/ctags-win32/releases/tag/v6.1.0)
     - バイナリ
-        - [x86(ctags-v6.1.0-x86.zip)](https://github.com/universal-ctags/ctags-win32/releases/download/v6.1.0/ctags-v6.1.0-x86.zip)
         - [x64(ctags-v6.1.0-x64.zip)](https://github.com/universal-ctags/ctags-win32/releases/download/v6.1.0/ctags-v6.1.0-x64.zip)
     - [ソースコード](https://github.com/universal-ctags/ctags-win32/archive/refs/tags/v6.1.0.zip)
 
