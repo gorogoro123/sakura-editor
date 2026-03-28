@@ -9,21 +9,6 @@
 #include "basis/CMyString.h"
 #include "_os/CClipboard.h"
 
-/*!	Comctl32.dll のバージョン番号を取得
-
-	@return Comctl32.dll のバージョン番号（失敗時は 0）
-
-	@author ryoji
-	@date 2006.06.17 ryoji 新規
-*/
-static DWORD s_dwComctl32Version = PACKVERSION(0, 0);
-DWORD GetComctl32Version()
-{
-	if( PACKVERSION(0, 0) == s_dwComctl32Version )
-		s_dwComctl32Version = GetDllVersion(L"Comctl32.dll");
-	return s_dwComctl32Version;
-}
-
 /*!	自分が現在ビジュアルスタイル表示状態かどうかを示す
 	Win32 API の IsAppThemed() はこれとは一致しない（IsAppThemed() と IsThemeActive() との差異は不明）
 
@@ -36,7 +21,7 @@ BOOL IsVisualStyle()
 {
 	// ロードした Comctl32.dll が Ver 6 以上で画面設定がビジュアルスタイル指定になっている場合だけ
 	// ビジュアルスタイル表示になる（マニフェストで指定しないと Comctl32.dll は 6 未満になる）
-	return ( (GetComctl32Version() >= PACKVERSION(6, 0)) && ::IsThemeActive() );
+	return ::IsThemeActive();
 }
 
 /*!	指定ウィンドウでビジュアルスタイルを使わないようにする
