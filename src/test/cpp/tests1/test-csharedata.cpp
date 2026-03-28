@@ -1865,7 +1865,7 @@ TEST_F(CShareDataTest, GetMacroFilename004)
 	// テストのために共有データを弄る
 	auto& sMacro = shareData.m_Common.m_sMacro;
 	const std::wstring macroFolder{ sMacro.m_szMACROFOLDER };
-	::wcscpy_s(sMacro.m_szMACROFOLDER, L".");
+	sMacro.m_szMACROFOLDER = L".";
 	const auto testFilePath = GetIniFileName().remove_filename() / L"." / L"test.mac";
 	::wcscpy_s(sMacro.m_MacroTable[4].m_szFile, L"test.mac");
 
@@ -1878,7 +1878,7 @@ TEST_F(CShareDataTest, GetMacroFilename004)
 
 	// 共有データを元に戻す
 	::wcscpy_s(sMacro.m_MacroTable[4].m_szFile, L"");
-	::wcscpy_s(sMacro.m_szMACROFOLDER, macroFolder.c_str());
+	sMacro.m_szMACROFOLDER = macroFolder.c_str();
 }
 
 /*!
@@ -1895,7 +1895,7 @@ TEST_F(CShareDataTest, GetMacroFilename005)
 	auto& sMacro = shareData.m_Common.m_sMacro;
 	const std::wstring macroFolder{ sMacro.m_szMACROFOLDER };
 	const std::filesystem::path tooLongPath{ std::format(LR"(C:\{:a<256})", L'a') };	// 259文字のパスを作る（MAX_PATHに収まる限界長。）
-	::wcsncpy_s(sMacro.m_szMACROFOLDER, tooLongPath.c_str(), _TRUNCATE);
+	sMacro.m_szMACROFOLDER = tooLongPath.c_str();
 	const auto testFilePath = tooLongPath / L"test.mac";
 	::wcscpy_s(sMacro.m_MacroTable[5].m_szFile, L"test.mac");
 
@@ -1909,7 +1909,7 @@ TEST_F(CShareDataTest, GetMacroFilename005)
 	// 共有データを元に戻す
 	::wcscpy_s(sMacro.m_MacroTable[5].m_szFile, L"");
 	::wmemset(sMacro.m_szMACROFOLDER, 0, std::size(sMacro.m_szMACROFOLDER));
-	::wcscpy_s(sMacro.m_szMACROFOLDER, macroFolder.c_str());
+	sMacro.m_szMACROFOLDER = macroFolder.c_str();
 }
 
 TEST_F(CShareDataTest, GetMacroFilename101)
@@ -1930,7 +1930,7 @@ TEST_F(CShareDataTest, GetMacroFilename102)
 	EXPECT_THAT(pcShareData->GetMacroFilename(MAX_CUSTMACRO, nullptr, 0), Eq(0)); // 👈バグです。インデックスに上限を上回る値を指定したときに、範囲外アクセスしています。
 
 	// 共有データを元に戻す
-	::wcscpy_s(sMacro.m_szMACROFOLDER, macroFolder.c_str());
+	sMacro.m_szMACROFOLDER = macroFolder.c_str();
 }
 
 /*!
