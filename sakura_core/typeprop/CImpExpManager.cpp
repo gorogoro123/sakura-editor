@@ -791,7 +791,7 @@ bool CImpExpKeyHelp::Import( const std::wstring& sFileName, std::wstring& sErrMs
 		//良さそうなら
 		m_Types.m_KeyHelpArr[i].m_bUse = (b_enable_flag!=0);	// 2007.02.03 genta
 		wcscpy(m_Types.m_KeyHelpArr[i].m_szAbout, p4);
-		wcscpy(m_Types.m_KeyHelpArr[i].m_szPath,  p3);
+		m_Types.m_KeyHelpArr[i].m_szPath = p3;
 		i++;
 	}
 	in.Close();
