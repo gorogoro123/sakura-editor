@@ -596,7 +596,7 @@ int CPropTypesKeyHelp::GetData( HWND hwndDlg )
 			ListView_GetItemText( hwndList, i, 2, szPath, int(std::size(szPath)) );
 			m_Types.m_KeyHelpArr[i].m_bUse = bUse;
 			wcscpy(m_Types.m_KeyHelpArr[i].m_szAbout, szAbout);
-			wcscpy(m_Types.m_KeyHelpArr[i].m_szPath, szPath);
+			m_Types.m_KeyHelpArr[i].m_szPath = szPath;
 		}else{	/* 未登録部分はクリアする */
 			m_Types.m_KeyHelpArr[i].m_szPath[0] = L'\0';
 		}
