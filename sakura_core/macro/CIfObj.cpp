@@ -28,26 +28,14 @@
 
 /////////////////////////////////////////////
 //スクリプトに渡されるオブジェクトの型情報
-class CIfObjTypeInfo : public cxx::TComImpl<ITypeInfo>
+class CIfObjTypeInfo: public ImplementsIUnknown<ITypeInfo>
 {
 private:
-	using Base = cxx::TComImpl<ITypeInfo>;
-	using Me = CIfObjTypeInfo;
-
 	const CIfObj::CMethodInfoList& m_MethodsRef;
-	std::wstring m_sName;
-	TYPEATTR m_TypeAttr{};
-
+	const std::wstring& m_sName;
+	TYPEATTR m_TypeAttr;
 public:
-	// 生成関数
-	template<typename... Args>
-	static com_pointer_type make_instance(Args&&... args)
-		requires std::constructible_from<CIfObjTypeInfo, Args...>
-	{
-		return Base::template make_instance<CIfObjTypeInfo>(std::forward<Args>(args)...);
-	}
-
-	CIfObjTypeInfo(const CIfObj::CMethodInfoList& methods, std::wstring_view sName);
+	CIfObjTypeInfo(const CIfObj::CMethodInfoList& methods, const std::wstring& sName);
 
 	HRESULT STDMETHODCALLTYPE GetTypeAttr(
 					/* [out] */ [[maybe_unused]] TYPEATTR __RPC_FAR *__RPC_FAR *ppTypeAttr) override
@@ -215,10 +203,10 @@ public:
 	}
 };
 
-CIfObjTypeInfo::CIfObjTypeInfo(const CIfObj::CMethodInfoList& methods, std::wstring_view sName)
-	: m_MethodsRef(methods)
-	, m_sName(sName)
-{
+CIfObjTypeInfo::CIfObjTypeInfo(const CIfObj::CMethodInfoList& methods, const std::wstring& sName)
+				: ImplementsIUnknown<ITypeInfo>(), m_MethodsRef(methods), m_sName(sName)
+{ 
+	ZeroMemory(&m_TypeAttr, sizeof(m_TypeAttr));
 	m_TypeAttr.cImplTypes = 0; //親クラスのITypeInfoの数
 	m_TypeAttr.cFuncs = (WORD)m_MethodsRef.size();
 }
@@ -253,15 +241,33 @@ HRESULT STDMETHODCALLTYPE CIfObjTypeInfo::GetNames(
 //インターフェースオブジェクト
 
 //コンストラクタ
-CIfObj::CIfObj(std::wstring_view name, bool isGlobal)
-	: m_sName(name)
-	, m_isGlobal(isGlobal)
-{
-}
+CIfObj::CIfObj(const wchar_t* name, bool isGlobal)
+: ImplementsIUnknown<IDispatch>(), m_sName(name), m_isGlobal(isGlobal), m_Owner(nullptr), m_Methods(), m_TypeInfo(nullptr)
+{ 
+};
 
 //デストラクタ
-CIfObj::~CIfObj() = default;
+CIfObj::~CIfObj()
+{
+	if(m_TypeInfo != nullptr)
+		m_TypeInfo->Release();
+}
 	
+//IUnknown実装
+HRESULT STDMETHODCALLTYPE CIfObj::QueryInterface(REFIID iid, void ** ppvObject) 
+{
+	if(ppvObject == nullptr) 
+		return E_POINTER;
+	else if(IsEqualIID(iid, IID_IUnknown) || IsEqualIID(iid, IID_IDispatch))
+	{
+		AddRef();
+		*ppvObject = this;
+		return S_OK;
+	}
+	else
+		return E_NOINTERFACE;
+}
+
 //IDispatch実装
 HRESULT STDMETHODCALLTYPE CIfObj::Invoke(
 				DISPID dispidMember,
@@ -284,8 +290,10 @@ HRESULT STDMETHODCALLTYPE CIfObj::GetTypeInfo(
 				/* [in] */ [[maybe_unused]] LCID lcid,
 				/* [out] */ ITypeInfo __RPC_FAR *__RPC_FAR *ppTInfo)
 {
-	if (!m_TypeInfo) {
-		m_TypeInfo = CIfObjTypeInfo::make_instance(m_Methods, m_sName);
+	if(m_TypeInfo == nullptr)
+	{
+		m_TypeInfo = new CIfObjTypeInfo(this->m_Methods, this->m_sName);
+		m_TypeInfo->AddRef();
 	}
 		
 	(*ppTInfo) = m_TypeInfo;

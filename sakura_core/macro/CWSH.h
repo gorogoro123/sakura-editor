@@ -26,6 +26,10 @@
 #include "macro/CIfObj.h"
 
 /* 2009.10.29 syat インターフェースオブジェクト部分をCWSHIfObj.hに分離
+template<class Base>
+class ImplementsIUnknown: public Base
+
+class CInterfaceObject: public ImplementsIUnknown<IDispatch>
  */
 typedef void (*ScriptErrorHandler)(BSTR Description, BSTR Source, void *Data);
 
@@ -39,7 +43,7 @@ public:
 	typedef List::const_iterator ListIter;	// そのイテレータ
 
 	// コンストラクタ・デストラクタ
-	CWSHClient(LPCWSTR AEngine, ScriptErrorHandler AErrorHandler, void *AData);
+	CWSHClient(const wchar_t *AEngine, ScriptErrorHandler AErrorHandler, void *AData);
 	CWSHClient(const Me&) = delete;
 	Me& operator = (const Me&) = delete;
 	CWSHClient(Me&&) noexcept = delete;
@@ -49,19 +53,18 @@ public:
 	// フィールド・アクセサ
 	ScriptErrorHandler m_OnError;
 	void *m_Data;
-	bool m_Valid = false; ///< trueの場合スクリプトエンジンが使用可能。falseになる場合は ScriptErrorHandlerにエラー内容が通知されている。
+	bool m_Valid; ///< trueの場合スクリプトエンジンが使用可能。falseになる場合は ScriptErrorHandlerにエラー内容が通知されている。
 	void* GetData() const override{ return this->m_Data; }
 	const List& GetInterfaceObjects() {	return this->m_IfObjArr; }
 
 	// 操作
 	void AddInterfaceObject( CIfObj* obj );
-	bool Execute(const std::wstring& WScript);
+	bool Execute(const wchar_t *AScript);
 	void Error(BSTR Description, BSTR Source); ///< ScriptErrorHandlerを呼び出す。
 	void Error(const wchar_t* Description);          ///< ScriptErrorHandlerを呼び出す。
 
 private:
-	cxx::com_pointer<IActiveScript> m_Engine = nullptr;
+	IActiveScript *m_Engine;
 	List m_IfObjArr;
 };
-
 #endif /* SAKURA_CWSH_B4802BFB_233E_4104_AEA7_AE3721801C27_H_ */
