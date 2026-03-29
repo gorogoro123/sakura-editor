@@ -489,16 +489,7 @@ BOOL MyWinHelp(HWND hwndCaller, UINT uCommand, DWORD_PTR dwData)
 		}
 	}
 	else {
-		if( uCommandOrg == HELP_CONTEXTMENU)
-			return FALSE;	// 右クリックでは何もしないでおく
-
-		// オンラインヘルプを呼び出す
-		if( uCommandOrg != HELP_CONTEXT )
-			dwData = 1;	// 目次ページ
-
-		WCHAR buf[256];
-		swprintf( buf, int(std::size(buf)), L"https://sakura-editor.github.io/help/HLP%06Iu.html", dwData );
-		ShellExecute( ::GetActiveWindow(), nullptr, buf, nullptr, nullptr, SW_SHOWNORMAL );
+		return FALSE;
 	}
 
 	return TRUE;
