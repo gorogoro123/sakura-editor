@@ -1,12 +1,19 @@
 ﻿/*! @file */
 /*
-	Copyright (C) 2021-2025, Sakura Editor Organization
+	Copyright (C) 2021-2022, Sakura Editor Organization
 
 	SPDX-License-Identifier: Zlib
 */
 #pragma once
 
-#include "cxx/TComImpl.hpp"
+#include <Windows.h>
+
+#include <comdef.h>
+#include <oaidl.h>
+
+#include <string_view>
+
+#include "basis/TComImpl.hpp"
 
 /*!
  * @brief COMエラー情報クラス
@@ -17,23 +24,11 @@
  * @see https://docs.microsoft.com/en-us/windows/win32/api/oaidl/nn-oaidl-ierrorinfo
  * @see https://docs.microsoft.com/en-us/cpp/cpp/com-raise-error
  */
-class CErrorInfo : public cxx::TComImpl<IErrorInfo> {
-private:
-	using Base = cxx::TComImpl<IErrorInfo>;
-	using Me = CErrorInfo;
-
+class CErrorInfo : public TComImpl<IErrorInfo> {
 	_bstr_t		bstrSource_;
 	_bstr_t		bstrDescription_;
 
 public:
-	// 生成関数
-	template<typename... Args>
-	static com_pointer_type make_instance(Args&&... args)
-		requires std::constructible_from<CErrorInfo, Args...>
-	{
-		return Base::template make_instance<CErrorInfo>(std::forward<Args>(args)...);
-	}
-
 	CErrorInfo(
 		std::wstring_view source,		//!< [in] ソース
 		std::wstring_view description	//!< [in] 説明
@@ -47,4 +42,4 @@ public:
 };
 
 //! メッセージからエラー情報を生成する
-#define MakeMsgError(msg) CErrorInfo::make_instance(std::format(L"{}({})", std::filesystem::path(std::source_location::current().file_name()).wstring(), std::source_location::current().line()), (msg))
+#define MakeMsgError(msg)	new CErrorInfo(_CRT_WIDE(__FILE__) L"(" _CRT_WIDE(_CRT_STRINGIZE(__LINE__)) L")", (msg))
