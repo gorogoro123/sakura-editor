@@ -178,20 +178,6 @@ int CCommandLine::CheckCommandLine(
  * @date 2007/06/26 ryoji m_nGroupの初期値に -1 を指定
  */
 CCommandLine::CCommandLine() noexcept
-	: m_bGrepMode(false)
-	, m_bGrepDlg(false)
-	, m_bDebugMode(false)
-	, m_bNoWindow(false)
-	, m_bProfileMgr(false)
-	, m_bSetProfile(false)
-	, m_fi()
-	, m_gi()
-	, m_bViewMode(false)
-	, m_nGroup(-1)
-	, m_cmMacro()
-	, m_cmMacroType()
-	, m_cmProfile(L"")
-	, m_vFiles()
 {
 }
 
