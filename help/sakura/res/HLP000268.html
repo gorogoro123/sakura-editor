@@ -83,7 +83,7 @@
 <noscript>[<a href="HLP000001.html">目次</a>]<br></noscript>
 <h2>マクロ専用関数/変数</h2>
 メニューやツールバーからは直接利用できないマクロ専用関数があります。<br>
-ほとんどはWSH/PPA用でキーマクロ(.mac)からは利用できませんが一部例外があります。<br>
+ほとんどはWSH用でキーマクロ(.mac)からは利用できませんが一部例外があります。<br>
 <br>
 <a href="CNT000924.html">メニューに入ってないコマンド</a> にもマクロ向けコマンドがあります。<br>
 こちらは キーマクロからも利用できます。<br>
@@ -93,7 +93,6 @@
 構文: 関数名( 仮引数名 :変数型 ): 戻り値型;<br>
 <br>
 <img alt="note" src="images/note.png" />解説<br>
-PPAから利用する場合、「<strong>S_関数名</strong>」と、S_をつけてください。<br>
 WSHから利用する場合、「<strong>Editor.関数名</strong>」のように、オブジェクト名をつけてください。<br>
 <br>
 sakura: その関数が利用可能なバージョンを示します。<br>
@@ -767,7 +766,7 @@ sakura:2.0.6.0以降<br>
 <strong>引数</strong><br>
 int1&nbsp;&nbsp;&nbsp;&nbsp;フォントサイズ(1/10ポイント単位)<br>
 int2&nbsp;&nbsp;&nbsp;&nbsp;フォントサイズを拡大or縮小するための変更量(int1=0のとき有効)<br>
-int3&nbsp;&nbsp;&nbsp;&nbsp;変更範囲(省略可能、ただしPPAマクロは省略不可) sakura:2.1.0.0以降)<br>
+int3&nbsp;&nbsp;&nbsp;&nbsp;変更範囲(省略可能) sakura:2.1.0.0以降)<br>
 <strong>戻り値</strong><br>
 なし<br>
 <strong>解説</strong><br>
@@ -911,7 +910,7 @@ sakura:2.1.0.0以降<br>
 <div class="li200">
 <strong>引数</strong><br>
 str1&nbsp;&nbsp;&nbsp;&nbsp;対象文字列<br>
-int2&nbsp;&nbsp;&nbsp;&nbsp;開始Offset（省略可能、ただしPPAマクロは省略不可）<br>
+int2&nbsp;&nbsp;&nbsp;&nbsp;開始Offset（省略可能）<br>
 <strong>戻り値</strong><br>
 文字列の幅<br>
 <strong>解説</strong><br>
@@ -924,7 +923,7 @@ sakura:2.1.0.0以降<br>
 <div class="li200">
 <strong>引数</strong><br>
 str1&nbsp;&nbsp;&nbsp;&nbsp;対象文字列<br>
-int2&nbsp;&nbsp;&nbsp;&nbsp;開始Offset（省略可能、ただしPPAマクロは省略不可）<br>
+int2&nbsp;&nbsp;&nbsp;&nbsp;開始Offset（省略可能）<br>
 <strong>戻り値</strong><br>
 文字列のレイアウト幅<br>
 <strong>解説</strong><br>
