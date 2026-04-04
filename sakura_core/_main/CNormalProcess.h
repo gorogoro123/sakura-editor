@@ -33,8 +33,11 @@
 class CNormalProcess final : public CProcess {
 public:
 	//コンストラクタ・デストラクタ
-	CNormalProcess( HINSTANCE hInstance, LPCWSTR lpCmdLine );
-	~CNormalProcess();
+	CNormalProcess( HINSTANCE hInstance, LPCWSTR lpCmdLine )
+	: CProcess(hInstance, lpCmdLine)
+	{
+	}
+	~CNormalProcess() = default;
 
 protected:
 	//プロセスハンドラ

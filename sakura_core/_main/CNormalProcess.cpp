@@ -40,19 +40,6 @@
 #include "config/system_constants.h"
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
-//               コンストラクタ・デストラクタ                  //
-// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
-
-CNormalProcess::CNormalProcess( HINSTANCE hInstance, LPCWSTR lpCmdLine )
-: CProcess( hInstance, lpCmdLine )
-{
-}
-
-CNormalProcess::~CNormalProcess()
-{
-}
-
-// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                     プロセスハンドラ                        //
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 
