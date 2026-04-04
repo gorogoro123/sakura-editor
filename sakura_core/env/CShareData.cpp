@@ -195,23 +195,22 @@ bool CShareData::InitShareData()
 
 //	From Here Sept. 19, 2000 JEPRO コメントアウトになっていた初めのブロックを復活しその下をコメントアウト
 //	MS ゴシック標準スタイル10ptに設定
-//		/* LOGFONTの初期化 */
-		LOGFONT lf;
-		memset_raw( &lf, 0, sizeof( lf ) );
-		lf.lfHeight			= DpiPointsToPixels(-10);	// 2009.10.01 ryoji 高DPI対応（ポイント数から算出）
-		lf.lfWidth				= 0;
-		lf.lfEscapement		= 0;
-		lf.lfOrientation		= 0;
-		lf.lfWeight			= 400;
-		lf.lfItalic			= 0x0;
-		lf.lfUnderline			= 0x0;
-		lf.lfStrikeOut			= 0x0;
-		lf.lfCharSet			= 0x80;
-		lf.lfOutPrecision		= 0x3;
-		lf.lfClipPrecision		= 0x2;
-		lf.lfQuality			= 0x1;
-		lf.lfPitchAndFamily	= 0x31;
-		wcscpy( lf.lfFaceName, L"ＭＳ ゴシック" );
+		LOGFONT lf = {
+			.lfHeight			= DpiPointsToPixels(-10),	// 2009.10.01 ryoji 高DPI対応（ポイント数から算出）
+			.lfWidth			= 0,
+			.lfEscapement		= 0,
+			.lfOrientation		= 0,
+			.lfWeight			= 400,
+			.lfItalic			= 0x0,
+			.lfUnderline		= 0x0,
+			.lfStrikeOut		= 0x0,
+			.lfCharSet			= 0x80,
+			.lfOutPrecision		= 0x3,
+			.lfClipPrecision	= 0x2,
+			.lfQuality			= 0x1,
+			.lfPitchAndFamily	= 0x31,
+			.lfFaceName			= L"ＭＳ ゴシック",
+		};
 
 		// LoadShareDataでフォントが変わる可能性があるので、ここでは不要 // 2013.04.08 aroka
 		//InitCharWidthCacheCommon();								// 2008/5/17 Uchi
