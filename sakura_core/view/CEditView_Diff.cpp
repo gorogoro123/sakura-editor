@@ -101,7 +101,7 @@ void CEditView::ViewDiffInfo(
 	int		nFlgFile12 = 1;
 
 	/* exeのあるパス */
-	WCHAR	szExePath[_MAX_PATH + 1];
+	SFilePath	szExePath;
 
 	WCHAR	cmdline[1024];
 	GetExedir( szExePath, L"diff.exe" );
