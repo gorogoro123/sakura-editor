@@ -20,7 +20,6 @@
 
 #include "CCommandLine.h"
 #include "mem/CMemory.h"
-#include <cstring>
 #include "debug/CRunningTimer.h"
 #include "charset/charcode.h"  // 2006.06.28 rastiv
 #include "io/CTextStream.h"
@@ -169,16 +168,6 @@ int CCommandLine::CheckCommandLine(
 		}
 	}
 	return 0;	//	該当無し
-}
-
-/*! 
- * コンストラクタ
- *
- * @date 2005/08/24 D.S.Koba ParseCommandLine()変更によりメンバ変数に初期値代入
- * @date 2007/06/26 ryoji m_nGroupの初期値に -1 を指定
- */
-CCommandLine::CCommandLine() noexcept
-{
 }
 
 /*!

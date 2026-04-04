@@ -39,7 +39,7 @@
  */
 class CCommandLine : public TInstanceHolder<CCommandLine> {
 public:
-	CCommandLine() noexcept;
+	CCommandLine() = default;
 
 private:
 	static int CheckCommandLine(
