@@ -526,7 +526,7 @@ bool CViewCommander::Command_TagsMake( )
 
 	WCHAR	cmdline[1024];
 	/* ctags.exeのあるパス */
-	WCHAR	szExePath[_MAX_PATH + 1];
+	SFilePath	szExePath;
 
 	GetExedir( szExePath, CTAGS_COMMAND );
 
