@@ -389,7 +389,7 @@ BOOL ResolveShortcutLink( HWND hwnd, LPCWSTR lpszLinkFile, LPWSTR lpszPath )
 */
 static LPCWSTR GetHelpFilePath()
 {
-	static WCHAR szHelpFile[_MAX_PATH] = L"";
+	static SFilePath szHelpFile;
 	if(szHelpFile[0]==L'\0'){
 		GetExedir( szHelpFile, L"sakura.chm" );
 	}
