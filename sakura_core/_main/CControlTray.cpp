@@ -1133,8 +1133,8 @@ bool CControlTray::OpenNewEditor(
 	CCommandLineString cCmdLineBuf;
 
 	//アプリケーションパス
-	WCHAR szEXE[MAX_PATH + 1];
-	::GetModuleFileName( nullptr, szEXE, int(std::size(szEXE)) );
+	SFilePath szEXE;
+	::GetModuleFileName( nullptr, szEXE, szEXE.size() );
 	cCmdLineBuf.AppendF( L"\"%s\"", szEXE );
 
 	// ファイル名
@@ -1164,7 +1164,7 @@ bool CControlTray::OpenNewEditor(
 	}
 
 	// 追加のコマンドラインオプション
-	WCHAR szResponseFile[_MAX_PATH] = L"";
+	SFilePath szResponseFile;
 	struct CResponsefileDeleter{
 		LPCWSTR fileName;
 		CResponsefileDeleter(): fileName(nullptr){}
@@ -1183,14 +1183,14 @@ bool CControlTray::OpenNewEditor(
 	if( szCmdLineOption ){
 		// Grepなどで入りきらない場合はレスポンスファイルを利用する
 		if( cCmdLineBuf.max_size() < cCmdLineBuf.size() + wcslen(szCmdLineOption) ){
-			WCHAR szIniDir[_MAX_PATH];
+			SFilePath szIniDir;
 			GetInidir(szIniDir);
 			LPWSTR pszTempFile = _wtempnam(szIniDir, L"skr_resp");
 			if( !pszTempFile ){
 				ErrorMessage(hWndParent, LS(STR_TRAY_RESPONSEFILE));
 				return false;
 			}
-			wcscpy(szResponseFile, pszTempFile);
+			szResponseFile = pszTempFile;
 			free(pszTempFile);
 			CTextOutputStream output(szResponseFile);
 			if( !output ){
