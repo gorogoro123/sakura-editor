@@ -1103,8 +1103,7 @@ void CShareData_IO::IO_KeyBind( CDataProfile& cProfile, CommonSetting_KeyBind& s
 						p = pn+1;
 					}
 					// KeyName
-					wcsncpy(tmpKeydata.m_szKeyName, p, int(std::size(tmpKeydata.m_szKeyName))-1);
-					tmpKeydata.m_szKeyName[std::size(tmpKeydata.m_szKeyName)-1] = '\0';
+					wcsncpy_s(tmpKeydata.m_szKeyName, p, _TRUNCATE);
 
 					if( tmpKeydata.m_nKeyCode <= 0 ){ // マウスコードは先頭に固定されている KeyCodeが同じなのでKeyNameで判別
 // 互換性のため残したと書かれているが現状の共有データ構造と矛盾していて不正コードになってるので無効化しておく。
