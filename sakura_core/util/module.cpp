@@ -17,8 +17,7 @@
 */
 void ChangeCurrentDirectoryToExeDir()
 {
-	WCHAR szExeDir[_MAX_PATH];
-	szExeDir[0] = L'\0';
+	SFilePath szExeDir;
 	GetExedir( szExeDir, nullptr );
 	if( szExeDir[0] ){
 		::SetCurrentDirectory( szExeDir );
