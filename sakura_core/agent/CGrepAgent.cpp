@@ -213,9 +213,9 @@ void CGrepAgent::CreateFolders( const WCHAR* pszPath, std::vector<std::wstring>&
 		// パスに含まれる '"' を削除する
 		strTemp.erase( std::remove( strTemp.begin(), strTemp.end(), L'"' ), strTemp.end() );
 		/* ロングファイル名を取得する */
-		WCHAR szTmp2[_MAX_PATH];
+		SFilePath szTmp2;
 		if( ::GetLongFileName( strTemp.c_str(), szTmp2 ) ){
-			vPaths.push_back( szTmp2 );
+			vPaths.emplace_back( szTmp2 );
 		}else{
 			vPaths.emplace_back( strTemp );
 		}
