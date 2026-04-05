@@ -83,14 +83,14 @@ BOOL CDlgOpenFile::SelectFile(
 {
 	CDlgOpenFile cDlgOpenFile;
 	WCHAR			szFilePath[_MAX_PATH + 1];
-	WCHAR			szPath[_MAX_PATH + 1];
+	SFilePath		szPath;
 	::GetWindowText( hwndCtl, szFilePath, int(std::size(szFilePath)) );
 	// 2003.06.23 Moca 相対パスは実行ファイルからのパスとして開く
 	// 2007.05.19 ryoji 相対パスは設定ファイルからのパスを優先
 	if( resolvePath && _IS_REL_PATH( szFilePath ) ){
 		GetInidirOrExedir(szPath, szFilePath);
 	}else{
-		wcscpy(szPath, szFilePath);
+		szPath = szFilePath;
 	}
 	/* ファイルオープンダイアログの初期化 */
 	cDlgOpenFile.Create(
