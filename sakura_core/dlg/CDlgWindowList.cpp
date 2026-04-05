@@ -103,11 +103,11 @@ void CDlgWindowList::GetDataListView(std::vector<HWND>& aHwndList)
 	for (int i = 0; i < nCount; i++) {
 		const BOOL bCheck = ListView_GetCheckState(hwndList, i);
 		if (bCheck) {
-			LV_ITEM lvitem;
-			memset_raw(&lvitem, 0, sizeof(lvitem));
-			lvitem.mask = LVIF_PARAM;
-			lvitem.iItem = i;
-			lvitem.iSubItem = 0;
+			LV_ITEM lvitem = {
+				.mask = LVIF_PARAM,
+				.iItem = i,
+				.iSubItem = 0,
+			};
 			if (ListView_GetItem(hwndList, &lvitem )) {
 				aHwndList.push_back((HWND)lvitem.lParam);
 			}
