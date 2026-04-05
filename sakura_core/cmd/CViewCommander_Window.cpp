@@ -238,15 +238,13 @@ void CViewCommander::Command_CASCADE( )
 
 		// まずカレントを最前面に
 		i = count - 1;
-
-		if (0 <= i) {
-			::SetWindowPos(
-				pWndArr[i].hWnd, HWND_TOP,
-				pWndArr[i].newX, pWndArr[i].newY,
-				width, height,
-				0
-			);
-		}
+		
+		::SetWindowPos(
+			pWndArr[i].hWnd, HWND_TOP,
+			pWndArr[i].newX, pWndArr[i].newY,
+			width, height,
+			0
+		);
 
 		// 残りを1つずつ下に入れていく
 		while( --i >= 0 ){
