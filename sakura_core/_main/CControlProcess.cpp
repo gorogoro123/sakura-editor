@@ -158,8 +158,8 @@ bool CControlProcess::InitializeProcess()
 	}
 
 	// コントロールプロセスのカレントディレクトリをシステムディレクトリに変更
-	WCHAR szDir[_MAX_PATH];
-	::GetSystemDirectory( szDir, int(std::size(szDir)) );
+	SFilePath szDir;
+	::GetSystemDirectory( szDir, szDir.size() );
 	::SetCurrentDirectory( szDir );
 
 	/* 共有データのロード */
