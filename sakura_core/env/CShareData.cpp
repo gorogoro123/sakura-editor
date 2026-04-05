@@ -579,7 +579,7 @@ bool CShareData::InitShareData()
 			}
 			//	To Here Sep. 14, 2001 genta
 
-			wcscpy( sMacro.m_szMACROFOLDER, szIniFolder );	/* マクロ用フォルダー */
+			sMacro.m_szMACROFOLDER = szIniFolder;	/* マクロ用フォルダー */
 
 			sMacro.m_nMacroOnOpened = -1;	/* オープン後自動実行マクロ番号 */	//@@@ 2006.09.01 ryoji
 			sMacro.m_nMacroOnTypeChanged = -1;	/* タイプ変更後自動実行マクロ番号 */	//@@@ 2006.09.01 ryoji
