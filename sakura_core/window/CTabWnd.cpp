@@ -2817,9 +2817,12 @@ LRESULT CTabWnd::TabListMenu( POINT pt, BOOL bSel/* = TRUE*/, BOOL bFull/* = FAL
 		EditNode* pEditNode;
 		int i;
 		int nGroup = 0;
+		int nSelfTab;
+		int nTab;
+		int nCount;
 
 		// タブメニュー用の情報を取得する
-		const auto nCount = CAppNodeManager::getInstance()->GetOpenedWindowArr( &pEditNode, TRUE );
+		nCount = CAppNodeManager::getInstance()->GetOpenedWindowArr( &pEditNode, TRUE );
 		if( 0 >= nCount )
 			return 0L;
 
@@ -2836,10 +2839,10 @@ LRESULT CTabWnd::TabListMenu( POINT pt, BOOL bSel/* = TRUE*/, BOOL bFull/* = FAL
 			return 0L;
 		}
 
-		std::vector<TABMENU_DATA> pData{ size_t(nCount), TABMENU_DATA{} };	// タブメニュー用の情報
+		TABMENU_DATA* pData = new TABMENU_DATA[nCount];	// タブメニュー用の情報
 
 		// 自グループのウィンドウ一覧情報を作成する
-		int nSelfTab = 0;
+		nSelfTab = 0;
 		if( i < nCount )
 		{
 			for( i = 0; i < nCount; i++ )
@@ -2848,10 +2851,6 @@ LRESULT CTabWnd::TabListMenu( POINT pt, BOOL bSel/* = TRUE*/, BOOL bFull/* = FAL
 					continue;
 				if( pEditNode[i].m_bClosing )	// このあとすぐに閉じるウィンドウなのでタブ表示しない
 					continue;
-				if (nSelfTab < 0 || std::ssize(pData) <= nSelfTab) {
-					continue;
-				}
-
 				GetTabName( &pEditNode[i], bFull, TRUE, pData[nSelfTab].szText, _countof(pData[0].szText) );
 				pData[nSelfTab].hwnd = pEditNode[i].m_hWnd;
 				pData[nSelfTab].iItem = i;
@@ -2859,25 +2858,18 @@ LRESULT CTabWnd::TabListMenu( POINT pt, BOOL bSel/* = TRUE*/, BOOL bFull/* = FAL
 				nSelfTab++;
 			}
 			// 表示文字でソートする
-			if (nSelfTab > 0 && m_pShareData->m_Common.m_sTabBar.m_bSortTabList) {
-				std::sort(pData.begin(), pData.begin() + nSelfTab, [](const TABMENU_DATA& a, const TABMENU_DATA& b) {
-					return compTABMENU_DATA(&a, &b);
-				});
-			}
+			if( nSelfTab > 0 && m_pShareData->m_Common.m_sTabBar.m_bSortTabList )	// 2006.03.23 fon 変更
+				qsort( pData, nSelfTab, sizeof(pData[0]), compTABMENU_DATA );
 		}
 
 		// 他グループのウィンドウ一覧情報を作成する
-		int nTab = nSelfTab;
+		nTab = nSelfTab;
 		for( i = 0; i < nCount; i++ )
 		{
 			if( pEditNode[i].m_nGroup == nGroup )
 				continue;
 			if( pEditNode[i].m_bClosing )	// このあとすぐに閉じるウィンドウなのでタブ表示しない
 				continue;
-			if (nTab < 0 || std::ssize(pData) <= nTab) {
-				continue;
-			}
-
 			GetTabName( &pEditNode[i], bFull, TRUE, pData[nTab].szText, _countof(pData[0].szText) );
 			pData[nTab].hwnd = pEditNode[i].m_hWnd;
 			pData[nTab].iItem = i;
@@ -2885,11 +2877,8 @@ LRESULT CTabWnd::TabListMenu( POINT pt, BOOL bSel/* = TRUE*/, BOOL bFull/* = FAL
 			nTab++;
 		}
 		// 表示文字でソートする
-		if (nTab > nSelfTab && m_pShareData->m_Common.m_sTabBar.m_bSortTabList) {
-			std::sort(pData.begin() + nSelfTab, pData.end(), [](const TABMENU_DATA& a, const TABMENU_DATA& b) {
-				return compTABMENU_DATA(&a, &b);
-			});
-		}
+		if( nTab > nSelfTab && m_pShareData->m_Common.m_sTabBar.m_bSortTabList )
+			qsort( pData + nSelfTab, nTab - nSelfTab, sizeof(pData[0]), compTABMENU_DATA );
 
 		delete []pEditNode;
 
@@ -2961,6 +2950,8 @@ LRESULT CTabWnd::TabListMenu( POINT pt, BOOL bSel/* = TRUE*/, BOOL bFull/* = FAL
 		{
 			ActivateFrameWindow( pData[nId - IDM_SELWINDOW].hwnd );
 		}
+
+		delete []pData;
 
 	} while( bRepeat );
 
