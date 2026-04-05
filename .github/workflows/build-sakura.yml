@@ -132,13 +132,6 @@ jobs:
         name: Log ${{ matrix.platform }} ${{ matrix.config }}
         path: 'sakura-*-Log.zip'
 
-    - name: Upload Asm
-      uses: actions/upload-artifact@v6
-      if: ${{ matrix.config == 'Release' }}
-      with:
-        name: Asm ${{ matrix.platform }} ${{ matrix.config }}
-        path: 'sakura-*-Asm.zip'
-
     - name: Upload Dev
       uses: actions/upload-artifact@v6
       if: ${{ matrix.config == 'Release' }}

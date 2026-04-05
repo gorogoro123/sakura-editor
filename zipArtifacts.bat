@@ -147,17 +147,14 @@ set RELDIR_LOG=Log
 set RELDIR_EXE=EXE
 set RELDIR_DEV=DEV
 set RELDIR_INST=Installer
-set RELDIR_ASM=Asm
 
 set WORKDIR_LOG=%WORKDIR%\%RELDIR_LOG%
 set WORKDIR_EXE=%WORKDIR%\%RELDIR_EXE%
 set WORKDIR_DEV=%WORKDIR%\%RELDIR_DEV%
 set WORKDIR_INST=%WORKDIR%\%RELDIR_INST%
-set WORKDIR_ASM=%WORKDIR%\%RELDIR_ASM%
 
 set OUTFILE=%~dp0%BASENAME%-All.zip
 set OUTFILE_LOG=%~dp0%BASENAME%-Log.zip
-set OUTFILE_ASM=%~dp0%BASENAME%-Asm.zip
 set OUTFILE_INST=%~dp0%BASENAME%-Installer.zip
 set OUTFILE_EXE=%~dp0%BASENAME%-Exe.zip
 set OUTFILE_DEV=%~dp0%BASENAME%-Dev.zip
@@ -168,9 +165,6 @@ if exist "%OUTFILE%" (
 )
 if exist "%OUTFILE_LOG%" (
 	del %OUTFILE_LOG%
-)
-if exist "%OUTFILE_ASM%" (
-	del %OUTFILE_ASM%
 )
 if exist "%OUTFILE_INST%" (
 	del %OUTFILE_INST%
@@ -183,9 +177,6 @@ if exist "%OUTFILE_DEV%" (
 )
 if exist "%WORKDIR%" (
 	rmdir /s /q "%WORKDIR%"
-)
-if exist "%WORKDIR_ASM%" (
-	rmdir /s /q "%WORKDIR_ASM%"
 )
 
 mkdir %WORKDIR%
@@ -260,18 +251,8 @@ pushd %WORKDIR_INST% && call %ZIP_CMD%       %OUTFILE_INST% .  && popd
 pushd %WORKDIR_EXE%  && call %ZIP_CMD%       %OUTFILE_EXE%  .  && popd
 pushd %WORKDIR_DEV%  && call %ZIP_CMD%       %OUTFILE_DEV%  .  && popd
 
-@echo start zip asm
-mkdir %WORKDIR_ASM%
-copy /Y build\%platform%\%configuration%\sakura_core\*.asm %WORKDIR_ASM%\ > NUL
-pushd %WORKDIR_ASM%  && call %ZIP_CMD%       %OUTFILE_ASM%  .  && popd
-
-@echo end   zip asm
-
 if exist "%WORKDIR%" (
 	rmdir /s /q "%WORKDIR%"
-)
-if exist "%WORKDIR_ASM%" (
-	rmdir /s /q "%WORKDIR_ASM%"
 )
 
 
