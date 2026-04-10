@@ -15,14 +15,17 @@ class CMyPoint;
 class CAutoScrollWnd final: public CWnd
 {
 public:
-	CAutoScrollWnd();
-	virtual ~CAutoScrollWnd();
+	CAutoScrollWnd()
+	: CWnd(L"::CAutoScrollWnd")
+	{
+	}
+	virtual ~CAutoScrollWnd() = default;
 	HWND Create( HINSTANCE hInstance, HWND hwndParent, bool bVertical, bool bHorizontal,
 				 const CMyPoint& point, CEditView* view );
 	void Close();
 
 private:
-	HBITMAP	m_hCenterImg;
+	HBITMAP	m_hCenterImg = nullptr;
 	CEditView*	m_cView;
 protected:
 	/* 仮想関数 */

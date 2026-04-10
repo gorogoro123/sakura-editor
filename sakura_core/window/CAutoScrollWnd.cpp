@@ -10,17 +10,6 @@
 #include "view/CEditView.h"
 #include "sakura_rc.h"
 
-CAutoScrollWnd::CAutoScrollWnd()
-: CWnd(L"::CAutoScrollWnd")
-{
-	m_hCenterImg = nullptr;
-	return;
-}
-
-CAutoScrollWnd::~CAutoScrollWnd()
-{
-}
-
 HWND CAutoScrollWnd::Create( HINSTANCE hInstance, HWND hwndParent, bool bVertical, bool bHorizontal, const CMyPoint& point, CEditView* view )
 {
 	LPCWSTR pszClassName;
