@@ -9,6 +9,7 @@
 #include "module.h"
 #include "util/os.h"
 #include "util/file.h"
+#include "basis/CMyString.h"
 #include <Shlwapi.h>	// 2006.06.17 ryoji
 
 /*! 
