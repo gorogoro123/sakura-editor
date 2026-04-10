@@ -146,8 +146,7 @@ const wchar_t* CKeyWordSetMgr::SetTypeName( int nIdx, const wchar_t* name )
 	if( nullptr == name || nIdx < 0 || m_nKeyWordSetNum <= nIdx ){
 		return nullptr;
 	}
-	wcsncpy( m_szSetNameArr[nIdx], name, MAX_SETNAMELEN );
-	m_szSetNameArr[nIdx][MAX_SETNAMELEN] = L'\0';
+	wcsncpy_s( m_szSetNameArr[nIdx], name, _TRUNCATE );
 	return m_szSetNameArr[nIdx];
 }
 
