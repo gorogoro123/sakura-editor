@@ -6,6 +6,7 @@
  */
 
 #include "pch.h"
+#include "charset/charcode.h"
 #include "testing/StartEditorProcess.hpp"
 
 /*!

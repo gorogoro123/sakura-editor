@@ -4,12 +4,12 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#include "charset/charcode.h"
 #include "pch.h"
 #include <algorithm>
 #include <cstring>
 #include <string>
 #include <Windows.h>
+#include "charset/charcode.h"
 
 class CharWidthCache : public testing::Test {
 protected:

@@ -4,6 +4,8 @@
 	SPDX-License-Identifier: Zlib
  */
 #include "pch.h"
+#include "basis/CEol.h"
+#include "charset/charcode.h"
 #include "charset/charset.h"
 
 /*!
