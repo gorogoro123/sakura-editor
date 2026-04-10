@@ -19,7 +19,7 @@ enum class WatchUpdate : int {
 
 class CAutoReloadAgent : public CDocListenerEx{
 public:
-	CAutoReloadAgent();
+	CAutoReloadAgent() = default;
 	void OnBeforeSave(const SSaveInfo& sSaveInfo) override;
 	void OnAfterSave(const SSaveInfo& sSaveInfo) override;
 	void OnAfterLoad(const SLoadInfo& sLoadInfo) override;
