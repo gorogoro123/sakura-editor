@@ -24,8 +24,8 @@ struct STypeConfig;
 class CDlgSameColor final : public CDialog
 {
 public:
-	CDlgSameColor();
-	~CDlgSameColor();
+	CDlgSameColor() = default;
+	~CDlgSameColor() = default;
 	int DoModal( HINSTANCE hInstance, HWND hwndParent, WORD wID, STypeConfig* pTypes, COLORREF cr );		//!< モーダルダイアログの表示
 
 protected:

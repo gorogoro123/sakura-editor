@@ -39,16 +39,6 @@ LPVOID CDlgSameColor::GetHelpIdTable( )
 	return (LPVOID)p_helpids;
 }
 
-CDlgSameColor::CDlgSameColor()
-{
-	return;
-}
-
-CDlgSameColor::~CDlgSameColor()
-{
-	return;
-}
-
 /*!
 	標準以外のメッセージを捕捉する
 */
