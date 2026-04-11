@@ -601,25 +601,21 @@ void CViewCommander::Command_MAXIMIZE_H( )
 /* すべて最小化 */	//	Sept. 17, 2000 jepro 説明の「全て」を「すべて」に統一
 void CViewCommander::Command_MINIMIZE_ALL( )
 {
-	HWND*	phWndArr;
-	int		i;
-	int		j;
-	j = GetDllShareData().m_sNodes.m_nEditArrNum;
+	int j = GetDllShareData().m_sNodes.m_nEditArrNum;
 	if( 0 == j ){
 		return;
 	}
-	phWndArr = new HWND[j];
-	for( i = 0; i < j; ++i ){
-		phWndArr[i] = GetDllShareData().m_sNodes.m_pEditArr[i].GetHwnd();
+	std::vector<HWND> vHwndArr(j);
+	for( int i = 0; i < j; ++i ){
+		vHwndArr[i] = GetDllShareData().m_sNodes.m_pEditArr[i].GetHwnd();
 	}
-	for( i = 0; i < j; ++i ){
-		if( IsSakuraMainWindow( phWndArr[i] ) )
+	for( auto& hwnd : vHwndArr){
+		if( IsSakuraMainWindow( hwnd ) )
 		{
-			if( ::IsWindowVisible( phWndArr[i] ) )
-				::ShowWindow( phWndArr[i], SW_MINIMIZE );
+			if( ::IsWindowVisible( hwnd ) )
+				::ShowWindow( hwnd, SW_MINIMIZE );
 		}
 	}
-	delete [] phWndArr;
 	return;
 }
 
