@@ -140,7 +140,7 @@ void CViewCommander::Command_CASCADE( )
 			int		newY;
 		};
 
-		WNDARR*	pWndArr = new WNDARR[nRowNum];
+		std::vector<WNDARR> vWndArr(nRowNum);
 		int		count = 0;	//	処理対象ウィンドウカウント
 		// Mar. 20, 2004 genta 現在のウィンドウを末尾に持っていくのに使う
 		int		current_win_index = -1;
@@ -162,14 +162,14 @@ void CViewCommander::Command_CASCADE( )
 				current_win_index = i;
 				continue;
 			}
-			pWndArr[count].hWnd = pEditNodeArr[i].GetHwnd();
+			vWndArr[count].hWnd = pEditNodeArr[i].GetHwnd();
 			count++;
 		}
 
 		//	Mar. 20, 2004 genta
 		//	現在のウィンドウを末尾に挿入 inspired by crayonzen
 		if( current_win_index >= 0 ){
-			pWndArr[count].hWnd = pEditNodeArr[current_win_index].GetHwnd();
+			vWndArr[count].hWnd = pEditNodeArr[current_win_index].GetHwnd();
 			count++;
 		}
 
@@ -212,8 +212,8 @@ void CViewCommander::Command_CASCADE( )
 				h_offset = rcDesktop.top;
 			}
 			
-			pWndArr[i].newX = w_offset;
-			pWndArr[i].newY = h_offset;
+			vWndArr[i].newX = w_offset;
+			vWndArr[i].newY = h_offset;
 
 			w_offset += w_delta;
 			h_offset += h_delta;
@@ -227,7 +227,7 @@ void CViewCommander::Command_CASCADE( )
 		//	Sep. 04, 2004 genta
 		// -----------------------------------------
 		for( i = 0; i < count; i++ ){
-			::ShowWindow( pWndArr[i].hWnd, SW_RESTORE | SW_SHOWNA );
+			::ShowWindow( vWndArr[i].hWnd, SW_RESTORE | SW_SHOWNA );
 		}
 
 		// -----------------------------------------
@@ -240,8 +240,8 @@ void CViewCommander::Command_CASCADE( )
 		i = count - 1;
 		
 		::SetWindowPos(
-			pWndArr[i].hWnd, HWND_TOP,
-			pWndArr[i].newX, pWndArr[i].newY,
+			vWndArr[i].hWnd, HWND_TOP,
+			vWndArr[i].newX, vWndArr[i].newY,
 			width, height,
 			0
 		);
@@ -249,14 +249,13 @@ void CViewCommander::Command_CASCADE( )
 		// 残りを1つずつ下に入れていく
 		while( --i >= 0 ){
 			::SetWindowPos(
-				pWndArr[i].hWnd, pWndArr[i + 1].hWnd,
-				pWndArr[i].newX, pWndArr[i].newY,
+				vWndArr[i].hWnd, vWndArr[i + 1].hWnd,
+				vWndArr[i].newX, vWndArr[i].newY,
 				width, height,
 				SWP_NOACTIVATE
 			);
 		}
 
-		delete [] pWndArr;
 		delete [] pEditNodeArr;
 	}
 	return;
