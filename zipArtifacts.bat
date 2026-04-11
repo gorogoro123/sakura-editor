@@ -145,19 +145,16 @@ set WORKDIR=%BASENAME%
 
 set RELDIR_LOG=Log
 set RELDIR_EXE=EXE
-set RELDIR_DEV=DEV
 set RELDIR_INST=Installer
 
 set WORKDIR_LOG=%WORKDIR%\%RELDIR_LOG%
 set WORKDIR_EXE=%WORKDIR%\%RELDIR_EXE%
-set WORKDIR_DEV=%WORKDIR%\%RELDIR_DEV%
 set WORKDIR_INST=%WORKDIR%\%RELDIR_INST%
 
 set OUTFILE=%~dp0%BASENAME%-All.zip
 set OUTFILE_LOG=%~dp0%BASENAME%-Log.zip
 set OUTFILE_INST=%~dp0%BASENAME%-Installer.zip
 set OUTFILE_EXE=%~dp0%BASENAME%-Exe.zip
-set OUTFILE_DEV=%~dp0%BASENAME%-Dev.zip
 
 @rem cleanup for local testing
 if exist "%OUTFILE%" (
@@ -172,9 +169,6 @@ if exist "%OUTFILE_INST%" (
 if exist "%OUTFILE_EXE%" (
 	del %OUTFILE_EXE%
 )
-if exist "%OUTFILE_DEV%" (
-	del %OUTFILE_DEV%
-)
 if exist "%WORKDIR%" (
 	rmdir /s /q "%WORKDIR%"
 )
@@ -185,11 +179,9 @@ mkdir %WORKDIR_EXE%
 mkdir %WORKDIR_EXE%\license\
 mkdir %WORKDIR_EXE%\license\bregonig\
 mkdir %WORKDIR_EXE%\license\ctags\
-mkdir %WORKDIR_DEV%
 mkdir %WORKDIR_INST%
 copy /Y /B %platform%\%configuration%\sakura.exe %WORKDIR_EXE%\
 copy /Y /B %platform%\%configuration%\*.dll      %WORKDIR_EXE%\
-copy /Y /B %platform%\%configuration%\*.pdb      %WORKDIR_DEV%\
 
 : LICENSE
 copy /Y .\LICENSE                                   %WORKDIR_EXE%\license\ > NUL
@@ -207,8 +199,6 @@ copy /Y /B %INSTALLER_RESOURCES_CTAGS%\license\*.*  %WORKDIR_EXE%\license\ctags\
 copy /Y /B help\macro\macro.chm    %WORKDIR_EXE%\
 copy /Y /B help\plugin\plugin.chm  %WORKDIR_EXE%\
 copy /Y /B help\sakura\sakura.chm  %WORKDIR_EXE%\
-copy /Y /B html\sakura-doxygen.chm %WORKDIR_DEV%\
-copy /Y /B html\sakura-doxygen.chi %WORKDIR_DEV%\
 
 copy /Y /B installer\Output-%platform%\*.exe       %WORKDIR_INST%\
 copy /Y msbuild-%platform%-%configuration%.log     %WORKDIR_LOG%\
@@ -249,7 +239,6 @@ copy /Y installer\warning.txt        %WORKDIR_INST%\
 
 pushd %WORKDIR_INST% && call %ZIP_CMD%       %OUTFILE_INST% .  && popd
 pushd %WORKDIR_EXE%  && call %ZIP_CMD%       %OUTFILE_EXE%  .  && popd
-pushd %WORKDIR_DEV%  && call %ZIP_CMD%       %OUTFILE_DEV%  .  && popd
 
 if exist "%WORKDIR%" (
 	rmdir /s /q "%WORKDIR%"
