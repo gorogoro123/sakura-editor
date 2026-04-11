@@ -272,7 +272,7 @@ void CViewCommander::Command_TILE_V( )
 	int			nRowNum = CAppNodeManager::getInstance()->GetOpenedWindowArr( &pEditNodeArr, TRUE/*FALSE*/, TRUE );
 
 	if( nRowNum > 0 ){
-		HWND*	phwndArr = new HWND[nRowNum];
+		std::vector<HWND> vHwndArr(nRowNum);
 		int		count = 0;
 		//	デスクトップサイズを得る
 		RECT	rcDesktop;
@@ -288,34 +288,32 @@ void CViewCommander::Command_TILE_V( )
 			//	From Here Jul. 28, 2002 genta
 			//	現在のウィンドウを先頭に持ってくる
 			if( pEditNodeArr[i].GetHwnd() == CEditWnd::getInstance()->GetHwnd() ){
-				phwndArr[count] = phwndArr[0];
-				phwndArr[0] = CEditWnd::getInstance()->GetHwnd();
+				vHwndArr[count] = vHwndArr[0];
+				vHwndArr[0] = CEditWnd::getInstance()->GetHwnd();
 			}
 			else {
-				phwndArr[count] = pEditNodeArr[i].GetHwnd();
+				vHwndArr[count] = pEditNodeArr[i].GetHwnd();
 			}
 			//	To Here Jul. 28, 2002 genta
 			count++;
 		}
 		if( count == 0 ){
-			delete[] phwndArr;
 			delete[] pEditNodeArr;
 			return;
 		}
 		int height = (rcDesktop.bottom - rcDesktop.top ) / count;
 		for(i = 0; i < count; ++i ){
 			//	Jul. 21, 2002 genta
-			::ShowWindow( phwndArr[i], SW_RESTORE );
+			::ShowWindow( vHwndArr[i], SW_RESTORE );
 			::SetWindowPos(
-				phwndArr[i], nullptr,
+				vHwndArr[i], nullptr,
 				rcDesktop.left, rcDesktop.top + height * i, //Mar. 19, 2004 crayonzen 上端調整
 				rcDesktop.right - rcDesktop.left, height,
 				SWP_NOOWNERZORDER | SWP_NOZORDER
 			);
 		}
-		::SetFocus( phwndArr[0] );	// Aug. 17, 2002 MIK
+		::SetFocus( vHwndArr[0] );	// Aug. 17, 2002 MIK
 
-		delete [] phwndArr;
 		delete [] pEditNodeArr;
 	}
 	return;
