@@ -16,13 +16,6 @@
 #include "CDocLine.h"
 #include "mem/CMemory.h"
 
-CDocLine::CDocLine()
-: m_pPrev( nullptr ), m_pNext( nullptr )
-{
-}
-
-CDocLine::~CDocLine() = default;
-
 /* 空行（スペース、タブ、改行記号のみの行）かどうかを取得する
 	true：空行だ。
 	false：空行じゃないぞ。
