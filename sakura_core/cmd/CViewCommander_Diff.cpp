@@ -248,7 +248,7 @@ void CViewCommander::Command_Diff( const WCHAR* _szDiffFile2, int nFlgOpt )
 	const WCHAR* szDiffFile2 = strDiffFile2.c_str();
 
 	bool	bTmpFile1 = false;
-	WCHAR	szTmpFile1[_MAX_PATH * 2];
+	SFilePath	szTmpFile1;
 
 	if( !IsFileExists( szDiffFile2, true ) )
 	{
@@ -277,14 +277,14 @@ void CViewCommander::Command_Diff( const WCHAR* _szDiffFile2, int nFlgOpt )
 		}
 		bTmpFile1 = true;
 	}else{
-		wcscpy( szTmpFile1, GetDocument()->m_cDocFile.GetFilePath() );
+		szTmpFile1 = GetDocument()->m_cDocFile.GetFilePath();
 	}
 
 	bool bTmpFile2 = false;
-	WCHAR	szTmpFile2[_MAX_PATH * 2];
+	SFilePath	szTmpFile2;
 	bool bTmpFileMode = code2 != saveCode2;
 	if( !bTmpFileMode ){
-		wcscpy(szTmpFile2, szDiffFile2);
+		szTmpFile2 = szDiffFile2;
 	}else if( m_pCommanderView->MakeDiffTmpFile2( szTmpFile2, szDiffFile2, code2, saveCode2 ) ){
 		bTmpFile2 = true;
 	}else{
