@@ -38,8 +38,8 @@ protected:
 	friend class CDocLineMgr; //######仮
 public:
 	//コンストラクタ・デストラクタ
-	CDocLine();
-	~CDocLine();
+	CDocLine() = default;
+	~CDocLine() = default;
 
 	//判定
 	bool			IsEmptyLine() const;		//	このCDocLineが空行（スペース、タブ、改行記号のみの行）かどうか。
@@ -105,8 +105,8 @@ public:
 	void _SetNextLine(CDocLine* pcDocLine){ m_pNext = pcDocLine; }
 
 private: //####
-	CDocLine*	m_pPrev;	//!< 一つ前の要素
-	CDocLine*	m_pNext;	//!< 一つ後の要素
+	CDocLine*	m_pPrev = nullptr;	//!< 一つ前の要素
+	CDocLine*	m_pNext = nullptr;	//!< 一つ後の要素
 private:
 	CNativeW	m_cLine;	//!< データ  2007.10.11 kobake ポインタではなく、実体を持つように変更
 public:
