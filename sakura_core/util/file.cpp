@@ -589,16 +589,16 @@ void GetInidirOrExedir(
 */
 LPCWSTR GetRelPath( LPCWSTR pszPath )
 {
-	WCHAR szPath[_MAX_PATH + 1];
+	SFilePath szPath;
 	LPCWSTR pszFileName = pszPath;
 
 	GetInidir( szPath, L"" );
-	auto nLen = int(wcslen(szPath));
+	auto nLen = szPath.length();
 	if( 0 == wmemicmp( szPath, pszPath, nLen ) ){
 		pszFileName = pszPath + nLen;
 	}else{
 		GetExedir( szPath, L"" );
-		nLen = (int)wcslen( szPath );
+		nLen = szPath.length();
 		if( 0 == wmemicmp( szPath, pszPath, nLen ) ){
 			pszFileName = pszPath + nLen;
 		}
