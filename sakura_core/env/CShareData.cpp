@@ -593,24 +593,20 @@ bool CShareData::InitShareData()
 			sFileName.m_bTransformShortPath = true;
 			sFileName.m_nTransformShortMaxWidth = 100; // 100'x'幅
 
-			for( int i = 0; i < MAX_TRANSFORM_FILENAME; ++i ){
-				sFileName.m_szTransformFileNameFrom[i][0] = L'\0';
-				sFileName.m_szTransformFileNameTo[i][0] = L'\0';
-			}
-			wcscpy( sFileName.m_szTransformFileNameFrom[0], L"%DeskTop%\\" );
-			wcscpy( sFileName.m_szTransformFileNameTo[0],   L"デスクトップ\\" );
-			wcscpy( sFileName.m_szTransformFileNameFrom[1], L"%Personal%\\" );
-			wcscpy( sFileName.m_szTransformFileNameTo[1],   L"マイドキュメント\\" );
-			wcscpy( sFileName.m_szTransformFileNameFrom[2], L"%Cache%\\Content.IE5\\" );
-			wcscpy( sFileName.m_szTransformFileNameTo[2],   L"IEキャッシュ\\" );
-			wcscpy( sFileName.m_szTransformFileNameFrom[3], L"%TEMP%\\" );
-			wcscpy( sFileName.m_szTransformFileNameTo[3],   L"TEMP\\" );
-			wcscpy( sFileName.m_szTransformFileNameFrom[4], L"%Common DeskTop%\\" );
-			wcscpy( sFileName.m_szTransformFileNameTo[4],   L"共有デスクトップ\\" );
-			wcscpy( sFileName.m_szTransformFileNameFrom[5], L"%Common Documents%\\" );
-			wcscpy( sFileName.m_szTransformFileNameTo[5],   L"共有ドキュメント\\" );
-			wcscpy( sFileName.m_szTransformFileNameFrom[6], L"%AppData%\\" );	// 2007.05.19 ryoji 追加
-			wcscpy( sFileName.m_szTransformFileNameTo[6],   L"アプリデータ\\" );	// 2007.05.19 ryoji 追加
+			sFileName.m_szTransformFileNameFrom[0] = L"%DeskTop%\\";
+			sFileName.m_szTransformFileNameTo[0] = L"デスクトップ\\";
+			sFileName.m_szTransformFileNameFrom[1] = L"%Personal%\\";
+			sFileName.m_szTransformFileNameTo[1] = L"マイドキュメント\\";
+			sFileName.m_szTransformFileNameFrom[2] = L"%Cache%\\Content.IE5\\";
+			sFileName.m_szTransformFileNameTo[2] = L"IEキャッシュ\\";
+			sFileName.m_szTransformFileNameFrom[3] = L"%TEMP%\\";
+			sFileName.m_szTransformFileNameTo[3] = L"TEMP\\";
+			sFileName.m_szTransformFileNameFrom[4] = L"%Common DeskTop%\\";
+			sFileName.m_szTransformFileNameTo[4] = L"共有デスクトップ\\";
+			sFileName.m_szTransformFileNameFrom[5] = L"%Common Documents%\\";
+			sFileName.m_szTransformFileNameTo[5] = L"共有ドキュメント\\";
+			sFileName.m_szTransformFileNameFrom[6] = L"%AppData%\\";	// 2007.05.19 ryoji 追加
+			sFileName.m_szTransformFileNameTo[6] = L"アプリデータ\\";	// 2007.05.19 ryoji 追加
 			sFileName.m_nTransformFileNameArrNum = 7;
 		}
 

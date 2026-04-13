@@ -421,9 +421,9 @@ void CShareData_IO::ShareData_IO_Nickname( CDataProfile& cProfile )
 	int nSize = pShare->m_Common.m_sFileName.m_nTransformFileNameArrNum;
 	for( i = 0; i < nSize; ++i ){
 		auto_sprintf( szKeyName, L"From%02d", i );
-		cProfile.IOProfileData(pszSecName, szKeyName, StringBufferW(pShare->m_Common.m_sFileName.m_szTransformFileNameFrom[i]));
+		cProfile.IOProfileData(pszSecName, szKeyName, pShare->m_Common.m_sFileName.m_szTransformFileNameFrom[i]);
 		auto_sprintf( szKeyName, L"To%02d", i );
-		cProfile.IOProfileData(pszSecName, szKeyName, StringBufferW(pShare->m_Common.m_sFileName.m_szTransformFileNameTo[i]));
+		cProfile.IOProfileData(pszSecName, szKeyName, pShare->m_Common.m_sFileName.m_szTransformFileNameTo[i]);
 	}
 	// 読み込み時，残りをNULLで再初期化
 	if( cProfile.IsReadingMode() ){
