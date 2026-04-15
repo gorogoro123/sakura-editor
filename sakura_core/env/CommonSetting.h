@@ -483,7 +483,7 @@ struct CommonSetting_Helper
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 struct CommonSetting_Macro
 {
-	WCHAR			m_szKeyMacroFileName[MAX_PATH];	//!< キーボードマクロのファイル名
+	SFilePath		m_szKeyMacroFileName;			//!< キーボードマクロのファイル名
 	MacroRec		m_MacroTable[MAX_CUSTMACRO];	//!< キー割り当て用マクロテーブル		Sep. 14, 2001 genta
 	SFilePath		m_szMACROFOLDER;				//!< マクロ用フォルダー
 	int				m_nMacroOnOpened;				//!< オープン後自動実行マクロ番号	@@@ 2006.09.01 ryoji

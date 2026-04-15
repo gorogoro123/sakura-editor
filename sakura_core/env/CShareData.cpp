@@ -566,8 +566,6 @@ bool CShareData::InitShareData()
 		{
 			CommonSetting_Macro& sMacro = m_pShareData->m_Common.m_sMacro;
 
-			sMacro.m_szKeyMacroFileName[0] = L'\0';	/* キーワードマクロのファイル名 */ //@@@ 2002.1.24 YAZAKI
-
 			//	From Here Sep. 14, 2001 genta
 			//	Macro登録の初期化
 			MacroRec *mptr = sMacro.m_MacroTable;
