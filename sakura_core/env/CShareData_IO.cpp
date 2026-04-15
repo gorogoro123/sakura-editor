@@ -527,7 +527,7 @@ void CShareData_IO::ShareData_IO_Common( CDataProfile& cProfile )
 	cProfile.IOProfileData( pszSecName, L"nTagJumpModeKeyword"	, common.m_sSearch.m_nTagJumpModeKeyword );
 	
 	/* 正規表現DLL 2007.08.12 genta */
-	cProfile.IOProfileData(pszSecName, L"szRegexpLib", StringBufferW(common.m_sSearch.m_szRegexpLib));
+	cProfile.IOProfileData(pszSecName, L"szRegexpLib", common.m_sSearch.m_szRegexpLib);
 	cProfile.IOProfileData( pszSecName, L"bGTJW_RETURN"			, common.m_sSearch.m_bGTJW_RETURN );
 	cProfile.IOProfileData( pszSecName, L"bGTJW_LDBLCLK"			, common.m_sSearch.m_bGTJW_LDBLCLK );
 	cProfile.IOProfileData( pszSecName, L"bBackUp"				, common.m_sBackup.m_bBackUp );
