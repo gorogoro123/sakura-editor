@@ -452,7 +452,6 @@ bool CShareData::InitShareData()
 			sSearch.m_bGrepRealTimeView = FALSE;		/* 2003.06.28 Moca Grep結果のリアルタイム表示 */
 			sSearch.m_bCaretTextForSearch = TRUE;		/* 2006.08.23 ryoji カーソル位置の文字列をデフォルトの検索文字列にする */
 			sSearch.m_bInheritKeyOtherView = true;
-			sSearch.m_szRegexpLib[0] = L'\0';		/* 2007.08.12 genta 正規表現DLL */
 			sSearch.m_bGTJW_RETURN = TRUE;				/* エンターキーでタグジャンプ */
 			sSearch.m_bGTJW_LDBLCLK = TRUE;			/* ダブルクリックでタグジャンプ */
 

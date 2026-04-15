@@ -155,7 +155,7 @@ void CPropGrep::SetData( HWND hwndDlg )
 	::CheckDlgButton( hwndDlg, IDC_CHECK_GTJW_LDBLCLK, m_Common.m_sSearch.m_bGTJW_LDBLCLK );
 
 	//	2007.08.12 genta 正規表現DLL
-	ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_EDIT_REGEXPLIB ), int(std::size(m_Common.m_sSearch.m_szRegexpLib)) - 1 );
+	ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_EDIT_REGEXPLIB ), m_Common.m_sSearch.m_szRegexpLib.size() - 1 );
 	ApiWrap::DlgItem_SetText( hwndDlg, IDC_EDIT_REGEXPLIB, m_Common.m_sSearch.m_szRegexpLib);
 	SetRegexpVersion( hwndDlg );
 
@@ -219,7 +219,7 @@ int CPropGrep::GetData( HWND hwndDlg )
 	m_Common.m_sSearch.m_bGTJW_LDBLCLK = ::IsDlgButtonChecked( hwndDlg, IDC_CHECK_GTJW_LDBLCLK );
 
 	//	2007.08.12 genta 正規表現DLL
-	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_REGEXPLIB, m_Common.m_sSearch.m_szRegexpLib, int(std::size(m_Common.m_sSearch.m_szRegexpLib)));
+	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_REGEXPLIB, m_Common.m_sSearch.m_szRegexpLib, m_Common.m_sSearch.m_szRegexpLib.size());
 
 	HWND hwndCombo = ::GetDlgItem(hwndDlg, IDC_COMBO_TAGJUMP);
 	int nSelPos = ApiWrap::Combo_GetCurSel(hwndCombo);
