@@ -39,10 +39,10 @@ void CViewCommander::Command_RECKEYMACRO( )
 		GetDllShareData().m_sFlags.m_bRecordingKeyMacro = FALSE;
 		GetDllShareData().m_sFlags.m_hwndRecordingKeyMacro = nullptr;							/* キーボードマクロを記録中のウィンドウ */
 		//@@@ 2002.1.24 YAZAKI キーマクロをマクロ用フォルダーに「RecKey.mac」という名で保存
-		WCHAR szInitDir[MAX_PATH];
+		SFilePath szInitDir;
 		int nRet;
 		// 2003.06.23 Moca 記録用キーマクロのフルパスをCShareData経由で取得
-		nRet = CShareData::getInstance()->GetMacroFilename( -1, szInitDir, MAX_PATH ); 
+		nRet = CShareData::getInstance()->GetMacroFilename( -1, szInitDir, szInitDir.size() ); 
 		if( nRet <= 0 ){
 			ErrorMessage( m_pCommanderView->GetHwnd(), LS(STR_ERR_CEDITVIEW_CMD24), nRet );
 			return;
