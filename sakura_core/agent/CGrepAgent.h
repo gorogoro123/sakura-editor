@@ -8,6 +8,7 @@
 #pragma once
 
 #include "doc/CDocListener.h"
+
 class CDlgCancel;
 class CEditView;
 class CSearchStringPattern;
@@ -16,33 +17,20 @@ class CGrepEnumFiles;
 class CGrepEnumFolders;
 
 struct SGrepOption{
-	bool		bGrepReplace;			//!< Grep置換
-	bool		bGrepSubFolder;			//!< サブフォルダーからも検索する
-	bool		bGrepStdout;			//!< 標準出力モード
-	bool		bGrepHeader;			//!< ヘッダー・フッター表示
-	ECodeType	nGrepCharSet;			//!< 文字コードセット選択
-	int			nGrepOutputLineType;	//!< 0:ヒット部分を出力, 1: ヒット行を出力, 2: 否ヒット行を出力
-	int			nGrepOutputStyle;		//!< 出力形式 1: Normal, 2: WZ風(ファイル単位) 3: 結果のみ
-	bool		bGrepOutputFileOnly;	//!< ファイル毎最初のみ検索
-	bool		bGrepOutputBaseFolder;	//!< ベースフォルダー表示
-	bool		bGrepSeparateFolder;	//!< フォルダー毎に表示
-	bool		bGrepPaste;				//!< Grep置換：クリップボードから貼り付ける
-	bool		bGrepBackup;			//!< Grep置換：バックアップ
+	bool		bGrepReplace = false;			//!< Grep置換
+	bool		bGrepSubFolder = true;			//!< サブフォルダーからも検索する
+	bool		bGrepStdout = false;			//!< 標準出力モード
+	bool		bGrepHeader = true;				//!< ヘッダー・フッター表示
+	ECodeType	nGrepCharSet = CODE_AUTODETECT;	//!< 文字コードセット選択
+	int			nGrepOutputLineType = 1;		//!< 0:ヒット部分を出力, 1: ヒット行を出力, 2: 否ヒット行を出力
+	int			nGrepOutputStyle = 1;			//!< 出力形式 1: Normal, 2: WZ風(ファイル単位) 3: 結果のみ
+	bool		bGrepOutputFileOnly = false;	//!< ファイル毎最初のみ検索
+	bool		bGrepOutputBaseFolder = false;	//!< ベースフォルダー表示
+	bool		bGrepSeparateFolder = false;	//!< フォルダー毎に表示
+	bool		bGrepPaste = false;				//!< Grep置換：クリップボードから貼り付ける
+	bool		bGrepBackup = false;			//!< Grep置換：バックアップ
 
-	SGrepOption() :
-		 bGrepReplace(false)
-		,bGrepSubFolder(true)
-		,bGrepStdout(false)
-		,bGrepHeader(true)
-		,nGrepCharSet(CODE_AUTODETECT)
-		,nGrepOutputLineType(1)
-		,nGrepOutputStyle(1)
-		,bGrepOutputFileOnly(false)
-		,bGrepOutputBaseFolder(false)
-		,bGrepSeparateFolder(false)
-		,bGrepPaste(false)
-		,bGrepBackup(false)
-	{}
+	SGrepOption() = default;
 };
 
 //	Jun. 26, 2001 genta	正規表現ライブラリの差し替え
@@ -127,6 +115,7 @@ private:
 		CNativeW&				cUnicodeBuffer
 	);
 
+	// Grep置換
 	int DoGrepReplaceFile(
 		CEditView*				pcViewDst,
 		CDlgCancel*				pcDlgCancel,
