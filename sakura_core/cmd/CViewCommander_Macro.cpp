@@ -203,8 +203,8 @@ void CViewCommander::Command_EXECKEYMACRO( )
 void CViewCommander::Command_EXECEXTMACRO( const WCHAR* pszPath, const WCHAR* pszType )
 {
 	CDlgOpenFile	cDlgOpenFile;
-	WCHAR			szPath[_MAX_PATH + 1];
-	WCHAR			szInitDir[_MAX_PATH + 1];	//ファイル選択ダイアログの初期フォルダー
+	SFilePath		szPath;
+	SFilePath		szInitDir;	//ファイル選択ダイアログの初期フォルダー
 	const WCHAR*	pszFolder;					//マクロフォルダー
 	HWND			hwndRecordingKeyMacro = nullptr;
 
@@ -215,7 +215,7 @@ void CViewCommander::Command_EXECEXTMACRO( const WCHAR* pszPath, const WCHAR* ps
 		if( _IS_REL_PATH( pszFolder ) ){
 			GetInidirOrExedir( szInitDir, pszFolder );
 		}else{
-			wcscpy( szInitDir, pszFolder );	/* マクロ用フォルダー */
+			szInitDir = pszFolder;	/* マクロ用フォルダー */
 		}
 		/* ファイルオープンダイアログの初期化 */
 		cDlgOpenFile.Create(
@@ -224,7 +224,6 @@ void CViewCommander::Command_EXECEXTMACRO( const WCHAR* pszPath, const WCHAR* ps
 			L"*.*",
 			szInitDir
 		);
-		szPath[0] = L'\0';
 		if( !cDlgOpenFile.DoModal_GetOpenFileName( szPath, EFITER_MACRO ) ){
 			return;
 		}
