@@ -131,17 +131,15 @@ void CViewCommander::Command_LOADKEYMACRO( )
 	GetDllShareData().m_sFlags.m_hwndRecordingKeyMacro = nullptr;	/* キーボードマクロを記録中のウィンドウ */
 
 	CDlgOpenFile	cDlgOpenFile;
-	WCHAR			szPath[_MAX_PATH + 1];
-	WCHAR			szInitDir[_MAX_PATH + 1];
-	const WCHAR*		pszFolder;
-	szPath[0] = L'\0';
-	pszFolder = GetDllShareData().m_Common.m_sMacro.m_szMACROFOLDER;
+	SFilePath		szPath;
+	SFilePath		szInitDir;
+	const WCHAR*pszFolder = GetDllShareData().m_Common.m_sMacro.m_szMACROFOLDER;
 	// 2003.06.23 Moca 相対パスは実行ファイルからのパス
 	// 2007.05.19 ryoji 相対パスは設定ファイルからのパスを優先
 	if( _IS_REL_PATH( pszFolder ) ){
 		GetInidirOrExedir( szInitDir, pszFolder );
 	}else{
-		wcscpy( szInitDir, pszFolder );	/* マクロ用フォルダー */
+		szInitDir = pszFolder;	/* マクロ用フォルダー */
 	}
 	/* ファイルオープンダイアログの初期化 */
 	cDlgOpenFile.Create(
