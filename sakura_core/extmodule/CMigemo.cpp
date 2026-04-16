@@ -148,7 +148,7 @@ int CMigemo::migemo_load_all() noexcept
 	}
 
 	if (!migemo_is_enable()) {
-		std::filesystem::path dictPath = GetDllShareData().m_Common.m_sHelper.m_szMigemoDict;
+		std::filesystem::path dictPath = GetDllShareData().m_Common.m_sHelper.m_szMigemoDict.c_str();
 
 		std::filesystem::path path;
 		if (dictPath.empty()) {

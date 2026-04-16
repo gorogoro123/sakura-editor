@@ -261,17 +261,17 @@ int CPropHelper::GetData( HWND hwndDlg )
 	m_Common.m_sHelper.m_bHokanKey_RIGHT = ::IsDlgButtonChecked( hwndDlg, IDC_CHECK_m_bHokanKey_RIGHT );	//VK_RIGHT  補完決定キーが有効/無効
 
 	/* 外部ヘルプ１ */
-	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_EXTHELP1, m_Common.m_sHelper.m_szExtHelp, int(std::size(m_Common.m_sHelper.m_szExtHelp)));
+	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_EXTHELP1, m_Common.m_sHelper.m_szExtHelp, m_Common.m_sHelper.m_szExtHelp.size());
 
 	/* 外部HTMLヘルプ */
-	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_EXTHTMLHELP, m_Common.m_sHelper.m_szExtHtmlHelp, int(std::size(m_Common.m_sHelper.m_szExtHtmlHelp)));
+	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_EXTHTMLHELP, m_Common.m_sHelper.m_szExtHtmlHelp, m_Common.m_sHelper.m_szExtHtmlHelp.size());
 
 	/* HtmlHelpビューアはひとつ */
 	m_Common.m_sHelper.m_bHtmlHelpIsSingle = ::IsDlgButtonChecked( hwndDlg, IDC_CHECK_HTMLHELPISSINGLE ) != 0;
 
 	//migemo dict
-	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_MIGEMO_DLL, m_Common.m_sHelper.m_szMigemoDll, int(std::size(m_Common.m_sHelper.m_szMigemoDll)));
-	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_MIGEMO_DICT, m_Common.m_sHelper.m_szMigemoDict, int(std::size(m_Common.m_sHelper.m_szMigemoDict)));
+	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_MIGEMO_DLL, m_Common.m_sHelper.m_szMigemoDll, m_Common.m_sHelper.m_szMigemoDll.size());
+	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_MIGEMO_DICT, m_Common.m_sHelper.m_szMigemoDict, m_Common.m_sHelper.m_szMigemoDict.size());
 
 	return TRUE;
 }

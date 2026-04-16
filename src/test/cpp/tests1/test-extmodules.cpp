@@ -187,8 +187,8 @@ TEST_F(CMigemoTest, test001)
 	EXPECT_THAT(pcShareData->InitShareData(), IsTrue());
 
 	// C/Migemo設定に値を入れる
-	::wcsncpy_s(GetDllShareData().m_Common.m_sHelper.m_szMigemoDll, L"", _TRUNCATE);
-	::wcsncpy_s(GetDllShareData().m_Common.m_sHelper.m_szMigemoDict, L"", _TRUNCATE);
+	GetDllShareData().m_Common.m_sHelper.m_szMigemoDll = L"";
+	GetDllShareData().m_Common.m_sHelper.m_szMigemoDict = L"";
 
 	// 名前を指定せずにロードする
 	pcMigemo->InitDll();
@@ -203,8 +203,8 @@ TEST_F(CMigemoTest, test001)
 TEST_F(CMigemoTest, test002)
 {
 	// C/Migemo設定に値を入れる
-	::wcsncpy_s(GetDllShareData().m_Common.m_sHelper.m_szMigemoDll, L"migemo.dll", _TRUNCATE);
-	::wcsncpy_s(GetDllShareData().m_Common.m_sHelper.m_szMigemoDict, L"dict", _TRUNCATE);
+	GetDllShareData().m_Common.m_sHelper.m_szMigemoDll = L"migemo.dll";
+	GetDllShareData().m_Common.m_sHelper.m_szMigemoDict = L"dict";
 
 	// 名前を指定せずにロードする
 	pcMigemo->InitDll();
@@ -225,8 +225,8 @@ TEST_F(CMigemoTest, test002)
 TEST_F(CMigemoTest, test003)
 {
 	// C/Migemo設定に値を入れる
-	::wcsncpy_s(GetDllShareData().m_Common.m_sHelper.m_szMigemoDll, GetIniFileName().replace_filename( L"migemo.dll" ).c_str(), _TRUNCATE);
-	::wcsncpy_s(GetDllShareData().m_Common.m_sHelper.m_szMigemoDict, dictPath.c_str(), _TRUNCATE);
+	GetDllShareData().m_Common.m_sHelper.m_szMigemoDll = GetIniFileName().replace_filename( L"migemo.dll" ).c_str();
+	GetDllShareData().m_Common.m_sHelper.m_szMigemoDict = dictPath.c_str();
 
 	// 名前を指定せずにロードする
 	pcMigemo->InitDll();

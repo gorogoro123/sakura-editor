@@ -511,12 +511,6 @@ bool CShareData::InitShareData()
 			sHelper.m_lf = lfIconTitle;
 			sHelper.m_nPointSize = nIconPointSize;	// フォントサイズ（1/10ポイント単位） ※古いバージョンからの移行を考慮して無効値で初期化	// 2009.10.01 ryoji
 
-			sHelper.m_szExtHelp[0] = L'\0';			// 外部ヘルプ１
-			sHelper.m_szExtHtmlHelp[0] = L'\0';		// 外部HTMLヘルプ
-		
-			sHelper.m_szMigemoDll[0] = L'\0';			/* migemo dll */
-			sHelper.m_szMigemoDict[0] = L'\0';		/* migemo dict */
-
 			sHelper.m_bHtmlHelpIsSingle = true;		/* HtmlHelpビューアはひとつ */
 
 			sHelper.m_bHokanKey_RETURN	= TRUE;			/* VK_RETURN 補完決定キーが有効/無効 */
