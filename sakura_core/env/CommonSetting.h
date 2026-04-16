@@ -463,15 +463,15 @@ struct CommonSetting_Helper
 	BOOL		m_bHokanKey_RIGHT;				//!< VK_RIGHT	補完決定キーが有効/無効
 
 	//外部ヘルプの設定
-	WCHAR		m_szExtHelp[_MAX_PATH];			//!< 外部ヘルプ１
+	SFilePath	m_szExtHelp;					//!< 外部ヘルプ１
 
 	//外部HTMLヘルプの設定
-	WCHAR		m_szExtHtmlHelp[_MAX_PATH];		//!< 外部HTMLヘルプ
+	SFilePath	m_szExtHtmlHelp;				//!< 外部HTMLヘルプ
 	bool		m_bHtmlHelpIsSingle;			//!< HtmlHelpビューアはひとつ (ビューアを複数起動しない)
 
 	//migemo設定
-	WCHAR		m_szMigemoDll[_MAX_PATH];		//!< migemo dll
-	WCHAR		m_szMigemoDict[_MAX_PATH];		//!< migemo dict
+	SFilePath	m_szMigemoDll;					//!< migemo dll
+	SFilePath	m_szMigemoDict;					//!< migemo dict
 
 	//キーワードヘルプ
 	LOGFONT		m_lf;							//!< キーワードヘルプのフォント情報		// ai 02/05/21 Add

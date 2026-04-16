@@ -568,11 +568,11 @@ void CShareData_IO::ShareData_IO_Common( CDataProfile& cProfile )
 	cProfile.IOProfileData( pszSecName, L"bBackUpPathAdvanced"	, common.m_sBackup.m_bBackUpPathAdvanced );	/* 20051107 aroka */
 	cProfile.IOProfileData( pszSecName, L"szBackUpPathAdvanced"	, common.m_sBackup.m_szBackUpPathAdvanced );	/* 20051107 aroka */
 	cProfile.IOProfileData(pszSecName, L"nFileShareMode", common.m_sFile.m_nFileShareMode );
-	cProfile.IOProfileData(pszSecName, L"szExtHelp", StringBufferW(common.m_sHelper.m_szExtHelp));
-	cProfile.IOProfileData(pszSecName, L"szExtHtmlHelp", StringBufferW(common.m_sHelper.m_szExtHtmlHelp));
+	cProfile.IOProfileData(pszSecName, L"szExtHelp", common.m_sHelper.m_szExtHelp);
+	cProfile.IOProfileData(pszSecName, L"szExtHtmlHelp", common.m_sHelper.m_szExtHtmlHelp);
 	
-	cProfile.IOProfileData(pszSecName, L"szMigemoDll", StringBufferW(common.m_sHelper.m_szMigemoDll));
-	cProfile.IOProfileData(pszSecName, L"szMigemoDict", StringBufferW(common.m_sHelper.m_szMigemoDict));
+	cProfile.IOProfileData(pszSecName, L"szMigemoDll", common.m_sHelper.m_szMigemoDll);
+	cProfile.IOProfileData(pszSecName, L"szMigemoDict", common.m_sHelper.m_szMigemoDict);
 	
 	// ai 02/05/23 Add S
 	{// Keword Help Font
