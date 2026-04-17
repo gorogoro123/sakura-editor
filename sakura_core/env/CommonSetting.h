@@ -526,25 +526,18 @@ enum EFileTreeItemType{
 };
 
 struct SFileTreeItem{
-public:
-	EFileTreeItemType m_eFileTreeItemType;
+	EFileTreeItemType m_eFileTreeItemType = EFileTreeItemType_Grep;
 	SFilePath	m_szTargetPath;	//!< フォルダーorファイルパス
 	StaticString<_MAX_PATH> m_szLabelName; //!< ラベル名(""のときはファイル名を使う)
-	int  m_nDepth;	//!< 階層
+	int  m_nDepth = 0;	//!< 階層
 
 	// GrepタイプTreeItem
 	StaticString<_MAX_PATH>	m_szTargetFile;	//!< ファイル一覧
-	bool		m_bIgnoreHidden;		//!< 隠しファイルを除く
-	bool		m_bIgnoreReadOnly;		//!< 読み取り専用ファイルを除く
-	bool		m_bIgnoreSystem;		//!< システムファイルを除く
+	bool		m_bIgnoreHidden = true;		//!< 隠しファイルを除く
+	bool		m_bIgnoreReadOnly = false;	//!< 読み取り専用ファイルを除く
+	bool		m_bIgnoreSystem = false;		//!< システムファイルを除く
 
-	SFileTreeItem()
-		: m_eFileTreeItemType(EFileTreeItemType_Grep)
-		, m_nDepth(0)
-		, m_bIgnoreHidden(true)
-		, m_bIgnoreReadOnly(false)
-		, m_bIgnoreSystem(false)
-		{}
+	SFileTreeItem() = default;
 };
 
 struct SFileTree{
