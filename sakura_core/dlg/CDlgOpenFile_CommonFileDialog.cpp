@@ -102,9 +102,9 @@ struct CDlgOpenFile_CommonFileDialog final : public IDlgOpenFile
 
 class CDlgOpenFileData{
 public:
-	CDlgOpenFile_CommonFileDialog*	m_pcDlgOpenFile;
+	CDlgOpenFile_CommonFileDialog*	m_pcDlgOpenFile = nullptr;
 
-	int				m_nHelpTopicID;
+	int				m_nHelpTopicID = 0;
 	bool			m_bViewMode;		// ビューモードか
 	BOOL			m_bIsSaveDialog;	// 保存のダイアログか
 	ECodeType		m_nCharCode;		// 文字コード
@@ -127,10 +127,7 @@ public:
 	HWND			m_hwndComboEOL;	//	Feb. 9, 2001 genta
 	HWND			m_hwndCheckBOM;	//	Jul. 26, 2003 ryoji BOMチェックボックス
 
-	CDlgOpenFileData():
-		m_pcDlgOpenFile(nullptr)
-		,m_nHelpTopicID(0)
-	{}
+	CDlgOpenFileData() = default;
 };
 
 /*
