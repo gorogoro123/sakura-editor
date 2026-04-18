@@ -46,16 +46,6 @@ const DWORD p_helpids[] = {	//12800
 	0, 0
 };	//@@@ 2002.01.07 add end MIK
 
-CDlgJump::CDlgJump()
-{
-	m_nLineNum = 0;			/* 行番号 */
-	m_bPLSQL = FALSE;		/* PL/SQLソースの有効行か */
-	m_nPLSQL_E1 = 1;
-	m_nPLSQL_E2 = 1;
-
-	return;
-}
-
 /* モーダルダイアログの表示 */
 int CDlgJump::DoModal(
 	HINSTANCE	hInstance,
