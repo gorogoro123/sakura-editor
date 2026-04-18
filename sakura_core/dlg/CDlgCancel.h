@@ -15,8 +15,6 @@
 */
 #pragma once
 
-class CDlgCancel;
-
 #include "dlg/CDialog.h"
 
 /*!
@@ -28,7 +26,7 @@ public:
 	/*
 	||  Constructors
 	*/
-	CDlgCancel();
+	CDlgCancel() = default;
 //	void Create( HINSTANCE, HWND );	/* 初期化 */
 
 	/*
@@ -46,8 +44,8 @@ public:
 //	HINSTANCE	m_hInstance;	/* アプリケーションインスタンスのハンドル */
 //	HWND		m_hwndParent;	/* オーナーウィンドウのハンドル */
 //	HWND		m_hWnd;			/* このダイアログのハンドル */
-	BOOL		m_bCANCEL;		/* IDCANCELボタンが押された */
-	bool		m_bAutoCleanup;	/* 自動後処理型 */	// 2008.05.28 ryoji
+	BOOL		m_bCANCEL = FALSE;		/* IDCANCELボタンが押された */
+	bool		m_bAutoCleanup = false;	/* 自動後処理型 */	// 2008.05.28 ryoji
 
 protected:
 	/*
