@@ -16,9 +16,8 @@
 */
 #pragma once
 
-class CDlgJump;
-
 #include "dlg/CDialog.h"
+
 //! 指定行へのジャンプダイアログボックス
 class CDlgJump final : public CDialog
 {
@@ -26,16 +25,16 @@ public:
 	/*
 	||  Constructors
 	*/
-	CDlgJump();
+	CDlgJump() = default;
 	/*
 	||  Attributes & Operations
 	*/
 	int DoModal( HINSTANCE hInstance, HWND hwndParent, LPARAM lParam);	/* モーダルダイアログの表示 */
 
-	int			m_nLineNum;		/*!< 行番号 */
-	BOOL		m_bPLSQL;		/*!< PL/SQLソースの有効行か */
-	int			m_nPLSQL_E1;
-	int			m_nPLSQL_E2;
+	int			m_nLineNum = 0;		/*!< 行番号 */
+	BOOL		m_bPLSQL = FALSE;		/*!< PL/SQLソースの有効行か */
+	int			m_nPLSQL_E1 = 1;
+	int			m_nPLSQL_E2 = 1;
 protected:
 	/*
 	||  実装ヘルパ関数
