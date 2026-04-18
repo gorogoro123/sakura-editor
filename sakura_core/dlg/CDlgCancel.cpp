@@ -12,14 +12,7 @@
 	Please contact the copyright holder to use this code for other purpose.
 */
 #include "dlg/CDlgCancel.h"
-
 #include "apiwrap/StdApi.h"
-
-CDlgCancel::CDlgCancel()
-{
-	m_bCANCEL = FALSE;	/* IDCANCELボタンが押された */
-	m_bAutoCleanup = false;
-}
 
 /** 標準以外のメッセージを捕捉する
 	@date 2008.05.28 ryoji 新規作成
