@@ -543,7 +543,7 @@ void CShareData_IO::ShareData_IO_Common( CDataProfile& cProfile )
 		nCharChars = int(&common.m_sBackup.m_szBackUpFolder[nDummy] - CNativeW::GetCharPrev( common.m_sBackup.m_szBackUpFolder, nDummy, &common.m_sBackup.m_szBackUpFolder[nDummy] ));
 		if( 1 == nCharChars && common.m_sBackup.m_szBackUpFolder[nDummy - 1] == '\\' ){
 		}else{
-			wcscat( common.m_sBackup.m_szBackUpFolder, L"\\" );
+			common.m_sBackup.m_szBackUpFolder.append(L"\\");
 		}
 	}
 	cProfile.IOProfileData( pszSecName, L"szBackUpFolder", common.m_sBackup.m_szBackUpFolder );
@@ -555,7 +555,7 @@ void CShareData_IO::ShareData_IO_Common( CDataProfile& cProfile )
 		nCharChars = int(&common.m_sBackup.m_szBackUpFolder[nDummy] - CNativeW::GetCharPrev( common.m_sBackup.m_szBackUpFolder, nDummy, &common.m_sBackup.m_szBackUpFolder[nDummy] ) );
 		if( 1 == nCharChars && common.m_sBackup.m_szBackUpFolder[nDummy - 1] == '\\' ){
 		}else{
-			wcscat( common.m_sBackup.m_szBackUpFolder, L"\\" );
+			common.m_sBackup.m_szBackUpFolder.append( L"\\" );
 		}
 	}
 	
