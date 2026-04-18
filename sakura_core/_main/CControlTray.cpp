@@ -1222,17 +1222,16 @@ bool CControlTray::OpenNewEditor(
 
 	//	プロセスの起動
 	PROCESS_INFORMATION p;
-	STARTUPINFO s;
-
-	s.cb = sizeof_raw( s );
-	s.lpReserved = nullptr;
-	s.lpDesktop = nullptr;
-	s.lpTitle = nullptr;
-
-	s.dwFlags = STARTF_USESHOWWINDOW;
-	s.wShowWindow = SW_SHOWDEFAULT;
-	s.cbReserved2 = 0;
-	s.lpReserved2 = nullptr;
+	STARTUPINFO s = {
+		.cb = sizeof_raw( s ),
+		.lpReserved = nullptr,
+		.lpDesktop = nullptr,
+		.lpTitle = nullptr,
+		.dwFlags = STARTF_USESHOWWINDOW,
+		.wShowWindow = SW_SHOWDEFAULT,
+		.cbReserved2 = 0,
+		.lpReserved2 = nullptr,
+	};
 
 	//	May 30, 2003 genta カレントディレクトリ指定を可能に
 	//エディタプロセスを起動
