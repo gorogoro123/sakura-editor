@@ -431,26 +431,23 @@ void CViewCommander::Command_BROWSE( )
 		ErrorBeep();
 		return;
 	}
-//	char	szURL[MAX_PATH + 64];
-//	auto_sprintf( szURL, L"%ls", GetDocument()->m_cDocFile.GetFilePath() );
-	/* URLを開く */
-//	::ShellExecuteEx( NULL, L"open", szURL, NULL, NULL, SW_SHOW );
 
-    SHELLEXECUTEINFO info; 
-    info.cbSize =sizeof(info);
-    info.fMask = 0;
-    info.hwnd = nullptr;
-    info.lpVerb = nullptr;
-    info.lpFile = GetDocument()->m_cDocFile.GetFilePath();
-    info.lpParameters = nullptr;
-    info.lpDirectory = nullptr;
-    info.nShow = SW_SHOWNORMAL;
-    info.hInstApp = nullptr;
-    info.lpIDList = nullptr;
-    info.lpClass = nullptr;
-    info.hkeyClass = nullptr;
-    info.dwHotKey = 0;
-    info.hIcon = nullptr;
+    SHELLEXECUTEINFO info = {
+    	.cbSize = sizeof(info),
+    	.fMask = 0,
+    	.hwnd = nullptr,
+    	.lpVerb = nullptr,
+    	.lpFile = GetDocument()->m_cDocFile.GetFilePath(),
+    	.lpParameters = nullptr,
+    	.lpDirectory = nullptr,
+    	.nShow = SW_SHOWNORMAL,
+    	.hInstApp = nullptr,
+    	.lpIDList = nullptr,
+    	.lpClass = nullptr,
+    	.hkeyClass = nullptr,
+    	.dwHotKey = 0,
+    	.hIcon = nullptr,
+	};
 
 	::ShellExecuteEx(&info);
 
