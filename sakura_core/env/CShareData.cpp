@@ -398,7 +398,6 @@ bool CShareData::InitShareData()
 			sBackup.m_bBackUp = false;										/* バックアップの作成 */
 			sBackup.m_bBackUpDialog = true;									/* バックアップの作成前に確認 */
 			sBackup.m_bBackUpFolder = false;								/* 指定フォルダーにバックアップを作成する */
-			sBackup.m_szBackUpFolder[0] = L'\0';							/* バックアップを作成するフォルダー */
 			sBackup.m_nBackUpType = 2;										/* バックアップファイル名のタイプ 1=(.bak) 2=*_日付.* */
 			sBackup.m_nBackUpType_Opt1 = BKUP_YEAR | BKUP_MONTH | BKUP_DAY;	/* バックアップファイル名：日付 */
 			sBackup.m_nBackUpType_Opt2 = ('b' << 16 ) + 10;					/* バックアップファイル名：連番の数と先頭文字 */
