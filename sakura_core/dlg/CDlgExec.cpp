@@ -97,7 +97,7 @@ void CDlgExec::SetData( )
 	*****************************/
 	/* ユーザーがコンボ ボックスのエディット コントロールに入力できるテキストの長さを制限する */
 	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_COMBO_m_szCommand ), int(std::size(m_szCommand)) - 1 );
-	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_COMBO_CUR_DIR ), std::size( m_szCurDir ) - 1 );
+	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_COMBO_CUR_DIR ), m_szCurDir.size() - 1 );
 	/* コンボボックスのユーザー インターフェースを拡張インターフェースにする */
 	ApiWrap::Combo_SetExtendedUI( GetItemHwnd( IDC_COMBO_m_szCommand ), TRUE );
 
@@ -144,7 +144,7 @@ void CDlgExec::SetData( )
 	ApiWrap::Combo_ResetContent( hwndCombo );
 	const int nCurDirsCount = m_pShareData->m_sHistory.m_aCurDirs.size();
 	if( 0 < nCurDirsCount ){
-		wcscpy( m_szCurDir, m_pShareData->m_sHistory.m_aCurDirs[0] );
+		m_szCurDir = m_pShareData->m_sHistory.m_aCurDirs[0];
 		ApiWrap::DlgItem_SetText( GetHwnd(), IDC_COMBO_TEXT, m_szCurDir );
 		for( i = 0; i < nCurDirsCount; ++i ){
 			ApiWrap::Combo_AddString( hwndCombo, m_pShareData->m_sHistory.m_aCurDirs[i] );
