@@ -32,6 +32,7 @@
 #include "CSelectLang.h"
 #include "sakura.hh"
 #include "config/system_constants.h"
+#include "basis/CMyString.h"
 
 // バージョン情報 CDlgAbout.cpp	//@@@ 2002.01.07 add start MIK
 const DWORD p_helpids[] = {	//12900
@@ -126,10 +127,10 @@ int CDlgAbout::DoModal( HINSTANCE hInstance, HWND hwndParent )
 */
 BOOL CDlgAbout::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 {
-	WCHAR			szFile[_MAX_PATH];
+	SFilePath	szFile;
 
 	/* この実行ファイルの情報 */
-	::GetModuleFileName( nullptr, szFile, int(std::size(szFile)) );
+	::GetModuleFileName( nullptr, szFile, szFile.size() );
 	
 	/* バージョン情報 */
 	//	Nov. 6, 2000 genta	Unofficial Releaseのバージョンとして設定
