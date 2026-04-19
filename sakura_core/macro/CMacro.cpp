@@ -1090,7 +1090,6 @@ bool CMacro::HandleCommand(
 			// -GREPMODE -GKEY="1" -GFILE="*.*;*.c;*.h" -GFOLDER="c:\" -GCODE=0 -GOPT=S
 			CNativeW cCmdLine;
 			WCHAR	szTemp[20];
-			WCHAR	pOpt[64];
 			cCmdLine.AppendString(L"-GREPMODE -GKEY=\"");
 			cCmdLine.AppendString(cmWork1.GetStringPtr());
 			if( bGrepReplace ){
@@ -1106,25 +1105,25 @@ bool CMacro::HandleCommand(
 			cCmdLine.AppendString(szTemp);
 
 			//GOPTオプション
-			pOpt[0] = '\0';
-			if( lFlag & 0x01 )wcscat( pOpt, L"S" );	/* サブフォルダーからも検索する */
-			if( lFlag & 0x04 )wcscat( pOpt, L"L" );	/* 英大文字と英小文字を区別する */
-			if( lFlag & 0x08 )wcscat( pOpt, L"R" );	/* 正規表現 */
-			if(          0x20 == (lFlag & 0x400020) )wcscat( pOpt, L"P" );	// 行を出力する
-			else if( 0x400000 == (lFlag & 0x400020) )wcscat( pOpt, L"N" );	// 否ヒット行を出力する
-			if(      0x40 == (lFlag & 0xC0) )wcscat( pOpt, L"2" );	/* Grep: 出力形式 */
-			else if( 0x80 == (lFlag & 0xC0) )wcscat( pOpt, L"3" );
-			else wcscat( pOpt, L"1" );
-			if( lFlag & 0x10000 )wcscat( pOpt, L"W" );
-			if( lFlag & 0x20000 )wcscat( pOpt, L"F" );
-			if( lFlag & 0x40000 )wcscat( pOpt, L"B" );
-			if( lFlag & 0x80000 )wcscat( pOpt, L"D" );
+			std::wstring pOpt;
+			if( lFlag & 0x01 ) pOpt += L"S";	/* サブフォルダーからも検索する */
+			if( lFlag & 0x04 ) pOpt += L"L";	/* 英大文字と英小文字を区別する */
+			if( lFlag & 0x08 ) pOpt += L"R";	/* 正規表現 */
+			if(          0x20 == (lFlag & 0x400020) ) pOpt += L"P";	// 行を出力する
+			else if( 0x400000 == (lFlag & 0x400020) ) pOpt += L"N";	// 否ヒット行を出力する
+			if(      0x40 == (lFlag & 0xC0) ) pOpt += L"2";	/* Grep: 出力形式 */
+			else if( 0x80 == (lFlag & 0xC0) ) pOpt += L"3";
+			else  pOpt += L"1";
+			if( lFlag & 0x10000 ) pOpt += L"W";
+			if( lFlag & 0x20000 ) pOpt += L"F";
+			if( lFlag & 0x40000 ) pOpt += L"B";
+			if( lFlag & 0x80000 ) pOpt += L"D";
 			if( bGrepReplace ){
-				if( lFlag & 0x100000 )wcscat( pOpt, L"C" );
-				if( lFlag & 0x200000 )wcscat( pOpt, L"O" );
+				if( lFlag & 0x100000 ) pOpt += L"C";
+				if( lFlag & 0x200000 ) pOpt += L"O";
 			}
-			if( pOpt[0] != L'\0' ){
-				auto_sprintf( szTemp, L" -GOPT=%s", pOpt );
+			if( !pOpt.empty() ){
+				auto_snprintf_s( szTemp, std::size(szTemp), L" -GOPT=%s", pOpt.c_str() );
 				cCmdLine.AppendString(szTemp);
 			}
 
