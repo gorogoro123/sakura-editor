@@ -427,7 +427,7 @@ bool CPluginManager::LoadAllPlugin(CommonSetting* common)
 
 	std::wstring szLangName;
 	{
-		std::wstring szDllName = GetDllShareData().m_Common.m_sWindow.m_szLanguageDll;
+		std::wstring szDllName = GetDllShareData().m_Common.m_sWindow.m_szLanguageDll.c_str();
 		if( szDllName.empty() ){
 			szLangName = L"ja_JP";
 		}else{

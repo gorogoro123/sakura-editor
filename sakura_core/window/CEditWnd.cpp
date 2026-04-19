@@ -1613,7 +1613,7 @@ LRESULT CEditWnd::DispatchEvent(
 		switch( (e_PM_CHANGESETTING_SELECT)lParam ){
 		case PM_CHANGESETTING_ALL:
 			/* 言語を選択する */
-			CSelectLang::ChangeLang( GetDllShareData().m_Common.m_sWindow.m_szLanguageDll );
+			CSelectLang::ChangeLang( GetDllShareData().m_Common.m_sWindow.m_szLanguageDll.c_str() );
 			CShareData::getInstance()->RefreshString();
 
 			// 2015.08.20 プリントプレビューのとき設定を延期する(戻るとき適用)
