@@ -570,9 +570,9 @@ void CDlgFuncList::SetData()
 			//	From Here Apr. 23, 2005 genta 行番号を左端へ
 			/* 行番号の表示 false=折り返し単位／true=改行単位 */
 			if(m_bLineNumIsCRLF ){
-				auto_sprintf( szText, L"%d", pcFuncInfo->m_nFuncLineCRLF );
+				auto_snprintf_s( szText, std::size(szText), L"%d", pcFuncInfo->m_nFuncLineCRLF );
 			}else{
-				auto_sprintf( szText, L"%d", pcFuncInfo->m_nFuncLineLAYOUT );
+				auto_snprintf_s( szText, std::size(szText), L"%d", pcFuncInfo->m_nFuncLineLAYOUT );
 			}
 			item.mask = LVIF_TEXT | LVIF_PARAM;
 			item.pszText = szText;
@@ -584,9 +584,9 @@ void CDlgFuncList::SetData()
 			// 2010.03.17 syat 桁追加
 			/* 行番号の表示 false=折り返し単位／true=改行単位 */
 			if(m_bLineNumIsCRLF ){
-				auto_sprintf( szText, L"%d", pcFuncInfo->m_nFuncColCRLF );
+				auto_snprintf_s( szText, std::size(szText), L"%d", pcFuncInfo->m_nFuncColCRLF );
 			}else{
-				auto_sprintf( szText, L"%d", pcFuncInfo->m_nFuncColLAYOUT );
+				auto_snprintf_s( szText, std::size(szText), L"%d", pcFuncInfo->m_nFuncColLAYOUT );
 			}
 			item.mask = LVIF_TEXT;
 			item.pszText = szText;
@@ -624,8 +624,8 @@ void CDlgFuncList::SetData()
 			/* クリップボードにコピーするテキストを編集 */
 			if(item.pszText[0] != L'\0'){
 				// 検出結果の種類(関数,,,)があるとき
-				auto_sprintf(
-					szText,
+				auto_snprintf_s(
+					szText, std::size(szText),
 					L"%s(%d,%d): ",
 					m_pcFuncInfoArr->m_szFilePath.c_str(),		/* 解析対象ファイル名 */
 					pcFuncInfo->m_nFuncLineCRLF,		/* 検出行番号 */
@@ -639,8 +639,8 @@ void CDlgFuncList::SetData()
 				m_cmemClipText.AppendString(L")\r\n");
 			}else{
 				// 検出結果の種類(関数,,,)がないとき
-				auto_sprintf(
-					szText,
+				auto_snprintf_s(
+					szText, std::size(szText),
 					L"%s(%d,%d): ",
 					m_pcFuncInfoArr->m_szFilePath.c_str(),		/* 解析対象ファイル名 */
 					pcFuncInfo->m_nFuncLineCRLF,		/* 検出行番号 */
@@ -1129,8 +1129,8 @@ void CDlgFuncList::SetTreeJava( [[maybe_unused]] HWND hwndDlg, HTREEITEM hInsert
 
 		/* クリップボードにコピーするテキストを編集 */
 		WCHAR szText[2048];
-		auto_sprintf(
-			szText,
+		auto_snprintf_s(
+			szText, std::size(szText),
 			L"%s(%d,%d): ",
 			m_pcFuncInfoArr->m_szFilePath.c_str(),		/* 解析対象ファイル名 */
 			pcFuncInfo->m_nFuncLineCRLF,		/* 検出行番号 */
@@ -1198,9 +1198,9 @@ void CDlgFuncList::SetListVB ()
 		//	From Here Apr. 23, 2005 genta 行番号を左端へ
 		/* 行番号の表示 false=折り返し単位／true=改行単位 */
 		if(m_bLineNumIsCRLF ){
-			auto_sprintf( szText, L"%d", pcFuncInfo->m_nFuncLineCRLF );
+			auto_snprintf_s( szText, std::size(szText), L"%d", pcFuncInfo->m_nFuncLineCRLF );
 		}else{
-			auto_sprintf( szText, L"%d", pcFuncInfo->m_nFuncLineLAYOUT );
+			auto_snprintf_s( szText, std::size(szText), L"%d", pcFuncInfo->m_nFuncLineLAYOUT );
 		}
 		item.mask = LVIF_TEXT | LVIF_PARAM;
 		item.pszText = szText;
@@ -1212,9 +1212,9 @@ void CDlgFuncList::SetListVB ()
 		// 2010.03.17 syat 桁追加
 		/* 行番号の表示 false=折り返し単位／true=改行単位 */
 		if(m_bLineNumIsCRLF ){
-			auto_sprintf( szText, L"%d", pcFuncInfo->m_nFuncColCRLF );
+			auto_snprintf_s( szText, std::size(szText), L"%d", pcFuncInfo->m_nFuncColCRLF );
 		}else{
-			auto_sprintf( szText, L"%d", pcFuncInfo->m_nFuncColLAYOUT );
+			auto_snprintf_s( szText, std::size(szText), L"%d", pcFuncInfo->m_nFuncColLAYOUT );
 		}
 		item.mask = LVIF_TEXT;
 		item.pszText = szText;
@@ -1305,9 +1305,9 @@ void CDlgFuncList::SetListVB ()
 			szTypeOption[0] = L'\0';	//	2006.12.17 genta 全体を0で埋める必要はない
 		} else
 		if ( szOption[0] == L'\0' ) {
-			auto_sprintf(szTypeOption, L"%s", szType);
+			auto_snprintf_s(szTypeOption, std::size(szTypeOption), L"%s", szType);
 		} else {
-			auto_sprintf(szTypeOption, L"%s（%s）", szType, szOption);
+			auto_snprintf_s(szTypeOption, std::size(szTypeOption), L"%s（%s）", szType, szOption);
 		}
 		item.pszText = szTypeOption;
 		item.iItem = i;
@@ -1318,8 +1318,8 @@ void CDlgFuncList::SetListVB ()
 		if(item.pszText[0] != L'\0'){
 			// 検出結果の種類(関数,,,)があるとき
 			// 2006.12.12 Moca szText を自分自身にコピーしていたバグを修正
-			auto_sprintf(
-				szText,
+			auto_sprintf_s(
+				szText, std::size(szText),
 				L"%s(%d,%d): ",
 				m_pcFuncInfoArr->m_szFilePath.c_str(),		/* 解析対象ファイル名 */
 				pcFuncInfo->m_nFuncLineCRLF,		/* 検出行番号 */
@@ -1333,8 +1333,8 @@ void CDlgFuncList::SetListVB ()
 			m_cmemClipText.AppendString(L")\r\n");
 		}else{
 			// 検出結果の種類(関数,,,)がないとき
-			auto_sprintf(
-				szText,
+			auto_snprintf_s(
+				szText, std::size(szText),
 				L"%s(%d,%d): ",
 				m_pcFuncInfoArr->m_szFilePath.c_str(),		/* 解析対象ファイル名 */
 				pcFuncInfo->m_nFuncLineCRLF,		/* 検出行番号 */
@@ -1454,7 +1454,7 @@ void CDlgFuncList::SetTree(HTREEITEM hInsertAfter, bool tagjump, bool nolabel)
 				
 				if( 0 < pcFuncInfo->m_nFuncLineCRLF ){
 					WCHAR linenum[32];
-					auto_sprintf( linenum, L"(%d,%d): ",
+					auto_snprintf_s( linenum, std::size(linenum), L"(%d,%d): ",
 						pcFuncInfo->m_nFuncLineCRLF,				/* 検出行番号 */
 						pcFuncInfo->m_nFuncColCRLF					/* 検出桁番号 */
 					);
