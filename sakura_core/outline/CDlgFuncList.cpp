@@ -1168,15 +1168,13 @@ void CDlgFuncList::SetTreeJava( [[maybe_unused]] HWND hwndDlg, HTREEITEM hInsert
 */
 void CDlgFuncList::SetListVB ()
 {
-	int				i;
-	WCHAR			szType[64];
-	WCHAR			szOption[64];
+	std::wstring	szType;
+	std::wstring	szOption;
 	LV_ITEM			item;
-	HWND			hwndList;
 
 	::EnableWindow( GetItemHwnd( IDC_BUTTON_COPY ), TRUE );
 
-	hwndList = GetItemHwnd( IDC_LIST_FL );
+	HWND hwndList = GetItemHwnd( IDC_LIST_FL );
 
 	m_cmemClipText.SetString( L"" );
 	{
@@ -1191,7 +1189,7 @@ void CDlgFuncList::SetListVB ()
 	}
 
 	WCHAR			szText[2048];
-	for( i = 0; i < m_pcFuncInfoArr->GetNum(); ++i ){
+	for( auto i = 0; i < m_pcFuncInfoArr->GetNum(); ++i ){
 		/* 現在の解析結果要素 */
 		const auto pcFuncInfo = m_pcFuncInfoArr->GetAt( i );
 
@@ -1234,62 +1232,62 @@ void CDlgFuncList::SetListVB ()
 		// 2001/06/23 N.Nakatani for Visual Basic
 		//	Jun. 26, 2001 genta 半角かな→全角に
 		wmemset(szText, L'\0', int(std::size(szText)));
-		wmemset(szType, L'\0', int(std::size(szType)));
-		wmemset(szOption, L'\0', int(std::size(szOption)));
+		szType.clear();
+		szOption.clear();
 		if( 1 == ((pcFuncInfo->m_nInfo >> 8) & 0x01) ){
 			// スタティック宣言(Static)
 			// 2006.12.12 Moca 末尾にスペース追加
-			wcscpy(szOption, LS(STR_DLGFNCLST_VB_STATIC));
+			szOption = LS(STR_DLGFNCLST_VB_STATIC);
 		}
 		switch ((pcFuncInfo->m_nInfo >> 4) & 0x0f) {
 			case 2  :	// プライベート(Private)
-				wcsncat(szOption, LS(STR_DLGFNCLST_VB_PRIVATE), int(std::size(szOption)) - wcslen(szOption)); //	2006.12.17 genta サイズ誤り修正
+				szOption += LS(STR_DLGFNCLST_VB_PRIVATE);
 				break;
 
 			case 3  :	// フレンド(Friend)
-				wcsncat(szOption, LS(STR_DLGFNCLST_VB_FRIEND), int(std::size(szOption)) - wcslen(szOption)); //	2006.12.17 genta サイズ誤り修正
+				szOption += LS(STR_DLGFNCLST_VB_FRIEND);
 				break;
 
 			default :	// パブリック(Public)
-				wcsncat(szOption, LS(STR_DLGFNCLST_VB_PUBLIC), int(std::size(szOption)) - wcslen(szOption)); //	2006.12.17 genta サイズ誤り修正
+				szOption += LS(STR_DLGFNCLST_VB_PUBLIC);
 		}
 		int nInfo = pcFuncInfo->m_nInfo;
 		switch (nInfo & 0x0f) {
 			case 1:		// 関数(Function)
-				wcscpy(szType, LS(STR_DLGFNCLST_VB_FUNCTION));
+				szType = LS(STR_DLGFNCLST_VB_FUNCTION);
 				break;
 
 			// 2006.12.12 Moca ステータス→プロシージャに変更
 			case 2:		// プロシージャ(Sub)
-				wcscpy(szType, LS(STR_DLGFNCLST_VB_PROC));
+				szType = LS(STR_DLGFNCLST_VB_PROC);
 				break;
 
 			case 3:		// プロパティ 取得(Property Get)
-				wcscpy(szType, LS(STR_DLGFNCLST_VB_PROPGET));
+				szType = LS(STR_DLGFNCLST_VB_PROPGET);
 				break;
 
 			case 4:		// プロパティ 設定(Property Let)
-				wcscpy(szType, LS(STR_DLGFNCLST_VB_PROPLET));
+				szType = LS(STR_DLGFNCLST_VB_PROPLET);
 				break;
 
 			case 5:		// プロパティ 参照(Property Set)
-				wcscpy(szType, LS(STR_DLGFNCLST_VB_PROPSET));
+				szType = LS(STR_DLGFNCLST_VB_PROPSET);
 				break;
 
 			case 6:		// 定数(Const)
-				wcscpy(szType, LS(STR_DLGFNCLST_VB_CONST));
+				szType = LS(STR_DLGFNCLST_VB_CONST);
 				break;
 
 			case 7:		// 列挙型(Enum)
-				wcscpy(szType, LS(STR_DLGFNCLST_VB_ENUM));
+				szType = LS(STR_DLGFNCLST_VB_ENUM);
 				break;
 
 			case 8:		// ユーザ定義型(Type)
-				wcscpy(szType, LS(STR_DLGFNCLST_VB_TYPE));
+				szType = LS(STR_DLGFNCLST_VB_TYPE);
 				break;
 
 			case 9:		// イベント(Event)
-				wcscpy(szType, LS(STR_DLGFNCLST_VB_EVENT));
+				szType = LS(STR_DLGFNCLST_VB_EVENT);
 				break;
 
 			default:	// 未定義なのでクリア
@@ -1297,17 +1295,17 @@ void CDlgFuncList::SetListVB ()
 		}
 		if ( 2 == ((nInfo >> 8) & 0x02) ) {
 			// 宣言(Declareなど)
-			wcsncat(szType, LS(STR_DLGFNCLST_VB_DECL), int(std::size(szType)) - wcslen(szType));
+			szType += LS(STR_DLGFNCLST_VB_DECL);
 		}
 
 		WCHAR szTypeOption[256]; // 2006.12.12 Moca auto_sprintfの入出力で同一変数を使わないための作業領域追加
 		if ( 0 == nInfo ) {
 			szTypeOption[0] = L'\0';	//	2006.12.17 genta 全体を0で埋める必要はない
 		} else
-		if ( szOption[0] == L'\0' ) {
-			auto_snprintf_s(szTypeOption, std::size(szTypeOption), L"%s", szType);
+		if ( szOption.empty() ) {
+			auto_snprintf_s(szTypeOption, std::size(szTypeOption), L"%s", szType.c_str());
 		} else {
-			auto_snprintf_s(szTypeOption, std::size(szTypeOption), L"%s（%s）", szType, szOption);
+			auto_snprintf_s(szTypeOption, std::size(szTypeOption), L"%s（%s）", szType.c_str(), szOption.c_str());
 		}
 		item.pszText = szTypeOption;
 		item.iItem = i;
