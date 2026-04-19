@@ -169,7 +169,7 @@ bool CControlProcess::InitializeProcess()
 	}
 
 	/* 言語を選択する */
-	CSelectLang::ChangeLang( GetDllShareData().m_Common.m_sWindow.m_szLanguageDll );
+	CSelectLang::ChangeLang( GetDllShareData().m_Common.m_sWindow.m_szLanguageDll.c_str() );
 	RefreshString();
 
 	MY_TRACETIME( cRunningTimer, L"Before new CControlTray" );

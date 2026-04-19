@@ -72,7 +72,7 @@ bool CNormalProcess::InitializeProcess()
 	}
 
 	/* 言語を選択する */
-	CSelectLang::ChangeLang( GetDllShareData().m_Common.m_sWindow.m_szLanguageDll );
+	CSelectLang::ChangeLang( GetDllShareData().m_Common.m_sWindow.m_szLanguageDll.c_str() );
 
 	/* コマンドラインオプション */
 	bool			bViewMode = false;

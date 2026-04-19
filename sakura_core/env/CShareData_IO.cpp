@@ -100,11 +100,11 @@ bool CShareData_IO::ShareData_IO_2( bool bRead )
 			// Windowsの表示言語が日本語でない場合は言語設定を英語にする
 			if (langId != MAKELANGID( LANG_JAPANESE, SUBLANG_JAPANESE_JAPAN )) {
 				DLLSHAREDATA* pShareData = &GetDllShareData();
-				wcscpy(pShareData->m_Common.m_sWindow.m_szLanguageDll, L"sakura_lang_en_US.dll");
-				cProfile.IOProfileData(L"Common", L"szLanguageDll", StringBufferW(pShareData->m_Common.m_sWindow.m_szLanguageDll));
+				pShareData->m_Common.m_sWindow.m_szLanguageDll = L"sakura_lang_en_US.dll";
+				cProfile.IOProfileData(L"Common", L"szLanguageDll", pShareData->m_Common.m_sWindow.m_szLanguageDll);
 				std::vector<std::wstring> values;
 				pcShare->ConvertLangValues( values, true );
-				CSelectLang::ChangeLang( pShareData->m_Common.m_sWindow.m_szLanguageDll );
+				CSelectLang::ChangeLang( pShareData->m_Common.m_sWindow.m_szLanguageDll.c_str() );
 				pcShare->ConvertLangValues( values, false );
 				pcShare->RefreshString();
 			}
@@ -135,8 +135,8 @@ bool CShareData_IO::ShareData_IO_2( bool bRead )
 
 	if( bRead ){
 		DLLSHAREDATA* pShareData = &GetDllShareData();
-		cProfile.IOProfileData(L"Common", L"szLanguageDll", StringBufferW(pShareData->m_Common.m_sWindow.m_szLanguageDll));
-		CSelectLang::ChangeLang( pShareData->m_Common.m_sWindow.m_szLanguageDll );
+		cProfile.IOProfileData(L"Common", L"szLanguageDll", pShareData->m_Common.m_sWindow.m_szLanguageDll);
+		CSelectLang::ChangeLang( pShareData->m_Common.m_sWindow.m_szLanguageDll.c_str() );
 		pcShare->RefreshString();
 	}
 
@@ -590,7 +590,7 @@ void CShareData_IO::ShareData_IO_Common( CDataProfile& cProfile )
 	cProfile.IOProfileData( pszSecName, L"bDispMiniMap"			, common.m_sWindow.m_bDispMiniMap );
 	cProfile.IOProfileData( pszSecName, L"nFUNCKEYWND_Place"		, common.m_sWindow.m_nFUNCKEYWND_Place );
 	cProfile.IOProfileData( pszSecName, L"nFUNCKEYWND_GroupNum"	, common.m_sWindow.m_nFUNCKEYWND_GroupNum );		// 2002/11/04 Moca ファンクションキーのグループボタン数
-	cProfile.IOProfileData(pszSecName, L"szLanguageDll", StringBufferW(common.m_sWindow.m_szLanguageDll));
+	cProfile.IOProfileData(pszSecName, L"szLanguageDll", common.m_sWindow.m_szLanguageDll);
 	cProfile.IOProfileData( pszSecName, L"nMiniMapFontSize"		, common.m_sWindow.m_nMiniMapFontSize );
 	cProfile.IOProfileData( pszSecName, L"nMiniMapQuality"		, common.m_sWindow.m_nMiniMapQuality );
 	cProfile.IOProfileData( pszSecName, L"nMiniMapWidth"			, common.m_sWindow.m_nMiniMapWidth );

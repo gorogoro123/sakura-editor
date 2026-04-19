@@ -593,7 +593,7 @@ LRESULT CControlTray::DispatchEvent(
 					CShareData::getInstance()->ConvertLangValues(values, true);
 				}
 				/* 言語を選択する */
-				CSelectLang::ChangeLang( GetDllShareData().m_Common.m_sWindow.m_szLanguageDll );
+				CSelectLang::ChangeLang( GetDllShareData().m_Common.m_sWindow.m_szLanguageDll.c_str() );
 				if( bChangeLang ){
 					CShareData::getInstance()->ConvertLangValues(values, false);
 				}
