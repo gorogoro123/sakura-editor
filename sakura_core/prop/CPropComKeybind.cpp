@@ -457,37 +457,33 @@ int CPropKeybind::GetData( [[maybe_unused]] HWND hwndDlg )
 }
 	
 /*! Keybind: キーリストをチェックボックスの状態に合わせて更新する */
-void CPropKeybind::ChangeKeyList( HWND hwndDlg){
-	HWND	hwndKeyList;
-	int 	nIndex;
-	int 	nIndexTop;
-	int 	i;
-	wchar_t	szKeyState[64];
+void CPropKeybind::ChangeKeyList( HWND hwndDlg)
+{
+	std::wstring szKeyState;
 	
-	hwndKeyList = ::GetDlgItem( hwndDlg, IDC_LIST_KEY );
-	nIndex = ApiWrap::List_GetCurSel( hwndKeyList );
-	nIndexTop = ApiWrap::List_GetTopIndex( hwndKeyList );
-	szKeyState[0] = L'\0';
-	i = 0;
+	HWND hwndKeyList = ::GetDlgItem( hwndDlg, IDC_LIST_KEY );
+	int nIndex = ApiWrap::List_GetCurSel( hwndKeyList );
+	int nIndexTop = ApiWrap::List_GetTopIndex( hwndKeyList );
+	int i = 0;
 	if( ::IsDlgButtonChecked( hwndDlg, IDC_CHECK_SHIFT ) ){
 		i |= _SHIFT;
-		wcscat( szKeyState, L"Shift+" );
+		szKeyState += L"Shift+";
 	}
 	if( ::IsDlgButtonChecked( hwndDlg, IDC_CHECK_CTRL ) ){
 		i |= _CTRL;
-		wcscat( szKeyState, L"Ctrl+" );
+		szKeyState += L"Ctrl+";
 	}
 	if( ::IsDlgButtonChecked( hwndDlg, IDC_CHECK_ALT ) ){
 		i |= _ALT;
-		wcscat( szKeyState, L"Alt+" );
+		szKeyState += L"Alt+";
 	}
 	::SendMessage( hwndKeyList, WM_SETREDRAW, FALSE, 0 );
 	/* キー一覧に文字列をセット（リストボックス）*/
 	ApiWrap::List_ResetContent( hwndKeyList );
 	for( i = 0; i < m_Common.m_sKeyBind.m_nKeyNameArrNum; ++i ){
-		WCHAR	pszLabel[256];
-		auto_sprintf( pszLabel, L"%ls%s", szKeyState, m_Common.m_sKeyBind.m_pKeyNameArr[i].m_szKeyName );
-		ApiWrap::List_AddString( hwndKeyList, pszLabel );
+		WCHAR	szLabel[256];
+		auto_snprintf_s( szLabel, std::size(szLabel), L"%ls%s", szKeyState.c_str(), m_Common.m_sKeyBind.m_pKeyNameArr[i].m_szKeyName );
+		ApiWrap::List_AddString( hwndKeyList, szLabel );
 	}
 	ApiWrap::List_SetCurSel( hwndKeyList, nIndex );
 	ApiWrap::List_SetTopIndex( hwndKeyList, nIndexTop );
