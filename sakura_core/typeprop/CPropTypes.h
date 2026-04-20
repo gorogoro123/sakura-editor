@@ -46,7 +46,7 @@ template <class TYPE>
 struct TYPE_NAME_ID2 {
 	TYPE			nMethod;
 	int				nNameId;
-	WCHAR*			pszName;
+	std::wstring 	szName;
 };
 
 //!< プロパティシート番号
@@ -255,7 +255,7 @@ template<typename T>
 void InitTypeNameId2( std::vector<TYPE_NAME_ID2<T> >& vec, TYPE_NAME_ID<T>* arr, size_t size )
 {
 	for( size_t i = 0; i < size; i++ ){
-		TYPE_NAME_ID2<T> item = {arr[i].nMethod, arr[i].nNameId, nullptr};
+		TYPE_NAME_ID2<T> item = {arr[i].nMethod, arr[i].nNameId, L""};
 		vec.push_back( item );
 	}
 }

@@ -548,10 +548,10 @@ void CPropTypesScreen::SetData( HWND hwndDlg )
 		int		nSelPos = 0;
 		int nSize = (int)m_SIndentArr.size();
 		for( int i = 0; i < nSize; ++i ){
-			if( m_SIndentArr[i].pszName == nullptr ){
+			if( m_SIndentArr[i].szName.empty() ){
 				ApiWrap::Combo_InsertString( hwndCombo, i, LS(m_SIndentArr[i].nNameId) );
 			}else{
-				ApiWrap::Combo_InsertString( hwndCombo, i, m_SIndentArr[i].pszName );
+				ApiWrap::Combo_InsertString( hwndCombo, i, m_SIndentArr[i].szName.c_str() );
 			}
 			if( m_SIndentArr[i].nMethod == m_Types.m_eSmartIndent ){	/* スマートインデント種別 */
 				nSelPos = i;
@@ -587,14 +587,14 @@ void CPropTypesScreen::SetData( HWND hwndDlg )
 		int		nSelPos = 0;
 		int nSize = (int)m_OlmArr.size();
 		for( int i = 0; i < nSize; ++i ){
-			if( m_OlmArr[i].pszName == nullptr ){
+			if( m_OlmArr[i].szName.empty() ){
 				if( m_OlmArr[i].nNameId < STR2_OUTLINE_MAX ){
 					ApiWrap::Combo_InsertString( hwndCombo, i, pszOutlineNames[m_OlmArr[i].nNameId] );
 				}else{
 					ApiWrap::Combo_InsertString( hwndCombo, i, LS(m_OlmArr[i].nNameId) );
 				}
 			}else{
-				ApiWrap::Combo_InsertString( hwndCombo, i, m_OlmArr[i].pszName );
+				ApiWrap::Combo_InsertString( hwndCombo, i, m_OlmArr[i].szName.c_str() );
 			}
 			if( m_OlmArr[i].nMethod == m_Types.m_eDefaultOutline ){	/* アウトライン解析方法 */
 				nSelPos = i;
@@ -807,7 +807,7 @@ void CPropTypesScreen::AddOutlineMethod(int nMethod, const WCHAR* pszName)
 	TYPE_NAME_ID2<EOutlineType> method;
 	method.nMethod = (EOutlineType)nMethod;
 	method.nNameId = 0;
-	method.pszName = _wcsdup( pszName );
+	method.szName = pszName;
 	m_OlmArr.push_back(method);
 }
 
@@ -816,7 +816,7 @@ void CPropTypesScreen::RemoveOutlineMethod(int nMethod, [[maybe_unused]] const W
 	int nSize = (int)m_OlmArr.size();
 	for(int i = 0; i < nSize; i++ ){
 		if( m_OlmArr[i].nMethod == (EOutlineType)nMethod ){
-			free( m_OlmArr[i].pszName );
+			m_OlmArr[i].szName.clear();
 			m_OlmArr.erase( m_OlmArr.begin() + i );
 			break;
 		}
@@ -832,7 +832,7 @@ void CPropTypesScreen::AddSIndentMethod(int nMethod, const WCHAR* pszName)
 	TYPE_NAME_ID2<ESmartIndentType> method;
 	method.nMethod = (ESmartIndentType)nMethod;
 	method.nNameId = 0;
-	method.pszName = _wcsdup( pszName );
+	method.szName = pszName;
 	m_SIndentArr.push_back(method);
 }
 
@@ -841,7 +841,7 @@ void CPropTypesScreen::RemoveSIndentMethod(int nMethod, [[maybe_unused]] const W
 	int nSize = (int)m_SIndentArr.size();
 	for(int i = 0; i < nSize; i++ ){
 		if( m_SIndentArr[i].nMethod == (ESmartIndentType)nMethod ){
-			free( m_SIndentArr[i].pszName );
+			m_SIndentArr[i].szName.clear();
 			m_SIndentArr.erase( m_SIndentArr.begin() + i );
 			break;
 		}
