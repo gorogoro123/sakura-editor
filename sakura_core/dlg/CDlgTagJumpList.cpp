@@ -138,9 +138,6 @@ CDlgTagJumpList::~CDlgTagJumpList()
 {
 	Empty();
 
-	if( m_pszKeyword ) free( m_pszKeyword );
-	m_pszKeyword = nullptr;
-
 	StopTimer();
 	SAFE_DELETE( m_pcList );
 	SAFE_DELETE( m_psFindPrev );
@@ -214,8 +211,8 @@ void CDlgTagJumpList::SetData( )
 		::CheckDlgButton( GetHwnd(), IDC_CHECK_ANYWHERE, BST_UNCHECKED );
 		m_bTagJumpExactMatch = TRUE;
 
-		if( m_pszKeyword != nullptr ){
-			ApiWrap::DlgItem_SetText( GetHwnd(), IDC_KEYWORD, m_pszKeyword );
+		if( !m_szKeyword.empty() ){
+			ApiWrap::DlgItem_SetText( GetHwnd(), IDC_KEYWORD, m_szKeyword.c_str() );
 		}
 	}
 	//	From Here 2005.04.03 MIK 設定値の読み込み
@@ -233,8 +230,8 @@ void CDlgTagJumpList::SetData( )
 		for( int i = 0; i < cRecentTagJump.GetItemCount(); i++ ){
 			ApiWrap::Combo_AddString( hwndKey, cRecentTagJump.GetItemText(i) );
 		}
-		if( m_pszKeyword != nullptr ){
-			ApiWrap::DlgItem_SetText( GetHwnd(), IDC_KEYWORD, m_pszKeyword );
+		if( !m_szKeyword.empty() ){
+			ApiWrap::DlgItem_SetText( GetHwnd(), IDC_KEYWORD, m_szKeyword.c_str() );
 		}
 		else if( cRecentTagJump.GetItemCount() > 0 ){
 			ApiWrap::Combo_SetCurSel( hwndKey, 0 );
@@ -376,7 +373,7 @@ int CDlgTagJumpList::GetData( )
 
 		//設定を保存
 		CRecentTagjumpKeyword cRecentTagJumpKeyword;
-		cRecentTagJumpKeyword.AppendItem( m_pszKeyword );
+		cRecentTagJumpKeyword.AppendItem( m_szKeyword.c_str() );
 		cRecentTagJumpKeyword.Terminate();
 	}
 	//	To Here 2005.04.03 MIK
@@ -809,9 +806,7 @@ void CDlgTagJumpList::SetKeyword( const wchar_t *pszKeyword )
 {
 	if( nullptr == pszKeyword ) return;
 
-	if( m_pszKeyword ) free( m_pszKeyword );
-
-	m_pszKeyword = _wcsdup( pszKeyword );
+	m_szKeyword = pszKeyword;
 
 	return;
 }
@@ -995,7 +990,7 @@ int CDlgTagJumpList::FindDirectTagJump()
 {
 	return find_key_core(
 		0,	// 0開始
-		m_pszKeyword,
+		m_szKeyword.c_str(),
 		false, // 部分一致
 		true,  // 完全一致
 		false, // 大小を区別

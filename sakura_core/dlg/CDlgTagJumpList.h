@@ -127,7 +127,7 @@ private:
 
 	int		m_nIndex = -1;		//!< 選択された要素番号
 	std::wstring m_szFileName;	//!< 編集中のファイル名
-	wchar_t	*m_pszKeyword = nullptr;	//!< キーワード(DoModalのlParam!=0を指定した場合に指定できる)
+	std::wstring m_szKeyword;	//!< キーワード(DoModalのlParam!=0を指定した場合に指定できる)
 	int		m_nLoop = -1;		//!< さかのぼれる階層数
 	CSortedTagJumpList*	m_pcList = nullptr;	//!< タグジャンプ情報
 	UINT_PTR	m_nTimerId = 0;		//!< タイマ番号
