@@ -2057,59 +2057,6 @@ int	CEditWnd::OnClose(HWND hWndActive, bool bGrepNoConfirm )
 		}
 	}
 
-#if 0
-	// 2005.09.01 ryoji タブまとめ表示の場合は次のウィンドウを前面に（終了時のウィンドウちらつきを抑制）
-	if( m_pShareData->m_Common.m_sTabBar.m_bDispTabWnd
-		&& !m_pShareData->m_Common.m_sTabBar.m_bDispTabWndMultiWin )
-	{
-		int i, j;
-		EditNode*	p = NULL;
-		int nCount = CAppNodeManager::getInstance()->GetOpenedWindowArr( &p, FALSE );
-		if( nCount > 1 )
-		{
-			for( i = 0; i < nCount; i++ )
-			{
-				if( p[ i ].GetHwnd() == GetHwnd() )
-					break;
-			}
-			if( i < nCount )
-			{
-				for( j = i + 1; j < nCount; j++ )
-				{
-					if( p[ j ].m_nGroup == p[ i ].m_nGroup )
-						break;
-				}
-				if( j >= nCount )
-				{
-					for( j = 0; j < i; j++ )
-					{
-						if( p[ j ].m_nGroup == p[ i ].m_nGroup )
-							break;
-					}
-				}
-				if( j != i )
-				{
-					HWND hwnd = p[ j ].GetHwnd();
-					{
-						// 2006.01.28 ryoji
-						// タブまとめ表示でこの画面が非表示から表示に変わってすぐ閉じる場合(タブの中クリック時等)、
-						// 以前のウィンドウが消えるよりも先に一気にここまで処理が進んでしまうと
-						// あとで画面がちらつくので、以前のウィンドウが消えるのをちょっとだけ待つ
-						int iWait = 0;
-						while( ::IsWindowVisible( hwnd ) && iWait++ < 20 )
-							::Sleep(1);
-					}
-					if( !::IsWindowVisible( hwnd ) )
-					{
-						ActivateFrameWindow( hwnd );
-					}
-				}
-			}
-		}
-		if( p ) delete []p;
-	}
-#endif	// 0
-
 	return nRet;
 }
 
