@@ -161,10 +161,10 @@ void CPropTypesScreen::CPropTypes_Screen()
 {
 	//プラグイン無効の場合、ここで静的メンバを初期化する。プラグイン有効の場合はAddXXXMethod内で初期化する。
 	if( m_OlmArr.empty() ){
-		InitTypeNameId2(m_OlmArr, OlmArr, int(std::size(OlmArr)));	//アウトライン解析ルール
+		InitTypeNameId2(m_OlmArr, OlmArr);	//アウトライン解析ルール
 	}
 	if( m_SIndentArr.empty() ){
-		InitTypeNameId2(m_SIndentArr, SmartIndentArr, int(std::size(SmartIndentArr)));	//スマートインデントルール
+		InitTypeNameId2(m_SIndentArr, SmartIndentArr);	//スマートインデントルール
 	}
 }
 
@@ -802,7 +802,7 @@ int CPropTypesScreen::GetData( HWND hwndDlg )
 void CPropTypesScreen::AddOutlineMethod(int nMethod, const WCHAR* pszName)
 {
 	if( m_OlmArr.empty() ){
-		InitTypeNameId2(m_OlmArr, OlmArr, int(std::size(OlmArr)));	//アウトライン解析ルール
+		InitTypeNameId2(m_OlmArr, OlmArr);	//アウトライン解析ルール
 	}
 	TYPE_NAME_ID2<EOutlineType> method;
 	method.nMethod = (EOutlineType)nMethod;
@@ -827,7 +827,7 @@ void CPropTypesScreen::RemoveOutlineMethod(int nMethod, [[maybe_unused]] const W
 void CPropTypesScreen::AddSIndentMethod(int nMethod, const WCHAR* pszName)
 {
 	if( m_SIndentArr.empty() ){
-		InitTypeNameId2(m_SIndentArr, SmartIndentArr, int(std::size(SmartIndentArr)));	//スマートインデントルール
+		InitTypeNameId2(m_SIndentArr, SmartIndentArr);	//スマートインデントルール
 	}
 	TYPE_NAME_ID2<ESmartIndentType> method;
 	method.nMethod = (ESmartIndentType)nMethod;

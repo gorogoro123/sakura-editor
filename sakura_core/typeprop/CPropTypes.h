@@ -251,11 +251,15 @@ protected:
 	bool Export(HWND hwndDlg);											//!< エクスポート
 };
 
-template<typename T>
-void InitTypeNameId2( std::vector<TYPE_NAME_ID2<T> >& vec, TYPE_NAME_ID<T>* arr, size_t size )
+template<typename T, size_t N>
+void InitTypeNameId2( std::vector<TYPE_NAME_ID2<T> >& vec, const TYPE_NAME_ID<T> (&arr)[N])
 {
-	for( size_t i = 0; i < size; i++ ){
-		TYPE_NAME_ID2<T> item = {arr[i].nMethod, arr[i].nNameId, L""};
-		vec.push_back( item );
+	for(const auto& it : arr){
+		TYPE_NAME_ID2<T> item = {
+			.nMethod = it.nMethod,
+			.nNameId =  it.nNameId,
+			.szName = L"",
+		};
+		vec.emplace_back( item );
 	}
 }
