@@ -54,7 +54,7 @@ static const DWORD p_helpids3[] = {	//11500
 };
 
 struct SHokanMethod{
-	int nMethod;
+	EFunctionCode nMethod;
 	std::wstring name;
 };
 
@@ -260,13 +260,13 @@ int CPropTypesSupport::GetData( HWND hwndDlg )
 
 /*! 補完種別の追加
 /*/
-void CPropTypesSupport::AddHokanMethod(int nMethod, const WCHAR* szName)
+void CPropTypesSupport::AddHokanMethod(EFunctionCode nMethod, const WCHAR* szName)
 {
 	SHokanMethod item = { nMethod, szName };
 	GetHokanMethodList()->push_back(item);
 }
 
-void CPropTypesSupport::RemoveHokanMethod(int nMethod, [[maybe_unused]] const WCHAR* szName)
+void CPropTypesSupport::RemoveHokanMethod(EFunctionCode nMethod, [[maybe_unused]] const WCHAR* szName)
 {
 	auto& list = *GetHokanMethodList();
 

@@ -85,19 +85,19 @@ ERegisterPlugResult CJackManager::RegisterPlug( std::wstring pszJack, CPlug* plu
 	switch( ppId ){
 	case PP_OUTLINE:					//アウトライン解析方法を追加
 		{
-			int nMethod = CPlug::GetOutlineType( plug->GetFunctionCode() );	// 2011/8/20 syat プラグ複数化のためGetOutlineType仕様変更// 2010/5/1 Uchi 関数化
+			EOutlineType nMethod = CPlug::GetOutlineType( plug->GetFunctionCode() );	// 2011/8/20 syat プラグ複数化のためGetOutlineType仕様変更// 2010/5/1 Uchi 関数化
 			CPropTypesScreen::AddOutlineMethod( nMethod, plug->m_sLabel.c_str() );
 		}
 		break;
 	case PP_SMARTINDENT:				//スマートインデント方法を追加
 		{
-			int nMethod = CPlug::GetSmartIndentType( plug->GetFunctionCode() );	// 2011/8/20 syat プラグ複数化のためGetOutlineType仕様変更// 2010/5/1 Uchi 関数化
+			ESmartIndentType nMethod = CPlug::GetSmartIndentType( plug->GetFunctionCode() );	// 2011/8/20 syat プラグ複数化のためGetOutlineType仕様変更// 2010/5/1 Uchi 関数化
 			CPropTypesScreen::AddSIndentMethod( nMethod, plug->m_sLabel.c_str() );
 		}
 		break;
 	case PP_COMPLEMENT:
 		{
-			int nMethod = CPlug::GetPluginFunctionCode( plug->m_cPlugin.m_id, 0 );
+			EFunctionCode nMethod = CPlug::GetPluginFunctionCode( plug->m_cPlugin.m_id, 0 );
 			CPropTypesSupport::AddHokanMethod( nMethod, plug->m_sLabel.c_str() );
 		}
 		break;
@@ -115,19 +115,19 @@ bool CJackManager::UnRegisterPlug( std::wstring pszJack, CPlug* plug )
 	switch( ppId ){
 	case PP_OUTLINE:					//アウトライン解析方法を追加
 		{
-			int nMethod = CPlug::GetOutlineType( plug->GetFunctionCode() );
+			EOutlineType nMethod = CPlug::GetOutlineType( plug->GetFunctionCode() );
 			CPropTypesScreen::RemoveOutlineMethod( nMethod, plug->m_sLabel.c_str() );
 		}
 		break;
 	case PP_SMARTINDENT:				//スマートインデント方法を追加
 		{
-			int nMethod = CPlug::GetSmartIndentType( plug->GetFunctionCode() );
+			ESmartIndentType nMethod = CPlug::GetSmartIndentType( plug->GetFunctionCode() );
 			CPropTypesScreen::RemoveSIndentMethod( nMethod, plug->m_sLabel.c_str() );
 		}
 		break;
 	case PP_COMPLEMENT:
 		{
-			int nMethod = CPlug::GetPluginFunctionCode( plug->m_cPlugin.m_id, 0 );
+			EFunctionCode nMethod = CPlug::GetPluginFunctionCode( plug->m_cPlugin.m_id, 0 );
 			CPropTypesSupport::RemoveHokanMethod( nMethod, plug->m_sLabel.c_str() );
 		}
 		break;

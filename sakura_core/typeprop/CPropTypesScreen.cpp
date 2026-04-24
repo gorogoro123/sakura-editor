@@ -799,23 +799,23 @@ int CPropTypesScreen::GetData( HWND hwndDlg )
 }
 
 //アウトライン解析ルールの追加
-void CPropTypesScreen::AddOutlineMethod(int nMethod, const WCHAR* pszName)
+void CPropTypesScreen::AddOutlineMethod(EOutlineType nMethod, const WCHAR* pszName)
 {
 	if( m_OlmArr.empty() ){
 		InitTypeNameId2(m_OlmArr, OlmArr);	//アウトライン解析ルール
 	}
 	TYPE_NAME_ID2<EOutlineType> method;
-	method.nMethod = (EOutlineType)nMethod;
+	method.nMethod = nMethod;
 	method.nNameId = 0;
 	method.szName = pszName;
 	m_OlmArr.push_back(method);
 }
 
-void CPropTypesScreen::RemoveOutlineMethod(int nMethod, [[maybe_unused]] const WCHAR* szName)
+void CPropTypesScreen::RemoveOutlineMethod(EOutlineType nMethod, [[maybe_unused]] const WCHAR* szName)
 {
 	int nSize = (int)m_OlmArr.size();
 	for(int i = 0; i < nSize; i++ ){
-		if( m_OlmArr[i].nMethod == (EOutlineType)nMethod ){
+		if( m_OlmArr[i].nMethod == nMethod ){
 			m_OlmArr[i].szName.clear();
 			m_OlmArr.erase( m_OlmArr.begin() + i );
 			break;
@@ -824,23 +824,23 @@ void CPropTypesScreen::RemoveOutlineMethod(int nMethod, [[maybe_unused]] const W
 }
 
 //スマートインデントルールの追加
-void CPropTypesScreen::AddSIndentMethod(int nMethod, const WCHAR* pszName)
+void CPropTypesScreen::AddSIndentMethod(ESmartIndentType nMethod, const WCHAR* pszName)
 {
 	if( m_SIndentArr.empty() ){
 		InitTypeNameId2(m_SIndentArr, SmartIndentArr);	//スマートインデントルール
 	}
 	TYPE_NAME_ID2<ESmartIndentType> method;
-	method.nMethod = (ESmartIndentType)nMethod;
+	method.nMethod = nMethod;
 	method.nNameId = 0;
 	method.szName = pszName;
 	m_SIndentArr.push_back(method);
 }
 
-void CPropTypesScreen::RemoveSIndentMethod(int nMethod, [[maybe_unused]] const WCHAR* szName)
+void CPropTypesScreen::RemoveSIndentMethod(ESmartIndentType nMethod, [[maybe_unused]] const WCHAR* szName)
 {
 	int nSize = (int)m_SIndentArr.size();
 	for(int i = 0; i < nSize; i++ ){
-		if( m_SIndentArr[i].nMethod == (ESmartIndentType)nMethod ){
+		if( m_SIndentArr[i].nMethod == nMethod ){
 			m_SIndentArr[i].szName.clear();
 			m_SIndentArr.erase( m_SIndentArr.begin() + i );
 			break;
