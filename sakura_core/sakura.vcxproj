@@ -374,8 +374,6 @@
     <ClInclude Include="..\sakura_core\macro\CMacro.h" />
     <ClInclude Include="..\sakura_core\macro\CMacroFactory.h" />
     <ClInclude Include="..\sakura_core\macro\CMacroManagerBase.h" />
-    <ClInclude Include="..\sakura_core\macro\CPPA.h" />
-    <ClInclude Include="..\sakura_core\macro\CPPAMacroMgr.h" />
     <ClInclude Include="..\sakura_core\macro\CPythonMacroManager.h" />
     <ClInclude Include="..\sakura_core\macro\CSMacroMgr.h" />
     <ClInclude Include="..\sakura_core\macro\CWSH.h" />
@@ -741,12 +739,6 @@
     <ClCompile Include="..\sakura_core\macro\CMacro.cpp" />
     <ClCompile Include="..\sakura_core\macro\CMacroFactory.cpp" />
     <ClCompile Include="..\sakura_core\macro\CMacroManagerBase.cpp" />
-    <ClCompile Include="..\sakura_core\macro\CPPA.cpp">
-      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\sakura_core\macro\CPPAMacroMgr.cpp">
-      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\sakura_core\macro\CPythonMacroManager.cpp" />
     <ClCompile Include="..\sakura_core\macro\CSMacroMgr.cpp" />
     <ClCompile Include="..\sakura_core\macro\CWSH.cpp" />

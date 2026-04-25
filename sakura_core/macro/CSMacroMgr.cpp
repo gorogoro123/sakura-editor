@@ -25,10 +25,6 @@
 */
 #include "macro/CSMacroMgr.h"
 #include "macro/CKeyMacroMgr.h"
-#ifdef _WIN64
-#else
-#include "macro/CPPAMacroMgr.h"
-#endif
 #include "macro/CWSHManager.h"
 #include "macro/CPythonMacroManager.h"
 #include "macro/CMacroFactory.h"
@@ -509,10 +505,6 @@ CSMacroMgr::CSMacroMgr()
 	MY_RUNNINGTIMER( cRunningTimer, L"CSMacroMgr::CSMacroMgr" );
 	
 	m_pShareData = &GetDllShareData();
-#ifdef _WIN64
-#else
-	CPPAMacroMgr::declare();
-#endif
 	CKeyMacroMgr::declare();
 	CWSHMacroManager::declare();
 	CPythonMacroManager::declare();
