@@ -550,7 +550,6 @@ int CAppNodeManager::_GetOpenedWindowArrCore( std::vector<EditNode>& vEditNode, 
 	DLLSHAREDATA* pShare = &GetDllShareData();
 
 	//編集ウインドウ数を取得する。
-	EditNodeEx*	pNode;	// ソート処理用の拡張リスト
 	int		nRowNum;	//編集ウインドウ数
 	int		i;
 
@@ -563,12 +562,7 @@ int CAppNodeManager::_GetOpenedWindowArrCore( std::vector<EditNode>& vEditNode, 
 	vEditNode.resize(pShare->m_sNodes.m_nEditArrNum);
 
 	// 拡張リストを作成する
-	pNode = new EditNodeEx[ pShare->m_sNodes.m_nEditArrNum ];
-	if( nullptr == pNode )
-	{
-		vEditNode.clear();
-		return 0;
-	}
+	std::vector<EditNodeEx> vNode(pShare->m_sNodes.m_nEditArrNum);
 
 	// 拡張リストの各要素に編集ウィンドウリストの各要素へのポインタを格納する
 	nRowNum = 0;
@@ -576,14 +570,13 @@ int CAppNodeManager::_GetOpenedWindowArrCore( std::vector<EditNode>& vEditNode, 
 	{
 		if( IsSakuraMainWindow( pShare->m_sNodes.m_pEditArr[ i ].m_hWnd ) )
 		{
-			pNode[ nRowNum ].p = &pShare->m_sNodes.m_pEditArr[ i ];	// ポインタ格納
-			pNode[ nRowNum ].nGroupMru = -1;	// グループ単位のMRU番号初期化
+			vNode[ nRowNum ].p = &pShare->m_sNodes.m_pEditArr[ i ];	// ポインタ格納
+			vNode[ nRowNum ].nGroupMru = -1;	// グループ単位のMRU番号初期化
 			nRowNum++;
 		}
 	}
 	if( nRowNum <= 0 )
 	{
-		delete []pNode;
 		vEditNode.clear();
 		return 0;
 	}
@@ -595,18 +588,18 @@ int CAppNodeManager::_GetOpenedWindowArrCore( std::vector<EditNode>& vEditNode, 
 		int nGroup = -1;
 		for( i = 0; i < nRowNum; i++ )
 		{
-			if( pNode[ i ].nGroupMru == -1 && nGroup != pNode[ i ].p->m_nGroup )
+			if( vNode[ i ].nGroupMru == -1 && nGroup != vNode[ i ].p->m_nGroup )
 			{
-				nGroup = pNode[ i ].p->m_nGroup;
+				nGroup = vNode[ i ].p->m_nGroup;
 				iGroupMru++;
-				pNode[ i ].nGroupMru = iGroupMru;	// MRU番号付与
+				vNode[ i ].nGroupMru = iGroupMru;	// MRU番号付与
 
 				// 同一グループのウィンドウに同じMRU番号をつける
 				int j;
 				for( j = i + 1; j < nRowNum; j++ )
 				{
-					if( pNode[ j ].p->m_nGroup == nGroup )
-						pNode[ j ].nGroupMru = iGroupMru;
+					if( vNode[ j ].p->m_nGroup == nGroup )
+						vNode[ j ].nGroupMru = iGroupMru;
 				}
 			}
 		}
@@ -617,19 +610,17 @@ int CAppNodeManager::_GetOpenedWindowArrCore( std::vector<EditNode>& vEditNode, 
 	//       （グループ化する設定でなければグループは１個）
 	s_bSort = bSort;
 	s_bGSort = bGSort;
-	qsort( pNode, nRowNum, sizeof(EditNodeEx), cmpGetOpenedWindowArr );
+	qsort( vNode.data(), nRowNum, sizeof(EditNodeEx), cmpGetOpenedWindowArr);
 
 	// 拡張リストのソート結果をもとに編集ウインドウリスト格納領域に結果を格納する
 	for( i = 0; i < nRowNum; i++ )
 	{
-		vEditNode[i] = *pNode[i].p;
+		vEditNode[i] = *vNode[i].p;
 
 		//インデックスを付ける。
 		//このインデックスは m_pEditArr の配列番号です。
-		vEditNode[i].m_nIndex = int(pNode[i].p - pShare->m_sNodes.m_pEditArr);	// ポインタ減算＝配列番号
+		vEditNode[i].m_nIndex = int(vNode[i].p - pShare->m_sNodes.m_pEditArr);	// ポインタ減算＝配列番号
 	}
-
-	delete []pNode;
 
 	return nRowNum;
 }
