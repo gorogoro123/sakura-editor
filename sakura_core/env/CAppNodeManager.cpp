@@ -23,10 +23,6 @@
 #include "config/system_constants.h"
 #include "config/app_constants.h"
 
-// GetOpenedWindowArr用静的変数／構造体
-static BOOL s_bSort;	// ソート指定
-static BOOL s_bGSort;	// グループ指定
-
 /*! @brief CShareData::m_pEditArr保護用Mutex
 
 	複数のエディタが非同期に一斉動作しているときでも、CShareData::m_pEditArrを
@@ -49,36 +45,6 @@ static BOOL s_bGSort;	// グループ指定
 	@date 2007.07.07 genta CShareDataのメンバへ移動
 */
 static CMutex g_cEditArrMutex( FALSE, GSTR_MUTEX_SAKURA_EDITARR );
-
-// GetOpenedWindowArr用ソート関数
-static int __cdecl cmpGetOpenedWindowArr(const void *e1, const void *e2)
-{
-	// 異なるグループのときはグループ比較する
-	int nGroup1;
-	int nGroup2;
-
-	if( s_bGSort )
-	{
-		// オリジナルのグループ番号のほうを見る
-		nGroup1 = ((EditNodeEx*)e1)->p->m_nGroup;
-		nGroup2 = ((EditNodeEx*)e2)->p->m_nGroup;
-	}
-	else
-	{
-		// グループのMRU番号のほうを見る
-		nGroup1 = ((EditNodeEx*)e1)->nGroupMru;
-		nGroup2 = ((EditNodeEx*)e2)->nGroupMru;
-	}
-	if( nGroup1 != nGroup2 )
-	{
-		return nGroup1 - nGroup2;	// グループ比較
-	}
-
-	// グループ比較が行われなかったときはウィンドウ比較する
-	if( s_bSort )
-		return ( ((EditNodeEx*)e1)->p->m_nIndex - ((EditNodeEx*)e2)->p->m_nIndex );	// ウィンドウ番号比較
-	return int( ((EditNodeEx*)e1)->p - ((EditNodeEx*)e2)->p );	// ウィンドウMRU比較（ソートしない）
-}
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                         グループ                            //
@@ -608,9 +574,39 @@ int CAppNodeManager::_GetOpenedWindowArrCore( std::vector<EditNode>& vEditNode, 
 	// 拡張リストをソートする
 	// Note. グループが１個だけの場合は従来（bGSort 引数無し）と同じ結果が得られる
 	//       （グループ化する設定でなければグループは１個）
-	s_bSort = bSort;
-	s_bGSort = bGSort;
-	qsort( vNode.data(), nRowNum, sizeof(EditNodeEx), cmpGetOpenedWindowArr);
+	std::sort(
+		vNode.begin(),
+		vNode.end(),
+		[bSort, bGSort](const EditNodeEx& e1, const EditNodeEx& e2) {
+			// 異なるグループのときはグループ比較する
+			int nGroup1;
+			int nGroup2;
+
+			if( bGSort )
+			{
+				// オリジナルのグループ番号のほうを見る
+				nGroup1 = e1.p->m_nGroup;
+				nGroup2 = e2.p->m_nGroup;
+			}
+			else
+			{
+				// グループのMRU番号のほうを見る
+				nGroup1 = e1.nGroupMru;
+				nGroup2 = e2.nGroupMru;
+			}
+			if( nGroup1 != nGroup2 )
+			{
+				return nGroup1 < nGroup2;	// グループ比較
+			}
+
+			// グループ比較が行われなかったときはウィンドウ比較する
+			if( bSort )
+			{
+				return e1.p->m_nIndex < e2.p->m_nIndex;	// ウィンドウ番号比較
+			}
+			return e1.p < e2.p;	// ウィンドウMRU比較（ソートしない）
+		}
+	);
 
 	// 拡張リストのソート結果をもとに編集ウインドウリスト格納領域に結果を格納する
 	for( i = 0; i < nRowNum; i++ )
