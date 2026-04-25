@@ -51,7 +51,7 @@ public:
 	CFileTime&		GetFileTime()				{ return m_sFileInfo.cFileTime; }
 	void			ClearFileTime()				{ m_sFileInfo.cFileTime.ClearFILETIME(); }
 	bool			IsFileTimeZero() const		{ return m_sFileInfo.cFileTime.IsZero(); }	// 新規ファイル？
-	const SYSTEMTIME	GetFileSysTime() const	{ return m_sFileInfo.cFileTime.GetSYSTEMTIME(); }
+	const SYSTEMTIME&	GetFileSysTime() const	{ return m_sFileInfo.cFileTime.GetSYSTEMTIME(); }
 	void			SetFileTime( FILETIME& Time )	{ m_sFileInfo.cFileTime.SetFILETIME( Time ); }
 
 	const WCHAR*	GetFileName() const{ return GetFileTitlePointer(GetFilePath()); }	//!< ファイル名(パスなし)を取得
