@@ -75,7 +75,7 @@ protected:
 	void TabWnd_ActivateFrameWindow( HWND hwnd, bool bForce = true );	//2004.08.27 Kazika 引数追加
 	HWND GetNextGroupWnd( );	/* 次のグループの先頭ウィンドウを探す */	// 2007.06.20 ryoji
 	HWND GetPrevGroupWnd( );	/* 前のグループの先頭ウィンドウを探す */	// 2007.06.20 ryoji
-	void GetTabName( EditNode* pEditNode, BOOL bFull, BOOL bDupamp, LPWSTR pszName, int nLen );	/* タブ名取得処理 */	// 2007.06.28 ryoji 新規作成
+	void GetTabName( const EditNode* pEditNode, BOOL bFull, BOOL bDupamp, LPWSTR pszName, int nLen );	/* タブ名取得処理 */	// 2007.06.28 ryoji 新規作成
 
 	/* 仮想関数 */
 

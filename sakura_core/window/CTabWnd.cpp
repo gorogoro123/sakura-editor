@@ -2745,7 +2745,7 @@ void CTabWnd::GetTabCloseBtnRect( const LPRECT lprcTab, LPRECT lprc, bool select
 
 	@date 2007.06.28 ryoji 新規作成
 */
-void CTabWnd::GetTabName( EditNode* pEditNode, BOOL bFull, BOOL bDupamp, LPWSTR pszName, int nLen )
+void CTabWnd::GetTabName( const EditNode* pEditNode, BOOL bFull, BOOL bDupamp, LPWSTR pszName, int nLen )
 {
 	LPWSTR pszText = new WCHAR[nLen];
 
