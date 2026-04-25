@@ -12,10 +12,11 @@
 #include "extmodule/CMigemo.h"
 #include "extmodule/CUchardet.h"
 //#include "extmodule/CUxTheme.h"		//TSingletonなのでテストできない
-#include "macro/CPPA.h"
 //#include "plugin/CDllPlugin.h"		//継承不可なのでテストできない
 
+#include "env/DLLSHAREDATA.h"
 #include "env/ShareDataTestSuite.hpp"
+#include "util/file.h"
 
 #include "tests1_rc.h"
 
@@ -78,10 +79,6 @@ REGISTER_TYPED_TEST_SUITE_P(
 using ExtModuleImplementations = ::testing::Types<
 	CBregexpDll2,
 	CMigemo,
-#ifdef _WIN64
-#else
-	CPPA,
-#endif
 	CUchardet
 	>;
 
