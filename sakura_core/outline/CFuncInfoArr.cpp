@@ -88,14 +88,15 @@ void CFuncInfoArr::DUMP( )
 {
 #ifdef _DEBUG
 	MYTRACE( L"=============================\n" );
-	for( auto i = 0; i < m_pcFuncInfoArr.size(); i++ ){
+	for(int i = 0; const auto& pcFuncInfo : m_pcFuncInfoArr){
 		MYTRACE( L"[%d]------------------\n", i );
-		MYTRACE( L"m_nFuncLineCRLF	=%d\n", m_pcFuncInfoArr[i]->m_nFuncLineCRLF );
-		MYTRACE( L"m_nFuncLineLAYOUT	=%d\n", m_pcFuncInfoArr[i]->m_nFuncLineLAYOUT );
-		MYTRACE( L"m_cmemFuncName	=[%s]\n", m_pcFuncInfoArr[i]->m_cmemFuncName.GetStringPtr() );
+		MYTRACE( L"m_nFuncLineCRLF	=%d\n", pcFuncInfo->m_nFuncLineCRLF );
+		MYTRACE( L"m_nFuncLineLAYOUT	=%d\n", pcFuncInfo->m_nFuncLineLAYOUT );
+		MYTRACE( L"m_cmemFuncName	=[%s]\n", pcFuncInfo->m_cmemFuncName.GetStringPtr() );
 		MYTRACE( L"m_cmemFileName	=[%s]\n",
-			(m_pcFuncInfoArr[i]->m_cmemFileName.GetStringPtr() ? m_pcFuncInfoArr[i]->m_cmemFileName.GetStringPtr() : L"NULL") );
-		MYTRACE( L"m_nInfo			=%d\n", m_pcFuncInfoArr[i]->m_nInfo );
+			(pcFuncInfo->m_cmemFileName.GetStringPtr() ? pcFuncInfo->m_cmemFileName.GetStringPtr() : L"NULL") );
+		MYTRACE( L"m_nInfo			=%d\n", pcFuncInfo->m_nInfo );
+		i++;
 	}
 	MYTRACE( L"=============================\n" );
 #endif
