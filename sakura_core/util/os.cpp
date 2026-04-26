@@ -6,7 +6,6 @@
 */
 #include "os.h"
 #include "util/module.h"
-#include "basis/CMyString.h"
 #include "_os/CClipboard.h"
 
 /*!	自分が現在ビジュアルスタイル表示状態かどうかを示す
@@ -243,8 +242,8 @@ BOOL IsWow64()
 
 CCurrentDirectoryBackupPoint::CCurrentDirectoryBackupPoint()
 {
-	int n = ::GetCurrentDirectory(int(std::size(m_szCurDir)),m_szCurDir);
-	if(n>0 && n<int(std::size(m_szCurDir))){
+	auto n = ::GetCurrentDirectory(std::size(m_szCurDir),m_szCurDir);
+	if(n>0 && n<m_szCurDir.size()){
 		//ok
 	}
 	else{
