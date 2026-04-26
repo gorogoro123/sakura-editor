@@ -67,17 +67,15 @@ typedef struct {
 /*!	タブ一覧メニュー用データの qsort() コールバック処理
 	@date 2006.02.01 ryoji 新規作成
 */
-static int compTABMENU_DATA( const void *arg1, const void *arg2 )
+static bool compTABMENU_DATA( const TABMENU_DATA& arg1, const TABMENU_DATA& arg2 )
 {
-	int ret;
-
 	// ここは文字列ソート（tcscmp）ではなく単語ソート（lstrcmp）を使用する
 	// 文字列ソート: "XYZ" が "ABC" と "abc" との間に割って入る
 	// 単語ソート: "ABC" と "abc" とは隣接し "XYZ" はそれらの後ろに入る（実際の辞書と同様な順序）
-	ret = ::lstrcmp( ((TABMENU_DATA*)arg1)->szText, ((TABMENU_DATA*)arg2)->szText );
+	int ret = ::lstrcmp( arg1.szText, arg2.szText );
 	if( 0 == ret )
-		ret = ((TABMENU_DATA*)arg1)->iItem - ((TABMENU_DATA*)arg2)->iItem;
-	return ret;
+		return arg1.iItem < arg2.iItem;
+	return ret < 0;
 }
 
 WNDPROC	gm_pOldWndProc = nullptr;
@@ -2857,7 +2855,7 @@ LRESULT CTabWnd::TabListMenu( POINT pt, BOOL bSel/* = TRUE*/, BOOL bFull/* = FAL
 			}
 			// 表示文字でソートする
 			if( nSelfTab > 0 && m_pShareData->m_Common.m_sTabBar.m_bSortTabList )	// 2006.03.23 fon 変更
-				qsort( vData.data(), nSelfTab, sizeof(vData[0]), compTABMENU_DATA );
+				std::sort( vData.begin(), vData.begin() + nSelfTab, compTABMENU_DATA );
 		}
 
 		// 他グループのウィンドウ一覧情報を作成する
@@ -2876,7 +2874,7 @@ LRESULT CTabWnd::TabListMenu( POINT pt, BOOL bSel/* = TRUE*/, BOOL bFull/* = FAL
 		}
 		// 表示文字でソートする
 		if( nTab > nSelfTab && m_pShareData->m_Common.m_sTabBar.m_bSortTabList )
-			qsort( vData.data() + nSelfTab, nTab - nSelfTab, sizeof(vData[0]), compTABMENU_DATA);
+			std::sort( vData.begin() + nSelfTab, vData.begin() + nTab, compTABMENU_DATA);
 
 		// メニューを作成する
 		// 2007.02.28 ryoji 表示切替をメニューに追加
