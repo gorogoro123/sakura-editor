@@ -20,6 +20,7 @@
 
 #include <Windows.h>
 #include "_main/global.h"// 2002/2/10 aroka
+#include "util/StaticType.h"
 
 #define		MAX_SETNUM		100	//2007.12.01 genta 最大値増加
 #define		MAX_SETNAMELEN	32
@@ -113,7 +114,7 @@ public:
 	*/
 	int		m_nCurrentKeyWordSetIdx;
 	int		m_nKeyWordSetNum;	/*!< キーワードセット数 */
-	wchar_t	m_szSetNameArr[MAX_SETNUM][MAX_SETNAMELEN + 1];/*!< キーワードセット名 */
+	std::array<StaticString<MAX_SETNAMELEN + 1>, MAX_SETNUM> m_szSetNameArr;/*!< キーワードセット名 */
 	bool	m_bKEYWORDCASEArr[MAX_SETNUM];	/*!< キーワードの英大文字小文字区別 */
 	int		m_nKeyWordNumArr[MAX_SETNUM];	/*!< キーワードセットに登録されているキーワード数 */
 private:

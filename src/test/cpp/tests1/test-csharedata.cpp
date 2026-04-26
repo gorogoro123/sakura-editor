@@ -887,7 +887,7 @@ MATCHER(IsInitializedCommonSettingSpecialKeyword, "Checks if CommonSetting_Speci
 
 	// 不具合。 構造体がプライベートメンバーを含むため、まともにテストできない。
 #define CheckKeyword(name,case_sensitive) \
-	EXPECT_THAT(cKeyWordSetMgr.m_szSetNameArr[nIdx], StrEq((name))); \
+	EXPECT_THAT(cKeyWordSetMgr.m_szSetNameArr[nIdx].c_str(), StrEq((name))); \
 	EXPECT_THAT(cKeyWordSetMgr.m_bKEYWORDCASEArr[nIdx], (case_sensitive)); \
 	++nIdx;
 

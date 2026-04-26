@@ -1859,7 +1859,7 @@ void CShareData_IO::ShareData_IO_KeyWords( CDataProfile& cProfile )
 		int nSize = pCKeyWordSetMgr->m_nKeyWordSetNum;
 		for( int i = 0; i < nSize; ++i ){
 			auto_sprintf( szKeyName, L"szSN[%02d]", i );
-			cProfile.IOProfileData(pszSecName, szKeyName, StringBufferW(pCKeyWordSetMgr->m_szSetNameArr[i]));
+			cProfile.IOProfileData(pszSecName, szKeyName, pCKeyWordSetMgr->m_szSetNameArr[i]);
 			auto_sprintf( szKeyName, L"nCASE[%02d]", i );
 			cProfile.IOProfileData( pszSecName, szKeyName, pCKeyWordSetMgr->m_bKEYWORDCASEArr[i] );
 			auto_sprintf( szKeyName, L"nKWN[%02d]", i );
