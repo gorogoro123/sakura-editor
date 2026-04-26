@@ -2837,7 +2837,7 @@ LRESULT CTabWnd::TabListMenu( POINT pt, BOOL bSel/* = TRUE*/, BOOL bFull/* = FAL
 			return 0L;
 		}
 
-		TABMENU_DATA* pData = new TABMENU_DATA[nCount];	// タブメニュー用の情報
+		std::vector<TABMENU_DATA> vData(nCount);	// タブメニュー用の情報
 
 		// 自グループのウィンドウ一覧情報を作成する
 		nSelfTab = 0;
@@ -2849,15 +2849,15 @@ LRESULT CTabWnd::TabListMenu( POINT pt, BOOL bSel/* = TRUE*/, BOOL bFull/* = FAL
 					continue;
 				if( vEditNode[i].m_bClosing )	// このあとすぐに閉じるウィンドウなのでタブ表示しない
 					continue;
-				GetTabName( &vEditNode[i], bFull, TRUE, pData[nSelfTab].szText, _countof(pData[0].szText) );
-				pData[nSelfTab].hwnd = vEditNode[i].m_hWnd;
-				pData[nSelfTab].iItem = i;
-				pData[nSelfTab].iImage = GetImageIndex( &vEditNode[i] );
+				GetTabName( &vEditNode[i], bFull, TRUE, vData[nSelfTab].szText, std::size(vData[0].szText) );
+				vData[nSelfTab].hwnd = vEditNode[i].m_hWnd;
+				vData[nSelfTab].iItem = i;
+				vData[nSelfTab].iImage = GetImageIndex( &vEditNode[i] );
 				nSelfTab++;
 			}
 			// 表示文字でソートする
 			if( nSelfTab > 0 && m_pShareData->m_Common.m_sTabBar.m_bSortTabList )	// 2006.03.23 fon 変更
-				qsort( pData, nSelfTab, sizeof(pData[0]), compTABMENU_DATA );
+				qsort( vData.data(), nSelfTab, sizeof(vData[0]), compTABMENU_DATA );
 		}
 
 		// 他グループのウィンドウ一覧情報を作成する
@@ -2868,15 +2868,15 @@ LRESULT CTabWnd::TabListMenu( POINT pt, BOOL bSel/* = TRUE*/, BOOL bFull/* = FAL
 				continue;
 			if( vEditNode[i].m_bClosing )	// このあとすぐに閉じるウィンドウなのでタブ表示しない
 				continue;
-			GetTabName( &vEditNode[i], bFull, TRUE, pData[nTab].szText, _countof(pData[0].szText) );
-			pData[nTab].hwnd = vEditNode[i].m_hWnd;
-			pData[nTab].iItem = i;
-			pData[nTab].iImage = GetImageIndex( &vEditNode[i] );
+			GetTabName( &vEditNode[i], bFull, TRUE, vData[nTab].szText, std::size(vData[0].szText) );
+			vData[nTab].hwnd = vEditNode[i].m_hWnd;
+			vData[nTab].iItem = i;
+			vData[nTab].iImage = GetImageIndex( &vEditNode[i] );
 			nTab++;
 		}
 		// 表示文字でソートする
 		if( nTab > nSelfTab && m_pShareData->m_Common.m_sTabBar.m_bSortTabList )
-			qsort( pData + nSelfTab, nTab - nSelfTab, sizeof(pData[0]), compTABMENU_DATA );
+			qsort( vData.data() + nSelfTab, nTab - nSelfTab, sizeof(vData[0]), compTABMENU_DATA);
 
 		// メニューを作成する
 		// 2007.02.28 ryoji 表示切替をメニューに追加
@@ -2885,8 +2885,8 @@ LRESULT CTabWnd::TabListMenu( POINT pt, BOOL bSel/* = TRUE*/, BOOL bFull/* = FAL
 		HMENU hMenu = ::CreatePopupMenu();
 		for( i = 0; i < nSelfTab; i++ )
 		{
-			::InsertMenu( hMenu, i, uFlags, IDM_SELWINDOW + i, m_hIml? (LPCWSTR)&pData[i]: pData[i].szText );
-			if( pData[i].hwnd == GetParentHwnd() )
+			::InsertMenu( hMenu, i, uFlags, IDM_SELWINDOW + i, m_hIml? (LPCWSTR)&vData[i]: vData[i].szText );
+			if( vData[i].hwnd == GetParentHwnd() )
 				iMenuSel = i;
 		}
 
@@ -2903,7 +2903,7 @@ LRESULT CTabWnd::TabListMenu( POINT pt, BOOL bSel/* = TRUE*/, BOOL bFull/* = FAL
 			{
 				for( i = nSelfTab; i < nTab; i++ )
 				{
-					::InsertMenu( hMenu, i, uFlags, IDM_SELWINDOW + i, m_hIml? (LPCWSTR)&pData[i]: pData[i].szText );
+					::InsertMenu( hMenu, i, uFlags, IDM_SELWINDOW + i, m_hIml? (LPCWSTR)&vData[i]: vData[i].szText );
 				}
 			}
 			else
@@ -2944,11 +2944,8 @@ LRESULT CTabWnd::TabListMenu( POINT pt, BOOL bSel/* = TRUE*/, BOOL bFull/* = FAL
 		}
 		else if( IDM_SELWINDOW <= nId && nId < IDM_SELWINDOW + nTab )
 		{
-			ActivateFrameWindow( pData[nId - IDM_SELWINDOW].hwnd );
+			ActivateFrameWindow( vData[nId - IDM_SELWINDOW].hwnd );
 		}
-
-		delete []pData;
-
 	} while( bRepeat );
 
 	if( bSel )
