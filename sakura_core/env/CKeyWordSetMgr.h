@@ -135,7 +135,6 @@ protected:
 	/*
 	||  実装ヘルパ関数
 	*/
-	//bool KeyWordAlloc( int );
 	bool KeyWordReAlloc(int nIdx, int nSize);
 	void KeywordMaxLen(int nIdx);
 };

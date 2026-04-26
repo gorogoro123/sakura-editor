@@ -272,24 +272,24 @@ int CKeyWordSetMgr::DelKeyWord( int nIdx, LPARAM lParam )
 	@param nIdx [in] キーワードセット番号
 
 */
-using qsort_callback = int (__cdecl *)(const void *, const void *);
 void CKeyWordSetMgr::SortKeyWord( int nIdx )
 {
+	auto base = &m_szKeyWordArr[m_nStartIdx[nIdx]];
+	auto last = base + m_nKeyWordNumArr[nIdx];
+
 	//nIdxのセットをソートする。
 	if( m_bKEYWORDCASEArr[nIdx] ) {
-		qsort(
-			m_szKeyWordArr[m_nStartIdx[nIdx]],
-			m_nKeyWordNumArr[nIdx],
-			sizeof(m_szKeyWordArr[0]),
-			(qsort_callback)wcscmp
+		std::sort(base, last,
+			[](auto const& a, auto const& b) {
+				return wcscmp(a.c_str(), b.c_str()) < 0;
+			}
 		);
 	}
 	else {
-		qsort(
-			m_szKeyWordArr[m_nStartIdx[nIdx]],
-			m_nKeyWordNumArr[nIdx],
-			sizeof(m_szKeyWordArr[0]),
-			(qsort_callback)_wcsicmp
+		std::sort(base, last,
+			[](auto const& a, auto const& b) {
+				return _wcsicmp(a.c_str(), b.c_str()) < 0;
+			}
 		);
 	}
 	KeywordMaxLen(nIdx);
@@ -514,31 +514,6 @@ bool CKeyWordSetMgr::CanAddKeyWord( int nIdx )
 	//	それでもだめか
 	return false;
 }
-
-#if 0
-/*!	新しいキーワードセットのキーワード領域を確保する
-	m_nKeyWordSetNumは、呼び出し側が、呼び出した後に+1する
-*/
-bool CKeyWordSetMgr::KeyWordAlloc( int nSize )
-{
-	// assert( m_nKeyWordSetNum < MAX_SETNUM );
-	// assert( 0 <= nSize );
-
-	// ブロックのサイズで整列
-	int nAllocSize = GetAlignmentSize( nSize );
-
-	if( GetFreeSize() < nAllocSize ){
-		// メモリ不足
-		return false;
-	}
-	m_nStartIdx[m_nKeyWordSetNum + 1] = m_nStartIdx[m_nKeyWordSetNum] + nAllocSize;
-	int i;
-	for( i = m_nKeyWordSetNum + 1; i < MAX_SETNUM; i++ ){
-		m_nStartIdx[i + 1] = m_nStartIdx[i];
-	}
-	return true;
-}
-#endif
 
 /*!	初期化済みのキーワードセットのキーワード領域の再割り当て、解放を行う
 
