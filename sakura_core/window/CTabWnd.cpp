@@ -61,7 +61,7 @@ struct TABMENU_DATA {
 	HWND	hwnd;
 	int		iItem;
 	int		iImage;
-	WCHAR	szText[_MAX_PATH];
+	std::wstring	szText;
 };
 
 /*!	タブ一覧メニュー用データの qsort() コールバック処理
@@ -72,7 +72,7 @@ static bool compTABMENU_DATA( const TABMENU_DATA& arg1, const TABMENU_DATA& arg2
 	// ここは文字列ソート（tcscmp）ではなく単語ソート（lstrcmp）を使用する
 	// 文字列ソート: "XYZ" が "ABC" と "abc" との間に割って入る
 	// 単語ソート: "ABC" と "abc" とは隣接し "XYZ" はそれらの後ろに入る（実際の辞書と同様な順序）
-	int ret = ::lstrcmp( arg1.szText, arg2.szText );
+	int ret = ::lstrcmp( arg1.szText.c_str(), arg2.szText.c_str() );
 	if( 0 == ret )
 		return arg1.iItem < arg2.iItem;
 	return ret < 0;
@@ -1189,7 +1189,7 @@ LRESULT CTabWnd::OnMeasureItem( HWND hwnd, [[maybe_unused]] UINT uMsg, [[maybe_u
 		HFONT hFontOld = (HFONT)::SelectObject( hdc, hFont );
 
 		SIZE size;
-		::GetTextExtentPoint32W(hdc, PSZ_ARGS(pData->szText), &size);
+		::GetTextExtentPoint32W(hdc, PSZ_ARGS(pData->szText.c_str()), &size);
 
 		int cxIcon = CX_SMICON;
 		int cyIcon = CY_SMICON;
@@ -1264,7 +1264,7 @@ LRESULT CTabWnd::OnDrawItem( [[maybe_unused]] HWND hwnd, [[maybe_unused]] UINT u
 		RECT rcText = rcItem;
 		rcText.left += (cxIcon + DpiScaleX(8));
 
-		::DrawText( gr, pData->szText, -1, &rcText, DT_SINGLELINE | DT_LEFT | DT_VCENTER );
+		::DrawText( gr, pData->szText.c_str(), -1, &rcText, DT_SINGLELINE | DT_LEFT | DT_VCENTER );
 
 		gr.PopTextForeColor();
 		gr.PopMyFont();
@@ -1595,8 +1595,8 @@ LRESULT CTabWnd::OnNotify( [[maybe_unused]] HWND hwnd, [[maybe_unused]] UINT uMs
 			{
 				EditNode* pEditNode;
 				pEditNode = CAppNodeManager::getInstance()->GetEditNode( (HWND)tcitem.lParam );
-				GetTabName( pEditNode, TRUE, FALSE, m_szTextTip, int(std::size(m_szTextTip)) );
-				((NMTTDISPINFO*)pnmh)->lpszText = m_szTextTip;	// NMTTDISPINFO::szText[80]では短い
+				GetTabName( pEditNode, TRUE, FALSE, m_szTextTip );
+				((NMTTDISPINFO*)pnmh)->lpszText = m_szTextTip.data();	// NMTTDISPINFO::szText[80]では短い
 				((NMTTDISPINFO*)pnmh)->hinst = nullptr;
 			}
 			return 0L;
@@ -1734,22 +1734,22 @@ void CTabWnd::TabWindowNotify( WPARAM wParam, LPARAM lParam )
 		if( -1 != nIndex )
 		{
 			TCITEM	tcitem;
-			WCHAR	szName[1024];
+			std::wstring szName;
 			//	Jun. 19, 2004 genta
 			EditNode	*p;
 			p = CAppNodeManager::getInstance()->GetEditNode( (HWND)lParam );
-			GetTabName( p, FALSE, TRUE, szName, int(std::size(szName)) );
+			GetTabName( p, FALSE, TRUE, szName );
 
 			tcitem.mask    = TCIF_TEXT | TCIF_IMAGE;
 			WCHAR	szNameOld[1024];
 			tcitem.pszText = szNameOld;
 			tcitem.cchTextMax = int(std::size(szNameOld));
 			TabCtrl_GetItem( m_hwndTab, nIndex, &tcitem );
-			if( 0 != wcscmp( szNameOld, szName )
+			if( 0 != wcscmp( szNameOld, szName.c_str() )
 				|| tcitem.iImage != GetImageIndex( p ) ){
 
 				tcitem.mask    = TCIF_TEXT | TCIF_PARAM;
-				tcitem.pszText = szName;
+				tcitem.pszText = szName.data();
 				tcitem.lParam  = lParam;
 
 				// 2006.01.28 ryoji タブのアイコンイメージを変更する
@@ -1908,10 +1908,9 @@ void CTabWnd::Refresh( BOOL bEnsureVisible/* = TRUE*/, BOOL bRebuild/* = FALSE*/
 		nTab = j;	// 作成するタブ数
 
 		// タブが無ければ１つ作成して選択状態にする（自ウィンドウのタブ用）
-		WCHAR		szName[2048];
-		szName[0] = L'\0';
+		std::wstring szName;
 		tcitem.mask    = TCIF_TEXT | TCIF_PARAM;
-		tcitem.pszText = szName;
+		tcitem.pszText = szName.data();
 		tcitem.lParam  = (LPARAM)GetParentHwnd();
 		if( TabCtrl_GetItemCount( m_hwndTab ) == 0 )
 		{
@@ -1954,10 +1953,10 @@ void CTabWnd::Refresh( BOOL bEnsureVisible/* = TRUE*/, BOOL bRebuild/* = FALSE*/
 			if( vEditNode[i].m_bClosing )	// このあとすぐに閉じるウィンドウなのでタブ表示しない
 				continue;
 
-			GetTabName( &vEditNode[i], FALSE, TRUE, szName, int(std::size(szName)) );
+			GetTabName( &vEditNode[i], FALSE, TRUE, szName );
 
 			tcitem.mask    = TCIF_TEXT | TCIF_PARAM;
-			tcitem.pszText = szName;
+			tcitem.pszText = szName.data();
 			tcitem.lParam  = (LPARAM)vEditNode[i].m_hWnd;
 
 			// 2006.01.28 ryoji タブにアイコンを追加する
@@ -2736,28 +2735,27 @@ void CTabWnd::GetTabCloseBtnRect( const LPRECT lprcTab, LPRECT lprc, bool select
 	@param[in] EditNode 編集ウィンドウ情報
 	@param[in] bFull パス名で表示する
 	@param[in] bDupamp &を&&に置き換える
-	@param[out] pszName タブ名格納先
-	@param[in] nLen 格納先最大文字数（終端のnull文字含む）
+	@param[out] szName タブ名格納先
 
 	@date 2007.06.28 ryoji 新規作成
 */
-void CTabWnd::GetTabName( const EditNode* pEditNode, BOOL bFull, BOOL bDupamp, LPWSTR pszName, int nLen )
+void CTabWnd::GetTabName( const EditNode* pEditNode, BOOL bFull, BOOL bDupamp, std::wstring& szName )
 {
-	LPWSTR pszText = new WCHAR[nLen];
+	std::wstring szText;
 
 	if( pEditNode == nullptr )
 	{
-		::wcsncpy_s(pszText, nLen, LS(STR_NO_TITLE1), _TRUNCATE);
+		szText = LS(STR_NO_TITLE1);
 	}
 	else if( !bFull || pEditNode->m_szFilePath[0] == '\0' )
 	{
 		if( pEditNode->m_szTabCaption[0] )
 		{
-			::wcsncpy_s(pszText, nLen, pEditNode->m_szTabCaption, _TRUNCATE);
+			szText = pEditNode->m_szTabCaption;
 		}
 		else
 		{
-			::wcsncpy_s(pszText, nLen, LS(STR_NO_TITLE1), _TRUNCATE);
+			szText = LS(STR_NO_TITLE1);
 		}
 	}
 	else
@@ -2765,7 +2763,9 @@ void CTabWnd::GetTabName( const EditNode* pEditNode, BOOL bFull, BOOL bDupamp, L
 		// フルパス名を簡易名に変換する
 		HDC hdc = ::GetDC(m_hwndTab);
 		HFONT hFontOld = (HFONT)SelectObject(hdc, m_hFont);
-		CFileNameManager::getInstance()->GetTransformFileNameFast( pEditNode->m_szFilePath, pszText, nLen, hdc, false );
+		std::vector<WCHAR> szDest(_MAX_PATH);
+		CFileNameManager::getInstance()->GetTransformFileNameFast( pEditNode->m_szFilePath, szDest.data(), (int)szDest.size(), hdc, false );
+		szText = szDest.data();
 		SelectObject(hdc, hFontOld);
 		::ReleaseDC(m_hwndTab, hdc);
 	}
@@ -2773,17 +2773,18 @@ void CTabWnd::GetTabName( const EditNode* pEditNode, BOOL bFull, BOOL bDupamp, L
 	if( bDupamp )
 	{
 		// &を&&に置き換える
-		LPWSTR pszText_amp = new WCHAR[nLen * 2];
-		dupamp( pszText, pszText_amp );
-		::wcsncpy_s(pszName, nLen, pszText_amp, _TRUNCATE);
-		delete []pszText_amp;
+		std::vector<WCHAR> szText_amp(szText.length() * 2 + 1);
+		dupamp( szText.c_str(), szText_amp.data() );
+		szName = szText_amp.data();
 	}
 	else
 	{
-		::wcsncpy_s(pszName, nLen, pszText, _TRUNCATE);
+		szName = szText;
 	}
 
-	delete []pszText;
+	if( szName.length() > _MAX_PATH ){
+		szName.resize(_MAX_PATH);
+	}
 }
 
 /**	タブ一覧表示処理
@@ -2845,7 +2846,7 @@ LRESULT CTabWnd::TabListMenu( POINT pt, BOOL bSel/* = TRUE*/, BOOL bFull/* = FAL
 					continue;
 				if( vEditNode[i].m_bClosing )	// このあとすぐに閉じるウィンドウなのでタブ表示しない
 					continue;
-				GetTabName( &vEditNode[i], bFull, TRUE, vData[nSelfTab].szText, std::size(vData[0].szText) );
+				GetTabName( &vEditNode[i], bFull, TRUE, vData[nSelfTab].szText );
 				vData[nSelfTab].hwnd = vEditNode[i].m_hWnd;
 				vData[nSelfTab].iItem = i;
 				vData[nSelfTab].iImage = GetImageIndex( &vEditNode[i] );
@@ -2864,7 +2865,7 @@ LRESULT CTabWnd::TabListMenu( POINT pt, BOOL bSel/* = TRUE*/, BOOL bFull/* = FAL
 				continue;
 			if( vEditNode[i].m_bClosing )	// このあとすぐに閉じるウィンドウなのでタブ表示しない
 				continue;
-			GetTabName( &vEditNode[i], bFull, TRUE, vData[nTab].szText, std::size(vData[0].szText) );
+			GetTabName( &vEditNode[i], bFull, TRUE, vData[nTab].szText );
 			vData[nTab].hwnd = vEditNode[i].m_hWnd;
 			vData[nTab].iItem = i;
 			vData[nTab].iImage = GetImageIndex( &vEditNode[i] );
@@ -2881,7 +2882,7 @@ LRESULT CTabWnd::TabListMenu( POINT pt, BOOL bSel/* = TRUE*/, BOOL bFull/* = FAL
 		HMENU hMenu = ::CreatePopupMenu();
 		for( i = 0; i < nSelfTab; i++ )
 		{
-			::InsertMenu( hMenu, i, uFlags, IDM_SELWINDOW + i, m_hIml? (LPCWSTR)&vData[i]: vData[i].szText );
+			::InsertMenu( hMenu, i, uFlags, IDM_SELWINDOW + i, m_hIml? (LPCWSTR)&vData[i]: vData[i].szText.c_str() );
 			if( vData[i].hwnd == GetParentHwnd() )
 				iMenuSel = i;
 		}
@@ -2899,7 +2900,7 @@ LRESULT CTabWnd::TabListMenu( POINT pt, BOOL bSel/* = TRUE*/, BOOL bFull/* = FAL
 			{
 				for( i = nSelfTab; i < nTab; i++ )
 				{
-					::InsertMenu( hMenu, i, uFlags, IDM_SELWINDOW + i, m_hIml? (LPCWSTR)&vData[i]: vData[i].szText );
+					::InsertMenu( hMenu, i, uFlags, IDM_SELWINDOW + i, m_hIml? (LPCWSTR)&vData[i]: vData[i].szText.c_str() );
 				}
 			}
 			else
