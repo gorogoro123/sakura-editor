@@ -8,6 +8,7 @@
 #pragma once
 
 #include <ObjIdl.h> // LPDATAOBJECT
+#include "basis/CMyString.h"
 
 //クリップボード
 bool SetClipboardText( HWND hwnd, const WCHAR* pszText, int nLength ); //!< クリープボードにText形式でコピーする。UNICODE版。nLengthは文字単位。
@@ -76,7 +77,7 @@ public:
 	Me& operator = (Me&&) noexcept = delete;
 	~CCurrentDirectoryBackupPoint();
 private:
-	WCHAR m_szCurDir[_MAX_PATH];
+	SFilePath m_szCurDir;
 };
 
 /*!
