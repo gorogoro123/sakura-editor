@@ -84,8 +84,7 @@ bool CKeyWordSetMgr::AddKeyWordSet(
 		--m_nKeyWordSetNum;	//	キーワードセットの追加をキャンセルする
 		return false;
 	}
-	wcsncpy( m_szSetNameArr[nIdx], pszSetName, _countof(m_szSetNameArr[nIdx]) - 1 );
-	m_szSetNameArr[nIdx][_countof(m_szSetNameArr[nIdx]) - 1] = L'\0';
+	m_szSetNameArr[nIdx] = pszSetName;
 	m_bKEYWORDCASEArr[nIdx] = bKEYWORDCASE;
 	m_nKeyWordNumArr[nIdx] = 0;
 	m_IsSorted[nIdx] = 0;	//MIK 2000.12.01 binary search
@@ -106,7 +105,7 @@ bool CKeyWordSetMgr::DelKeyWordSet( int nIdx )
 	
 	for( i = nIdx; i < m_nKeyWordSetNum - 1; ++i ){
 		//配列まるごとコピー
-		memcpy_raw( m_szSetNameArr[i], m_szSetNameArr[i + 1], sizeof( m_szSetNameArr[0] ) );
+		m_szSetNameArr[i] = m_szSetNameArr[i + 1];
 		m_bKEYWORDCASEArr[i] = m_bKEYWORDCASEArr[i + 1];
 		m_nKeyWordNumArr[i] = m_nKeyWordNumArr[i + 1];
 		m_nStartIdx[i] = m_nStartIdx[i + 1];	//	2004.07.29 Moca 可変長記憶
@@ -134,7 +133,7 @@ const wchar_t* CKeyWordSetMgr::GetTypeName( int nIdx )
 	if( nIdx < 0 || m_nKeyWordSetNum <= nIdx ){
 		return nullptr;
 	}
-	return m_szSetNameArr[nIdx];
+	return m_szSetNameArr[nIdx].c_str();
 }
 
 /*! ｎ番目のセットのセット名を再設定
@@ -146,8 +145,8 @@ const wchar_t* CKeyWordSetMgr::SetTypeName( int nIdx, const wchar_t* name )
 	if( nullptr == name || nIdx < 0 || m_nKeyWordSetNum <= nIdx ){
 		return nullptr;
 	}
-	wcsncpy_s( m_szSetNameArr[nIdx], name, _TRUNCATE );
-	return m_szSetNameArr[nIdx];
+	m_szSetNameArr[nIdx] = name;
+	return m_szSetNameArr[nIdx].c_str();
 }
 
 /* ｎ番目のセットのキーワードの数を返す */
@@ -633,7 +632,7 @@ int  CKeyWordSetMgr::SearchKeyWordSet( const wchar_t* pszKeyWord )
 	int		i;
 	int 	nIdx = -1;
 	for (i = 0; i < m_nKeyWordSetNum; i++) {
-		if ( wcscmp(m_szSetNameArr[i], pszKeyWord) == 0) {
+		if ( wcscmp(m_szSetNameArr[i].c_str(), pszKeyWord) == 0) {
 			nIdx = i;
 			break;
 		}
