@@ -179,9 +179,6 @@ public:
 	constexpr Me& operator += (std::wstring_view rhs) noexcept { append(rhs); return *this; }
 	constexpr Me& operator += (const std::wstring& rhs) noexcept { append(rhs); return *this; }
 
-	//クラス属性
-	size_t GetBufferCount() const{ return N_BUFFER_COUNT; }
-
 	//データアクセス
 	WCHAR*       GetBufferPointer()      { return data(); }
 	const WCHAR* GetBufferPointer() const{ return data(); }

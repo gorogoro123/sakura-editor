@@ -15,7 +15,7 @@ CRecentExcludeFolder::CRecentExcludeFolder()
 {
 	Create(
 		GetShareData()->m_sSearchKeywords.m_aExcludeFolders.dataPtr(),
-		GetShareData()->m_sSearchKeywords.m_aExcludeFolders.dataPtr()->GetBufferCount(),
+		GetShareData()->m_sSearchKeywords.m_aExcludeFolders.dataPtr()->size(),
 		&GetShareData()->m_sSearchKeywords.m_aExcludeFolders._GetSizeRef(),
 		nullptr,
 		MAX_EXCLUDEFOLDER,

@@ -17,7 +17,7 @@ CRecentSearch::CRecentSearch()
 {
 	Create(
 		GetShareData()->m_sSearchKeywords.m_aSearchKeys.dataPtr(),
-		GetShareData()->m_sSearchKeywords.m_aSearchKeys.dataPtr()->GetBufferCount(),
+		GetShareData()->m_sSearchKeywords.m_aSearchKeys.dataPtr()->size(),
 		&GetShareData()->m_sSearchKeywords.m_aSearchKeys._GetSizeRef(),
 		nullptr,
 		MAX_SEARCHKEY,

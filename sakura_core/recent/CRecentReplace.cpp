@@ -17,7 +17,7 @@ CRecentReplace::CRecentReplace()
 {
 	Create(
 		GetShareData()->m_sSearchKeywords.m_aReplaceKeys.dataPtr(),
-		GetShareData()->m_sSearchKeywords.m_aReplaceKeys.dataPtr()->GetBufferCount(),
+		GetShareData()->m_sSearchKeywords.m_aReplaceKeys.dataPtr()->size(),
 		&GetShareData()->m_sSearchKeywords.m_aReplaceKeys._GetSizeRef(),
 		nullptr,
 		MAX_REPLACEKEY,
