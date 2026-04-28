@@ -107,6 +107,7 @@ class StaticString{
 private:
 	//テンプレート定数名が長過ぎて不便なので、エイリアスを切る
 	static constexpr auto N = N_BUFFER_COUNT;
+	static_assert(N_BUFFER_COUNT > 0, "StaticString size must be > 0");
 
 	using ArrayType = std::array<WCHAR, N>;
 	using Traits = std::char_traits<WCHAR>;
