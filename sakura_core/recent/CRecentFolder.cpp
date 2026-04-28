@@ -17,7 +17,7 @@ CRecentFolder::CRecentFolder()
 {
 	Create(
 		&GetShareData()->m_sHistory.m_szOPENFOLDERArr[0],
-		GetShareData()->m_sHistory.m_szOPENFOLDERArr[0].GetBufferCount(),
+		GetShareData()->m_sHistory.m_szOPENFOLDERArr[0].size(),
 		&GetShareData()->m_sHistory.m_nOPENFOLDERArrNum,
 		GetShareData()->m_sHistory.m_bOPENFOLDERArrFavorite,
 		MAX_OPENFOLDER,

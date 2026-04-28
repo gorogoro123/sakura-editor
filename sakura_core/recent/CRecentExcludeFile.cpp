@@ -15,7 +15,7 @@ CRecentExcludeFile::CRecentExcludeFile()
 {
 	Create(
 		GetShareData()->m_sSearchKeywords.m_aExcludeFiles.dataPtr(),
-		GetShareData()->m_sSearchKeywords.m_aExcludeFiles.dataPtr()->GetBufferCount(),
+		GetShareData()->m_sSearchKeywords.m_aExcludeFiles.dataPtr()->size(),
 		&GetShareData()->m_sSearchKeywords.m_aExcludeFiles._GetSizeRef(),
 		nullptr,
 		MAX_EXCLUDEFILE,

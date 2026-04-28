@@ -148,7 +148,7 @@ INT_PTR CPropHelper::DispatchEvent(
 					}else{
 						szPath = m_Common.m_sHelper.m_szMigemoDict;
 					}
-					if( SelectDir( hwndDlg, LS(STR_PROPCOMHELP_MIGEMODIR), szPath.c_str(), szPath.data(), szPath.GetBufferCount())) {
+					if( SelectDir( hwndDlg, LS(STR_PROPCOMHELP_MIGEMODIR), szPath.c_str(), szPath.data(), szPath.size())) {
 						m_Common.m_sHelper.m_szMigemoDict = GetRelPath(szPath); // 2015.03.03 可能なら相対パスにする
 						ApiWrap::DlgItem_SetText( hwndDlg, IDC_EDIT_MIGEMO_DICT, m_Common.m_sHelper.m_szMigemoDict );
 					}
