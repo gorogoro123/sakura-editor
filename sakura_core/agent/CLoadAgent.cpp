@@ -87,7 +87,7 @@ next:
 			TopInfoMessage(
 				CEditWnd::getInstance()->GetHwnd(),
 				LS(STR_NOT_EXSIST_SAVE),	//Mar. 24, 2001 jepro 若干修正
-				pLoadInfo->cFilePath.GetBufferPointer()
+				pLoadInfo->cFilePath.c_str()
 			);
 		}
 	}

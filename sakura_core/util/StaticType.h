@@ -179,10 +179,6 @@ public:
 	constexpr Me& operator += (std::wstring_view rhs) noexcept { append(rhs); return *this; }
 	constexpr Me& operator += (const std::wstring& rhs) noexcept { append(rhs); return *this; }
 
-	//データアクセス
-	WCHAR*       GetBufferPointer()      { return data(); }
-	const WCHAR* GetBufferPointer() const{ return data(); }
-
 	//簡易データアクセス
 	constexpr operator       WCHAR*()       & noexcept { return data(); }
 	constexpr operator const WCHAR*() const & noexcept { return data(); }
