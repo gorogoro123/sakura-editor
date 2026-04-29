@@ -32,8 +32,8 @@ public:
 	void Empty( );
 	bool IsOverflow( ){ return m_bOverflow; }
 
-	typedef struct tagjump_info_t {
-		struct tagjump_info_t*	next;	//!< 次のリスト
+	struct TagJumpInfo {
+		TagJumpInfo*	next;	//!< 次のリスト
 		WCHAR*	keyword;	//!< キーワード
 		WCHAR*	filename;	//!< ファイル名
 		int		no;			//!< 行番号
@@ -41,7 +41,7 @@ public:
 		WCHAR*	note;		//!< 備考
 		int		depth;		//!< (さかのぼる)階層
 		int		baseDirId;	//!< ファイル名のベースディレクトリ
-	} TagJumpInfo;
+	};
 
 	TagJumpInfo* GetPtr( int index );
 

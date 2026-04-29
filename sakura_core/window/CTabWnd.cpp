@@ -57,12 +57,12 @@
 static const RECT rcBtnBase = { 0, 0, 16, 16 };
 
 // 2006.02.01 ryoji タブ一覧メニュー用データ
-typedef struct {
+struct TABMENU_DATA {
 	HWND	hwnd;
 	int		iItem;
 	int		iImage;
 	WCHAR	szText[_MAX_PATH];
-} TABMENU_DATA;
+};
 
 /*!	タブ一覧メニュー用データの qsort() コールバック処理
 	@date 2006.02.01 ryoji 新規作成

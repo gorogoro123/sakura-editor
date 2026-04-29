@@ -811,7 +811,7 @@ void CDlgTagJumpList::SetKeyword( const wchar_t *pszKeyword )
 	return;
 }
 
-typedef struct tagTagPathInfo {
+struct TagPathInfo {
 	WCHAR	szFileNameDst[_MAX_PATH*4];
 	WCHAR	szDriveSrc[_MAX_DRIVE*2];
 	WCHAR	szDriveDst[_MAX_DRIVE*2];
@@ -829,7 +829,7 @@ typedef struct tagTagPathInfo {
 	size_t	nFileDst;
 	size_t	nExtSrc;
 	size_t	nExtDst;
-} TagPathInfo;
+};
 
 /*!
 	得られた候補から最も期待に近いと思われるものを
