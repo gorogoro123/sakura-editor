@@ -24,7 +24,8 @@ struct tagEncodingInfo {
 	int nSpecific;	// 評価値1
 	int nPoints;	// 評価値2
 };
-typedef struct tagEncodingInfo  MBCODE_INFO, WCCODE_INFO;
+using MBCODE_INFO = tagEncodingInfo;
+using WCCODE_INFO = tagEncodingInfo;
 
 /*
 	○　評価値の使い方　○

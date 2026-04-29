@@ -31,7 +31,7 @@ struct RegexKeywordInfo {
 //@@@ 2001.11.17 add end MIK
 
 //!	正規表現キーワード検索情報構造体
-typedef struct RegexInfo_t {
+struct REGEX_INFO {
 	BREGEXP_W	*pBregexp;	//BREGEXP_W構造体
 	int    nStatus;		//状態(EMPTY,CLOSE,OPEN,ACTIVE,ERROR)
 	int    nMatch;		//このキーワードのマッチ状態(EMPTY,MATCH,NOMATCH)
@@ -39,7 +39,7 @@ typedef struct RegexInfo_t {
 	int    nLength;		//マッチした長さ
 	int    nHead;		//先頭のみチェックするか？
 	int    nFlag;           //色指定のチェックが入っているか？ YES=RK_EMPTY, NO=RK_NOMATCH
-} REGEX_INFO;
+};
 
 class CStringRef;
 
