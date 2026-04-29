@@ -859,5 +859,5 @@ static void SetKeyNameArrVal(
 		wcscpy( pKeydata->m_szKeyName, pKeydataInit->m_pszKeyName );
 	}
 	static_assert( sizeof(pKeydata->m_nFuncCodeArr) == sizeof(pKeydataInit->m_nFuncCodeArr) );
-	memcpy_raw( pKeydata->m_nFuncCodeArr, pKeydataInit->m_nFuncCodeArr, sizeof(pKeydataInit->m_nFuncCodeArr) );
+	memcpy( pKeydata->m_nFuncCodeArr, pKeydataInit->m_nFuncCodeArr, sizeof(pKeydataInit->m_nFuncCodeArr) );
 }

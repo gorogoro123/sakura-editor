@@ -94,7 +94,7 @@ BOOL CAppNodeGroupHandle::AddEditWndList( HWND hWnd )
 	EditNode	sMyEditNode;
 	EditNode	*p;
 
-	memset_raw( &sMyEditNode, 0, sizeof( sMyEditNode ) );
+	memset( &sMyEditNode, 0, sizeof( sMyEditNode ) );
 	sMyEditNode.m_hWnd = hWnd;
 
 	{	// 2007.07.07 genta Lock領域

@@ -730,7 +730,7 @@ void CMenuDrawer::ResetContents( )
 	m_menuItems.clear();
 
 	NONCLIENTMETRICS	ncm;
-	memset_raw(&ncm, 0, sizeof(ncm));
+	memset(&ncm, 0, sizeof(ncm));
 
 	// 以前のプラットフォームに WINVER >= 0x0600 で定義される構造体のフルサイズを渡すと失敗する	// 2007.12.21 ryoji
 	ncm.cbSize = CCSIZEOF_STRUCT( NONCLIENTMETRICS, lfMessageFont );

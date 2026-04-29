@@ -1025,7 +1025,7 @@ void CPrintPreview::OnPrint( )
 	/* 印刷範囲を指定できるプリンターダイアログを作成 */
 	//	2003.05.02 かろと
 	PRINTDLG pd;
-	memset_raw( &pd, 0, sizeof(pd) );
+	memset( &pd, 0, sizeof(pd) );
 #ifndef _DEBUG
 // Debugモードで、hwndOwnerを指定すると、Win2000では落ちるので・・・
 	pd.hwndOwner = m_pParentWnd->GetHwnd();
@@ -2088,7 +2088,7 @@ INT_PTR CPrintPreview::DispatchEvent_PPB(
 				// From Here 2003.05.03 かろと
 				// PRINTDLGを初期化
 				PRINTDLG	pd;
-				memset_raw( &pd, 0, sizeof(pd) );
+				memset( &pd, 0, sizeof(pd) );
 				pd.Flags = PD_PRINTSETUP | PD_NONETWORKBUTTON;
 				pd.hwndOwner = m_pParentWnd->GetHwnd();
 				if (m_cPrint.PrintDlg( &pd, &m_pPrintSettingOrg->m_mdmDevMode )) {

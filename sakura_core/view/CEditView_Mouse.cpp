@@ -2052,7 +2052,7 @@ STDMETHODIMP CEditView::PostMyDropFiles( LPDATAOBJECT pDataObject )
 
 	// ドロップデータをコピーしてあとで独自のドロップファイル処理を行う
 	HGLOBAL hDrop = ::GlobalAlloc( GHND | GMEM_DDESHARE, nSize );
-	memcpy_raw( ::GlobalLock( hDrop ), pData, nSize );
+	memcpy( ::GlobalLock( hDrop ), pData, nSize );
 	::GlobalUnlock( hDrop );
 	::PostMessage(
 		GetHwnd(),

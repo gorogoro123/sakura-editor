@@ -246,7 +246,7 @@ void CMainToolBar::CreateToolBar( )
 						}
 						
 						//セパレータ作る
-						memset_raw( &my_tbb, 0, sizeof(my_tbb) );
+						memset( &my_tbb, 0, sizeof(my_tbb) );
 						my_tbb.fsStyle   = TBSTYLE_BUTTON;  //ボタンにしないと描画が乱れる 2005/8/29 aroka
 						my_tbb.idCommand = tbb.idCommand;	//同じIDにしておく
 						if( tbb.fsState & TBSTATE_WRAP ){   //折り返し 2005/8/29 aroka
@@ -279,7 +279,6 @@ void CMainToolBar::CreateToolBar( )
 							m_pOwner->SetCurrentFocus(0);
 
 							lf = m_pOwner->GetLogfont();
-							//memset_raw( &lf, 0, sizeof(lf) );
 							lf.lfHeight			= DpiPointsToPixels(-9); // Jan. 14, 2003 genta ダイアログにあわせてちょっと小さく	// 2009.10.01 ryoji 高DPI対応（ポイント数から算出）
 							lf.lfWidth			= 0;
 							lf.lfEscapement		= 0;

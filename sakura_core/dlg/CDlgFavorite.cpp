@@ -796,7 +796,7 @@ bool CDlgFavorite::RefreshListOne( int nIndex )
 	{
 		WCHAR	szText[1024];
 		wmemset( szText, 0, int(std::size(szText)) );
-		memset_raw( &lvitem, 0, sizeof( lvitem ) );
+		memset( &lvitem, 0, sizeof( lvitem ) );
 		lvitem.mask       = LVIF_TEXT | LVIF_PARAM;
 		lvitem.pszText    = szText;
 		lvitem.cchTextMax = int(std::size(szText));
@@ -1091,7 +1091,7 @@ int FormatFavoriteColumn(WCHAR* buf, int size, int index, bool view)
 static int ListView_GetLParamInt( HWND hwndList, int lvIndex )
 {
 	LV_ITEM	lvitem;
-	memset_raw( &lvitem, 0, sizeof(lvitem) );
+	memset( &lvitem, 0, sizeof(lvitem) );
 	lvitem.mask = LVIF_PARAM;
 	lvitem.iItem = lvIndex;
 	lvitem.iSubItem = 0;

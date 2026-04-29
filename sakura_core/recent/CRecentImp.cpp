@@ -253,7 +253,7 @@ bool CRecentImp<T, S>::EditItemText( int nIndex, LPCWSTR pText )
 {
 	DataType data;
 	ReceiveType receiveData;
-	memcpy_raw( &data, GetItemPointer( nIndex ), sizeof(data) );
+	memcpy( &data, GetItemPointer( nIndex ), sizeof(data) );
 	if( !TextToDataType( &data, pText ) ){
 		return false;
 	}
@@ -278,7 +278,7 @@ void CRecentImp<T, S>::ZeroItem( int nIndex )
 	if( ! IsAvailable() ) return;
 	if( nIndex < 0 || nIndex >= m_nArrayCount ) return;
 
-	memset_raw( GetItemPointer( nIndex ), 0, sizeof(DataType) );
+	memset( GetItemPointer( nIndex ), 0, sizeof(DataType) );
 
 	if( m_pbUserItemFavorite ) m_pbUserItemFavorite[nIndex] = false;
 
@@ -373,7 +373,7 @@ bool CRecentImp<T, S>::MoveItem( int nSrcIndex, int nDstIndex )
 	DataType pri;
 
 	//移動する情報を退避
-	memcpy_raw( &pri, GetItemPointer( nSrcIndex ), sizeof(pri) );
+	memcpy( &pri, GetItemPointer( nSrcIndex ), sizeof(pri) );
 	bFavorite = IsFavorite( nSrcIndex );
 
 	if( nSrcIndex < nDstIndex )
@@ -392,7 +392,7 @@ bool CRecentImp<T, S>::MoveItem( int nSrcIndex, int nDstIndex )
 	}
 
 	//新しい位置に格納
-	memcpy_raw( GetItemPointer( nDstIndex ), &pri, sizeof(pri) );
+	memcpy( GetItemPointer( nDstIndex ), &pri, sizeof(pri) );
 	SetFavorite( nDstIndex, bFavorite );
 
 	return true;
@@ -407,7 +407,7 @@ bool CRecentImp<T, S>::CopyItem( int nSrcIndex, int nDstIndex )
 
 	if( nSrcIndex == nDstIndex ) return true;
 
-	memcpy_raw( GetItemPointer( nDstIndex ), GetItemPointer( nSrcIndex ), sizeof(DataType) );
+	memcpy( GetItemPointer( nDstIndex ), GetItemPointer( nSrcIndex ), sizeof(DataType) );
 
 	//(void)SetFavorite( nDstIndex, IsFavorite( nSrcIndex ) );
 	//内部処理しないとだめ。

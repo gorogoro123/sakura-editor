@@ -197,7 +197,7 @@ void CDataObject::SetText( LPCWSTR lpszText, size_t nTextLen, BOOL bColumnSelect
 		m_pData[0].cfFormat = CF_UNICODETEXT;
 		m_pData[0].size = (nTextLen + 1) * sizeof(wchar_t);
 		m_pData[0].data = new BYTE[m_pData[0].size];
-		memcpy_raw( m_pData[0].data, lpszText, nTextLen * sizeof(wchar_t) );
+		memcpy( m_pData[0].data, lpszText, nTextLen * sizeof(wchar_t) );
 		*((wchar_t*)m_pData[0].data + nTextLen) = L'\0';
 
 		i++;
@@ -211,7 +211,7 @@ void CDataObject::SetText( LPCWSTR lpszText, size_t nTextLen, BOOL bColumnSelect
 		m_pData[i].size = sizeof(size_t) + nTextLen * sizeof( wchar_t );
 		m_pData[i].data = new BYTE[m_pData[i].size];
 		*(size_t*)m_pData[i].data = nTextLen;
-		memcpy_raw( m_pData[i].data + sizeof(size_t), lpszText, nTextLen * sizeof( wchar_t ) );
+		memcpy( m_pData[i].data + sizeof(size_t), lpszText, nTextLen * sizeof( wchar_t ) );
 
 		i++;
 		if( bColumnSelect ){

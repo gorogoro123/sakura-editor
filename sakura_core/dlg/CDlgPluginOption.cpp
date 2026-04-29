@@ -215,7 +215,7 @@ int CDlgPluginOption::GetData( )
 	for( i=0, it = m_cPlugin->m_options.cbegin(); it != m_cPlugin->m_options.cend(); i++, it++ ){
 		cOpt = *it;
 
-		memset_raw( &lvi, 0, sizeof( lvi ));
+		memset( &lvi, 0, sizeof( lvi ));
 		lvi.mask       = LVIF_TEXT;
 		lvi.iItem      = i;
 		lvi.iSubItem   = 1;
@@ -492,7 +492,7 @@ void CDlgPluginOption::ChangeListPosition( )
 // 編集領域に書き込み
 	SetToEdit(current);
 
-	memset_raw( &lvi, 0, sizeof( lvi ));
+	memset( &lvi, 0, sizeof( lvi ));
 	lvi.mask       = LVIF_TEXT;
 	lvi.iItem      = current;
 	lvi.iSubItem   = 1;
@@ -548,7 +548,7 @@ void CDlgPluginOption::SetToEdit( int iLine )
 
 	if (iLine >= 0) {
 		ApiWrap::DlgItem_GetText( GetHwnd(), IDC_EDIT_PLUGIN_OPTION, buf, MAX_LENGTH_VALUE+1);
-		memset_raw( &lvi, 0, sizeof( lvi ));
+		memset( &lvi, 0, sizeof( lvi ));
 		lvi.mask       = LVIF_TEXT;
 		lvi.iItem      = iLine;
 		lvi.iSubItem   = 1;
@@ -667,7 +667,7 @@ void CDlgPluginOption::SetFromEdit( int iLine )
 		else {
 			ApiWrap::DlgItem_GetText( GetHwnd(), IDC_EDIT_PLUGIN_OPTION, buf, MAX_LENGTH_VALUE+1);
 		}
-		memset_raw( &lvi, 0, sizeof( lvi ));
+		memset( &lvi, 0, sizeof( lvi ));
 		lvi.mask     = LVIF_TEXT;
 		lvi.iItem    = iLine;
 		lvi.iSubItem = 1;
@@ -710,7 +710,7 @@ void CDlgPluginOption::SelectDirectory( int iLine )
 	HWND	hwndList = GetItemHwnd( IDC_LIST_PLUGIN_OPTIONS );
 	LVITEM	lvi;
 	WCHAR	buf[MAX_LENGTH_VALUE+1];
-	memset_raw( &lvi, 0, sizeof( lvi ));
+	memset( &lvi, 0, sizeof( lvi ));
 	lvi.mask       = LVIF_TEXT;
 	lvi.iItem      = iLine;
 	lvi.iSubItem   = 0;
