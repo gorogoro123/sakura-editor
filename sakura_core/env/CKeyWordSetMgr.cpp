@@ -157,7 +157,7 @@ const wchar_t* CKeyWordSetMgr::GetKeyWord( int nIdx, LPARAM lParam )
 	if( nIdx2 < 0 || m_nKeyWordNumArr[nIdx] <= nIdx2 ){
 		return nullptr;
 	}
-	return m_szKeyWordArr[m_nStartIdx[nIdx] + nIdx2];
+	return m_szKeyWordArr[m_nStartIdx[nIdx] + nIdx2].c_str();
 }
 
 //! ｎ番目のセットのｍ番目のキーワードを編集
@@ -181,15 +181,13 @@ const wchar_t* CKeyWordSetMgr::UpdateKeyWord(
 	}
 	/* 重複したキーワードは編集しない */
 	for( i = m_nStartIdx[nIdx]; i < m_nStartIdx[nIdx] + m_nKeyWordNumArr[nIdx]; ++i ){
-		if( 0 == wcscmp( m_szKeyWordArr[i], pszKeyWord ) ){
+		if( 0 == wcscmp( m_szKeyWordArr[i].c_str(), pszKeyWord ) ){
 			return nullptr;
 		}
 	}
 	m_IsSorted[nIdx] = 0;	//MIK 2000.12.01 binary search
-	wchar_t* p = m_szKeyWordArr[m_nStartIdx[nIdx] + nIdx2];
-	wcsncpy( p, pszKeyWord, MAX_KEYWORDLEN );
-	p[MAX_KEYWORDLEN] = L'\0';
-	return p;
+	m_szKeyWordArr[m_nStartIdx[nIdx] + nIdx2] = pszKeyWord;
+	return m_szKeyWordArr[m_nStartIdx[nIdx] + nIdx2].c_str();
 }
 
 /*! ｎ番目のセットにキーワードを追加
@@ -221,17 +219,12 @@ int CKeyWordSetMgr::AddKeyWord( int nIdx, const wchar_t* pszKeyWord )
 	}
 	/* 重複したキーワードは登録しない */
 	for( i = m_nStartIdx[nIdx]; i < m_nStartIdx[nIdx] + m_nKeyWordNumArr[nIdx]; ++i ){
-		if( 0 == wcscmp( m_szKeyWordArr[i], pszKeyWord ) ){
+		if( 0 == wcscmp( m_szKeyWordArr[i].c_str(), pszKeyWord)) {
 			return 4;
 		}
 	}
 	/* MAX_KEYWORDLENより長いキーワードは切り捨てる */
-	if( MAX_KEYWORDLEN < wcslen( pszKeyWord ) ){
-		wmemcpy( m_szKeyWordArr[m_nStartIdx[nIdx] + m_nKeyWordNumArr[nIdx]], pszKeyWord, MAX_KEYWORDLEN );
-		m_szKeyWordArr[m_nStartIdx[nIdx] + m_nKeyWordNumArr[nIdx]][MAX_KEYWORDLEN] = L'\0';
-	}else{
-		wcscpy( m_szKeyWordArr[m_nStartIdx[nIdx] + m_nKeyWordNumArr[nIdx]], pszKeyWord );
-	}
+	m_szKeyWordArr[m_nStartIdx[nIdx] + m_nKeyWordNumArr[nIdx]] = pszKeyWord;
 	m_nKeyWordNumArr[nIdx]++;
 	m_IsSorted[nIdx] = 0;	//MIK 2000.12.01 binary search
 	return 0;
@@ -254,11 +247,11 @@ int CKeyWordSetMgr::DelKeyWord( int nIdx, LPARAM lParam )
 	if( 0 >= m_nKeyWordNumArr[nIdx]	){
 		return 3;	//	登録数が0なら上の条件で引っかかるのでここには来ない？
 	}
-	size_t nDelKeywordLen = wcslen( m_szKeyWordArr[m_nStartIdx[nIdx] + nIdx2] );
+	size_t nDelKeywordLen = m_szKeyWordArr[m_nStartIdx[nIdx] + nIdx2].length();
 	int  i;
 	int  endPos = m_nStartIdx[nIdx] + m_nKeyWordNumArr[nIdx] - 1;
 	for( i = m_nStartIdx[nIdx] + nIdx2; i < endPos; ++i ){
-		wcscpy( m_szKeyWordArr[i], m_szKeyWordArr[i + 1] );
+		m_szKeyWordArr[i] = m_szKeyWordArr[i + 1];
 	}
 	m_nKeyWordNumArr[nIdx]--;
 
@@ -311,7 +304,7 @@ void CKeyWordSetMgr::KeywordMaxLen(int nIdx)
 	int nMaxLen = 0;
 	const int nEnd = m_nStartIdx[nIdx] + m_nKeyWordNumArr[nIdx];
 	for( i = m_nStartIdx[nIdx]; i < nEnd; i++ ){
-		len = static_cast<int>(wcslen( m_szKeyWordArr[i] ));
+		len = (int)m_szKeyWordArr[i].length();
 		if( nMaxLen < len ){
 			nMaxLen = len;
 		}
@@ -343,13 +336,13 @@ int CKeyWordSetMgr::SearchKeyWord2( int nIdx, const wchar_t* pszKeyWord, int nKe
 	int pc = (pr + 1 - pl) / 2 + pl;
 	auto cmp = m_bKEYWORDCASEArr[nIdx] ? wcsncmp : _wcsnicmp;
 	while( pl <= pr ) {
-		const int ret = cmp( pszKeyWord, m_szKeyWordArr[pc], nKeyWordLen );
+		const int ret = cmp( pszKeyWord, m_szKeyWordArr[pc].c_str(), nKeyWordLen );
 		if( 0 < ret ) {
 			pl = pc + 1;
 		} else if( ret < 0 ) {
 			pr = pc - 1;
 		} else {
-			if( wcslen( m_szKeyWordArr[pc] ) > static_cast<size_t>(nKeyWordLen) ) {
+			if( m_szKeyWordArr[pc].length() > nKeyWordLen ) {
 				// 始まりは一致したが長さが足りない。
 				if( 0 <= result ) {
 					result = (std::numeric_limits<int>::max)();
@@ -447,7 +440,7 @@ int CKeyWordSetMgr::SetKeyWordArr(
 	}
 	int cnt, i;
 	for( cnt = 0, i = m_nStartIdx[nIdx]; i < m_nStartIdx[nIdx] + nSize; cnt++, i++ ){
-		wcscpy( m_szKeyWordArr[i], ppszKeyWordArr[cnt] );
+		m_szKeyWordArr[i] = ppszKeyWordArr[cnt];
 	}
 	m_nKeyWordNumArr[nIdx] = nSize;
 	return nSize;
