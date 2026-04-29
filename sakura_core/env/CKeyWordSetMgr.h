@@ -119,7 +119,7 @@ public:
 	int		m_nKeyWordNumArr[MAX_SETNUM];	/*!< キーワードセットに登録されているキーワード数 */
 private:
 	/*! キーワード格納領域 */
-	wchar_t	m_szKeyWordArr[MAX_KEYWORDNUM][MAX_KEYWORDLEN + 1];	
+	std::array<StaticString<MAX_KEYWORDLEN + 1>, MAX_KEYWORDNUM> m_szKeyWordArr;
 	char	m_IsSorted[MAX_SETNUM];	/*!< ソートしたかどうかのフラグ(INI未保存) */  //MIK
 
 protected:
