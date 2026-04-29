@@ -1092,7 +1092,7 @@ void CDlgOpenFile_CommonFileDialog::DlgOpenFail()
 */
 void CDlgOpenFile_CommonFileDialog::InitOfn( OPENFILENAME* ofn )
 {
-	memset_raw(ofn, 0, sizeof(*ofn));
+	memset(ofn, 0, sizeof(*ofn));
 
 	ofn->lStructSize = sizeof(OPENFILENAME);
 	ofn->lpfnHook = &OFNHookProc;

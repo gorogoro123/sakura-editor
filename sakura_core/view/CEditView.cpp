@@ -1508,7 +1508,7 @@ int	CEditView::CreatePopUpMenuSub( HMENU hMenu, int nMenuIdx, int* pParentMenus,
 			nParamIndex = k;
 			pNextParam = pParentMenus;
 		}else{
-			memset_raw( nParentMenu, 0, sizeof(nParentMenu) );
+			memset( nParentMenu, 0, sizeof(nParentMenu) );
 		}
 		EFunctionCode nThisCode = F_0;
 		if( nMenuIdx == CUSTMENU_INDEX_FOR_RBUTTONUP ){

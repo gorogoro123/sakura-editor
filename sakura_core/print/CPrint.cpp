@@ -197,7 +197,7 @@ BOOL CPrint::GetDefaultPrinter( MYDEVMODE* pMYDEVMODE )
 		// PRINTDLG構造体を初期化する（ダイアログは表示しないように）
 		// PrintDlg()でデフォルトプリンターのデバイス名などを取得する
 		//
-		memset_raw ( &pd, 0, sizeof(pd) );
+		memset( &pd, 0, sizeof(pd) );
 		pd.lStructSize	= sizeof(pd);
 		pd.Flags		= PD_RETURNDEFAULT;
 		if( !::PrintDlg( &pd ) ){
@@ -207,7 +207,7 @@ BOOL CPrint::GetDefaultPrinter( MYDEVMODE* pMYDEVMODE )
 		pMYDEVMODE->m_bPrinterNotFound = FALSE;	/* プリンターがなかったフラグ */
 
 		/* 初期化 */
-		memset_raw( pMYDEVMODE, 0, sizeof(*pMYDEVMODE) );
+		memset( pMYDEVMODE, 0, sizeof(*pMYDEVMODE) );
 		m_hDevMode = pd.hDevMode;
 		m_hDevNames = pd.hDevNames;
 	}
@@ -462,7 +462,7 @@ BOOL CPrint::PrintOpen(
 	//
 	//  印刷ジョブ開始
 	//
-	memset_raw( &di, 0, sizeof( di ) );
+	memset( &di, 0, sizeof( di ) );
 	di.cbSize = sizeof(di);
 	di.lpszDocName = pszJobName;
 	di.lpszOutput  = nullptr;

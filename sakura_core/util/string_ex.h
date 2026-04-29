@@ -46,11 +46,6 @@ inline int amemicmp(const ACHAR* p1, const ACHAR* p2, size_t count){ return ::_m
        int wmemicmp(const WCHAR* p1, const WCHAR* p2 );
        int wmemicmp_ascii(const WCHAR* p1, const WCHAR* p2, size_t count);
 
-//元の関数と同じシグニチャ版。
-//文字列以外のメモリ処理でmem～系関数を使う場面では、この関数を使っておくと、意味合いがはっきりして良い。
-inline void* memset_raw(void* dest, int c, size_t size){ return ::memset(dest,c,size); }
-inline void* memcpy_raw(void* dest, const void* src, size_t size){ return ::memcpy(dest,src,size); }
-
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                           文字                              //
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //

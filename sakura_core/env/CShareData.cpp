@@ -1205,7 +1205,7 @@ void CShareData::InitToolButtons(DLLSHAREDATA* pShareData)
 	char dummy[std::size(DEFAULT_TOOL_BUTTONS) < MAX_TOOLBAR_BUTTON_ITEMS ? 1:0 ];
 	dummy[0]=0;
 
-	memcpy_raw(
+	memcpy(
 		pShareData->m_Common.m_sToolBar.m_nToolBarButtonIdxArr,
 		DEFAULT_TOOL_BUTTONS,
 		sizeof(DEFAULT_TOOL_BUTTONS)

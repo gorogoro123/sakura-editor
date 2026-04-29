@@ -960,8 +960,6 @@ bool CImpExpKeybind::Import( const std::wstring& sFileName, std::wstring& sErrMs
 	}
 
 	// データのコピー 	// マウスコードの固定と重複排除 2012.11.19 aroka
-	//m_Common.m_sKeyBind.m_nKeyNameArrNum = nKeyNameArrNum;
-	//memcpy_raw( m_Common.m_sKeyBind.m_pKeyNameArr, pKeyNameArr, sizeof_raw( pKeyNameArr ) );
 	int nKeyNameArrUsed = m_Common.m_sKeyBind.m_nKeyNameArrNum; // 使用済み領域
 	for( int j=sKeyBind.m_nKeyNameArrNum-1; j>=0; j-- ){
 		if( (bVer2 || bVer3) && sKeyBind.m_pKeyNameArr[j].m_nKeyCode <= 0 ){ // マウスコードは先頭に固定されている KeyCodeが同じなのでKeyNameで判別
@@ -989,7 +987,7 @@ bool CImpExpKeybind::Import( const std::wstring& sFileName, std::wstring& sErrMs
 		}
 	}
 	m_Common.m_sKeyBind.m_nKeyNameArrNum = nKeyNameArrUsed;
-	memcpy_raw( m_Common.m_sKeyBind.m_VKeyToKeyNameArr, sKeyBind.m_VKeyToKeyNameArr, sizeof_raw(sKeyBind.m_VKeyToKeyNameArr) );
+	memcpy( m_Common.m_sKeyBind.m_VKeyToKeyNameArr, sKeyBind.m_VKeyToKeyNameArr, sizeof_raw(sKeyBind.m_VKeyToKeyNameArr) );
 
 	return true;
 }

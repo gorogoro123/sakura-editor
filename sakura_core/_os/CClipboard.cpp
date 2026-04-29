@@ -240,9 +240,9 @@ bool CClipboard::SetHtmlText(const CNativeW& cmemBUf)
 
 	//確保した領域にデータをコピー
 	char* pszClip = static_cast<char*>(::GlobalLock(hgClipText));
-	memcpy_raw( pszClip, cmemHeader.GetStringPtr(), cmemHeader.GetStringLength() );	//データ
-	memcpy_raw( pszClip + cmemHeader.GetStringLength(), cmemUtf8.GetStringPtr(), cmemUtf8.GetStringLength() );	//データ
-	memcpy_raw( pszClip + cmemHeader.GetStringLength() + cmemUtf8.GetStringLength(), cmemFooter.GetStringPtr(), cmemFooter.GetStringLength() );	//データ
+	memcpy( pszClip, cmemHeader.GetStringPtr(), cmemHeader.GetStringLength() );	//データ
+	memcpy( pszClip + cmemHeader.GetStringLength(), cmemUtf8.GetStringPtr(), cmemUtf8.GetStringLength() );	//データ
+	memcpy( pszClip + cmemHeader.GetStringLength() + cmemUtf8.GetStringLength(), cmemFooter.GetStringPtr(), cmemFooter.GetStringLength() );	//データ
 	pszClip[nLen] = '\0';				//終端ヌル
 	::GlobalUnlock( hgClipText );
 

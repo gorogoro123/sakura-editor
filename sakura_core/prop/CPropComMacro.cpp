@@ -234,21 +234,21 @@ void CPropMacro::SetData( HWND hwndDlg )
 	HWND hListView = ::GetDlgItem( hwndDlg, IDC_MACROLIST );
 	
 	for( index = 0; index < MAX_CUSTMACRO; ++index ){
-		memset_raw( &sItem, 0, sizeof( sItem ));
+		memset( &sItem, 0, sizeof( sItem ));
 		sItem.iItem = index;
 		sItem.mask = LVIF_TEXT;
 		sItem.iSubItem = 1;
 		sItem.pszText = m_pShareData->m_Common.m_sMacro.m_MacroTable[index].m_szName;
 		ListView_SetItem( hListView, &sItem );
 
-		memset_raw( &sItem, 0, sizeof( sItem ));
+		memset( &sItem, 0, sizeof( sItem ));
 		sItem.iItem = index;
 		sItem.mask = LVIF_TEXT;
 		sItem.iSubItem = 2;
 		sItem.pszText = m_pShareData->m_Common.m_sMacro.m_MacroTable[index].m_szFile;
 		ListView_SetItem( hListView, &sItem );
 
-		memset_raw( &sItem, 0, sizeof( sItem ));
+		memset( &sItem, 0, sizeof( sItem ));
 		sItem.iItem = index;
 		sItem.mask = LVIF_TEXT;
 		sItem.iSubItem = 3;
@@ -264,7 +264,7 @@ void CPropMacro::SetData( HWND hwndDlg )
 			::wcsncat_s(szText, L"T", _TRUNCATE);
 		if( index == m_pShareData->m_Common.m_sMacro.m_nMacroOnSave )
 			::wcsncat_s(szText, L"S", _TRUNCATE);
-		memset_raw( &sItem, 0, sizeof( sItem ));
+		memset( &sItem, 0, sizeof( sItem ));
 		sItem.iItem = index;
 		sItem.mask = LVIF_TEXT;
 		sItem.iSubItem = 4;
@@ -315,7 +315,7 @@ int CPropMacro::GetData( HWND hwndDlg )
 	HWND hListView = ::GetDlgItem( hwndDlg, IDC_MACROLIST );
 
 	for( index = 0; index < MAX_CUSTMACRO; ++index ){
-		memset_raw( &sItem, 0, sizeof( sItem ));
+		memset( &sItem, 0, sizeof( sItem ));
 		sItem.iItem = index;
 		sItem.mask = LVIF_TEXT;
 		sItem.iSubItem = 1;
@@ -324,7 +324,7 @@ int CPropMacro::GetData( HWND hwndDlg )
 		sItem.pszText = /*m_pShareData->*/m_Common.m_sMacro.m_MacroTable[index].m_szName;
 		ListView_GetItem( hListView, &sItem );
 
-		memset_raw( &sItem, 0, sizeof( sItem ));
+		memset( &sItem, 0, sizeof( sItem ));
 		sItem.iItem = index;
 		sItem.mask = LVIF_TEXT;
 		sItem.iSubItem = 2;
@@ -333,7 +333,7 @@ int CPropMacro::GetData( HWND hwndDlg )
 		sItem.pszText = /*m_pShareData->*/m_Common.m_sMacro.m_MacroTable[index].m_szFile;
 		ListView_GetItem( hListView, &sItem );
 
-		memset_raw( &sItem, 0, sizeof( sItem ));
+		memset( &sItem, 0, sizeof( sItem ));
 		sItem.iItem = index;
 		sItem.mask = LVIF_TEXT;
 		sItem.iSubItem = 3;
@@ -349,7 +349,7 @@ int CPropMacro::GetData( HWND hwndDlg )
 		}
 
 		// 自動実行マクロ	// 2006.09.01 ryoji
-		memset_raw( &sItem, 0, sizeof( sItem ));
+		memset( &sItem, 0, sizeof( sItem ));
 		sItem.iItem = index;
 		sItem.mask = LVIF_TEXT;
 		sItem.iSubItem = 4;
@@ -417,7 +417,7 @@ void CPropMacro::InitDialog( HWND hwndDlg )
 	
 	for( pos = 0; pos < int(std::size(ColumnList)); ++pos ){
 		
-		memset_raw( &sColumn, 0, sizeof( sColumn ));
+		memset( &sColumn, 0, sizeof( sColumn ));
 		sColumn.mask = LVCF_TEXT | LVCF_WIDTH | LVCF_SUBITEM | LVCF_FMT;
 		sColumn.pszText = const_cast<WCHAR*>(LS(ColumnList[pos].titleId));
 		sColumn.cx = ColumnList[pos].width * width / (499 - 17);
@@ -438,7 +438,7 @@ void CPropMacro::InitDialog( HWND hwndDlg )
 	for( pos = 0; pos < MAX_CUSTMACRO ; ++pos ){
 		LVITEM sItem;
 		WCHAR buf[4];
-		memset_raw( &sItem, 0, sizeof( sItem ));
+		memset( &sItem, 0, sizeof( sItem ));
 		sItem.mask = LVIF_TEXT | LVIF_PARAM;
 		sItem.iItem = pos;
 		sItem.iSubItem = 0;
@@ -482,7 +482,7 @@ void CPropMacro::SetMacro2List_Macro( HWND hwndDlg )
 	}
 
 	// マクロ名
-	memset_raw( &sItem, 0, sizeof( sItem ));
+	memset( &sItem, 0, sizeof( sItem ));
 	sItem.iItem = index;
 	sItem.mask = LVIF_TEXT;
 	sItem.iSubItem = 1;
@@ -493,7 +493,7 @@ void CPropMacro::SetMacro2List_Macro( HWND hwndDlg )
 	ListView_SetItem( hListView, &sItem );
 
 	// ファイル名
-	memset_raw( &sItem, 0, sizeof( sItem ));
+	memset( &sItem, 0, sizeof( sItem ));
 	sItem.iItem = index;
 	sItem.mask = LVIF_TEXT;
 	sItem.iSubItem = 2;
@@ -503,7 +503,7 @@ void CPropMacro::SetMacro2List_Macro( HWND hwndDlg )
 	ListView_SetItem( hListView, &sItem );
 
 	// チェック
-	memset_raw( &sItem, 0, sizeof( sItem ));
+	memset( &sItem, 0, sizeof( sItem ));
 	sItem.iItem = index;
 	sItem.mask = LVIF_TEXT;
 	sItem.iSubItem = 3;
@@ -517,7 +517,7 @@ void CPropMacro::SetMacro2List_Macro( HWND hwndDlg )
 	WCHAR szText[8];
 	int iItem;
 	for( iItem = 0; iItem < MAX_CUSTMACRO; iItem++){
-		memset_raw( &sItem, 0, sizeof( sItem ));
+		memset( &sItem, 0, sizeof( sItem ));
 		sItem.iItem = iItem;
 		sItem.mask = LVIF_TEXT;
 		sItem.iSubItem = 4;
@@ -557,7 +557,7 @@ void CPropMacro::SetMacro2List_Macro( HWND hwndDlg )
 			::wcsncat_s(szText, L"T", _TRUNCATE);
 		if( iItem == nMacroOnSave )
 			::wcsncat_s(szText, L"S", _TRUNCATE);
-		memset_raw( &sItem, 0, sizeof( sItem ));
+		memset( &sItem, 0, sizeof( sItem ));
 		sItem.iItem = iItem;
 		sItem.mask = LVIF_TEXT;
 		sItem.iSubItem = 4;
@@ -676,7 +676,7 @@ void CPropMacro::CheckListPosition_Macro( HWND hwndDlg )
 	WCHAR buf[MAX_PATH + MACRONAME_MAX];	// MAX_PATHとMACRONAME_MAXの両方より大きい値
 	LVITEM sItem;
 
-	memset_raw( &sItem, 0, sizeof( sItem ));
+	memset( &sItem, 0, sizeof( sItem ));
 	sItem.iItem = current;
 	sItem.mask = LVIF_TEXT;
 	sItem.iSubItem = 1;
@@ -686,7 +686,7 @@ void CPropMacro::CheckListPosition_Macro( HWND hwndDlg )
 	ListView_GetItem( hListView, &sItem );
 	ApiWrap::DlgItem_SetText( hwndDlg, IDC_MACRONAME, buf );
 
-	memset_raw( &sItem, 0, sizeof( sItem ));
+	memset( &sItem, 0, sizeof( sItem ));
 	sItem.iItem = current;
 	sItem.mask = LVIF_TEXT;
 	sItem.iSubItem = 2;
@@ -696,7 +696,7 @@ void CPropMacro::CheckListPosition_Macro( HWND hwndDlg )
 	ListView_GetItem( hListView, &sItem );
 	ApiWrap::DlgItem_SetText( hwndDlg, IDC_MACROPATH, buf );
 
-	memset_raw( &sItem, 0, sizeof( sItem ));
+	memset( &sItem, 0, sizeof( sItem ));
 	sItem.iItem = current;
 	sItem.mask = LVIF_TEXT;
 	sItem.iSubItem = 3;
@@ -711,7 +711,7 @@ void CPropMacro::CheckListPosition_Macro( HWND hwndDlg )
 	}
 
 	// 自動実行マクロ	// 2006.09.01 ryoji
-	memset_raw( &sItem, 0, sizeof( sItem ));
+	memset( &sItem, 0, sizeof( sItem ));
 	sItem.iItem = current;
 	sItem.mask = LVIF_TEXT;
 	sItem.iSubItem = 4;

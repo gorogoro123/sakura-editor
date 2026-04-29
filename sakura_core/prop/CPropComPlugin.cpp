@@ -343,7 +343,7 @@ void CPropPlugin::SetData_LIST( HWND hwndDlg )
 
 		//番号
 		WCHAR buf[4];
-		memset_raw( &sItem, 0, sizeof( sItem ));
+		memset( &sItem, 0, sizeof( sItem ));
 		sItem.mask = LVIF_TEXT | LVIF_PARAM;
 		sItem.iItem = index;
 		sItem.iSubItem = 0;
@@ -353,7 +353,7 @@ void CPropPlugin::SetData_LIST( HWND hwndDlg )
 		ListView_InsertItem( hListView, &sItem );
 
 		//名前
-		memset_raw( &sItem, 0, sizeof( sItem ));
+		memset( &sItem, 0, sizeof( sItem ));
 		sItem.iItem = index;
 		sItem.mask = LVIF_TEXT;
 		sItem.iSubItem = 1;
@@ -365,7 +365,7 @@ void CPropPlugin::SetData_LIST( HWND hwndDlg )
 		ListView_SetItem( hListView, &sItem );
 
 		//状態
-		memset_raw( &sItem, 0, sizeof( sItem ));
+		memset( &sItem, 0, sizeof( sItem ));
 		sItem.iItem = index;
 		sItem.mask = LVIF_TEXT;
 		sItem.iSubItem = 2;
@@ -392,7 +392,7 @@ void CPropPlugin::SetData_LIST( HWND hwndDlg )
 		ListView_SetItem( hListView, &sItem );
 
 		//フォルダー
-		memset_raw( &sItem, 0, sizeof( sItem ));
+		memset( &sItem, 0, sizeof( sItem ));
 		sItem.iItem = index;
 		sItem.mask = LVIF_TEXT;
 		sItem.iSubItem = 4;
@@ -472,7 +472,7 @@ void CPropPlugin::InitDialog( HWND hwndDlg )
 	
 	for( pos = 0; pos < int(std::size(ColumnList)); ++pos ){
 		
-		memset_raw( &sColumn, 0, sizeof( sColumn ));
+		memset( &sColumn, 0, sizeof( sColumn ));
 		sColumn.mask = LVCF_TEXT | LVCF_WIDTH | LVCF_SUBITEM | LVCF_FMT;
 		sColumn.pszText = const_cast<WCHAR*>(LS(ColumnList[pos].titleId));
 		sColumn.cx = ColumnList[pos].width * width / 499;
