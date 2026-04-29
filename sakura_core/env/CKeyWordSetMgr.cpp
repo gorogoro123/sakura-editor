@@ -17,7 +17,6 @@
 	SPDX-License-Identifier: Zlib
 */
 #include "CKeyWordSetMgr.h"
-#include <limits>
 #include "basis/CMyString.h"
 
 //! 1ブロック当たりのキーワード数
@@ -27,20 +26,6 @@ static const int nKeyWordSetBlockSize = 50;
 inline int GetAlignmentSize( int nSize )
 {
 	return (nKeyWordSetBlockSize - 1 + nSize) / nKeyWordSetBlockSize * nKeyWordSetBlockSize;
-}
-
-/*!
-	@note CKeyWordSetMgrは共有メモリ構造体に埋め込まれているため，
-	そのままではコンストラクタが動かないことに注意．
-*/
-CKeyWordSetMgr::CKeyWordSetMgr( )
-{
-	m_nCurrentKeyWordSetIdx = 0;
-	m_nKeyWordSetNum = 0;
-	m_nStartIdx[0] = 0;
-	m_nStartIdx[1] = 0;
-	m_nStartIdx[MAX_SETNUM] = 0;
-	return;
 }
 
 /*!

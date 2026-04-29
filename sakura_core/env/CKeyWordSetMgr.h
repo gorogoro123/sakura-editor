@@ -53,7 +53,7 @@ public:
 	/*
 	||  Constructors
 	*/
-	CKeyWordSetMgr();
+	CKeyWordSetMgr() = default;
 
 	///	@name キーワードセット操作
 	bool AddKeyWordSet(							//!< セットの追加
@@ -112,8 +112,8 @@ public:
 		本来の処理とは無関係だが，あるウィンドウで選択したセットが
 		別のウィンドウの設定画面にも引き継がれるようにするため．
 	*/
-	int		m_nCurrentKeyWordSetIdx;
-	int		m_nKeyWordSetNum;	/*!< キーワードセット数 */
+	int		m_nCurrentKeyWordSetIdx = 0;
+	int		m_nKeyWordSetNum = 0;	/*!< キーワードセット数 */
 	std::array<StaticString<MAX_SETNAMELEN + 1>, MAX_SETNUM> m_szSetNameArr;/*!< キーワードセット名 */
 	bool	m_bKEYWORDCASEArr[MAX_SETNUM];	/*!< キーワードの英大文字小文字区別 */
 	int		m_nKeyWordNumArr[MAX_SETNUM];	/*!< キーワードセットに登録されているキーワード数 */
@@ -128,7 +128,7 @@ protected:
 		次の開始位置までが確保済みの領域．
 		+1しているのは最後が0で終わるようにするため．
 	*/
-	int		m_nStartIdx[MAX_SETNUM + 1];
+	int		m_nStartIdx[MAX_SETNUM + 1] = {};
 	int		m_nKeyWordMaxLenArr[MAX_SETNUM]; //!< 一番長いキーワードの長さ(ソート後のみ有効)(INI未保存)
 
 protected:
