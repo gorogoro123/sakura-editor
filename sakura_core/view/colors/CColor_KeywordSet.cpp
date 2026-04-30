@@ -6,7 +6,6 @@
 */
 #include "view/CEditView.h" // SColorStrategyInfo
 #include "CColor_KeywordSet.h"
-#include <limits>
 #include "mem/CNativeW.h"
 #include "charset/charcode.h"
 
@@ -18,12 +17,6 @@ static int NextWordBreak( const CStringRef& str, const int start );
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                     キーワードセット                        //
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
-
-CColor_KeywordSet::CColor_KeywordSet()
-: m_nKeywordIndex(0)
-, m_nCOMMENTEND(0)
-{
-}
 
 // 2005.01.13 MIK 強調キーワード数追加に伴う配列化
 bool CColor_KeywordSet::BeginColor(const CStringRef& cStr, int nPos)
