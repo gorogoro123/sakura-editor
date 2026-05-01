@@ -5,15 +5,12 @@
 	SPDX-License-Identifier: Zlib
 */
 
-#include <vector>
-#include <utility>
 #include "agent/CSearchAgent.h"
 #include "doc/logic/CDocLineMgr.h"
 #include "doc/logic/CDocLine.h"
 #include "cmd/COpe.h"
 #include "dlg/CDlgCancel.h"
 #include "util/string_ex.h"
-#include <algorithm>
 #include "sakura_rc.h"
 #include "CEditApp.h"
 #include "agent/CGrepAgent.h"
@@ -21,9 +18,6 @@
 #include "env/DLLSHAREDATA.h"
 
 //#define MEASURE_SEARCH_TIME
-#ifdef MEASURE_SEARCH_TIME
-#include <ctime>
-#endif
 
 // CSearchStringPattern
 // @date 2010.06.22 Moca
@@ -32,10 +26,6 @@ inline int CSearchStringPattern::GetMapIndex( wchar_t c )
 	// ASCII    => 0x000 - 0x0ff
 	// それ以外 => 0x100 - 0x1ff
 	return ((c & 0xff00) ? 0x100 : 0 ) | (c & 0xff);
-}
-
-CSearchStringPattern::CSearchStringPattern()
-{
 }
 
 CSearchStringPattern::~CSearchStringPattern()
