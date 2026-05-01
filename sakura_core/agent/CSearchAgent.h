@@ -22,7 +22,7 @@ class CNativeW;
 class CSearchStringPattern
 {
 public:
-	CSearchStringPattern();
+	CSearchStringPattern() = default;
 	~CSearchStringPattern();
 	void Reset();
 	bool SetPattern(HWND hwnd, const wchar_t* pszPattern, size_t nPatternLen, const SSearchOption& sSearchOption, CBregexp* pRegexp){
