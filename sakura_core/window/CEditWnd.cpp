@@ -769,7 +769,6 @@ void CEditWnd::SetDocumentTypeWhenCreate(
 void CEditWnd::LayoutMainMenu()
 {
 	WCHAR		szLabel[300];
-	WCHAR		szKey[10];
 	CommonSetting_MainMenu*	pcMenu = &m_pShareData->m_Common.m_sMainMenu;
 	CMainMenu*	cMainMenu;
 	HWND		hWnd = GetHwnd();
@@ -797,7 +796,6 @@ void CEditWnd::LayoutMainMenu()
 			/* メニューラベルの作成 */
 			// 2014.05.04 Moca プラグイン/マクロ等を置けるようにFunccode2Nameを使うように
 			GetDocument()->m_cFuncLookup.Funccode2Name( cMainMenu->m_nFunc, szLabel, int(std::size(szLabel)) );
-			wcscpy( szKey, cMainMenu->m_sKey );
 			if (CKeyBind::GetMenuLabel(
 				G_AppInstance(),
 				m_pShareData->m_Common.m_sKeyBind.m_nKeyNameArrNum,
