@@ -331,7 +331,7 @@ void CViewCommander::Command_Diff_Dialog( )
 	}
 	
 	//自ファイル
-	WCHAR	szTmpFile1[_MAX_PATH * 2];
+	SFilePath szTmpFile1;
 	ECodeType code = GetDocument()->GetDocumentEncoding();
 	ECodeType saveCode = GetDiffCreateTempFileCode(code);
 	ECodeType code2 = cDlgDiff.m_nCodeTypeDst;
@@ -354,17 +354,17 @@ void CViewCommander::Command_Diff_Dialog( )
 		if( !m_pCommanderView->MakeDiffTmpFile( szTmpFile1, nullptr, saveCode, GetDocument()->GetDocumentBomExist() ) ){ return; }
 		bTmpFile1 = true;
 	}else{
-		wcscpy( szTmpFile1, GetDocument()->m_cDocFile.GetFilePath() );
+		szTmpFile1 = GetDocument()->m_cDocFile.GetFilePath();
 	}
 		
 	//相手ファイル
 	// UNICODE,UNICODEBEの場合は常に一時ファイルでUTF-8にする
-	WCHAR	szTmpFile2[_MAX_PATH * 2];
+	SFilePath szTmpFile2;
 	// 2014.06.25 ファイル名がない(=無題,Grep,アウトプット)もTmpFileModeにする
 	bool bTmpFileMode = cDlgDiff.m_bIsModifiedDst || code2 != saveCode2 || cDlgDiff.m_szFile2[0] == L'\0';
 	if( !bTmpFileMode ){
 		// 未変更でファイルありでASCII系コードの場合のみ,そのままファイルを利用する
-		wcscpy( szTmpFile2, cDlgDiff.m_szFile2 );
+		szTmpFile2 = cDlgDiff.m_szFile2;
 	}else if( cDlgDiff.m_hWnd_Dst ){
 		// ファイル一覧から選択
 		if( m_pCommanderView->MakeDiffTmpFile( szTmpFile2, cDlgDiff.m_hWnd_Dst, saveCode2, cDlgDiff.m_bBomDst ) ){
