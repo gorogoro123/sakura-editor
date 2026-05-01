@@ -618,17 +618,16 @@ void CPropMacro::OnFileDropdown_Macro( HWND hwndDlg )
 	HANDLE hFind;
 	HWND hCombo = ::GetDlgItem( hwndDlg, IDC_MACROPATH );
 
-	WCHAR path[_MAX_PATH * 2];
-	ApiWrap::DlgItem_GetText( hwndDlg, IDC_MACRODIR, path, int(std::size(path)) );
+	SFilePath path;
+	ApiWrap::DlgItem_GetText( hwndDlg, IDC_MACRODIR, path, path.size() );
 
 	// 2003.06.23 Moca 相対パスは実行ファイルからのパス
 	// 2007.05.19 ryoji 相対パスは設定ファイルからのパスを優先
 	if( _IS_REL_PATH( path ) ){
-		WCHAR folder[_MAX_PATH * 2];
-		wcscpy( folder, path );
+		SFilePath folder = path;
 		GetInidirOrExedir( path, folder );
 	}
-	wcscat( path, L"*.*" );	//	2002/05/01 YAZAKI どんなファイルもどんと来い。
+	path.append(L"*.*");	//	2002/05/01 YAZAKI どんなファイルもどんと来い。
 
 	//	候補の初期化
 	ApiWrap::Combo_ResetContent( hCombo );
