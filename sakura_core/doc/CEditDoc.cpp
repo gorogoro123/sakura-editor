@@ -485,7 +485,7 @@ void CEditDoc::GetEditInfo(
 ) const
 {
 	//ファイルパス
-	wcscpy(pfi->m_szPath, m_cDocFile.GetFilePath());
+	pfi->m_szPath = m_cDocFile.GetFilePath();
 
 	//表示域
 	pfi->m_nViewTopLine = GetEditWnd().GetActiveView().GetTextArea().GetViewTopLine();	/* 表示域の一番上の行(0開始) */

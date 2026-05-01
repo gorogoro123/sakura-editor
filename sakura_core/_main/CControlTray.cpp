@@ -819,7 +819,7 @@ LRESULT CControlTray::DispatchEvent(
 					}
 					else {
 						SLoadInfo sLoadInfo;
-						sLoadInfo.cFilePath = openEditInfo.m_szPath;
+						sLoadInfo.cFilePath = openEditInfo.m_szPath.c_str();
 						sLoadInfo.eCharCode = openEditInfo.m_nCharCode;
 						sLoadInfo.bViewMode = false;
 						CControlTray::OpenNewEditor(
@@ -1361,7 +1361,7 @@ bool CControlTray::OpenNewEditor2(
 		if( pfi->m_nViewTopLine >= CLayoutInt(0)	)cCmdLine.AppendF( L" -VY=%d", (Int)pfi->m_nViewTopLine + 1 );
 	}
 	SLoadInfo sLoadInfo;
-	sLoadInfo.cFilePath = pfi ? pfi->m_szPath : L"";
+	sLoadInfo.cFilePath = pfi ? pfi->m_szPath.c_str() : L"";
 	sLoadInfo.eCharCode = pfi ? pfi->m_nCharCode : CODE_NONE;
 	sLoadInfo.bViewMode = bViewMode;
 	return OpenNewEditor( hInstance, hWndParent, sLoadInfo, cCmdLine.c_str(), sync, nullptr, bNewWindow );

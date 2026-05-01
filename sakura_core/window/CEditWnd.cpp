@@ -2108,7 +2108,7 @@ void CEditWnd::OnCommand( WORD wNotifyCode, WORD wID , HWND hwndCtl )
 			const CMRUFile cMRU;
 			EditInfo checkEditInfo;
 			cMRU.GetEditInfo(wID - IDM_SELMRU, &checkEditInfo);
-			SLoadInfo sLoadInfo(checkEditInfo.m_szPath, checkEditInfo.m_nCharCode, false);
+			SLoadInfo sLoadInfo(checkEditInfo.m_szPath.c_str(), checkEditInfo.m_nCharCode, false);
 			GetDocument()->m_cDocFileOperation.FileLoad( &sLoadInfo );	//	Oct.  9, 2004 genta 共通関数化
 		}
 		//最近使ったフォルダー

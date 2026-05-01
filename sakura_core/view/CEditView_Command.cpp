@@ -129,7 +129,7 @@ bool CEditView::TagJumpSub(
 		EditInfo	inf;
 		bool		bSuccess;
 
-		wcscpy( inf.m_szPath, szJumpToFile );
+		inf.m_szPath = szJumpToFile;
 		inf.m_ptCursor.Set(CLogicInt(ptJumpTo.x - 1), CLogicInt(ptJumpTo.y - 1));
 		inf.m_nViewLeftCol = CLayoutInt(-1);
 		inf.m_nViewTopLine = CLayoutInt(-1);
