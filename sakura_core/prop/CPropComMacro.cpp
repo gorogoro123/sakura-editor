@@ -573,22 +573,21 @@ void CPropMacro::SetMacro2List_Macro( HWND hwndDlg )
 */
 void CPropMacro::SelectBaseDir_Macro( HWND hwndDlg )
 {
-	WCHAR szDir[_MAX_PATH];
+	SFilePath szDir;
 
 	/* 検索フォルダー */
-	ApiWrap::DlgItem_GetText( hwndDlg, IDC_MACRODIR, szDir, int(std::size(szDir)) );
+	ApiWrap::DlgItem_GetText( hwndDlg, IDC_MACRODIR, szDir, szDir.size() );
 
 	// 2003.06.23 Moca 相対パスは実行ファイルからのパス
 	// 2007.05.19 ryoji 相対パスは設定ファイルからのパスを優先
 	if( _IS_REL_PATH( szDir ) ){
-		WCHAR folder[_MAX_PATH];
-		wcscpy( folder, szDir );
+		SFilePath folder = szDir;
 		GetInidirOrExedir( szDir, folder );
 	}
 
-	if( SelectDir( hwndDlg, LS(STR_PROPCOMMACR_SEL_DIR), szDir, szDir ) ){
+	if( SelectDir( hwndDlg, LS(STR_PROPCOMMACR_SEL_DIR), szDir.c_str(), szDir, szDir.size() ) ){
 		//	末尾に\\マークを追加する．
-		AddLastChar( szDir, int(std::size(szDir)), L'\\' );
+		AddLastChar( szDir, int(szDir.size()), L'\\' );
 		ApiWrap::DlgItem_SetText( hwndDlg, IDC_MACRODIR, GetRelPath(szDir) ); // 2015.03.03 可能なら相対パスにする
 	}
 }
