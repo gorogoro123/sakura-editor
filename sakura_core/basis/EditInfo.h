@@ -8,6 +8,7 @@
 #pragma once
 
 #include "basis/SakuraBasis.h"
+#include "basis/CMyString.h"
 #include "config/maxdata.h"
 #include "charset/charset.h"
 
@@ -22,7 +23,7 @@
  */
 struct EditInfo {
 	//ファイル
-	WCHAR		m_szPath[_MAX_PATH] = {};				//!< ファイル名
+	SFilePath	m_szPath;								//!< ファイル名
 	ECodeType	m_nCharCode = CODE_AUTODETECT;			//!< 文字コード種別
 	bool		m_bBom = false;							//!< BOM(GetFileInfo)
 	WCHAR		m_szDocType[MAX_DOCTYPE_LEN + 1] = {};	//!< 文書タイプ

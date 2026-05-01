@@ -239,7 +239,7 @@ void CCommandLine::ParseCommandLine( LPCWSTR pszCmdLineSrc, bool bResponse )
 	}
 	if( bFind ){
 		CSakuraEnvironment::ResolvePath(szPath);
-		wcscpy( m_fi.m_szPath, szPath );	/* ファイル名 */
+		m_fi.m_szPath = szPath;	/* ファイル名 */
 		nPos = i + 1;
 	}else{
 		m_fi.m_szPath[0] = L'\0';
@@ -317,7 +317,7 @@ void CCommandLine::ParseCommandLine( LPCWSTR pszCmdLineSrc, bool bResponse )
 			if (szPath[0] != L'\0') {
 				CSakuraEnvironment::ResolvePath(szPath);
 				if (m_fi.m_szPath[0] == L'\0') {
-					wcscpy(m_fi.m_szPath, szPath );
+					m_fi.m_szPath = szPath;
 				}
 				else {
 					m_vFiles.push_back( szPath );

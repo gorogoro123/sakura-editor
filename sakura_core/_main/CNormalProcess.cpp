@@ -288,7 +288,7 @@ bool CNormalProcess::InitializeProcess()
 			//	Mar. 9, 2002 genta 文書タイプ指定
 			pEditWnd->OpenDocumentWhenStart(
 				SLoadInfo(
-					fi.m_szPath,
+					fi.m_szPath.c_str(),
 					fi.m_nCharCode,
 					bViewMode,
 					nType
@@ -503,7 +503,7 @@ void CNormalProcess::OpenFiles( HWND hwnd )
 		int i;
 		for( i = 0; i < fileNum; i++ ){
 			// ファイル名差し替え
-			wcscpy( fi.m_szPath, CCommandLine::getInstance()->GetFileName(i) );
+			fi.m_szPath = CCommandLine::getInstance()->GetFileName(i);
 			bool ret = CControlTray::OpenNewEditor2( GetProcessInstance(), hwnd, &fi, bViewMode );
 			if( ret == false ){
 				break;

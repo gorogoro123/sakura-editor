@@ -80,7 +80,7 @@ TEST(EditInfo, operatorNotEqual)
 {
 	EditInfo value, other;
 
-	wcscpy_s(value.m_szPath, L"test");
+	value.m_szPath = L"test";
 	ASSERT_NE(value, other);
 	value.m_szPath[0] = 0;
 	

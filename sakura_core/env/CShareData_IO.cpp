@@ -212,7 +212,7 @@ void CShareData_IO::ShareData_IO_Mru( CDataProfile& cProfile )
 		auto_sprintf( szKeyName, L"MRU[%02d].nCharCode", i );
 		cProfile.IOProfileData(pszSecName, szKeyName, pfiWork->m_nCharCode);
 		auto_sprintf( szKeyName, L"MRU[%02d].szPath", i );
-		cProfile.IOProfileData(pszSecName, szKeyName, StringBufferW(pfiWork->m_szPath));
+		cProfile.IOProfileData(pszSecName, szKeyName, pfiWork->m_szPath);
 		auto_sprintf( szKeyName, L"MRU[%02d].szMark2", i );
 		if( !cProfile.IOProfileData(pszSecName, szKeyName, StringBufferW(pfiWork->m_szMarkLines)) ){
 			if( cProfile.IsReadingMode() ){
