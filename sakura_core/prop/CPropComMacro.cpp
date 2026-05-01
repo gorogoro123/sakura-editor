@@ -594,14 +594,13 @@ void CPropMacro::SelectBaseDir_Macro( HWND hwndDlg )
 
 void CPropMacro::SelectDir_Python(HWND hwndDlg)
 {
-	WCHAR szDir[_MAX_PATH];
-	ApiWrap::DlgItem_GetText(hwndDlg, IDC_PYTHONDIR, szDir, int(std::size(szDir)));
+	SFilePath szDir;
+	ApiWrap::DlgItem_GetText(hwndDlg, IDC_PYTHONDIR, szDir, szDir.size());
 	if (_IS_REL_PATH(szDir)) {
-		WCHAR folder[_MAX_PATH];
-		wcscpy(folder, szDir);
+		SFilePath folder = szDir;
 		GetInidirOrExedir(szDir, folder);
 	}
-	if (SelectDir(hwndDlg, LS(STR_PROPCOMMACR_SEL_PYTHONDIR), szDir, szDir)) {
+	if (SelectDir(hwndDlg, LS(STR_PROPCOMMACR_SEL_PYTHONDIR), szDir.c_str(), szDir, szDir.size())) {
 		// 末尾に\\マークを追加する．
 		AddLastChar(szDir, int(std::size(szDir)), L'\\');
 		ApiWrap::DlgItem_SetText(hwndDlg, IDC_PYTHONDIR, GetRelPath(szDir)); // 可能なら相対パスにする
