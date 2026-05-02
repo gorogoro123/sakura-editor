@@ -12,9 +12,9 @@
 */
 #pragma once
 
-class CDlgTagsMake;
-
 #include "dlg/CDialog.h"
+#include "basis/CMyString.h"
+
 /*!
 	@brief タグファイル作成ダイアログボックス
 */
@@ -31,8 +31,8 @@ public:
 	*/
 	int DoModal( HINSTANCE hInstance, HWND hwndParent, LPARAM lParam, const WCHAR* pszPath );	/* モーダルダイアログの表示 */
 
-	WCHAR	m_szPath[_MAX_PATH+1] = {};	/* フォルダー */
-	WCHAR	m_szTagsCmdLine[_MAX_PATH] = {};	/* コマンドラインオプション(個別) */
+	SFilePath	m_szPath;	/* フォルダー */
+	StaticString<_MAX_PATH> 	m_szTagsCmdLine;	/* コマンドラインオプション(個別) */
 	int		m_nTagsOpt = 0;				/* CTAGSオプション(チェック) */
 
 protected:
