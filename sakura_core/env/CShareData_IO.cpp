@@ -707,8 +707,8 @@ void CShareData_IO::ShareData_IO_Common( CDataProfile& cProfile )
 	cProfile.IOProfileData( pszSecName, L"bFunclistSetFocusOnJump"	, common.m_sOutline.m_bFunclistSetFocusOnJump );
 	
 	//	Apr. 05, 2003 genta ウィンドウキャプションのカスタマイズ
-	cProfile.IOProfileData(pszSecName, L"szWinCaptionActive", StringBufferW(common.m_sWindow.m_szWindowCaptionActive));
-	cProfile.IOProfileData(pszSecName, L"szWinCaptionInactive", StringBufferW(common.m_sWindow.m_szWindowCaptionInactive));
+	cProfile.IOProfileData(pszSecName, L"szWinCaptionActive", common.m_sWindow.m_szWindowCaptionActive);
+	cProfile.IOProfileData(pszSecName, L"szWinCaptionInactive", common.m_sWindow.m_szWindowCaptionInactive);
 	
 	// アウトライン/トピックリスト の位置とサイズを記憶  20060201 aroka
 	cProfile.IOProfileData( pszSecName, L"bRememberOutlineWindowPos", common.m_sOutline.m_bRememberOutlineWindowPos);
