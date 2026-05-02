@@ -374,12 +374,12 @@ LRESULT CALLBACK CDlgGrep::OnFolderProc(HWND hwnd, UINT msg, WPARAM wparam, LPAR
 	{
 		//	From Here 2007.09.02 genta 
 		SFilePath sPath;
-		if( DragQueryFile((HDROP)wparam, 0, nullptr, 0 ) > std::size(sPath) - 1 ){
+		if( DragQueryFile((HDROP)wparam, 0, nullptr, 0 ) > sPath.size() ){
 			// skip if the length of the path exceeds buffer capacity
 			::DragFinish((HDROP)wparam);
 			return 0;
 		}
-		DragQueryFile((HDROP)wparam, 0, sPath, std::size(sPath) - 1);
+		DragQueryFile((HDROP)wparam, 0, sPath, sPath.size() - 1);
 		::DragFinish((HDROP)wparam);
 
 		//ファイルパスの解決
@@ -390,7 +390,7 @@ LRESULT CALLBACK CDlgGrep::OnFolderProc(HWND hwnd, UINT msg, WPARAM wparam, LPAR
 		if( IsFileExists( sPath, true )){	//	第2引数がtrueだとディレクトリは対象外
 			SFilePath szWork;
 			SplitPath_FolderAndFile( sPath, szWork, nullptr );
-			wcscpy( sPath, szWork );
+			sPath = szWork;
 		}
 
 		SetGrepFolder(hwnd, sPath);
