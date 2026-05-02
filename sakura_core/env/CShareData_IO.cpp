@@ -2289,7 +2289,7 @@ void CShareData_IO::ShareData_IO_Other( CDataProfile& cProfile )
 	
 	/* CTAGS */	//@@@ 2003.05.12 MIK
 	cProfile.IOProfileData( pszSecName, L"nTagsOpt"		, pShare->m_nTagsOpt );
-	cProfile.IOProfileData(pszSecName, L"szTagsCmdLine", StringBufferW(pShare->m_szTagsCmdLine));
+	cProfile.IOProfileData(pszSecName, L"szTagsCmdLine", pShare->m_szTagsCmdLine);
 	
 	//From Here 2005.04.03 MIK キーワード指定タグジャンプ
 	cProfile.IOProfileData( pszSecName, L"_TagJumpKeyword_Counts", pShare->m_sTagJump.m_aTagJumpKeywords._GetSizeRef() );
