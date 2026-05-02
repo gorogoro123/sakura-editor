@@ -702,7 +702,6 @@ bool CShareData::InitShareData()
 
 			m_pShareData->m_nDiffFlgOpt = 0;	/* DIFF差分表示 */	//@@@ 2002.05.27 MIK
 
-			m_pShareData->m_szTagsCmdLine[0] = L'\0';	/* CTAGS */	//@@@ 2003.05.12 MIK
 			m_pShareData->m_nTagsOpt = 0;	/* CTAGS */	//@@@ 2003.05.12 MIK
 
 			m_pShareData->m_bLineNumIsCRLF_ForJump = true;	/* 指定行へジャンプの「改行単位の行番号」か「折り返し単位の行番号」か */

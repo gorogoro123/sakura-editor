@@ -123,7 +123,7 @@ void CDlgTagsMake::SetData( )
 	if( m_nTagsOpt & 0x0001 ) ::CheckDlgButton( GetHwnd(), IDC_CHECK_TAG_MAKE_RECURSE, TRUE );
 
 	//コマンドライン
-	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_EDIT_TAG_MAKE_CMDLINE ), int(std::size(m_pShareData->m_szTagsCmdLine)) );
+	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_EDIT_TAG_MAKE_CMDLINE ), m_pShareData->m_szTagsCmdLine.size() );
 	wcscpy( m_szTagsCmdLine, m_pShareData->m_szTagsCmdLine );
 	ApiWrap::DlgItem_SetText( GetHwnd(), IDC_EDIT_TAG_MAKE_CMDLINE, m_pShareData->m_szTagsCmdLine );
 
@@ -149,7 +149,7 @@ int CDlgTagsMake::GetData( )
 
 	//コマンドライン
 	ApiWrap::DlgItem_GetText( GetHwnd(), IDC_EDIT_TAG_MAKE_CMDLINE, m_szTagsCmdLine, int(std::size(m_szTagsCmdLine)) );
-	wcscpy( m_pShareData->m_szTagsCmdLine, m_szTagsCmdLine );
+	m_pShareData->m_szTagsCmdLine = m_szTagsCmdLine;
 
 	return TRUE;
 }

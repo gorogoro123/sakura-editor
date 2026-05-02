@@ -120,7 +120,7 @@ struct DLLSHAREDATA{
 	//DIFF差分表示ダイアログのオプション
 	int							m_nDiffFlgOpt;				/* DIFF差分表示 */	//@@@ 2002.05.27 MIK
 	//タグファイルの作成ダイアログのオプション
-	WCHAR						m_szTagsCmdLine[_MAX_PATH];	/* TAGSコマンドラインオプション */	//@@@ 2003.05.12 MIK
+	StaticString<_MAX_PATH>		m_szTagsCmdLine;			/* TAGSコマンドラインオプション */	//@@@ 2003.05.12 MIK
 	int							m_nTagsOpt;					/* TAGSオプション(チェック) */	//@@@ 2003.05.12 MIK
 
 	// -- -- テンポラリ -- -- //
