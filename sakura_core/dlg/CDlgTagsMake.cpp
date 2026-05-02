@@ -37,14 +37,6 @@ const DWORD p_helpids[] = {	//13700
 	0, 0
 };
 
-CDlgTagsMake::CDlgTagsMake()
-{
-	m_szPath[0] = L'\0';
-	m_szTagsCmdLine[0] = L'\0';
-	m_nTagsOpt = 0;
-	return;
-}
-
 /* モーダルダイアログの表示 */
 int CDlgTagsMake::DoModal(
 	HINSTANCE		hInstance,
