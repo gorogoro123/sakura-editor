@@ -45,7 +45,7 @@ int CDlgTagsMake::DoModal(
 	const WCHAR*	pszPath		//パス
 )
 {
-	wcscpy( m_szPath, pszPath );
+	m_szPath = pszPath;
 
 	return (int)CDialog::DoModal( hInstance, hwndParent, IDD_TAG_MAKE, lParam );
 }
@@ -115,7 +115,7 @@ void CDlgTagsMake::SelectFolder( HWND hwndDlg )
 void CDlgTagsMake::SetData( )
 {
 	//作成フォルダー
-	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_EDIT_TAG_MAKE_FOLDER ), int(std::size(m_szPath)) );
+	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_EDIT_TAG_MAKE_FOLDER ), m_szPath.size() );
 	ApiWrap::DlgItem_SetText( GetHwnd(), IDC_EDIT_TAG_MAKE_FOLDER, m_szPath );
 
 	//オプション
@@ -124,7 +124,7 @@ void CDlgTagsMake::SetData( )
 
 	//コマンドライン
 	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_EDIT_TAG_MAKE_CMDLINE ), m_pShareData->m_szTagsCmdLine.size() );
-	wcscpy( m_szTagsCmdLine, m_pShareData->m_szTagsCmdLine );
+	m_szTagsCmdLine = m_pShareData->m_szTagsCmdLine;
 	ApiWrap::DlgItem_SetText( GetHwnd(), IDC_EDIT_TAG_MAKE_CMDLINE, m_pShareData->m_szTagsCmdLine );
 
 	return;
@@ -135,11 +135,11 @@ void CDlgTagsMake::SetData( )
 int CDlgTagsMake::GetData( )
 {
 	//フォルダー
-	ApiWrap::DlgItem_GetText( GetHwnd(), IDC_EDIT_TAG_MAKE_FOLDER, m_szPath, int(std::size(m_szPath)) );
-	auto length = int(wcslen(m_szPath));
+	ApiWrap::DlgItem_GetText( GetHwnd(), IDC_EDIT_TAG_MAKE_FOLDER, m_szPath, m_szPath.size() );
+	auto length = m_szPath.length();
 	if( length > 0 )
 	{
-		if( m_szPath[ length - 1 ] != L'\\' ) wcscat( m_szPath, L"\\" );
+		if( m_szPath[ length - 1 ] != L'\\' ) m_szPath.append(L"\\");
 	}
 
 	//CTAGSオプション
@@ -148,7 +148,7 @@ int CDlgTagsMake::GetData( )
 	m_pShareData->m_nTagsOpt = m_nTagsOpt;
 
 	//コマンドライン
-	ApiWrap::DlgItem_GetText( GetHwnd(), IDC_EDIT_TAG_MAKE_CMDLINE, m_szTagsCmdLine, int(std::size(m_szTagsCmdLine)) );
+	ApiWrap::DlgItem_GetText( GetHwnd(), IDC_EDIT_TAG_MAKE_CMDLINE, m_szTagsCmdLine, m_szTagsCmdLine.size() );
 	m_pShareData->m_szTagsCmdLine = m_szTagsCmdLine;
 
 	return TRUE;
