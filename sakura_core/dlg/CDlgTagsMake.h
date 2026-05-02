@@ -24,16 +24,16 @@ public:
 	/*
 	||  Constructors
 	*/
-	CDlgTagsMake();
+	CDlgTagsMake() = default;
 
 	/*
 	||  Attributes & Operations
 	*/
 	int DoModal( HINSTANCE hInstance, HWND hwndParent, LPARAM lParam, const WCHAR* pszPath );	/* モーダルダイアログの表示 */
 
-	WCHAR	m_szPath[_MAX_PATH+1];	/* フォルダー */
-	WCHAR	m_szTagsCmdLine[_MAX_PATH];	/* コマンドラインオプション(個別) */
-	int		m_nTagsOpt;				/* CTAGSオプション(チェック) */
+	WCHAR	m_szPath[_MAX_PATH+1] = {};	/* フォルダー */
+	WCHAR	m_szTagsCmdLine[_MAX_PATH] = {};	/* コマンドラインオプション(個別) */
+	int		m_nTagsOpt = 0;				/* CTAGSオプション(チェック) */
 
 protected:
 	/*
