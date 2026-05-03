@@ -115,8 +115,8 @@ public:
 		int index[MAX_KEYWORDSET_PER_TYPE];
 	};
 	std::vector<SKeywordSetIndex>	m_Types_nKeyWordSetIdx;
-	WCHAR			m_tempTypeName[MAX_TYPES_NAME];	//!< タイプ属性：名称
-	WCHAR			m_tempTypeExts[MAX_TYPES_EXTS];	//!< タイプ属性：拡張子リスト
+	StaticString<MAX_TYPES_NAME>	m_tempTypeName;	//!< タイプ属性：名称
+	StaticString<MAX_TYPES_EXTS>	m_tempTypeExts;	//!< タイプ属性：拡張子リスト
 	bool			m_bTrayProc;
 	HFONT			m_hKeywordHelpFont;		//!< キーワードヘルプ フォント ハンドル
 	HFONT			m_hTabFont;				//!< タブ フォント ハンドル
