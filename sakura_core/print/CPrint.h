@@ -120,7 +120,7 @@ public:
 	*/
 	static void SettingInitialize( PRINTSETTING&, const WCHAR* settingName );
 
-	static WCHAR* GetPaperName( int , WCHAR* );	/* 用紙の名前を取得 */
+	static void GetPaperName( int , std::wstring& );	/* 用紙の名前を取得 */
 	/* 用紙の幅、高さ */
 	static BOOL GetPaperSize(
 		short*		pnPaperAllWidth,

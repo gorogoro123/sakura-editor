@@ -137,12 +137,12 @@ LRESULT CPrintPreview::OnPaint(
 	);
 
 	// 要素情報の表示 -> IDD_PRINTPREVIEWBAR右下のSTATICへ
-	WCHAR	szPaperName[256];
+	std::wstring szPaperName;
 	CPrint::GetPaperName( m_pPrintSetting->m_mdmDevMode.dmPaperSize , szPaperName );
 	auto_sprintf(
 		szText,
 		L"%s  %s",
-		szPaperName,
+		szPaperName.c_str(),
 		(m_pPrintSetting->m_mdmDevMode.dmOrientation & DMORIENT_LANDSCAPE) ? LS(STR_ERR_DLGPRNPRVW1) : LS(STR_ERR_DLGPRNPRVW2)
 	);
 	ApiWrap::DlgItem_SetText( m_hwndPrintPreviewBar, IDC_STATIC_PAPER, szText );
@@ -737,8 +737,8 @@ void CPrintPreview::OnChangePrintSetting( )
 		m_pPrintSetting->m_mdmDevMode.dmFields |= ( DM_ORIENTATION | DM_PAPERSIZE | DM_PAPERLENGTH | DM_PAPERWIDTH);
 	}else{
 		if( m_pPrintSetting->m_nPrintPaperSize != m_pPrintSetting->m_mdmDevMode.dmPaperSize ){
-			WCHAR	szPaperNameOld[256];
-			WCHAR	szPaperNameNew[256];
+			std::wstring szPaperNameOld;
+			std::wstring szPaperNameNew;
 			/* 用紙の名前を取得 */
 			CPrint::GetPaperName( m_pPrintSetting->m_nPrintPaperSize , szPaperNameOld );
 			CPrint::GetPaperName( m_pPrintSetting->m_mdmDevMode.dmPaperSize , szPaperNameNew );
@@ -747,8 +747,8 @@ void CPrintPreview::OnChangePrintSetting( )
 				m_pParentWnd->GetHwnd(),
 				LS(STR_ERR_DLGPRNPRVW3),
 				m_pPrintSetting->m_mdmDevMode.m_szPrinterDeviceName,
-				szPaperNameOld,
-				szPaperNameNew
+				szPaperNameOld.c_str(),
+				szPaperNameNew.c_str()
 			);
 		}
 	}
