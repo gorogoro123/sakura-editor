@@ -108,13 +108,13 @@ void CDlgTypeAscertain::SetData( )
 		}
 		if (type->m_szTypeExts[0] != L'\0' ) {		/* タイプ属性：拡張子リスト */
 			auto_sprintf( szText, L"%s (%s)",
-				type->m_szTypeName,	/* タイプ属性：名称 */
-				type->m_szTypeExts	/* タイプ属性：拡張子リスト */
+				type->m_szTypeName.c_str(),	/* タイプ属性：名称 */
+				type->m_szTypeExts.c_str()	/* タイプ属性：拡張子リスト */
 			);
 		}
 		else{
 			auto_sprintf( szText, L"%s",
-				type->m_szTypeName	/* タイプ属性：拡称 */
+				type->m_szTypeName.c_str()	/* タイプ属性：拡称 */
 			);
 		}
 		ApiWrap::Combo_AddString( hwndCombo, szText );

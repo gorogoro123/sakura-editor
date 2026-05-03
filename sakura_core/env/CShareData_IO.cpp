@@ -1367,8 +1367,8 @@ void CShareData_IO::ShareData_IO_Types( CDataProfile& cProfile )
 			if( i == 0 ){
 				pShare->m_TypeBasis = type;
 			}
-			wcscpy(pShare->m_TypeMini[i].m_szTypeExts, type.m_szTypeExts);
-			wcscpy(pShare->m_TypeMini[i].m_szTypeName, type.m_szTypeName);
+			pShare->m_TypeMini[i].m_szTypeExts = type.m_szTypeExts;
+			pShare->m_TypeMini[i].m_szTypeName = type.m_szTypeName;
 			pShare->m_TypeMini[i].m_id = type.m_id;
 			pShare->m_TypeMini[i].m_encoding = type.m_encoding;
 		}

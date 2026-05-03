@@ -338,12 +338,12 @@ void CDlgTypeList::SetData( int selIdx )
 		}
 		if( type->m_szTypeExts[0] != L'\0' ){		/* タイプ属性：拡張子リスト */
 			auto_sprintf( szText, L"%s ( %s )",
-				type->m_szTypeName,	/* タイプ属性：名称 */
-				type->m_szTypeExts	/* タイプ属性：拡張子リスト */
+				type->m_szTypeName.c_str(),	/* タイプ属性：名称 */
+				type->m_szTypeExts.c_str()	/* タイプ属性：拡張子リスト */
 			);
 		}else{
 			auto_sprintf( szText, L"%s",
-				type->m_szTypeName	/* タイプ属性：拡称 */
+				type->m_szTypeName.c_str()	/* タイプ属性：拡称 */
 			);
 		}
 		ApiWrap::List_AddString( hwndList, szText );
@@ -506,7 +506,7 @@ bool CDlgTypeList::InitializeType( )
 			MB_YESNO | MB_ICONQUESTION,
 			GSTR_APPNAME,
 			LS(STR_DLGTYPELIST_INIT1),
-			typeMini->m_szTypeName );
+			typeMini->m_szTypeName.c_str() );
 		if (nRet != IDYES) {
 			return false;
 		}
@@ -694,7 +694,7 @@ bool CDlgTypeList::DelType()
 	}
 	const STypeConfigMini type = *typeMini; // ダイアログを出している間に変更されるかもしれないのでコピーする
 	int nRet = ConfirmMessage( hwndDlg,
-		LS(STR_DLGTYPELIST_DEL), type.m_szTypeName );
+		LS(STR_DLGTYPELIST_DEL), type.m_szTypeName.c_str() );
 	if (nRet != IDYES) {
 		return false;
 	}
