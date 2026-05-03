@@ -320,8 +320,8 @@ INT_PTR CPropKeyword::DispatchEvent(
 										const STypeConfigMini* type = nullptr;
 										CTypeConfig typeConfig = CDocTypeManager().GetDocumentTypeOfId( m_Types_nKeyWordSetIdx[i].typeId );
 										if( CDocTypeManager().GetTypeConfigMini( typeConfig, &type ) ){
-											name = type->m_szTypeName;
-											exts = type->m_szTypeExts;
+											name = type->m_szTypeName.c_str();
+											exts = type->m_szTypeExts.c_str();
 											bAdd = true;
 										}
 									}

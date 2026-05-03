@@ -86,9 +86,9 @@ TEST_F(TrayWndTest, OnAddTypeSetting002)
 	EXPECT_THAT(pcTrayWnd->DispatchEvent(hWndTray, MYWM_GET_TYPESETTING, 1, 0), IsTrue());
 
 	auto typeName = std::format(L"設定{}", 2);
-	if (typeName != GetDllShareData().m_sWorkBuffer.m_TypeConfig.m_szTypeName) {
+	if (typeName != GetDllShareData().m_sWorkBuffer.m_TypeConfig.m_szTypeName.c_str()) {
 		// 受け渡しバッファに値を設定
-		::wcscpy_s(GetDllShareData().m_sWorkBuffer.m_TypeConfig.m_szTypeName, typeName.c_str());
+		GetDllShareData().m_sWorkBuffer.m_TypeConfig.m_szTypeName = typeName.c_str();
 
 		EXPECT_THAT(pcTrayWnd->DispatchEvent(hWndTray, MYWM_SET_TYPESETTING, 1, 0), IsTrue());
 	}
@@ -133,14 +133,14 @@ TEST_F(TrayWndTest, OnAddTypeSetting103)
 TEST_F(TrayWndTest, OnSetTypeSetting001)
 {
 	// 受け渡しバッファに値を設定
-	::wcscpy_s(GetDllShareData().m_sWorkBuffer.m_TypeConfig.m_szTypeName, L"テスト");
+	GetDllShareData().m_sWorkBuffer.m_TypeConfig.m_szTypeName = L"テスト";
 
 	// 更新してみる
 	HWND hWndTray = nullptr;
 	EXPECT_THAT(pcTrayWnd->DispatchEvent(hWndTray, MYWM_SET_TYPESETTING, 1, 0), IsTrue());
 
 	// 受け取りバッファに値を設定
-	::wcscpy_s(GetDllShareData().m_sWorkBuffer.m_TypeConfig.m_szTypeName, L"");
+	GetDllShareData().m_sWorkBuffer.m_TypeConfig.m_szTypeName = L"";
 
 	EXPECT_THAT(pcTrayWnd->DispatchEvent(hWndTray, MYWM_GET_TYPESETTING, 1, 0), IsTrue());
 
@@ -150,14 +150,14 @@ TEST_F(TrayWndTest, OnSetTypeSetting001)
 TEST_F(TrayWndTest, OnSetTypeSetting002)
 {
 	// 受け渡しバッファに値を設定
-	::wcscpy_s(GetDllShareData().m_sWorkBuffer.m_TypeConfig.m_szTypeName, L"テスト");
+	GetDllShareData().m_sWorkBuffer.m_TypeConfig.m_szTypeName = L"テスト";
 
 	// 更新してみる
 	HWND hWndTray = nullptr;
 	EXPECT_THAT(pcTrayWnd->DispatchEvent(hWndTray, MYWM_SET_TYPESETTING, 0, 0), IsTrue());
 
 	// 受け取りバッファに値を設定
-	::wcscpy_s(GetDllShareData().m_sWorkBuffer.m_TypeConfig.m_szTypeName, L"");
+	GetDllShareData().m_sWorkBuffer.m_TypeConfig.m_szTypeName = L"";
 
 	EXPECT_THAT(pcTrayWnd->DispatchEvent(hWndTray, MYWM_GET_TYPESETTING, 0, 0), IsTrue());
 

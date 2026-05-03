@@ -17,8 +17,8 @@
 void CType_Cobol::InitTypeConfigImp(STypeConfig* pType)
 {
 	//名前と拡張子
-	wcscpy( pType->m_szTypeName, L"COBOL" );
-	wcscpy( pType->m_szTypeExts, L"cbl,cpy,pco,cob" );	//Jun. 04, 2001 JEPRO KENCH氏の助言に従い追加
+	pType->m_szTypeName = L"COBOL";
+	pType->m_szTypeExts = L"cbl,cpy,pco,cob";	//Jun. 04, 2001 JEPRO KENCH氏の助言に従い追加
 
 	//設定
 	pType->m_cLineComment.CopyTo( 0, L"*", 6 );			//Jun. 02, 2001 JEPRO 修正

@@ -1353,7 +1353,7 @@ void CShareData_IO::ShareData_IO_Types( CDataProfile& cProfile )
 	for( i = nCountOld; i < pShare->m_nTypesCount; i++ ){
 		types[i] = new STypeConfig();
 		*types[i] = *types[0]; // 基本をコピー
-		auto_sprintf( types[i]->m_szTypeName, LS(STR_TRAY_TYPE_NAME), i );
+		auto_snprintf_s( types[i]->m_szTypeName.data(), types[i]->m_szTypeName.size(), LS(STR_TRAY_TYPE_NAME), i );
 		types[i]->m_nIdx = i;
 		types[i]->m_id = i;
 	}
@@ -1555,8 +1555,8 @@ void CShareData_IO::ShareData_IO_Type_One( CDataProfile& cProfile, STypeConfig& 
 		}
 	}
 
-	cProfile.IOProfileData(pszSecName, L"szTypeName", StringBufferW(types.m_szTypeName));
-	cProfile.IOProfileData(pszSecName, L"szTypeExts", StringBufferW(types.m_szTypeExts));
+	cProfile.IOProfileData(pszSecName, L"szTypeName", types.m_szTypeName);
+	cProfile.IOProfileData(pszSecName, L"szTypeExts", types.m_szTypeExts);
 	cProfile.IOProfileData( pszSecName, L"id", types.m_id );
 	if( types.m_id < 0 ){
 		types.m_id *= -1;

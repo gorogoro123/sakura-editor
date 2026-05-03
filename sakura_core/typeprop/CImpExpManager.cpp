@@ -310,7 +310,7 @@ bool CImpExpType::Import( const std::wstring& sFileName, std::wstring& sErrMsg )
 	m_nIdx = m_Types.m_nIdx;
 	if (m_nIdx == 0) {
 		// 基本の場合の名前と拡張子を初期化
-		wcscpy( m_Types.m_szTypeName, LS(STR_TYPE_NAME_BASIS) );
+		m_Types.m_szTypeName = LS(STR_TYPE_NAME_BASIS);
 		m_Types.m_szTypeExts[0] = L'\0';
 		m_Types.m_id = 0;
 	}else{

@@ -115,8 +115,8 @@ struct STypeConfig{
 	//2007.09.07 変数名変更: m_nMaxLineSize→m_nMaxLineKetas
 	int					m_nIdx;
 	int					m_id;
-	WCHAR				m_szTypeName[MAX_TYPES_NAME];	//!< タイプ属性：名称
-	WCHAR				m_szTypeExts[MAX_TYPES_EXTS];	//!< タイプ属性：拡張子リスト
+	StaticString<MAX_TYPES_NAME>	m_szTypeName;		//!< タイプ属性：名称
+	StaticString<MAX_TYPES_EXTS>	m_szTypeExts;		//!< タイプ属性：拡張子リスト
 	int					m_nTextWrapMethod;				//!< テキストの折り返し方法		// 2008.05.30 nasukoji
 	CKetaXInt			m_nMaxLineKetas;				//!< 折り返し桁数
 	int					m_nColumnSpace;					//!< 文字と文字の隙間
@@ -252,7 +252,7 @@ struct STypeConfigMini
 {
 	int					m_id;
 	StaticString<MAX_TYPES_NAME>	m_szTypeName;		//!< タイプ属性：名称
-	StaticString<MAX_TYPES_NAME>	m_szTypeExts;		//!< タイプ属性：拡張子リスト
+	StaticString<MAX_TYPES_EXTS>	m_szTypeExts;		//!< タイプ属性：拡張子リスト
 	SEncodingConfig		m_encoding;						//!< エンコードオプション
 };
 

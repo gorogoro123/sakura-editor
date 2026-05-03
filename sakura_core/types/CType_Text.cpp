@@ -26,8 +26,8 @@
 void CType_Text::InitTypeConfigImp(STypeConfig* pType)
 {
 	//名前と拡張子
-	wcscpy( pType->m_szTypeName, L"テキスト" );
-	wcscpy( pType->m_szTypeExts, L"txt,log,1st,err,ps" );
+	pType->m_szTypeName = L"テキスト";
+	pType->m_szTypeExts = L"txt,log,1st,err,ps";
 
 	//設定
 	pType->m_nMaxLineKetas = CKetaXInt(120);					/* 折り返し桁数 */
