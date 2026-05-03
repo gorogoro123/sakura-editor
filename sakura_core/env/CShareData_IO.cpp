@@ -1901,7 +1901,7 @@ void CShareData_IO::ShareData_IO_Macro( CDataProfile& cProfile )
 		auto_sprintf( szKeyName, L"Name[%03d]", i );
 		cProfile.IOProfileData(pszSecName, szKeyName, StringBufferW(macrorec.m_szName));
 		auto_sprintf( szKeyName, L"File[%03d]", i );
-		cProfile.IOProfileData(pszSecName, szKeyName, StringBufferW(macrorec.m_szFile));
+		cProfile.IOProfileData(pszSecName, szKeyName, macrorec.m_szFile);
 		auto_sprintf( szKeyName, L"ReloadWhenExecute[%03d]", i );
 		cProfile.IOProfileData( pszSecName, szKeyName, macrorec.m_bReloadWhenExecute );
 	}

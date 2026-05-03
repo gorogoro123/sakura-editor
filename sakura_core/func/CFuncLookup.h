@@ -17,16 +17,17 @@
 #pragma once
 
 #include <Windows.h>
+#include "basis/CMyString.h"
 #include "_main/global.h"
 #include "config/maxdata.h"
 #include "func/Funccode.h"
-struct MacroRec;// 2007.11.02 ryoji
+
 struct CommonSetting;// 2002/2/10 aroka
 
 //! マクロ情報
 struct MacroRec {
 	WCHAR	m_szName[MACRONAME_MAX];	//!< 表示名
-	WCHAR	m_szFile[_MAX_PATH+1];	//!< ファイル名(ディレクトリを含まない)
+	SFilePath	m_szFile;	//!< ファイル名(ディレクトリを含まない)
 	bool	m_bReloadWhenExecute;	//	実行時に読み込みなおすか（デフォルトon）
 	
 	bool IsEnabled() const { return m_szFile[0] != L'\0'; }
@@ -39,7 +40,6 @@ struct MacroRec {
 	機能，機能分類と位置，機能番号，文字列などの対応を集約する．
 */
 class CFuncLookup {
-
 public:
 	//	Oct. 15, 2001 genta 引数追加
 	// 2007.11.02 ryoji 引数変更（CSMacroMgr->MacroRec）
