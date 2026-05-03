@@ -1739,9 +1739,9 @@ void CShareData_IO::ShareData_IO_Type_One( CDataProfile& cProfile, STypeConfig& 
 	cProfile.IOProfileData( pszSecName, L"bKinsokuRet"	, types.m_bKinsokuRet );	//@@@ 2002.04.13 MIK
 	cProfile.IOProfileData( pszSecName, L"bKinsokuKuto"	, types.m_bKinsokuKuto );	//@@@ 2002.04.17 MIK
 	cProfile.IOProfileData( pszSecName, L"bKinsokuHide"	, types.m_bKinsokuHide );	//2012/11/30 Uchi
-	cProfile.IOProfileData(pszSecName, L"szKinsokuHead", StringBufferW(types.m_szKinsokuHead));
-	cProfile.IOProfileData(pszSecName, L"szKinsokuTail", StringBufferW(types.m_szKinsokuTail));
-	cProfile.IOProfileData(pszSecName, L"szKinsokuKuto", StringBufferW(types.m_szKinsokuKuto));	// 2009.08.07 ryoji
+	cProfile.IOProfileData(pszSecName, L"szKinsokuHead", types.m_szKinsokuHead );
+	cProfile.IOProfileData(pszSecName, L"szKinsokuTail", types.m_szKinsokuTail );
+	cProfile.IOProfileData(pszSecName, L"szKinsokuKuto", types.m_szKinsokuKuto );	// 2009.08.07 ryoji
 	cProfile.IOProfileData( pszSecName, L"bUseDocumentIcon"	, types.m_bUseDocumentIcon );	// Sep. 19 ,2002 genta 変数名誤り修正
 
 //@@@ 2006.04.10 fon ADD-start

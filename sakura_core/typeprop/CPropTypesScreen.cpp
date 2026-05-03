@@ -645,9 +645,9 @@ void CPropTypesScreen::SetData( HWND hwndDlg )
 			::CheckDlgButtonBool( hwndDlg, IDC_CHECK_KINSOKURET,  m_Types.m_bKinsokuRet  );	/* 改行文字をぶら下げる */	//@@@ 2002.04.13 MIK
 			::CheckDlgButtonBool( hwndDlg, IDC_CHECK_KINSOKUKUTO, m_Types.m_bKinsokuKuto );	/* 句読点をぶら下げる */	//@@@ 2002.04.17 MIK
 			::CheckDlgButtonBool( hwndDlg, IDC_CHECK_KINSOKUHIDE, m_Types.m_bKinsokuHide );	// ぶら下げを隠す			// 2011/11/30 Uchi
-			ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_EDIT_KINSOKUHEAD ), int(std::size(m_Types.m_szKinsokuHead)) - 1 );
-			ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_EDIT_KINSOKUTAIL ), int(std::size(m_Types.m_szKinsokuTail)) - 1 );
-			ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_EDIT_KINSOKUKUTO ), int(std::size(m_Types.m_szKinsokuKuto)) - 1 );	// 2009.08.07 ryoji
+			ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_EDIT_KINSOKUHEAD ), m_Types.m_szKinsokuHead.size() - 1 );
+			ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_EDIT_KINSOKUTAIL ), m_Types.m_szKinsokuTail.size() - 1 );
+			ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_EDIT_KINSOKUKUTO ), m_Types.m_szKinsokuKuto.size() - 1 );	// 2009.08.07 ryoji
 			ApiWrap::DlgItem_SetText( hwndDlg, IDC_EDIT_KINSOKUHEAD, m_Types.m_szKinsokuHead );
 			ApiWrap::DlgItem_SetText( hwndDlg, IDC_EDIT_KINSOKUTAIL, m_Types.m_szKinsokuTail );
 			ApiWrap::DlgItem_SetText( hwndDlg, IDC_EDIT_KINSOKUKUTO, m_Types.m_szKinsokuKuto );	// 2009.08.07 ryoji
@@ -789,9 +789,9 @@ int CPropTypesScreen::GetData( HWND hwndDlg )
 			m_Types.m_bKinsokuRet  = ::IsDlgButtonCheckedBool( hwndDlg, IDC_CHECK_KINSOKURET  );	// 改行文字をぶら下げる	//@@@ 2002.04.13 MIK
 			m_Types.m_bKinsokuKuto = ::IsDlgButtonCheckedBool( hwndDlg, IDC_CHECK_KINSOKUKUTO );	// 句読点をぶら下げる	//@@@ 2002.04.17 MIK
 			m_Types.m_bKinsokuHide = ::IsDlgButtonCheckedBool( hwndDlg, IDC_CHECK_KINSOKUHIDE );	// ぶら下げを隠す		// 2011/11/30 Uchi
-			ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_KINSOKUHEAD, m_Types.m_szKinsokuHead, int(std::size(m_Types.m_szKinsokuHead)) );
-			ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_KINSOKUTAIL, m_Types.m_szKinsokuTail, int(std::size(m_Types.m_szKinsokuTail)) );
-			ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_KINSOKUKUTO, m_Types.m_szKinsokuKuto, int(std::size(m_Types.m_szKinsokuKuto)) );	// 2009.08.07 ryoji
+			ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_KINSOKUHEAD, m_Types.m_szKinsokuHead, m_Types.m_szKinsokuHead.size() );
+			ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_KINSOKUTAIL, m_Types.m_szKinsokuTail, m_Types.m_szKinsokuTail.size() );
+			ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_KINSOKUKUTO, m_Types.m_szKinsokuKuto, m_Types.m_szKinsokuKuto.size() );	// 2009.08.07 ryoji
 		}	//@@@ 2002.04.08 MIK end
 	}
 
