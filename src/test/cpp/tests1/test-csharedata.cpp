@@ -137,9 +137,9 @@ MATCHER_P(EqSTypeConfig, expected, "Checks if STypeConfig is equal to the expect
 	EXPECT_THAT(actual.m_bKinsokuRet, expected.m_bKinsokuRet);
 	EXPECT_THAT(actual.m_bKinsokuKuto, expected.m_bKinsokuKuto);
 	EXPECT_THAT(actual.m_bKinsokuHide, expected.m_bKinsokuHide);
-	EXPECT_THAT(actual.m_szKinsokuHead, StrEq(expected.m_szKinsokuHead));
-	EXPECT_THAT(actual.m_szKinsokuTail, StrEq(expected.m_szKinsokuTail));
-	EXPECT_THAT(actual.m_szKinsokuKuto, StrEq(expected.m_szKinsokuKuto));
+	EXPECT_THAT(actual.m_szKinsokuHead, StrEq(expected.m_szKinsokuHead.c_str()));
+	EXPECT_THAT(actual.m_szKinsokuTail, StrEq(expected.m_szKinsokuTail.c_str()));
+	EXPECT_THAT(actual.m_szKinsokuKuto, StrEq(expected.m_szKinsokuKuto.c_str()));
 	EXPECT_THAT(actual.m_nCurrentPrintSetting, expected.m_nCurrentPrintSetting);
 	EXPECT_THAT(actual.m_bOutlineDockDisp, expected.m_bOutlineDockDisp);
 	EXPECT_THAT(actual.m_eOutlineDockSide, expected.m_eOutlineDockSide);

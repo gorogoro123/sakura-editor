@@ -161,9 +161,9 @@ struct STypeConfig{
 	bool				m_bKinsokuRet;					//!< 改行文字のぶら下げ	//@@@ 2002.04.13 MIK
 	bool				m_bKinsokuKuto;					//!< 句読点のぶらさげ	//@@@ 2002.04.17 MIK
 	bool				m_bKinsokuHide;					//!< ぶら下げを隠す		// 2011/11/30 Uchi
-	wchar_t				m_szKinsokuHead[200];			//!< 行頭禁則文字	//@@@ 2002.04.08 MIK
-	wchar_t				m_szKinsokuTail[200];			//!< 行頭禁則文字	//@@@ 2002.04.08 MIK
-	wchar_t				m_szKinsokuKuto[200];			//!< 句読点ぶらさげ文字	// 2009.08.07 ryoji
+	StaticString<200>	m_szKinsokuHead;				//!< 行頭禁則文字	//@@@ 2002.04.08 MIK
+	StaticString<200>	m_szKinsokuTail;				//!< 行頭禁則文字	//@@@ 2002.04.08 MIK
+	StaticString<200>	m_szKinsokuKuto;				//!< 句読点ぶらさげ文字	// 2009.08.07 ryoji
 
 	int					m_nCurrentPrintSetting;			//!< 現在選択している印刷設定
 

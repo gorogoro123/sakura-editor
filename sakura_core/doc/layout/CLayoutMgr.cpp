@@ -176,7 +176,7 @@ void CLayoutMgr::SetLayoutInfo(
 	//refType.m_szKinsokuKuto → m_pszKinsokuKuto_1
 	m_pszKinsokuKuto_1.clear();
 	if(refType.m_bKinsokuKuto){	// 2009.08.06 ryoji m_bKinsokuKutoで振り分ける(Fix)
-		for( const wchar_t* p = refType.m_szKinsokuKuto; *p; p++ ){
+		for( const wchar_t* p = refType.m_szKinsokuKuto.c_str(); *p; p++ ){
 			m_pszKinsokuKuto_1.push_back_unique(*p);
 		}
 	}
@@ -184,7 +184,7 @@ void CLayoutMgr::SetLayoutInfo(
 	//行頭禁則文字
 	//refType.m_szKinsokuHead → (句読点以外) m_pszKinsokuHead_1
 	m_pszKinsokuHead_1.clear();
-	for( const wchar_t* p = refType.m_szKinsokuHead; *p; p++ ){
+	for( const wchar_t* p = refType.m_szKinsokuHead.c_str(); *p; p++ ){
 		if(m_pszKinsokuKuto_1.exist(*p)){
 			continue;
 		}
@@ -196,7 +196,7 @@ void CLayoutMgr::SetLayoutInfo(
 	//行末禁則文字
 	//refType.m_szKinsokuTail → m_pszKinsokuTail_1
 	m_pszKinsokuTail_1.clear();
-	for( const wchar_t* p = refType.m_szKinsokuTail; *p; p++ ){
+	for( const wchar_t* p = refType.m_szKinsokuTail.c_str(); *p; p++ ){
 		m_pszKinsokuTail_1.push_back_unique(*p);
 	}
 
