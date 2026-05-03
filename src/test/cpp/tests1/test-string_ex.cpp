@@ -16,26 +16,6 @@
 /*!
 	@brief 旧コード互換用。可能であれば使わないでください。
 
-	代替関数は strnlen か std::char_traits<char>::length です。
- */
-TEST(string_ex, auto_strlenA)
-{
-	ASSERT_EQ(3, auto_strlen("abc"));
-}
-
-/*!
-	@brief 旧コード互換用。可能であれば使わないでください。
-
-	代替関数は wcsnlen か std::char_traits<wchar_t>::length です。
- */
-TEST(string_ex, auto_strlenW)
-{
-	ASSERT_EQ(3, auto_strlen(L"abc"));
-}
-
-/*!
-	@brief 旧コード互換用。可能であれば使わないでください。
-
 	代替関数はないのでロジックを見直してください。
  */
 TEST(string_ex, auto_strchrA)

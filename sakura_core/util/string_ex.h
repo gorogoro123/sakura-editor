@@ -137,8 +137,6 @@ inline int auto_stricmp(const ACHAR* p1, const ACHAR* p2){ return my_stricmp(p1,
 inline int auto_stricmp(const WCHAR* p1, const WCHAR* p2){ return wmemicmp(p1,p2); } // Stub.
 
 //長さ計算系
-inline size_t auto_strlen(const ACHAR* str){ return strlen(str); }
-inline size_t auto_strlen(const WCHAR* str){ return wcslen(str); }
 inline size_t auto_strnlen(const ACHAR* str, size_t count){ return strnlen(str, count); }
 inline size_t auto_strnlen(const WCHAR* str, size_t count){ return wcsnlen(str, count); }
 
