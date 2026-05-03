@@ -211,8 +211,8 @@ INT_PTR CPropTypesScreen::DispatchEvent(
 		::SetWindowLongPtr( hwndDlg, DWLP_USER, lParam );
 
 		// エディットコントロールの入力文字数制限
-		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_TYPENAME        ), int(std::size(m_Types.m_szTypeName)) - 1 );
-		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_TYPEEXTS        ), int(std::size(m_Types.m_szTypeExts)) - 1 );
+		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_TYPENAME        ), m_Types.m_szTypeName.size() - 1 );
+		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_TYPEEXTS        ), m_Types.m_szTypeExts.size() - 1 );
 		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_INDENTCHARS     ), int(std::size(m_Types.m_szIndentChars)) - 1 );
 		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_TABVIEWSTRING   ), int(std::size(m_Types.m_szTabViewString)) - 1 );
 		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_OUTLINERULEFILE ), std::size( m_Types.m_szOutlineRuleFilename ) - 1 );	//	Oct. 5, 2002 genta 画面上でも入力制限
@@ -659,8 +659,8 @@ void CPropTypesScreen::SetData( HWND hwndDlg )
 /* ダイアログデータの取得 Screen */
 int CPropTypesScreen::GetData( HWND hwndDlg )
 {
-	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_TYPENAME, m_Types.m_szTypeName, int(std::size(m_Types.m_szTypeName)) );	// 設定の名前
-	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_TYPEEXTS, m_Types.m_szTypeExts, int(std::size(m_Types.m_szTypeExts)) );	// ファイル拡張子
+	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_TYPENAME, m_Types.m_szTypeName, m_Types.m_szTypeName.size() );	// 設定の名前
+	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_TYPEEXTS, m_Types.m_szTypeExts, m_Types.m_szTypeExts.size() );	// ファイル拡張子
 
 	//レイアウト
 	{

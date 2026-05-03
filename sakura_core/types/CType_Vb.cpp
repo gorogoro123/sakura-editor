@@ -19,8 +19,8 @@
 void CType_Vb::InitTypeConfigImp(STypeConfig* pType)
 {
 	//名前と拡張子
-	wcscpy( pType->m_szTypeName, L"Visual Basic" );
-	wcscpy( pType->m_szTypeExts, L"bas,frm,cls,ctl,pag,dob,dsr,vb" );
+	pType->m_szTypeName = L"Visual Basic";
+	pType->m_szTypeExts = L"bas,frm,cls,ctl,pag,dob,dsr,vb";
 
 	//設定
 	pType->m_cLineComment.CopyTo( 0, L"'", -1 );				/* 行コメントデリミタ */

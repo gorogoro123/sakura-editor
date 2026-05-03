@@ -1020,11 +1020,11 @@ bool CControlTray::OnAddTypeSetting(size_t index)
 
 	// 同じ名前のものがあったらその次にする
 	auto nAddNameNum = nInsert + 1;
-	::swprintf_s(type->m_szTypeName, LS(STR_TRAY_TYPE_NAME), nAddNameNum);
+	auto_snprintf_s(type->m_szTypeName, type->m_szTypeName.size(), LS(STR_TRAY_TYPE_NAME), nAddNameNum);
 	for (auto k = 1; k < m_pShareData->m_nTypesCount; ++k) {
 		if (0 == wcscmp(types[k]->m_szTypeName, type->m_szTypeName)) {
 			nAddNameNum++;
-			::swprintf_s(type->m_szTypeName, LS(STR_TRAY_TYPE_NAME), nAddNameNum);
+			auto_snprintf_s(type->m_szTypeName, type->m_szTypeName.size(), LS(STR_TRAY_TYPE_NAME), nAddNameNum);
 			k = 0;
 		}
 	}

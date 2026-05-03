@@ -1302,7 +1302,7 @@ void CESI::GetDebugInfo( const char* pS, const int nLen, CNativeW* pcmtxtOut )
 
 	pcmtxtOut->AppendString( LS(STR_ESI_DOC_TYPE) );	// "文書種別\r\n"
 
-	auto_sprintf( szWork, L"\t%s\r\n", doc.m_cDocType.GetDocumentAttribute().m_szTypeName );
+	auto_sprintf( szWork, L"\t%s\r\n", doc.m_cDocType.GetDocumentAttribute().m_szTypeName.c_str() );
 	pcmtxtOut->AppendString( szWork );
 
 	pcmtxtOut->AppendString( LS(STR_ESI_DEFAULT_CHARCODE) );	// "デフォルト文字コード\r\n"

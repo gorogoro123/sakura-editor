@@ -16,8 +16,8 @@
 void CType_Sql::InitTypeConfigImp(STypeConfig* pType)
 {
 	//名前と拡張子
-	wcscpy( pType->m_szTypeName, L"PL/SQL" );
-	wcscpy( pType->m_szTypeExts, L"sql,plsql" );
+	pType->m_szTypeName = L"PL/SQL";
+	pType->m_szTypeExts = L"sql,plsql";
 
 	//設定
 	pType->m_cLineComment.CopyTo( 0, L"--", -1 );					/* 行コメントデリミタ */

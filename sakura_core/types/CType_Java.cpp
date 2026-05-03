@@ -18,8 +18,8 @@
 void CType_Java::InitTypeConfigImp(STypeConfig* pType)
 {
 	//名前と拡張子
-	wcscpy( pType->m_szTypeName, L"Java" );
-	wcscpy( pType->m_szTypeExts, L"java,jav" );
+	pType->m_szTypeName = L"Java";
+	pType->m_szTypeExts = L"java,jav";
 
 	//設定
 	pType->m_cLineComment.CopyTo( 0, L"//", -1 );					/* 行コメントデリミタ */

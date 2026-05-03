@@ -78,8 +78,8 @@ MATCHER_P(EqSTypeConfig, expected, "Checks if STypeConfig is equal to the expect
     // プロパティごとに等価評価を行う
 	EXPECT_THAT(actual.m_nIdx, expected.m_nIdx);
 	EXPECT_THAT(actual.m_id, expected.m_id);
-	EXPECT_THAT(actual.m_szTypeName, StrEq(expected.m_szTypeName));
-	EXPECT_THAT(actual.m_szTypeExts, StrEq(expected.m_szTypeExts));
+	EXPECT_THAT(actual.m_szTypeName, StrEq(expected.m_szTypeName.c_str()));
+	EXPECT_THAT(actual.m_szTypeExts, StrEq(expected.m_szTypeExts.c_str()));
 	EXPECT_THAT(actual.m_nTextWrapMethod, expected.m_nTextWrapMethod);
 	EXPECT_THAT(actual.m_nMaxLineKetas, expected.m_nMaxLineKetas);
 	EXPECT_THAT(actual.m_nColumnSpace, expected.m_nColumnSpace);
@@ -1621,8 +1621,8 @@ MATCHER_P4(IsInitializedShareData, pszProfileName, isMultiUserSettings, userRoot
 		auto type = std::make_unique<STypeConfig>();
 		table[i]->InitTypeConfig(i, *type);
 		EXPECT_THAT(shareData.m_TypeMini[i].m_id, type->m_id);
-		EXPECT_THAT(shareData.m_TypeMini[i].m_szTypeName, StrEq(type->m_szTypeName));
-		EXPECT_THAT(shareData.m_TypeMini[i].m_szTypeExts, StrEq(type->m_szTypeExts));
+		EXPECT_THAT(shareData.m_TypeMini[i].m_szTypeName, StrEq(type->m_szTypeName.c_str()));
+		EXPECT_THAT(shareData.m_TypeMini[i].m_szTypeExts, StrEq(type->m_szTypeExts.c_str()));
 		EXPECT_THAT(shareData.m_TypeMini[i].m_encoding, type->m_encoding);
 
 		EXPECT_THAT(shareData.m_TypeBasis.m_nIdx, type->m_nIdx);
@@ -1633,8 +1633,8 @@ MATCHER_P4(IsInitializedShareData, pszProfileName, isMultiUserSettings, userRoot
 		auto type = std::make_unique<STypeConfig>();
 		table[i]->InitTypeConfig(i, *type);
 		EXPECT_THAT(shareData.m_TypeMini[i].m_id, type->m_id);
-		EXPECT_THAT(shareData.m_TypeMini[i].m_szTypeName, StrEq(type->m_szTypeName));
-		EXPECT_THAT(shareData.m_TypeMini[i].m_szTypeExts, StrEq(type->m_szTypeExts));
+		EXPECT_THAT(shareData.m_TypeMini[i].m_szTypeName, StrEq(type->m_szTypeName.c_str()));
+		EXPECT_THAT(shareData.m_TypeMini[i].m_szTypeExts, StrEq(type->m_szTypeExts.c_str()));
 		EXPECT_THAT(shareData.m_TypeMini[i].m_encoding, type->m_encoding);
 	}
 

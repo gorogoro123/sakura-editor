@@ -430,7 +430,7 @@ bool CDlgTypeList::Import()
 	int id = typeMini->m_id;
 
 	// インポート
-	cImpExpType.SetBaseName( type.m_szTypeName );
+	cImpExpType.SetBaseName( type.m_szTypeName.c_str() );
 	if (!cImpExpType.ImportUI( G_AppInstance(), GetHwnd() )) {
 		// インポートをしていない
 		return false;
@@ -473,7 +473,7 @@ bool CDlgTypeList::Export()
 	CImpExpType	cImpExpType( nIdx, types, hwndList );
 
 	// エクスポート
-	cImpExpType.SetBaseName( types.m_szTypeName );
+	cImpExpType.SetBaseName( types.m_szTypeName.c_str() );
 	if (!cImpExpType.ExportUI( G_AppInstance(), GetHwnd() )) {
 		// エクスポートをしていない
 		return false;
@@ -559,7 +559,7 @@ bool CDlgTypeList::InitializeType( )
 	// リスト再初期化
 	SetData(iDocType);
 
-	InfoMessage( hwndDlg, LS(STR_DLGTYPELIST_INIT2), type->m_szTypeName );
+	InfoMessage( hwndDlg, LS(STR_DLGTYPELIST_INIT2), type->m_szTypeName.c_str() );
 
 	return true;
 }
@@ -578,7 +578,7 @@ bool CDlgTypeList::CopyType()
 	for(int i = 0; i < nNewTypeIndex; i++){
 		if( bUpdate ){
 			WCHAR* p = nullptr;
-			for(int k = (int)wcslen(type.m_szTypeName) - 1; 0 <= k; k--){
+			for(int k = type.m_szTypeName.length() - 1; 0 <= k; k--){
 				if( WCODE::Is09(type.m_szTypeName[k]) ){
 					p = &type.m_szTypeName[k];
 				}else{
@@ -594,14 +594,14 @@ bool CDlgTypeList::CopyType()
 			WCHAR szNum[12];
 			auto_sprintf( szNum, L"%d", n );
 			auto nLen = int(wcslen(szNum));
-			WCHAR szTemp[std::size(type.m_szTypeName) + 12];
+			WCHAR szTemp[type.m_szTypeName.size() + 12];
 			wcscpy( szTemp, type.m_szTypeName );
 			auto nTempLen = int(wcslen(szTemp));
 			CNativeW cmem;
 			// バッファをはみ出さないように
-			LimitStringLengthW( szTemp, nTempLen, int(std::size(type.m_szTypeName)) - nLen - 1, cmem );
-			wcscpy( type.m_szTypeName, cmem.GetStringPtr() );
-			wcscat( type.m_szTypeName, szNum );
+			LimitStringLengthW( szTemp, nTempLen, type.m_szTypeName.size() - nLen - 1, cmem );
+			type.m_szTypeName = cmem.GetStringPtr();
+			type.m_szTypeName.append(szNum);
 			bUpdate = false;
 		}
 		const STypeConfigMini* typeMini = nullptr;
