@@ -836,7 +836,7 @@ void CShareData::RefreshKeyAssignString(DLLSHAREDATA* pShareData)
 		KEYDATA* pKeydata = &pShareData->m_Common.m_sKeyBind.m_pKeyNameArr[i];
 
 		if ( KeyDataInit[i].m_nKeyNameId <= 0xFFFF ) {
-			wcscpy( pKeydata->m_szKeyName, LS( KeyDataInit[i].m_nKeyNameId ) );
+			pKeydata->m_szKeyName = LS(KeyDataInit[i].m_nKeyNameId);
 		}
 	}
 }
@@ -856,7 +856,7 @@ static void SetKeyNameArrVal(
 
 	pKeydata->m_nKeyCode = pKeydataInit->m_nKeyCode;
 	if ( 0xFFFF < pKeydataInit->m_nKeyNameId ) {
-		wcscpy( pKeydata->m_szKeyName, pKeydataInit->m_pszKeyName );
+		pKeydata->m_szKeyName = pKeydataInit->m_pszKeyName;
 	}
 	static_assert( sizeof(pKeydata->m_nFuncCodeArr) == sizeof(pKeydataInit->m_nFuncCodeArr) );
 	memcpy( pKeydata->m_nFuncCodeArr, pKeydataInit->m_nFuncCodeArr, sizeof(pKeydataInit->m_nFuncCodeArr) );

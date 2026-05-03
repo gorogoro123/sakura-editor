@@ -480,7 +480,7 @@ void CPropKeybind::ChangeKeyList( HWND hwndDlg)
 	ApiWrap::List_ResetContent( hwndKeyList );
 	for( i = 0; i < m_Common.m_sKeyBind.m_nKeyNameArrNum; ++i ){
 		WCHAR	szLabel[256];
-		auto_snprintf_s( szLabel, std::size(szLabel), L"%ls%s", szKeyState.c_str(), m_Common.m_sKeyBind.m_pKeyNameArr[i].m_szKeyName );
+		auto_snprintf_s( szLabel, std::size(szLabel), L"%ls%s", szKeyState.c_str(), m_Common.m_sKeyBind.m_pKeyNameArr[i].m_szKeyName.c_str() );
 		ApiWrap::List_AddString( hwndKeyList, szLabel );
 	}
 	ApiWrap::List_SetCurSel( hwndKeyList, nIndex );

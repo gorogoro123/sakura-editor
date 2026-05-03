@@ -15,6 +15,7 @@
 #pragma once
 
 #include <Windows.h>
+#include "basis/CMyString.h"
 
 class CFuncLookup;
 class CNativeW;
@@ -26,7 +27,7 @@ struct KEYDATA {
 	short			m_nKeyCode;
 	
 	/*!	キーの名前	*/
-	WCHAR			m_szKeyName[30];
+	StaticString<30>	m_szKeyName;
 	
 	/*!	対応する機能番号
 

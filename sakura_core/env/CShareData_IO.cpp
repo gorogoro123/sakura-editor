@@ -1103,7 +1103,7 @@ void CShareData_IO::IO_KeyBind( CDataProfile& cProfile, CommonSetting_KeyBind& s
 						p = pn+1;
 					}
 					// KeyName
-					wcsncpy_s(tmpKeydata.m_szKeyName, p, _TRUNCATE);
+					tmpKeydata.m_szKeyName = p;
 
 					if( tmpKeydata.m_nKeyCode <= 0 ){ // マウスコードは先頭に固定されている KeyCodeが同じなのでKeyNameで判別
 // 互換性のため残したと書かれているが現状の共有データ構造と矛盾していて不正コードになってるので無効化しておく。
@@ -1115,7 +1115,7 @@ void CShareData_IO::IO_KeyBind( CDataProfile& cProfile, CommonSetting_KeyBind& s
 						// 2013.10.23 syat マウスのキーコードを拡張仮想キーコードに変更。以下は互換性のため残す。
 						for( int im=0; im< jpVKEXNamesLen; im++ ){
 							if( wcscmp( tmpKeydata.m_szKeyName, jpVKEXNames[im] ) == 0 ){
-								wcscpy( tmpKeydata.m_szKeyName, sKeyBind.m_pKeyNameArr[im].m_szKeyName );
+								tmpKeydata.m_szKeyName = sKeyBind.m_pKeyNameArr[im].m_szKeyName;
 								sKeyBind.m_pKeyNameArr[im + 0x0100] = tmpKeydata;
 							}
 						}
@@ -1125,12 +1125,12 @@ void CShareData_IO::IO_KeyBind( CDataProfile& cProfile, CommonSetting_KeyBind& s
 						// 割り当て済みキーコードは上書き
 						int idx = sKeyBind.m_VKeyToKeyNameArr[tmpKeydata.m_nKeyCode];
 						if( idx != KEYNAME_SIZE ){
-							wcscpy( tmpKeydata.m_szKeyName, sKeyBind.m_pKeyNameArr[idx].m_szKeyName );
+							tmpKeydata.m_szKeyName = sKeyBind.m_pKeyNameArr[idx].m_szKeyName;
 							sKeyBind.m_pKeyNameArr[idx] = tmpKeydata;
 						}else{// 未割り当てキーコードは末尾に追加
 							if( nKeyNameArrUsed >= KEYNAME_SIZE ){}
 							else{
-								wcscpy( tmpKeydata.m_szKeyName, sKeyBind.m_pKeyNameArr[nKeyNameArrUsed].m_szKeyName );
+								tmpKeydata.m_szKeyName = sKeyBind.m_pKeyNameArr[nKeyNameArrUsed].m_szKeyName;
 								sKeyBind.m_pKeyNameArr[nKeyNameArrUsed] = tmpKeydata;
 								sKeyBind.m_VKeyToKeyNameArr[tmpKeydata.m_nKeyCode] = (BYTE)nKeyNameArrUsed++;
 							}
@@ -1189,7 +1189,7 @@ void CShareData_IO::IO_KeyBind( CDataProfile& cProfile, CommonSetting_KeyBind& s
 			if( 0x0100 <= keydata.m_nKeyCode ){
 				auto_sprintf(szWork, L",%s", jpVKEXNames[ keydata.m_nKeyCode - 0x0100 ]);
 			}else{
-				auto_sprintf(szWork, L",%s", keydata.m_szKeyName);
+				auto_sprintf(szWork, L",%s", keydata.m_szKeyName.c_str());
 			}
 			wcscat(szKeyData, szWork);
 			cProfile.IOProfileData(szSecName, szKeyName, StringBufferW(szKeyData));

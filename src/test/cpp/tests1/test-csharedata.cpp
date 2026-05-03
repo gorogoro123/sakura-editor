@@ -703,7 +703,7 @@ MATCHER(IsInitializedCommonSettingKeyBind, "Checks if CommonSetting_KeyBind is p
 		const auto& initData = KeyDataInit[i];
 		EXPECT_THAT(keydata.m_nKeyCode, initData.m_nKeyCode);
 		if (!IS_INTRESOURCE(initData.m_nKeyNameId)) {
-			EXPECT_THAT(keydata.m_szKeyName, StrEq(initData.m_pszKeyName));
+			EXPECT_THAT(keydata.m_szKeyName.c_str(), StrEq(initData.m_pszKeyName));
 		}
 		for (size_t j = 0; j < std::size(initData.m_nFuncCodeArr); ++j) {
 			EXPECT_THAT(keydata.m_nFuncCodeArr[j], initData.m_nFuncCodeArr[j]);
