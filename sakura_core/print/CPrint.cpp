@@ -505,16 +505,15 @@ void CPrint::PrintClose( HDC hdc )
 }
 
 /* 用紙の名前を取得 */
-WCHAR* CPrint::GetPaperName( int nPaperSize, WCHAR* pszPaperName )
+void CPrint::GetPaperName( int nPaperSize, std::wstring& szPaperName )
 {
 	// 2006.08.14 Moca 用紙情報の統合
 	const PAPER_INFO* paperInfo = FindPaperInfo( nPaperSize );
 	if( nullptr != paperInfo ){
-		wcscpy( pszPaperName, paperInfo->m_pszName );
+		szPaperName = paperInfo->m_pszName;
 	}else{
-		wcscpy( pszPaperName, LS(STR_ERR_CPRINT03) );
+		szPaperName = LS(STR_ERR_CPRINT03);
 	}
-	return pszPaperName;
 }
 
 /*!
