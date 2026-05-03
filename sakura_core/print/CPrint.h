@@ -88,9 +88,9 @@ struct PRINTSETTING {
 
 	MYDEVMODE		m_mdmDevMode;						/*!< プリンター設定 DEVMODE用 */
 	BOOL			m_bHeaderUse[3];					/* ヘッダーが使われているか？	*/
-	EDIT_CHAR		m_szHeaderForm[3][HEADER_MAX];		/* 0:左寄せヘッダー。1:中央寄せヘッダー。2:右寄せヘッダー。*/
+	WCHAR			m_szHeaderForm[3][HEADER_MAX];		/* 0:左寄せヘッダー。1:中央寄せヘッダー。2:右寄せヘッダー。*/
 	BOOL			m_bFooterUse[3];					/* フッターが使われているか？	*/
-	EDIT_CHAR		m_szFooterForm[3][FOOTER_MAX];		/* 0:左寄せフッター。1:中央寄せフッター。2:右寄せフッター。*/
+	WCHAR			m_szFooterForm[3][FOOTER_MAX];		/* 0:左寄せフッター。1:中央寄せフッター。2:右寄せフッター。*/
 
 	// ヘッダー/フッターのフォント(lfFaceNameが設定されていなければ半角/全角フォントを使用)
 	LOGFONT			m_lfHeader;							// ヘッダーフォント用LOGFONT構造体
