@@ -983,8 +983,8 @@ bool CControlTray::OnSetTypeSetting(size_t index)
 	types[index]->m_nIdx = int(index);
 
 	auto& typeMini = m_pShareData->m_TypeMini[index];
-	::wcscpy_s(typeMini.m_szTypeName, type.m_szTypeName);
-	::wcscpy_s(typeMini.m_szTypeExts, type.m_szTypeExts);
+	typeMini.m_szTypeName = type.m_szTypeName;
+	typeMini.m_szTypeExts = type.m_szTypeExts;
 	typeMini.m_id = type.m_id;
 	typeMini.m_encoding = type.m_encoding;
 

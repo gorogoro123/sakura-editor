@@ -8,6 +8,7 @@
 #pragma once
 
 #include "basis/CEol.h"
+#include "basis/CMyString.h"
 #include "env/CommonSetting.h"
 #include "doc/CDocTypeSetting.h"
 #include "doc/CLineComment.h"
@@ -250,8 +251,8 @@ struct STypeConfig{
 struct STypeConfigMini
 {
 	int					m_id;
-	WCHAR				m_szTypeName[MAX_TYPES_NAME];	//!< タイプ属性：名称
-	WCHAR				m_szTypeExts[MAX_TYPES_EXTS];	//!< タイプ属性：拡張子リスト
+	StaticString<MAX_TYPES_NAME>	m_szTypeName;		//!< タイプ属性：名称
+	StaticString<MAX_TYPES_NAME>	m_szTypeExts;		//!< タイプ属性：拡張子リスト
 	SEncodingConfig		m_encoding;						//!< エンコードオプション
 };
 
