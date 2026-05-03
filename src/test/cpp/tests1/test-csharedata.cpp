@@ -1839,7 +1839,7 @@ TEST_F(CShareDataTest, GetMacroFilename003)
 	// テストのために共有データを弄る
 	auto& sMacro = shareData.m_Common.m_sMacro;
 	const auto testFilePath = GetIniFileName().replace_filename(L"test.mac"s);
-	::wcscpy_s(sMacro.m_MacroTable[3].m_szFile, testFilePath.c_str());
+	sMacro.m_MacroTable[3].m_szFile = testFilePath.c_str();
 
 	EXPECT_THAT(pcShareData->GetMacroFilename(3, nullptr, 0), Eq(-std::ssize(testFilePath.native())));
 
@@ -1849,7 +1849,7 @@ TEST_F(CShareDataTest, GetMacroFilename003)
 	EXPECT_THAT(pcShareData->GetMacroFilename(3, std::data(buffer), int(std::size(testFilePath.native()))), Eq(-std::ssize(testFilePath.native())));
 
 	// 共有データを元に戻す
-	::wcscpy_s(sMacro.m_MacroTable[1].m_szFile, L"");
+	sMacro.m_MacroTable[1].m_szFile = L"";
 }
 
 /*!
@@ -1867,7 +1867,7 @@ TEST_F(CShareDataTest, GetMacroFilename004)
 	const std::wstring macroFolder{ sMacro.m_szMACROFOLDER };
 	sMacro.m_szMACROFOLDER = L".";
 	const auto testFilePath = GetIniFileName().remove_filename() / L"." / L"test.mac";
-	::wcscpy_s(sMacro.m_MacroTable[4].m_szFile, L"test.mac");
+	sMacro.m_MacroTable[4].m_szFile = L"test.mac";
 
 	EXPECT_THAT(pcShareData->GetMacroFilename(4, nullptr, 0), Eq(-std::ssize(testFilePath.native())));
 
@@ -1877,7 +1877,7 @@ TEST_F(CShareDataTest, GetMacroFilename004)
 	EXPECT_THAT(pcShareData->GetMacroFilename(4, std::data(buffer), int(std::size(testFilePath.native()))), Eq(-std::ssize(testFilePath.native())));
 
 	// 共有データを元に戻す
-	::wcscpy_s(sMacro.m_MacroTable[4].m_szFile, L"");
+	sMacro.m_MacroTable[4].m_szFile = L"";
 	sMacro.m_szMACROFOLDER = macroFolder.c_str();
 }
 
@@ -1897,7 +1897,7 @@ TEST_F(CShareDataTest, GetMacroFilename005)
 	const std::filesystem::path tooLongPath{ std::format(LR"(C:\{:a<256})", L'a') };	// 259文字のパスを作る（MAX_PATHに収まる限界長。）
 	sMacro.m_szMACROFOLDER = tooLongPath.c_str();
 	const auto testFilePath = tooLongPath / L"test.mac";
-	::wcscpy_s(sMacro.m_MacroTable[5].m_szFile, L"test.mac");
+	sMacro.m_MacroTable[5].m_szFile = L"test.mac";
 
 	EXPECT_THAT(pcShareData->GetMacroFilename(5, nullptr, 0), Eq(-std::ssize(testFilePath.native())));
 
@@ -1907,7 +1907,7 @@ TEST_F(CShareDataTest, GetMacroFilename005)
 	EXPECT_THAT(pcShareData->GetMacroFilename(5, std::data(buffer), int(std::size(testFilePath.native()))), Eq(-std::ssize(testFilePath.native())));
 
 	// 共有データを元に戻す
-	::wcscpy_s(sMacro.m_MacroTable[5].m_szFile, L"");
+	sMacro.m_MacroTable[5].m_szFile = L"";
 	::wmemset(sMacro.m_szMACROFOLDER, 0, std::size(sMacro.m_szMACROFOLDER));
 	sMacro.m_szMACROFOLDER = macroFolder.c_str();
 }
@@ -1961,13 +1961,13 @@ TEST_F(CShareDataTest, BeReloadWhenExecuteMacro002)
 	// テストのために共有データを弄る
 	auto& sMacro = shareData.m_Common.m_sMacro;
 	const auto testFilePath = GetExeFileName().replace_filename(L"test.mac"s);
-	::wcscpy_s(sMacro.m_MacroTable[2].m_szFile, testFilePath.c_str());
+	sMacro.m_MacroTable[2].m_szFile = testFilePath.c_str();
 	sMacro.m_MacroTable[2].m_bReloadWhenExecute = true;
 
 	EXPECT_THAT(pcShareData->BeReloadWhenExecuteMacro(2), IsTrue());
 
 	// 共有データを元に戻す
-	::wcscpy_s(sMacro.m_MacroTable[2].m_szFile, L"");
+	sMacro.m_MacroTable[2].m_szFile = L"";
 	sMacro.m_MacroTable[2].m_bReloadWhenExecute = false;
 }
 
@@ -1983,13 +1983,13 @@ TEST_F(CShareDataTest, BeReloadWhenExecuteMacro003)
 	// テストのために共有データを弄る
 	auto& sMacro = shareData.m_Common.m_sMacro;
 	const auto testFilePath = GetExeFileName().replace_filename(L"test.mac"s);
-	::wcscpy_s(sMacro.m_MacroTable[3].m_szFile, testFilePath.c_str());
+	sMacro.m_MacroTable[3].m_szFile = testFilePath.c_str();
 	sMacro.m_MacroTable[3].m_bReloadWhenExecute = false;
 
 	EXPECT_THAT(pcShareData->BeReloadWhenExecuteMacro(3), IsFalse());
 
 	// 共有データを元に戻す
-	::wcscpy_s(sMacro.m_MacroTable[3].m_szFile, L"");
+	sMacro.m_MacroTable[3].m_szFile = L"";
 }
 
 TEST_F(CShareDataTest, BeReloadWhenExecuteMacro101)
