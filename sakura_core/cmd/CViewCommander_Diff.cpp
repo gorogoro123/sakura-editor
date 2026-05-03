@@ -42,12 +42,12 @@ static bool Commander_COMPARE_core(CViewCommander& commander, bool& bDifferent, 
 	CLogicInt		nLineLenSrc;
 	const wchar_t*	pLineDes;
 	int			nLineLenDes;
-	int max_size = (int)GetDllShareData().m_sWorkBuffer.GetWorkBufferCount<EDIT_CHAR>();
+	int max_size = (int)GetDllShareData().m_sWorkBuffer.GetWorkBufferCount<WCHAR>();
 	const CDocLineMgr& docMgr = commander.GetDocument()->m_cDocLineMgr;
 
 	bDifferent = true;
 	{
-		pLineDes = GetDllShareData().m_sWorkBuffer.GetWorkBuffer<const EDIT_CHAR>();
+		pLineDes = GetDllShareData().m_sWorkBuffer.GetWorkBuffer<const WCHAR>();
 		int nLineOffset = 0;
 		for(;;){
 			pLineSrc = docMgr.GetLine(poSrc.y)->GetDocLineStrWithEOL(&nLineLenSrc);

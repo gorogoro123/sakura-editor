@@ -145,7 +145,7 @@ void _DefaultConfig(STypeConfig* pType)
 	for( int i = 0; i < MAX_KEYWORDSET_PER_TYPE; i++ ){
 		pType->m_nKeyWordSetIdx[i] = -1;
 	}
-	wcscpy( pType->m_szTabViewString, _EDITL("^       ") );	/* TAB表示文字列 */
+	wcscpy( pType->m_szTabViewString, L"^       " );	/* TAB表示文字列 */
 	pType->m_bTabArrow = TABARROW_STRING;	/* タブ矢印表示 */	// 2001.12.03 hor	// default on 2013/4/11 Uchi
 	pType->m_bInsSpace = false;				/* スペースの挿入 */	// 2001.12.03 hor
 	

@@ -386,8 +386,8 @@ static bool MakeDiffTmpFile_core(CTextOutputStream& out, HWND hwnd, CEditView& v
 			y++;
 		}
 	}else if( IsSakuraMainWindow(hwnd) ) {
-		const int max_size = (int)GetDllShareData().m_sWorkBuffer.GetWorkBufferCount<const EDIT_CHAR>();
-		pLineData = GetDllShareData().m_sWorkBuffer.GetWorkBuffer<const EDIT_CHAR>();
+		const int max_size = (int)GetDllShareData().m_sWorkBuffer.GetWorkBufferCount<const WCHAR>();
+		pLineData = GetDllShareData().m_sWorkBuffer.GetWorkBuffer<const WCHAR>();
 		for(;;){
 			int nLineOffset = 0;
 			int nLineLen = 0; //初回用仮値

@@ -1890,8 +1890,8 @@ LRESULT CEditWnd::DispatchEvent(
 		pLine = GetDocument()->m_cDocLineMgr.GetLine(CLogicInt(wParam))->GetDocLineStrWithEOL( &nLineLen );
 		pLine += nLineOffset;
 		nLineLen -= nLineOffset;
-		size_t nEnd = t_min<size_t>(nLineLen, m_pShareData->m_sWorkBuffer.GetWorkBufferCount<EDIT_CHAR>());
-		wmemcpy( m_pShareData->m_sWorkBuffer.GetWorkBuffer<EDIT_CHAR>(), pLine, nEnd );
+		size_t nEnd = t_min<size_t>(nLineLen, m_pShareData->m_sWorkBuffer.GetWorkBufferCount<WCHAR>());
+		wmemcpy( m_pShareData->m_sWorkBuffer.GetWorkBuffer<WCHAR>(), pLine, nEnd );
 		return nLineLen;
 	}
 	case MYWM_GETLINECOUNT:
@@ -1902,8 +1902,8 @@ LRESULT CEditWnd::DispatchEvent(
 	// 2010.05.11 Moca MYWM_ADDSTRINGLEN_Wを追加 NULセーフ
 	case MYWM_ADDSTRINGLEN_W:
 		{
-			EDIT_CHAR* pWork = m_pShareData->m_sWorkBuffer.GetWorkBuffer<EDIT_CHAR>();
-			size_t addSize = t_min((size_t)wParam, m_pShareData->m_sWorkBuffer.GetWorkBufferCount<EDIT_CHAR>() );
+			WCHAR* pWork = m_pShareData->m_sWorkBuffer.GetWorkBuffer<WCHAR>();
+			size_t addSize = t_min((size_t)wParam, m_pShareData->m_sWorkBuffer.GetWorkBufferCount<WCHAR>() );
 			GetActiveView().GetCommander().HandleCommand( F_ADDTAIL_W, true, (LPARAM)pWork, (LPARAM)addSize, 0, 0 );
 			GetActiveView().GetCommander().HandleCommand( F_GOFILEEND, true, 0, 0, 0, 0 );
 		}

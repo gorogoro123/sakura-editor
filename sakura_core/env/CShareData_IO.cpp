@@ -1306,12 +1306,12 @@ void CShareData_IO::ShareData_IO_Print( CDataProfile& cProfile )
 		cProfile.IOProfileData(pszSecName, szKeyName, StringBufferW(printsetting.m_mdmDevMode.m_szPrinterOutputName));
 
 		// 2002.02.16 hor とりあえず旧設定を変換しとく
-		if(0==wcscmp(printsetting.m_szHeaderForm[0],_EDITL("&f")) &&
-		   0==wcscmp(printsetting.m_szFooterForm[0],_EDITL("&C- &P -"))
+		if(0==wcscmp(printsetting.m_szHeaderForm[0], L"&f") &&
+		   0==wcscmp(printsetting.m_szFooterForm[0], L"&C- &P -")
 		){
-			wcscpy( printsetting.m_szHeaderForm[0], _EDITL("$f") );
-			wcscpy( printsetting.m_szFooterForm[0], _EDITL("") );
-			wcscpy( printsetting.m_szFooterForm[1], _EDITL("- $p -") );
+			wcscpy( printsetting.m_szHeaderForm[0], L"$f" );
+			wcscpy( printsetting.m_szFooterForm[0], L"" );
+			wcscpy( printsetting.m_szFooterForm[1], L"- $p -" );
 		}
 
 		//禁則	//@@@ 2002.04.09 MIK
