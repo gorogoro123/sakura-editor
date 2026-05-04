@@ -354,7 +354,7 @@ bool CFileNameManager::GetMenuFullLabel(
 		GetAccessKeyLabelByIndex( szAccKey, bEspaceAmp, index, bAccKeyZeroOrigin );
 		//pfi->m_szGrepKeyShort → cmemDes
 		CNativeW	cmemDes;
-		auto nGrepKeyLen = int(wcslen(pfi->m_szGrepKey));
+		const auto nGrepKeyLen = pfi->m_szGrepKey.length();
 		const int GREPKEY_LIMIT_LEN = 64;
 		// CSakuraEnvironment::ExpandParameter では 32文字制限
 		// メニューは 64文字制限

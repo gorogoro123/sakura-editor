@@ -41,7 +41,7 @@ struct EditInfo {
 
 	//GREPモード
 	bool		m_bIsGrep = false;						//!< Grepのウィンドウか
-	wchar_t		m_szGrepKey[1024] = {};
+	StaticString<1024>	m_szGrepKey;
 
 	//デバッグモニタ (アウトプットウィンドウ) モード
 	bool		m_bIsDebug = false;						//!< デバッグモニタモード (アウトプットウィンドウ) か
