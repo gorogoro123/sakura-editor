@@ -175,7 +175,7 @@ bool CControlProcess::InitializeProcess()
 	MY_TRACETIME( cRunningTimer, L"Before new CControlTray" );
 
 	/* タスクトレイにアイコン作成 */
-	m_pcTray = new CControlTray;
+	m_pcTray = std::make_unique<CControlTray>();
 
 	MY_TRACETIME( cRunningTimer, L"After new CControlTray" );
 
@@ -225,10 +225,13 @@ void CControlProcess::OnExitProcess()
 	GetDllShareData().m_sHandles.m_hwndTray = nullptr;
 }
 
+CControlProcess::CControlProcess( HINSTANCE hInstance, LPCWSTR lpCmdLine ) : 
+	CProcess( hInstance, lpCmdLine )
+{
+}
+
 CControlProcess::~CControlProcess()
 {
-	delete m_pcTray;
-
 	if( m_hEventCPInitialized ){
 		::ResetEvent( m_hEventCPInitialized );
 	}

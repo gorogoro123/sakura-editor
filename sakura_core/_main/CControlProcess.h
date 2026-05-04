@@ -15,6 +15,7 @@
 #pragma once
 
 #include <filesystem>
+#include <memory>
 
 #include "global.h"
 #include "CProcess.h"
@@ -33,10 +34,7 @@ class CControlTray;
 */
 class CControlProcess final : public CProcess {
 public:
-	CControlProcess( HINSTANCE hInstance, LPCWSTR lpCmdLine ) : 
-		CProcess( hInstance, lpCmdLine )
-	{}
-
+	CControlProcess( HINSTANCE hInstance, LPCWSTR lpCmdLine );
 	~CControlProcess();
 
 	std::filesystem::path GetIniFileName() const override;
@@ -53,5 +51,5 @@ private:
 	HANDLE			m_hMutex = nullptr;					//!< アプリケーション実行検出用ミューテックス
 	HANDLE			m_hMutexCP = nullptr;				//!< コントロールプロセスミューテックス
 	HANDLE			m_hEventCPInitialized = nullptr;	//!< コントロールプロセス初期化完了イベント 2006.04.10 ryoji
-	CControlTray*	m_pcTray = nullptr;
+	std::unique_ptr<CControlTray> m_pcTray;
 };
