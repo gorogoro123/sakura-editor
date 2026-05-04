@@ -620,7 +620,7 @@ int CPropTypesRegex::GetData( HWND hwndDlg )
 	hwndList = GetDlgItem( hwndDlg, IDC_LIST_REGEX );
 	nIndex = ListView_GetItemCount(hwndList);
 	wchar_t* pKeyword = &m_Types.m_RegexKeywordList[0];
-	wchar_t* pKeywordLast = pKeyword + int(std::size(m_Types.m_RegexKeywordList)) - 1;
+	wchar_t* pKeywordLast = pKeyword + m_Types.m_RegexKeywordList.size() - 1;
 	// key1\0key2\0\0 の形式
 	for(i = 0; i < MAX_REGEX_KEYWORD; i++)
 	{

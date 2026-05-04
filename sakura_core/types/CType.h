@@ -213,7 +213,7 @@ struct STypeConfig{
 	bool				m_bUseRegexKeyword;								//!< 正規表現キーワードを使うか
 	DWORD				m_nRegexKeyMagicNumber;							//!< 正規表現キーワード更新マジックナンバー
 	RegexKeywordInfo	m_RegexKeywordArr[MAX_REGEX_KEYWORD];			//!< 正規表現キーワード
-	wchar_t				m_RegexKeywordList[MAX_REGEX_KEYWORDLISTLEN];	//!< 正規表現キーワード
+	StaticString<MAX_REGEX_KEYWORDLISTLEN>	m_RegexKeywordList;			//!< 正規表現キーワード
 //@@@ 2001.11.17 add end MIK
 
 //@@@ 2006.04.10 fon ADD-start

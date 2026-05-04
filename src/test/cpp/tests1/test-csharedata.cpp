@@ -187,7 +187,7 @@ MATCHER_P(EqSTypeConfig, expected, "Checks if STypeConfig is equal to the expect
 	for (size_t i = 0; i < std::size(actual.m_RegexKeywordArr); ++i) {
 		EXPECT_THAT(actual.m_RegexKeywordArr[i].m_nColorIndex, expected.m_RegexKeywordArr[i].m_nColorIndex) << L"Unexpected value at index " << i;
 	}
-	EXPECT_THAT(actual.m_RegexKeywordList, StrEq(expected.m_RegexKeywordList));
+	EXPECT_THAT(actual.m_RegexKeywordList, StrEq(expected.m_RegexKeywordList.c_str()));
 	EXPECT_THAT(actual.m_bUseKeyWordHelp, expected.m_bUseKeyWordHelp);
 	EXPECT_THAT(actual.m_nKeyHelpNum, expected.m_nKeyHelpNum);
 	for (size_t i = 0; i < std::size(actual.m_KeyHelpArr); ++i) {
