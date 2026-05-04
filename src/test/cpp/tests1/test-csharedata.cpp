@@ -911,8 +911,6 @@ MATCHER(IsInitializedCommonSettingSpecialKeyword, "Checks if CommonSetting_Speci
 
 #undef CheckKeyword
 
-	EXPECT_THAT(sSpecialKeyword.m_szKeyWordSetDir, StrEq(""));	//未使用。削除可？
-
 	return true;
 }
 
