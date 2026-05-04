@@ -52,14 +52,14 @@ void CType_Text::InitTypeConfigImp(STypeConfig* pType)
 	pType->m_bUseRegexKeyword = true;							// 正規表現キーワードを使うか
 	pType->m_RegexKeywordArr[0].m_nColorIndex = COLORIDX_URL;	// 色指定番号
 	::wcsncpy_s(&pKeyword[keywordPos],			// 正規表現キーワード
-		std::size(pType->m_RegexKeywordList) - keywordPos,
+		pType->m_RegexKeywordList.size() - keywordPos,
 		L"/(?<=\")(\\b[a-zA-Z]:|\\B\\\\\\\\)[^\"\\r\\n]*/k",			//   ""で挟まれた C:\～, \\～ にマッチするパターン
 		_TRUNCATE
 	);
 	keywordPos += int(wcslen(&pKeyword[keywordPos]) + 1);
 	pType->m_RegexKeywordArr[1].m_nColorIndex = COLORIDX_URL;	// 色指定番号
 	::wcsncpy_s(&pKeyword[keywordPos],			// 正規表現キーワード
-		std::size(pType->m_RegexKeywordList) - keywordPos,
+		pType->m_RegexKeywordList.size() - keywordPos,
 		L"/(\\b[a-zA-Z]:\\\\|\\B\\\\\\\\)[\\w\\-_.\\\\\\/$%~]*/k",		//   C:\～, \\～ にマッチするパターン
 		_TRUNCATE
 	);
