@@ -50,7 +50,7 @@ int		GetDefaultColorInfoCount() noexcept;
 const int DICT_ABOUT_LEN = 50; /*!< 辞書の説明の最大長 -1 */
 struct KeyHelpInfo {
 	bool		m_bUse;						//!< 辞書を 使用する/しない
-	WCHAR		m_szAbout[DICT_ABOUT_LEN];	//!< 辞書の説明(辞書ファイルの1行目から生成)
+	StaticString<DICT_ABOUT_LEN>	m_szAbout;	//!< 辞書の説明(辞書ファイルの1行目から生成)
 	SFilePath	m_szPath;					//!< ファイルパス
 };
 //@@@ 2006.04.10 fon ADD-end
