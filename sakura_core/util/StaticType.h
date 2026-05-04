@@ -174,7 +174,7 @@ public:
 
 	constexpr Me& operator = (std::wstring_view rhs) noexcept { assign(rhs); return *this; }
 	constexpr Me& operator = (const std::wstring& rhs) noexcept { assign(rhs); return *this; }
-	constexpr Me& operator = (const std::filesystem::path& path) noexcept { assign(path.wstring()); return *this; }
+	constexpr Me& operator = (const std::filesystem::path& path) noexcept { assign(path.native()); return *this; }
 
 	constexpr Me& operator += (std::wstring_view rhs) noexcept { append(rhs); return *this; }
 	constexpr Me& operator += (const std::wstring& rhs) noexcept { append(rhs); return *this; }
