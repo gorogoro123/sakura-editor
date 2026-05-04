@@ -120,7 +120,7 @@ TEST(EditInfo, operatorNotEqual)
 	ASSERT_NE(value, other);
 	value.m_bIsGrep = other.m_bIsGrep;
 
-	wcscpy_s(value.m_szGrepKey, L"test");
+	value.m_szGrepKey = L"test";
 	ASSERT_NE(value, other);
 	value.m_szGrepKey[0] = 0;
 
