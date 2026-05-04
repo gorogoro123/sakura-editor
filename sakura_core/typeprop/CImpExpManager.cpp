@@ -790,7 +790,7 @@ bool CImpExpKeyHelp::Import( const std::wstring& sFileName, std::wstring& sErrMs
 
 		//良さそうなら
 		m_Types.m_KeyHelpArr[i].m_bUse = (b_enable_flag!=0);	// 2007.02.03 genta
-		::wcsncpy_s(m_Types.m_KeyHelpArr[i].m_szAbout, p4, _TRUNCATE);
+		m_Types.m_KeyHelpArr[i].m_szAbout = p4;
 		m_Types.m_KeyHelpArr[i].m_szPath = p3;
 		i++;
 	}
@@ -832,7 +832,7 @@ bool CImpExpKeyHelp::Export( const std::wstring& sFileName, std::wstring& sErrMs
 			L"KDct[%02d]=%d,%s,%s\n",
 			i,
 			m_Types.m_KeyHelpArr[i].m_bUse?1:0,
-			m_Types.m_KeyHelpArr[i].m_szAbout,
+			m_Types.m_KeyHelpArr[i].m_szAbout.c_str(),
 			m_Types.m_KeyHelpArr[i].m_szPath.c_str()
 		);
 	}

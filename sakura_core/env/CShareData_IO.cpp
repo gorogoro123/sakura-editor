@@ -1768,7 +1768,7 @@ void CShareData_IO::ShareData_IO_Type_One( CDataProfile& cProfile, STypeConfig& 
 						pH = pT+1;
 						if( nullptr != (pT=wcschr(pH, L',')) ){
 							*pT = L'\0';
-							wcsncpy_s( types.m_KeyHelpArr[j].m_szAbout, pH, _TRUNCATE );
+							types.m_KeyHelpArr[j].m_szAbout = pH;
 							pH = pT+1;
 							if( L'\0' != (*pH) ){
 								types.m_KeyHelpArr[j].m_szPath = pH;
@@ -1782,7 +1782,7 @@ void CShareData_IO::ShareData_IO_Type_One( CDataProfile& cProfile, STypeConfig& 
 				if(types.m_KeyHelpArr[j].m_szPath[0] != L'\0'){
 					auto_sprintf( szKeyData, L"%d,%s,%s",
 						types.m_KeyHelpArr[j].m_bUse?1:0,
-						types.m_KeyHelpArr[j].m_szAbout,
+						types.m_KeyHelpArr[j].m_szAbout.c_str(),
 						types.m_KeyHelpArr[j].m_szPath.c_str()
 					);
 					cProfile.IOProfileData(pszSecName, szKeyName, StringBufferW(szKeyData));
