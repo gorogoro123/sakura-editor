@@ -148,17 +148,17 @@ bool CProcessFactory::StartControlProcess()
 	MY_RUNNINGTIMER(cRunningTimer,L"StartControlProcess" );
 
 	//	プロセスの起動
-	PROCESS_INFORMATION p;
-	STARTUPINFO s;
-
-	s.cb          = sizeof( s );
-	s.lpReserved  = nullptr;
-	s.lpDesktop   = nullptr;
-	s.lpTitle     = const_cast<WCHAR*>(L"sakura control process"); //2007.09.21 kobake デバッグしやすいように、名前を付ける
-	s.dwFlags     = STARTF_USESHOWWINDOW;
-	s.wShowWindow = SW_SHOWDEFAULT;
-	s.cbReserved2 = 0;
-	s.lpReserved2 = nullptr;
+	PROCESS_INFORMATION p = {};
+	STARTUPINFO s = {
+		.cb          = sizeof( s ),
+		.lpReserved  = nullptr,
+		.lpDesktop   = nullptr,
+		.lpTitle     = const_cast<WCHAR*>(L"sakura control process"), //2007.09.21 kobake デバッグしやすいように、名前を付ける
+		.dwFlags     = STARTF_USESHOWWINDOW,
+		.wShowWindow = SW_SHOWDEFAULT,
+		.cbReserved2 = 0,
+		.lpReserved2 = nullptr,
+	};
 
 	WCHAR szCmdLineBuf[1024];	//	コマンドライン
 	WCHAR szEXE[MAX_PATH + 1];	//	アプリケーションパス名
