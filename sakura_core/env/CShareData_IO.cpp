@@ -1299,11 +1299,11 @@ void CShareData_IO::ShareData_IO_Print( CDataProfile& cProfile )
 		}
 
 		auto_sprintf( szKeyName, L"PS[%02d].szDriver", i );
-		cProfile.IOProfileData(pszSecName, szKeyName, StringBufferW(printsetting.m_mdmDevMode.m_szPrinterDriverName));
+		cProfile.IOProfileData(pszSecName, szKeyName, printsetting.m_mdmDevMode.m_szPrinterDriverName);
 		auto_sprintf( szKeyName, L"PS[%02d].szDevice", i );
-		cProfile.IOProfileData(pszSecName, szKeyName, StringBufferW(printsetting.m_mdmDevMode.m_szPrinterDeviceName));
+		cProfile.IOProfileData(pszSecName, szKeyName, printsetting.m_mdmDevMode.m_szPrinterDeviceName);
 		auto_sprintf( szKeyName, L"PS[%02d].szOutput", i );
-		cProfile.IOProfileData(pszSecName, szKeyName, StringBufferW(printsetting.m_mdmDevMode.m_szPrinterOutputName));
+		cProfile.IOProfileData(pszSecName, szKeyName, printsetting.m_mdmDevMode.m_szPrinterOutputName);
 
 		// 2002.02.16 hor とりあえず旧設定を変換しとく
 		if(0==wcscmp(printsetting.m_szHeaderForm[0], L"&f") &&

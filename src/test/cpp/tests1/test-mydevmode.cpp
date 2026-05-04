@@ -17,16 +17,16 @@
 #include <string>
 
 /*! テストのベースとなる値 */
-static constexpr MYDEVMODE myDevMode = {
-	FALSE, //BOOL	m_bPrinterNotFound;
-	{L"m_szPrinterDriverName"}, //WCHAR	m_szPrinterDriverName[_MAX_PATH + 1];
-	{L"m_szPrinterDeviceName"}, //WCHAR	m_szPrinterDeviceName[_MAX_PATH + 1];
-	{L"m_szPrinterOutputName"}, //WCHAR	m_szPrinterOutputName[_MAX_PATH + 1];
-	std::numeric_limits<DWORD>::min(), //DWORD	dmFields;
-	std::numeric_limits<short>::min(), //short	dmOrientation;
-	std::numeric_limits<short>::min(), //short	dmPaperSize;
-	std::numeric_limits<short>::min(), //short	dmPaperLength;
-	std::numeric_limits<short>::min(), //short	dmPaperWidth;
+static const MYDEVMODE myDevMode = {
+	.m_bPrinterNotFound = FALSE,
+	.m_szPrinterDriverName = SFilePath{L"m_szPrinterDriverName"},
+	.m_szPrinterDeviceName = SFilePath{L"m_szPrinterDeviceName"},
+	.m_szPrinterOutputName = SFilePath{L"m_szPrinterOutputName"},
+	.dmFields = std::numeric_limits<DWORD>::min(),
+	.dmOrientation = std::numeric_limits<short>::min(),
+	.dmPaperSize = std::numeric_limits<short>::min(),
+	.dmPaperLength = std::numeric_limits<short>::min(),
+	.dmPaperWidth = std::numeric_limits<short>::min(),
 };
 
 /*!
@@ -98,19 +98,19 @@ TEST(MYDEVMODETest, operatorNotEqual)
 	value.m_bPrinterNotFound = myDevMode.m_bPrinterNotFound;
 	EXPECT_EQ(myDevMode, value);
 
-	::wcscpy_s(value.m_szPrinterDriverName, L"PrinterDriverName");
+	value.m_szPrinterDriverName = L"PrinterDriverName";
 	EXPECT_NE(myDevMode, value);
-	::wcscpy_s(value.m_szPrinterDriverName, myDevMode.m_szPrinterDriverName);
+	value.m_szPrinterDriverName = myDevMode.m_szPrinterDriverName;
 	EXPECT_EQ(myDevMode, value);
 
-	::wcscpy_s(value.m_szPrinterDeviceName, L"PrinterDeviceName");
+	value.m_szPrinterDeviceName = L"PrinterDeviceName";
 	EXPECT_NE(myDevMode, value);
-	::wcscpy_s(value.m_szPrinterDeviceName, myDevMode.m_szPrinterDeviceName);
+	value.m_szPrinterDeviceName = myDevMode.m_szPrinterDeviceName;
 	EXPECT_EQ(myDevMode, value);
 
-	::wcscpy_s(value.m_szPrinterOutputName, L"PrinterOutputName");
+	value.m_szPrinterOutputName = L"PrinterOutputName";
 	EXPECT_NE(myDevMode, value);
-	::wcscpy_s(value.m_szPrinterOutputName, myDevMode.m_szPrinterOutputName);
+	value.m_szPrinterOutputName = myDevMode.m_szPrinterOutputName;
 	EXPECT_EQ(myDevMode, value);
 
 	value.dmFields = std::numeric_limits<decltype(value.dmFields)>::max();
@@ -160,7 +160,7 @@ TEST(MYDEVMODETest, operatorNotEqualAntiLazyCode)
 	EXPECT_EQ(other, value);
 
 	// 文字列メンバをNUL終端する
-	value.m_szPrinterDriverName[std::size(value.m_szPrinterDriverName) - 1] = 0;
+	value.m_szPrinterDriverName[value.m_szPrinterDriverName.size() - 1] = 0;
 
 	// NUL終端された文字列 != NUL終端されてない文字列、となるはず。
 	EXPECT_FALSE(value == other);

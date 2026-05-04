@@ -384,7 +384,7 @@ if(MINGW)
   add_compile_options(
     $<$<CONFIG:Debug>:-g>
     $<$<CONFIG:Debug>:-O0>
-    $<$<CONFIG:Release>:-O2>
+    $<$<CONFIG:Release>:-O1>
     -MMD
     -finput-charset=utf-8
     -fexec-charset=cp932
