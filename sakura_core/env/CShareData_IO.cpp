@@ -1271,17 +1271,17 @@ void CShareData_IO::ShareData_IO_Print( CDataProfile& cProfile )
 		}
 
 		auto_sprintf( szKeyName, L"PS[%02d].szSName"	, i );
-		cProfile.IOProfileData(pszSecName, szKeyName, StringBufferW(printsetting.m_szPrintSettingName));
+		cProfile.IOProfileData(pszSecName, szKeyName, printsetting.m_szPrintSettingName);
 		auto_sprintf( szKeyName, L"PS[%02d].szFF"	, i );
-		cProfile.IOProfileData(pszSecName, szKeyName, StringBufferW(printsetting.m_szPrintFontFaceHan));
+		cProfile.IOProfileData(pszSecName, szKeyName, printsetting.m_szPrintFontFaceHan);
 		auto_sprintf( szKeyName, L"PS[%02d].szFFZ"	, i );
-		cProfile.IOProfileData(pszSecName, szKeyName, StringBufferW(printsetting.m_szPrintFontFaceZen));
+		cProfile.IOProfileData(pszSecName, szKeyName, printsetting.m_szPrintFontFaceZen);
 		// ヘッダー/フッター
 		for( j = 0; j < 3; ++j ){
 			auto_sprintf( szKeyName, L"PS[%02d].szHF[%d]" , i, j );
-			cProfile.IOProfileData(pszSecName, szKeyName, StringBufferW(printsetting.m_szHeaderForm[j]));
+			cProfile.IOProfileData(pszSecName, szKeyName, printsetting.m_szHeaderForm[j]);
 			auto_sprintf( szKeyName, L"PS[%02d].szFTF[%d]", i, j );
-			cProfile.IOProfileData(pszSecName, szKeyName, StringBufferW(printsetting.m_szFooterForm[j]));
+			cProfile.IOProfileData(pszSecName, szKeyName, printsetting.m_szFooterForm[j]);
 		}
 		{ // ヘッダー/フッター フォント設定
 			WCHAR	szKeyName2[64];
@@ -1309,9 +1309,9 @@ void CShareData_IO::ShareData_IO_Print( CDataProfile& cProfile )
 		if(0==wcscmp(printsetting.m_szHeaderForm[0], L"&f") &&
 		   0==wcscmp(printsetting.m_szFooterForm[0], L"&C- &P -")
 		){
-			wcscpy( printsetting.m_szHeaderForm[0], L"$f" );
-			wcscpy( printsetting.m_szFooterForm[0], L"" );
-			wcscpy( printsetting.m_szFooterForm[1], L"- $p -" );
+			printsetting.m_szHeaderForm[0] = L"$f";
+			printsetting.m_szFooterForm[0] = L"";
+			printsetting.m_szFooterForm[1] = L"- $p -";
 		}
 
 		//禁則	//@@@ 2002.04.09 MIK

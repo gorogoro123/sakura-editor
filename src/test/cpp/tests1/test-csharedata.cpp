@@ -1639,9 +1639,9 @@ MATCHER_P4(IsInitializedShareData, pszProfileName, isMultiUserSettings, userRoot
 	}
 
 	for (int i = 0; i < std::ssize(shareData.m_PrintSettingArr); ++i) {
-		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_szPrintSettingName, StrEq(std::format(L"{:s} {:d}", LS(STR_PRINT_SET_NAME), i + 1))) << L"Unexpected value at index " << i;
-		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_szPrintFontFaceHan, StrEq(L"ＭＳ 明朝"));
-		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_szPrintFontFaceZen, StrEq(L"ＭＳ 明朝"));
+		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_szPrintSettingName.c_str(), StrEq(std::format(L"{:s} {:d}", LS(STR_PRINT_SET_NAME), i + 1))) << L"Unexpected value at index " << i;
+		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_szPrintFontFaceHan.c_str(), StrEq(L"ＭＳ 明朝"));
+		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_szPrintFontFaceZen.c_str(), StrEq(L"ＭＳ 明朝"));
 		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_bColorPrint, IsFalse());
 		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_nPrintFontWidth, 12);
 		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_nPrintFontHeight, shareData.m_PrintSettingArr[i].m_nPrintFontWidth * 2);
@@ -1663,15 +1663,15 @@ MATCHER_P4(IsInitializedShareData, pszProfileName, isMultiUserSettings, userRoot
 		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_bHeaderUse[0], IsTrue());
 		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_bHeaderUse[1], IsFalse());
 		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_bHeaderUse[2], IsFalse());
-		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_szHeaderForm[0], StrEq(L"$f"));
-		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_szHeaderForm[1], StrEq(L""));
-		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_szHeaderForm[2], StrEq(L""));
+		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_szHeaderForm[0].c_str(), StrEq(L"$f"));
+		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_szHeaderForm[1].c_str(), StrEq(L""));
+		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_szHeaderForm[2].c_str(), StrEq(L""));
 		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_bFooterUse[0], IsTrue());
 		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_bFooterUse[1], IsFalse());
 		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_bFooterUse[2], IsFalse());
-		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_szFooterForm[0], StrEq(L""));
-		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_szFooterForm[1], StrEq(L"- $p -"));
-		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_szFooterForm[2], StrEq(L""));
+		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_szFooterForm[0].c_str(), StrEq(L""));
+		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_szFooterForm[1].c_str(), StrEq(L"- $p -"));
+		EXPECT_THAT(shareData.m_PrintSettingArr[i].m_szFooterForm[2].c_str(), StrEq(L""));
 	}
 
 	EXPECT_THAT(shareData.m_nLockCount, 0);
