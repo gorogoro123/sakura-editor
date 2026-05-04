@@ -16,6 +16,7 @@
 #include <WinSpool.h>
 #include <CommDlg.h> // PRINTDLG
 #include "basis/primitive.h"
+#include "basis/CMyString.h"
 
 struct	MYDEVMODE {
 	BOOL	m_bPrinterNotFound;	/* プリンターがなかったフラグ */
@@ -64,9 +65,9 @@ struct PAPER_INFO {
 #define HEADER_MAX	100
 #define FOOTER_MAX	HEADER_MAX
 struct PRINTSETTING {
-	WCHAR			m_szPrintSettingName[32 + 1];		/*!< 印刷設定の名前 */
-	WCHAR			m_szPrintFontFaceHan[LF_FACESIZE];	/*!< 印刷フォント */
-	WCHAR			m_szPrintFontFaceZen[LF_FACESIZE];	/*!< 印刷フォント */
+	StaticString<32+1>			m_szPrintSettingName;	/*!< 印刷設定の名前 */
+	StaticString<LF_FACESIZE>	m_szPrintFontFaceHan;	/*!< 印刷フォント */
+	StaticString<LF_FACESIZE>	m_szPrintFontFaceZen;	/*!< 印刷フォント */
 	int				m_nPrintFontWidth;					/*!< 印刷フォント幅(1/10mm単位単位) */
 	int				m_nPrintFontHeight;					/*!< 印刷フォント高さ(1/10mm単位単位) */
 	int				m_nPrintDansuu;						/*!< 段組の段数 */
@@ -88,9 +89,9 @@ struct PRINTSETTING {
 
 	MYDEVMODE		m_mdmDevMode;						/*!< プリンター設定 DEVMODE用 */
 	BOOL			m_bHeaderUse[3];					/* ヘッダーが使われているか？	*/
-	WCHAR			m_szHeaderForm[3][HEADER_MAX];		/* 0:左寄せヘッダー。1:中央寄せヘッダー。2:右寄せヘッダー。*/
+	StaticString<HEADER_MAX>	m_szHeaderForm[3];		/* 0:左寄せヘッダー。1:中央寄せヘッダー。2:右寄せヘッダー。*/
 	BOOL			m_bFooterUse[3];					/* フッターが使われているか？	*/
-	WCHAR			m_szFooterForm[3][FOOTER_MAX];		/* 0:左寄せフッター。1:中央寄せフッター。2:右寄せフッター。*/
+	StaticString<FOOTER_MAX>	m_szFooterForm[3];		/* 0:左寄せフッター。1:中央寄せフッター。2:右寄せフッター。*/
 
 	// ヘッダー/フッターのフォント(lfFaceNameが設定されていなければ半角/全角フォントを使用)
 	LOGFONT			m_lfHeader;							// ヘッダーフォント用LOGFONT構造体

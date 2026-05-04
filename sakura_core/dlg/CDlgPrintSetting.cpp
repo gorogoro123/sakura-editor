@@ -229,7 +229,7 @@ BOOL CDlgPrintSetting::OnBnClicked( int wID )
 				GetHwnd(),
 				LS(STR_DLGPRNST1),
 				LS(STR_DLGPRNST2),
-				_countof( m_PrintSettingArr[m_nCurrentPrintSetting].m_szPrintSettingName ) - 1,
+				m_PrintSettingArr[m_nCurrentPrintSetting].m_szPrintSettingName.size() - 1,
 				szWork
 			);
 			if( !bDlgInputResult ){
@@ -237,7 +237,7 @@ BOOL CDlgPrintSetting::OnBnClicked( int wID )
 			}
 		}
 		if( szWork[0] != L'\0' ){
-			wcsncpy_s( m_PrintSettingArr[m_nCurrentPrintSetting].m_szPrintSettingName, szWork, _TRUNCATE );
+			m_PrintSettingArr[m_nCurrentPrintSetting].m_szPrintSettingName = szWork;
 			/* 印刷設定名一覧 */
 			hwndComboSettingName = GetItemHwnd( IDC_COMBO_SETTINGNAME );
 			ApiWrap::Combo_ResetContent( hwndComboSettingName );
