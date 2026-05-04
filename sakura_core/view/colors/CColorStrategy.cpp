@@ -174,19 +174,18 @@ void SColorStrategyInfo::DoChangeColor(CColor3Setting *pcColor)
 CColorStrategyPool::CColorStrategyPool()
 {
 	m_pcView = &(CEditWnd::getInstance()->GetView(0));
-	m_pcSelectStrategy = new CColor_Select();
-	m_pcFoundStrategy = new CColor_Found();
-//	m_vStrategies.push_back(new CColor_Found);				// マッチ文字列
-	m_vStrategies.push_back(new CColor_RegexKeyword);		// 正規表現キーワード
-	m_vStrategies.push_back(new CColor_Heredoc);			// ヒアドキュメント
-	m_vStrategies.push_back(new CColor_BlockComment(COLORIDX_BLOCK1));	// ブロックコメント
-	m_vStrategies.push_back(new CColor_BlockComment(COLORIDX_BLOCK2));	// ブロックコメント2
-	m_vStrategies.push_back(new CColor_LineComment);		// 行コメント
-	m_vStrategies.push_back(new CColor_SingleQuote);		// シングルクォーテーション文字列
-	m_vStrategies.push_back(new CColor_DoubleQuote);		// ダブルクォーテーション文字列
-	m_vStrategies.push_back(new CColor_Url);				// URL
-	m_vStrategies.push_back(new CColor_Numeric);			// 半角数字
-	m_vStrategies.push_back(new CColor_KeywordSet);			// キーワードセット
+	m_pcSelectStrategy = std::make_unique<CColor_Select>();
+	m_pcFoundStrategy = std::make_unique<CColor_Found>();
+	m_vStrategies.emplace_back(std::make_unique<CColor_RegexKeyword>());	// 正規表現キーワード
+	m_vStrategies.emplace_back(std::make_unique<CColor_Heredoc>());			// ヒアドキュメント
+	m_vStrategies.emplace_back(std::make_unique<CColor_BlockComment>(COLORIDX_BLOCK1));	// ブロックコメント
+	m_vStrategies.emplace_back(std::make_unique<CColor_BlockComment>(COLORIDX_BLOCK2));	// ブロックコメント2
+	m_vStrategies.emplace_back(std::make_unique<CColor_LineComment>());		// 行コメント
+	m_vStrategies.emplace_back(std::make_unique<CColor_SingleQuote>());		// シングルクォーテーション文字列
+	m_vStrategies.emplace_back(std::make_unique<CColor_DoubleQuote>());		// ダブルクォーテーション文字列
+	m_vStrategies.emplace_back(std::make_unique<CColor_Url>());				// URL
+	m_vStrategies.emplace_back(std::make_unique<CColor_Numeric>());			// 半角数字
+	m_vStrategies.emplace_back(std::make_unique<CColor_KeywordSet>());		// キーワードセット
 
 	// 設定更新
 	OnChangeSetting();
@@ -194,20 +193,13 @@ CColorStrategyPool::CColorStrategyPool()
 
 CColorStrategyPool::~CColorStrategyPool()
 {
-	SAFE_DELETE(m_pcSelectStrategy);
-	SAFE_DELETE(m_pcFoundStrategy);
 	m_vStrategiesDisp.clear();
-	int size = (int)m_vStrategies.size();
-	for(int i = 0; i < size; i++ ){
-		delete m_vStrategies[i];
-	}
-	m_vStrategies.clear();
 }
 
 CColorStrategy*	CColorStrategyPool::GetStrategyByColor(EColorIndexType eColor) const
 {
 	if( COLORIDX_SEARCH <= eColor && eColor <= COLORIDX_SEARCHTAIL ){
-		return m_pcFoundStrategy;
+		return m_pcFoundStrategy.get();
 	}
 	int size = (int)m_vStrategiesDisp.size();
 	for(int i = 0; i < size; i++ ){
@@ -270,7 +262,7 @@ void CColorStrategyPool::OnChangeSetting()
 
 		// 色分け表示対象であれば登録
 		if( m_vStrategies[i]->Disp() ){
-			m_vStrategiesDisp.push_back(m_vStrategies[i]);
+			m_vStrategiesDisp.push_back(m_vStrategies[i].get());
 		}
 	}
 
