@@ -62,6 +62,6 @@ private:
 
 	// ファイル名簡易表示用キャッシュ
 	int		m_nTransformFileNameCount; // 有効数
-	WCHAR	m_szTransformFileNameFromExp[MAX_TRANSFORM_FILENAME][_MAX_PATH];
+	SFilePath	m_szTransformFileNameFromExp[MAX_TRANSFORM_FILENAME];
 	int		m_nTransformFileNameOrgId[MAX_TRANSFORM_FILENAME];
 };

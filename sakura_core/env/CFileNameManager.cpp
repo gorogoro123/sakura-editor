@@ -86,7 +86,7 @@ int CFileNameManager::TransformFileName_MakeCache( ){
 	for( i = 0; i < m_pShareData->m_Common.m_sFileName.m_nTransformFileNameArrNum; i++ ){
 		if( L'\0' != m_pShareData->m_Common.m_sFileName.m_szTransformFileNameFrom[i][0] ){
 			if( ExpandMetaToFolder( m_pShareData->m_Common.m_sFileName.m_szTransformFileNameFrom[i],
-			 m_szTransformFileNameFromExp[nCount], _MAX_PATH ) ){
+			 m_szTransformFileNameFromExp[nCount], m_szTransformFileNameFromExp[0].size() ) ){
 				// m_szTransformFileNameToとm_szTransformFileNameFromExpの番号がずれることがあるので記録しておく
 				m_nTransformFileNameOrgId[nCount] = i;
 				nCount++;
