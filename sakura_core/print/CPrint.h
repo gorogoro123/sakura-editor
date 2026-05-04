@@ -20,9 +20,9 @@
 
 struct	MYDEVMODE {
 	BOOL	m_bPrinterNotFound;	/* プリンターがなかったフラグ */
-	WCHAR	m_szPrinterDriverName[_MAX_PATH + 1];	// プリンタードライバー名
-	WCHAR	m_szPrinterDeviceName[_MAX_PATH + 1];	// プリンターデバイス名
-	WCHAR	m_szPrinterOutputName[_MAX_PATH + 1];	// プリンターポート名
+	SFilePath	m_szPrinterDriverName;	// プリンタードライバー名
+	SFilePath	m_szPrinterDeviceName;	// プリンターデバイス名
+	SFilePath	m_szPrinterOutputName;	// プリンターポート名
 	DWORD	dmFields;
 	short	dmOrientation;
 	short	dmPaperSize;
@@ -33,9 +33,9 @@ struct	MYDEVMODE {
 	bool operator == (const MYDEVMODE& rhs) const noexcept {
 		if (this == &rhs) return true;
 		return m_bPrinterNotFound == rhs.m_bPrinterNotFound
-			&& 0 == wcsncmp(m_szPrinterDriverName, rhs.m_szPrinterDriverName, int(std::size(m_szPrinterDriverName)))
-			&& 0 == wcsncmp(m_szPrinterDeviceName, rhs.m_szPrinterDeviceName, int(std::size(m_szPrinterDeviceName)))
-			&& 0 == wcsncmp(m_szPrinterOutputName, rhs.m_szPrinterOutputName, int(std::size(m_szPrinterOutputName)))
+			&& 0 == wcsncmp(m_szPrinterDriverName.c_str(), rhs.m_szPrinterDriverName.c_str(), m_szPrinterDriverName.size())
+			&& 0 == wcsncmp(m_szPrinterDeviceName.c_str(), rhs.m_szPrinterDeviceName.c_str(), m_szPrinterDeviceName.size())
+			&& 0 == wcsncmp(m_szPrinterOutputName.c_str(), rhs.m_szPrinterOutputName.c_str(), m_szPrinterOutputName.size())
 			&& dmFields == rhs.dmFields
 			&& dmOrientation == rhs.dmOrientation
 			&& dmPaperSize == rhs.dmPaperSize

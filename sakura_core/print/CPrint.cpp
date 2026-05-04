@@ -136,23 +136,11 @@ BOOL CPrint::PrintDlg( PRINTDLG *pPD, MYDEVMODE *pMYDEVMODE )
 	pDEVNAMES = (DEVNAMES*)::GlobalLock( m_hDevNames );
 
 	// プリンタードライバー名
-	wcscpy_s(
-		pMYDEVMODE->m_szPrinterDriverName,
-		int(std::size(pMYDEVMODE->m_szPrinterDriverName)),
-		(const WCHAR*)pDEVNAMES + pDEVNAMES->wDriverOffset
-	);
+	pMYDEVMODE->m_szPrinterDriverName = (const WCHAR*)pDEVNAMES + pDEVNAMES->wDriverOffset;
 	// プリンターデバイス名
-	wcscpy_s(
-		pMYDEVMODE->m_szPrinterDeviceName,
-		int(std::size(pMYDEVMODE->m_szPrinterDeviceName)),
-		(const WCHAR*)pDEVNAMES + pDEVNAMES->wDeviceOffset
-	);
+	pMYDEVMODE->m_szPrinterDeviceName = (const WCHAR*)pDEVNAMES + pDEVNAMES->wDeviceOffset;
 	// プリンターポート名
-	wcscpy_s(
-		pMYDEVMODE->m_szPrinterOutputName,
-		int(std::size(pMYDEVMODE->m_szPrinterOutputName)),
-		(const WCHAR*)pDEVNAMES + pDEVNAMES->wOutputOffset
-	);
+	pMYDEVMODE->m_szPrinterOutputName = (const WCHAR*)pDEVNAMES + pDEVNAMES->wOutputOffset;
 
 	// プリンターから得られた、dmFieldsは変更しない
 	// プリンターがサポートしないbitをセットすると、プリンタードライバーによっては、不安定な動きをする場合がある
@@ -217,23 +205,11 @@ BOOL CPrint::GetDefaultPrinter( MYDEVMODE* pMYDEVMODE )
 	pDEVNAMES = (DEVNAMES*)::GlobalLock( m_hDevNames );
 
 	// プリンタードライバー名
-	wcscpy_s(
-		pMYDEVMODE->m_szPrinterDriverName,
-		int(std::size(pMYDEVMODE->m_szPrinterDriverName)),
-		(const WCHAR*)pDEVNAMES + pDEVNAMES->wDriverOffset
-	);
+	pMYDEVMODE->m_szPrinterDriverName = (const WCHAR*)pDEVNAMES + pDEVNAMES->wDriverOffset;
 	// プリンターデバイス名
-	wcscpy_s(
-		pMYDEVMODE->m_szPrinterDeviceName,
-		int(std::size(pMYDEVMODE->m_szPrinterDeviceName)),
-		(const WCHAR*)pDEVNAMES + pDEVNAMES->wDeviceOffset
-	);
+	pMYDEVMODE->m_szPrinterDeviceName = (const WCHAR*)pDEVNAMES + pDEVNAMES->wDeviceOffset;
 	// プリンターポート名
-	wcscpy_s(
-		pMYDEVMODE->m_szPrinterOutputName,
-		int(std::size(pMYDEVMODE->m_szPrinterOutputName)),
-		(const WCHAR*)pDEVNAMES + pDEVNAMES->wOutputOffset
-	);
+	pMYDEVMODE->m_szPrinterOutputName = (const WCHAR*)pDEVNAMES + pDEVNAMES->wOutputOffset;
 
 	// プリンターから得られた、dmFieldsは変更しない
 	// プリンターがサポートしないbitをセットすると、プリンタードライバーによっては、不安定な動きをする場合がある
