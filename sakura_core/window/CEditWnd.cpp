@@ -3516,11 +3516,10 @@ BOOL CEditWnd::OnPrintPageSetting( )
 		if( GetDocument()->m_cDocType.GetDocumentAttribute().m_nCurrentPrintSetting != nCurrentPrintSetting )
 		{
 			/* 変更フラグ(タイプ別設定) */
-			STypeConfig* type = new STypeConfig();
+			auto type = std::make_unique<STypeConfig>();
 			CDocTypeManager().GetTypeConfig( GetDocument()->m_cDocType.GetDocumentType(), *type );
 			type->m_nCurrentPrintSetting = nCurrentPrintSetting;
 			CDocTypeManager().SetTypeConfig( GetDocument()->m_cDocType.GetDocumentType(), *type );
-			delete type;
 			GetDocument()->m_cDocType.GetDocumentAttributeWrite().m_nCurrentPrintSetting = nCurrentPrintSetting; // 今の設定にも反映
 			CAppNodeGroupHandle(0).SendMessageToAllEditors(
 				MYWM_CHANGESETTING,
