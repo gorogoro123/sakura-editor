@@ -180,8 +180,8 @@ public:
 	CColorStrategy*	GetStrategyByColor(EColorIndexType eColor) const;
 
 	//特定取得
-	CColor_Found*   GetFoundStrategy()  const noexcept { return m_pcFoundStrategy; }
-	CColor_Select*  GetSelectStrategy() const noexcept { return m_pcSelectStrategy; }
+	CColor_Found*   GetFoundStrategy()  const noexcept { return m_pcFoundStrategy.get(); }
+	CColor_Select*  GetSelectStrategy() const noexcept { return m_pcSelectStrategy.get(); }
 
 	//イベント
 	void NotifyOnStartScanLogic();
@@ -205,10 +205,10 @@ public:
 	bool HasRangeBasedColorStrategies() const noexcept;
 
 private:
-	std::vector<CColorStrategy*>	m_vStrategies;
+	std::vector<std::unique_ptr<CColorStrategy>>	m_vStrategies;
 	std::vector<CColorStrategy*>	m_vStrategiesDisp;	//!< 色分け表示対象
-	CColor_Found*					m_pcFoundStrategy = nullptr;
-	CColor_Select*					m_pcSelectStrategy = nullptr;
+	std::unique_ptr<CColor_Found>	m_pcFoundStrategy;
+	std::unique_ptr<CColor_Select>	m_pcSelectStrategy;
 
 	// 範囲を持つ色分け
 	// 追加/削除した時はHasRangeBasedColorStrategiesをメンテして下さい
