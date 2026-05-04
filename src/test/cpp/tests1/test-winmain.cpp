@@ -562,13 +562,13 @@ TEST_P(WinMainTest, runEditorProcess)
 		L"SetFontSize(100, 0, 2);"sv,	// 直接指定 - 対象：一時適用
 		L"SetFontSize(100, 0, 3);"sv,	// 直接指定 - 対象が不正
 		L"SetFontSize(0, 0, 0);"sv,		// 直接指定 - フォントサイズ下限未満
-		L"SetFontSize(9999, 0, 0);"sv,	// 直接指定 - フォントサイズ上限超過
+		L"SetFontSize(720, 0, 0);"sv,	// 直接指定 - フォントサイズ上限超過
 		L"SetFontSize(0, 0, 2);"sv,		// 相対指定 - サイズ変化なし
 		L"SetFontSize(0, 1, 2);"sv,		// 相対指定 - 拡大
 		L"SetFontSize(0, -1, 2);"sv,	// 相対指定 - 縮小
-		L"SetFontSize(0, 9999, 2);"sv,	// 相対指定 - 限界まで拡大
+		L"SetFontSize(0, 720, 2);"sv,	// 相対指定 - 限界まで拡大
 		L"SetFontSize(0, 1, 2);"sv,		// 相対指定 - これ以上拡大できない
-		L"SetFontSize(0, -9999, 2);"sv,	// 相対指定 - 限界まで縮小
+		L"SetFontSize(0, -720, 2);"sv,	// 相対指定 - 限界まで縮小
 		L"SetFontSize(0, -1, 2);"sv,	// 相対指定 - これ以上縮小できない
 		L"SetFontSize(100, 0, 2);"sv,	// 元に戻す
 		// フォントサイズ設定のテスト(ここまで)
