@@ -319,7 +319,7 @@ void CViewCommander::Command_SETFONTSIZE( int fontSize, int shift, int mode )
 		GetDllShareData().m_Common.m_sView.m_nPointSize = nPointSize;
 	}else if( mode == 1 ){
 		CTypeConfig nDocType = GetDocument()->m_cDocType.GetDocumentType();
-		STypeConfig* type = new STypeConfig();
+		auto type = std::make_unique<STypeConfig>();
 		if( !CDocTypeManager().GetTypeConfig( nDocType, *type ) ){
 			// 謎のエラー
 			return;
@@ -329,7 +329,6 @@ void CViewCommander::Command_SETFONTSIZE( int fontSize, int shift, int mode )
 		type->m_lf.lfHeight = lfHeight;
 		type->m_nPointSize = nPointSize;
 		CDocTypeManager().SetTypeConfig( nDocType, *type );
-		delete type;
 		nTypeIndex = nDocType.GetIndex();
 	}else if( mode == 2 ){
 		GetDocument()->m_blfCurTemp = true;
