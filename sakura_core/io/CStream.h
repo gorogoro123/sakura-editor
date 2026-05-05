@@ -66,7 +66,7 @@ public:
 	bool IsExceptionMode() const{ return m_bExceptionMode; }
 private:
 	FILE*			m_fp = nullptr;
-	CFileAttribute*	m_pcFileAttribute = nullptr;
+	std::unique_ptr<CFileAttribute>	m_pcFileAttribute;
 	bool			m_bExceptionMode;
 };
 
