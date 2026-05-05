@@ -157,8 +157,8 @@ BOOL CEditView::Create(
 	/* 共有データ構造体のアドレスを返す */
 	m_bCommandRunning = FALSE;	/* コマンドの実行中 */
 	m_bDoing_UndoRedo = false;	/* アンドゥ・リドゥの実行中か */
-	m_pcsbwVSplitBox = nullptr;	/* 垂直分割ボックス */
-	m_pcsbwHSplitBox = nullptr;	/* 水平分割ボックス */
+	m_pcsbwVSplitBox.reset();	/* 垂直分割ボックス */
+	m_pcsbwHSplitBox.reset();	/* 水平分割ボックス */
 	m_hwndVScrollBar = nullptr;
 	m_nVScrollRate = 1;			/* 垂直スクロールバーの縮尺 */
 	m_hwndHScrollBar = nullptr;
@@ -297,10 +297,10 @@ BOOL CEditView::Create(
 	UseCompatibleDC( GetDllShareData().m_Common.m_sWindow.m_bUseCompatibleBMP );
 
 	/* 垂直分割ボックス */
-	m_pcsbwVSplitBox = new CSplitBoxWnd;
+	m_pcsbwVSplitBox = std::make_unique<CSplitBoxWnd>();
 	m_pcsbwVSplitBox->Create( G_AppInstance(), GetHwnd(), TRUE );
 	/* 水平分割ボックス */
-	m_pcsbwHSplitBox = new CSplitBoxWnd;
+	m_pcsbwHSplitBox = std::make_unique<CSplitBoxWnd>();
 	m_pcsbwHSplitBox->Create( G_AppInstance(), GetHwnd(), FALSE );
 
 	/* スクロールバー作成 */
@@ -741,8 +741,6 @@ LRESULT CEditView::DispatchEvent(
 		m_hwndSizeBox = nullptr;
 		::DestroyWindow( m_hwndSizeBoxPlaceholder );
 		m_hwndSizeBoxPlaceholder = nullptr;
-		SAFE_DELETE(m_pcsbwVSplitBox);	/* 垂直分割ボックス */
-		SAFE_DELETE(m_pcsbwHSplitBox);	/* 水平分割ボックス */
 
 		m_hWnd = nullptr;
 		return 0L;
@@ -1711,21 +1709,21 @@ void CEditView::SplitBoxOnOff( BOOL bVert, BOOL bHorz, BOOL bSizeBox )
 	RECT	rc;
 	if( bVert ){
 		if( m_pcsbwVSplitBox == nullptr ){	/* 垂直分割ボックス */
-			m_pcsbwVSplitBox = new CSplitBoxWnd;
+			m_pcsbwVSplitBox = std::make_unique<CSplitBoxWnd>();
 			m_pcsbwVSplitBox->Create( G_AppInstance(), GetHwnd(), TRUE );
 		}
 	}
 	else{
-		SAFE_DELETE(m_pcsbwVSplitBox);	/* 垂直分割ボックス */
+		m_pcsbwVSplitBox.reset();	/* 垂直分割ボックス */
 	}
 	if( bHorz ){
 		if( m_pcsbwHSplitBox == nullptr ){	/* 水平分割ボックス */
-			m_pcsbwHSplitBox = new CSplitBoxWnd;
+			m_pcsbwHSplitBox = std::make_unique<CSplitBoxWnd>();
 			m_pcsbwHSplitBox->Create( G_AppInstance(), GetHwnd(), FALSE );
 		}
 	}
 	else{
-		SAFE_DELETE(m_pcsbwHSplitBox);	/* 水平分割ボックス */
+		m_pcsbwHSplitBox.reset();	/* 水平分割ボックス */
 	}
 
 	if( bSizeBox ){
