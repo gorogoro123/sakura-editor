@@ -128,7 +128,7 @@ private:
 	std::wstring m_szFileName;	//!< 編集中のファイル名
 	std::wstring m_szKeyword;	//!< キーワード(DoModalのlParam!=0を指定した場合に指定できる)
 	int		m_nLoop = -1;		//!< さかのぼれる階層数
-	CSortedTagJumpList*	m_pcList = nullptr;	//!< タグジャンプ情報
+	std::unique_ptr<CSortedTagJumpList>	m_pcList;	//!< タグジャンプ情報
 	UINT_PTR	m_nTimerId = 0;		//!< タイマ番号
 	BOOL	m_bTagJumpICase = FALSE;	//!< 大文字小文字を同一視
 	BOOL	m_bTagJumpPartialMatch = FALSE;	//!< 文字列の途中にマッチ
@@ -138,8 +138,8 @@ private:
 	bool	m_bNextItem = false;	//!< まだ次にヒットするものがある
 
 	// 絞り込み検索用
-	STagFindState* m_psFindPrev = nullptr; //!< 前回の最後に検索した状態
-	STagFindState* m_psFind0Match = nullptr; //!< 前回の1つもHitしなかった最後のtags
+	std::unique_ptr<STagFindState> m_psFindPrev; //!< 前回の最後に検索した状態
+	std::unique_ptr<STagFindState> m_psFind0Match; //!< 前回の1つもHitしなかった最後のtags
 
 	CNativeW	m_strOldKeyword = { L"" };	//!< 前回のキーワード
 	BOOL	m_bOldTagJumpICase;	//!< 前回の大文字小文字を同一視
