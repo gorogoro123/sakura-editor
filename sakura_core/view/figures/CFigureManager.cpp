@@ -16,13 +16,13 @@
 
 CFigureManager::CFigureManager()
 {
-	m_vFigures.push_back(new CFigure_Tab());
-	m_vFigures.push_back(new CFigure_Comma());
-	m_vFigures.push_back(new CFigure_HanSpace());
-	m_vFigures.push_back(new CFigure_ZenSpace());
-	m_vFigures.push_back(new CFigure_Eol());
-	m_vFigures.push_back(new CFigure_CtrlCode());
-	m_vFigures.push_back(new CFigure_Text());
+	m_vFigures.emplace_back(std::make_unique<CFigure_Tab>());
+	m_vFigures.emplace_back(std::make_unique<CFigure_Comma>());
+	m_vFigures.emplace_back(std::make_unique<CFigure_HanSpace>());
+	m_vFigures.emplace_back(std::make_unique<CFigure_ZenSpace>());
+	m_vFigures.emplace_back(std::make_unique<CFigure_Eol>());
+	m_vFigures.emplace_back(std::make_unique<CFigure_CtrlCode>());
+	m_vFigures.emplace_back(std::make_unique<CFigure_Text>());
 
 	OnChangeSetting();
 }
@@ -30,12 +30,6 @@ CFigureManager::CFigureManager()
 CFigureManager::~CFigureManager()
 {
 	m_vFiguresDisp.clear();
-
-	int size = (int)m_vFigures.size();
-	for(int i = 0; i < size; i++){
-		SAFE_DELETE(m_vFigures[i]);
-	}
-	m_vFigures.clear();
 }
 
 //$$ 高速化可能
@@ -65,7 +59,7 @@ void CFigureManager::OnChangeSetting()
 		m_vFigures[i]->Update();
 		// 色分け表示対象のみを登録
 		if( m_vFigures[i]->Disp() ){
-			m_vFiguresDisp.push_back(m_vFigures[i]);
+			m_vFiguresDisp.push_back(m_vFigures[i].get());
 		}
 	}
 }
