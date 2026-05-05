@@ -13,14 +13,9 @@
 //               コンストラクタ・デストラクタ                  //
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 
-CVisualProgress::CVisualProgress()
-{
-}
+CVisualProgress::CVisualProgress() = default;
 
-CVisualProgress::~CVisualProgress()
-{
-	SAFE_DELETE(m_pcWaitCursor);
-}
+CVisualProgress::~CVisualProgress() = default;
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                        ロード前後                           //
@@ -67,7 +62,7 @@ void CVisualProgress::_Begin()
 {
 	//砂時計
 	if(!m_pcWaitCursor){
-		m_pcWaitCursor = new CWaitCursor( CEditWnd::getInstance()->GetHwnd() );
+		m_pcWaitCursor = std::make_unique<CWaitCursor>( CEditWnd::getInstance()->GetHwnd() );
 	}
 
 	//プログレスバー
@@ -101,7 +96,6 @@ void CVisualProgress::_End()
 		ApiWrap::Progress_SetPos( hwndProgress, 0);
 		CEditWnd::getInstance()->m_cStatusBar.ShowProgressBar(false);
 	}
-
 	//砂時計
-	SAFE_DELETE(m_pcWaitCursor);
+	m_pcWaitCursor.reset();
 }
