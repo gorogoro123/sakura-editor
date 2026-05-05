@@ -26,6 +26,6 @@ public:
 	void OnChangeSetting();
 
 private:
-	std::vector<CFigure*>	m_vFigures;
+	std::vector<std::unique_ptr<CFigure>>	m_vFigures;
 	std::vector<CFigure*>	m_vFiguresDisp;	//!< 色分け表示対象
 };
