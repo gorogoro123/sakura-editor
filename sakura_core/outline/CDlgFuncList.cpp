@@ -2013,12 +2013,11 @@ BOOL CDlgFuncList::OnNotify(NMHDR* pNMHDR)
 			}
 			m_nSortColOld = m_nSortCol;
 			{
-				STypeConfig* type = new STypeConfig();
+				auto type = std::make_unique<STypeConfig>();
 				CDocTypeManager().GetTypeConfig( CTypeConfig(m_nDocType), *type );
 				type->m_nOutlineSortCol = m_nSortCol;
 				type->m_bOutlineSortDesc = m_bSortDesc;
 				SetTypeConfig( CTypeConfig(m_nDocType), *type );
-				delete type;
 			}
 			//	Apr. 23, 2005 genta 関数として独立させた
 			SortListView( hwndList, m_nSortCol );
@@ -2324,11 +2323,10 @@ BOOL CDlgFuncList::OnCbnSelEndOk( HWND hwndCtl, int wID )
 		if( m_nSortType != nSelect )
 		{
 			m_nSortType = nSelect;
-			STypeConfig* type = new STypeConfig();
+			auto type = std::make_unique<STypeConfig>();
 			CDocTypeManager().GetTypeConfig( CTypeConfig(m_nDocType), *type );
 			type->m_nOutlineSortType = m_nSortType;
 			SetTypeConfig( CTypeConfig(m_nDocType), *type );
-			delete type;
 			HWND hWndTree = GetItemHwnd(IDC_TREE_FL);
 			::SendMessage(hWndTree, WM_SETREDRAW, (WPARAM)FALSE, 0);
 			SortTree(hWndTree,TVI_ROOT);
@@ -3325,7 +3323,7 @@ void CDlgFuncList::DoMenu( POINT pt, HWND hwndFrom )
 						break;
 				}
 			}
-			STypeConfig* type = new STypeConfig();
+			auto type = std::make_unique<STypeConfig>();
 			for( int i = 0; i < GetDllShareData().m_nTypesCount; i++ ){
 				CDocTypeManager().GetTypeConfig( CTypeConfig(i), *type );
 				type->m_bOutlineDockDisp = CommonSet().m_bOutlineDockDisp;
@@ -3336,7 +3334,6 @@ void CDlgFuncList::DoMenu( POINT pt, HWND hwndFrom )
 				type->m_cyOutlineDockBottom = CommonSet().m_cyOutlineDockBottom;
 				CDocTypeManager().SetTypeConfig( CTypeConfig(i), *type );
 			}
-			delete type;
 			ChangeLayout( OUTLINE_LAYOUT_FOREGROUND );	// 自分自身への強制変更
 			PostOutlineNotifyToAllEditors( (WPARAM)0, (LPARAM)hwndEdit );	// 他ウィンドウにドッキング配置変更を通知する
 		}
