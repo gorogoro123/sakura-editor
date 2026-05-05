@@ -77,7 +77,7 @@ void CStream::Open(const WCHAR* pszPath, const WCHAR* pszMode)
 	Close(); //既に開いていたら、一度閉じる
 
 	//属性変更：隠しorシステムファイルはCの関数で読み書きできないので属性を変更する
-	m_pcFileAttribute = new CFileAttribute(pszPath);
+	m_pcFileAttribute = std::make_unique<CFileAttribute>(pszPath);
 	m_pcFileAttribute->PopAttribute(FILE_ATTRIBUTE_HIDDEN | FILE_ATTRIBUTE_SYSTEM);
 
 	//オープン
@@ -103,7 +103,7 @@ void CStream::Close()
 	//属性復元
 	if(m_pcFileAttribute){
 		m_pcFileAttribute->RestoreAttribute();
-		SAFE_DELETE(m_pcFileAttribute);
+		m_pcFileAttribute.reset();
 	}
 }
 
