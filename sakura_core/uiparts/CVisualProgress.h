@@ -34,7 +34,7 @@ protected:
 	void _Doing(int nPer);
 	void _End();
 private:
-	CWaitCursor* m_pcWaitCursor = nullptr;
+	std::unique_ptr<CWaitCursor> m_pcWaitCursor;
 	int	nOldValue = -1;
 
 	DISALLOW_COPY_AND_ASSIGN(CVisualProgress);
