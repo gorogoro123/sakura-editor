@@ -32,5 +32,5 @@ private:
 	bool			m_bViewMode = false;		//!< ビューモード
 	bool			m_bDebugMode = false;		//!< デバッグモニタモード
 public:
-	wchar_t			m_szGrepKey[1024] = {};		//!< Grepモードの場合、その検索キー
+	StaticString<1024>	m_szGrepKey;			//!< Grepモードの場合、その検索キー
 };
