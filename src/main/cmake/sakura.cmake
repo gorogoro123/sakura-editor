@@ -384,6 +384,8 @@ if(MINGW)
   add_compile_options(
     $<$<CONFIG:Debug>:-g>
     $<$<CONFIG:Debug>:-O0>
+    $<$<CONFIG:Release>:-g>
+    $<$<CONFIG:Release>:-fno-omit-frame-pointer>
     $<$<CONFIG:Release>:-O1>
     -MMD
     -finput-charset=utf-8
