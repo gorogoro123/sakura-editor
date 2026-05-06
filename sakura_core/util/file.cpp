@@ -219,7 +219,7 @@ const WCHAR* GetFileTitlePointer(const WCHAR* pszPath)
 FILE* _wfopen_absexe(LPCWSTR fname, LPCWSTR mode)
 {
 	if( _IS_REL_PATH( fname ) ){
-		WCHAR path[_MAX_PATH];
+		SFilePath path;
 		GetExedir( path, fname );
 		return _wfopen( path, mode );
 	}
