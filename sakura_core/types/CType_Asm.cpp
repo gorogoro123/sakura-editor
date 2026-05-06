@@ -71,7 +71,7 @@ void CDocOutline::MakeTopicList_asm( CFuncInfoArr* pcFuncInfoArr )
 		//トークンに分割
 		for( j = 0; j < MAX_ASM_TOKEN; j++ ) token[ j ] = nullptr;
 		for( j = 0; j < MAX_ASM_TOKEN; j++ ){
-			token[ j ] = my_strtok<WCHAR>( pTmpLine, length, &offset, L" \t\r\n" );
+			token[ j ] = my_strtok( pTmpLine, length, &offset, L" \t\r\n" );
 			if( token[ j ] == nullptr ) break;
 			//トークンに含まれるべき文字でないか？
 			if( wcschr( token[ j ], L'\"') != nullptr

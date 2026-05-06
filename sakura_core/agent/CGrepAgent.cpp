@@ -209,7 +209,7 @@ void CGrepAgent::CreateFolders( const WCHAR* pszPath, std::vector<std::wstring>&
 
 	WCHAR* token;
 	int nPathPos = 0;
-	while( nullptr != (token = my_strtok<WCHAR>( strPath.data(), nPathLen, &nPathPos, L";")) ){
+	while( nullptr != (token = my_strtok( strPath.data(), nPathLen, &nPathPos, L";")) ){
 		std::wstring strTemp( token );
 		// パスに含まれる '"' を削除する
 		strTemp.erase( std::remove( strTemp.begin(), strTemp.end(), L'"' ), strTemp.end() );
