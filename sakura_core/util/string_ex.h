@@ -80,12 +80,11 @@ inline char* strichr_j( char* s1, char c         ){ return const_cast<char*>(str
 inline char* strstr_j ( char* s1, const char* s2 ){ return const_cast<char*>(strstr_j ((const char*)s1, s2)); }
 inline char* stristr_j( char* s1, const char* s2 ){ return const_cast<char*>(stristr_j((const char*)s1, s2)); }
 
-template <class CHAR_TYPE>
-CHAR_TYPE* my_strtok(
-	CHAR_TYPE*			pBuffer,	//[in] 文字列バッファ(終端があること)
-	int					nLen,		//[in] 文字列の長さ
-	int*				pnOffset,	//[in,out] オフセット
-	const CHAR_TYPE*	pDelimiter	//[in] 区切り文字
+WCHAR* my_strtok(
+	WCHAR*			pBuffer,	//[in] 文字列バッファ(終端があること)
+	int				nLen,		//[in] 文字列の長さ
+	int*			pnOffset,	//[in,out] オフセット
+	const WCHAR*	pDelimiter	//[in] 区切り文字
 );
 
 // ▽ シグニチャおよび動作仕様は変わらないけど、

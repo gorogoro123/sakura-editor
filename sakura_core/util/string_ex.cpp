@@ -638,22 +638,15 @@ int wmemicmp_ascii(const WCHAR* p1,const WCHAR* p2,size_t count)
 	@date 2004.02.15 みく   最適化
 	@date 2007.10.21 kobake テンプレート化
 */
-//$ いちいち手間かかる。。
-namespace{
-	template <class T> struct Charset{};
-	template <> struct Charset<ACHAR>{ static const ACHAR QUOT= '"'; };
-	template <> struct Charset<WCHAR>{ static const WCHAR QUOT=L'"'; };
-}
-template <class CHAR_TYPE>
-CHAR_TYPE* my_strtok(
-	CHAR_TYPE*			pBuffer,	//[in] 文字列バッファ(終端があること)
-	int					nLen,		//[in] 文字列の長さ
-	int*				pnOffset,	//[in,out] オフセット
-	const CHAR_TYPE*	pDelimiter	//[in] 区切り文字
+WCHAR* my_strtok(
+	WCHAR*			pBuffer,	//[in] 文字列バッファ(終端があること)
+	int				nLen,		//[in] 文字列の長さ
+	int*			pnOffset,	//[in,out] オフセット
+	const WCHAR*	pDelimiter	//[in] 区切り文字
 )
 {
 	int i = *pnOffset;
-	CHAR_TYPE* p;
+	WCHAR* p;
 
 	do {
 		bool bFlag = false;	//ダブルコーテーションの中か？
@@ -661,7 +654,7 @@ CHAR_TYPE* my_strtok(
 		p = &pBuffer[i];
 		for( ; i < nLen; i++ )
 		{
-			if( pBuffer[i] == Charset<CHAR_TYPE>::QUOT ) bFlag = ! bFlag;
+			if( pBuffer[i] == L'"' ) bFlag = ! bFlag;
 			if( ! bFlag )
 			{
 				if( auto_strchr( pDelimiter, pBuffer[i] ) )
@@ -675,8 +668,6 @@ CHAR_TYPE* my_strtok(
 	} while( ! *p );	//空のトークンなら次を探す
 	return p;
 }
-//インスタンス化
-template WCHAR* my_strtok(WCHAR*,int,int*,const WCHAR*);
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                         実装補助                            //

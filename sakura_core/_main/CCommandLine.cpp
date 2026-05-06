@@ -250,7 +250,7 @@ void CCommandLine::ParseCommandLine( LPCWSTR pszCmdLineSrc, bool bResponse )
 	LPWSTR pszCmdLineWork = new WCHAR[lstrlen( pszCmdLineSrc ) + 1];
 	wcscpy( pszCmdLineWork, pszCmdLineSrc );
 	int nCmdLineWorkLen = lstrlen( pszCmdLineWork );
-	LPWSTR pszToken = my_strtok<WCHAR>( pszCmdLineWork, nCmdLineWorkLen, &nPos, L" " );
+	LPWSTR pszToken = my_strtok( pszCmdLineWork, nCmdLineWorkLen, &nPos, L" " );
 	while( pszToken != nullptr )
 	{
 		DEBUG_TRACE( L"OPT=[%s]\n", pszToken );
@@ -496,7 +496,7 @@ void CCommandLine::ParseCommandLine( LPCWSTR pszCmdLineSrc, bool bResponse )
 				break;
 			}
 		}
-		pszToken = my_strtok<WCHAR>( pszCmdLineWork, nCmdLineWorkLen, &nPos, L" " );
+		pszToken = my_strtok( pszCmdLineWork, nCmdLineWorkLen, &nPos, L" " );
 	}
 	delete [] pszCmdLineWork;
 
