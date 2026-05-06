@@ -112,6 +112,7 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+#include <cerrno>
 
 // Windowsヘッダー(他のSDKヘッダーとは別格。)
 #include <Windows.h>

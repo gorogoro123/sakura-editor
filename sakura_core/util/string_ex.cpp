@@ -5,18 +5,9 @@
 	SPDX-License-Identifier: Zlib
 */
 #include "string_ex.h"
-
-#include <cerrno>
-#include <cstdarg>
-#include <array>
-#include <memory>
-#include <stdexcept>
-
 #include "charset/charcode.h"
 #include "charset/codechecker.h"
 #include "util/std_macro.h"
-#include <climits>
-#include <clocale>
 
 int __cdecl my_internal_icmp( const char *s1, const char *s2, unsigned int n, unsigned int dcount, bool flag );
 
@@ -685,7 +676,6 @@ CHAR_TYPE* my_strtok(
 	return p;
 }
 //インスタンス化
-template ACHAR* my_strtok(ACHAR*,int,int*,const ACHAR*);
 template WCHAR* my_strtok(WCHAR*,int,int*,const WCHAR*);
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
