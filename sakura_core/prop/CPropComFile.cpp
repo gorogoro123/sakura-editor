@@ -398,12 +398,7 @@ int CPropFile::GetData( HWND hwndDlg )
 	m_Common.m_sFile.m_bDropFileAndClose = ::IsDlgButtonCheckedBool( hwndDlg, IDC_CHECK_bDropFileAndClose );
 	/* 一度にドロップ可能なファイル数 */
 	m_Common.m_sFile.m_nDropFileNumMax = ::GetDlgItemInt( hwndDlg, IDC_EDIT_nDropFileNumMax, nullptr, FALSE );
-	if( 1 > m_Common.m_sFile.m_nDropFileNumMax ){
-		m_Common.m_sFile.m_nDropFileNumMax = 1;
-	}
-	if( 99 < m_Common.m_sFile.m_nDropFileNumMax ){	//Sept. 21, 2000, JEPRO 16より大きいときに99と制限されていたのを修正(16→99と変更)
-		m_Common.m_sFile.m_nDropFileNumMax = 99;
-	}
+	m_Common.m_sFile.m_nDropFileNumMax = std::clamp(m_Common.m_sFile.m_nDropFileNumMax, 1, 99);
 
 	//	From Here Aug. 16, 2000 genta
 	//	自動保存を行うかどうか
@@ -423,8 +418,7 @@ int CPropFile::GetData( HWND hwndDlg )
 		else
 			break;
 	}
-	nN = nN < 1  ?  1 : nN;
-	nN = nN > 35791 ? 35791 : nN;
+	nN = std::clamp(nN, 1, 35791);
 	m_Common.m_sBackup.SetAutoBackupInterval( nN );
 
 	//	To Here Aug. 16, 2000 genta
@@ -442,12 +436,7 @@ int CPropFile::GetData( HWND hwndDlg )
 	// 開こうとしたファイルが大きい場合に警告する
 	m_Common.m_sFile.m_bAlertIfLargeFile = ::IsDlgButtonCheckedBool( hwndDlg, IDC_CHECK_ALERT_IF_LARGEFILE );
 	m_Common.m_sFile.m_nAlertFileSize = ::GetDlgItemInt( hwndDlg, IDC_EDIT_ALERT_FILESIZE, nullptr, FALSE );
-	if( m_Common.m_sFile.m_nAlertFileSize < 1 ){
-		m_Common.m_sFile.m_nAlertFileSize = 1;
-	}
-	if( m_Common.m_sFile.m_nAlertFileSize > 2048 ){
-		m_Common.m_sFile.m_nAlertFileSize = 2048;
-	}
+	m_Common.m_sFile.m_nAlertFileSize = std::clamp(m_Common.m_sFile.m_nAlertFileSize, 1, 2048);
 
 	// ファイル保存ダイアログのフィルタ設定	// 2006.11.16 ryoji
 	m_Common.m_sFile.m_bNoFilterSaveNew = ::IsDlgButtonCheckedBool( hwndDlg, IDC_CHECK_NoFilterSaveNew );	// 新規から保存時は全ファイル表示
