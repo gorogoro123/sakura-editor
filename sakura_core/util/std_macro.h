@@ -47,9 +47,6 @@ T t_unit(T t)
 		0;
 }
 
-#define sizeof_raw(V)  sizeof(V)
-#define sizeof_type(V) sizeof(V)
-
 /*
 	2007.10.19 kobake
 

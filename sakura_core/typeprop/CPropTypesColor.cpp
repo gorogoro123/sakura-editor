@@ -1207,7 +1207,7 @@ void CPropTypesColor::DrawColorListItem( DRAWITEMSTRUCT* pDis )
 BOOL CPropTypesColor::SelectColor( HWND hwndParent, COLORREF* pColor, DWORD* pCustColors )
 {
 	CHOOSECOLOR		cc;
-	cc.lStructSize = sizeof_raw( cc );
+	cc.lStructSize = sizeof( cc );
 	cc.hwndOwner = hwndParent;
 	cc.hInstance = nullptr;
 	cc.rgbResult = *pColor;

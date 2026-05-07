@@ -315,14 +315,14 @@ void CPropFileName::SetData( HWND hwndDlg )
 	for( i = 0, nIndex = 0; i < m_Common.m_sFileName.m_nTransformFileNameArrNum; i++ ){
 		if( '\0' == m_Common.m_sFileName.m_szTransformFileNameFrom[i][0] ) continue;
 
-		::ZeroMemory( &lvItem, sizeof_raw( lvItem ));
+		::ZeroMemory( &lvItem, sizeof( lvItem ));
 		lvItem.mask     = LVIF_TEXT;
 		lvItem.iItem    = nIndex;
 		lvItem.iSubItem = 0;
 		lvItem.pszText  = m_Common.m_sFileName.m_szTransformFileNameFrom[i];
 		ListView_InsertItem( hListView, &lvItem );
 
-		::ZeroMemory( &lvItem, sizeof_raw( lvItem ));
+		::ZeroMemory( &lvItem, sizeof( lvItem ));
 		lvItem.mask     = LVIF_TEXT;
 		lvItem.iItem    = nIndex;
 		lvItem.iSubItem = 1;
@@ -398,7 +398,7 @@ int CPropFileName::SetListViewItem_FILENAME( HWND hListView, int nIndex, LPWSTR 
 		return -1;
 	}
 
-	::ZeroMemory( &Item, sizeof_raw( Item ));
+	::ZeroMemory( &Item, sizeof( Item ));
 	Item.mask     = LVIF_TEXT;
 	Item.iItem    = nIndex;
 	Item.iSubItem = 0;
@@ -409,7 +409,7 @@ int CPropFileName::SetListViewItem_FILENAME( HWND hListView, int nIndex, LPWSTR 
 		ListView_SetItem( hListView, &Item );
 	}
 
-	::ZeroMemory( &Item, sizeof_raw( Item ));
+	::ZeroMemory( &Item, sizeof( Item ));
 	Item.mask     = LVIF_TEXT;
 	Item.iItem    = nIndex;
 	Item.iSubItem = 1;

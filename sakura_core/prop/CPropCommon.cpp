@@ -214,7 +214,7 @@ INT_PTR CPropCommon::DoPropertySheet( int nPageNum, bool bTrayProc )
 		sTabname[nIdx] = LS(ComPropSheetInfoList[nIdx].m_nTabNameId);
 
 		PROPSHEETPAGE *p = &psp[nIdx];
-		p->dwSize      = sizeof_raw( *p );
+		p->dwSize      = sizeof( *p );
 		p->dwFlags     = PSP_USETITLE | PSP_HASHELP;
 		p->hInstance   = CSelectLang::getLangRsrcInstance();
 		p->pszTemplate = MAKEINTRESOURCE( ComPropSheetInfoList[nIdx].resId );
