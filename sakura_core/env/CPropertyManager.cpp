@@ -10,7 +10,6 @@
 #include "env/DLLSHAREDATA.h"
 #include "env/CDocTypeManager.h"
 #include "apiwrap/StdApi.h"
-#include <memory>
 #include "config/system_constants.h"
 
 void CPropertyManager::Create( HWND hwndOwner, CImageListMgr* pImageList, CMenuDrawer* pMenuDrawer )
@@ -27,7 +26,7 @@ void CPropertyManager::Create( HWND hwndOwner, CImageListMgr* pImageList, CMenuD
 bool CPropertyManager::OpenPropertySheet( HWND hWnd, int nPageNum, bool bTrayProc )
 {
 	bool bRet;
-	CPropCommon* pcPropCommon = new CPropCommon();
+	auto pcPropCommon = std::make_unique<CPropCommon>();
 	pcPropCommon->Create( m_hwndOwner, m_pImageList, m_pMenuDrawer );
 
 	// 2002.12.11 Moca この部分で行われていたデータのコピーをCPropCommonに移動・関数化
@@ -79,8 +78,6 @@ bool CPropertyManager::OpenPropertySheet( HWND hWnd, int nPageNum, bool bTrayPro
 
 	// 最後にアクセスしたシートを覚えておく
 	m_nPropComPageNum = pcPropCommon->GetPageNum();
-
-	delete pcPropCommon;
 
 	return bRet;
 }
