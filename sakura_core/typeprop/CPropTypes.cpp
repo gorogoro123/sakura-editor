@@ -150,7 +150,7 @@ INT_PTR CPropTypes::DoPropertySheet( int nPageNum )
 		sTabname[nIdx] = LS(TypePropSheetInfoList[nIdx].m_nTabNameId);
 
 		PROPSHEETPAGE *p = &psp[nIdx];
-		p->dwSize      = sizeof_raw( *p );
+		p->dwSize      = sizeof( *p );
 		p->dwFlags     = PSP_USETITLE | PSP_HASHELP;
 		p->hInstance   = CSelectLang::getLangRsrcInstance();
 		p->pszTemplate = MAKEINTRESOURCE( TypePropSheetInfoList[nIdx].resId );

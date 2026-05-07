@@ -986,7 +986,7 @@ bool CImpExpKeybind::Import( const std::wstring& sFileName, std::wstring& sErrMs
 		}
 	}
 	m_Common.m_sKeyBind.m_nKeyNameArrNum = nKeyNameArrUsed;
-	memcpy( m_Common.m_sKeyBind.m_VKeyToKeyNameArr, sKeyBind.m_VKeyToKeyNameArr, sizeof_raw(sKeyBind.m_VKeyToKeyNameArr) );
+	memcpy( m_Common.m_sKeyBind.m_VKeyToKeyNameArr, sKeyBind.m_VKeyToKeyNameArr, sizeof(sKeyBind.m_VKeyToKeyNameArr) );
 
 	return true;
 }

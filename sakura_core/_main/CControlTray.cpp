@@ -339,7 +339,7 @@ BOOL CControlTray::TrayMessage( HWND hDlg, DWORD dwMessage, UINT uID, HICON hIco
 {
 	BOOL			res;
 	NOTIFYICONDATA	tnd;
-	tnd.cbSize				= sizeof_raw( tnd );
+	tnd.cbSize				= sizeof( tnd );
 	tnd.hWnd				= hDlg;
 	tnd.uID					= uID;
 	tnd.uFlags				= NIF_MESSAGE|NIF_ICON|NIF_TIP;
@@ -490,7 +490,7 @@ LRESULT CControlTray::DispatchEvent(
 			hwndHtmlHelp = HtmlHelpW(nullptr, pszHelpFile, HH_DISPLAY_TOPIC, (DWORD_PTR)0);
 
 			HH_AKLINK	link;
-			link.cbStruct		= sizeof_raw(link);
+			link.cbStruct		= sizeof(link);
 			link.fReserved		= FALSE;
 			link.pszKeywords	= pszKeywords;
 			link.pszUrl			= nullptr;
@@ -1221,7 +1221,7 @@ bool CControlTray::OpenNewEditor(
 	//	プロセスの起動
 	PROCESS_INFORMATION p;
 	STARTUPINFO s = {
-		.cb = sizeof_raw( s ),
+		.cb = sizeof( s ),
 		.lpReserved = nullptr,
 		.lpDesktop = nullptr,
 		.lpTitle = nullptr,
