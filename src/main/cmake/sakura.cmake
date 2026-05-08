@@ -385,8 +385,7 @@ if(MINGW)
     $<$<CONFIG:Debug>:-g>
     $<$<CONFIG:Debug>:-O0>
     $<$<CONFIG:Release>:-g>
-    $<$<CONFIG:Release>:-fno-omit-frame-pointer>
-    $<$<CONFIG:Release>:-O1>
+    $<$<CONFIG:Release>:-O0>
     -MMD
     -finput-charset=utf-8
     -fexec-charset=cp932
