@@ -131,7 +131,7 @@ bool CShareData_IO::ShareData_IO_2( bool bRead )
 	}
 //	MYTRACE( L"Iniファイル処理 0 所要時間(ミリ秒) = %d\n", cRunningTimer.Read() );
 
-	CMenuDrawer* pcMenuDrawer = new CMenuDrawer; // 2010/7/4 Uchi
+	auto pcMenuDrawer = std::make_unique<CMenuDrawer>(); // 2010/7/4 Uchi
 
 	if( bRead ){
 		DLLSHAREDATA* pShareData = &GetDllShareData();
@@ -148,8 +148,8 @@ bool CShareData_IO::ShareData_IO_2( bool bRead )
 	ShareData_IO_Cmd( cProfile );
 	ShareData_IO_Nickname( cProfile );
 	ShareData_IO_Common( cProfile );
-	ShareData_IO_Plugin( cProfile, pcMenuDrawer );		// Move here	2010/6/24 Uchi
-	ShareData_IO_Toolbar( cProfile, pcMenuDrawer );
+	ShareData_IO_Plugin( cProfile, pcMenuDrawer.get() );		// Move here	2010/6/24 Uchi
+	ShareData_IO_Toolbar( cProfile, pcMenuDrawer.get() );
 	ShareData_IO_CustMenu( cProfile );
 	ShareData_IO_Font( cProfile );
 	ShareData_IO_KeyBind( cProfile );
@@ -160,9 +160,6 @@ bool CShareData_IO::ShareData_IO_2( bool bRead )
 	ShareData_IO_Statusbar( cProfile );		// 2008/6/21 Uchi
 	ShareData_IO_MainMenu( cProfile );		// 2010/5/15 Uchi
 	ShareData_IO_Other( cProfile );
-
-	delete pcMenuDrawer;					// 2010/7/4 Uchi
-	pcMenuDrawer = nullptr;
 
 	if( !bRead ){
 		// 2014.12.08 sakura.iniの読み取り専用
