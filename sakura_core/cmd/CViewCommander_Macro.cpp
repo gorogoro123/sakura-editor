@@ -88,22 +88,21 @@ void CViewCommander::Command_SAVEKEYMACRO( )
 	}
 
 	CDlgOpenFile	cDlgOpenFile;
-	WCHAR			szPath[_MAX_PATH + 1];
-	WCHAR			szInitDir[_MAX_PATH + 1];
-	szPath[0] = L'\0';
+	SFilePath		szPath;
+	SFilePath		szInitDir;
 	// 2003.06.23 Moca 相対パスは実行ファイルからのパス
 	// 2007.05.19 ryoji 相対パスは設定ファイルからのパスを優先
 	if( _IS_REL_PATH( GetDllShareData().m_Common.m_sMacro.m_szMACROFOLDER ) ){
 		GetInidirOrExedir( szInitDir, GetDllShareData().m_Common.m_sMacro.m_szMACROFOLDER );
 	}else{
-		wcscpy( szInitDir, GetDllShareData().m_Common.m_sMacro.m_szMACROFOLDER );	/* マクロ用フォルダー */
+		szInitDir = GetDllShareData().m_Common.m_sMacro.m_szMACROFOLDER;	/* マクロ用フォルダー */
 	}
 	/* ファイルオープンダイアログの初期化 */
 	cDlgOpenFile.Create(
 		G_AppInstance(),
 		m_pCommanderView->GetHwnd(),
 		L"*.mac",
-		szInitDir
+		szInitDir.c_str()
 	);
 	if( !cDlgOpenFile.DoModal_GetSaveFileName( szPath ) ){
 		return;
@@ -117,7 +116,7 @@ void CViewCommander::Command_SAVEKEYMACRO( )
 	//@@@ 2002.2.2 YAZAKI マクロをCSMacroMgrに統一
 	//@@@ 2002.1.24 YAZAKI
 	if ( !m_pcSMacroMgr->Save( STAND_KEYMACRO, G_AppInstance(), szPath ) ){
-		ErrorMessage( m_pCommanderView->GetHwnd(), LS(STR_ERR_CEDITVIEW_CMD27), szPath );
+		ErrorMessage( m_pCommanderView->GetHwnd(), LS(STR_ERR_CEDITVIEW_CMD27), szPath.c_str() );
 	}
 	return;
 }
