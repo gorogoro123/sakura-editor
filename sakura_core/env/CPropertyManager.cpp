@@ -86,7 +86,7 @@ bool CPropertyManager::OpenPropertySheet( HWND hWnd, int nPageNum, bool bTrayPro
 bool CPropertyManager::OpenPropertySheetTypes( HWND hWnd, int nPageNum, CTypeConfig nSettingType )
 {
 	bool bRet;
-	CPropTypes* pcPropTypes = new CPropTypes();
+	auto pcPropTypes = std::make_unique<CPropTypes>();
 	pcPropTypes->Create( G_AppInstance(), m_hwndOwner );
 
 	auto pType = std::make_unique<STypeConfig>();
@@ -136,8 +136,6 @@ bool CPropertyManager::OpenPropertySheetTypes( HWND hWnd, int nPageNum, CTypeCon
 
 	// 最後にアクセスしたシートを覚えておく
 	m_nPropTypePageNum = pcPropTypes->GetPageNum();
-
-	delete pcPropTypes;
 
 	return bRet;
 }
