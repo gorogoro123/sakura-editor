@@ -28,26 +28,14 @@ enum EMacroParamType{
 	EMacroParamTypeInt,
 	EMacroParamTypeStr,
 };
-struct CMacroParam{
-	WCHAR*			m_pData;
-	CMacroParam*	m_pNext;
-	int				m_nDataLen;
-	EMacroParamType m_eType;
 
-	CMacroParam():m_pData(nullptr), m_pNext(nullptr), m_nDataLen(0), m_eType(EMacroParamTypeNull){}
-	CMacroParam( const CMacroParam& obj ){
-		if( obj.m_pData ){
-			m_pData = new WCHAR[obj.m_nDataLen + 1];
-		}else{
-			m_pData = nullptr;
-		}
-		m_pNext = nullptr;
-		m_nDataLen = obj.m_nDataLen;
-		m_eType = obj.m_eType;
-	}
-	CMacroParam& operator = (const CMacroParam&) = delete;
-	CMacroParam(CMacroParam&&) noexcept = delete;
-	CMacroParam& operator = (CMacroParam&&) noexcept = delete;
+struct CMacroParam{
+	WCHAR*			m_pData = nullptr;
+	CMacroParam*	m_pNext = nullptr;
+	int				m_nDataLen = 0;
+	EMacroParamType m_eType = EMacroParamTypeNull;
+
+	CMacroParam() = default;
 	~CMacroParam(){
 		Clear();
 	}
@@ -59,6 +47,8 @@ struct CMacroParam{
 	}
 	void SetStringParam( const WCHAR* szParam, int nLength = -1 );
 	void SetIntParam( const int nParam );
+
+	DISALLOW_COPY_AND_ASSIGN(CMacroParam);
 };
 
 /*! @brief キーボードマクロの1コマンド
