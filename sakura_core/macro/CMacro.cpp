@@ -390,17 +390,6 @@ bool CMacro::Exec( CEditView* pcEditView, int flags ) const
 	return CMacro::HandleCommand(pcEditView, (EFunctionCode)(m_nFuncID | flags), paramArr, paramLenArr, i);
 }
 
-int CMacro::GetParamCount() const
-{
-	CMacroParam* p = m_pParamTop;
-	int n = 0;
-	while( p ){
-		n++;
-		p = p->m_pNext;
-	}
-	return n;
-}
-
 static inline int wtoi_def( const WCHAR* arg, int def_val )
 {
 	return (arg == nullptr ? def_val: _wtoi(arg));

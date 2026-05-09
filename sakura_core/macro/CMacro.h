@@ -76,7 +76,6 @@ public:
 	void AddLParam( const LPARAM* lParam, const CEditView* pcEditView  );	//@@@ 2002.2.2 YAZAKI pcEditViewも渡す
 	void AddStringParam( const WCHAR* szParam, int nLength = -1 );
 	void AddIntParam( const LPARAM nParam );
-	int GetParamCount() const;
 
 	static bool HandleCommand( CEditView *View, EFunctionCode ID, const WCHAR* Argument[], const int ArgLengths[], const int ArgSize );
 	static bool HandleFunction( CEditView *View, EFunctionCode ID, VARIANT *Arguments, const int ArgSize, VARIANT &Result);
