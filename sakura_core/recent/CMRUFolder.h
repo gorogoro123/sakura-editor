@@ -16,21 +16,16 @@
 #pragma once
 
 #include <Windows.h> /// BOOL,HMENU // 2002/2/10 aroka
+#include "util/design_template.h"
 #include "recent/CRecentFolder.h"
 
 class CMenuDrawer;
 
 //	@date 2002.2.17 YAZAKI CShareDataのインスタンスは、CProcessにひとつあるのみ。
 class CMRUFolder {
-	using Me = CMRUFolder;
-
 public:
 	//	コンストラクタ
 	CMRUFolder();
-	CMRUFolder(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CMRUFolder(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	~CMRUFolder();
 
 	//	メニューを取得する
@@ -54,4 +49,6 @@ protected:
 
 private:
 	CRecentFolder	m_cRecentFolder;	//履歴	//@@@ 2003.04.08 MIK
+
+	DISALLOW_COPY_AND_ASSIGN(CMRUFolder);
 };

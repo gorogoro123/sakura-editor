@@ -17,6 +17,7 @@
 #pragma once
 
 #include <Windows.h>
+#include "util/design_template.h"
 
 /*-----------------------------------------------------------------------
 クラスの宣言
@@ -33,18 +34,11 @@
 */
 class CWnd
 {
-
-	using Me = CWnd;
-
 protected:
 	friend LRESULT CALLBACK CWndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 public:
 	/* Constructors */
 	CWnd(const WCHAR* pszInheritanceAppend = L"");
-	CWnd(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CWnd(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	virtual ~CWnd();
 
 	/*
@@ -125,4 +119,6 @@ private: // 2002/2/10 aroka アクセス権変更
 #ifdef _DEBUG
 	WCHAR		m_szClassInheritances[1024];
 #endif
+
+	DISALLOW_COPY_AND_ASSIGN(CWnd);
 };

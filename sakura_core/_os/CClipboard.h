@@ -7,6 +7,7 @@
 */
 #pragma once
 
+#include "util/design_template.h"
 #include "mem/CNativeW.h"
 
 class CEol;
@@ -46,15 +47,9 @@ struct StdWStringBuffer : public IWBuffer {
 
 //!サクラエディタ用クリップボードクラス。後々はこの中で全てのクリップボードAPIを呼ばせたい。
 class CClipboard{
-	using Me = CClipboard;
-
 public:
 	//コンストラクタ・デストラクタ
 	CClipboard(HWND hwnd); //!< コンストラクタ内でクリップボードが開かれる
-	CClipboard(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CClipboard(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	virtual ~CClipboard(); //!< デストラクタ内でCloseが呼ばれる
 
 	//インターフェース
@@ -103,4 +98,6 @@ protected:
 	virtual UINT EnumClipboardFormats(UINT format) const;
 	virtual HGLOBAL GlobalAlloc(UINT uFlags, SIZE_T dwBytes) const;
 	virtual LPVOID GlobalLock(HGLOBAL hMem) const;
+
+	DISALLOW_COPY_AND_ASSIGN(CClipboard);
 };

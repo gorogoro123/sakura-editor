@@ -7,21 +7,16 @@
 */
 #pragma once
 
+#include "util/design_template.h"
 #include "doc/CDocTypeSetting.h" // ColorInfo !!
 
 class CViewFont{
-	using Me = CViewFont;
-
 public:
 	CViewFont(const LOGFONT *plf, bool bMiniMap = false)
 	{
 		m_bMiniMap = bMiniMap;
 		CreateFonts(plf);
 	}
-	CViewFont(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CViewFont(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	virtual ~CViewFont()
 	{
 		DeleteFonts();
@@ -56,6 +51,8 @@ private:
 
 	LOGFONT	m_LogFont;
 	bool	m_bMiniMap;
+
+	DISALLOW_COPY_AND_ASSIGN(CViewFont);
 };
 
 CViewFont* GetViewFont(bool isMiniMap);

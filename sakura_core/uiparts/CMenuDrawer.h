@@ -17,9 +17,8 @@
 */
 #pragma once
 
+#include "util/design_template.h"
 #include "mem/CNativeW.h"
-
-class CMenuDrawer;
 
 class CImageListMgr;// 2002/2/10 aroka
 struct DLLSHAREDATA;
@@ -43,17 +42,11 @@ struct DLLSHAREDATA;
 */
 class CMenuDrawer
 {
-	using Me = CMenuDrawer;
-
 public:
 	/*
 	||  Constructors
 	*/
 	CMenuDrawer();
-	CMenuDrawer(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CMenuDrawer(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	~CMenuDrawer();
 	void Create( HINSTANCE hInstance, HWND hWndOwner, CImageListMgr* pcIcons );
 
@@ -130,4 +123,6 @@ protected:
 	void SetTBBUTTONVal( TBBUTTON* ptb, int iBitmap, int idCommand,
 						 BYTE fsState, BYTE fsStyle, DWORD_PTR dwData,
 						 INT_PTR iString ) const;	/* TBBUTTON構造体にデータをセット */
+
+	DISALLOW_COPY_AND_ASSIGN(CMenuDrawer);
 };

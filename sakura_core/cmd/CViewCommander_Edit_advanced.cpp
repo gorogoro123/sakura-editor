@@ -70,10 +70,6 @@ void CViewCommander::Command_INDENT( const wchar_t* const pData, const CLogicInt
 	} IsIndentChar;
 	struct SSoftTabData {
 		SSoftTabData( CLayoutXInt nTab, int width ) : m_szTab(nullptr), m_nTab((Int)nTab), m_nXWidth(width - 1), m_nSpWidth(width) {}
-		SSoftTabData(const SSoftTabData&) = delete;
-		SSoftTabData& operator = (const SSoftTabData&) = delete;
-		SSoftTabData(SSoftTabData&&) noexcept = delete;
-		SSoftTabData& operator = (SSoftTabData&&) noexcept = delete;
 		~SSoftTabData() { delete []m_szTab; }
 		operator const wchar_t* ()
 		{
@@ -92,6 +88,7 @@ void CViewCommander::Command_INDENT( const wchar_t* const pData, const CLogicInt
 		int m_nTab;
 		int m_nXWidth;
 		int m_nSpWidth;
+		DISALLOW_COPY_AND_ASSIGN(SSoftTabData);
 	} stabData( GetDocument()->m_cLayoutMgr.GetTabSpace(), GetDocument()->m_cLayoutMgr.GetWidthPerKeta() );
 
 	const bool bSoftTab = ( eIndent == INDENT_TAB && m_pCommanderView->m_pTypeData->m_bInsSpace );

@@ -7,18 +7,13 @@
 */
 #pragma once
 
+#include "util/design_template.h"
 #include "view/figures/CFigureStrategy.h"
 
 //! 改行描画
 class CFigure_Eol final : public CFigureSpace{
-	using Me = CFigure_Eol;
-
 public:
 	CFigure_Eol() noexcept = default;
-	CFigure_Eol(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CFigure_Eol(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	~CFigure_Eol()
 	{
 		if (m_hPen) {
@@ -42,4 +37,6 @@ public:
 private:
 	HPEN m_hPen = nullptr;
 	COLORREF m_clrPen;
+
+	DISALLOW_COPY_AND_ASSIGN(CFigure_Eol);
 };

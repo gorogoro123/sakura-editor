@@ -18,6 +18,8 @@
 */
 #pragma once
 
+#include "util/design_template.h"
+
 struct DLLSHAREDATA;
 class CRecent;
 
@@ -58,18 +60,11 @@ struct SAnchorList
 	@date 2002.2.17 YAZAKI CShareDataのインスタンスは、CProcessにひとつあるのみ。
 */
 class CDialog{
-
-	using Me = CDialog;
-
 public:
 	/*
 	||  Constructors
 	*/
 	CDialog( bool bSizable = false, bool bCheckShareData = true );
-	CDialog(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CDialog(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	virtual ~CDialog();
 	/*
 	||  Attributes & Operations
@@ -161,4 +156,6 @@ protected:
 	HFONT SetMainFont( HWND hTarget );
 	// このダイアログに設定されているフォントを取得
 	HFONT GetDialogFont() { return m_hFontDialog; }
+
+	DISALLOW_COPY_AND_ASSIGN(CDialog);
 };

@@ -15,7 +15,7 @@
 
 #include "cxx/ResourceHolder.hpp"
 #include "cxx/load_string.hpp"
-
+#include "util/design_template.h"
 #include "sakura_rc.h"
 
 /*!
@@ -63,8 +63,6 @@ public:
 private:
 	using LangInfoHolder = std::unique_ptr<SSelLangInfo>;
 
-	using Me = CSelectLang;
-
 public:
 	static inline size_t gm_Selected = 0;
 	static inline std::vector<LangInfoHolder> gm_Langs{};
@@ -83,10 +81,6 @@ public:
 	||  Constructors
 	*/
 	CSelectLang() noexcept = default;
-
-	CSelectLang(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-
 	~CSelectLang() = default;
 
 	/*
@@ -102,6 +96,8 @@ private:
 
 public:
 	static std::wstring_view LoadStringW(UINT id);
+
+	DISALLOW_COPY_AND_ASSIGN(CSelectLang);
 };
 
 /*!
@@ -115,15 +111,8 @@ private:
 	// 文字列リソース読み込み用バッファクラス
 	class CLoadStrBuffer
 	{
-	private:
-		using Me = CLoadStrBuffer;
-
 	public:
 		CLoadStrBuffer() = default;
-
-		CLoadStrBuffer(const Me&) = delete;		// コピー禁止とする
-		Me& operator = (const Me&) = delete;	// 代入禁止とする
-
 		~CLoadStrBuffer() = default;
 
 		LPCWSTR	GetStringPtr() const noexcept { return m_String.c_str(); }	// 読み込んだ文字列のポインタを返す
@@ -133,12 +122,12 @@ private:
 	private:
 		std::wstring_view	m_ResString;	//!< リソース文字列ビュー
 		std::wstring		m_String;		//!< リソース文字列格納用バッファ
+
+		DISALLOW_COPY_AND_ASSIGN(CLoadStrBuffer);
 	};
 
 	static inline std::array<CLoadStrBuffer, 4> gm_Buffers{};		//!< 文字列読み込みバッファの配列（CLoadString::LoadStringSt() が使用する）
 	static inline size_t gm_LastUsedIndex = std::size(gm_Buffers);	//!< 最後に使用したバッファのインデックス（CLoadString::LoadStringSt() が使用する）
-
-	using Me = CLoadString;
 
 	CLoadStrBuffer m_Buffer;				//!< 文字列読み込みバッファ（CLoadString::LoadString() が使用する）
 
@@ -149,16 +138,14 @@ public:
 	||  Constructors
 	*/
 	CLoadString() = default;
-
-	CLoadString(const Me&) = delete;		//!< コピー禁止とする
-	Me& operator = (const Me&) = delete;	//!< 代入禁止とする
-
 	~CLoadString() = default;
 
 	/*
 	||  Attributes & Operations
 	*/
 	LPCWSTR	LoadStringW(UINT uid);			//!< 文字列リソースを読み込む（各国語メッセージリソース対応）
+
+	DISALLOW_COPY_AND_ASSIGN(CLoadString);
 };
 
 // 文字列ロード簡易化テンプレート

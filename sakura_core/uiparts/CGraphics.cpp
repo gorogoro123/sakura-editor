@@ -10,19 +10,14 @@
 */
 
 #include "CGraphics.h"
+#include "util/design_template.h"
 #include "util/std_macro.h"
 #include "apiwrap/StdApi.h"
 
 class CGDIStock
 {
-	using Me = CGDIStock;
-
 public:
 	CGDIStock() = default;
-	CGDIStock(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CGDIStock(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	~CGDIStock()
 	{
 		while(!m_vObjects.empty()){
@@ -40,6 +35,8 @@ public:
 	}
 protected:
 	std::vector<HGDIOBJ> m_vObjects;
+
+	DISALLOW_COPY_AND_ASSIGN(CGDIStock);
 };
 
 static CGDIStock s_cGDIStock;	// 唯一の CGDIStock オブジェクト

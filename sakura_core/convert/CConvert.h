@@ -11,6 +11,7 @@
 #include "charset/charcode.h"	// CCharWidthCache
 #include "mem/CNativeW.h"
 #include "types/CType.h"		// SEncodingConfig
+#include "util/design_template.h"
 
 enum EFunctionCode : int;
 
@@ -49,12 +50,10 @@ private:
 class CConvert{
 public:
 	CConvert() noexcept = default;
-	CConvert(const CConvert&) = delete;
-	CConvert& operator = (const CConvert&) = delete;
-	CConvert(CConvert&&) noexcept = delete;
-	CConvert& operator = (CConvert&&) noexcept = delete;
 	virtual ~CConvert() noexcept = default;
 
 	//実装
 	virtual bool DoConvert(CNativeW* pcData) = 0;
+
+	DISALLOW_COPY_AND_ASSIGN(CConvert);
 };

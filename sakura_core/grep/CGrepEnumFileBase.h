@@ -19,6 +19,7 @@
 #include <Shlwapi.h>
 #include "grep/CGrepEnumKeys.h"
 #include "util/string_ex.h"
+#include "util/design_template.h"
 
 typedef std::pair< LPWSTR, DWORD > PairGrepEnumItem;
 typedef std::vector< PairGrepEnumItem > VPGrepEnumItem;
@@ -39,14 +40,8 @@ class CGrepEnumFileBase {
 private:
 	VPGrepEnumItem m_vpItems;
 
-	using Me = CGrepEnumFileBase;
-
 public:
 	CGrepEnumFileBase() noexcept = default;
-	CGrepEnumFileBase(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CGrepEnumFileBase(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	virtual ~CGrepEnumFileBase(){
 		ClearItems();
 	}
@@ -163,4 +158,6 @@ public:
 		}
 		return found;
 	}
+
+	DISALLOW_COPY_AND_ASSIGN(CGrepEnumFileBase);
 };

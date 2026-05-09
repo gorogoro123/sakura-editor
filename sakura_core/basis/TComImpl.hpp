@@ -7,13 +7,12 @@
 #pragma once
 
 #include <Windows.h>
-
 #include <comdef.h>
 #include <comutil.h>
 #include <oaidl.h>
-
 #include <memory>
 #include <type_traits>
+#include "util/design_template.h"
 
 /*!
  * TComImpl - COMオブジェクトの実装クラステンプレート
@@ -27,14 +26,8 @@ class TComImpl : public TargetInterface
 {
 	LONG nRefCount_ = 0;
 
-	using Me = TComImpl<TargetInterface>;
-
 public:
 	TComImpl() = default;
-	TComImpl(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	TComImpl(Me&&) = delete;
-	Me& operator = (Me&&) = delete;
 
 	IFACEMETHODIMP QueryInterface(REFIID iid, void ** ppvObject) override
 	{
@@ -69,4 +62,6 @@ public:
 
 		return nRefCount;
 	}
+
+	DISALLOW_COPY_AND_ASSIGN(TComImpl);
 };

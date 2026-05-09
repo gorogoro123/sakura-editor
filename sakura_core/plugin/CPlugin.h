@@ -14,6 +14,7 @@
 #include "macro/CWSHIfObj.h"
 #include "env/CDataProfile.h"
 #include "util/string_ex.h"
+#include "util/design_template.h"
 
 //! プラグインの管理番号index
 typedef int PluginId;
@@ -206,23 +207,15 @@ protected:
 
 class CPlugin
 {
-	using Me = CPlugin;
-
 	//型定義
 public:
 	typedef std::list<CPlugin*> List;		//プラグインのリスト
 	typedef List::const_iterator ListIter;	//そのイテレータ
 
 	//コンストラクタ
-public:
 	CPlugin(std::wstring_view baseDir);
-	CPlugin(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CPlugin(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 
 	//デストラクタ
-public:
 	virtual ~CPlugin();
 
 	//操作
@@ -276,4 +269,6 @@ public:
 	virtual bool InvokePlug( CEditView* view, CPlug& plug, CWSHIfObj::List& param ) =0;	//プラグを実行する
 	virtual bool ReadPluginDef( CDataProfile *cProfile, CDataProfile *cProfileMlang ) =0;		//プラグイン定義ファイルを読み込む
 	virtual bool ReadPluginOption( CDataProfile *cProfile ) =0;		//オプションファイルを読み込む
+
+	DISALLOW_COPY_AND_ASSIGN(CPlugin);
 };

@@ -7,10 +7,10 @@
 */
 #pragma once
 
+#include "util/design_template.h"
+
 class CRegKey
 {
-	using Me = CRegKey;
-
 protected:
 	HKEY _root;
 	HKEY _key;
@@ -20,11 +20,6 @@ public:
 		_root = nullptr;
 		_key = nullptr;
 	}
-
-	CRegKey(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CRegKey(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 
 	virtual ~CRegKey()
 	{
@@ -176,4 +171,6 @@ public:
 	{
 		return RegDeleteKey(root, path);
 	}
+
+	DISALLOW_COPY_AND_ASSIGN(CRegKey);
 };

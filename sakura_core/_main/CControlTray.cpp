@@ -1168,16 +1168,13 @@ bool CControlTray::OpenNewEditor(
 	struct CResponsefileDeleter{
 		LPCWSTR fileName;
 		CResponsefileDeleter(): fileName(nullptr){}
-		CResponsefileDeleter(const CResponsefileDeleter&) = delete;
-		CResponsefileDeleter operator = (const CResponsefileDeleter&) = delete;
-		CResponsefileDeleter(CResponsefileDeleter&&) noexcept = delete;
-		CResponsefileDeleter operator = (CResponsefileDeleter&&) noexcept = delete;
 		~CResponsefileDeleter(){
 			if( fileName && fileName[0] ){
 				::DeleteFile( fileName );
 				fileName = nullptr;
 			}
 		}
+		DISALLOW_COPY_AND_ASSIGN(CResponsefileDeleter);
 	};
 	CResponsefileDeleter respDeleter;
 	if( szCmdLineOption ){

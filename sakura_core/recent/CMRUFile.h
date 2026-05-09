@@ -18,6 +18,7 @@
 
 #include <Windows.h> /// BOOL,HMENU // 2002/2/10 aroka
 #include <vector>
+#include "util/design_template.h"
 #include "recent/CRecentFile.h"
 
 struct EditInfo; // 2004.04.11 genta パラメータ内のstructを削除するため．doxygen対策
@@ -25,15 +26,9 @@ class CMenuDrawer;
 
 //	@date 2002.2.17 YAZAKI CShareDataのインスタンスは、CProcessにひとつあるのみ。
 class CMRUFile {
-	using Me = CMRUFile;
-
 public:
 	//	コンストラクタ
 	CMRUFile();
-	CMRUFile(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CMRUFile(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	~CMRUFile();
 
 	//	メニューを取得する
@@ -58,4 +53,6 @@ protected:
 
 private:
 	CRecentFile	m_cRecentFile;	//履歴	//@@@ 2003.04.08 MIK
+
+	DISALLOW_COPY_AND_ASSIGN(CMRUFile);
 };

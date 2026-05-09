@@ -736,10 +736,6 @@ void CSearchAgent::ReplaceData( DocLineReplaceArg* pArg, bool bEnableExtEol )
 		CDlgCancel*& m_pDlg;
 	public:
 		CDLgCandelCloser(CDlgCancel*& pDlg): m_pDlg(pDlg){}
-		CDLgCandelCloser(const CDLgCandelCloser&) = delete;
-		CDLgCandelCloser& operator = (const CDLgCandelCloser&) = delete;
-		CDLgCandelCloser(CDLgCandelCloser&&) noexcept = delete;
-		CDLgCandelCloser& operator = (CDLgCandelCloser&&) noexcept = delete;
 		~CDLgCandelCloser(){
 			if( nullptr != m_pDlg ){
 				// 進捗ダイアログを表示しない場合と同じ動きになるようにダイアログは遅延破棄する
@@ -749,6 +745,8 @@ void CSearchAgent::ReplaceData( DocLineReplaceArg* pArg, bool bEnableExtEol )
 				m_pDlg->DeleteAsync();	// 自動破棄を遅延実行する	// 2008.05.28 ryoji
 			}
 		}
+
+		DISALLOW_COPY_AND_ASSIGN(CDLgCandelCloser);
 	};
 	CDLgCandelCloser closer(pCDlgCancel);
 	const CLogicInt nDelLines = pArg->sDelRange.GetTo().y - pArg->sDelRange.GetFrom().y;

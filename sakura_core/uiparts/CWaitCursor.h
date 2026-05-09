@@ -14,6 +14,7 @@
 #pragma once
 
 #include <Windows.h>
+#include "util/design_template.h"
 
 /*-----------------------------------------------------------------------
 クラスの宣言
@@ -25,17 +26,11 @@
 */
 class CWaitCursor
 {
-	using Me = CWaitCursor;
-
 public:
 	/*
 	||  Constructors
 	*/
 	CWaitCursor( HWND, bool bEnable = true );
-	CWaitCursor(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CWaitCursor(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	~CWaitCursor();
 
 	bool IsEnable(){ return m_bEnable; }
@@ -43,4 +38,6 @@ private: // 2002/2/10 aroka
 	HCURSOR	m_hCursor;
 	HCURSOR	m_hCursorOld;
 	bool	m_bEnable;
+
+	DISALLOW_COPY_AND_ASSIGN(CWaitCursor);
 };

@@ -15,9 +15,10 @@
 */
 #pragma once
 
-struct SEncodingConfig;
-
 #include "_main/global.h"
+#include "util/design_template.h"
+
+struct SEncodingConfig;
 
 struct tagEncodingInfo {
 	ECodeType eCodeID;  // 文字コード識別番号
@@ -66,16 +67,8 @@ enum EBOMType {
 //*/
 
 class CESI {
-
-	using Me = CESI;
-
 public:
-
-	CESI(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CESI(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
-	virtual ~CESI() { ; }
+	virtual ~CESI() {}
 	explicit CESI( const SEncodingConfig& ref ) : m_pEncodingConfig(&ref) {
 		m_dwStatus = ESI_NOINFORMATION;
 		m_nTargetDataLen = -1;
@@ -209,6 +202,8 @@ public:
 public:
 	static void GetDebugInfo( const char* pS, const int nLen, CNativeW* pcmtxtOut );
 #endif
+
+	DISALLOW_COPY_AND_ASSIGN(CESI);
 };
 
 /*!

@@ -11,20 +11,15 @@
 #pragma once
 
 #include "cxx/com_pointer.hpp"
+#include "util/design_template.h"
 
 class CZipFile {
 private:
 	using IShellDispatchPtr = cxx::com_pointer<IShellDispatch>;
 	using FolderPtr = cxx::com_pointer<Folder>;
 
-	using Me = CZipFile;
-
 public:
 	CZipFile();		// コンストラクタ
-	CZipFile(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CZipFile(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	~CZipFile();	// デストラクタ
 
 	bool	IsOk() const noexcept { return (m_pShellDispatch != nullptr); }			// Zip Folderが使用できるか?
@@ -36,4 +31,6 @@ private:
 	IShellDispatchPtr	m_pShellDispatch = nullptr;
 	FolderPtr			m_pZipFolder = nullptr;
 	std::wstring		m_ZipPath;
+
+	DISALLOW_COPY_AND_ASSIGN(CZipFile);
 };
