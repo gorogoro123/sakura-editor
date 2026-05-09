@@ -31,15 +31,20 @@ enum EMacroParamType{
 
 struct CMacroParam{
 	std::wstring	m_szData;
-	CMacroParam*	m_pNext = nullptr;
 	EMacroParamType m_eType = EMacroParamTypeNull;
 
 	CMacroParam() = default;
+	explicit CMacroParam( const WCHAR* szParam, int nLength = -1 )
+	{
+		SetStringParam(szParam, nLength);
+	}
+	explicit CMacroParam( const int nParam )
+	{
+		SetIntParam(nParam);
+	}
 	~CMacroParam() = default;
 	void SetStringParam( const WCHAR* szParam, int nLength = -1 );
 	void SetIntParam( const int nParam );
-
-	DISALLOW_COPY_AND_ASSIGN(CMacroParam);
 };
 
 /*! @brief キーボードマクロの1コマンド
@@ -65,7 +70,6 @@ public:
 	*/
 	CMacro( EFunctionCode nFuncID );	//	機能IDを指定して初期化
 	~CMacro();
-	void ClearMacroParam();
 
 	void SetNext(CMacro* pNext){ m_pNext = pNext; }
 	CMacro* GetNext(){ return m_pNext; }
@@ -89,8 +93,7 @@ protected:
 	||  実装ヘルパ関数
 	*/
 	EFunctionCode	m_nFuncID;		//	機能ID
-	CMacroParam*	m_pParamTop;	//	パラメータ
-	CMacroParam*	m_pParamBot;
+	std::vector<CMacroParam>	m_vParams;	//	パラメータ
 	CMacro*			m_pNext;		//	次のマクロへのポインタ
 
 	DISALLOW_COPY_AND_ASSIGN(CMacro);
