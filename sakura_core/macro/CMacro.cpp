@@ -47,27 +47,9 @@ CMacro::CMacro( EFunctionCode nFuncID )
 {
 	m_nFuncID = nFuncID;
 	m_pNext = nullptr;
-	m_pParamTop = m_pParamBot = nullptr;
 }
 
-CMacro::~CMacro( )
-{
-	ClearMacroParam();
-}
-
-void CMacro::ClearMacroParam()
-{
-	CMacroParam* p = m_pParamTop;
-	CMacroParam* del_p;
-	while (p){
-		del_p = p;
-		p = p->m_pNext;
-		delete del_p;
-	}
-	m_pParamTop = nullptr;
-	m_pParamBot = nullptr;
-	return;
-}
+CMacro::~CMacro( ) = default;
 
 /*	引数の型振り分け
 	機能IDによって、期待する型は異なります。
@@ -325,38 +307,14 @@ void CMacroParam::SetIntParam( const int nParam )
 */
 void CMacro::AddStringParam( const WCHAR* szParam, int nLength )
 {
-	CMacroParam* param = new CMacroParam();
-
-	param->SetStringParam( szParam, nLength );
-
-	//	リストの整合性を保つ
-	if (m_pParamTop){
-		m_pParamBot->m_pNext = param; 
-		m_pParamBot = param;
-	}
-	else {
-		m_pParamTop = param;
-		m_pParamBot = m_pParamTop;
-	}
+	m_vParams.emplace_back( szParam, nLength );
 }
 
 /*	引数に数値を追加。
 */
 void CMacro::AddIntParam( const LPARAM lParam )
 {
-	CMacroParam* param = new CMacroParam();
-
-	param->SetIntParam( int(lParam) );
-
-	//	リストの整合性を保つ
-	if (m_pParamTop){
-		m_pParamBot->m_pNext = param; 
-		m_pParamBot = param;
-	}
-	else {
-		m_pParamTop = param;
-		m_pParamBot = m_pParamTop;
-	}
+	m_vParams.emplace_back( int(lParam) );
 }
 
 /**	コマンドを実行する（pcEditView->GetCommander().HandleCommandを発行する）
@@ -375,19 +333,17 @@ void CMacro::AddIntParam( const LPARAM lParam )
 */
 bool CMacro::Exec( CEditView* pcEditView, int flags ) const
 {
-	const int maxArg = 8;
-	const WCHAR* paramArr[maxArg] = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
-	int paramLenArr[maxArg] = {0, 0, 0, 0, 0, 0, 0, 0};
+	int nParamCount = static_cast<int>(m_vParams.size());
+	std::vector<const WCHAR*> vParamArr;
+	vParamArr.reserve(nParamCount);
+	std::vector<int> vParamLenArr;
+	vParamLenArr.reserve(nParamCount);
 
-	CMacroParam* p = m_pParamTop;
-	int i = 0;
-	for (i = 0; i < maxArg; i++) {
-		if (!p) break;	//	pが無ければbreak;
-		paramArr[i] = p->m_szData.c_str();
-		paramLenArr[i] = (int)wcslen(paramArr[i]);
-		p = p->m_pNext;
+	for (const auto& param : m_vParams) {
+		vParamArr.emplace_back(param.m_szData.c_str());
+		vParamLenArr.emplace_back(static_cast<int>(param.m_szData.length()));
 	}
-	return CMacro::HandleCommand(pcEditView, (EFunctionCode)(m_nFuncID | flags), paramArr, paramLenArr, i);
+	return CMacro::HandleCommand(pcEditView, (EFunctionCode)(m_nFuncID | flags), vParamArr.data(), vParamLenArr.data(), nParamCount);
 }
 
 static inline int wtoi_def( const WCHAR* arg, int def_val )
@@ -419,18 +375,19 @@ void CMacro::Save( HINSTANCE hInstance, CTextOutputStream& out ) const
 	if (CSMacroMgr::GetFuncInfoByID( hInstance, nFuncID, szFuncName, szFuncNameJapanese)){
 		// 2014.01.24 Moca マクロ書き出しをm_eTypeを追加して統合
 		out.WriteF( L"%ls(", szFuncName ); // 2014.12.25 Moca "S_"を削除
-		CMacroParam* pParam = m_pParamTop;
-		while( pParam ){
-			if( pParam != m_pParamTop ){
+		bool bFirst = true;
+		for(auto& param : m_vParams) {
+			if(!bFirst){
 				out.WriteString( L", " );
 			}
-			switch( pParam->m_eType ){
+			bFirst = false;
+			switch( param.m_eType ){
 			case EMacroParamTypeInt:
-				out.WriteString( pParam->m_szData.c_str() );
+				out.WriteString( param.m_szData.c_str() );
 				break;
 			case EMacroParamTypeStr:
-				pText = pParam->m_szData.c_str();
-				nTextLen = pParam->m_szData.length();
+				pText = param.m_szData.c_str();
+				nTextLen = param.m_szData.length();
 				cmemWork.SetString( pText, nTextLen );
 				cmemWork.Replace( L"\\", L"\\\\" );
 				cmemWork.Replace( L"\'", L"\\\'" );
@@ -464,7 +421,6 @@ void CMacro::Save( HINSTANCE hInstance, CTextOutputStream& out ) const
 			default:
 				break;
 			}
-			pParam = pParam->m_pNext;
 		}
 		out.WriteF( L");\t// %ls\r\n", szFuncNameJapanese );
 		return;
