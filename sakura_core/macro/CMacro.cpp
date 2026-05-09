@@ -397,23 +397,6 @@ bool CMacro::Exec( CEditView* pcEditView, int flags ) const
 	return CMacro::HandleCommand(pcEditView, (EFunctionCode)(m_nFuncID | flags), paramArr, paramLenArr, i);
 }
 
-WCHAR* CMacro::GetParamAt(CMacroParam* p, int index)
-{
-	CMacroParam* x = p;
-	int i = 0;
-	while(i < index){
-		if( x == nullptr ){
-			return nullptr;
-		}
-		x = x->m_pNext;
-		i++;
-	}
-	if( x == nullptr ){
-		return nullptr;
-	}
-	return x->m_pData;
-}
-
 int CMacro::GetParamCount() const
 {
 	CMacroParam* p = m_pParamTop;
