@@ -95,7 +95,6 @@ public:
 	||  Attributes & Operations
 	*/
 protected:
-	static WCHAR* GetParamAt(CMacroParam*, int);
 
 	/*
 	||  実装ヘルパ関数
