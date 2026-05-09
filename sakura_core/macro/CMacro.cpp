@@ -305,26 +305,19 @@ void CMacro::AddLParam( const LPARAM* lParams, const CEditView* pcEditView )
 
 void CMacroParam::SetStringParam( const WCHAR* szParam, int nLength )
 {
-	Clear();
 	int nLen;
 	if( nLength == -1 ){
 		nLen = (int)wcslen( szParam );
 	}else{
 		nLen = nLength;
 	}
-	m_pData = new WCHAR[nLen + 1];
-	wmemcpy( m_pData, szParam, nLen );
-	m_pData[nLen] = L'\0';
-	m_nDataLen = nLen;
+	m_szData.assign( szParam, nLen );
 	m_eType = EMacroParamTypeStr;
 }
 
 void CMacroParam::SetIntParam( const int nParam )
 {
-	Clear();
-	m_pData = new WCHAR[16];	//	数値格納（最大16桁）用
-	_itow(nParam, m_pData, 10);
-	m_nDataLen = (int)wcslen(m_pData);
+	m_szData = std::to_wstring(nParam);
 	m_eType = EMacroParamTypeInt;
 }
 
@@ -390,7 +383,7 @@ bool CMacro::Exec( CEditView* pcEditView, int flags ) const
 	int i = 0;
 	for (i = 0; i < maxArg; i++) {
 		if (!p) break;	//	pが無ければbreak;
-		paramArr[i] = p->m_pData;
+		paramArr[i] = p->m_szData.c_str();
 		paramLenArr[i] = (int)wcslen(paramArr[i]);
 		p = p->m_pNext;
 	}
@@ -428,7 +421,7 @@ void CMacro::Save( HINSTANCE hInstance, CTextOutputStream& out ) const
 {
 	WCHAR			szFuncName[1024];
 	WCHAR			szFuncNameJapanese[500];
-	int				nTextLen;
+	size_t			nTextLen;
 	const WCHAR*	pText;
 	CNativeW		cmemWork;
 	int nFuncID = m_nFuncID;
@@ -444,11 +437,11 @@ void CMacro::Save( HINSTANCE hInstance, CTextOutputStream& out ) const
 			}
 			switch( pParam->m_eType ){
 			case EMacroParamTypeInt:
-				out.WriteString( pParam->m_pData );
+				out.WriteString( pParam->m_szData.c_str() );
 				break;
 			case EMacroParamTypeStr:
-				pText = pParam->m_pData;
-				nTextLen = pParam->m_nDataLen;
+				pText = pParam->m_szData.c_str();
+				nTextLen = pParam->m_szData.length();
 				cmemWork.SetString( pText, nTextLen );
 				cmemWork.Replace( L"\\", L"\\\\" );
 				cmemWork.Replace( L"\'", L"\\\'" );

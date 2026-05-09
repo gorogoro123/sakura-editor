@@ -30,21 +30,12 @@ enum EMacroParamType{
 };
 
 struct CMacroParam{
-	WCHAR*			m_pData = nullptr;
+	std::wstring	m_szData;
 	CMacroParam*	m_pNext = nullptr;
-	int				m_nDataLen = 0;
 	EMacroParamType m_eType = EMacroParamTypeNull;
 
 	CMacroParam() = default;
-	~CMacroParam(){
-		Clear();
-	}
-	void Clear(){
-		delete[] m_pData;
-		m_pData = nullptr;
-		m_nDataLen = 0;
-		m_eType = EMacroParamTypeNull;
-	}
+	~CMacroParam() = default;
 	void SetStringParam( const WCHAR* szParam, int nLength = -1 );
 	void SetIntParam( const int nParam );
 
@@ -95,7 +86,6 @@ public:
 	||  Attributes & Operations
 	*/
 protected:
-
 	/*
 	||  実装ヘルパ関数
 	*/
