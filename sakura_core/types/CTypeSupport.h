@@ -7,6 +7,7 @@
 */
 #pragma once
 
+#include "util/design_template.h"
 #include "uiparts/CGraphics.h"
 #include "doc/CEditDoc.h"
 #include "view/CEditView.h"
@@ -18,8 +19,6 @@
 	今のところタイプ別設定の色情報取得の補助
 */
 class CTypeSupport{
-	using Me = CTypeSupport;
-
 	static const COLORREF INVALID_COLOR=0xFFFFFFFF; //無効な色定数
 
 public:
@@ -33,10 +32,7 @@ public:
 
 		m_gr = nullptr;
 	}
-	CTypeSupport(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CTypeSupport(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
+
 	virtual ~CTypeSupport()
 	{
 		if(m_gr){
@@ -132,4 +128,6 @@ private:
 	const ColorInfo*		m_pColorInfoArr;
 
 	CGraphics* m_gr;        //設定を変更したHDC
+
+	DISALLOW_COPY_AND_ASSIGN(CTypeSupport);
 };

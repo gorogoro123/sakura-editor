@@ -15,6 +15,7 @@
 #pragma once
 
 #include <Windows.h>
+#include "util/design_template.h"
 #include "CMacroManagerBase.h"
 
 class CMacro;
@@ -31,17 +32,11 @@ enum EFunctionCode : int;
 */
 class CKeyMacroMgr : public CMacroManagerBase
 {
-	using Me = CKeyMacroMgr;
-
 public:
 	/*
 	||  Constructors
 	*/
 	CKeyMacroMgr();
-	CKeyMacroMgr(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CKeyMacroMgr(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	~CKeyMacroMgr();
 
 	/*
@@ -66,4 +61,6 @@ public:
 protected:
 	CMacro*	m_pTop = nullptr;	//	先頭と終端を保持
 	CMacro*	m_pBot = nullptr;
+
+	DISALLOW_COPY_AND_ASSIGN(CKeyMacroMgr);
 };

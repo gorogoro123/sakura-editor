@@ -13,6 +13,7 @@
 */
 #pragma once
 
+#include "util/design_template.h"
 #include "_main/global.h"
 
 /*! @brief ImageListの管理
@@ -31,16 +32,10 @@
 		当初の独自描画に戻した．
 */
 class CImageListMgr {
-	using Me = CImageListMgr;
-
 public:
 
 	//	constructor
 	CImageListMgr();
-	CImageListMgr(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CImageListMgr(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	~CImageListMgr();
 
 	bool Create(HINSTANCE hInstance);	//	生成
@@ -113,4 +108,6 @@ protected:
 
 	//! ビットマップを一行拡張する
 	void Extend(bool = true);
+
+	DISALLOW_COPY_AND_ASSIGN(CImageListMgr);
 };

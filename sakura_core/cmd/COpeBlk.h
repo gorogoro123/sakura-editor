@@ -13,10 +13,9 @@
 */
 #pragma once
 
-class COpeBlk;
-
-#include "cmd/COpe.h"
 #include <vector>
+#include "util/design_template.h"
+#include "cmd/COpe.h"
 
 /*-----------------------------------------------------------------------
 クラスの宣言
@@ -27,16 +26,9 @@ class COpeBlk;
 	COpe を複数束ねるためのもの。Undo, Redoはこのブロック単位で行われる。
 */
 class COpeBlk {
-
-	using Me = COpeBlk;
-
 public:
 	//コンストラクタ・デストラクタ
 	COpeBlk();
-	COpeBlk(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	COpeBlk(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	~COpeBlk();
 
 	//インターフェース
@@ -61,4 +53,6 @@ private:
 	//　参照カウンタを用いて一番外側のHandleCommand終了時のみCOpeBlkを破棄する。
 	//　COpeBlkをnewしたときにAddRef()するのが作法だが、しなくても使える。
 	int m_refCount;
+
+	DISALLOW_COPY_AND_ASSIGN(COpeBlk);
 };

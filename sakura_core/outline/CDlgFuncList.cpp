@@ -30,6 +30,7 @@
 #include "window/CEditWnd.h"	//	2006/2/11 aroka 追加
 #include "doc/CEditDoc.h"
 #include "uiparts/CGraphics.h"
+#include "util/design_template.h"
 #include "util/shell.h"
 #include "util/os.h"
 #include "util/input.h"
@@ -3417,12 +3418,10 @@ bool CDlgFuncList::ChangeLayout( int nId )
 	struct SAutoSwitch
 	{
 		SAutoSwitch( bool* pbSwitch ): m_pbSwitch( pbSwitch ) { *m_pbSwitch = true; }
-		SAutoSwitch(const SAutoSwitch&) = delete;
-		SAutoSwitch& operator = (const SAutoSwitch&) = delete;
-		SAutoSwitch(SAutoSwitch&&) noexcept = delete;
-		SAutoSwitch& operator = (SAutoSwitch&&) noexcept = delete;
 		~SAutoSwitch() { *m_pbSwitch = false; }
 		bool* m_pbSwitch;
+
+		DISALLOW_COPY_AND_ASSIGN(SAutoSwitch);
 	} SAutoSwitch( &m_bInChangeLayout );	// 処理中は m_bInChangeLayout フラグを ON にしておく
 
 	CEditDoc* pDoc = CEditDoc::GetInstance(0);	// 今は非表示かもしれないので (CEditView*)m_lParam は使えない
@@ -3719,11 +3718,9 @@ BOOL CDlgFuncList::Track( POINT ptDrag )
 	struct SLockWindowUpdate
 	{	// 画面にゴミが残らないように
 		SLockWindowUpdate(){ ::LockWindowUpdate( ::GetDesktopWindow() ); }
-		SLockWindowUpdate(const SLockWindowUpdate&) = delete;
-		SLockWindowUpdate& operator = (const SLockWindowUpdate&) = delete;
-		SLockWindowUpdate(SLockWindowUpdate&&) noexcept = delete;
-		SLockWindowUpdate& operator = (SLockWindowUpdate&&) noexcept = delete;
 		~SLockWindowUpdate(){ ::LockWindowUpdate( nullptr ); }
+
+		DISALLOW_COPY_AND_ASSIGN(SLockWindowUpdate);
 	} sLockWindowUpdate;
 
 	const SIZE sizeFull = {8, 8};	// フローティング配置用の枠線の太さ

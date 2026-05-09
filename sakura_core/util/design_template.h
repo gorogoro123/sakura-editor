@@ -71,8 +71,6 @@ public:
 template <class T>
 class TSingleInstance {
 private:
-	using Me = TSingleInstance<T>;
-
 	static T* gm_instance;				//!< シングルインスタンスを保持するポインタ
 
 public:
@@ -83,11 +81,6 @@ public:
 		@retval nullptr インスタンスが未生成
 	 */
 	[[nodiscard]] static T* getInstance() noexcept { return gm_instance; }
-
-	TSingleInstance(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	TSingleInstance(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 
 protected:
 	/*!
@@ -112,6 +105,8 @@ protected:
 	{
 		gm_instance = nullptr;
 	}
+
+	DISALLOW_COPY_AND_ASSIGN(TSingleInstance);
 };
 
 /*!
@@ -136,8 +131,6 @@ T* TSingleInstance<T>::gm_instance = nullptr;
 template <class T>
 class TInstanceHolder {
 private:
-	using Me = TInstanceHolder<T>;
-
 	static std::vector<T*> gm_table;	//!< インスタンスを保持する動的配列
 
 public:
@@ -171,11 +164,6 @@ public:
 	 */
 	[[nodiscard]] static T* getInstance() noexcept { return GetInstance(0); }
 
-	TInstanceHolder(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	TInstanceHolder(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
-
 protected:
 	/*!
 		コンストラクタ
@@ -200,6 +188,8 @@ protected:
 			gm_table.erase(it);
 		}
 	}
+
+	DISALLOW_COPY_AND_ASSIGN(TInstanceHolder);
 };
 
 /*!

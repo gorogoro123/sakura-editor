@@ -10,6 +10,7 @@
 */
 #pragma once
 
+#include "util/design_template.h"
 #include "plugin/CPlugin.h"
 #include "macro/CWSHManager.h"
 
@@ -19,18 +20,12 @@
 class CWSHPlug final :
 	public CPlug
 {
-	using Me = CWSHPlug;
-
 public:
 	CWSHPlug( CPlugin& plugin, PlugId id, std::wstring sJack, std::wstring sHandler, std::wstring sLabel ) :
 		CPlug( plugin, id, sJack, sHandler, sLabel )
 	{
 		m_Wsh = nullptr;
 	}
-	CWSHPlug(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CWSHPlug(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	virtual ~CWSHPlug() {
 		if( m_Wsh ){
 			delete m_Wsh;
@@ -38,22 +33,18 @@ public:
 		}
 	}
 	CWSHMacroManager* m_Wsh;
+
+	DISALLOW_COPY_AND_ASSIGN(CWSHPlug);
 };
 
 class CWSHPlugin final :
 	public CPlugin
 {
-	using Me = CWSHPlugin;
-
 	//コンストラクタ
 public:
 	CWSHPlugin( const std::wstring& sBaseDir ) : CPlugin( sBaseDir ) {
 		m_bUseCache = false;
 	}
-	CWSHPlugin(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CWSHPlugin(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 
 	//デストラクタ
 public:
@@ -78,4 +69,6 @@ public:
 	//メンバ変数
 private:
 	bool m_bUseCache;
+
+	DISALLOW_COPY_AND_ASSIGN(CWSHPlugin);
 };

@@ -17,6 +17,7 @@
 
 #include <Windows.h>
 #include <ObjIdl.h>  // VARIANT等
+#include "util/design_template.h"
 #include "func/Funccode.h"
 
 class CTextOutputStream;
@@ -77,17 +78,11 @@ struct CMacroParam{
 */
 class CMacro
 {
-	using Me = CMacro;
-
 public:
 	/*
 	||  Constructors
 	*/
 	CMacro( EFunctionCode nFuncID );	//	機能IDを指定して初期化
-	CMacro(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CMacro(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	~CMacro();
 	void ClearMacroParam();
 
@@ -119,4 +114,6 @@ protected:
 	CMacroParam*	m_pParamTop;	//	パラメータ
 	CMacroParam*	m_pParamBot;
 	CMacro*			m_pNext;		//	次のマクロへのポインタ
+
+	DISALLOW_COPY_AND_ASSIGN(CMacro);
 };

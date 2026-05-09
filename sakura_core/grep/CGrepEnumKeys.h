@@ -20,13 +20,11 @@
 #include <cstring>
 #include "util/string_ex.h"
 #include "util/file.h"
+#include "util/design_template.h"
 
 typedef std::vector< LPCWSTR > VGrepEnumKeys;
 
 class CGrepEnumKeys {
-
-	using Me = CGrepEnumKeys;
-
 public:
 	VGrepEnumKeys m_vecSearchFileKeys;
 	VGrepEnumKeys m_vecSearchFolderKeys;
@@ -39,10 +37,6 @@ public:
 
 public:
 	CGrepEnumKeys() noexcept = default;
-	CGrepEnumKeys(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CGrepEnumKeys(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	~CGrepEnumKeys(){
 		ClearItems();
 	}
@@ -259,4 +253,6 @@ private:
 		}
 		return 0;
 	}
+
+	DISALLOW_COPY_AND_ASSIGN(CGrepEnumKeys);
 };

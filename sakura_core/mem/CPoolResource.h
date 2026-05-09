@@ -8,25 +8,19 @@
 
 #include <memory_resource>
 #include <Windows.h>
+#include "util/design_template.h"
 
 // std::pmr::unsynchronized_pool_resource だとメモリ使用量が大きい為、自前実装を用意
 // T : 要素型
 template <typename T>
 class CPoolResource : public std::pmr::memory_resource
 {
-	using Me = CPoolResource;
-
 public:
 	CPoolResource()
 	{
 		// 始めのブロックをメモリ確保
 		AllocateBlock();
 	}
-
-	CPoolResource(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CPoolResource(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 
 	virtual ~CPoolResource()
 	{
@@ -126,4 +120,6 @@ private:
 	Node* m_currentNode = nullptr; // 要素確保処理時に現在のブロックの中から切り出すNodeを指すポインタ、メモリ確保時に未割当領域が無い場合はここを使う
 
 	std::mutex m_mtx;
+
+	DISALLOW_COPY_AND_ASSIGN(CPoolResource);
 };

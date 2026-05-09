@@ -21,6 +21,7 @@
 #include "print/CPrint.h" //PRINTSETTING
 #include "recent/SShare_History.h"	//SShare_History
 #include "charset/charcode.h"
+#include "util/design_template.h"
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                    共有メモリ構成要素                       //
@@ -129,18 +130,14 @@ struct DLLSHAREDATA{
 };
 
 class CShareDataLockCounter{
-	using Me = CShareDataLockCounter;
-
 public:
 	CShareDataLockCounter();
-	CShareDataLockCounter(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CShareDataLockCounter(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	~CShareDataLockCounter();
 
 	static int GetLockCounter();
 	static void WaitLock( HWND hwndParent, CShareDataLockCounter** ppLock = nullptr );
+
+	DISALLOW_COPY_AND_ASSIGN(CShareDataLockCounter);
 };
 
 DLLSHAREDATA* GetDllShareDataPtr() noexcept;

@@ -15,6 +15,7 @@
 
 #include <Windows.h>
 #include <string>
+#include "util/design_template.h"
 #include "_main/global.h"
 
 /*! CDllImp をラップ
@@ -66,9 +67,6 @@ enum EDllResult{
 	@date 2008.05.10 kobake 整理。派生クラスは、～Impをオーバーロードすれば良いという方式です。
 */
 class CDllImp{
-
-	using Me = CDllImp;
-
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 	//                            型                               //
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
@@ -89,10 +87,6 @@ public:
 public:
 	//コンストラクタ・デストラクタ
 	CDllImp();
-	CDllImp(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CDllImp(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	virtual ~CDllImp();
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
@@ -191,4 +185,6 @@ protected:
 private:
 	HINSTANCE		m_hInstance = nullptr;
 	std::wstring	m_strLoadedDllName;
+
+	DISALLOW_COPY_AND_ASSIGN(CDllImp);
 };

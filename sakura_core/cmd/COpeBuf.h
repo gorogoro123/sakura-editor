@@ -13,10 +13,10 @@
 */
 #pragma once
 
-class COpeBuf;
-
 #include <vector>
+#include "util/design_template.h"
 #include "_main/global.h"
+
 class COpeBlk;/// 2002/2/10 aroka
 
 /*-----------------------------------------------------------------------
@@ -26,16 +26,9 @@ class COpeBlk;/// 2002/2/10 aroka
 	@brief アンドゥ・リドゥバッファ
 */
 class COpeBuf {
-
-	using Me = COpeBuf;
-
 public:
 	//コンストラクタ・デストラクタ
 	COpeBuf();
-	COpeBuf(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	COpeBuf(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	~COpeBuf();
 
 	//状態
@@ -61,4 +54,6 @@ private:
 	std::vector<COpeBlk*>	m_vCOpeBlkArr;		//!< 操作ブロックの配列
 	int						m_nCurrentPointer;	//!< 現在位置
 	int						m_nNoModifiedIndex;	//!< 無変更な状態になった位置
+
+	DISALLOW_COPY_AND_ASSIGN(COpeBuf);
 };

@@ -19,6 +19,7 @@
 #pragma once
 
 #include <ActivScp.h>
+#include "util/design_template.h"
 //↑Microsoft Platform SDK より
 #include "macro/CIfObj.h"
 
@@ -32,8 +33,6 @@ typedef void (*ScriptErrorHandler)(BSTR Description, BSTR Source, void *Data);
 
 class CWSHClient final : IWSHClient
 {
-	using Me = CWSHClient;
-
 public:
 	// 型定義
 	typedef std::vector<CIfObj*> List;      // 所有しているインターフェースオブジェクトのリスト
@@ -41,10 +40,6 @@ public:
 
 	// コンストラクタ・デストラクタ
 	CWSHClient(const wchar_t *AEngine, ScriptErrorHandler AErrorHandler, void *AData);
-	CWSHClient(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CWSHClient(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	~CWSHClient();
 
 	// フィールド・アクセサ
@@ -63,4 +58,6 @@ public:
 private:
 	IActiveScript *m_Engine;
 	List m_IfObjArr;
+
+	DISALLOW_COPY_AND_ASSIGN(CWSHClient);
 };

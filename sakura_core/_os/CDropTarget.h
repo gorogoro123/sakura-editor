@@ -28,36 +28,28 @@ class CEditView;// 2002/2/3 aroka ヘッダー軽量化
 -----------------------------------------------------------------------*/
 class COleLibrary
 {
-	using Me = COleLibrary;
-
 	friend class CYbInterfaceBase;
 private:
 //	DWORD m_dwCount;	// 2009.01.08 ryoji m_dwCount削除
 	COleLibrary();
 public:
-	COleLibrary(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	COleLibrary(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	~COleLibrary();
 private:
 	void Initialize();
 	void UnInitialize();
+
+	DISALLOW_COPY_AND_ASSIGN(COleLibrary);
 };
 
 class CYbInterfaceBase
 {
-	using Me = CYbInterfaceBase;
-
 	static COleLibrary m_olelib;
 protected:
 	CYbInterfaceBase();
-	CYbInterfaceBase(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CYbInterfaceBase(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	~CYbInterfaceBase();
 	static HRESULT QueryInterfaceImpl( IUnknown*, REFIID, REFIID, void** );
+
+	DISALLOW_COPY_AND_ASSIGN(CYbInterfaceBase);
 };
 
 template<class BASEINTERFACE>
@@ -77,18 +69,12 @@ public:
 
 class CDropTarget : public CYbInterfaceImpl<IDropTarget>
 {
-	using Me = CDropTarget;
-
 public:
 	/*
 	||  Constructors
 	*/
 	CDropTarget( CEditWnd* );	// 2008.06.20 ryoji
 	CDropTarget( CEditView* );
-	CDropTarget(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CDropTarget(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	~CDropTarget();
 	/*
 	||  Attributes & Operations
@@ -108,6 +94,8 @@ protected:
 	/*
 	||  実装ヘルパ関数
 	*/
+
+	DISALLOW_COPY_AND_ASSIGN(CDropTarget);
 };
 
 class CDropSource : public CYbInterfaceImpl<IDropSource> {

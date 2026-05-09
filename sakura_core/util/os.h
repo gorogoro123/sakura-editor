@@ -9,6 +9,7 @@
 
 #include <ObjIdl.h> // LPDATAOBJECT
 #include "basis/CMyString.h"
+#include "util/design_template.h"
 
 //クリップボード
 bool SetClipboardText( HWND hwnd, const WCHAR* pszText, int nLength ); //!< クリープボードにText形式でコピーする。UNICODE版。nLengthは文字単位。
@@ -67,17 +68,13 @@ private:
 //コンストラクタでカレントディレクトリを保存し、デストラクタでカレントディレクトリを復元するモノ。
 //2008.03.01 kobake 作成
 class CCurrentDirectoryBackupPoint{
-	using Me = CCurrentDirectoryBackupPoint;
-
 public:
 	CCurrentDirectoryBackupPoint();
-	CCurrentDirectoryBackupPoint(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CCurrentDirectoryBackupPoint(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	~CCurrentDirectoryBackupPoint();
 private:
 	SFilePath m_szCurDir;
+
+	DISALLOW_COPY_AND_ASSIGN(CCurrentDirectoryBackupPoint);
 };
 
 /*!

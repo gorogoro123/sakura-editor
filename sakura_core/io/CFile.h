@@ -9,6 +9,7 @@
 
 #include "basis/CMyString.h" //CFilePath
 #include "util/file.h"
+#include "util/design_template.h"
 
 //!ファイルの排他制御モード  2007.10.11 kobake 作成
 enum EShareMode{
@@ -18,15 +19,9 @@ enum EShareMode{
 };
 
 class CFile{
-	using Me = CFile;
-
 public:
 	//コンストラクタ・デストラクタ
 	CFile(LPCWSTR pszPath = nullptr);
-	CFile(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CFile(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	virtual ~CFile();
 	//パス
 	const CFilePath& GetFilePathClass() const { return m_szFilePath; }
@@ -48,4 +43,6 @@ private:
 	CFilePath	m_szFilePath;				//!< ファイルパス
 	HANDLE		m_hLockedFile;				//!< ロックしているファイルのハンドル
 	EShareMode	m_nFileShareModeOld;		//!< ファイルの排他制御モード
+
+	DISALLOW_COPY_AND_ASSIGN(CFile);
 };

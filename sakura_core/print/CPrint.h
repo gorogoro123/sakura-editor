@@ -17,6 +17,7 @@
 #include <CommDlg.h> // PRINTDLG
 #include "basis/primitive.h"
 #include "basis/CMyString.h"
+#include "util/design_template.h"
 
 struct	MYDEVMODE {
 	BOOL	m_bPrinterNotFound;	/* プリンターがなかったフラグ */
@@ -110,8 +111,6 @@ struct PRINTSETTING {
 */
 class CPrint
 {
-	using Me = CPrint;
-
 public:
 	static const PAPER_INFO m_paperInfoArr[];	//!< 用紙情報一覧
 	static const int m_nPaperInfoArrNum; //!< 用紙情報一覧の要素数
@@ -140,10 +139,6 @@ public:
 	||  Constructors
 	*/
 	CPrint();
-	CPrint(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CPrint(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	~CPrint();
 
 	/*
@@ -188,4 +183,6 @@ private:
 	*/
 	HGLOBAL	m_hDevMode = nullptr;				//!< 現在プリンターのDEVMODEへのメモリハンドル
 	HGLOBAL	m_hDevNames = nullptr;				//!< 現在プリンターのDEVNAMESへのメモリハンドル
+
+	DISALLOW_COPY_AND_ASSIGN(CPrint);
 };

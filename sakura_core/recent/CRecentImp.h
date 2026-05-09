@@ -8,6 +8,7 @@
 */
 #pragma once
 
+#include "util/design_template.h"
 #include "recent/CRecent.h"
 
 template < class DATA_TYPE, class RECEIVE_TYPE = const DATA_TYPE* >
@@ -19,10 +20,6 @@ class CRecentImp : public CRecent{
 
 public:
 	CRecentImp(){ Terminate(); }
-	CRecentImp(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CRecentImp(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	virtual ~CRecentImp(){ Terminate(); }
 
 protected:
@@ -99,5 +96,7 @@ protected:
 	int			m_nArrayCount;			//!< 最大管理可能なアイテム数
 	int*		m_pnUserViewCount;		//!< 表示個数 (NULL許可)
 	size_t		m_nTextMaxLength;		//!< 最大テキスト長(終端含む)
+
+	DISALLOW_COPY_AND_ASSIGN(CRecentImp);
 };
 

@@ -11,6 +11,8 @@
 */
 #pragma once
 
+#include "util/design_template.h"
+
 class CRecycledBuffer{
 //コンフィグ
 private:
@@ -51,8 +53,6 @@ private:
 };
 
 class CRecycledBufferDynamic{
-	using Me = CRecycledBufferDynamic;
-
 	static const int CHAIN_COUNT = 64;   //再利用可能なブロック数。
 
 //コンストラクタ・デストラクタ
@@ -64,10 +64,6 @@ public:
 			m_buf[i]=nullptr;
 		}
 	}
-	CRecycledBufferDynamic(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CRecycledBufferDynamic(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	~CRecycledBufferDynamic()
 	{
 		for(int i=0;i<int(std::size(m_buf));i++){
@@ -96,4 +92,6 @@ public:
 private:
 	BYTE* m_buf[CHAIN_COUNT];
 	int   m_current;
+
+	DISALLOW_COPY_AND_ASSIGN(CRecycledBufferDynamic);
 };

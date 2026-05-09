@@ -7,6 +7,8 @@
 */
 #pragma once
 
+#include "util/design_template.h"
+
 class CFileAttribute;
 
 //! 例外：ファイルオープンに失敗
@@ -29,15 +31,9 @@ class CError_FileRead{};	//!< 例外：ファイル読み込み失敗
 
 //ストリーム基底クラス
 class CStream{
-	using Me = CStream;
-
 public:
 	//コンストラクタ・デストラクタ
 	CStream(const WCHAR* pszPath, const WCHAR* pszMode, bool bExceptionMode = false);
-	CStream(const Me&) = delete;
-	Me& operator = (const Me&) = delete;
-	CStream(Me&&) noexcept = delete;
-	Me& operator = (Me&&) noexcept = delete;
 	virtual ~CStream();
 
 	//演算子
@@ -68,6 +64,8 @@ private:
 	FILE*			m_fp = nullptr;
 	std::unique_ptr<CFileAttribute>	m_pcFileAttribute;
 	bool			m_bExceptionMode;
+
+	DISALLOW_COPY_AND_ASSIGN(CStream);
 };
 
 class COutputStream : public CStream{
