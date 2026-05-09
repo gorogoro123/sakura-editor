@@ -22,7 +22,6 @@
 
 #include "CViewCommander.h"
 #include "CViewCommander_inline.h"
-
 #include "env/CPropertyManager.h"
 #include "CEditApp.h"
 #include "dlg/CDlgAbout.h"	//Dec. 24, 2000 JEPRO 追加
@@ -316,15 +315,16 @@ void CViewCommander::Command_EXTHTMLHELP( const WCHAR* _helpfile, const WCHAR* k
 	}
 	else{
 		/* 自分でHtmlHelpを起動させる */
-		HH_AKLINK	link;
-		link.cbStruct = sizeof( link ) ;
-		link.fReserved = FALSE ;
-		link.pszKeywords = cmemCurText.GetStringPtr();
-		link.pszUrl = nullptr;
-		link.pszMsgText = nullptr;
-		link.pszMsgTitle = nullptr;
-		link.pszWindow = nullptr;
-		link.fIndexOnFail = TRUE;
+		HH_AKLINK	link = {
+			.cbStruct = sizeof( link ),
+			.fReserved = FALSE,
+			.pszKeywords = cmemCurText.GetStringPtr(),
+			.pszUrl = nullptr,
+			.pszMsgText = nullptr,
+			.pszMsgTitle = nullptr,
+			.pszWindow = nullptr,
+			.fIndexOnFail = TRUE,
+		};
 
 		// 2003.06.23 Moca 相対パスは実行ファイルからのパス
 		// 2007.05.21 ryoji 相対パスは設定ファイルからのパスを優先
