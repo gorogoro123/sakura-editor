@@ -25,6 +25,13 @@
 #include "sakura_rc.h"/// IDD_EXITTING 2002/2/10 aroka ヘッダー整理
 #include "config/system_constants.h"
 
+enum class ERootFolder : int {
+	APPLICATION = 0,	// アプリケーションデータフォルダ（デフォルト）
+	USER,				// ユーザフォルダ
+	DOCUMENT,			// ドキュメントフォルダ
+	DESKTOP,			// デスクトップフォルダ
+};
+
 //-------------------------------------------------
 
 /*!
@@ -62,17 +69,18 @@ std::filesystem::path CControlProcess::GetIniFileName() const
  */
 std::filesystem::path CControlProcess::GetPrivateIniFileName(const std::wstring& exeIniPath, const std::wstring& filename) const
 {
-	const auto nFolder = ::GetPrivateProfileInt(L"Settings", L"UserRootFolder", 0, exeIniPath.c_str());
+	const auto nFolder = static_cast<ERootFolder>(::GetPrivateProfileInt(L"Settings", L"UserRootFolder", 0, exeIniPath.c_str()));
 	KNOWNFOLDERID refFolderId;
 	switch (nFolder) {
-	case 1:
-	case 3:
+	case ERootFolder::USER:
+	case ERootFolder::DESKTOP:
 		refFolderId = FOLDERID_Profile;			// ユーザーのルートフォルダー
 		break;
-	case 2:
+	case ERootFolder::DOCUMENT:
 		refFolderId = FOLDERID_Documents;		// ユーザーのドキュメントフォルダー
 		break;
-
+	case ERootFolder::APPLICATION:
+		[[fallthrough]];
 	default:
 		refFolderId = FOLDERID_RoamingAppData;	// ユーザーのアプリケーションデータフォルダー
 		break;
@@ -90,7 +98,7 @@ std::filesystem::path CControlProcess::GetPrivateIniFileName(const std::wstring&
 	{
 		subFolder = L"sakura";
 	}
-	if (nFolder == 3) {
+	if (nFolder == ERootFolder::DESKTOP) {
 		privateIniPath.append("Desktop");
 	}
 	privateIniPath.append(subFolder);
