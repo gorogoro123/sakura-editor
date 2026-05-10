@@ -712,13 +712,14 @@ void CDlgPluginOption::SelectDirectory( int iLine )
 
 	// 項目名の取得
 	HWND	hwndList = GetItemHwnd( IDC_LIST_PLUGIN_OPTIONS );
-	LVITEM	lvi = {};
-	WCHAR	buf[MAX_LENGTH_VALUE+1];
-	lvi.mask       = LVIF_TEXT;
-	lvi.iItem      = iLine;
-	lvi.iSubItem   = 0;
-	lvi.pszText    = buf;
-	lvi.cchTextMax = MAX_LENGTH_VALUE+1;
+	WCHAR	buf[MAX_LENGTH_VALUE+1] = {};
+	LVITEM	lvi = {
+		.mask       = LVIF_TEXT,
+		.iItem      = iLine,
+		.iSubItem   = 0,
+		.pszText    = buf,
+		.cchTextMax = MAX_LENGTH_VALUE+1,
+	};
 	ListView_GetItem( hwndList, &lvi );
 
 	WCHAR	sTitle[MAX_LENGTH_VALUE+10];
