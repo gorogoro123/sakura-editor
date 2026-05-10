@@ -329,7 +329,7 @@ void CViewCommander::Command_EXTHTMLHELP( const WCHAR* _helpfile, const WCHAR* k
 		// 2003.06.23 Moca 相対パスは実行ファイルからのパス
 		// 2007.05.21 ryoji 相対パスは設定ファイルからのパスを優先
 		if( _IS_REL_PATH( filename ) ){
-			WCHAR path[_MAX_PATH];
+			SFilePath path;
 			GetInidirOrExedir( path, filename );
 			hwndHtmlHelp = HtmlHelpW(nullptr, path, HH_KEYWORD_LOOKUP, (DWORD_PTR)&link);
 		}else{
