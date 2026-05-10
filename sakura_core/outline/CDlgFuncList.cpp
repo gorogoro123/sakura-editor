@@ -64,6 +64,11 @@
 #define VIEWTYPE_LIST	0
 #define VIEWTYPE_TREE	1
 
+constexpr auto TIMER_MOUSE_MOVE = 1;
+constexpr auto TIMER_TAG_JUMP = 2;
+constexpr auto TIMER_MENU_EXPAND = 3;
+constexpr auto TIMER_MENU_COLLAPSE = 4;
+
 //アウトライン解析 CDlgFuncList.cpp	//@@@ 2002.01.07 add start MIK
 const DWORD p_helpids[] = {	//12200
 	IDC_BUTTON_COPY,					HIDC_FL_BUTTON_COPY,	//コピー
@@ -2422,7 +2427,7 @@ bool CDlgFuncList::TagJumpTimer( const WCHAR* pFile, CMyPoint point, bool bCheck
 	m_pszTimerJumpFile = pFile;
 	m_pointTimerJump = point;
 	m_bTimerJumpAutoClose = bCheckAutoClose;
-	::SetTimer( GetHwnd(), 2, 200, nullptr ); // id == 2
+	::SetTimer( GetHwnd(), TIMER_TAG_JUMP, 200, nullptr ); // id == 2
 	return false;
 }
 
@@ -2787,7 +2792,7 @@ INT_PTR CDlgFuncList::OnNcHitTest( [[maybe_unused]] HWND hwnd, [[maybe_unused]] 
 */
 BOOL CDlgFuncList::OnTimer( HWND hwnd, [[maybe_unused]] UINT uMsg, WPARAM wParam, [[maybe_unused]] LPARAM lParam )
 {
-	if( wParam == 2 ){
+	if( wParam == TIMER_TAG_JUMP ){
 		CEditView* pcView = reinterpret_cast<CEditView*>(m_lParam);
 		if( m_pszTimerJumpFile ){
 			const WCHAR* pszFile = m_pszTimerJumpFile;
@@ -2810,14 +2815,14 @@ BOOL CDlgFuncList::OnTimer( HWND hwnd, [[maybe_unused]] UINT uMsg, WPARAM wParam
 				}
 			}
 		}
-		::KillTimer(hwnd, 2);
+		::KillTimer(hwnd, TIMER_TAG_JUMP);
 		return FALSE;
-	}else if( wParam == 3 ){
-		::KillTimer(hwnd, 3);
+	}else if( wParam == TIMER_MENU_EXPAND ){
+		::KillTimer(hwnd, TIMER_MENU_EXPAND);
 		HWND hwndTree = ::GetDlgItem(hwnd, IDC_TREE_FL);
 		ApiWrap::TreeView_ExpandAll(hwndTree, true, 64);
-	}else  if( wParam == 4 ){
-		::KillTimer(hwnd, 4);
+	}else  if( wParam == TIMER_MENU_COLLAPSE ){
+		::KillTimer(hwnd, TIMER_MENU_COLLAPSE);
 		HWND hwndTree = ::GetDlgItem(hwnd, IDC_TREE_FL);
 		ApiWrap::TreeView_ExpandAll(hwndTree, false, 64);
 	}
@@ -2825,7 +2830,7 @@ BOOL CDlgFuncList::OnTimer( HWND hwnd, [[maybe_unused]] UINT uMsg, WPARAM wParam
 	if( !IsDocking() )
 		return FALSE;
 
-	if( wParam == 1 ){
+	if( wParam == TIMER_MOUSE_MOVE ){
 		// カーソルがウィンドウ外にある場合にも WM_NCMOUSEMOVE を送る
 		POINT pt;
 		RECT rc;
@@ -2860,9 +2865,9 @@ INT_PTR CDlgFuncList::OnNcMouseMove( HWND hwnd, [[maybe_unused]] UINT uMsg, [[ma
 	{
 		m_bHovering = bHovering;
 		if( m_bHovering )
-			::SetTimer( hwnd, 1, 200, nullptr );
+			::SetTimer( hwnd, TIMER_MOUSE_MOVE, 200, nullptr );
 		else
-			::KillTimer( hwnd, 1 );
+			::KillTimer( hwnd, TIMER_MOUSE_MOVE );
 	}
 
 	// マウスカーソルがボタン上にあればハイライト
@@ -3273,9 +3278,9 @@ void CDlgFuncList::DoMenu( POINT pt, HWND hwndFrom )
 	else if( nId == 452 ){	// 閉じる
 		::DestroyWindow( GetHwnd() );
 	}else if( nId == 500 ){	// すべて展開
-		::SetTimer(GetHwnd(), 3, 100, nullptr);
+		::SetTimer(GetHwnd(), TIMER_MENU_EXPAND, 100, nullptr);
 	}else if( nId == 501 ){	// すべて縮小
-		::SetTimer(GetHwnd(), 4, 100, nullptr);
+		::SetTimer(GetHwnd(), TIMER_MENU_COLLAPSE, 100, nullptr);
 	}else if( nId == 510 ){	// ブックマーク削除
 		HWND hwndList = GetItemHwnd(IDC_LIST_FL);
 		int nItem = ListView_GetNextItem(hwndList, -1, LVNI_ALL | LVNI_SELECTED);
