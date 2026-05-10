@@ -274,7 +274,7 @@ void CDlgTagJumpList::UpdateData( bool bInit )
 		lvi.mask     = LVIF_TEXT;
 		lvi.iItem    = nIndex;
 		lvi.iSubItem = 0;
-		lvi.pszText  = item->keyword;
+		lvi.pszText  = item->keyword.data();
 		ListView_InsertItem( hwndList, &lvi );
 
 		if( item->baseDirId ){
@@ -287,13 +287,13 @@ void CDlgTagJumpList::UpdateData( bool bInit )
 		auto_sprintf( tmp, L"%d", item->no );
 		ListView_SetItemText( hwndList, nIndex, 2, tmp );
 
-		WCHAR *p = GetNameByType( item->type, item->filename );
+		WCHAR *p = GetNameByType( item->type, item->filename.c_str() );
 		ListView_SetItemText( hwndList, nIndex, 3, p );
 		free( p );
 
-		ListView_SetItemText( hwndList, nIndex, 4, item->filename );
+		ListView_SetItemText( hwndList, nIndex, 4, item->filename.data() );
 
-		ListView_SetItemText( hwndList, nIndex, 5, item->note );
+		ListView_SetItemText( hwndList, nIndex, 5, item->note.data() );
 
 		ListView_SetItemState( hwndList, nIndex, 0, LVIS_SELECTED | LVIS_FOCUSED );
 	}

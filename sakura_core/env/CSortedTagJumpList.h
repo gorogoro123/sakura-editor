@@ -34,11 +34,11 @@ public:
 
 	struct TagJumpInfo {
 		TagJumpInfo*	next;	//!< 次のリスト
-		WCHAR*	keyword;	//!< キーワード
-		WCHAR*	filename;	//!< ファイル名
+		std::wstring	keyword;	//!< キーワード
+		std::wstring	filename;	//!< ファイル名
 		int		no;			//!< 行番号
 		WCHAR	type;		//!< 種類
-		WCHAR*	note;		//!< 備考
+		std::wstring	note;		//!< 備考
 		int		depth;		//!< (さかのぼる)階層
 		int		baseDirId;	//!< ファイル名のベースディレクトリ
 	};
@@ -59,8 +59,6 @@ private:
 	
 	//	2005.04.22 genta 最大値を可変に
 	const int		m_MAX_TAGJUMPLIST;	//!< 管理する情報の最大数
-
-	void Free( TagJumpInfo* item );
 
 	DISALLOW_COPY_AND_ASSIGN(CSortedTagJumpList);
 };
