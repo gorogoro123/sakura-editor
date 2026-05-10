@@ -1317,7 +1317,7 @@ int CMenuDrawer::FindToolbarNoFromCommandId( int idCommand, bool bOnlyFunc ) con
 		// 固定部分以外(プラグインなど)はindexではなくidCommandのままにする
 		if( m_nMyButtonFixSize <= index ){
 			// もし コマンド番号が明らかに小さいと区別がつかない
-			assert_warning( idCommand < m_nMyButtonFixSize );
+			assert_warning( idCommand > m_nMyButtonFixSize );
 			return idCommand;
 		}
 	}
