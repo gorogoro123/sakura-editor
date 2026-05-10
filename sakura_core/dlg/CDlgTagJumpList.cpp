@@ -300,11 +300,6 @@ void CDlgTagJumpList::UpdateData( bool bInit )
 
 	const WCHAR* pszMsgText = nullptr;
 
-	//	数が多すぎる場合は切り捨てた旨を末尾に挿入
-//	if( m_pcList->IsOverflow() ){
-		// 2010.04.03 「次」「前」ボタン追加して Overflowしなくなった
-//		pszMsgText = L"(これ以降は切り捨てました)";
-//	}
 	if( (! bInit) && m_pcList->GetCount() == 0 ){
 		pszMsgText = LS(STR_DLGTAGJMP2);
 	}

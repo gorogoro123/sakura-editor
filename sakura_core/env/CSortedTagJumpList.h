@@ -30,7 +30,6 @@ public:
 	BOOL GetParam( int index, WCHAR* keyword, WCHAR* filename, int* no, WCHAR* type, WCHAR* note, int* depth, WCHAR* baseDir );
 	int GetCount( ){ return m_nCount; }
 	void Empty( );
-	bool IsOverflow( ){ return m_bOverflow; }
 
 	struct TagJumpInfo {
 		TagJumpInfo*	next;	//!< 次のリスト
@@ -55,7 +54,6 @@ private:
 	TagJumpInfo*	m_pTagjump = nullptr;	//!< タグジャンプ情報
 	std::vector<std::wstring> m_baseDirArr;	//!< ベースディレクトリ情報
 	int				m_nCount = 0;	//!< 個数
-	bool			m_bOverflow = false;	//!< オーバーフロー
 	
 	//	2005.04.22 genta 最大値を可変に
 	const int		m_MAX_TAGJUMPLIST;	//!< 管理する情報の最大数
