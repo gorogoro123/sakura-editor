@@ -12,6 +12,7 @@
 */
 #pragma once
 
+#include <vector>
 #include "basis/primitive.h"
 #include "util/design_template.h"
 
@@ -28,11 +29,10 @@ public:
 	int		AddBaseDir(std::wstring_view baseDir);
 	BOOL AddParamA( const ACHAR* keyword, const ACHAR* filename, int no, ACHAR type, const ACHAR* note, int depth, const int baseDirId );
 	BOOL GetParam( int index, WCHAR* keyword, WCHAR* filename, int* no, WCHAR* type, WCHAR* note, int* depth, WCHAR* baseDir );
-	int GetCount( ){ return m_nCount; }
+	int GetCount( ){ return static_cast<int>(m_pTagjump.size()); }
 	void Empty( );
 
 	struct TagJumpInfo {
-		TagJumpInfo*	next;	//!< 次のリスト
 		std::wstring	keyword;	//!< キーワード
 		std::wstring	filename;	//!< ファイル名
 		int		no;			//!< 行番号
@@ -51,9 +51,8 @@ public:
 	int GetCapacity() const { return m_MAX_TAGJUMPLIST; }
 
 private:
-	TagJumpInfo*	m_pTagjump = nullptr;	//!< タグジャンプ情報
+	std::vector<TagJumpInfo> m_pTagjump;	//!< タグジャンプ情報
 	std::vector<std::wstring> m_baseDirArr;	//!< ベースディレクトリ情報
-	int				m_nCount = 0;	//!< 個数
 	
 	//	2005.04.22 genta 最大値を可変に
 	const int		m_MAX_TAGJUMPLIST;	//!< 管理する情報の最大数

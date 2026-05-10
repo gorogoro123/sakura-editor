@@ -20,29 +20,20 @@
 CSortedTagJumpList::CSortedTagJumpList(int max)
 	: m_MAX_TAGJUMPLIST( max )
 {
+	m_pTagjump.reserve(m_MAX_TAGJUMPLIST);
+
 	// id==0 を 空文字列にする
 	m_baseDirArr.emplace_back(L"");
 }
 
-CSortedTagJumpList::~CSortedTagJumpList()
-{
-	Empty();
-}
+CSortedTagJumpList::~CSortedTagJumpList() = default;
 
 /*
 	リストをすべて解放する。
 */
 void CSortedTagJumpList::Empty( )
 {
-	TagJumpInfo*	p;
-	TagJumpInfo*	next;
-	for( p = m_pTagjump; p; p = next )
-	{
-		next = p->next;
-		delete p;
-	}
-	m_pTagjump = nullptr;
-	m_nCount = 0;
+	m_pTagjump.clear();
 	m_baseDirArr.clear();
 	m_baseDirArr.push_back(L"");
 }
@@ -77,44 +68,37 @@ BOOL CSortedTagJumpList::AddParamA( const ACHAR* keyword, const ACHAR* filename,
 	ACHAR type, const ACHAR* note, int depth, int baseDirId )
 {
 	//アイテムを作成する。
-	TagJumpInfo* item = new TagJumpInfo();
-	item->keyword  = to_wchar(keyword);
-	item->filename = to_wchar(filename);
-	item->no       = no;
-	item->type     = type;
-	item->note     = to_wchar(note);
-	item->depth    = depth;
-	item->next     = nullptr;
-	item->baseDirId = baseDirId;
+	TagJumpInfo item = {
+		.keyword = to_wchar(keyword),
+		.filename = to_wchar(filename),
+		.no       = no,
+		.type     = (WCHAR)type,
+		.note     = to_wchar(note),
+		.depth    = depth,
+		.baseDirId = baseDirId,
+	};
 
 	//文字列長ガード
-	if( item->keyword.length() >= MAX_TAG_STRING_LENGTH ) item->keyword.resize(MAX_TAG_STRING_LENGTH-1);
-	if( item->filename.length() >= MAX_TAG_STRING_LENGTH ) item->filename.resize(MAX_TAG_STRING_LENGTH-1);
-	if( item->note.length() >= MAX_TAG_STRING_LENGTH ) item->note.resize(MAX_TAG_STRING_LENGTH-1);
-
-	TagJumpInfo* p;
-	TagJumpInfo* prev = nullptr;
+	if( item.keyword.length() >= MAX_TAG_STRING_LENGTH ) item.keyword.resize(MAX_TAG_STRING_LENGTH-1);
+	if( item.filename.length() >= MAX_TAG_STRING_LENGTH ) item.filename.resize(MAX_TAG_STRING_LENGTH-1);
+	if( item.note.length() >= MAX_TAG_STRING_LENGTH ) item.note.resize(MAX_TAG_STRING_LENGTH-1);
 
 	//アイテムをリストの適当な位置に追加する。
-	for( p = m_pTagjump; p; p = p->next )
-	{
-		if( p->keyword > item->keyword ) break;
-		prev = p;
-	}
-	item->next = p;
-	if( prev ) prev->next = item;
-	else       m_pTagjump = item;
-	m_nCount++;
+	auto it = std::lower_bound(
+		m_pTagjump.begin(),
+		m_pTagjump.end(),
+		item,
+		[](const TagJumpInfo& a, const TagJumpInfo& b){
+			return a.keyword < b.keyword;
+		}
+	);
+
+	m_pTagjump.insert(it, std::move(item));
 
 	//最大数を超えたら最後のアイテムを削除する。
-	if( m_nCount > m_MAX_TAGJUMPLIST )
+	if(m_pTagjump.size() > m_MAX_TAGJUMPLIST)
 	{
-		prev = nullptr;
-		for( p = m_pTagjump; p->next; p = p->next ) prev = p;
-		if( prev ) prev->next = nullptr;
-		else       m_pTagjump = nullptr;
-		delete p;
-		m_nCount--;
+		m_pTagjump.pop_back();
 	}
 	return TRUE;
 }
@@ -172,13 +156,8 @@ BOOL CSortedTagJumpList::GetParam( int index, WCHAR* keyword, WCHAR* filename, i
 */
 CSortedTagJumpList::TagJumpInfo* CSortedTagJumpList::GetPtr( int index )
 {
-	TagJumpInfo*	p;
-	int	i;
-	i = 0;
-	for( p = m_pTagjump; p; p = p->next )
-	{
-		if( index == i ) return p;
-		i++;
+	if( index < 0 || index >= static_cast<int>(m_pTagjump.size()) ){
+		return nullptr;
 	}
-	return nullptr;
+	return &m_pTagjump[index];
 }
