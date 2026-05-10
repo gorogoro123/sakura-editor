@@ -43,7 +43,6 @@ void CSortedTagJumpList::Empty( )
 	}
 	m_pTagjump = nullptr;
 	m_nCount = 0;
-	m_bOverflow = false;
 	m_baseDirArr.clear();
 	m_baseDirArr.push_back(L"");
 }
@@ -116,7 +115,6 @@ BOOL CSortedTagJumpList::AddParamA( const ACHAR* keyword, const ACHAR* filename,
 		else       m_pTagjump = nullptr;
 		delete p;
 		m_nCount--;
-		m_bOverflow = true;
 	}
 	return TRUE;
 }
