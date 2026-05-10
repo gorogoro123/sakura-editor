@@ -752,12 +752,7 @@ EFunctionCode GetPlugCmdInfoByName(
 )
 {
 	CommonSetting_Plugin& plugin = GetDllShareData().m_Common.m_sPlugin;
-	WCHAR		sPluginName[MAX_PLUGIN_ID+1];
 	const WCHAR* psCmdName;
-	size_t		nLen;
-	int			i;
-	int			nId;
-	int			nNo;
 
 	if (pszFuncName == nullptr) {
 		return F_INVALID;
@@ -765,20 +760,19 @@ EFunctionCode GetPlugCmdInfoByName(
 	if ((psCmdName = wcschr(pszFuncName, L'/')) == nullptr) {
 		return F_INVALID;
 	}
-	nLen = MAX_PLUGIN_ID < (psCmdName - pszFuncName) ? MAX_PLUGIN_ID : (psCmdName - pszFuncName);
-	wcsncpy( sPluginName, pszFuncName, nLen);
-	sPluginName[nLen] = L'\0'; 
+	size_t nLen = (std::min<size_t>)(MAX_PLUGIN_ID, psCmdName - pszFuncName);
+	std::wstring sPluginName(pszFuncName, nLen);
 	psCmdName++;
 
-	nId = -1;
-	for (i = 0; i < MAX_PLUGIN; i++) {
+	int nId = -1;
+	for (int i = 0; i < MAX_PLUGIN; i++) {
 		PluginRec& pluginrec = plugin.m_PluginTable[i];
-		if (wcscmp( pluginrec.m_szId, sPluginName ) == 0) {
+		 if (sPluginName == pluginrec.m_szId) {
 			nId = i;
 			break;
 		}
 	}
-	nNo = _wtoi( psCmdName );
+	int nNo = _wtoi( psCmdName );
 
 	if (nId < 0 || nNo <= 0 || nNo >= MAX_PLUG_CMD) {
 		// プラグインがない/番号がおかしい
