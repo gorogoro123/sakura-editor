@@ -1743,8 +1743,8 @@ public:
 				pcCodeBase->GetBom(&cBom);
 				out->Write(cBom.GetRawPtr(), cBom.GetRawLength());
 			}
-			for(size_t i = 0; i < buffer.size(); i++){
-				Output(buffer[i]);
+			for(const auto& buf : buffer){
+				Output(buf);
 			}
 			buffer.clear();
 			std::deque<CNativeW>().swap(buffer);
