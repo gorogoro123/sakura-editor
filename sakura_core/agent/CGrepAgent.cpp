@@ -1710,8 +1710,6 @@ public:
 		,name(name_)
 		,bBom(bBom_)
 		,bOldSave(bOldSave_)
-		,bufferSize(0)
-		,out(nullptr)
 		,pcCodeBase(CCodeFactory::CreateCodeBase(code_,0))
 		,memMessage(message)
 	{
@@ -1808,9 +1806,9 @@ private:
 	std::wstring name;
 	bool bBom;
 	bool bOldSave;
-	size_t bufferSize;
+	size_t bufferSize = 0;
 	std::deque<CNativeW> buffer;
-	CBinaryOutputStream* out;
+	CBinaryOutputStream* out = nullptr;
 	std::unique_ptr<CCodeBase> pcCodeBase;
 	CNativeW&	memMessage;
 };
