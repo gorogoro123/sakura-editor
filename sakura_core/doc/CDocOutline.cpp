@@ -233,15 +233,14 @@ void CDocOutline::MakeFuncList_RuleFile( CFuncInfoArr* pcFuncInfoArr, std::wstri
 	wchar_t		pszStack[nMaxStack][256];
 	wchar_t		nLvStack[nMaxStack];
 	wchar_t		szTitle[256];			//	一時領域
-	CBregexp*	pRegex = nullptr;
+	std::unique_ptr<CBregexp[]> pRegex;
 	if( bRegex ){
-		pRegex = new CBregexp[nCount];
+		pRegex = std::make_unique<CBregexp[]>(nCount);
 		for( int i = 0; i < nCount; i++ ){
 			if( 0 == test[i].nLength ){
 				continue;
 			}
 			if( !InitRegexp( nullptr, pRegex[i], true ) ){
-				delete [] pRegex;
 				return;
 			}
 			if( test[i].nRegexMode == 1 ){
@@ -253,7 +252,6 @@ void CDocOutline::MakeFuncList_RuleFile( CFuncInfoArr* pcFuncInfoArr, std::wstri
 						str.c_str(),
 						pRegex[i].GetLastMessage()
 					);
-					delete [] pRegex;
 					return;
 				}
 			}else if( !pRegex[i].Compile(test[i].szMatch, test[i].nRegexOption) ){
@@ -261,7 +259,6 @@ void CDocOutline::MakeFuncList_RuleFile( CFuncInfoArr* pcFuncInfoArr, std::wstri
 					test[i].szMatch,
 					pRegex[i].GetLastMessage()
 				);
-				delete [] pRegex;
 				return;
 			}
 		}
@@ -418,7 +415,6 @@ void CDocOutline::MakeFuncList_RuleFile( CFuncInfoArr* pcFuncInfoArr, std::wstri
 			nDepth++;
 		}
 	}
-	delete [] pRegex;
 	return;
 }
 
