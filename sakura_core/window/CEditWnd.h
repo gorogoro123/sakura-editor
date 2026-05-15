@@ -252,8 +252,8 @@ public:
 	//	Aug. 14, 2005 genta TAB幅と折り返し位置の更新
 	void ChangeLayoutParam( bool bShowProgress, CKetaXInt nTabSize, int nTsvMode, CKetaXInt nMaxLineKetas );
 	//	Aug. 14, 2005 genta
-	CLogicPointEx* SavePhysPosOfAllView();
-	void RestorePhysPosOfAllView( CLogicPointEx* pptPosArray );
+	std::vector<CLogicPointEx> SavePhysPosOfAllView();
+	void RestorePhysPosOfAllView( const std::vector<CLogicPointEx>& vPosAry );
 	// 互換BMPによる画面バッファ 2007.09.09 Moca
 	void Views_DeleteCompatibleBitmap(); //!< CEditViewの画面バッファを削除
 
@@ -396,7 +396,7 @@ private:
 	SMenubarMessage m_pszMenubarMessage;		//!< メニューバー右端に表示するメッセージ
 public:
 	int				m_nTimerCount;		//!< OnTimer用 2003.08.29 wmlhq
-	CLogicPointEx*	m_posSaveAry = nullptr;		//!< フォント変更前の座標
+	std::vector<CLogicPointEx>	m_vPosSaveAry;		//!< フォント変更前の座標
 private:
 	int				m_nCurrentFocus = 0;	//!< 現在のフォーカス情報
 	int				m_nWinSizeType;		//!< サイズ変更のタイプ。SIZE_MAXIMIZED, SIZE_MINIMIZED 等。

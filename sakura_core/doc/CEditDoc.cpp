@@ -686,12 +686,11 @@ void CEditDoc::OnChangeSetting(
 		CFileNameManager::getInstance()->TransformFileName_MakeCache();
 	}
 
-	CLogicPointEx* posSaveAry = nullptr;
+	std::vector<CLogicPointEx> vPosSaveAry;
 
-	if( GetEditWnd().m_posSaveAry ){
+	if( !GetEditWnd().m_vPosSaveAry.empty() ){
 		if( bDoLayout ){
-			posSaveAry = GetEditWnd().m_posSaveAry;
-			GetEditWnd().m_posSaveAry = nullptr;
+			vPosSaveAry = std::move(GetEditWnd().m_vPosSaveAry);
 		}
 	}else{
 		if( GetEditWnd().m_pPrintPreview ){
@@ -699,7 +698,7 @@ void CEditDoc::OnChangeSetting(
 			SelectCharWidthCache( CWM_FONT_EDIT, CWM_CACHE_NEUTRAL );
 		}
 		if( bDoLayout ){
-			posSaveAry = GetEditWnd().SavePhysPosOfAllView();
+			vPosSaveAry = GetEditWnd().SavePhysPosOfAllView();
 		}
 	}
 
@@ -821,9 +820,8 @@ void CEditDoc::OnChangeSetting(
 		GetEditWnd().GetView(i).OnChangeSetting();
 	}
 	GetEditWnd().GetMiniMap().OnChangeSetting();
-	if( posSaveAry ){
-		GetEditWnd().RestorePhysPosOfAllView( posSaveAry );
-	}
+	GetEditWnd().RestorePhysPosOfAllView( vPosSaveAry );
+
 	for( i = 0; i < viewCount; i++ ){
 		GetEditWnd().GetView(i).AdjustScrollBars();	// 2008.06.18 ryoji
 	}
