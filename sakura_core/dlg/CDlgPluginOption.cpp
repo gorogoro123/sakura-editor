@@ -11,7 +11,6 @@
 	SPDX-License-Identifier: Zlib
 */
 
-#include <climits>
 #include "dlg/CDlgPluginOption.h"
 #include "prop/CPropCommon.h"
 #include "util/shell.h"
@@ -26,8 +25,6 @@
 // BOOL変数の表示
 #define	BOOL_DISP_TRUE	L"\u2611"
 #define	BOOL_DISP_FALSE	L"\u2610"
-
-using namespace std::string_literals;
 
 // 編集領域を表示、非表示にする
 static inline void CtrlShow(HWND hwndDlg, int id, BOOL bShow)
@@ -139,6 +136,7 @@ void CDlgPluginOption::SetData( )
 		}
 
 		if (cOpt->GetType() == OPTION_TYPE_BOOL) {
+			using namespace std::string_literals;
 			wcscpy_s( buf, sValue == L"0"s || sValue.empty() ? BOOL_DISP_FALSE : BOOL_DISP_TRUE );
 		}
 		else if (cOpt->GetType() == OPTION_TYPE_INT) {
