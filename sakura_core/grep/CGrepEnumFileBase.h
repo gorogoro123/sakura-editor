@@ -81,8 +81,8 @@ public:
 		for (const auto &iter : vecKeys){
 			std::wstring lpPath = baseFolder + L"\\" + iter;
 			// vecKeys[ i ] ==> "subdir\*.h" 等の場合に後で(ファイル|フォルダー)名に "subdir\" を連結する
-			const WCHAR* keyDirYen = wcsrchr( iter, L'\\' );
-			const WCHAR* keyDirSlash = wcsrchr( iter, L'/' );
+			const WCHAR* keyDirYen = wcsrchr( iter.c_str(), L'\\');
+			const WCHAR* keyDirSlash = wcsrchr( iter.c_str(), L'/' );
 			const WCHAR* keyDir;
 			if( keyDirYen == nullptr ){
 				keyDir = keyDirSlash;
@@ -93,13 +93,13 @@ public:
 			}else{
 				keyDir = keyDirYen;
 			}
-			const auto nKeyDirLen = keyDir ? keyDir - iter + 1 : 0;
+			const auto nKeyDirLen = keyDir ? keyDir - iter.c_str() + 1 : 0;
 
 			WIN32_FIND_DATA w32fd;
 			HANDLE handle = ::FindFirstFile( lpPath.c_str(), &w32fd );
 			if( INVALID_HANDLE_VALUE != handle ){
 				do{
-					if( !::PathMatchSpec(w32fd.cFileName, iter + nKeyDirLen) ){
+					if( !::PathMatchSpec(w32fd.cFileName, iter.c_str() + nKeyDirLen)) {
 						continue;
 					}
 					if( option.m_bIgnoreHidden && (w32fd.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN) ){
@@ -111,7 +111,7 @@ public:
 					if( option.m_bIgnoreSystem && (w32fd.dwFileAttributes & FILE_ATTRIBUTE_SYSTEM) ){
 						continue;
 					}
-					std::wstring lpName(iter, nKeyDirLen);
+					std::wstring lpName(iter.c_str(), nKeyDirLen);
 					lpName += w32fd.cFileName;
 					std::wstring lpFullPath = baseFolder + L"\\" + lpName;
 					if( IsValid( w32fd, lpName.c_str() ) ){
