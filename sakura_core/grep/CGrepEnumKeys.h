@@ -22,7 +22,7 @@
 #include "util/file.h"
 #include "util/design_template.h"
 
-typedef std::vector< LPCWSTR > VGrepEnumKeys;
+using VGrepEnumKeys = std::vector< std::wstring >;
 
 class CGrepEnumKeys {
 public:
@@ -187,23 +187,18 @@ private:
 		return;
 	}
 	void ClearEnumKeys( VGrepEnumKeys& keys ){
-		for (auto& key : keys){
-			delete [] key;
-		}
 		keys.clear();
 	}
 
 	void push_back_unique( VGrepEnumKeys& keys, LPCWSTR addKey ){
 		if( ! IsExist( keys, addKey) ){
-			WCHAR* newKey = new WCHAR[ wcslen( addKey ) + 1 ];
-			wcscpy( newKey, addKey );
-			keys.push_back( newKey );
+			keys.emplace_back( addKey );
 		}
 	}
 
-	BOOL IsExist( VGrepEnumKeys& keys, LPCWSTR addKey ){
+	BOOL IsExist( const VGrepEnumKeys& keys, LPCWSTR addKey ){
 		for (const auto& key : keys){
-			if( wcscmp( key, addKey ) == 0 ){
+			if( key == addKey ){
 				return TRUE;
 			}
 		}
