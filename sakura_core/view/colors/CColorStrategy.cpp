@@ -201,10 +201,9 @@ CColorStrategy*	CColorStrategyPool::GetStrategyByColor(EColorIndexType eColor) c
 	if( COLORIDX_SEARCH <= eColor && eColor <= COLORIDX_SEARCHTAIL ){
 		return m_pcFoundStrategy.get();
 	}
-	int size = (int)m_vStrategiesDisp.size();
-	for(int i = 0; i < size; i++ ){
-		if(m_vStrategiesDisp[i]->GetStrategyColor()==eColor){
-			return m_vStrategiesDisp[i];
+	for (auto *e : m_vStrategiesDisp){
+		if (e->GetStrategyColor() == eColor){
+			return e;
 		}
 	}
 	return nullptr;
