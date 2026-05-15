@@ -112,8 +112,7 @@ struct PRINTSETTING {
 class CPrint
 {
 public:
-	static const PAPER_INFO m_paperInfoArr[];	//!< 用紙情報一覧
-	static const int m_nPaperInfoArrNum; //!< 用紙情報一覧の要素数
+	static std::span<const PAPER_INFO> GetPaperInfo(); //!< 用紙情報一覧取得
 
 	/*
 	||	static関数群

@@ -477,9 +477,9 @@ void CDlgPrintSetting::SetData( )
 	hwndComboPaper = GetItemHwnd( IDC_COMBO_PAPER );
 	ApiWrap::Combo_ResetContent( hwndComboPaper );
 	// 2006.08.14 Moca 用紙名一覧の重複削除
-	for( i = 0; i < CPrint::m_nPaperInfoArrNum; ++i ){
-		nItemIdx = ApiWrap::Combo_AddString( hwndComboPaper, CPrint::m_paperInfoArr[i].m_pszName );
-		ApiWrap::Combo_SetItemData( hwndComboPaper, nItemIdx, CPrint::m_paperInfoArr[i].m_nId );
+	for( const auto& it : CPrint::GetPaperInfo() ){
+		nItemIdx = ApiWrap::Combo_AddString( hwndComboPaper, it.m_pszName );
+		ApiWrap::Combo_SetItemData( hwndComboPaper, nItemIdx, it.m_nId );
 	}
 
 	/* 印刷設定名一覧 */

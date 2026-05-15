@@ -22,7 +22,7 @@
 #include "basis/CMyString.h"
 
 // 2006.08.14 Moca 用紙名一覧の重複削除・情報の統合
-const PAPER_INFO CPrint::m_paperInfoArr[] = {
+static const auto g_paperInfoArr = std::to_array<PAPER_INFO>({
 	// 	用紙ID, 幅
 	{DMPAPER_A4,                  2100,  2970, L"A4 (210 x 297 mm)"},
 	{DMPAPER_A3,                  2970,  4200, L"A3 (297 x 420 mm)"},
@@ -65,9 +65,7 @@ const PAPER_INFO CPrint::m_paperInfoArr[] = {
 	{DMPAPER_FANFOLD_US,          3778,  2794, L"US Std Fanfold (14 7/8 x 11 inch)"},
 	{DMPAPER_FANFOLD_STD_GERMAN,  2159,  3048, L"German Std Fanfold   (8 1/2 x 12 inch)"},
 	{DMPAPER_FANFOLD_LGL_GERMAN,  2159,  3302, L"German Legal Fanfold (8 1/2 x 13 inch)"},
-};
-
-const int CPrint::m_nPaperInfoArrNum = int(std::size(m_paperInfoArr));
+});
 
 CPrint::CPrint( )
 {
@@ -498,12 +496,17 @@ void CPrint::GetPaperName( int nPaperSize, std::wstring& szPaperName )
 */
 const PAPER_INFO* CPrint::FindPaperInfo( int id )
 {
-	for( int i = 0; i < m_nPaperInfoArrNum; ++i ){
-		if( m_paperInfoArr[i].m_nId == id ){
-			return &(m_paperInfoArr[i]);
+	for( const auto& it : g_paperInfoArr ){
+		if( it.m_nId == id ){
+			return &it;
 		}
 	}
 	return nullptr;
+}
+
+std::span<const PAPER_INFO> CPrint::GetPaperInfo()
+{
+	return g_paperInfoArr;
 }
 
 /*!	@brief PRINTSETTINGの初期化
