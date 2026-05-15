@@ -1717,8 +1717,7 @@ LRESULT CEditWnd::DispatchEvent(
 			break;
 		case PM_CHANGESETTING_FONT:
 			GetDocument()->OnChangeSetting( true );	// フォントで文字幅が変わるので、レイアウト再構築
-			delete [] m_posSaveAry;
-			m_posSaveAry = nullptr;
+			m_vPosSaveAry = {};
 			break;
 		case PM_CHANGESETTING_FONTSIZE:
 			if( (-1 == wParam && CWM_CACHE_SHARE == GetLogfontCacheMode())
@@ -1727,8 +1726,7 @@ LRESULT CEditWnd::DispatchEvent(
 				// 変更中にさらに変更されると困るのでBlockingHookは無効
 				GetDocument()->OnChangeSetting( true, false );
 			}
-			delete [] m_posSaveAry;
-			m_posSaveAry = nullptr;
+			m_vPosSaveAry = {};
 			break;
 		case PM_CHANGESETTING_TYPE:
 			cTypeNew = CDocTypeManager().GetDocumentTypeOfPath(GetDocument()->m_cDocFile.GetFilePath());
@@ -1784,7 +1782,7 @@ LRESULT CEditWnd::DispatchEvent(
 				SelectCharWidthCache( CWM_FONT_EDIT, CWM_CACHE_NEUTRAL );
 			}
 			// フォント変更前の座標の保存
-			m_posSaveAry = SavePhysPosOfAllView();
+			m_vPosSaveAry = SavePhysPosOfAllView();
 			if( m_pPrintPreview ){
 				// 設定を戻す
 				SelectCharWidthCache( CWM_FONT_PRINT, CWM_CACHE_LOCAL );
@@ -4495,7 +4493,7 @@ void CEditWnd::ChangeLayoutParam( bool bShowProgress, CKetaXInt nTabSize, int nT
 	}
 
 	//	座標の保存
-	CLogicPointEx* posSave = SavePhysPosOfAllView();
+	std::vector<CLogicPointEx> vPosSaveAry = SavePhysPosOfAllView();
 
 	//	レイアウトの更新
 	GetDocument()->m_cLayoutMgr.ChangeLayoutParam( nTabSize, nTsvMode, nMaxLineKetas );
@@ -4504,7 +4502,7 @@ void CEditWnd::ChangeLayoutParam( bool bShowProgress, CKetaXInt nTabSize, int nT
 	//	座標の復元
 	//	レイアウト変更途中はカーソル移動の画面スクロールを見せない	// 2008.06.18 ryoji
 	const bool bDrawSwitchOld = SetDrawSwitchOfAllViews( false );
-	RestorePhysPosOfAllView( posSave );
+	RestorePhysPosOfAllView( vPosSaveAry );
 	SetDrawSwitchOfAllViews( bDrawSwitchOld );
 
 	for( int i = 0; i < GetAllViewCount(); i++ ){
@@ -4527,64 +4525,64 @@ void CEditWnd::ChangeLayoutParam( bool bShowProgress, CKetaXInt nTabSize, int nT
 /*!
 	レイアウトの変更に先立って，全てのViewの座標を物理座標に変換して保存する．
 
-	@return データを保存した配列へのポインタ
+	@return データを保存した配列
 
 	@note 取得した値はレイアウト変更後にCEditWnd::RestorePhysPosOfAllViewへ渡す．
-	渡し忘れるとメモリリークとなる．
 
 	@date 2005.08.11 genta  新規作成
 	@date 2007.09.06 kobake 戻り値をCLogicPoint*に変更
 	@date 2011.12.28 CLogicPointをCLogicPointExに変更。改行より右側でも復帰できるように
 */
-CLogicPointEx* CEditWnd::SavePhysPosOfAllView()
+std::vector<CLogicPointEx> CEditWnd::SavePhysPosOfAllView()
 {
 	const int NUM_OF_VIEW = GetAllViewCount();
 	const int NUM_OF_POS = 6;
 
-	CLogicPointEx* pptPosArray = new CLogicPointEx[NUM_OF_VIEW * NUM_OF_POS];
+	std::vector<CLogicPointEx> vPosAry(NUM_OF_VIEW * NUM_OF_POS);
 
 	for( int i = 0; i < NUM_OF_VIEW; ++i ){
 		CLayoutPoint tmp = CLayoutPoint(CLayoutInt(0), GetView(i).m_pcTextArea->GetViewTopLine());
 		const CLayout* layoutLine = GetDocument()->m_cLayoutMgr.SearchLineByLayoutY(tmp.GetY2());
 		if( layoutLine ){
 			CLogicInt nLineCenter = layoutLine->GetLogicOffset() + layoutLine->GetLengthWithoutEOL() / 2;
-			pptPosArray[i * NUM_OF_POS + 0].x = nLineCenter;
-			pptPosArray[i * NUM_OF_POS + 0].y = layoutLine->GetLogicLineNo();
+			vPosAry[i * NUM_OF_POS + 0].x = nLineCenter;
+			vPosAry[i * NUM_OF_POS + 0].y = layoutLine->GetLogicLineNo();
 		}else{
-			pptPosArray[i * NUM_OF_POS + 0].x = CLogicInt(0);
-			pptPosArray[i * NUM_OF_POS + 0].y = CLogicInt(0);
+			vPosAry[i * NUM_OF_POS + 0].x = CLogicInt(0);
+			vPosAry[i * NUM_OF_POS + 0].y = CLogicInt(0);
 		}
-		pptPosArray[i * NUM_OF_POS + 0].ext = CLayoutInt(0);
+		vPosAry[i * NUM_OF_POS + 0].ext = CLayoutInt(0);
 		if( GetView(i).GetSelectionInfo().m_sSelectBgn.GetFrom().y >= 0 ){
 			GetDocument()->m_cLayoutMgr.LayoutToLogicEx(
 				GetView(i).GetSelectionInfo().m_sSelectBgn.GetFrom(),
-				&pptPosArray[i * NUM_OF_POS + 1]
+				&vPosAry[i * NUM_OF_POS + 1]
 			);
 		}
 		if( GetView(i).GetSelectionInfo().m_sSelectBgn.GetTo().y >= 0 ){
 			GetDocument()->m_cLayoutMgr.LayoutToLogicEx(
 				GetView(i).GetSelectionInfo().m_sSelectBgn.GetTo(),
-				&pptPosArray[i * NUM_OF_POS + 2]
+				&vPosAry[i * NUM_OF_POS + 2]
 			);
 		}
 		if( GetView(i).GetSelectionInfo().m_sSelect.GetFrom().y >= 0 ){
 			GetDocument()->m_cLayoutMgr.LayoutToLogicEx(
 				GetView(i).GetSelectionInfo().m_sSelect.GetFrom(),
-				&pptPosArray[i * NUM_OF_POS + 3]
+				&vPosAry[i * NUM_OF_POS + 3]
 			);
 		}
 		if( GetView(i).GetSelectionInfo().m_sSelect.GetTo().y >= 0 ){
 			GetDocument()->m_cLayoutMgr.LayoutToLogicEx(
 				GetView(i).GetSelectionInfo().m_sSelect.GetTo(),
-				&pptPosArray[i * NUM_OF_POS + 4]
+				&vPosAry[i * NUM_OF_POS + 4]
 			);
 		}
 		GetDocument()->m_cLayoutMgr.LayoutToLogicEx(
 			GetView(i).GetCaret().GetCaretLayoutPos(),
-			&pptPosArray[i * NUM_OF_POS + 5]
+			&vPosAry[i * NUM_OF_POS + 5]
 		);
 	}
-	return pptPosArray;
+
+	return vPosAry;
 }
 
 /*!	座標の復元
@@ -4595,46 +4593,50 @@ CLogicPointEx* CEditWnd::SavePhysPosOfAllView()
 	@date 2007.09.06 kobake 引数をCLogicPoint*に変更
 	@date 2011.12.28 CLogicPointをCLogicPointExに変更。改行より右側でも復帰できるように
 */
-void CEditWnd::RestorePhysPosOfAllView( CLogicPointEx* pptPosArray )
+void CEditWnd::RestorePhysPosOfAllView( const std::vector<CLogicPointEx>& vPosArray )
 {
 	const int NUM_OF_VIEW = GetAllViewCount();
 	const int NUM_OF_POS = 6;
 
+	if( vPosArray.size() < NUM_OF_VIEW * NUM_OF_POS ){
+		return;
+	}
+
 	for( int i = 0; i < NUM_OF_VIEW; ++i ){
 		CLayoutPoint tmp;
 		GetDocument()->m_cLayoutMgr.LogicToLayoutEx(
-			pptPosArray[i * NUM_OF_POS + 0],
+			vPosArray[i * NUM_OF_POS + 0],
 			&tmp
 		);
 		GetView(i).m_pcTextArea->SetViewTopLine(tmp.GetY2());
 
 		if( GetView(i).GetSelectionInfo().m_sSelectBgn.GetFrom().y >= 0 ){
 			GetDocument()->m_cLayoutMgr.LogicToLayoutEx(
-				pptPosArray[i * NUM_OF_POS + 1],
+				vPosArray[i * NUM_OF_POS + 1],
 				GetView(i).GetSelectionInfo().m_sSelectBgn.GetFromPointer()
 			);
 		}
 		if( GetView(i).GetSelectionInfo().m_sSelectBgn.GetTo().y >= 0 ){
 			GetDocument()->m_cLayoutMgr.LogicToLayoutEx(
-				pptPosArray[i * NUM_OF_POS + 2],
+				vPosArray[i * NUM_OF_POS + 2],
 				GetView(i).GetSelectionInfo().m_sSelectBgn.GetToPointer()
 			);
 		}
 		if( GetView(i).GetSelectionInfo().m_sSelect.GetFrom().y >= 0 ){
 			GetDocument()->m_cLayoutMgr.LogicToLayoutEx(
-				pptPosArray[i * NUM_OF_POS + 3],
+				vPosArray[i * NUM_OF_POS + 3],
 				GetView(i).GetSelectionInfo().m_sSelect.GetFromPointer()
 			);
 		}
 		if( GetView(i).GetSelectionInfo().m_sSelect.GetTo().y >= 0 ){
 			GetDocument()->m_cLayoutMgr.LogicToLayoutEx(
-				pptPosArray[i * NUM_OF_POS + 4],
+				vPosArray[i * NUM_OF_POS + 4],
 				GetView(i).GetSelectionInfo().m_sSelect.GetToPointer()
 			);
 		}
 		CLayoutPoint ptPosXY;
 		GetDocument()->m_cLayoutMgr.LogicToLayoutEx(
-			pptPosArray[i * NUM_OF_POS + 5],
+			vPosArray[i * NUM_OF_POS + 5],
 			&ptPosXY
 		);
 		GetView(i).GetCaret().MoveCursor( ptPosXY, false ); // 2013.06.05 bScrollをtrue=>falase
@@ -4651,7 +4653,6 @@ void CEditWnd::RestorePhysPosOfAllView( CLogicPointEx* pptPosArray )
 		GetView(i).GetCaret().ShowEditCaret();
 	}
 	GetActiveView().GetCaret().ShowCaretPosInfo();
-	delete[] pptPosArray;
 }
 
 /*!
