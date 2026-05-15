@@ -26,14 +26,10 @@ typedef std::vector< PairGrepEnumItem > VPGrepEnumItem;
 
 class CGrepEnumOptions {
 public:
-	CGrepEnumOptions()
-		:m_bIgnoreHidden(false)
-		,m_bIgnoreReadOnly(false)
-		,m_bIgnoreSystem(false)
-	{}
-	bool	m_bIgnoreHidden;
-	bool	m_bIgnoreReadOnly;
-	bool	m_bIgnoreSystem;
+	CGrepEnumOptions() = default;
+	bool	m_bIgnoreHidden = false;
+	bool	m_bIgnoreReadOnly = false;
+	bool	m_bIgnoreSystem = false;
 };
 
 class CGrepEnumFileBase {
