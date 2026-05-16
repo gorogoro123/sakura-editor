@@ -885,7 +885,7 @@ int CDlgFavorite::DeleteSelected()
 				if( 1 == nDelItemCount ){
 					// 1つ削除のときは、Yスクロール位置を保持
 					// 2つ以上は複雑なのでSetDataOneにおまかせする
-					nLvTopIndex = t_max(0, t_min(pRecent->GetItemCount() - 1, nLvTopIndex));
+					nLvTopIndex = std::clamp(nLvTopIndex, 0, pRecent->GetItemCount() - 1);
 					int nNowLvTopIndex = ListView_GetTopIndex(hwndList);
 					if( nNowLvTopIndex != nLvTopIndex ){
 						CMyRect rect;
