@@ -392,7 +392,7 @@ private:
 
 	//状態
 	bool			m_bIsActiveApp = false;		//!< 自アプリがアクティブかどうか	// 2007.03.08 ryoji
-	LPWSTR			m_pszLastCaption = nullptr;
+	std::wstring	m_szLastCaption;
 	SMenubarMessage m_pszMenubarMessage;		//!< メニューバー右端に表示するメッセージ
 public:
 	int				m_nTimerCount;		//!< OnTimer用 2003.08.29 wmlhq
