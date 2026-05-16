@@ -445,14 +445,13 @@ BOOL CDlgGrep::OnBnClicked( int wID )
 		{
 			HWND hwnd = GetItemHwnd( IDC_COMBO_FOLDER );
 			const int nMaxPath = MAX_GREP_PATH;
-			WCHAR szFolder[nMaxPath];
-			::GetWindowText( hwnd, szFolder, int(std::size(szFolder)) );
+			SFilePathLong szFolder;
+			::GetWindowText( hwnd, szFolder, szFolder.size() );
 			std::vector<std::wstring> vPaths;
 			CGrepAgent::CreateFolders( szFolder, vPaths );
 			if( 0 < vPaths.size() ){
 				// 最後のパスが操作対象
-				wcsncpy( szFolder, vPaths.rbegin()->c_str(), nMaxPath );
-				szFolder[nMaxPath-1] = L'\0';
+				szFolder = vPaths.rbegin()->c_str();
 				if( DirectoryUp( szFolder ) ){
 					*(vPaths.rbegin()) = szFolder;
 					szFolder[0] = L'\0';
@@ -468,10 +467,9 @@ BOOL CDlgGrep::OnBnClicked( int wID )
 							szFolderItem[nMaxPath-1] = L'\0';
 						}
 						if( i ){
-							wcscat( szFolder, L";" );
-							szFolder[nMaxPath-1] = L'\0';
+							szFolder.append(L";");
 						}
-						wcscat_s( szFolder, nMaxPath, szFolderItem );
+						szFolder.append(szFolderItem);
 					}
 					::SetWindowText( hwnd, szFolder );
 				}
