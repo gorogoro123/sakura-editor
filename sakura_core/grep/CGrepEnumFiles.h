@@ -19,11 +19,8 @@ class CGrepEnumFiles : public CGrepEnumFileBase {
 private:
 
 public:
-	CGrepEnumFiles(){
-	}
-
-	virtual ~CGrepEnumFiles(){
-	}
+	CGrepEnumFiles() = default;
+	virtual ~CGrepEnumFiles() = default;
 
 	BOOL IsValid( WIN32_FIND_DATA& w32fd, LPCWSTR pFile = nullptr ) override {
 		if( ! ( w32fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ) ){
