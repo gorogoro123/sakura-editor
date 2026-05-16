@@ -444,7 +444,6 @@ BOOL CDlgGrep::OnBnClicked( int wID )
 	case IDC_BUTTON_FOLDER_UP:
 		{
 			HWND hwnd = GetItemHwnd( IDC_COMBO_FOLDER );
-			const int nMaxPath = MAX_GREP_PATH;
 			SFilePathLong szFolder;
 			::GetWindowText( hwnd, szFolder, szFolder.size() );
 			std::vector<std::wstring> vPaths;
@@ -454,22 +453,18 @@ BOOL CDlgGrep::OnBnClicked( int wID )
 				szFolder = vPaths.rbegin()->c_str();
 				if( DirectoryUp( szFolder ) ){
 					*(vPaths.rbegin()) = szFolder;
-					szFolder[0] = L'\0';
-					for( int i = 0 ; i < (int)vPaths.size(); i++ ){
-						WCHAR szFolderItem[nMaxPath];
-						wcsncpy( szFolderItem, vPaths[i].c_str(), nMaxPath );
-						szFolderItem[nMaxPath-1] = L'\0';
-						if( wcschr( szFolderItem, L';' ) ){
-							szFolderItem[0] = L'"';
-							wcsncpy( szFolderItem + 1, vPaths[i].c_str(), nMaxPath - 1 );
-							szFolderItem[nMaxPath-1] = L'\0';
-							wcscat( szFolderItem, L"\"" );
-							szFolderItem[nMaxPath-1] = L'\0';
+					szFolder = {};
+					for( const auto& path : vPaths ){
+						std::wstring szFolderItem;
+						if( path.find(L';') != std::wstring::npos ){
+							szFolderItem = L'"' + path + L"\"";
+						} else {
+							szFolderItem = path;
 						}
-						if( i ){
+						if( !szFolder.empty() ){
 							szFolder.append(L";");
 						}
-						szFolder.append(szFolderItem);
+						szFolder.append(szFolderItem.c_str());
 					}
 					::SetWindowText( hwnd, szFolder );
 				}
