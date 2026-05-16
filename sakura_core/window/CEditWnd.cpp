@@ -23,8 +23,6 @@
 	SPDX-License-Identifier: Zlib
 */
 
-#include <ShlObj.h>
-
 #include "window/CEditWnd.h"
 #include "_main/CControlTray.h"
 #include "_main/CCommandLine.h"	/// 2003/1/26 aroka
@@ -225,7 +223,7 @@ CEditWnd::~CEditWnd() = default;
 void CEditWnd::OnAfterSave([[maybe_unused]] const SSaveInfo& sSaveInfo)
 {
 	//ビュー再描画
-	this->Views_RedrawAll();
+	Views_RedrawAll();
 
 	//キャプションの更新を行う
 	UpdateCaption();
@@ -1230,7 +1228,7 @@ LRESULT CEditWnd::DispatchEvent(
 		// キャプション設定、タイマーON/OFF		// 2007.03.08 ryoji WM_ACTIVATEから移動
 		UpdateCaption();
 		m_cFuncKeyWnd.Timer_ONOFF( m_bIsActiveApp ); // 20060126 aroka
-		this->Timer_ONOFF( m_bIsActiveApp ); // 20060128 aroka
+		Timer_ONOFF( m_bIsActiveApp ); // 20060128 aroka
 
 		return 0L;
 
@@ -1266,7 +1264,7 @@ LRESULT CEditWnd::DispatchEvent(
 //		MYTRACE( L"WM_SIZE\n" );
 		/* WM_SIZE 処理 */
 		if( SIZE_MINIMIZED == wParam ){
-			this->UpdateCaption();
+			UpdateCaption();
 		}
 		return OnSize( wParam, lParam );
 
@@ -1791,7 +1789,7 @@ LRESULT CEditWnd::DispatchEvent(
 			}else{
 				nPane = m_cSplitterWnd.GetLastPane();
 			}
-			this->SetActivePane( nPane );
+			SetActivePane( nPane );
 		}
 		return 0L;
 
@@ -2824,7 +2822,7 @@ void CEditWnd::PrintPreviewModeONOFF( )
 		m_pPrintPreview = nullptr;	//	NULLか否かで、プリントプレビューモードか判断するため。
 
 		/*	通常モードに戻す	*/
-		::ShowWindow( this->m_cSplitterWnd.GetHwnd(), SW_SHOW );
+		::ShowWindow( m_cSplitterWnd.GetHwnd(), SW_SHOW );
 		::ShowWindow( hwndToolBar, SW_SHOW );	// 2006.06.17 ryoji
 		::ShowWindow( m_cStatusBar.GetStatusHwnd(), SW_SHOW );
 		::ShowWindow( m_cFuncKeyWnd.GetHwnd(), SW_SHOW );
@@ -2858,7 +2856,7 @@ void CEditWnd::PrintPreviewModeONOFF( )
 		::DestroyMenu( hMenu );
 		::DrawMenuBar( GetHwnd() );
 
-		::ShowWindow( this->m_cSplitterWnd.GetHwnd(), SW_HIDE );
+		::ShowWindow( m_cSplitterWnd.GetHwnd(), SW_HIDE );
 		::ShowWindow( hwndToolBar, SW_HIDE );	// 2006.06.17 ryoji
 		::ShowWindow( m_cStatusBar.GetStatusHwnd(), SW_HIDE );
 		::ShowWindow( m_cFuncKeyWnd.GetHwnd(), SW_HIDE );
@@ -4162,7 +4160,7 @@ void CEditWnd::OnEditTimer( )
 			bool bOld = GetDocument()->m_cDocLocker.IsDocWritable();
 			GetDocument()->m_cDocLocker.CheckWritable(false);
 			if(bOld != GetDocument()->m_cDocLocker.IsDocWritable()){
-				this->UpdateCaption();
+				UpdateCaption();
 			}
 		}
 #endif
