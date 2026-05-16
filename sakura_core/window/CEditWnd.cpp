@@ -218,12 +218,7 @@ CEditWnd::CEditWnd()
 	m_pcEditView = m_pcEditViewArr[0].get();
 }
 
-CEditWnd::~CEditWnd()
-{
-	delete[] m_pszLastCaption;
-
-	m_hWnd = nullptr;
-}
+CEditWnd::~CEditWnd() = default;
 
 //! ドキュメントリスナ：セーブ後
 // 2008.02.02 kobake
@@ -2003,9 +1998,7 @@ LRESULT CEditWnd::DispatchEvent(
 		// 編集ウィンドウ切替中（タブまとめ時）はタイトルバーのアクティブ／非アクティブ状態をできるだけ変更しないように（２）	// 2007.04.03 ryoji
 		// タイマーを使用してタイトルの変更を遅延する
 		if( m_pShareData->m_sFlags.m_bEditWndChanging ){
-			delete[] m_pszLastCaption;
-			m_pszLastCaption = new WCHAR[ ::wcslen((LPCWSTR)lParam) + 1 ];
-			::wcscpy( m_pszLastCaption, (LPCWSTR)lParam );	// 変更後のタイトルを記憶しておく
+			m_szLastCaption = (LPCWSTR)lParam;	// 変更後のタイトルを記憶しておく
 			::SetTimer( GetHwnd(), IDT_CAPTION, 50, nullptr );
 			return 0L;
 		}
@@ -2777,7 +2770,7 @@ void CEditWnd::OnCaptionTimer( )
 	// まだ切替中ならタイマー継続
 	if( !m_pShareData->m_sFlags.m_bEditWndChanging ){
 		::KillTimer( GetHwnd(), IDT_CAPTION );
-		::SetWindowText( GetHwnd(), m_pszLastCaption );
+		::SetWindowText( GetHwnd(), m_szLastCaption.c_str());
 	}
 }
 
