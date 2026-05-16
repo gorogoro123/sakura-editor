@@ -106,9 +106,7 @@ void CMainToolBar::CreateToolBar( )
 	REBARINFO		rbi;
 	REBARBANDINFO	rbBand;
 	int				nFlag;
-	TBBUTTON		tbb;
 	int				i;
-	int				nIdx;
 	LONG_PTR		lToolType;
 	nFlag = 0;
 
@@ -190,36 +188,35 @@ void CMainToolBar::CreateToolBar( )
 		m_pcIcons->SetToolBarImages( m_hwndToolBar );
 		/* ツールバーにボタンを追加 */
 		int count = 0;	//@@@ 2002.06.15 MIK
-		int nToolBarButtonNum = 0;// 2005/8/29 aroka
 		//	From Here 2005.08.29 aroka
 		// はじめにツールバー構造体の配列を作っておく
-		TBBUTTON *pTbbArr = new TBBUTTON[GetDllShareData().m_Common.m_sToolBar.m_nToolBarButtonNum];
+		std::vector<TBBUTTON> vTbbArr;
+		vTbbArr.reserve(GetDllShareData().m_Common.m_sToolBar.m_nToolBarButtonNum);
 		for( i = 0; i < GetDllShareData().m_Common.m_sToolBar.m_nToolBarButtonNum; ++i ){
-			nIdx = GetDllShareData().m_Common.m_sToolBar.m_nToolBarButtonIdxArr[i];
-			pTbbArr[nToolBarButtonNum] = m_pOwner->GetMenuDrawer().getButton(nIdx);
+			int nIdx = GetDllShareData().m_Common.m_sToolBar.m_nToolBarButtonIdxArr[i];
+			vTbbArr.emplace_back(m_pOwner->GetMenuDrawer().getButton(nIdx));
+
 			// セパレータが続くときはひとつにまとめる
 			// 折り返しボタンもTBSTYLE_SEP属性を持っているので
 			// 折り返しの前のセパレータは全て削除される．
-			if( (pTbbArr[nToolBarButtonNum].fsStyle & TBSTYLE_SEP) && (nToolBarButtonNum!=0)){
-				if( (pTbbArr[nToolBarButtonNum-1].fsStyle & TBSTYLE_SEP) ){
-					pTbbArr[nToolBarButtonNum-1] = pTbbArr[nToolBarButtonNum];
-					nToolBarButtonNum--;
+			if( (vTbbArr.back().fsStyle & TBSTYLE_SEP) && vTbbArr.size() > 1){
+				if( (vTbbArr[vTbbArr.size() - 2].fsStyle & TBSTYLE_SEP) ){
+					vTbbArr[vTbbArr.size() - 2] = vTbbArr.back();
+					vTbbArr.pop_back();
 				}
 			}
 			// 仮想折返しボタンがきたら直前のボタンに折返し属性を付ける
-			if( pTbbArr[nToolBarButtonNum].fsState & TBSTATE_WRAP ){
-				if( nToolBarButtonNum!=0 ){
-					pTbbArr[nToolBarButtonNum-1].fsState |= TBSTATE_WRAP;
+			if( vTbbArr.back().fsState & TBSTATE_WRAP ){
+				if( vTbbArr.size() > 1 ){
+					vTbbArr[vTbbArr.size() - 2].fsState |= TBSTATE_WRAP;
 				}
+				vTbbArr.pop_back();
 				continue;
 			}
-			nToolBarButtonNum++;
 		}
 		//	To Here 2005.08.29 aroka
 
-		for( i = 0; i < nToolBarButtonNum; ++i ){
-			tbb = pTbbArr[i];
-
+		for( auto& tbb : vTbbArr ){
 			//@@@ 2002.06.15 MIK start
 			switch( tbb.fsStyle )
 			{
@@ -340,7 +337,6 @@ void CMainToolBar::CreateToolBar( )
 			::SetWindowLongPtr(m_hwndToolBar, GWL_STYLE, lToolType);
 			::InvalidateRect(m_hwndToolBar, nullptr, TRUE);
 		}
-		delete []pTbbArr;// 2005/8/29 aroka
 	}
 
 	// 2006.06.17 ryoji
