@@ -19,11 +19,8 @@ class CGrepEnumFolders : public CGrepEnumFileBase {
 private:
 
 public:
-	CGrepEnumFolders(){
-	}
-
-	virtual ~CGrepEnumFolders(){
-	}
+	CGrepEnumFolders() = default;
+	virtual ~CGrepEnumFolders() = default;
 
 	BOOL IsValid( WIN32_FIND_DATA& w32fd, LPCWSTR pFile = nullptr ) override{
 		if( ( w32fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY )

@@ -22,11 +22,8 @@ public:
 	CGrepEnumFolders m_cGrepEnumExceptFolders;
 
 public:
-	CGrepEnumFilterFolders(){
-	}
-
-	virtual ~CGrepEnumFilterFolders(){
-	}
+	CGrepEnumFilterFolders() = default;
+	virtual ~CGrepEnumFilterFolders() = default;
 
 	BOOL IsValid( WIN32_FIND_DATA& w32fd, LPCWSTR pFile = nullptr ) override{
 		if( CGrepEnumFolders::IsValid( w32fd, pFile ) ){
