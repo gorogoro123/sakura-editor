@@ -101,7 +101,7 @@ int CFileNameManager::TransformFileName_MakeCache( ){
 	@date 2002.11.27 Moca 新規作成
 	@note 大小文字を区別しない。nDestLenに達したときは後ろを切り捨てられる
 */
-LPCWSTR CFileNameManager::GetFilePathFormat( std::wstring_view strSrc, LPWSTR pszDest, size_t nDestLen, std::wstring_view strFrom, std::wstring_view strTo )
+void CFileNameManager::GetFilePathFormat( std::wstring_view strSrc, LPWSTR pszDest, size_t nDestLen, std::wstring_view strFrom, std::wstring_view strTo )
 {
 	auto it = strSrc.cbegin();
 	wchar_t* pDest = pszDest;
@@ -112,7 +112,7 @@ LPCWSTR CFileNameManager::GetFilePathFormat( std::wstring_view strSrc, LPWSTR ps
 				::wcsncpy_s( pDest, pEnd - pDest, std::data(strTo), strTo.length() );
 			}else{
 				::wcsncpy_s( pDest, pEnd - pDest, std::data(strTo), _TRUNCATE );
-				return pszDest;
+				return;
 			}
 			pDest += ::wcsnlen( pDest, pEnd - pDest );
 			it += strFrom.length();
@@ -122,7 +122,6 @@ LPCWSTR CFileNameManager::GetFilePathFormat( std::wstring_view strSrc, LPWSTR ps
 			++it;
 		}
 	}
-	return pszDest;
 }
 
 /*!	%MYDOC%などのパラメータ指定を実際のパス名に変換する
