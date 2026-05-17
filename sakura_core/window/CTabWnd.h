@@ -172,7 +172,7 @@ private:
 	BOOL		m_bCloseBtnHilighted = FALSE;	//!< 閉じるボタンハイライト状態	// 2006.10.21 ryoji
 	CaptureSrc	m_eCaptureSrc = CAPT_NONE;			//!< キャプチャ元
 	BOOL		m_bTabSwapped;			//!< ドラッグ中にタブの入れ替えがあったかどうか
-	LONG*		m_nTabBorderArray = nullptr;		//!< ドラッグ前のタブ境界位置配列
+	std::vector<LONG>		m_vTabBorderArray;		//!< ドラッグ前のタブ境界位置配列
 	LOGFONT		m_lf;					//!< 表示フォントの特性情報
 	bool		m_bMultiLine;			//!< 複数行
 

@@ -260,10 +260,7 @@ LRESULT CTabWnd::OnTabLButtonUp( [[maybe_unused]] WPARAM wParam, LPARAM lParam )
 			// タブは移動済み。ほかのウィンドウのみ更新
 			BroadcastRefreshToGroup();
 		}
-		if( m_nTabBorderArray ){
-			delete[] m_nTabBorderArray;
-			m_nTabBorderArray = nullptr;
-		}
+		m_vTabBorderArray.clear();
 		ApiWrap::Tooltip_Activate( TabCtrl_GetToolTips( m_hwndTab ), TRUE );	// ツールチップ有効化
 		break;
 
@@ -280,15 +277,14 @@ LRESULT CTabWnd::OnTabLButtonUp( [[maybe_unused]] WPARAM wParam, LPARAM lParam )
 LRESULT CTabWnd::OnTabMouseMove( WPARAM wParam, LPARAM lParam )
 {
 	TCHITTESTINFO	hitinfo;
-	int i;
-	int nTabCount = TabCtrl_GetItemCount(m_hwndTab);
+	const int nTabCount = TabCtrl_GetItemCount(m_hwndTab);
 	hitinfo.pt.x = GET_X_LPARAM( lParam );
 	hitinfo.pt.y = GET_Y_LPARAM( lParam );
 	int nDstTab = TabCtrl_HitTest( m_hwndTab, (LPARAM)&hitinfo );
 
 	// 最後のタブより右の位置にドラッグした場合に最後のタブの位置にする
-	if (nDstTab == -1 && m_nTabBorderArray) {
-		if (hitinfo.pt.x >= m_nTabBorderArray[nTabCount - 1]) {
+	if (nDstTab == -1 && !m_vTabBorderArray.empty()) {
+		if (hitinfo.pt.x >= m_vTabBorderArray.back()) {
 			RECT rc;
 			GetClientRect(m_hwndTab, &rc);
 			if (hitinfo.pt.y >= rc.top && hitinfo.pt.y < rc.bottom) {
@@ -369,23 +365,17 @@ LRESULT CTabWnd::OnTabMouseMove( WPARAM wParam, LPARAM lParam )
 		m_bTabSwapped = FALSE;
 
 		// 現在のタブ境界位置を記憶する
-		nTabCount = TabCtrl_GetItemCount(m_hwndTab);
-		if( m_nTabBorderArray ){
-			delete[] m_nTabBorderArray;
-		}
-		m_nTabBorderArray = new LONG[nTabCount + 1];
-		for (i = 0 ; i < nTabCount; i++) {
+		m_vTabBorderArray.resize(nTabCount);
+		for (int i = 0 ; i < nTabCount; i++) {
 			RECT rc;
 			TabCtrl_GetItemRect(m_hwndTab, i, &rc);
-			m_nTabBorderArray[ i ] = rc.right;
+			m_vTabBorderArray[i] = rc.right;
 		}
-		m_nTabBorderArray[ i ] = 0;		// 最後の要素は番兵
 		ApiWrap::Tooltip_Activate( TabCtrl_GetToolTips( m_hwndTab ), FALSE );	// ツールチップ無効化
 		// ここに来たらドラッグ開始なので break しないでそのまま DRAG_DRAG 処理に入る
 
 	case DRAG_DRAG:
 		// ドラッグ中のマウスカーソルを表示する
-		HINSTANCE hInstance;
 		LPCWSTR lpCursorName;
 		lpCursorName = IDC_NO;	// 禁止カーソル
 		if ( 0 <= nDstTab )	// タブの上にカーソルがある
@@ -393,8 +383,10 @@ LRESULT CTabWnd::OnTabMouseMove( WPARAM wParam, LPARAM lParam )
 			lpCursorName = nullptr;	// 開始時カーソル指定
 
 			// ドラッグ開始時のタブ位置で移動先タブを再計算
-			for( nDstTab = 0; m_nTabBorderArray[ nDstTab ] != 0; nDstTab++ ){
-				if( hitinfo.pt.x < m_nTabBorderArray[ nDstTab ] ){
+			nDstTab = nTabCount;
+			for (int i = 0; i < nTabCount; i++) {
+				if (hitinfo.pt.x < m_vTabBorderArray[i]) {
+					nDstTab = i;
 					break;
 				}
 			}
@@ -431,11 +423,10 @@ LRESULT CTabWnd::OnTabMouseMove( WPARAM wParam, LPARAM lParam )
 		{
 			if( m_pShareData->m_Common.m_sTabBar.m_bDispTabWnd && !m_pShareData->m_Common.m_sTabBar.m_bDispTabWndMultiWin )
 			{
-				HWND hwndAncestor;
 				POINT ptCursor;
 
 				::GetCursorPos( &ptCursor );
-				hwndAncestor = MyGetAncestor( ::WindowFromPoint( ptCursor ), GA_ROOT );
+				HWND hwndAncestor = MyGetAncestor( ::WindowFromPoint( ptCursor ), GA_ROOT );
 				if( hwndAncestor != GetParentHwnd() )	// 自画面の外にカーソルがある
 				{
 					if( IsSakuraMainWindow( hwndAncestor ) )
@@ -447,7 +438,7 @@ LRESULT CTabWnd::OnTabMouseMove( WPARAM wParam, LPARAM lParam )
 		}
 		if( lpCursorName )
 		{
-			hInstance = (lpCursorName == IDC_NO)? nullptr: ::GetModuleHandle( nullptr );
+			HINSTANCE hInstance = (lpCursorName == IDC_NO) ? nullptr : ::GetModuleHandle( nullptr );
 			::SetCursor( ::LoadCursor( hInstance, lpCursorName ) );
 		}
 		else
