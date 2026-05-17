@@ -468,11 +468,10 @@ int CalcDirectoryDepth(
 std::filesystem::path GetExeFileName()
 {
 	// メモリ確保
-	constexpr const size_t cchPath = decltype(DLLSHAREDATA::m_szIniFile)::BUFFER_COUNT - 1;
-	std::wstring path(cchPath, L'\0');
+	SFilePath path;
 
 	// sakura.exe のパスを取得して返却
-	::GetModuleFileName(nullptr, path.data(), (DWORD)path.capacity());
+	::GetModuleFileName(nullptr, path.data(), path.capacity());
 	return path.data();
 }
 
