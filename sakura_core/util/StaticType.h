@@ -189,9 +189,6 @@ public:
 	void Assign(const WCHAR* src) noexcept { assign(std::wstring_view{ src ? src : L"" }); }
 	Me& operator = (const WCHAR* src){ Assign(src); return *this; }
 
-	//各種メソッド
-	int Length() const noexcept { return static_cast<int>(length()); }
-
 private:
 	ArrayType	m_szData{};
 };

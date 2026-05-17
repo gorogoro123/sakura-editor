@@ -482,7 +482,7 @@ void CDocFileOperation::FileCloseOpen( const SLoadInfo& _sLoadInfo )
 
 	//ファイル名指定が無い場合はダイアログで入力させる
 	SLoadInfo sLoadInfo = _sLoadInfo;
-	if( sLoadInfo.cFilePath.Length()==0 ){
+	if( sLoadInfo.cFilePath.empty() ){
 		std::vector<std::wstring> files;
 		if( !OpenFileDialog( CEditWnd::getInstance()->GetHwnd(), nullptr, &sLoadInfo, files ) ){
 			return;
