@@ -593,7 +593,7 @@ TEST(CFilePath, GetExt)
 	ASSERT_STREQ(L"", path.GetExt(true));
 
 	// 拡張子がない場合に返却されるポインタ値の確認
-	ASSERT_EQ(path.c_str() + path.Length(), path.GetExt());
+	ASSERT_EQ(path.c_str() + path.length(), path.GetExt());
 
 	// ファイルに拡張子がないパターン
 	path = L"lib/.NET Core/README";
@@ -601,7 +601,7 @@ TEST(CFilePath, GetExt)
 	ASSERT_STREQ(L"", path.GetExt(true));
 
 	// 拡張子がない場合に返却されるポインタ値の確認
-	ASSERT_EQ(path.c_str() + path.Length(), path.GetExt());
+	ASSERT_EQ(path.c_str() + path.length(), path.GetExt());
 }
 
 /*!

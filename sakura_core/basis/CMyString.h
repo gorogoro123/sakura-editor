@@ -33,7 +33,7 @@ public:
 	[[nodiscard]] LPCWSTR GetExt( bool bWithoutDot = false ) const
 	{
 		// 文字列の末尾アドレスを取得
-		const WCHAR* tail = c_str() + Length();
+		const WCHAR* tail = c_str() + length();
 
 		// 文字列末尾から逆方向に L'.' を検索
 		if (const auto *p = ::wcsrchr(c_str(), L'.')) {

@@ -700,7 +700,7 @@ void CEditWnd::OpenDocumentWhenStart(
 	const SLoadInfo& _sLoadInfo		//!< [in]
 )
 {
-	if( _sLoadInfo.cFilePath.Length() ){
+	if( !_sLoadInfo.cFilePath.empty() ){
 		::ShowWindow( GetHwnd(), SW_SHOW );
 		//	Oct. 03, 2004 genta コード確認は設定に依存
 		SLoadInfo	sLoadInfo = _sLoadInfo;
