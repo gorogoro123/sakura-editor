@@ -615,8 +615,8 @@ void CShareData_IO::ShareData_IO_Common( CDataProfile& cProfile )
 	cProfile.IOProfileData( pszSecName, L"bSplitterWndHScroll"	, common.m_sWindow.m_bSplitterWndHScroll );
 	cProfile.IOProfileData( pszSecName, L"bSplitterWndVScroll"	, common.m_sWindow.m_bSplitterWndVScroll );
 	
-	cProfile.IOProfileData(pszSecName, L"szMidashiKigou", StringBufferW(common.m_sFormat.m_szMidashiKigou));
-	cProfile.IOProfileData(pszSecName, L"szInyouKigou", StringBufferW(common.m_sFormat.m_szInyouKigou));
+	cProfile.IOProfileData(pszSecName, L"szMidashiKigou", common.m_sFormat.m_szMidashiKigou);
+	cProfile.IOProfileData(pszSecName, L"szInyouKigou", common.m_sFormat.m_szInyouKigou);
 	
 	// 2001/06/14 asa-o 補完とキーワードヘルプはタイプ別に移動したので削除：３行
 	// 2002/09/21 Moca bGrepKanjiCode_AutoDetect は bGrepCharSetに統合したので削除
@@ -674,9 +674,9 @@ void CShareData_IO::ShareData_IO_Common( CDataProfile& cProfile )
 	cProfile.IOProfileData( pszSecName, L"bHokanKey_RIGHT"			, common.m_sHelper.m_bHokanKey_RIGHT );/* VK_RIGHT  補完決定キーが有効/無効 */
 	
 	cProfile.IOProfileData( pszSecName, L"nDateFormatType"			, common.m_sFormat.m_nDateFormatType );/* 日付書式のタイプ */
-	cProfile.IOProfileData(pszSecName, L"szDateFormat", StringBufferW(common.m_sFormat.m_szDateFormat));//日付書式
+	cProfile.IOProfileData(pszSecName, L"szDateFormat", 			common.m_sFormat.m_szDateFormat);//日付書式
 	cProfile.IOProfileData( pszSecName, L"nTimeFormatType"			, common.m_sFormat.m_nTimeFormatType );/* 時刻書式のタイプ */
-	cProfile.IOProfileData(pszSecName, L"szTimeFormat", StringBufferW(common.m_sFormat.m_szTimeFormat));//時刻書式
+	cProfile.IOProfileData(pszSecName, L"szTimeFormat", 			common.m_sFormat.m_szTimeFormat);//時刻書式
 	
 	cProfile.IOProfileData( pszSecName, L"bMenuIcon"					, common.m_sWindow.m_bMenuIcon );//メニューにアイコンを表示する
 	cProfile.IOProfileData( pszSecName, L"bAutoMIMEdecode"			, common.m_sFile.m_bAutoMIMEdecode );//ファイル読み込み時にMIMEのdecodeを行うか

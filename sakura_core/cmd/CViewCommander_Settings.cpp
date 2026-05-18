@@ -516,5 +516,5 @@ void CViewCommander::Command_SET_QUOTESTRING( const wchar_t* quotestr )
 	if( quotestr == nullptr )
 		return;
 
-	wcsncpy_s( GetDllShareData().m_Common.m_sFormat.m_szInyouKigou, quotestr, _TRUNCATE);
+	GetDllShareData().m_Common.m_sFormat.m_szInyouKigou = quotestr;
 }
