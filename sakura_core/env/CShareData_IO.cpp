@@ -1341,7 +1341,7 @@ void CShareData_IO::ShareData_IO_Types( CDataProfile& cProfile )
 	for( i = nCountOld; i < pShare->m_nTypesCount; i++ ){
 		types[i] = new STypeConfig();
 		*types[i] = *types[0]; // 基本をコピー
-		auto_snprintf_s( types[i]->m_szTypeName.data(), types[i]->m_szTypeName.size(), LS(STR_TRAY_TYPE_NAME), i );
+		auto_snprintf_s( types[i]->m_szTypeName.data(), types[i]->m_szTypeName.capacity(), LS(STR_TRAY_TYPE_NAME), i );
 		types[i]->m_nIdx = i;
 		types[i]->m_id = i;
 	}
@@ -1671,7 +1671,7 @@ void CShareData_IO::ShareData_IO_Type_One( CDataProfile& cProfile, STypeConfig& 
 		cProfile.IOProfileData( pszSecName, L"bUseRegexKeyword", types.m_bUseRegexKeyword );/* 正規表現キーワード使用するか？ */
 		wchar_t* pKeyword = types.m_RegexKeywordList;
 		int nPos = 0;
-		constexpr auto nKeywordSize = types.m_RegexKeywordList.size();
+		constexpr auto nKeywordSize = types.m_RegexKeywordList.capacity();
 		for(j = 0; j < int(std::size(types.m_RegexKeywordArr)); j++)
 		{
 			auto_sprintf( szKeyName, L"RxKey[%03d]", j );

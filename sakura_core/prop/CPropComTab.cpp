@@ -190,7 +190,7 @@ void CPropTab::SetData( HWND hwndDlg )
 	::CheckDlgButton( hwndDlg, IDC_CHECK_SortTabList, m_Common.m_sTabBar.m_bSortTabList );			//@@@ 2006.03.23 fon
 	CheckDlgButtonBool( hwndDlg, IDC_CHECK_TAB_MULTILINE, m_Common.m_sTabBar.m_bTabMultiLine );
 	::CheckDlgButton( hwndDlg, IDC_CHECK_DispTabWndMultiWin, ! m_Common.m_sTabBar.m_bDispTabWndMultiWin ); //@@@ 2003.05.31 MIK
-	ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_TABWND_CAPTION ), int(std::size(m_Common.m_sTabBar.m_szTabWndCaption)) - 1 );
+	ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_TABWND_CAPTION ), m_Common.m_sTabBar.m_szTabWndCaption.capacity() - 1 );
 	ApiWrap::DlgItem_SetText( hwndDlg, IDC_TABWND_CAPTION, m_Common.m_sTabBar.m_szTabWndCaption );
 
 	HWND hwndCombo = ::GetDlgItem( hwndDlg, IDC_CHECK_DispTabClose );
@@ -241,7 +241,7 @@ int CPropTab::GetData( HWND hwndDlg )
 	m_Common.m_sTabBar.m_bTabMultiLine = ::IsDlgButtonCheckedBool( hwndDlg, IDC_CHECK_TAB_MULTILINE );
 	m_Common.m_sTabBar.m_bDispTabWndMultiWin =
 		( ::IsDlgButtonChecked( hwndDlg, IDC_CHECK_DispTabWndMultiWin ) == BST_CHECKED ) ? FALSE : TRUE;
-	ApiWrap::DlgItem_GetText( hwndDlg, IDC_TABWND_CAPTION, m_Common.m_sTabBar.m_szTabWndCaption, int(std::size(m_Common.m_sTabBar.m_szTabWndCaption)) );
+	ApiWrap::DlgItem_GetText( hwndDlg, IDC_TABWND_CAPTION, m_Common.m_sTabBar.m_szTabWndCaption, m_Common.m_sTabBar.m_szTabWndCaption.capacity() );
 
 	HWND hwndCombo = ::GetDlgItem( hwndDlg, IDC_CHECK_DispTabClose );
 	int nSelPos = ApiWrap::Combo_GetCurSel( hwndCombo );

@@ -1017,11 +1017,11 @@ bool CControlTray::OnAddTypeSetting(size_t index)
 
 	// 同じ名前のものがあったらその次にする
 	auto nAddNameNum = nInsert + 1;
-	auto_snprintf_s(type->m_szTypeName, type->m_szTypeName.size(), LS(STR_TRAY_TYPE_NAME), nAddNameNum);
+	auto_snprintf_s(type->m_szTypeName, type->m_szTypeName.capacity(), LS(STR_TRAY_TYPE_NAME), nAddNameNum);
 	for (auto k = 1; k < m_pShareData->m_nTypesCount; ++k) {
 		if (0 == wcscmp(types[k]->m_szTypeName, type->m_szTypeName)) {
 			nAddNameNum++;
-			auto_snprintf_s(type->m_szTypeName, type->m_szTypeName.size(), LS(STR_TRAY_TYPE_NAME), nAddNameNum);
+			auto_snprintf_s(type->m_szTypeName, type->m_szTypeName.capacity(), LS(STR_TRAY_TYPE_NAME), nAddNameNum);
 			k = 0;
 		}
 	}
@@ -1131,7 +1131,7 @@ bool CControlTray::OpenNewEditor(
 
 	//アプリケーションパス
 	SFilePath szEXE;
-	::GetModuleFileName( nullptr, szEXE, szEXE.size() );
+	::GetModuleFileName( nullptr, szEXE, szEXE.capacity() );
 	cCmdLineBuf.AppendF( L"\"%s\"", szEXE );
 
 	// ファイル名

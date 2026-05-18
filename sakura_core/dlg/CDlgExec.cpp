@@ -97,7 +97,7 @@ void CDlgExec::SetData( )
 	*****************************/
 	/* ユーザーがコンボ ボックスのエディット コントロールに入力できるテキストの長さを制限する */
 	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_COMBO_m_szCommand ), int(std::size(m_szCommand)) - 1 );
-	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_COMBO_CUR_DIR ), m_szCurDir.size() - 1 );
+	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_COMBO_CUR_DIR ), m_szCurDir.capacity() - 1 );
 	/* コンボボックスのユーザー インターフェースを拡張インターフェースにする */
 	ApiWrap::Combo_SetExtendedUI( GetItemHwnd( IDC_COMBO_m_szCommand ), TRUE );
 
@@ -177,7 +177,7 @@ int CDlgExec::GetData( )
 {
 	ApiWrap::DlgItem_GetText( GetHwnd(), IDC_COMBO_m_szCommand, m_szCommand, int(std::size(m_szCommand)));
 	if( IsDlgButtonCheckedBool( GetHwnd(), IDC_CHECK_CUR_DIR ) ){
-		ApiWrap::DlgItem_GetText( GetHwnd(), IDC_COMBO_CUR_DIR, &m_szCurDir[0], std::size( m_szCurDir ));
+		ApiWrap::DlgItem_GetText( GetHwnd(), IDC_COMBO_CUR_DIR, &m_szCurDir[0], m_szCurDir.capacity());
 	}else{
 		m_szCurDir[0] = L'\0';
 	}
@@ -255,7 +255,7 @@ BOOL CDlgExec::OnBnClicked( int wID )
 
 	case IDC_BUTTON_REFERENCE2:
 		{
-			if( SelectDir( GetHwnd(), LS(STR_DLGEXEC_SELECT_CURDIR), &m_szCurDir[0], &m_szCurDir[0], m_szCurDir.size() ) ){
+			if( SelectDir( GetHwnd(), LS(STR_DLGEXEC_SELECT_CURDIR), &m_szCurDir[0], &m_szCurDir[0], m_szCurDir.capacity() ) ){
 				ApiWrap::DlgItem_SetText( GetHwnd(), IDC_COMBO_CUR_DIR, &m_szCurDir[0] );
 			}
 		}

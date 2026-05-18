@@ -34,9 +34,9 @@ struct	MYDEVMODE {
 	bool operator == (const MYDEVMODE& rhs) const noexcept {
 		if (this == &rhs) return true;
 		return m_bPrinterNotFound == rhs.m_bPrinterNotFound
-			&& 0 == wcsncmp(m_szPrinterDriverName.c_str(), rhs.m_szPrinterDriverName.c_str(), m_szPrinterDriverName.size())
-			&& 0 == wcsncmp(m_szPrinterDeviceName.c_str(), rhs.m_szPrinterDeviceName.c_str(), m_szPrinterDeviceName.size())
-			&& 0 == wcsncmp(m_szPrinterOutputName.c_str(), rhs.m_szPrinterOutputName.c_str(), m_szPrinterOutputName.size())
+			&& 0 == wcsncmp(m_szPrinterDriverName.c_str(), rhs.m_szPrinterDriverName.c_str(), m_szPrinterDriverName.capacity())
+			&& 0 == wcsncmp(m_szPrinterDeviceName.c_str(), rhs.m_szPrinterDeviceName.c_str(), m_szPrinterDeviceName.capacity())
+			&& 0 == wcsncmp(m_szPrinterOutputName.c_str(), rhs.m_szPrinterOutputName.c_str(), m_szPrinterOutputName.capacity())
 			&& dmFields == rhs.dmFields
 			&& dmOrientation == rhs.dmOrientation
 			&& dmPaperSize == rhs.dmPaperSize

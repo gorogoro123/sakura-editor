@@ -211,11 +211,11 @@ INT_PTR CPropTypesScreen::DispatchEvent(
 		::SetWindowLongPtr( hwndDlg, DWLP_USER, lParam );
 
 		// エディットコントロールの入力文字数制限
-		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_TYPENAME        ), m_Types.m_szTypeName.size() - 1 );
-		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_TYPEEXTS        ), m_Types.m_szTypeExts.size() - 1 );
+		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_TYPENAME        ), m_Types.m_szTypeName.capacity() - 1 );
+		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_TYPEEXTS        ), m_Types.m_szTypeExts.capacity() - 1 );
 		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_INDENTCHARS     ), int(std::size(m_Types.m_szIndentChars)) - 1 );
 		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_TABVIEWSTRING   ), int(std::size(m_Types.m_szTabViewString)) - 1 );
-		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_OUTLINERULEFILE ), std::size( m_Types.m_szOutlineRuleFilename ) - 1 );	//	Oct. 5, 2002 genta 画面上でも入力制限
+		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_OUTLINERULEFILE ), m_Types.m_szOutlineRuleFilename.capacity() - 1 );	//	Oct. 5, 2002 genta 画面上でも入力制限
 
 		if( 0 == m_Types.m_nIdx ){
 			::EnableWindow( ::GetDlgItem( hwndDlg, IDC_EDIT_TYPENAME ), FALSE );	//設定の名前
@@ -645,9 +645,9 @@ void CPropTypesScreen::SetData( HWND hwndDlg )
 			::CheckDlgButtonBool( hwndDlg, IDC_CHECK_KINSOKURET,  m_Types.m_bKinsokuRet  );	/* 改行文字をぶら下げる */	//@@@ 2002.04.13 MIK
 			::CheckDlgButtonBool( hwndDlg, IDC_CHECK_KINSOKUKUTO, m_Types.m_bKinsokuKuto );	/* 句読点をぶら下げる */	//@@@ 2002.04.17 MIK
 			::CheckDlgButtonBool( hwndDlg, IDC_CHECK_KINSOKUHIDE, m_Types.m_bKinsokuHide );	// ぶら下げを隠す			// 2011/11/30 Uchi
-			ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_EDIT_KINSOKUHEAD ), m_Types.m_szKinsokuHead.size() - 1 );
-			ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_EDIT_KINSOKUTAIL ), m_Types.m_szKinsokuTail.size() - 1 );
-			ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_EDIT_KINSOKUKUTO ), m_Types.m_szKinsokuKuto.size() - 1 );	// 2009.08.07 ryoji
+			ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_EDIT_KINSOKUHEAD ), m_Types.m_szKinsokuHead.capacity() - 1 );
+			ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_EDIT_KINSOKUTAIL ), m_Types.m_szKinsokuTail.capacity() - 1 );
+			ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_EDIT_KINSOKUKUTO ), m_Types.m_szKinsokuKuto.capacity() - 1 );	// 2009.08.07 ryoji
 			ApiWrap::DlgItem_SetText( hwndDlg, IDC_EDIT_KINSOKUHEAD, m_Types.m_szKinsokuHead );
 			ApiWrap::DlgItem_SetText( hwndDlg, IDC_EDIT_KINSOKUTAIL, m_Types.m_szKinsokuTail );
 			ApiWrap::DlgItem_SetText( hwndDlg, IDC_EDIT_KINSOKUKUTO, m_Types.m_szKinsokuKuto );	// 2009.08.07 ryoji
@@ -659,8 +659,8 @@ void CPropTypesScreen::SetData( HWND hwndDlg )
 /* ダイアログデータの取得 Screen */
 int CPropTypesScreen::GetData( HWND hwndDlg )
 {
-	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_TYPENAME, m_Types.m_szTypeName, m_Types.m_szTypeName.size() );	// 設定の名前
-	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_TYPEEXTS, m_Types.m_szTypeExts, m_Types.m_szTypeExts.size() );	// ファイル拡張子
+	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_TYPENAME, m_Types.m_szTypeName, m_Types.m_szTypeName.capacity() );	// 設定の名前
+	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_TYPEEXTS, m_Types.m_szTypeExts, m_Types.m_szTypeExts.capacity() );	// ファイル拡張子
 
 	//レイアウト
 	{
@@ -762,7 +762,7 @@ int CPropTypesScreen::GetData( HWND hwndDlg )
 		}
 
 		//ルールファイル	//2003.06.23 Moca ルールを使っていなくてもファイル名を保持
-		ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_OUTLINERULEFILE, m_Types.m_szOutlineRuleFilename, std::size( m_Types.m_szOutlineRuleFilename ));
+		ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_OUTLINERULEFILE, m_Types.m_szOutlineRuleFilename, m_Types.m_szOutlineRuleFilename.capacity() );
 	}
 
 	//フォント
@@ -789,9 +789,9 @@ int CPropTypesScreen::GetData( HWND hwndDlg )
 			m_Types.m_bKinsokuRet  = ::IsDlgButtonCheckedBool( hwndDlg, IDC_CHECK_KINSOKURET  );	// 改行文字をぶら下げる	//@@@ 2002.04.13 MIK
 			m_Types.m_bKinsokuKuto = ::IsDlgButtonCheckedBool( hwndDlg, IDC_CHECK_KINSOKUKUTO );	// 句読点をぶら下げる	//@@@ 2002.04.17 MIK
 			m_Types.m_bKinsokuHide = ::IsDlgButtonCheckedBool( hwndDlg, IDC_CHECK_KINSOKUHIDE );	// ぶら下げを隠す		// 2011/11/30 Uchi
-			ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_KINSOKUHEAD, m_Types.m_szKinsokuHead, m_Types.m_szKinsokuHead.size() );
-			ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_KINSOKUTAIL, m_Types.m_szKinsokuTail, m_Types.m_szKinsokuTail.size() );
-			ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_KINSOKUKUTO, m_Types.m_szKinsokuKuto, m_Types.m_szKinsokuKuto.size() );	// 2009.08.07 ryoji
+			ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_KINSOKUHEAD, m_Types.m_szKinsokuHead, m_Types.m_szKinsokuHead.capacity() );
+			ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_KINSOKUTAIL, m_Types.m_szKinsokuTail, m_Types.m_szKinsokuTail.capacity() );
+			ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_KINSOKUKUTO, m_Types.m_szKinsokuKuto, m_Types.m_szKinsokuKuto.capacity() );	// 2009.08.07 ryoji
 		}	//@@@ 2002.04.08 MIK end
 	}
 

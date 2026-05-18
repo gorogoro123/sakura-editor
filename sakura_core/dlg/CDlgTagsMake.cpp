@@ -115,7 +115,7 @@ void CDlgTagsMake::SelectFolder( HWND hwndDlg )
 void CDlgTagsMake::SetData( )
 {
 	//作成フォルダー
-	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_EDIT_TAG_MAKE_FOLDER ), m_szPath.size() );
+	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_EDIT_TAG_MAKE_FOLDER ), m_szPath.capacity() );
 	ApiWrap::DlgItem_SetText( GetHwnd(), IDC_EDIT_TAG_MAKE_FOLDER, m_szPath );
 
 	//オプション
@@ -123,7 +123,7 @@ void CDlgTagsMake::SetData( )
 	if( m_nTagsOpt & 0x0001 ) ::CheckDlgButton( GetHwnd(), IDC_CHECK_TAG_MAKE_RECURSE, TRUE );
 
 	//コマンドライン
-	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_EDIT_TAG_MAKE_CMDLINE ), m_pShareData->m_szTagsCmdLine.size() );
+	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_EDIT_TAG_MAKE_CMDLINE ), m_pShareData->m_szTagsCmdLine.capacity() );
 	m_szTagsCmdLine = m_pShareData->m_szTagsCmdLine;
 	ApiWrap::DlgItem_SetText( GetHwnd(), IDC_EDIT_TAG_MAKE_CMDLINE, m_pShareData->m_szTagsCmdLine );
 
@@ -135,7 +135,7 @@ void CDlgTagsMake::SetData( )
 int CDlgTagsMake::GetData( )
 {
 	//フォルダー
-	ApiWrap::DlgItem_GetText( GetHwnd(), IDC_EDIT_TAG_MAKE_FOLDER, m_szPath, m_szPath.size() );
+	ApiWrap::DlgItem_GetText( GetHwnd(), IDC_EDIT_TAG_MAKE_FOLDER, m_szPath, m_szPath.capacity() );
 	auto length = m_szPath.length();
 	if( length > 0 )
 	{
@@ -148,7 +148,7 @@ int CDlgTagsMake::GetData( )
 	m_pShareData->m_nTagsOpt = m_nTagsOpt;
 
 	//コマンドライン
-	ApiWrap::DlgItem_GetText( GetHwnd(), IDC_EDIT_TAG_MAKE_CMDLINE, m_szTagsCmdLine, m_szTagsCmdLine.size() );
+	ApiWrap::DlgItem_GetText( GetHwnd(), IDC_EDIT_TAG_MAKE_CMDLINE, m_szTagsCmdLine, m_szTagsCmdLine.capacity() );
 	m_pShareData->m_szTagsCmdLine = m_szTagsCmdLine;
 
 	return TRUE;

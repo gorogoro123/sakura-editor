@@ -99,9 +99,9 @@ INT_PTR CPropMacro::DispatchEvent( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 		//	Oct. 5, 2002 genta エディット コントロールに入力できるテキストの長さを制限する
 		ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_MACRONAME ), _countof( m_Common.m_sMacro.m_MacroTable[0].m_szName ) - 1 );
-		ApiWrap::Combo_LimitText( ::GetDlgItem( hwndDlg, IDC_MACROPATH ), m_Common.m_sMacro.m_MacroTable[0].m_szFile.size() - 1 );
+		ApiWrap::Combo_LimitText( ::GetDlgItem( hwndDlg, IDC_MACROPATH ), m_Common.m_sMacro.m_MacroTable[0].m_szFile.capacity() - 1 );
 		// 2003.06.23 Moca
-		ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_MACRODIR ), std::size( m_Common.m_sMacro.m_szMACROFOLDER ) - 1 );
+		ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_MACRODIR ), m_Common.m_sMacro.m_szMACROFOLDER.capacity() - 1 );
 		ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_MACROCANCELTIMER ), 4 );
 
 		return TRUE;
@@ -576,7 +576,7 @@ void CPropMacro::SelectBaseDir_Macro( HWND hwndDlg )
 	SFilePath szDir;
 
 	/* 検索フォルダー */
-	ApiWrap::DlgItem_GetText( hwndDlg, IDC_MACRODIR, szDir, szDir.size() );
+	ApiWrap::DlgItem_GetText( hwndDlg, IDC_MACRODIR, szDir, szDir.capacity() );
 
 	// 2003.06.23 Moca 相対パスは実行ファイルからのパス
 	// 2007.05.19 ryoji 相対パスは設定ファイルからのパスを優先
@@ -585,9 +585,9 @@ void CPropMacro::SelectBaseDir_Macro( HWND hwndDlg )
 		GetInidirOrExedir( szDir, folder );
 	}
 
-	if( SelectDir( hwndDlg, LS(STR_PROPCOMMACR_SEL_DIR), szDir.c_str(), szDir, szDir.size() ) ){
+	if( SelectDir( hwndDlg, LS(STR_PROPCOMMACR_SEL_DIR), szDir.c_str(), szDir, szDir.capacity() ) ){
 		//	末尾に\\マークを追加する．
-		AddLastChar( szDir, int(szDir.size()), L'\\' );
+		AddLastChar( szDir, szDir.capacity(), L'\\' );
 		ApiWrap::DlgItem_SetText( hwndDlg, IDC_MACRODIR, GetRelPath(szDir) ); // 2015.03.03 可能なら相対パスにする
 	}
 }
@@ -595,14 +595,14 @@ void CPropMacro::SelectBaseDir_Macro( HWND hwndDlg )
 void CPropMacro::SelectDir_Python(HWND hwndDlg)
 {
 	SFilePath szDir;
-	ApiWrap::DlgItem_GetText(hwndDlg, IDC_PYTHONDIR, szDir, szDir.size());
+	ApiWrap::DlgItem_GetText(hwndDlg, IDC_PYTHONDIR, szDir, szDir.capacity());
 	if (_IS_REL_PATH(szDir)) {
 		SFilePath folder = szDir;
 		GetInidirOrExedir(szDir, folder);
 	}
-	if (SelectDir(hwndDlg, LS(STR_PROPCOMMACR_SEL_PYTHONDIR), szDir.c_str(), szDir, szDir.size())) {
+	if (SelectDir(hwndDlg, LS(STR_PROPCOMMACR_SEL_PYTHONDIR), szDir.c_str(), szDir, szDir.capacity())) {
 		// 末尾に\\マークを追加する．
-		AddLastChar(szDir, int(std::size(szDir)), L'\\');
+		AddLastChar(szDir, int(szDir.capacity()), L'\\');
 		ApiWrap::DlgItem_SetText(hwndDlg, IDC_PYTHONDIR, GetRelPath(szDir)); // 可能なら相対パスにする
 	}
 }
@@ -619,7 +619,7 @@ void CPropMacro::OnFileDropdown_Macro( HWND hwndDlg )
 	HWND hCombo = ::GetDlgItem( hwndDlg, IDC_MACROPATH );
 
 	SFilePath path;
-	ApiWrap::DlgItem_GetText( hwndDlg, IDC_MACRODIR, path, path.size() );
+	ApiWrap::DlgItem_GetText( hwndDlg, IDC_MACRODIR, path, path.capacity() );
 
 	// 2003.06.23 Moca 相対パスは実行ファイルからのパス
 	// 2007.05.19 ryoji 相対パスは設定ファイルからのパスを優先

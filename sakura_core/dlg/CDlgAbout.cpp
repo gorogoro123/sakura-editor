@@ -130,7 +130,7 @@ BOOL CDlgAbout::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 	SFilePath	szFile;
 
 	/* この実行ファイルの情報 */
-	::GetModuleFileName( nullptr, szFile, szFile.size() );
+	::GetModuleFileName( nullptr, szFile, szFile.capacity() );
 	
 	/* バージョン情報 */
 	//	Nov. 6, 2000 genta	Unofficial Releaseのバージョンとして設定

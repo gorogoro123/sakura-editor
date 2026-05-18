@@ -167,7 +167,7 @@ bool CControlProcess::InitializeProcess()
 
 	// コントロールプロセスのカレントディレクトリをシステムディレクトリに変更
 	SFilePath szDir;
-	::GetSystemDirectory( szDir, szDir.size() );
+	::GetSystemDirectory( szDir, szDir.capacity() );
 	::SetCurrentDirectory( szDir );
 
 	/* 共有データのロード */

@@ -150,7 +150,7 @@ public:
 
 		// トピック文字列を作成する(1)。トビック番号をバッファに埋め込む。
 		if (bAddNumber) {
-			assert(4 * HierarchyCount + 2 <= std::size(szTopic)); // 4 はトピック番号「ddd.」のドットを含む最大桁数。+2 はヌル文字を含む " " の分。
+			assert(4 * HierarchyCount + 2 <= szTopic.capacity()); // 4 はトピック番号「ddd.」のドットを含む最大桁数。+2 はヌル文字を含む " " の分。
 			int i = 0;
 			while (i <= tagDepth && serials[i] == 0) {
 				i += 1; // "0." プリフィックスを表示しないようにスキップする。
@@ -162,10 +162,10 @@ public:
 			*pTopicEnd++ = L' ';
 			*pTopicEnd   = L'\0';
 		}
-		assert(pTopicEnd < szTopic + std::size(szTopic));
+		assert(pTopicEnd < szTopic + szTopic.capacity());
 
 		// トピック文字列を作成する(2)。タイトルをバッファに埋め込む。
-		const auto copyLen = std::min<ptrdiff_t>(szTopic + std::size(szTopic) - 1 - pTopicEnd, pTitleEnd - pTitle);
+		const auto copyLen = std::min<ptrdiff_t>(szTopic + szTopic.capacity() - 1 - pTopicEnd, pTitleEnd - pTitle);
 		wmemcpy(pTopicEnd, pTitle, copyLen);
 		pTopicEnd += copyLen;
 		*pTopicEnd = L'\0';

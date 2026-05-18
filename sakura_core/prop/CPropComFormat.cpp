@@ -106,16 +106,16 @@ INT_PTR CPropFormat::DispatchEvent(
 		ChangeTimeExample( hwndDlg );
 
 		/* 見出し記号 */
-		ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_EDIT_MIDASHIKIGOU ), int(std::size(m_Common.m_sFormat.m_szMidashiKigou)) - 1 );
+		ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_EDIT_MIDASHIKIGOU ), m_Common.m_sFormat.m_szMidashiKigou.capacity() - 1 );
 
 		/* 引用符 */
-		ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_EDIT_INYOUKIGOU ), int(std::size(m_Common.m_sFormat.m_szInyouKigou)) - 1 );
+		ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_EDIT_INYOUKIGOU ), m_Common.m_sFormat.m_szInyouKigou.capacity() - 1 );
 
 		/* 日付書式 */
-		ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_EDIT_DFORM ), int(std::size(m_Common.m_sFormat.m_szDateFormat)) - 1 );
+		ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_EDIT_DFORM ), m_Common.m_sFormat.m_szDateFormat.capacity() - 1 );
 
 		/* 時刻書式 */
-		ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_EDIT_TFORM ), int(std::size(m_Common.m_sFormat.m_szTimeFormat)) - 1 );
+		ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_EDIT_TFORM ), m_Common.m_sFormat.m_szTimeFormat.capacity() - 1 );
 
 		return TRUE;
 	case WM_COMMAND:
@@ -259,7 +259,7 @@ void CPropFormat::SetData( HWND hwndDlg )
 int CPropFormat::GetData( HWND hwndDlg )
 {
 	/* 見出し記号 */
-	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_MIDASHIKIGOU, m_Common.m_sFormat.m_szMidashiKigou, int(std::size(m_Common.m_sFormat.m_szMidashiKigou)) );
+	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_MIDASHIKIGOU, m_Common.m_sFormat.m_szMidashiKigou, m_Common.m_sFormat.m_szMidashiKigou.capacity() );
 
 //	/* 外部ヘルプ１ */
 //	::DlgItem_GetText( hwndDlg, IDC_EDIT_EXTHELP1, m_Common.m_sFormat.m_szExtHelp1, MAX_PATH - 1 );
@@ -268,7 +268,7 @@ int CPropFormat::GetData( HWND hwndDlg )
 //	::DlgItem_GetText( hwndDlg, IDC_EDIT_EXTHTMLHELP, m_Common.m_sFormat.m_szExtHtmlHelp, MAX_PATH - 1 );
 
 	/* 引用符 */
-	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_INYOUKIGOU, m_Common.m_sFormat.m_szInyouKigou, int(std::size(m_Common.m_sFormat.m_szInyouKigou)) );
+	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_INYOUKIGOU, m_Common.m_sFormat.m_szInyouKigou, m_Common.m_sFormat.m_szInyouKigou.capacity());
 
 	//日付書式のタイプ
 	if( BST_CHECKED == ::IsDlgButtonChecked( hwndDlg, IDC_RADIO_DFORM_0 ) ){
@@ -277,7 +277,7 @@ int CPropFormat::GetData( HWND hwndDlg )
 		m_Common.m_sFormat.m_nDateFormatType = 1;
 	}
 	//日付書式
-	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_DFORM, m_Common.m_sFormat.m_szDateFormat, int(std::size(m_Common.m_sFormat.m_szDateFormat)));
+	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_DFORM, m_Common.m_sFormat.m_szDateFormat, m_Common.m_sFormat.m_szDateFormat.capacity());
 
 	//時刻書式のタイプ
 	if( BST_CHECKED == ::IsDlgButtonChecked( hwndDlg, IDC_RADIO_TFORM_0 ) ){
@@ -287,7 +287,7 @@ int CPropFormat::GetData( HWND hwndDlg )
 	}
 
 	//時刻書式
-	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_TFORM, m_Common.m_sFormat.m_szTimeFormat, int(std::size(m_Common.m_sFormat.m_szTimeFormat)));
+	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_TFORM, m_Common.m_sFormat.m_szTimeFormat, m_Common.m_sFormat.m_szTimeFormat.capacity());
 
 	return TRUE;
 }

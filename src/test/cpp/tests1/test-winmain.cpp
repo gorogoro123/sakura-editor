@@ -55,7 +55,7 @@ namespace cxx {
 std::filesystem::path GetSystemDirectoryW()
 {
 	SFilePath buf;
-	::GetSystemDirectoryW(buf, int(std::size(buf)));
+	::GetSystemDirectoryW(buf, buf.capacity());
 	return LPCWSTR(buf);
 }
 

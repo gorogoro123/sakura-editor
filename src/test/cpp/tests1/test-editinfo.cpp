@@ -19,7 +19,7 @@
  */
 bool operator == (const EditInfo& lhs, const EditInfo& rhs) noexcept {
 	if (&lhs == &rhs) return true;
-	return 0 == wcsncmp(lhs.m_szPath, rhs.m_szPath, int(std::size(lhs.m_szPath)))
+	return 0 == wcsncmp(lhs.m_szPath, rhs.m_szPath, lhs.m_szPath.capacity())
 		&& lhs.m_nCharCode == rhs.m_nCharCode
 		&& lhs.m_bBom == rhs.m_bBom
 		&& 0 == wcsncmp(lhs.m_szDocType, rhs.m_szDocType, int(std::size(lhs.m_szDocType)))
@@ -29,7 +29,7 @@ bool operator == (const EditInfo& lhs, const EditInfo& rhs) noexcept {
 		&& lhs.m_ptCursor == rhs.m_ptCursor
 		&& lhs.m_bIsModified == rhs.m_bIsModified
 		&& lhs.m_bIsGrep == rhs.m_bIsGrep
-		&& 0 == wcsncmp(lhs.m_szGrepKey, rhs.m_szGrepKey, int(std::size(lhs.m_szGrepKey)))
+		&& 0 == wcsncmp(lhs.m_szGrepKey, rhs.m_szGrepKey, lhs.m_szGrepKey.capacity())
 		&& lhs.m_bIsDebug == rhs.m_bIsDebug
 		&& 0 == wcsncmp(lhs.m_szMarkLines, rhs.m_szMarkLines, int(std::size(lhs.m_szMarkLines)))
 		&& lhs.m_nWindowSizeX == rhs.m_nWindowSizeX

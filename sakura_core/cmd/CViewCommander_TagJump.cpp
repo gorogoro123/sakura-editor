@@ -825,7 +825,7 @@ bool CViewCommander::Sub_PreProcTagJumpByTagsFile( WCHAR* szCurrentPath, int cou
 		// (無題)でもファイル名を要求してくるのでダミーをつける
 		// 現在のタイプ別の1番目の拡張子を拝借
 		StaticString<MAX_TYPES_EXTS> szExts;
-		CDocTypeManager::GetFirstExt(m_pCommanderView->m_pTypeData->m_szTypeExts, szExts, szExts.size());
+		CDocTypeManager::GetFirstExt(m_pCommanderView->m_pTypeData->m_szTypeExts, szExts, szExts.capacity());
 		auto nExtLen = szExts.length();
 		wcscat( szCurrentPath, L"\\dmy" );
 		if( nExtLen ){
