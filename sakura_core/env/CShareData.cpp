@@ -415,18 +415,18 @@ bool CShareData::InitShareData()
 			CommonSetting_Format& sFormat = m_pShareData->m_Common.m_sFormat;
 
 			/* 見出し記号 */
-			wcscpy( sFormat.m_szMidashiKigou, L"１２３４５６７８９０（(［[「『【■□▲△▼▽◆◇○◎●§・※☆★第①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ一二三四五六七八九十壱弐参伍" );
+			sFormat.m_szMidashiKigou = L"１２３４５６７８９０（(［[「『【■□▲△▼▽◆◇○◎●§・※☆★第①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ一二三四五六七八九十壱弐参伍";
 			/* 引用符 */
-			wcscpy( sFormat.m_szInyouKigou, L"> " );		/* 引用符 */
+			sFormat.m_szInyouKigou = L"> ";
 
 			/*
 				書式指定子の意味はWindows SDKのGetDateFormat(), GetTimeFormat()を参照のこと
 			*/
 
 			sFormat.m_nDateFormatType = 0;	//日付書式のタイプ
-			wcscpy( sFormat.m_szDateFormat, L"yyyy\'年\'M\'月\'d\'日(\'dddd\')\'" );	//日付書式
+			sFormat.m_szDateFormat = L"yyyy\'年\'M\'月\'d\'日(\'dddd\')\'";	//日付書式
 			sFormat.m_nTimeFormatType = 0;	//時刻書式のタイプ
-			wcscpy( sFormat.m_szTimeFormat, L"tthh\'時\'mm\'分\'ss\'秒\'"  );			//時刻書式
+			sFormat.m_szTimeFormat = L"tthh\'時\'mm\'分\'ss\'秒\'";			//時刻書式
 		}
 
 		// [検索]タブ

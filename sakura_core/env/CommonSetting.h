@@ -350,17 +350,17 @@ struct CommonSetting_Format
 {
 	//日付書式
 	int			m_nDateFormatType;							//!< 日付書式のタイプ
-	WCHAR		m_szDateFormat[MAX_DATETIMEFOREMAT_LEN];	//!< 日付書式
+	StaticString<MAX_DATETIMEFOREMAT_LEN>	m_szDateFormat;	//!< 日付書式
 
 	//時刻書式
 	int			m_nTimeFormatType;							//!< 時刻書式のタイプ
-	WCHAR		m_szTimeFormat[MAX_DATETIMEFOREMAT_LEN];	//!< 時刻書式
+	StaticString<MAX_DATETIMEFOREMAT_LEN>	m_szTimeFormat;	//!< 時刻書式
 
 	//見出し記号
-	wchar_t		m_szMidashiKigou[256];						//!< 見出し記号
+	StaticString<256>		m_szMidashiKigou;				//!< 見出し記号
 
 	//引用符
-	wchar_t		m_szInyouKigou[32];							//!< 引用符
+	StaticString<32>		m_szInyouKigou;					//!< 引用符
 };
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
