@@ -754,8 +754,8 @@ static void ConvertLangValueImpl( wchar_t* pBuf, size_t chBufSize, int nStrId, s
 	index++;
 }
 
-#define ConvertLangValue(buf, id)  ConvertLangValueImpl(buf, int(std::size(buf)), id, values, index, bSetValues, true)
-#define ConvertLangValue2(buf, id) ConvertLangValueImpl(buf, int(std::size(buf)), id, values, index, bSetValues, false)
+#define ConvertLangValue(buf, id)  ConvertLangValueImpl(buf, buf.capacity(), id, values, index, bSetValues, true)
+#define ConvertLangValue2(buf, id) ConvertLangValueImpl(buf, buf.capacity(), id, values, index, bSetValues, false)
 
 /*!
 	国際化対応のための文字列を変更する
@@ -1108,7 +1108,7 @@ int CShareData::GetMacroFilename( int idx, WCHAR *pszPath, int nBufLen )
 	}
 	else {	//	フォルダー指定あり
 		//	相対パス→絶対パス
-		const auto nFolderSep = AddLastChar( m_pShareData->m_Common.m_sMacro.m_szMACROFOLDER, std::size(m_pShareData->m_Common.m_sMacro.m_szMACROFOLDER), L'\\' );
+		const auto nFolderSep = AddLastChar( m_pShareData->m_Common.m_sMacro.m_szMACROFOLDER, m_pShareData->m_Common.m_sMacro.m_szMACROFOLDER.capacity(), L'\\' );
 		SFilePath szDir;
 
 		 // 2003.06.24 Moca フォルダーも相対パスなら実行ファイルからのパス

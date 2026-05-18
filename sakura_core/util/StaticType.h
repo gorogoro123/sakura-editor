@@ -117,7 +117,7 @@ private:
 public:
 	static constexpr auto BUFFER_COUNT = N_BUFFER_COUNT;
 
-	static constexpr auto size() noexcept { return BUFFER_COUNT; }
+	static constexpr auto capacity() noexcept { return BUFFER_COUNT; }
 
 	//コンストラクタ・デストラクタ
 	StaticString() = default;
@@ -132,7 +132,7 @@ public:
 	constexpr errno_t append(std::wstring_view src) noexcept
 	{
 		const auto len = length();
-		const auto count = std::min<size_t>(std::size(src), size() - len - 1);
+		const auto count = std::min<size_t>(std::size(src), capacity() - len - 1);
 		Traits::move(data() + len, std::data(src), count);
 		Traits::assign(data()[len + count], L'\0');
 		return count < std::size(src) ? STRUNCATE : 0;
@@ -146,7 +146,7 @@ public:
 	 */
 	constexpr errno_t assign(std::wstring_view src) noexcept
 	{
-		const auto count = (std::min<size_t>)(std::size(src), size() - 1);
+		const auto count = (std::min<size_t>)(std::size(src), capacity() - 1);
 		Traits::move(data(), std::data(src), count);
 		Traits::assign(data()[count], L'\0');
 		return count < std::size(src) ? STRUNCATE : 0;
@@ -157,8 +157,8 @@ public:
 	 */
 	constexpr size_t length() const noexcept
 	{
-		const auto pos = Traits::find(data(), size(), L'\0');
-		return pos ? static_cast<size_t>(pos - data()) : size();
+		const auto pos = Traits::find(data(), capacity(), L'\0');
+		return pos ? static_cast<size_t>(pos - data()) : capacity();
 	}
 
 	constexpr bool empty() const noexcept { return 0 == m_szData[0]; }

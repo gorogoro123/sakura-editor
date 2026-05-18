@@ -250,7 +250,7 @@ int CDlgFileTree::GetData()
 	}
 	if( pFileTree ){
 		pFileTree->m_bProject = IsDlgButtonCheckedBool(hwndDlg, IDC_CHECK_LOADINI);
-		ApiWrap::DlgItem_GetText(hwndDlg, IDC_EDIT_DEFINI, pFileTree->m_szProjectIni, pFileTree->m_szProjectIni.size());
+		ApiWrap::DlgItem_GetText(hwndDlg, IDC_EDIT_DEFINI, pFileTree->m_szProjectIni, pFileTree->m_szProjectIni.capacity());
 		if( bSaveShareData ){
 			pFileTree->m_nItemCount = (int)items.size();
 			assert(pFileTree->m_nItemCount <= int(std::size(pFileTree->m_aItems)));
@@ -318,11 +318,11 @@ int CDlgFileTree::GetDataItem( SFileTreeItem& item )
 		item.m_eFileTreeItemType = EFileTreeItemType_Folder;
 	}
 	if( bPathEnable ){
-		ApiWrap::DlgItem_GetText(hwndDlg, IDC_EDIT_PATH, item.m_szTargetPath, item.m_szTargetPath.size());
+		ApiWrap::DlgItem_GetText(hwndDlg, IDC_EDIT_PATH, item.m_szTargetPath, item.m_szTargetPath.capacity());
 	}
-	ApiWrap::DlgItem_GetText(hwndDlg, IDC_EDIT_LABEL, item.m_szLabelName, item.m_szLabelName.size());
+	ApiWrap::DlgItem_GetText(hwndDlg, IDC_EDIT_LABEL, item.m_szLabelName, item.m_szLabelName.capacity());
 	if( bGrepEnable ){
-		ApiWrap::DlgItem_GetText(hwndDlg, IDC_EDIT_FILE, item.m_szTargetFile, item.m_szTargetFile.size());
+		ApiWrap::DlgItem_GetText(hwndDlg, IDC_EDIT_FILE, item.m_szTargetFile, item.m_szTargetFile.capacity());
 		item.m_bIgnoreHidden = IsDlgButtonCheckedBool(hwndDlg, IDC_CHECK_HIDDEN);
 		item.m_bIgnoreReadOnly = IsDlgButtonCheckedBool(hwndDlg, IDC_CHECK_READONLY);
 		item.m_bIgnoreSystem = IsDlgButtonCheckedBool(hwndDlg, IDC_CHECK_SYSTEM);	
@@ -334,10 +334,10 @@ BOOL CDlgFileTree::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 {
 	SFileTreeItem item;
 
-	ApiWrap::EditCtl_LimitText(GetItemHwnd(IDC_EDIT_DEFINI), m_fileTreeSetting.m_szDefaultProjectIni.size() -1);
-	ApiWrap::EditCtl_LimitText(GetItemHwnd(IDC_EDIT_PATH), item.m_szTargetPath.size() -1);
-	ApiWrap::EditCtl_LimitText(GetItemHwnd(IDC_EDIT_LABEL), item.m_szLabelName.size() -1);
-	ApiWrap::EditCtl_LimitText(GetItemHwnd(IDC_EDIT_FILE), item.m_szTargetFile.size() -1);
+	ApiWrap::EditCtl_LimitText(GetItemHwnd(IDC_EDIT_DEFINI), m_fileTreeSetting.m_szDefaultProjectIni.capacity() -1);
+	ApiWrap::EditCtl_LimitText(GetItemHwnd(IDC_EDIT_PATH), item.m_szTargetPath.capacity() -1);
+	ApiWrap::EditCtl_LimitText(GetItemHwnd(IDC_EDIT_LABEL), item.m_szLabelName.capacity() -1);
+	ApiWrap::EditCtl_LimitText(GetItemHwnd(IDC_EDIT_FILE), item.m_szTargetFile.capacity() -1);
 
 	CFilePath path;
 	m_pcDlgFuncList->LoadFileTreeSetting(m_fileTreeSetting, path);
@@ -471,7 +471,7 @@ BOOL CDlgFileTree::OnBnClicked( int wID )
 		return TRUE;
 	case IDC_BUTTON_LOAD:
 		{
-			ApiWrap::DlgItem_GetText( GetHwnd(), IDC_EDIT_DEFINI, m_fileTreeSetting.m_szDefaultProjectIni, m_fileTreeSetting.m_szDefaultProjectIni.size() );
+			ApiWrap::DlgItem_GetText( GetHwnd(), IDC_EDIT_DEFINI, m_fileTreeSetting.m_szDefaultProjectIni, m_fileTreeSetting.m_szDefaultProjectIni.capacity() );
 			if( m_fileTreeSetting.m_szDefaultProjectIni[0] != L'\0' ){
 				CDataProfile cProfile;
 				cProfile.SetReadingMode();
@@ -771,7 +771,7 @@ BOOL CDlgFileTree::OnBnClicked( int wID )
 						SFileTreeItem& item =  m_fileTreeSetting.m_aItems[i];
 						CNativeW str(item.m_szTargetPath);
 						str.Replace(szPathFrom, szPathTo);
-						if( str.GetStringLength() < (int)item.m_szTargetPath.size() ){
+						if( str.GetStringLength() < (int)item.m_szTargetPath.capacity() ){
 							item.m_szTargetPath = str.GetStringPtr();
 						}
 					}

@@ -148,7 +148,7 @@ INT_PTR CPropHelper::DispatchEvent(
 					}else{
 						szPath = m_Common.m_sHelper.m_szMigemoDict;
 					}
-					if( SelectDir( hwndDlg, LS(STR_PROPCOMHELP_MIGEMODIR), szPath.c_str(), szPath.data(), szPath.size())) {
+					if( SelectDir( hwndDlg, LS(STR_PROPCOMHELP_MIGEMODIR), szPath.c_str(), szPath.data(), szPath.capacity())) {
 						m_Common.m_sHelper.m_szMigemoDict = GetRelPath(szPath); // 2015.03.03 可能なら相対パスにする
 						ApiWrap::DlgItem_SetText( hwndDlg, IDC_EDIT_MIGEMO_DICT, m_Common.m_sHelper.m_szMigemoDict );
 					}
@@ -259,17 +259,17 @@ int CPropHelper::GetData( HWND hwndDlg )
 	m_Common.m_sHelper.m_bHokanKey_RIGHT = ::IsDlgButtonChecked( hwndDlg, IDC_CHECK_m_bHokanKey_RIGHT );	//VK_RIGHT  補完決定キーが有効/無効
 
 	/* 外部ヘルプ１ */
-	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_EXTHELP1, m_Common.m_sHelper.m_szExtHelp, m_Common.m_sHelper.m_szExtHelp.size());
+	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_EXTHELP1, m_Common.m_sHelper.m_szExtHelp, m_Common.m_sHelper.m_szExtHelp.capacity());
 
 	/* 外部HTMLヘルプ */
-	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_EXTHTMLHELP, m_Common.m_sHelper.m_szExtHtmlHelp, m_Common.m_sHelper.m_szExtHtmlHelp.size());
+	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_EXTHTMLHELP, m_Common.m_sHelper.m_szExtHtmlHelp, m_Common.m_sHelper.m_szExtHtmlHelp.capacity());
 
 	/* HtmlHelpビューアはひとつ */
 	m_Common.m_sHelper.m_bHtmlHelpIsSingle = ::IsDlgButtonChecked( hwndDlg, IDC_CHECK_HTMLHELPISSINGLE ) != 0;
 
 	//migemo dict
-	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_MIGEMO_DLL, m_Common.m_sHelper.m_szMigemoDll, m_Common.m_sHelper.m_szMigemoDll.size());
-	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_MIGEMO_DICT, m_Common.m_sHelper.m_szMigemoDict, m_Common.m_sHelper.m_szMigemoDict.size());
+	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_MIGEMO_DLL, m_Common.m_sHelper.m_szMigemoDll, m_Common.m_sHelper.m_szMigemoDll.capacity());
+	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_MIGEMO_DICT, m_Common.m_sHelper.m_szMigemoDict, m_Common.m_sHelper.m_szMigemoDict.capacity());
 
 	return TRUE;
 }

@@ -302,10 +302,10 @@ BOOL CDlgGrep::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 
 	/* ユーザーがコンボボックスのエディット コントロールに入力できるテキストの長さを制限する */
 	//	Combo_LimitText( GetItemHwnd( IDC_COMBO_TEXT ), _MAX_PATH - 1 );
-	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_COMBO_FILE ), std::size(m_szFile) - 1 );
-	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_COMBO_FOLDER ), std::size(m_szFolder) - 1 );
-	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_COMBO_EXCLUDE_FILE ), std::size(m_szExcludeFile) - 1);
-	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_COMBO_EXCLUDE_FOLDER ), std::size(m_szExcludeFolder) - 1);
+	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_COMBO_FILE ), m_szFile.capacity() - 1 );
+	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_COMBO_FOLDER ), m_szFolder.capacity() - 1 );
+	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_COMBO_EXCLUDE_FILE ), m_szExcludeFile.capacity() - 1);
+	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_COMBO_EXCLUDE_FOLDER ), m_szExcludeFolder.capacity() - 1);
 
 	/* コンボボックスのユーザー インターフェースを拡張インターフェースにする */
 	ApiWrap::Combo_SetExtendedUI( GetItemHwnd( IDC_COMBO_TEXT ), TRUE );
@@ -374,12 +374,12 @@ LRESULT CALLBACK CDlgGrep::OnFolderProc(HWND hwnd, UINT msg, WPARAM wparam, LPAR
 	{
 		//	From Here 2007.09.02 genta 
 		SFilePath sPath;
-		if( DragQueryFile((HDROP)wparam, 0, nullptr, 0 ) > sPath.size() ){
+		if( DragQueryFile((HDROP)wparam, 0, nullptr, 0 ) > sPath.capacity() ){
 			// skip if the length of the path exceeds buffer capacity
 			::DragFinish((HDROP)wparam);
 			return 0;
 		}
-		DragQueryFile((HDROP)wparam, 0, sPath, sPath.size() - 1);
+		DragQueryFile((HDROP)wparam, 0, sPath, sPath.capacity() - 1);
 		::DragFinish((HDROP)wparam);
 
 		//ファイルパスの解決
@@ -445,7 +445,7 @@ BOOL CDlgGrep::OnBnClicked( int wID )
 		{
 			HWND hwnd = GetItemHwnd( IDC_COMBO_FOLDER );
 			SFilePathLong szFolder;
-			::GetWindowText( hwnd, szFolder, szFolder.size() );
+			::GetWindowText( hwnd, szFolder, szFolder.capacity() );
 			std::vector<std::wstring> vPaths;
 			CGrepAgent::CreateFolders( szFolder, vPaths );
 			if( 0 < vPaths.size() ){
@@ -718,10 +718,10 @@ void CDlgGrep::SetDataFromThisText( bool bChecked )
 {
 	BOOL bEnableControls = TRUE;
 	if( bChecked ){
-		ApiWrap::DlgItem_GetText(GetHwnd(), IDC_COMBO_FILE, m_szFile, std::size(m_szFile));
-		ApiWrap::DlgItem_GetText(GetHwnd(), IDC_COMBO_FOLDER, m_szFolder, std::size(m_szFolder));
-		ApiWrap::DlgItem_GetText(GetHwnd(), IDC_COMBO_EXCLUDE_FILE, m_szExcludeFile, std::size(m_szExcludeFile));
-		ApiWrap::DlgItem_GetText(GetHwnd(), IDC_COMBO_EXCLUDE_FOLDER, m_szExcludeFolder, std::size(m_szExcludeFolder));
+		ApiWrap::DlgItem_GetText(GetHwnd(), IDC_COMBO_FILE, m_szFile, m_szFile.capacity());
+		ApiWrap::DlgItem_GetText(GetHwnd(), IDC_COMBO_FOLDER, m_szFolder, m_szFolder.capacity());
+		ApiWrap::DlgItem_GetText(GetHwnd(), IDC_COMBO_EXCLUDE_FILE, m_szExcludeFile, m_szExcludeFile.capacity());
+		ApiWrap::DlgItem_GetText(GetHwnd(), IDC_COMBO_EXCLUDE_FOLDER, m_szExcludeFolder, m_szExcludeFolder.capacity());
 
 		ApiWrap::DlgItem_SetText( GetHwnd(), IDC_COMBO_FILE, LS(STR_DLGGREP_THISDOC) );
 		SetGrepFolder( GetItemHwnd(IDC_COMBO_FOLDER), LS(STR_DLGGREP_THISDOC) );
@@ -812,7 +812,7 @@ int CDlgGrep::GetData( )
 	m_bSetText = ApiWrap::DlgItem_GetText( GetHwnd(), IDC_COMBO_TEXT, m_strText );;
 
 	/* 検索ファイル */
-	ApiWrap::DlgItem_GetText( GetHwnd(), IDC_COMBO_FILE, m_szFile, std::size(m_szFile) );
+	ApiWrap::DlgItem_GetText( GetHwnd(), IDC_COMBO_FILE, m_szFile, m_szFile.capacity() );
 	bool bFromThisText = IsDlgButtonCheckedBool(GetHwnd(), IDC_CHK_FROMTHISTEXT);
 	if( bFromThisText ){
 		WCHAR szHwnd[_MAX_PATH];
@@ -830,11 +830,11 @@ int CDlgGrep::GetData( )
 		}
 	}
 	/* 検索フォルダー */
-	ApiWrap::DlgItem_GetText( GetHwnd(), IDC_COMBO_FOLDER, m_szFolder, std::size(m_szFolder) );
+	ApiWrap::DlgItem_GetText( GetHwnd(), IDC_COMBO_FOLDER, m_szFolder, m_szFolder.capacity() );
 	/* 除外ファイル */
-	ApiWrap::DlgItem_GetText( GetHwnd(), IDC_COMBO_EXCLUDE_FILE, m_szExcludeFile, std::size(m_szExcludeFile));
+	ApiWrap::DlgItem_GetText( GetHwnd(), IDC_COMBO_EXCLUDE_FILE, m_szExcludeFile, m_szExcludeFile.capacity() );
 	/* 除外フォルダー */
-	ApiWrap::DlgItem_GetText( GetHwnd(), IDC_COMBO_EXCLUDE_FOLDER, m_szExcludeFolder, std::size(m_szExcludeFolder));
+	ApiWrap::DlgItem_GetText( GetHwnd(), IDC_COMBO_EXCLUDE_FOLDER, m_szExcludeFolder,m_szExcludeFolder.capacity() );
 
 	m_pShareData->m_Common.m_sSearch.m_nGrepCharSet = m_nGrepCharSet;			// 文字コード自動判別
 	m_pShareData->m_Common.m_sSearch.m_nGrepOutputLineType = m_nGrepOutputLineType;	// 行を出力/該当部分/否マッチ行 を出力

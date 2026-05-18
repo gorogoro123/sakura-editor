@@ -25,7 +25,7 @@
 TEST(CSakuraEnvironment, ExpandParameter_ExeFileName)
 {
 	SFilePath szExeFile;
-	CSakuraEnvironment::ExpandParameter(L"$S", szExeFile, std::size(szExeFile));
+	CSakuraEnvironment::ExpandParameter(L"$S", szExeFile, szExeFile.capacity());
 	ASSERT_STREQ(GetExeFileName().c_str(), szExeFile.c_str());
 }
 
@@ -35,6 +35,6 @@ TEST(CSakuraEnvironment, ExpandParameter_ExeFileName)
 TEST(CSakuraEnvironment, ExpandParameter_IniFileName)
 {
 	SFilePath szIniFile;
-	CSakuraEnvironment::ExpandParameter(L"$I", szIniFile, std::size(szIniFile));
+	CSakuraEnvironment::ExpandParameter(L"$I", szIniFile, szIniFile.capacity());
 	ASSERT_STREQ(GetIniFileName().c_str(), szIniFile.c_str());
 }

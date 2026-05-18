@@ -17,7 +17,7 @@ CRecentCurDir::CRecentCurDir()
 {
 	Create(
 		GetShareData()->m_sHistory.m_aCurDirs.dataPtr(),
-		GetShareData()->m_sHistory.m_aCurDirs.dataPtr()->size(),
+		GetShareData()->m_sHistory.m_aCurDirs.dataPtr()->capacity(),
 		&GetShareData()->m_sHistory.m_aCurDirs._GetSizeRef(),
 		nullptr,
 		MAX_CMDARR,

@@ -242,8 +242,8 @@ BOOL IsWow64()
 
 CCurrentDirectoryBackupPoint::CCurrentDirectoryBackupPoint()
 {
-	auto n = ::GetCurrentDirectory(std::size(m_szCurDir),m_szCurDir);
-	if(n>0 && n<m_szCurDir.size()){
+	auto n = ::GetCurrentDirectory(m_szCurDir.capacity(),m_szCurDir);
+	if(n>0 && n<m_szCurDir.capacity()){
 		//ok
 	}
 	else{

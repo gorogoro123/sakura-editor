@@ -1906,7 +1906,7 @@ TEST_F(CShareDataTest, GetMacroFilename005)
 
 	// 共有データを元に戻す
 	sMacro.m_MacroTable[5].m_szFile = L"";
-	::wmemset(sMacro.m_szMACROFOLDER, 0, std::size(sMacro.m_szMACROFOLDER));
+	::wmemset(sMacro.m_szMACROFOLDER, 0, sMacro.m_szMACROFOLDER.capacity());
 	sMacro.m_szMACROFOLDER = macroFolder.c_str();
 }
 

@@ -229,7 +229,7 @@ BOOL CDlgPrintSetting::OnBnClicked( int wID )
 				GetHwnd(),
 				LS(STR_DLGPRNST1),
 				LS(STR_DLGPRNST2),
-				m_PrintSettingArr[m_nCurrentPrintSetting].m_szPrintSettingName.size() - 1,
+				m_PrintSettingArr[m_nCurrentPrintSetting].m_szPrintSettingName.capacity() - 1,
 				szWork
 			);
 			if( !bDlgInputResult ){

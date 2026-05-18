@@ -628,7 +628,7 @@ std::filesystem::path GetTempFilePath(
 		tempDir = optTempDir.value();
 	} else {
 		SFilePath szTempDir;
-		::GetTempPathW(std::size(szTempDir), szTempDir);
+		::GetTempPathW(szTempDir.capacity(), szTempDir);
 		tempDir = std::filesystem::path{ szTempDir };
 	}
 
