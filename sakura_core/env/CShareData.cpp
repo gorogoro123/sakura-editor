@@ -1109,26 +1109,23 @@ int CShareData::GetMacroFilename( int idx, WCHAR *pszPath, int nBufLen )
 	else {	//	フォルダー指定あり
 		//	相対パス→絶対パス
 		const auto nFolderSep = AddLastChar( m_pShareData->m_Common.m_sMacro.m_szMACROFOLDER, std::size(m_pShareData->m_Common.m_sMacro.m_szMACROFOLDER), L'\\' );
-		int nAllLen;
-		WCHAR *pszDir;
-		WCHAR szDir[_MAX_PATH + SFilePath::size()];
+		SFilePath szDir;
 
 		 // 2003.06.24 Moca フォルダーも相対パスなら実行ファイルからのパス
 		// 2007.05.19 ryoji 相対パスは設定ファイルからのパスを優先
 		if( _IS_REL_PATH( m_pShareData->m_Common.m_sMacro.m_szMACROFOLDER ) ){
 			GetInidirOrExedir( szDir, m_pShareData->m_Common.m_sMacro.m_szMACROFOLDER );
-			pszDir = szDir;
 		}else{
-			pszDir = m_pShareData->m_Common.m_sMacro.m_szMACROFOLDER;
+			szDir = m_pShareData->m_Common.m_sMacro.m_szMACROFOLDER;
 		}
 
-		auto nDirLen = int(wcslen(pszDir));
-		nAllLen = nDirLen + nLen + ( -1 == nFolderSep ? 1 : 0 );
+		int nDirLen = (int)szDir.length();
+		int nAllLen = nDirLen + nLen + ( -1 == nFolderSep ? 1 : 0 );
 		if( pszPath == nullptr || nBufLen <= nAllLen ){
 			return -nAllLen;
 		}
 
-		::wcsncpy_s(pszPath, nBufLen, pszDir, _TRUNCATE);
+		::wcsncpy_s(pszPath, nBufLen, szDir, _TRUNCATE);
 		if( -1 == nFolderSep ){
 			::wcsncat_s(pszPath, nBufLen, L"\\", _TRUNCATE);
 		}
