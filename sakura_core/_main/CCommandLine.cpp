@@ -247,10 +247,9 @@ void CCommandLine::ParseCommandLine( LPCWSTR pszCmdLineSrc, bool bResponse )
 	}
 
 	CNativeW cmResponseFile = L"";
-	LPWSTR pszCmdLineWork = new WCHAR[lstrlen( pszCmdLineSrc ) + 1];
-	wcscpy( pszCmdLineWork, pszCmdLineSrc );
-	int nCmdLineWorkLen = lstrlen( pszCmdLineWork );
-	LPWSTR pszToken = my_strtok( pszCmdLineWork, nCmdLineWorkLen, &nPos, L" " );
+	std::wstring szCmdLineWork(pszCmdLineSrc);
+	int nCmdLineWorkLen = (int)szCmdLineWork.length();
+	LPWSTR pszToken = my_strtok( szCmdLineWork.data(), nCmdLineWorkLen, &nPos, L" " );
 	while( pszToken != nullptr )
 	{
 		DEBUG_TRACE( L"OPT=[%s]\n", pszToken );
@@ -496,9 +495,8 @@ void CCommandLine::ParseCommandLine( LPCWSTR pszCmdLineSrc, bool bResponse )
 				break;
 			}
 		}
-		pszToken = my_strtok( pszCmdLineWork, nCmdLineWorkLen, &nPos, L" " );
+		pszToken = my_strtok( szCmdLineWork.data(), nCmdLineWorkLen, &nPos, L" " );
 	}
-	delete [] pszCmdLineWork;
 
 	// レスポンスファイル解析
 	if( cmResponseFile.GetStringLength() && bResponse ){
