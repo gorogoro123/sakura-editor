@@ -33,7 +33,7 @@ if(CMAKE_GENERATOR MATCHES "^Visual Studio")
   endif()
 
   # CMakeジェネレーターに渡すパラメーターを作る
-  set(GENERATOR_ARGS "-A ${CMAKE_GENERATOR_PLATFORM} -DCMAKE_CONFIGURATION_TYPES=\"Debug\;Release\"")
+  set(GENERATOR_ARGS "-A ${CMAKE_GENERATOR_PLATFORM} -DCMAKE_CONFIGURATION_TYPES=\"Debug\;Release\;Debug_clang\;Release_clang\"")
 
 else()
   # CMakeが持ってる値を整形する
@@ -63,7 +63,7 @@ endif()
 
 # ホストツールのCMakeジェネレーターに渡すパラメーターを作る
 if(CMAKE_GENERATOR MATCHES "^Visual Studio")
-  set(GENERATOR_ARGS_FOR_HOST_TOOLS "-A ${HOST_PLATFORM} -DCMAKE_CONFIGURATION_TYPES=\"Debug\;Release\"")
+  set(GENERATOR_ARGS_FOR_HOST_TOOLS "-A ${HOST_PLATFORM} -DCMAKE_CONFIGURATION_TYPES=\"Debug\;Release\;Debug_clang\;Release_clang\"")
 else()
   set(GENERATOR_ARGS_FOR_HOST_TOOLS "-DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}")
 endif()

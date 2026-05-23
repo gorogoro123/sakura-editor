@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.16)
 
 # Define primary project
+if(NOT CMAKE_CONFIGURATION_TYPES)
+  set(CMAKE_CONFIGURATION_TYPES "Debug;Release;Debug_clang;Release_clang" CACHE STRING "" FORCE)
+endif()
+
 project(sakura LANGUAGES CXX)
 
 # Include sakura.cmake for sub-targets
