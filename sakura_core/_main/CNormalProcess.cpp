@@ -193,7 +193,7 @@ bool CNormalProcess::InitializeProcess()
 			SetMainWindow( pEditWnd->GetHwnd() );
 			::ReleaseMutex( hMutex );
 			::CloseHandle( hMutex );
-			this->m_pcEditApp->m_pcGrepAgent->DoGrep(
+			this->m_pcEditApp->GetGrepAgent()->DoGrep(
 				&pEditWnd->GetActiveView(),
 				gi.bGrepReplace,
 				&gi.cmGrepKey,

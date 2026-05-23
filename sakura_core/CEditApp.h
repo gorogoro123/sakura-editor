@@ -33,19 +33,31 @@ class CEditApp : public TSingleton<CEditApp>{
 public:
 	void Create(HINSTANCE hInst, int);
 
-	//モジュール情報
-	HINSTANCE GetAppInstance() const{ return m_hInst; }	//!< インスタンスハンドル取得
-
-	//ウィンドウ情報
-	CEditWnd* GetEditWindow(){ return m_pcEditWnd; }		//!< ウィンドウ取得
-
-	CEditDoc*		GetDocument(){ return m_pcEditDoc; }
-	CImageListMgr&	GetIcons(){ return m_cIcons; }
-
 	bool OpenPropertySheet( int nPageNum );
 	bool OpenPropertySheetTypes( int nPageNum, CTypeConfig nSettingType );
 
-public:
+	HINSTANCE GetAppInstance() const { return m_hInst; }
+
+	CEditDoc* GetDocument() { return m_pcEditDoc; }
+
+	CEditWnd* GetEditWindow() { return m_pcEditWnd; }
+
+	CLoadAgent* GetLoadAgent() { return m_pcLoadAgent; }
+	CSaveAgent* GetSaveAgent() { return m_pcSaveAgent; }
+	CVisualProgress* GetVisualProgress() { return m_pcVisualProgress; }
+
+	CMruListener* GetMruListener() { return m_pcMruListener; }
+	CSMacroMgr* GetMacroMgr() { return m_pcSMacroMgr; }
+
+	CPropertyManager* GetPropertyManager() { return m_pcPropertyManager; }
+
+	CGrepAgent* GetGrepAgent() { return m_pcGrepAgent; }
+
+	CSoundSet& GetSoundSet() { return m_cSoundSet; }
+
+	CImageListMgr& GetIcons() { return m_cIcons; }
+
+private:
 	HINSTANCE			m_hInst;
 
 	//ドキュメント
@@ -62,9 +74,9 @@ public:
 	//その他ヘルパ
 	CMruListener*		m_pcMruListener;		//MRU管理
 	CSMacroMgr*			m_pcSMacroMgr;			//マクロ管理
-private:
+
 	CPropertyManager*	m_pcPropertyManager;	//プロパティ管理
-public:
+
 	CGrepAgent*			m_pcGrepAgent;			//GREPモード
 	CSoundSet			m_cSoundSet;			//サウンド管理
 

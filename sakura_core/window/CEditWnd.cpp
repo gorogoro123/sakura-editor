@@ -253,7 +253,7 @@ void CEditWnd::UpdateCaption()
 	CSakuraEnvironment::ExpandParameter( pszTabCaptionFormat, pszCap, int(std::size(pszCap)) );
 	ChangeFileNameNotify( pszCap,
 		GetListeningDoc()->m_cDocFile.GetFilePath(),
-		CEditApp::getInstance()->m_pcGrepAgent->m_bGrepMode ); // 2006.01.28 ryoji ファイル名、Grepモードパラメータを追加
+		CEditApp::getInstance()->GetGrepAgent()->m_bGrepMode ); // 2006.01.28 ryoji ファイル名、Grepモードパラメータを追加
 }
 
 //!< ウィンドウ生成用の矩形を取得

@@ -990,7 +990,7 @@ bool IsFuncEnable( const CEditDoc* pcEditDoc, const DLLSHAREDATA* pShareData, EF
 				return false;
 			}
 		}else{
-			return CEditApp::getInstance()->m_pcSMacroMgr->IsSaveOk();
+			return CEditApp::getInstance()->GetMacroMgr()->IsSaveOk();
 		}
 	case F_EXECKEYMACRO:	/* キーマクロの実行 */
 		if( pShareData->m_sFlags.m_bRecordingKeyMacro ){	/* キーボードマクロの記録中 */
@@ -1217,7 +1217,7 @@ bool IsFuncEnable( const CEditDoc* pcEditDoc, const DLLSHAREDATA* pShareData, EF
 	case F_TAGJUMP_KEYWORD:	//キーワードを指定してダイレクトタグジャンプ	//@@@ 2005.03.31 MIK
 	//	2003.05.12 MIK タグファイル作成先を選べるようにしたので、常に作成可能とする
 //	case F_TAGS_MAKE:	//タグファイルの作成	//@@@ 2003.04.13 MIK
-		if( false == CEditApp::getInstance()->m_pcGrepAgent->m_bGrepMode
+		if( false == CEditApp::getInstance()->GetGrepAgent()->m_bGrepMode
 			&& pcEditDoc->m_cDocFile.GetFilePathClass().IsValidPath() ){
 			return true;
 		}else{
