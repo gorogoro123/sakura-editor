@@ -27,7 +27,7 @@ class CGrepAgent;
 //!エディタ部分アプリケーションクラス。CNormalProcess1個につき、1個存在。
 class CEditApp : public TSingleton<CEditApp>{
 	friend class TSingleton<CEditApp>;
-	CEditApp(){}
+	CEditApp();
 	virtual ~CEditApp();
 
 public:
@@ -38,20 +38,20 @@ public:
 
 	HINSTANCE GetAppInstance() const { return m_hInst; }
 
-	CEditDoc* GetDocument() { return m_pcEditDoc; }
+	CEditDoc* GetDocument() { return m_pcEditDoc.get(); }
 
-	CEditWnd* GetEditWindow() { return m_pcEditWnd; }
+	CEditWnd* GetEditWindow() { return m_pcEditWnd.get(); }
 
-	CLoadAgent* GetLoadAgent() { return m_pcLoadAgent; }
-	CSaveAgent* GetSaveAgent() { return m_pcSaveAgent; }
-	CVisualProgress* GetVisualProgress() { return m_pcVisualProgress; }
+	CLoadAgent* GetLoadAgent() { return m_pcLoadAgent.get(); }
+	CSaveAgent* GetSaveAgent() { return m_pcSaveAgent.get(); }
+	CVisualProgress* GetVisualProgress() { return m_pcVisualProgress.get(); }
 
-	CMruListener* GetMruListener() { return m_pcMruListener; }
-	CSMacroMgr* GetMacroMgr() { return m_pcSMacroMgr; }
+	CMruListener* GetMruListener() { return m_pcMruListener.get(); }
+	CSMacroMgr* GetMacroMgr() { return m_pcSMacroMgr.get(); }
 
-	CPropertyManager* GetPropertyManager() { return m_pcPropertyManager; }
+	CPropertyManager* GetPropertyManager() { return m_pcPropertyManager.get(); }
 
-	CGrepAgent* GetGrepAgent() { return m_pcGrepAgent; }
+	CGrepAgent* GetGrepAgent() { return m_pcGrepAgent.get(); }
 
 	CSoundSet& GetSoundSet() { return m_cSoundSet; }
 
@@ -61,27 +61,27 @@ private:
 	HINSTANCE			m_hInst;
 
 	//ドキュメント
-	CEditDoc*			m_pcEditDoc;
+	std::unique_ptr<CEditDoc>			m_pcEditDoc;
 
 	//ウィンドウ
-	CEditWnd*			m_pcEditWnd;
+	std::unique_ptr<CEditWnd>			m_pcEditWnd;
 
 	//IO管理
-	CLoadAgent*			m_pcLoadAgent;
-	CSaveAgent*			m_pcSaveAgent;
-	CVisualProgress*	m_pcVisualProgress;
+	std::unique_ptr<CLoadAgent>			m_pcLoadAgent;
+	std::unique_ptr<CSaveAgent>			m_pcSaveAgent;
+	std::unique_ptr<CVisualProgress>	m_pcVisualProgress;
 
 	//その他ヘルパ
-	CMruListener*		m_pcMruListener;		//MRU管理
-	CSMacroMgr*			m_pcSMacroMgr;			//マクロ管理
+	std::unique_ptr<CMruListener>		m_pcMruListener;		//MRU管理
+	std::unique_ptr<CSMacroMgr>			m_pcSMacroMgr;			//マクロ管理
 
-	CPropertyManager*	m_pcPropertyManager;	//プロパティ管理
+	std::unique_ptr<CPropertyManager>	m_pcPropertyManager;	//プロパティ管理
 
-	CGrepAgent*			m_pcGrepAgent;			//GREPモード
-	CSoundSet			m_cSoundSet;			//サウンド管理
+	std::unique_ptr<CGrepAgent>			m_pcGrepAgent;			//GREPモード
+	CSoundSet							m_cSoundSet;			//サウンド管理
 
 	//GUIオブジェクト
-	CImageListMgr		m_cIcons;					//!< Image List
+	CImageListMgr						m_cIcons;				//!< Image List
 };
 
 //WM_QUIT検出例外
