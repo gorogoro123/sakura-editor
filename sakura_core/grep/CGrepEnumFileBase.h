@@ -21,9 +21,6 @@
 #include "util/string_ex.h"
 #include "util/design_template.h"
 
-typedef std::pair< std::wstring, DWORD > PairGrepEnumItem;
-typedef std::vector< PairGrepEnumItem > VPGrepEnumItem;
-
 class CGrepEnumOptions {
 public:
 	CGrepEnumOptions() = default;
@@ -33,6 +30,8 @@ public:
 };
 
 class CGrepEnumFileBase {
+	using PairGrepEnumItem = std::pair< std::wstring, DWORD >;
+	using VPGrepEnumItem = std::vector< PairGrepEnumItem >;
 private:
 	VPGrepEnumItem m_vpItems;
 
