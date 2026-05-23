@@ -42,36 +42,29 @@ void CDocOutline::MakeTopicList_asm( CFuncInfoArr* pcFuncInfoArr )
 	for( CLogicInt nLineCount = CLogicInt(0); nLineCount < nTotalLine; nLineCount++ ){
 		const WCHAR* pLine;
 		CLogicInt nLineLen;
-		WCHAR* pTmpLine;
-		int length;
-		int offset;
 #define MAX_ASM_TOKEN 2
 		WCHAR* token[MAX_ASM_TOKEN];
 		int j;
-		WCHAR* p;
 
 		//1行取得する。
 		pLine = m_pcDocRef->m_cDocLineMgr.GetLine(nLineCount)->GetDocLineStrWithEOL(&nLineLen);
 		if( pLine == nullptr ) break;
 
-		//作業用にコピーを作成する。バイナリがあったらその後ろは知らない。
-		pTmpLine = _wcsdup( pLine );
-		if( pTmpLine == nullptr ) break;
-		if( wcslen( pTmpLine ) >= (unsigned int)nLineLen ){	//バイナリを含んでいたら短くなるので...
-			pTmpLine[ nLineLen ] = L'\0';	//指定長で切り詰め
-		}
+		//作業用にコピーを作成する。
+		std::wstring tmpLine(pLine, pLine + static_cast<size_t>(nLineLen));
 
 		//行コメント削除
-		p = wcschr( pTmpLine, L';' );
-		if( p ) *p = L'\0';
+		if (auto commentPos = tmpLine.find(L';'); commentPos != std::wstring::npos) {
+			tmpLine.resize(commentPos);
+		}
 
-		length = (int)wcslen( pTmpLine );
-		offset = 0;
+		int length = (int)tmpLine.length();
+		int offset = 0;
 
 		//トークンに分割
 		for( j = 0; j < MAX_ASM_TOKEN; j++ ) token[ j ] = nullptr;
 		for( j = 0; j < MAX_ASM_TOKEN; j++ ){
-			token[ j ] = my_strtok( pTmpLine, length, &offset, L" \t\r\n" );
+			token[ j ] = my_strtok( tmpLine.data(), length, &offset, L" \t\r\n" );
 			if( token[ j ] == nullptr ) break;
 			//トークンに含まれるべき文字でないか？
 			if( wcschr( token[ j ], L'\"') != nullptr
@@ -127,8 +120,6 @@ void CDocOutline::MakeTopicList_asm( CFuncInfoArr* pcFuncInfoArr )
 				pcFuncInfoArr->AppendData( nLineCount + CLogicInt(1), ptPos.GetY2() + CLayoutInt(1), entry_token, nFuncId );
 			}
 		}
-
-		free( pTmpLine );
 	}
 
 	return;
