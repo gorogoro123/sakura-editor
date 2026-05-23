@@ -61,6 +61,11 @@ const DWORD p_helpids[] = {	//12900
 // https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
 #  define COMPILER_TYPE L"G"
 #  define COMPILER_VER (__GNUC__ * 10000 + __GNUC_MINOR__  * 100 + __GNUC_PATCHLEVEL__)
+#elif defined(__clang__)
+// Clang/LLVM
+// https://clang.llvm.org/docs/LanguageExtensions.html
+#  define COMPILER_TYPE "C"
+#  define COMPILER_VER  (__clang_major__ * 10000 + __clang_minor__ * 100 + __clang_patchlevel__ )
 #elif defined(_MSC_VER)
 // https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros?view=vs-2019
 #  define COMPILER_TYPE L"V"
