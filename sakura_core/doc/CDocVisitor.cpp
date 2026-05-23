@@ -57,7 +57,7 @@ void CDocVisitor::SetAllEol(CEol cEol)
 			nLine++;
 		}
 		//編集時入力改行コード
-		CEditDoc::GetInstance(0)->m_cDocEditor.SetNewLineCode(cEol);
+		GetDocument()->m_cDocEditor.SetNewLineCode(cEol);
 	}
 
 	if( bReplace ){
