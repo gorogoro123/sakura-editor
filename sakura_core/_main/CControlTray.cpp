@@ -202,8 +202,6 @@ CControlTray::CControlTray()
 
 CControlTray::~CControlTray()
 {
-	delete m_pcPropertyManager;
-	return;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -272,7 +270,7 @@ HWND CControlTray::Create( HINSTANCE hInstance )
 		CreateTrayIcon( GetTrayHwnd() );
 	}
 
-	m_pcPropertyManager = new CPropertyManager();
+	m_pcPropertyManager = std::make_unique<CPropertyManager>();
 	m_pcPropertyManager->Create( GetTrayHwnd(), &m_hIcons, &m_cMenuDrawer );
 
 	m_szLanguageDll = GetDllShareData().m_Common.m_sWindow.m_szLanguageDll;
