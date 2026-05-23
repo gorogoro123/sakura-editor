@@ -2247,10 +2247,8 @@ bool CMacro::HandleFunction(CEditView *View, EFunctionCode ID, VARIANT *Argument
 			if( 2 <= ArgSize ){
 				if( !VariantToI4(varCopy, Arguments[0]) ) return false;
 				if( !VariantToBStr(varCopy2, Arguments[1]) ) return false;
-				std::vector<wchar_t> vStrMenu;
-				int nLen = (int)wcslen(varCopy2.Data.bstrVal);
-				vStrMenu.assign( nLen + 1, L'\0' );
-				wcscpy(&vStrMenu[0], varCopy2.Data.bstrVal);
+				std::wstring vStrMenu(varCopy2.Data.bstrVal);
+				int nLen = (int)vStrMenu.size();
 				HMENU hMenu = ::CreatePopupMenu();
 				std::vector<HMENU> vHmenu;
 				vHmenu.push_back( hMenu );
@@ -2258,7 +2256,7 @@ bool CMacro::HandleFunction(CEditView *View, EFunctionCode ID, VARIANT *Argument
 				int nPos = 0;
 				wchar_t* p;
 				int i = 1;
-				while ((p = my_strtok(&vStrMenu[0], nLen, &nPos, L","))) {
+				while ((p = my_strtok(vStrMenu.data(), nLen, &nPos, L","))) {
 					wchar_t* r = p;
 					int nFlags = MF_STRING;
 					int nFlagBreak = 0;
