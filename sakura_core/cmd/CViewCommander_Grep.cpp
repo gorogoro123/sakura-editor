@@ -68,8 +68,8 @@ void CViewCommander::Command_GREP( )
 		Grepモードのとき、または未編集で無題かつアウトプットでない場合。
 		自ウィンドウがGrep実行中も、(異常終了するので)別ウィンドウにする
 	*/
-	if( (  CEditApp::getInstance()->m_pcGrepAgent->m_bGrepMode &&
-		  !CEditApp::getInstance()->m_pcGrepAgent->m_bGrepRunning ) ||
+	if( (  CEditApp::getInstance()->GetGrepAgent()->m_bGrepMode &&
+		  !CEditApp::getInstance()->GetGrepAgent()->m_bGrepRunning ) ||
 		( !GetDocument()->m_cDocEditor.IsModified() &&
 		  !GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() &&		/* 現在編集中のファイルのパス */
 		  !CAppMode::getInstance()->IsDebugMode()
@@ -87,7 +87,7 @@ void CViewCommander::Command_GREP( )
 			GetDocument()->OnChangeType();
 		}
 		
-		CEditApp::getInstance()->m_pcGrepAgent->DoGrep(
+		CEditApp::getInstance()->GetGrepAgent()->DoGrep(
 			m_pCommanderView,
 			false,
 			&cmWork1,
@@ -174,14 +174,14 @@ void CViewCommander::Command_GREP_REPLACE( )
 		Grepモードのとき、または未編集で無題かつアウトプットでない場合。
 		自ウィンドウがGrep実行中も、(異常終了するので)別ウィンドウにする
 	*/
-	if( (  CEditApp::getInstance()->m_pcGrepAgent->m_bGrepMode &&
-		  !CEditApp::getInstance()->m_pcGrepAgent->m_bGrepRunning ) ||
+	if( (  CEditApp::getInstance()->GetGrepAgent()->m_bGrepMode &&
+		  !CEditApp::getInstance()->GetGrepAgent()->m_bGrepRunning ) ||
 		( !GetDocument()->m_cDocEditor.IsModified() &&
 		  !GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() &&		/* 現在編集中のファイルのパス */
 		  !CAppMode::getInstance()->IsDebugMode()
 		)
 	){
-		CEditApp::getInstance()->m_pcGrepAgent->DoGrep(
+		CEditApp::getInstance()->GetGrepAgent()->DoGrep(
 			m_pCommanderView,
 			true,
 			&cmWork1,

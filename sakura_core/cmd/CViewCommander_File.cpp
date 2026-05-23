@@ -177,9 +177,9 @@ bool CViewCommander::Command_FILESAVE( bool warnbeep, bool askname )
 	sSaveInfo.bOverwriteMode = true; //上書き要求
 
 	//上書き処理
-	if(!warnbeep)CEditApp::getInstance()->m_cSoundSet.MuteOn();
+	if(!warnbeep)CEditApp::getInstance()->GetSoundSet().MuteOn();
 	bool bRet = pcDoc->m_cDocFileOperation.DoSaveFlow(&sSaveInfo);
-	if(!warnbeep)CEditApp::getInstance()->m_cSoundSet.MuteOff();
+	if(!warnbeep)CEditApp::getInstance()->GetSoundSet().MuteOff();
 
 	return bRet;
 }
