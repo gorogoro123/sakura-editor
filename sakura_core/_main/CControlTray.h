@@ -129,7 +129,7 @@ private:
 	|| メンバ変数
 	*/
 	CMenuDrawer		m_cMenuDrawer;
-	CPropertyManager*	m_pcPropertyManager = nullptr;
+	std::unique_ptr<CPropertyManager>	m_pcPropertyManager;
 	bool			m_bUseTrayMenu = false;			//トレイメニュー表示中
 	HINSTANCE		m_hInstance = nullptr;
 	HWND			m_hWnd = nullptr;
