@@ -34,7 +34,7 @@ struct COutlineErlang {
 	wchar_t m_func[64] = {};		//!< 関数名(Arity含む) = 表示名
 	unsigned m_lnum = 0;			//!< 関数の行番号
 	unsigned m_argcount = 0;		//!< 発見した引数の数
-	wchar_t m_parenthesis[32] = {};	//!< 括弧のネストを管理するもの
+	std::array<wchar_t,32> m_parenthesis = {};	//!< 括弧のネストを管理するもの
 	unsigned m_parenthesis_ptr = 0;	//!< 括弧のネストレベル
 	
 	bool parse( const wchar_t* buf, int linelen, CLogicInt linenum );
@@ -197,7 +197,7 @@ const wchar_t* COutlineErlang::ScanArgs( const wchar_t* end, const wchar_t* p )
 {
 	assert( m_state == STATE_FUNC_ARGS );
 
-	constexpr auto parptr_max = std::size(m_parenthesis);
+	constexpr auto parptr_max = std::tuple_size_v<decltype(m_parenthesis)>;
 	wchar_t quote = L'\0'; // 先頭位置を保存
 	for(const wchar_t* head = p ; p < end ; p++ ){
 		if( quote ){
