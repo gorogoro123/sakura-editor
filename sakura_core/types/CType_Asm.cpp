@@ -56,13 +56,12 @@ void CDocOutline::MakeTopicList_asm( CFuncInfoArr* pcFuncInfoArr )
 			tmpLine.resize(commentPos);
 		}
 
-		int length = (int)tmpLine.length();
 		int offset = 0;
 
 		//トークンに分割
 		WCHAR* token[MAX_ASM_TOKEN] = {};
 		for( int j = 0; j < MAX_ASM_TOKEN; j++ ){
-			WCHAR* pTok = my_strtok( tmpLine.data(), length, &offset, L" \t\r\n" );
+			WCHAR* pTok = my_strtok( tmpLine, &offset, L" \t\r\n" );
 			if( pTok == nullptr ) break;
 			//トークンに含まれるべき文字でないか？
 			if( wcschr( pTok, L'\"') != nullptr
@@ -78,7 +77,7 @@ void CDocOutline::MakeTopicList_asm( CFuncInfoArr* pcFuncInfoArr )
 			int nFuncId = -1;
 			WCHAR* entry_token = nullptr;
 
-			length = (int)wcslen( token[ 0 ] );
+			int length = (int)wcslen( token[ 0 ] );
 			if( length >= 2
 			 && token[ 0 ][ length - 1 ] == L':' ){	//ラベル
 				token[ 0 ][ length - 1 ] = L'\0';
