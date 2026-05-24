@@ -639,27 +639,27 @@ int wmemicmp_ascii(const WCHAR* p1,const WCHAR* p2,size_t count)
 	@date 2007.10.21 kobake テンプレート化
 */
 WCHAR* my_strtok(
-	WCHAR*			pBuffer,	//[in] 文字列バッファ(終端があること)
-	int				nLen,		//[in] 文字列の長さ
+	std::span<WCHAR> buffer,	//[in] 文字列バッファ(終端があること)
 	int*			pnOffset,	//[in,out] オフセット
 	const WCHAR*	pDelimiter	//[in] 区切り文字
 )
 {
 	int i = *pnOffset;
-	WCHAR* p;
+	int nLen = (int)buffer.size();
+	WCHAR* p = nullptr;
 
 	do {
 		bool bFlag = false;	//ダブルコーテーションの中か？
 		if( i >= nLen ) return nullptr;
-		p = &pBuffer[i];
+		p = &buffer[i];
 		for( ; i < nLen; i++ )
 		{
-			if( pBuffer[i] == L'"' ) bFlag = ! bFlag;
+			if( buffer[i] == L'"' ) bFlag = ! bFlag;
 			if( ! bFlag )
 			{
-				if( auto_strchr( pDelimiter, pBuffer[i] ) )
+				if( auto_strchr( pDelimiter, buffer[i] ) )
 				{
-					pBuffer[i++] = L'\0';
+					buffer[i++] = L'\0';
 					break;
 				}
 			}

@@ -81,8 +81,7 @@ inline char* strstr_j ( char* s1, const char* s2 ){ return const_cast<char*>(str
 inline char* stristr_j( char* s1, const char* s2 ){ return const_cast<char*>(stristr_j((const char*)s1, s2)); }
 
 WCHAR* my_strtok(
-	WCHAR*			pBuffer,	//[in] 文字列バッファ(終端があること)
-	int				nLen,		//[in] 文字列の長さ
+	std::span<WCHAR> buffer,	//[in] 文字列バッファ(終端があること)
 	int*			pnOffset,	//[in,out] オフセット
 	const WCHAR*	pDelimiter	//[in] 区切り文字
 );

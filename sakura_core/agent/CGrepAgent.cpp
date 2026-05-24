@@ -205,11 +205,10 @@ void CGrepAgent::OnAfterSave([[maybe_unused]] const SSaveInfo& sSaveInfo)
 void CGrepAgent::CreateFolders( const WCHAR* pszPath, std::vector<std::wstring>& vPaths )
 {
 	std::wstring strPath( pszPath );
-	const int nPathLen = static_cast<int>( strPath.length() );
 
 	WCHAR* token;
 	int nPathPos = 0;
-	while( nullptr != (token = my_strtok( strPath.data(), nPathLen, &nPathPos, L";")) ){
+	while( nullptr != (token = my_strtok( strPath, &nPathPos, L";")) ){
 		std::wstring strTemp( token );
 		// パスに含まれる '"' を削除する
 		strTemp.erase( std::remove( strTemp.begin(), strTemp.end(), L'"' ), strTemp.end() );
