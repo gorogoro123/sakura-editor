@@ -54,5 +54,5 @@ protected:
 
 private:
 	POINT			m_ptDefaultSize;
-	RECT			m_rcItems[6];
+	std::array<RECT,6>	m_rcItems;
 };
