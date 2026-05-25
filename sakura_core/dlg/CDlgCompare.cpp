@@ -42,20 +42,20 @@ const DWORD p_helpids[] = {	//12300
 	0, 0
 };	//@@@ 2002.01.07 add end MIK
 
-static const SAnchorList anchorList[] = {
+static constexpr auto anchorList = std::to_array<SAnchorList>({
 	{IDOK,					ANCHOR_BOTTOM},
 	{IDCANCEL,				ANCHOR_BOTTOM},
 	{IDC_BUTTON_HELP,		ANCHOR_BOTTOM},
 	{IDC_CHECK_TILE_H,		ANCHOR_LEFT},
 	{IDC_LIST_FILES,        ANCHOR_ALL},
 	{IDC_STATIC_COMPARESRC, ANCHOR_LEFT_RIGHT},
-};
+});
 
 CDlgCompare::CDlgCompare()
 	: CDialog(true)
 {
 	/* サイズ変更時に位置を制御するコントロール数 */
-	static_assert( int(std::size(anchorList)) == int(std::size(m_rcItems)) );
+	static_assert( anchorList.size() == std::tuple_size_v<decltype(m_rcItems)> );
 
 	m_bCompareAndTileHorz = TRUE;	/* 左右に並べて表示 */
 
