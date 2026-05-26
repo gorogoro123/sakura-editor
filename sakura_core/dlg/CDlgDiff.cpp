@@ -59,7 +59,7 @@ const DWORD p_helpids[] = {	//13200
 	0, 0
 };
 
-static const SAnchorList anchorList[] = {
+static constexpr auto anchorList = std::to_array<SAnchorList>({
 	{IDC_BUTTON_DIFF_DST,       ANCHOR_RIGHT},
 	{IDC_CHECK_DIFF_OPT_BLINE,  ANCHOR_BOTTOM},
 	{IDC_CHECK_DIFF_OPT_CASE,   ANCHOR_BOTTOM},
@@ -82,15 +82,13 @@ static const SAnchorList anchorList[] = {
 	{IDC_CHECK_NOTIFYNOTFOUND,  ANCHOR_BOTTOM},
 	{IDC_CHECK_SEARCHALL,       ANCHOR_BOTTOM},
 	{IDC_FRAME_SEARCH_MSG,      ANCHOR_BOTTOM},
-};
+});
 
 CDlgDiff::CDlgDiff()
 	: CDialog(true)
 {
 	/* サイズ変更時に位置を制御するコントロール数 */
-	static_assert( int(std::size(anchorList)) == int(std::size(m_rcItems)) );
-
-	return;
+	static_assert( anchorList.size() == std::tuple_size_v<decltype(m_rcItems)> );
 }
 
 /* モーダルダイアログの表示 */

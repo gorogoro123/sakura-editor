@@ -56,7 +56,7 @@ protected:
 private:
 	int			m_nIndexSave = 0;		// 最後に選択されていた番号
 	POINT		m_ptDefaultSize = {-1, -1};
-	RECT		m_rcItems[22];
+	std::array<RECT,22>	m_rcItems;
 
 public:
 	SFilePath	m_szFile1;			// 自ファイル
