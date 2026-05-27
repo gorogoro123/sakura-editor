@@ -36,5 +36,5 @@ protected:
 	void CommandSave();
 private:
 	POINT		m_ptDefaultSize;
-	RECT		m_rcItems[5];
+	std::array<RECT,5>		m_rcItems;
 };

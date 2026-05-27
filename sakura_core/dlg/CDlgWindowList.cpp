@@ -43,19 +43,19 @@ const DWORD p_helpids[] = {
 	0, 0
 };
 
-static const SAnchorList anchorList[] = {
+static constexpr auto anchorList = std::to_array<SAnchorList>({
 	{IDC_LIST_WINDOW,			ANCHOR_ALL},
 	{IDC_BUTTON_SAVE,			ANCHOR_BOTTOM},
 	{IDC_BUTTON_CLOSE,			ANCHOR_BOTTOM},
 	{IDOK,                      ANCHOR_BOTTOM},
 	{IDC_BUTTON_HELP,           ANCHOR_BOTTOM},
-};
+});
 
 CDlgWindowList::CDlgWindowList()
 	: CDialog(true)
 {
 	/* サイズ変更時に位置を制御するコントロール数 */
-	static_assert(int(std::size(anchorList)) == int(std::size(m_rcItems)));
+	static_assert( anchorList.size() == std::tuple_size_v<decltype(m_rcItems)> );
 	m_ptDefaultSize.x = -1;
 	m_ptDefaultSize.y = -1;
 	return;
