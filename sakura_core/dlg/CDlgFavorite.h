@@ -109,7 +109,7 @@ private:
 	ListViewSortInfo    m_aListViewInfo[FAVORITE_INFO_MAX];
 	POINT				m_ptDefaultSize;
 	RECT				m_rcListDefault;
-	RECT				m_rcItems[10];
+	std::array<RECT,10>	m_rcItems;
 
 	int		m_nCurrentTab;
 	int		m_nExceptTab;

@@ -52,7 +52,7 @@ const DWORD p_helpids[] = {
 	0, 0
 };
 
-static const SAnchorList anchorList[] = {
+static constexpr auto anchorList = std::to_array<SAnchorList>({
 	{IDC_TAB_FAVORITE,              ANCHOR_LEFT_RIGHT},
 	{IDC_STATIC_BUTTONS,			ANCHOR_BOTTOM},
 	{IDC_BUTTON_CLEAR, 				ANCHOR_BOTTOM},
@@ -63,7 +63,7 @@ static const SAnchorList anchorList[] = {
 	{IDOK, 							ANCHOR_BOTTOM},
 	{IDC_BUTTON_HELP, 				ANCHOR_BOTTOM},
 	{IDC_STATIC_FAVORITE_MSG, 		ANCHOR_BOTTOM},
-};
+});
 
 static int FormatFavoriteColumn( WCHAR*, int, int , bool );
 static int ListView_GetLParamInt( HWND, int );
@@ -94,7 +94,7 @@ CDlgFavorite::CDlgFavorite()
 	m_szMsg[0] = L'\0';
 
 	/* サイズ変更時に位置を制御するコントロール数 */
-	static_assert( int(std::size(anchorList)) == int(std::size(m_rcItems)) );
+	static_assert( anchorList.size() == std::tuple_size_v<decltype(m_rcItems)> );
 
 	{
 		i = 0;
