@@ -148,7 +148,7 @@ private:
 	CRecentTagjumpKeyword	m_cRecentKeyword;
 
 	POINT	m_ptDefaultSize;
-	RECT	m_rcItems[11];
+	std::array<RECT,11>		m_rcItems;
 
 	DISALLOW_COPY_AND_ASSIGN(CDlgTagJumpList);
 };

@@ -45,7 +45,7 @@ const DWORD p_helpids[] = {
 	0, 0
 };
 
-static const SAnchorList anchorList[] = {
+static constexpr auto anchorList = std::to_array<SAnchorList>({
 	{IDC_STATIC_BASEDIR,	ANCHOR_BOTTOM},
 	{IDC_STATIC_KEYWORD,	ANCHOR_BOTTOM},
 	{IDC_KEYWORD,			ANCHOR_BOTTOM},
@@ -57,7 +57,7 @@ static const SAnchorList anchorList[] = {
 	{IDCANCEL,				ANCHOR_BOTTOM},
 	{IDC_CHECK_ICASE,		ANCHOR_BOTTOM},
 	{IDC_CHECK_ANYWHERE,	ANCHOR_BOTTOM},
-};
+});
 
 //タグファイルのフォーマット	//	@@ 2005.03.31 MIK 定数化
 //	@@ 2005.04.03 MIK キーワードに空白が含まれる場合の考慮
@@ -123,7 +123,7 @@ CDlgTagJumpList::CDlgTagJumpList(bool bDirectTagJump)
 	  m_bDirectTagJump(bDirectTagJump)
 {
 	/* サイズ変更時に位置を制御するコントロール数 */
-	static_assert( int(std::size(anchorList)) == int(std::size(m_rcItems)) );
+	static_assert( anchorList.size() == std::tuple_size_v<decltype(m_rcItems)> );
 
 	// 2010.07.22 Moca ページング採用で 最大値を100→50に減らす
 	m_pcList = std::make_unique<CSortedTagJumpList>(50);
