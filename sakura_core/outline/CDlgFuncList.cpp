@@ -88,7 +88,7 @@ const DWORD p_helpids[] = {	//12200
 	0, 0
 };	//@@@ 2002.01.07 add end MIK
 
-static const SAnchorList anchorList[] = {
+static constexpr auto anchorList = std::to_array<SAnchorList>({
 	{IDC_BUTTON_COPY, ANCHOR_BOTTOM},
 	{IDOK, ANCHOR_BOTTOM},
 	{IDCANCEL, ANCHOR_BOTTOM},
@@ -101,7 +101,7 @@ static const SAnchorList anchorList[] = {
 	{IDC_COMBO_nSortType, ANCHOR_TOP},
 	{IDC_BUTTON_WINSIZE, ANCHOR_BOTTOM}, // 20060201 aroka
 	{IDC_BUTTON_MENU, ANCHOR_BOTTOM},
-};
+});
 
 //関数リストの列
 enum EFuncListCol {
@@ -206,7 +206,7 @@ HINSTANCE CDlgFuncList::m_lastRcInstance = nullptr;
 CDlgFuncList::CDlgFuncList() : CDialog(true)
 {
 	/* サイズ変更時に位置を制御するコントロール数 */
-	static_assert( int(std::size(anchorList)) == int(std::size(m_rcItems)) );
+	static_assert( anchorList.size() == std::tuple_size_v<decltype(m_rcItems)> );
 
 	m_pcFuncInfoArr = nullptr;		/* 関数情報配列 */
 	m_nCurLine = CLayoutInt(0);				/* 現在行 */

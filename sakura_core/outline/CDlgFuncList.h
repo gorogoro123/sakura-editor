@@ -225,7 +225,7 @@ private:
 
 	POINT				m_ptDefaultSize;
 	POINT				m_ptDefaultSizeClient;
-	RECT				m_rcItems[12];
+	std::array<RECT,12>	m_rcItems;
 
 	bool		m_bFuncInfoArrIsUpToDate;
 };
