@@ -55,7 +55,7 @@ enum ERegisterPlugResult {
 
 //ジャック管理クラス
 class CJackManager final : public TSingleton<CJackManager>{
-	friend class TSingleton<CJackManager>;
+	friend TSingleton<CJackManager>;
 	CJackManager();
 
 	//操作

@@ -28,8 +28,8 @@ enum EDiffMark : char {
 };
 
 //! DIFF挙動の管理
-class CDiffManager : public TSingleton<CDiffManager>{
-	friend class TSingleton<CDiffManager>;
+class CDiffManager final : public TSingleton<CDiffManager>{
+	friend TSingleton<CDiffManager>;
 	CDiffManager() = default;
 
 public:

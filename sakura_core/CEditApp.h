@@ -25,8 +25,8 @@ class CPropertyManager;
 class CGrepAgent;
 
 //!エディタ部分アプリケーションクラス。CNormalProcess1個につき、1個存在。
-class CEditApp : public TSingleton<CEditApp>{
-	friend class TSingleton<CEditApp>;
+class CEditApp final : public TSingleton<CEditApp>{
+	friend TSingleton<CEditApp>;
 	CEditApp();
 	virtual ~CEditApp();
 

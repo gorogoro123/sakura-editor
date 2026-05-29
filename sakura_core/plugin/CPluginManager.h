@@ -15,7 +15,7 @@
 #include <string>
 
 class CPluginManager final : public TSingleton<CPluginManager>{
-	friend class TSingleton<CPluginManager>;
+	friend TSingleton<CPluginManager>;
 	CPluginManager();
 
 	// 操作

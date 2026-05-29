@@ -167,8 +167,8 @@ protected:
 	const STypeConfig* m_pTypeData = nullptr;
 };
 
-class CColorStrategyPool : public TSingleton<CColorStrategyPool>{
-	friend class TSingleton<CColorStrategyPool>;
+class CColorStrategyPool final : public TSingleton<CColorStrategyPool>{
+	friend TSingleton<CColorStrategyPool>;
 	CColorStrategyPool();
 	virtual ~CColorStrategyPool();
 
