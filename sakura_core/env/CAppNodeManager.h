@@ -87,8 +87,8 @@ private:
 	int m_nGroup;
 };
 
-class CAppNodeManager : public TSingleton<CAppNodeManager>{
-	friend class TSingleton<CAppNodeManager>;
+class CAppNodeManager final : public TSingleton<CAppNodeManager>{
+	friend TSingleton<CAppNodeManager>;
 	CAppNodeManager(){}
 
 public:

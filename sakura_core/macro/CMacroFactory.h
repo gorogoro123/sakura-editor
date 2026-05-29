@@ -34,8 +34,8 @@ class CMacroManagerBase;
 
 	Singleton
 */
-class CMacroFactory : public TSingleton<CMacroFactory> {
-	friend class TSingleton<CMacroFactory>;
+class CMacroFactory final : public TSingleton<CMacroFactory> {
+	friend TSingleton<CMacroFactory>;
 	CMacroFactory();
 
 public:

@@ -11,8 +11,8 @@
 #include "util/design_template.h"
 #include "CFigureStrategy.h"
 
-class CFigureManager : public TSingleton<CFigureManager>{
-	friend class TSingleton<CFigureManager>;
+class CFigureManager final : public TSingleton<CFigureManager>{
+	friend TSingleton<CFigureManager>;
 	CFigureManager();
 	virtual ~CFigureManager();
 

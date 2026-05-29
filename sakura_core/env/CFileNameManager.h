@@ -20,8 +20,8 @@ struct EditInfo;
 DLLSHAREDATA& GetDllShareData();
 
 //!ファイル名管理
-class CFileNameManager : public TSingleton<CFileNameManager>{
-	friend class TSingleton<CFileNameManager>;
+class CFileNameManager final : public TSingleton<CFileNameManager>{
+	friend TSingleton<CFileNameManager>;
 	CFileNameManager()
 	{
 		m_pShareData = &GetDllShareData();
