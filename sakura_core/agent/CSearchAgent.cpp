@@ -39,15 +39,9 @@ void CSearchStringPattern::Reset(){
 	m_psSearchOption = nullptr;
 	m_pRegexp = nullptr;
 
-	delete [] m_pszPatternCase;
-	m_pszPatternCase = nullptr;
+	m_szPatternCase.clear();
 #ifdef SEARCH_STRING_KMP
-	delete [] m_pnNextPossArr;
-	m_pnNextPossArr = nullptr;
-#endif
-#ifdef SEARCH_STRING_SUNDAY_QUICK
-	delete [] m_pnUseCharSkipArr;
-	m_pnUseCharSkipArr = nullptr;
+	m_vnNextPossArr.clear();
 #endif
 }
 
@@ -91,13 +85,13 @@ bool CSearchStringPattern::SetPattern(
 	}else if( m_psSearchOption->bWordOnly ){
 	}else{
 		if( GetIgnoreCase() ){
-			m_pszPatternCase = new wchar_t[nPatternLen + 1];
-			m_pszCaseKeyRef = m_pszPatternCase;
+			m_szPatternCase.clear();
+			m_szPatternCase.resize(m_nPatternLen);
+			m_pszCaseKeyRef = m_szPatternCase.c_str();
 			//note: 合成文字,サロゲートの「大文字小文字同一視」未対応
 			for( int i = 0; i < m_nPatternLen; i++ ){
-				m_pszPatternCase[i] = (wchar_t)skr_towlower(pszPattern[i]);
+				m_szPatternCase[i] = (wchar_t)skr_towlower(pszPattern[i]);
 			}
-			m_pszPatternCase[nPatternLen] = L'\0';
 		}
 
 #ifdef SEARCH_STRING_KMP
@@ -106,9 +100,9 @@ bool CSearchStringPattern::SetPattern(
 	// "AABAA" => {-1, 0, 0, 0, 0}
 	// "ABABA" => {-1, 0, 0, 2, 0}
 //	if( GetIgnoreCase() ){
-		m_pnNextPossArr = new int[nPatternLen + 1];
-		int* next = m_pnNextPossArr;
-		const wchar_t* key = m_pszPatternCase;
+		m_vnNextPossArr.resize(nPatternLen + 1);
+		int* next = m_vnNextPossArr.data();
+		const wchar_t* key = m_pszCaseKeyRef;
 		for( int i = 0, k = -1; i < nPatternLen; ++i, ++k ){
 			next[i] = k;
 			while( -1 < k && key[i] != key[k] ){
@@ -119,16 +113,12 @@ bool CSearchStringPattern::SetPattern(
 #endif
 
 #ifdef SEARCH_STRING_SUNDAY_QUICK
-		const int BM_MAPSIZE = 0x200;
 		// 64KB も作らないで、ISO-8859-1 それ以外(包括) の2つの情報のみ記録する
 		// 「あ」と「乂」　「ぅ」と「居」は値を共有している
-		m_pnUseCharSkipArr = new int[BM_MAPSIZE];
-		for( int n = 0; n < BM_MAPSIZE; ++n ){
-			m_pnUseCharSkipArr[n] = nPatternLen + 1;
-		}
+		m_vnUseCharSkipArr.fill(nPatternLen + 1);
 		for( int n = 0; n < nPatternLen; ++n ){
 			const int index = GetMapIndex(m_pszCaseKeyRef[n]);
-			m_pnUseCharSkipArr[index] = nPatternLen - n;
+			m_vnUseCharSkipArr[index] = nPatternLen - n;
 		}
 #endif
 	}

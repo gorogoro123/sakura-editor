@@ -37,10 +37,10 @@ public:
 	const SSearchOption& GetSearchOption() const{ return *m_psSearchOption; }
 	CBregexp* GetRegexp() const{ return m_pRegexp; }
 #ifdef SEARCH_STRING_KMP
-	const int* GetKMPNextTable() const{ return m_pnNextPossArr; }
+	const int* GetKMPNextTable() const{ return m_vnNextPossArr.data(); }
 #endif
 #ifdef SEARCH_STRING_SUNDAY_QUICK
-	const int* GetUseCharSkipMap() const{ return m_pnUseCharSkipArr; }
+	const int* GetUseCharSkipMap() const{ return m_vnUseCharSkipArr.data(); }
 
 	static int GetMapIndex( wchar_t c );
 #endif
@@ -54,13 +54,14 @@ private:
 	const wchar_t* m_pszCaseKeyRef = nullptr;
 
 	// 内部バッファ
-	wchar_t* m_pszPatternCase = nullptr;
+	std::wstring m_szPatternCase;
 	int  m_nPatternLen;
 #ifdef SEARCH_STRING_KMP
-	int* m_pnNextPossArr = nullptr;
+	std::vector<int> m_vnNextPossArr;
 #endif
 #ifdef SEARCH_STRING_SUNDAY_QUICK
-	int* m_pnUseCharSkipArr = nullptr;
+	static constexpr int BM_MAPSIZE = 0x200;
+	std::array<int, BM_MAPSIZE> m_vnUseCharSkipArr;
 #endif
 
 	DISALLOW_COPY_AND_ASSIGN(CSearchStringPattern);
