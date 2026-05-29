@@ -446,7 +446,6 @@ MATCHER(IsInitializedCommonSettingEdit, "Checks if CommonSetting_Edit is properl
 	EXPECT_THAT(sEdit.m_bConvertEOLPaste, IsFalse());
 	EXPECT_THAT(sEdit.m_bEnableExtEol, IsFalse());
 	EXPECT_THAT(sEdit.m_bBoxSelectLock, IsTrue());
-	EXPECT_THAT(sEdit.m_bVistaStyleFileDialog, IsTrue());
 	EXPECT_THAT(sEdit.m_bNotOverWriteCRLF, IsTrue());
 	EXPECT_THAT(sEdit.m_bOverWriteFixMode, IsFalse());
 

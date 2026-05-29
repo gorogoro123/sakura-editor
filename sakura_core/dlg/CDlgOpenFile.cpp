@@ -21,7 +21,6 @@
 #include "dlg/CDlgOpenFile.h"
 #include "env/DLLSHAREDATA.h"
 
-extern std::shared_ptr<IDlgOpenFile> New_CDlgOpenFile_CommonFileDialog();
 extern std::shared_ptr<IDlgOpenFile> New_CDlgOpenFile_CommonItemDialog();
 
 CDlgOpenFile::CDlgOpenFile() = default;
@@ -34,12 +33,7 @@ void CDlgOpenFile::Create(
 	const std::vector<LPCWSTR>& vMRU,
 	const std::vector<LPCWSTR>& vOPENFOLDER
 ) {
-	if( GetDllShareData().m_Common.m_sEdit.m_bVistaStyleFileDialog ){
-		m_pImpl = New_CDlgOpenFile_CommonItemDialog();
-	}
-	else {
-		m_pImpl = New_CDlgOpenFile_CommonFileDialog();
-	}
+	m_pImpl = New_CDlgOpenFile_CommonItemDialog();
 	m_pImpl->Create(hInstance, hwndParent, pszUserWildCard, pszDefaultPath, vMRU, vOPENFOLDER);
 }
 
