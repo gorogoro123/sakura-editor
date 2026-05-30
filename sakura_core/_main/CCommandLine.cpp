@@ -407,8 +407,8 @@ void CCommandLine::ParseCommandLine( LPCWSTR pszCmdLineSrc, bool bResponse )
 				m_gi.cmGrepFolder.Replace( L"\"\"", L"\"" );
 				break;
 			case CMDLINEOPT_GOPT:	//	GOPT
-				for( ; *arg != '\0' ; ++arg ){
-					switch( *arg ){
+				for( int i = 0; i < nArgLen; i++ ){
+					switch( arg[i] ){
 					case 'X':
 						m_gi.bGrepCurFolder = true;	break;
 					case 'U':
