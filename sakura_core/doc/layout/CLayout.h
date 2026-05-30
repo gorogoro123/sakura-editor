@@ -22,7 +22,6 @@
 #include "CLayoutExInfo.h"
 #include "view/colors/EColorIndexType.h"
 
-class CLayout;
 class CLayoutMgr;
 
 /*-----------------------------------------------------------------------
@@ -31,7 +30,7 @@ class CLayoutMgr;
 class CLayout
 {
 protected:
-	friend class CLayoutMgr; //####仮
+	friend CLayoutMgr; //####仮
 public:
 	/*
 	||  Constructors

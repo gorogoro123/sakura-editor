@@ -22,13 +22,14 @@ class CDropTarget;
 class CYbInterfaceBase;
 class CEditWnd;	// 2008.06.20 ryoji
 class CEditView;// 2002/2/3 aroka ヘッダー軽量化
+class CEnumFORMATETC;
 
 /*-----------------------------------------------------------------------
 クラスの宣言
 -----------------------------------------------------------------------*/
 class COleLibrary
 {
-	friend class CYbInterfaceBase;
+	friend CYbInterfaceBase;
 private:
 //	DWORD m_dwCount;	// 2009.01.08 ryoji m_dwCount削除
 	COleLibrary();
@@ -110,7 +111,7 @@ public:
 
 class CDataObject : public CYbInterfaceImpl<IDataObject> {
 private:
-	friend class CEnumFORMATETC;	// 2008.03.26 ryoji
+	friend CEnumFORMATETC;	// 2008.03.26 ryoji
 
 	struct DATA;
 	using PDATA = DATA*;

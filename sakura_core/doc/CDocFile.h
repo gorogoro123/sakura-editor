@@ -12,6 +12,7 @@
 #include "util/file.h"
 #include "charset/charset.h"
 
+class CDocFile;
 class CEditDoc;
 
 //####本来はここにあるべきでは無い
