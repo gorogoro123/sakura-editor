@@ -15,6 +15,10 @@ if "%configuration%" == "Release" (
 	@rem OK
 ) else if "%configuration%" == "Debug" (
 	@rem OK
+) else if "%configuration%" == "Release_clang" (
+	@rem OK
+) else if "%configuration%" == "Debug_clang" (
+	@rem OK
 ) else (
 	call :showhelp %0
 	exit /b 1
@@ -60,4 +64,8 @@ exit /b 0
 @echo    %~nx1 Win32 Debug
 @echo    %~nx1 x64   Release
 @echo    %~nx1 x64   Debug
+@echo    %~nx1 Win32 Release_clang
+@echo    %~nx1 Win32 Debug_clang
+@echo    %~nx1 x64   Release_clang
+@echo    %~nx1 x64   Debug_clang
 exit /b 0
