@@ -65,18 +65,45 @@ INT_PTR CALLBACK PropTypesCommonProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 }
 
 // 各種ダイアログプロシージャ
-typedef	INT_PTR (CPropTypes::*pDispatchPage)( HWND, UINT, WPARAM, LPARAM );
-#define GEN_PROPTYPES_CALLBACK(FUNC,CLASS) \
-INT_PTR CALLBACK FUNC(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam) \
-{ \
-	return PropTypesCommonProc(hwndDlg,uMsg,wParam,lParam,reinterpret_cast<pDispatchPage>(&CLASS::DispatchEvent)); \
+using DispatchPage = INT_PTR (CPropTypes::*)(HWND, UINT, WPARAM, LPARAM);
+
+template <typename ClassType>
+INT_PTR CALLBACK PropTypesCallbackImpl(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    static_assert(std::is_base_of_v<CPropTypes, ClassType>);
+    DispatchPage pDispatch = static_cast<DispatchPage>(&ClassType::DispatchEvent);
+    return PropTypesCommonProc(hwndDlg, uMsg, wParam, lParam, pDispatch);
 }
-GEN_PROPTYPES_CALLBACK(PropTypesScreen,		CPropTypesScreen)
-GEN_PROPTYPES_CALLBACK(PropTypesWindow,		CPropTypesWindow)
-GEN_PROPTYPES_CALLBACK(PropTypesColor,		CPropTypesColor)
-GEN_PROPTYPES_CALLBACK(PropTypesSupport,	CPropTypesSupport)
-GEN_PROPTYPES_CALLBACK(PropTypesRegex,		CPropTypesRegex)
-GEN_PROPTYPES_CALLBACK(PropTypesKeyHelp,	CPropTypesKeyHelp)
+
+INT_PTR CALLBACK PropTypesScreen(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    return PropTypesCallbackImpl<CPropTypesScreen>(hwndDlg, uMsg, wParam, lParam);
+}
+
+INT_PTR CALLBACK PropTypesWindow(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    return PropTypesCallbackImpl<CPropTypesWindow>(hwndDlg, uMsg, wParam, lParam);
+}
+
+INT_PTR CALLBACK PropTypesColor(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    return PropTypesCallbackImpl<CPropTypesColor>(hwndDlg, uMsg, wParam, lParam);
+}
+
+INT_PTR CALLBACK PropTypesSupport(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    return PropTypesCallbackImpl<CPropTypesSupport>(hwndDlg, uMsg, wParam, lParam);
+}
+
+INT_PTR CALLBACK PropTypesRegex(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    return PropTypesCallbackImpl<CPropTypesRegex>(hwndDlg, uMsg, wParam, lParam);
+}
+
+INT_PTR CALLBACK PropTypesKeyHelp(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    return PropTypesCallbackImpl<CPropTypesKeyHelp>(hwndDlg, uMsg, wParam, lParam);
+}
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                        生成と破棄                           //
