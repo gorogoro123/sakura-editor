@@ -295,10 +295,19 @@ private:
 //                        タイプ設定                           //
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 
+struct KeywordConfig {
+    std::wstring_view name;
+    bool case_sensitive;
+    std::span<const wchar_t* const> keywords;
+};
+
 class CType{
 public:
-	virtual ~CType(){ }
+	virtual ~CType() = default;
 	void InitTypeConfig(int nIdx, STypeConfig&);
+	virtual std::span<const KeywordConfig> GetKeywordConfigs() const {
+		return {};
+	}
 protected:
 	virtual void InitTypeConfigImp(STypeConfig* pType) = 0;
 };
@@ -309,6 +318,8 @@ protected:
 };
 
 class CType_Awk : public CType {
+public:
+   std::span<const KeywordConfig> GetKeywordConfigs() const override;
 protected:
 	void InitTypeConfigImp(STypeConfig* pType) override;
 };
@@ -319,21 +330,36 @@ protected:
 };
 
 class CType_Cobol : public CType {
+public:
+   std::span<const KeywordConfig> GetKeywordConfigs() const override;
+protected:
+	void InitTypeConfigImp(STypeConfig* pType) override;
+};
+
+class CType_CorbaIdl : public CType {
+public:
+   std::span<const KeywordConfig> GetKeywordConfigs() const override;
 protected:
 	void InitTypeConfigImp(STypeConfig* pType) override;
 };
 
 class CType_Cpp : public CType {
+public:
+   std::span<const KeywordConfig> GetKeywordConfigs() const override;
 protected:
 	void InitTypeConfigImp(STypeConfig* pType) override;
 };
 
 class CType_Dos : public CType {
+public:
+   std::span<const KeywordConfig> GetKeywordConfigs() const override;
 protected:
 	void InitTypeConfigImp(STypeConfig* pType) override;
 };
 
 class CType_Html : public CType {
+public:
+   std::span<const KeywordConfig> GetKeywordConfigs() const override;
 protected:
 	void InitTypeConfigImp(STypeConfig* pType) override;
 };
@@ -344,36 +370,50 @@ protected:
 };
 
 class CType_Java : public CType {
+public:
+   std::span<const KeywordConfig> GetKeywordConfigs() const override;
 protected:
 	void InitTypeConfigImp(STypeConfig* pType) override;
 };
 
 class CType_Pascal : public CType {
+public:
+   std::span<const KeywordConfig> GetKeywordConfigs() const override;
 protected:
 	void InitTypeConfigImp(STypeConfig* pType) override;
 };
 
 class CType_Perl : public CType {
+public:
+   std::span<const KeywordConfig> GetKeywordConfigs() const override;
 protected:
 	void InitTypeConfigImp(STypeConfig* pType) override;
 };
 
 class CType_Python : public CType {
+public:
+   std::span<const KeywordConfig> GetKeywordConfigs() const override;
 protected:
 	void InitTypeConfigImp(STypeConfig* pType) override;
 };
 
 class CType_Rich : public CType {
+public:
+   std::span<const KeywordConfig> GetKeywordConfigs() const override;
 protected:
 	void InitTypeConfigImp(STypeConfig* pType) override;
 };
 
 class CType_Sql : public CType {
+public:
+   std::span<const KeywordConfig> GetKeywordConfigs() const override;
 protected:
 	void InitTypeConfigImp(STypeConfig* pType) override;
 };
 
 class CType_Tex : public CType {
+public:
+   std::span<const KeywordConfig> GetKeywordConfigs() const override;
 protected:
 	void InitTypeConfigImp(STypeConfig* pType) override;
 };
@@ -384,6 +424,8 @@ protected:
 };
 
 class CType_Vb : public CType {
+public:
+   std::span<const KeywordConfig> GetKeywordConfigs() const override;
 protected:
 	void InitTypeConfigImp(STypeConfig* pType) override;
 };

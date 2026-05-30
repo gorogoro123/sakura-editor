@@ -369,7 +369,7 @@ void CDocOutline::MakeTopicList_html(CFuncInfoArr* pcFuncInfoArr, bool bXml)
 	}
 }
 
-const wchar_t* g_ppszKeywordsHTML[] = {
+const auto g_ppszKeywordsHTML = std::to_array<const wchar_t*>({
 	L"_blank",
 	L"_parent",
 	L"_self",
@@ -654,5 +654,12 @@ const wchar_t* g_ppszKeywordsHTML[] = {
 	L"WIDTH",
 	L"WRAP",
 	L"XMP"
-};
-int g_nKeywordsHTML = int(std::size(g_ppszKeywordsHTML));
+});
+
+std::span<const KeywordConfig> CType_Html::GetKeywordConfigs() const
+{
+	static constexpr auto configs = std::to_array<KeywordConfig>({
+		{ L"HTML", false, g_ppszKeywordsHTML }
+	});
+	return configs;
+}

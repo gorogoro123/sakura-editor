@@ -523,7 +523,7 @@ void CDocOutline::MakeFuncList_python( CFuncInfoArr* pcFuncInfoArr )
 	}
 }
 
-const wchar_t* g_ppszKeywordsPython[] = {
+const auto g_ppszKeywordsPython = std::to_array<const wchar_t*>({
 	L"and",
 	L"as",
 	L"assert",
@@ -562,5 +562,12 @@ const wchar_t* g_ppszKeywordsPython[] = {
 	L"with",
 	L"yield",
 	L"self",
-};
-int g_nKeywordsPython = int(std::size(g_ppszKeywordsPython));
+});
+
+std::span<const KeywordConfig> CType_Python::GetKeywordConfigs() const
+{
+	static constexpr auto configs = std::to_array<KeywordConfig>({
+		{ L"Python", true, g_ppszKeywordsPython }
+	});
+	return configs;
+}

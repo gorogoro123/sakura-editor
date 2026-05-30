@@ -73,7 +73,7 @@ public:
 	int SetKeyWordArr(						//!< キーワードの配列から設定する
 		int				nIdx,				//!< [in] キーワードセット番号
 		int				nSize,				//!< [in] ppszKeyWordArrの要素数
-		const wchar_t*	ppszKeyWordArr[]	//!< [in] キーワードの配列(重複・長さ制限等、考慮済みであること)
+		const wchar_t*	const* ppszKeyWordArr	//!< [in] キーワードの配列(重複・長さ制限等、考慮済みであること)
 	);
 	// To Here 2004.07.29 Moca
 	//@}

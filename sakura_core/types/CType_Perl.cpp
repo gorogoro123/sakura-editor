@@ -161,7 +161,7 @@ void CDocOutline::MakeFuncList_Perl( CFuncInfoArr* pcFuncInfoArr )
 }
 //	To HERE Sep. 8, 2000 genta
 
-const wchar_t* g_ppszKeywordsPERL[] = {
+const auto g_ppszKeywordsPERL = std::to_array<const wchar_t*>({
 	//Jul. 10, 2001 JEPRO	変数を第２強調キーワードとして分離した
 	L"break",
 	L"continue",
@@ -392,12 +392,11 @@ const wchar_t* g_ppszKeywordsPERL[] = {
 	L"wantarray",
 	L"warn",
 	L"write"
-};
-int g_nKeywordsPERL = int(std::size(g_ppszKeywordsPERL));
+});
 
 //Jul. 10, 2001 JEPRO	変数を第２強調キーワードとして分離した
 // 2008/05/05 novice 重複文字列削除
-const wchar_t* g_ppszKeywordsPERL2[] = {
+const auto g_ppszKeywordsPERL2 = std::to_array<const wchar_t*>({
 	L"$ARGV",
 	L"$_",
 	L"$1",
@@ -499,5 +498,13 @@ const wchar_t* g_ppszKeywordsPERL2[] = {
 	L"$^X",
 	L"$ENV",
 	L"$SIG"
-};
-int g_nKeywordsPERL2 = int(std::size(g_ppszKeywordsPERL2));
+});
+
+std::span<const KeywordConfig> CType_Perl::GetKeywordConfigs() const
+{
+	static constexpr auto configs = std::to_array<KeywordConfig>({
+        { L"Perl",  true, g_ppszKeywordsPERL },
+        { L"Perl2", true, g_ppszKeywordsPERL2 }
+    });
+	return configs;
+}

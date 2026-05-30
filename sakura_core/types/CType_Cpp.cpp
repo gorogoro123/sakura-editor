@@ -1715,7 +1715,7 @@ void CEditView::SmartIndent_CPP( wchar_t wcChar )
 	}
 }
 
-const wchar_t* g_ppszKeywordsCPP[] = {
+const auto g_ppszKeywordsCPP = std::to_array<const wchar_t*>({
 	L"#define",
 	L"#elif",
 	L"#elifdef",
@@ -1874,5 +1874,12 @@ const wchar_t* g_ppszKeywordsCPP[] = {
 	L"while",
 	L"xor",
 	L"xor_eq",
-};
-int g_nKeywordsCPP = int(std::size(g_ppszKeywordsCPP));
+});
+
+std::span<const KeywordConfig> CType_Cpp::GetKeywordConfigs() const
+{
+	static constexpr auto configs = std::to_array<KeywordConfig>({
+		{ L"C/C++", true, g_ppszKeywordsCPP }
+	});
+	return configs;
+}

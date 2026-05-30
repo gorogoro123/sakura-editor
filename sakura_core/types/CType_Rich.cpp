@@ -28,7 +28,7 @@ void CType_Rich::InitTypeConfigImp(STypeConfig* pType)
 }
 
 //Jul. 10, 2001 JEPRO 追加
-const wchar_t* g_ppszKeywordsRTF[] = {
+const auto g_ppszKeywordsRTF = std::to_array<const wchar_t*>({
 	L"\\ansi",
 	L"\\b",
 	L"\\bin",
@@ -112,5 +112,12 @@ const wchar_t* g_ppszKeywordsRTF[] = {
 	L"emc",
 	L"eml",
 	L"emr"
-};
-int g_nKeywordsRTF = int(std::size(g_ppszKeywordsRTF));
+});
+
+std::span<const KeywordConfig> CType_Rich::GetKeywordConfigs() const
+{
+	static constexpr auto configs = std::to_array<KeywordConfig>({
+		{ L"Rich Text", true, g_ppszKeywordsRTF }
+	});
+	return configs;
+}

@@ -380,7 +380,7 @@ void CDocOutline::MakeFuncList_VisualBasic( CFuncInfoArr* pcFuncInfoArr )
 //	To Here June 23, 2001 N.Nakatani
 
 //Jul. 10, 2001 JEPRO 追加
-const wchar_t* g_ppszKeywordsVB[] = {
+const auto g_ppszKeywordsVB = std::to_array<const wchar_t*>({
 	L"And",
 	L"As",
 	L"Attribute",
@@ -502,11 +502,10 @@ const wchar_t* g_ppszKeywordsVB[] = {
 	//Delegate
 	//Short
 	//Structure
-};
-int g_nKeywordsVB = int(std::size(g_ppszKeywordsVB));
+});
 
 //Jul. 10, 2001 JEPRO 追加
-const wchar_t* g_ppszKeywordsVB2[] = {
+const auto g_ppszKeywordsVB2 = std::to_array<const wchar_t*>({
 	L"AppActivate",
 	L"Beep",
 	L"BeginTrans",
@@ -702,5 +701,13 @@ const wchar_t* g_ppszKeywordsVB2[] = {
 	L"ObjPtr",
 	L"VarPrtArray",
 	L"VarPtrStringArray"
-};
-int g_nKeywordsVB2 = int(std::size(g_ppszKeywordsVB2));
+});
+
+std::span<const KeywordConfig> CType_Vb::GetKeywordConfigs() const
+{
+	static constexpr auto configs = std::to_array<KeywordConfig>({
+		{ L"Visual Basic",  false, g_ppszKeywordsVB  },
+		{ L"Visual Basic2", false, g_ppszKeywordsVB2 }
+	});
+	return configs;
+}

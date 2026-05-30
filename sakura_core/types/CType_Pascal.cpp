@@ -27,7 +27,7 @@ void CType_Pascal::InitTypeConfigImp(STypeConfig* pType)
 	pType->m_bStringLineOnly = true; // 文字列は行内のみ
 }
 
-const wchar_t* g_ppszKeywordsPASCAL[] = {
+const auto g_ppszKeywordsPASCAL = std::to_array<const wchar_t*>({
 	L"and",
 	L"exports",
 	L"mod",
@@ -98,5 +98,12 @@ const wchar_t* g_ppszKeywordsPASCAL[] = {
 	L"published",
 	L"protected",
 	L"override"
-};
-int g_nKeywordsPASCAL = int(std::size(g_ppszKeywordsPASCAL));
+});
+
+std::span<const KeywordConfig> CType_Pascal::GetKeywordConfigs() const
+{
+	static constexpr auto configs = std::to_array<KeywordConfig>({
+		{ L"Pascal", false, g_ppszKeywordsPASCAL }
+	});
+	return configs;
+}

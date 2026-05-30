@@ -355,7 +355,7 @@ void CDocOutline::MakeFuncList_PLSQL( CFuncInfoArr* pcFuncInfoArr )
 	return;
 }
 
-const wchar_t* g_ppszKeywordsPLSQL[] = {
+const auto g_ppszKeywordsPLSQL = std::to_array<const wchar_t*>({
 	L"AND",
 	L"AS",
 	L"BEGIN",
@@ -436,5 +436,12 @@ const wchar_t* g_ppszKeywordsPLSQL[] = {
 	L"ROLLBACK",
 	L"OTHERS",
 	L"SQLCODE"
-};
-int g_nKeywordsPLSQL = int(std::size(g_ppszKeywordsPLSQL));
+});
+
+std::span<const KeywordConfig> CType_Sql::GetKeywordConfigs() const
+{
+	static constexpr auto configs = std::to_array<KeywordConfig>({
+		{ L"PL/SQL", false, g_ppszKeywordsPLSQL }
+	});
+	return configs;
+}

@@ -8,7 +8,11 @@
 
 #include "types/CType.h"
 
-const wchar_t* g_ppszKeywordsCORBA_IDL[] = {
+void CType_CorbaIdl::InitTypeConfigImp(STypeConfig* pType)
+{
+}
+
+const auto g_ppszKeywordsCORBA_IDL = std::to_array<const wchar_t*>({
 	L"any",
 	L"attribute",
 	L"boolean",
@@ -46,5 +50,12 @@ const wchar_t* g_ppszKeywordsCORBA_IDL[] = {
 	L"void",
 	L"wchar_t",
 	L"wstring"
-};
-int g_nKeywordsCORBA_IDL = int(std::size(g_ppszKeywordsCORBA_IDL));
+});
+
+std::span<const KeywordConfig> CType_CorbaIdl::GetKeywordConfigs() const
+{
+	static constexpr auto configs = std::to_array<KeywordConfig>({
+		{ L"CORBA IDL", true, g_ppszKeywordsCORBA_IDL }
+	});
+	return configs;
+}
