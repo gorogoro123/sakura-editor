@@ -43,8 +43,6 @@ void CDocOutline::MakeTopicList_asm( CFuncInfoArr* pcFuncInfoArr )
 		const WCHAR* pLine;
 		CLogicInt nLineLen;
 #define MAX_ASM_TOKEN 2
-		WCHAR* token[MAX_ASM_TOKEN];
-		int j;
 
 		//1行取得する。
 		pLine = m_pcDocRef->m_cDocLineMgr.GetLine(nLineCount)->GetDocLineStrWithEOL(&nLineLen);
@@ -62,17 +60,18 @@ void CDocOutline::MakeTopicList_asm( CFuncInfoArr* pcFuncInfoArr )
 		int offset = 0;
 
 		//トークンに分割
-		for( j = 0; j < MAX_ASM_TOKEN; j++ ) token[ j ] = nullptr;
-		for( j = 0; j < MAX_ASM_TOKEN; j++ ){
-			token[ j ] = my_strtok( tmpLine.data(), length, &offset, L" \t\r\n" );
-			if( token[ j ] == nullptr ) break;
+		WCHAR* token[MAX_ASM_TOKEN] = {};
+		for( int j = 0; j < MAX_ASM_TOKEN; j++ ){
+			WCHAR* pTok = my_strtok( tmpLine.data(), length, &offset, L" \t\r\n" );
+			if( pTok == nullptr ) break;
 			//トークンに含まれるべき文字でないか？
-			if( wcschr( token[ j ], L'\"') != nullptr
-			 || wcschr( token[ j ], L'\\') != nullptr
-			 || wcschr( token[ j ], L'\'' ) != nullptr ){
-				token[ j ] = nullptr;
+			if( wcschr( pTok, L'\"') != nullptr
+			 || wcschr( pTok, L'\\') != nullptr
+			 || wcschr( pTok, L'\'') != nullptr ){
 				break;
 			}
+
+			token[j] = pTok;
 		}
 
 		if( token[ 0 ] != nullptr ){	//トークンが1個以上ある
