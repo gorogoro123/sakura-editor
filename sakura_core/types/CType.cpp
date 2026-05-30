@@ -97,33 +97,38 @@ void CShareData::InitKeyword(DLLSHAREDATA* pShareData)
 	/* 強調キーワードのテストデータ */
 	pShareData->m_Common.m_sSpecialKeyword.m_CKeyWordSetMgr.m_nCurrentKeyWordSetIdx = 0;
 
-	int nSetCount = -1;
+	auto table = std::to_array<std::unique_ptr<CType>>({
+		std::make_unique<CType_Cpp>(),	//C/C++
+		std::make_unique<CType_Html>(),	//HTML
+		std::make_unique<CType_Sql>(),	//PL/SQL
+		std::make_unique<CType_Cobol>(),	//COBOL
+		std::make_unique<CType_Java>(),	//Java
+		std::make_unique<CType_CorbaIdl>(),	//CORBA IDL
+		std::make_unique<CType_Awk>(),	//awk
+		std::make_unique<CType_Dos>(),	//MS-DOSバッチファイル
+		std::make_unique<CType_Pascal>(),	//Pascal
+		std::make_unique<CType_Tex>(),	//TeX
+		std::make_unique<CType_Perl>(),	//Perl
+		std::make_unique<CType_Vb>(),		//Visual Basic
+		std::make_unique<CType_Rich>(),	//リッチテキスト
+		std::make_unique<CType_Python>(),	//Python
+	});
 
-#define PopulateKeyword(name,case_sensitive,aryname) \
-	extern const wchar_t* g_ppszKeywords##aryname[]; \
-	extern int g_nKeywords##aryname; \
-	pShareData->m_Common.m_sSpecialKeyword.m_CKeyWordSetMgr.AddKeyWordSet( (name), (case_sensitive) );	\
-	pShareData->m_Common.m_sSpecialKeyword.m_CKeyWordSetMgr.SetKeyWordArr( ++nSetCount, g_nKeywords##aryname, g_ppszKeywords##aryname );
-	
-	PopulateKeyword( L"C/C++",			true,	CPP );			/* セット 0の追加 */
-	PopulateKeyword( L"HTML",			false,	HTML );			/* セット 1の追加 */
-	PopulateKeyword( L"PL/SQL",			false,	PLSQL );		/* セット 2の追加 */
-	PopulateKeyword( L"COBOL",			true,	COBOL );		/* セット 3の追加 */
-	PopulateKeyword( L"Java",			true,	JAVA );			/* セット 4の追加 */
-	PopulateKeyword( L"CORBA IDL",		true,	CORBA_IDL );	/* セット 5の追加 */
-	PopulateKeyword( L"AWK",			true,	AWK );			/* セット 6の追加 */
-	PopulateKeyword( L"MS-DOS batch",	false,	BAT );			/* セット 7の追加 */	//Oct. 31, 2000 JEPRO 'バッチファイル'→'batch' に短縮
-	PopulateKeyword( L"Pascal",			false,	PASCAL );		/* セット 8の追加 */	//Nov. 5, 2000 JEPRO 大・小文字の区別を'しない'に変更
-	PopulateKeyword( L"TeX",			true,	TEX );			/* セット 9の追加 */	//Sept. 2, 2000 jepro Tex →TeX に修正 Bool値は大・小文字の区別
-	PopulateKeyword( L"TeX2",			true,	TEX2 );			/* セット10の追加 */	//Jan. 19, 2001 JEPRO 追加
-	PopulateKeyword( L"Perl",			true,	PERL );			/* セット11の追加 */
-	PopulateKeyword( L"Perl2",			true,	PERL2 );		/* セット12の追加 */	//Jul. 10, 2001 JEPRO Perlから変数を分離・独立
-	PopulateKeyword( L"Visual Basic",	false,	VB );			/* セット13の追加 */	//Jul. 10, 2001 JEPRO
-	PopulateKeyword( L"Visual Basic2",	false,	VB2 );			/* セット14の追加 */	//Jul. 10, 2001 JEPRO
-	PopulateKeyword( L"Rich Text",		true,	RTF );			/* セット15の追加 */	//Jul. 10, 2001 JEPRO
-	PopulateKeyword( L"Python",			true,	Python);		/* セット16の追加 */
+	int nSetCount = 0;
+	for (const auto& ctype : table) {
+		for (const auto& config : ctype->GetKeywordConfigs()) {
+			pShareData->m_Common.m_sSpecialKeyword.m_CKeyWordSetMgr.AddKeyWordSet(
+				config.name.data(),
+				config.case_sensitive
+			);
 
-#undef PopulateKeyword
+			pShareData->m_Common.m_sSpecialKeyword.m_CKeyWordSetMgr.SetKeyWordArr(
+				nSetCount++,
+				static_cast<int>(config.keywords.size()),
+				config.keywords.data()
+			);
+		}
+	}
 }
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //

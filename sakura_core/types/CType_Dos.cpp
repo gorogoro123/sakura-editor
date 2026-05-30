@@ -21,7 +21,7 @@ void CType_Dos::InitTypeConfigImp(STypeConfig* pType)
 	pType->m_nKeyWordSetIdx[0] = 7;					/* キーワードセット */
 }
 
-const wchar_t* g_ppszKeywordsBAT[] = {
+const auto g_ppszKeywordsBAT = std::to_array<const wchar_t*>({
 	L"PATH",
 	L"PROMPT",
 	L"TEMP",
@@ -96,5 +96,12 @@ const wchar_t* g_ppszKeywordsBAT[] = {
 	L"CONFIG$",
 	L"SETLOCAL",
 	L"ENDLOCAL"
-};
-int g_nKeywordsBAT = int(std::size(g_ppszKeywordsBAT));
+});
+
+std::span<const KeywordConfig> CType_Dos::GetKeywordConfigs() const
+{
+	static constexpr auto configs = std::to_array<KeywordConfig>({
+		{ L"MS-DOS batch", false, g_ppszKeywordsBAT }
+	});
+	return configs;
+}

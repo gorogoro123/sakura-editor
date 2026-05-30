@@ -257,7 +257,7 @@ void CDocOutline::MakeTopicList_tex(CFuncInfoArr* pcFuncInfoArr)
 	);
 }
 
-const wchar_t* g_ppszKeywordsTEX[] = {
+const auto g_ppszKeywordsTEX = std::to_array<const wchar_t*>({
 //Nov. 20, 2000 JEPRO	大幅追加 & 若干修正・削除 --ほとんどコマンドのみ
 	L"error",
 	L"Warning",
@@ -788,11 +788,10 @@ const wchar_t* g_ppszKeywordsTEX[] = {
 //			"\\|",
 //			"\\}",
 //			"\\~",
-};
-int g_nKeywordsTEX = int(std::size(g_ppszKeywordsTEX));
+});
 
 //Jan. 19, 2001 JEPRO	TeX のキーワード2として新規追加 & 一部復活 --環境コマンドとオプション名が中心
-const wchar_t* g_ppszKeywordsTEX2[] = {
+const auto g_ppszKeywordsTEX2 = std::to_array<const wchar_t*>({
 	//	環境コマンド
 	//Jan. 19, 2001 JEPRO 本当は{}付きでキーワードにしたかったが単語として認識してくれないので止めた
 	L"abstract",
@@ -912,5 +911,13 @@ const wchar_t* g_ppszKeywordsTEX2[] = {
 	L"yomi"//,
 //		"zh",
 //		"zw"
-};
-int g_nKeywordsTEX2 = int(std::size(g_ppszKeywordsTEX2));
+});
+
+std::span<const KeywordConfig> CType_Tex::GetKeywordConfigs() const
+{
+	static constexpr auto configs = std::to_array<KeywordConfig>({
+		{ L"TeX",  true, g_ppszKeywordsTEX  },
+		{ L"TeX2", true, g_ppszKeywordsTEX2 }
+	});
+	return configs;
+}

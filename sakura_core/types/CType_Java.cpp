@@ -435,7 +435,7 @@ void CDocOutline::MakeFuncList_Java( CFuncInfoArr* pcFuncInfoArr )
 	return;
 }
 
-const wchar_t* g_ppszKeywordsJAVA[] = {
+const auto g_ppszKeywordsJAVA = std::to_array<const wchar_t*>({
 	L"abstract",
 	L"assert",	// Mar. 8, 2003 genta
 	L"boolean",
@@ -490,5 +490,12 @@ const wchar_t* g_ppszKeywordsJAVA[] = {
 	L"void",
 	L"volatile",
 	L"while"
-};
-int g_nKeywordsJAVA = int(std::size(g_ppszKeywordsJAVA));
+});
+
+std::span<const KeywordConfig> CType_Java::GetKeywordConfigs() const
+{
+	static constexpr auto configs = std::to_array<KeywordConfig>({
+		{ L"Java", true, g_ppszKeywordsJAVA }
+	});
+	return configs;
+}
