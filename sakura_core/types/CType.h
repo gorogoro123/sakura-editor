@@ -303,30 +303,95 @@ protected:
 	virtual void InitTypeConfigImp(STypeConfig* pType) = 0;
 };
 
-#define GEN_CTYPE(CLASS_NAME) \
-class CLASS_NAME : public CType{ \
-protected: \
-	void InitTypeConfigImp(STypeConfig* pType); \
+class CType_Asm : public CType {
+protected:
+	void InitTypeConfigImp(STypeConfig* pType) override;
 };
 
-GEN_CTYPE(CType_Asm)
-GEN_CTYPE(CType_Awk)
-GEN_CTYPE(CType_Basis)
-GEN_CTYPE(CType_Cobol)
-GEN_CTYPE(CType_Cpp)
-GEN_CTYPE(CType_Dos)
-GEN_CTYPE(CType_Html)
-GEN_CTYPE(CType_Ini)
-GEN_CTYPE(CType_Java)
-GEN_CTYPE(CType_Pascal)
-GEN_CTYPE(CType_Perl)
-GEN_CTYPE(CType_Python)
-GEN_CTYPE(CType_Rich)
-GEN_CTYPE(CType_Sql)
-GEN_CTYPE(CType_Tex)
-GEN_CTYPE(CType_Text)
-GEN_CTYPE(CType_Vb)
-GEN_CTYPE(CType_Other)
+class CType_Awk : public CType {
+protected:
+	void InitTypeConfigImp(STypeConfig* pType) override;
+};
+
+class CType_Basis : public CType {
+protected:
+	void InitTypeConfigImp(STypeConfig* pType) override;
+};
+
+class CType_Cobol : public CType {
+protected:
+	void InitTypeConfigImp(STypeConfig* pType) override;
+};
+
+class CType_Cpp : public CType {
+protected:
+	void InitTypeConfigImp(STypeConfig* pType) override;
+};
+
+class CType_Dos : public CType {
+protected:
+	void InitTypeConfigImp(STypeConfig* pType) override;
+};
+
+class CType_Html : public CType {
+protected:
+	void InitTypeConfigImp(STypeConfig* pType) override;
+};
+
+class CType_Ini : public CType {
+protected:
+	void InitTypeConfigImp(STypeConfig* pType) override;
+};
+
+class CType_Java : public CType {
+protected:
+	void InitTypeConfigImp(STypeConfig* pType) override;
+};
+
+class CType_Pascal : public CType {
+protected:
+	void InitTypeConfigImp(STypeConfig* pType) override;
+};
+
+class CType_Perl : public CType {
+protected:
+	void InitTypeConfigImp(STypeConfig* pType) override;
+};
+
+class CType_Python : public CType {
+protected:
+	void InitTypeConfigImp(STypeConfig* pType) override;
+};
+
+class CType_Rich : public CType {
+protected:
+	void InitTypeConfigImp(STypeConfig* pType) override;
+};
+
+class CType_Sql : public CType {
+protected:
+	void InitTypeConfigImp(STypeConfig* pType) override;
+};
+
+class CType_Tex : public CType {
+protected:
+	void InitTypeConfigImp(STypeConfig* pType) override;
+};
+
+class CType_Text : public CType {
+protected:
+	void InitTypeConfigImp(STypeConfig* pType) override;
+};
+
+class CType_Vb : public CType {
+protected:
+	void InitTypeConfigImp(STypeConfig* pType) override;
+};
+
+class CType_Other : public CType {
+protected:
+	void InitTypeConfigImp(STypeConfig* pType) override;
+};
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                         実装補助                            //
