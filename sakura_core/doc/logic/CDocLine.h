@@ -35,7 +35,7 @@ class COpeBlk;
 //!	文書データ1行
 class CDocLine{
 protected:
-	friend class CDocLineMgr; //######仮
+	friend CDocLineMgr; //######仮
 public:
 	//コンストラクタ・デストラクタ
 	CDocLine() = default;
