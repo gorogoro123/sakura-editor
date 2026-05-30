@@ -382,9 +382,7 @@ endif(MSVC)
 
 if(MINGW)
   add_compile_options(
-    $<$<CONFIG:Debug>:-g>
     $<$<CONFIG:Debug>:-O0>
-    $<$<CONFIG:Release>:-g>
     $<$<CONFIG:Release>:-O0>
     -MMD
     -finput-charset=utf-8
