@@ -22,7 +22,7 @@ bool operator == (const EditInfo& lhs, const EditInfo& rhs) noexcept {
 	return 0 == wcsncmp(lhs.m_szPath, rhs.m_szPath, lhs.m_szPath.capacity())
 		&& lhs.m_nCharCode == rhs.m_nCharCode
 		&& lhs.m_bBom == rhs.m_bBom
-		&& 0 == wcsncmp(lhs.m_szDocType, rhs.m_szDocType, int(std::size(lhs.m_szDocType)))
+		&& 0 == wcsncmp(lhs.m_szDocType, rhs.m_szDocType, lhs.m_szDocType.capacity())
 		&& lhs.m_nTypeId == rhs.m_nTypeId
 		&& lhs.m_nViewTopLine == rhs.m_nViewTopLine
 		&& lhs.m_nViewLeftCol == rhs.m_nViewLeftCol
@@ -92,7 +92,7 @@ TEST(EditInfo, operatorNotEqual)
 	ASSERT_NE(value, other);
 	value.m_bBom = other.m_bBom;
 
-	wcscpy_s(value.m_szDocType, L"test");
+	value.m_szDocType = L"test";
 	ASSERT_NE(value, other);
 	value.m_szDocType[0] = 0;
 
