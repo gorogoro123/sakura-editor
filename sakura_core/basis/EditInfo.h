@@ -26,7 +26,7 @@ struct EditInfo {
 	SFilePath	m_szPath;								//!< ファイル名
 	ECodeType	m_nCharCode = CODE_AUTODETECT;			//!< 文字コード種別
 	bool		m_bBom = false;							//!< BOM(GetFileInfo)
-	WCHAR		m_szDocType[MAX_DOCTYPE_LEN + 1] = {};	//!< 文書タイプ
+	StaticString<MAX_DOCTYPE_LEN + 1>	m_szDocType;	//!< 文書タイプ
 	int 		m_nTypeId = -1;							//!< 文書タイプ(MRU)
 
 	//表示域
