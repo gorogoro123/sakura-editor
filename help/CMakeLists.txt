@@ -7,6 +7,10 @@ find_program(CMD_VSWHERE vswhere.exe
   DOC "Visual Studio Locator"
 )
 
+if(NOT CMD_VSWHERE AND DEFINED ENV{CMD_VSWHERE})
+    set(CMD_VSWHERE "$ENV{CMD_VSWHERE}")
+endif()
+
 if(NOT CMD_VSWHERE)
   message(FATAL_ERROR "vswhere.exe was not found.")
 endif()
