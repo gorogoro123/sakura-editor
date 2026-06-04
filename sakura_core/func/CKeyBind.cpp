@@ -49,13 +49,9 @@ static void SetKeyNameArrVal(
 	const KEYDATAINIT*	pKeydata
 );
 
-CKeyBind::CKeyBind()
-{
-}
+CKeyBind::CKeyBind() = default;
 
-CKeyBind::~CKeyBind()
-{
-}
+CKeyBind::~CKeyBind() = default;
 
 /*! Windows アクセラレータの作成
 	@date 2007.02.22 ryoji デフォルト機能割り当てに関する処理を追加
@@ -768,20 +764,24 @@ static const KEYDATAINIT	KeyDataInit[] = {
 	{ VK_APPS,		{ (LPCWSTR)STR_KEY_BIND_APLI },	{ F_MENU_RBUTTON,	F_MENU_RBUTTON,		F_MENU_RBUTTON,			F_MENU_RBUTTON,		F_MENU_RBUTTON,			F_MENU_RBUTTON,		F_MENU_RBUTTON,			F_MENU_RBUTTON }, }
 };
 
-const WCHAR* jpVKEXNames[] = {
-	L"ダブルクリック",
-	L"右クリック",
-	L"中クリック",
-	L"左サイドクリック",
-	L"右サイドクリック",
-	L"トリプルクリック",
-	L"クアドラプルクリック",
-	L"ホイールアップ",
-	L"ホイールダウン",
-	L"ホイール左",
-	L"ホイール右"
+std::span<const wchar_t* const> CKeyBind::GetJpVKEXNames()
+{
+	static constexpr auto jpVKEXNames = std::to_array<const wchar_t*>({
+		L"ダブルクリック",
+		L"右クリック",
+		L"中クリック",
+		L"左サイドクリック",
+		L"右サイドクリック",
+		L"トリプルクリック",
+		L"クアドラプルクリック",
+		L"ホイールアップ",
+		L"ホイールダウン",
+		L"ホイール左",
+		L"ホイール右",
+	});
+
+	return jpVKEXNames;
 };
-const int jpVKEXNamesLen = int(std::size(jpVKEXNames));
 
 /*!	@brief 共有メモリ初期化/キー割り当て
 

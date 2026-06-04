@@ -52,9 +52,6 @@ struct KEYDATA {
 #define VKEX_WHEEL_LEFT		0x0109	// ホイール左
 #define VKEX_WHEEL_RIGHT	0x010A	// ホイール右
 
-extern const WCHAR* jpVKEXNames[];
-extern const int jpVKEXNamesLen;
-
 /*-----------------------------------------------------------------------
 クラスの宣言
 -----------------------------------------------------------------------*/
@@ -87,6 +84,8 @@ public:
 	static WCHAR* GetMenuLabel( HINSTANCE hInstance, int nKeyNameArrNum, KEYDATA* pKeyNameArr, int nFuncId, WCHAR* pszLabel, const WCHAR* pszKey, BOOL bKeyStr, int nLabelSize, BOOL bGetDefFuncCode = TRUE );	/* メニューラベルの作成 */	// add pszKey	2010/5/17 Uchi
 
 	static WCHAR* MakeMenuLabel(const WCHAR* sName, const WCHAR* sKey);
+	
+	static std::span<const wchar_t* const> GetJpVKEXNames();
 
 protected:
 	/*

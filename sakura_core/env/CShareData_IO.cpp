@@ -1140,6 +1140,7 @@ void CShareData_IO::IO_KeyBind( CDataProfile& cProfile, CommonSetting_KeyBind& s
 			KEYDATA& keydata = sKeyBind.m_pKeyNameArr[i];
 			auto_sprintf(szKeyName, L"KeyBind[%03d]", i);
 			auto_sprintf(szKeyData, L"%04x", keydata.m_nKeyCode);
+			auto names = CKeyBind::GetJpVKEXNames();
 			for(int j = 0; j < 8; j++)
 			{
 				WCHAR	szFuncName[256];
@@ -1172,7 +1173,7 @@ void CShareData_IO::IO_KeyBind( CDataProfile& cProfile, CommonSetting_KeyBind& s
 			}
 
 			if( 0x0100 <= keydata.m_nKeyCode ){
-				auto_sprintf(szWork, L",%s", jpVKEXNames[ keydata.m_nKeyCode - 0x0100 ]);
+				auto_sprintf(szWork, L",%s", names[ keydata.m_nKeyCode - 0x0100 ]);
 			}else{
 				auto_sprintf(szWork, L",%s", keydata.m_szKeyName.c_str());
 			}
