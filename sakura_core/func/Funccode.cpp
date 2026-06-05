@@ -42,7 +42,7 @@
 #include "util/os.h"
 #include "sakura.hh"
 
-const uint16_t nsFuncCode::ppszFuncKind[] = {
+static constexpr auto g_ppszFuncKind = std::to_array<const uint16_t>({
 //	"--未定義--",	//Oct. 14, 2000 JEPRO 「--未定義--」を表示させないように変更
 //	Oct. 16, 2000 JEPRO 表示の順番をメニューバーのそれに合わせるように少し入れ替えた(下の個別のものも全部)
 	STR_ERR_DLGFUNCLKUP04,	//L"ファイル操作系",
@@ -62,8 +62,12 @@ const uint16_t nsFuncCode::ppszFuncKind[] = {
 	STR_ERR_DLGFUNCLKUP16,	//L"ウィンドウ系",
 	STR_ERR_DLGFUNCLKUP17,	//L"支援",
 	STR_ERR_DLGFUNCLKUP18	//L"その他"
-};
-const int nsFuncCode::nFuncKindNum = int(std::size(nsFuncCode::ppszFuncKind));
+});
+
+std::span<const uint16_t> nsFuncCode::GetFuncKind()
+{
+	return g_ppszFuncKind;
+}
 
 /* ファイル操作系 */
 const EFunctionCode pnFuncList_File[] = {	//Oct. 16, 2000 JEPRO 変数名変更(List5→List_File)

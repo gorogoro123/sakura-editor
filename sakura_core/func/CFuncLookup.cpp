@@ -40,25 +40,27 @@ EFunctionCode CFuncLookup::Pos2FuncCode( int category, int position, bool bGetUn
 	if( category < 0 || position < 0 )
 		return F_DISABLE;
 
-	if( category < nsFuncCode::nFuncKindNum ){
+	const auto funcKinds = nsFuncCode::GetFuncKind();
+	const int nFuncKindNum = (int)(funcKinds.size());
+	if( category < nFuncKindNum ){
 		if( position < nsFuncCode::pnFuncListNumArr[category] )
 			return nsFuncCode::ppnFuncListArr[category][position];
 	}
-	else if( category == nsFuncCode::nFuncKindNum + LUOFFSET_MACRO ){
+	else if( category == nFuncKindNum + LUOFFSET_MACRO ){
 		//	キー割り当てマクロ
 		if( position < MAX_CUSTMACRO ){
 			if( bGetUnavailable || m_pMacroRec[position].IsEnabled() )
 				return (EFunctionCode)(F_USERMACRO_0 + position);
 		}
 	}
-	else if( category == nsFuncCode::nFuncKindNum + LUOFFSET_CUSTMENU ){
+	else if( category == nFuncKindNum + LUOFFSET_CUSTMENU ){
 		//	カスタムメニュー
 		if( position == 0 )
 			return F_MENU_RBUTTON;
 		else if( position < MAX_CUSTOM_MENU )
 			return (EFunctionCode)(F_CUSTMENU_BASE + position);
 	}
-	else if( category == nsFuncCode::nFuncKindNum + LUOFFSET_PLUGIN ){
+	else if( category == nFuncKindNum + LUOFFSET_PLUGIN ){
 		//	プラグイン
 		return CJackManager::getInstance()->GetCommandCode( position );
 	}
@@ -169,16 +171,18 @@ const WCHAR* CFuncLookup::Category2Name( int category ) const
 	if( category < 0 )
 		return nullptr;
 
-	if( category < nsFuncCode::nFuncKindNum ){
-		return LS( nsFuncCode::ppszFuncKind[category] );
+	const auto funcKinds = nsFuncCode::GetFuncKind();
+	const int nFuncKindNum = (int)funcKinds.size();
+	if( category < nFuncKindNum ){
+		return LS( funcKinds[category] );
 	}
-	else if( category == nsFuncCode::nFuncKindNum + LUOFFSET_MACRO ){
+	else if( category == nFuncKindNum + LUOFFSET_MACRO ){
 		return LS( STR_ERR_DLGFUNCLKUP01 );
 	}
-	else if( category == nsFuncCode::nFuncKindNum + LUOFFSET_CUSTMENU ){
+	else if( category == nFuncKindNum + LUOFFSET_CUSTMENU ){
 		return LS( STR_ERR_DLGFUNCLKUP02 );
 	}
-	else if( category == nsFuncCode::nFuncKindNum + LUOFFSET_PLUGIN ){
+	else if( category == nFuncKindNum + LUOFFSET_PLUGIN ){
 		return LS( STR_ERR_DLGFUNCLKUP19 );
 	}
 	return nullptr;
@@ -190,14 +194,12 @@ const WCHAR* CFuncLookup::Category2Name( int category ) const
 */
 void CFuncLookup::SetCategory2Combo( HWND hComboBox ) const
 {
-	int i;
-
 	//	コンボボックスを初期化する
 	ApiWrap::Combo_ResetContent( hComboBox );
 
 	//	固定機能リスト
-	for( i = 0; i < nsFuncCode::nFuncKindNum; ++i ){
-		ApiWrap::Combo_AddString( hComboBox, LS( nsFuncCode::ppszFuncKind[i] ) );
+	for (const auto kind : nsFuncCode::GetFuncKind()) {
+		ApiWrap::Combo_AddString(hComboBox, LS(kind));
 	}
 
 	//	ユーザーマクロ
@@ -243,18 +245,20 @@ int CFuncLookup::GetItemCount(int category) const
 	if( category < 0 )
 		return 0;
 
-	if( category < nsFuncCode::nFuncKindNum ){
+	const auto funcKinds = nsFuncCode::GetFuncKind();
+	const int nFuncKindNum = (int)(funcKinds.size());
+	if( category < nFuncKindNum ){
 		return nsFuncCode::pnFuncListNumArr[category];
 	}
-	else if( category == nsFuncCode::nFuncKindNum + LUOFFSET_MACRO ){
+	else if( category == nFuncKindNum + LUOFFSET_MACRO ){
 		//	マクロ
 		return MAX_CUSTMACRO;
 	}
-	else if( category == nsFuncCode::nFuncKindNum + LUOFFSET_CUSTMENU ){
+	else if( category == nFuncKindNum + LUOFFSET_CUSTMENU ){
 		//	カスタムメニュー
 		return MAX_CUSTOM_MENU;
 	}
-	else if( category == nsFuncCode::nFuncKindNum + LUOFFSET_PLUGIN ){
+	else if( category == nFuncKindNum + LUOFFSET_PLUGIN ){
 		//	プラグインコマンド
 		return CJackManager::getInstance()->GetCommandCount();
 	}
@@ -269,8 +273,6 @@ int CFuncLookup::GetItemCount(int category) const
 */
 const WCHAR* CFuncLookup::Custmenu2Name( int index, LPWSTR buf, size_t size ) const
 {
-	const auto bufSize = int(size);
-
 	if( index < 0 || CUSTMENU_INDEX_FOR_TABWND < index )
 		return nullptr;
 
