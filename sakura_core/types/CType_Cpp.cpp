@@ -1715,7 +1715,7 @@ void CEditView::SmartIndent_CPP( wchar_t wcChar )
 	}
 }
 
-const auto g_ppszKeywordsCPP = std::to_array<const wchar_t*>({
+static const auto g_ppszKeywordsCPP = std::to_array<const wchar_t*>({
 	L"#define",
 	L"#elif",
 	L"#elifdef",

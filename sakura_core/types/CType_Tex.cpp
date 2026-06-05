@@ -257,7 +257,7 @@ void CDocOutline::MakeTopicList_tex(CFuncInfoArr* pcFuncInfoArr)
 	);
 }
 
-const auto g_ppszKeywordsTEX = std::to_array<const wchar_t*>({
+static const auto g_ppszKeywordsTEX = std::to_array<const wchar_t*>({
 //Nov. 20, 2000 JEPRO	大幅追加 & 若干修正・削除 --ほとんどコマンドのみ
 	L"error",
 	L"Warning",
@@ -791,7 +791,7 @@ const auto g_ppszKeywordsTEX = std::to_array<const wchar_t*>({
 });
 
 //Jan. 19, 2001 JEPRO	TeX のキーワード2として新規追加 & 一部復活 --環境コマンドとオプション名が中心
-const auto g_ppszKeywordsTEX2 = std::to_array<const wchar_t*>({
+static const auto g_ppszKeywordsTEX2 = std::to_array<const wchar_t*>({
 	//	環境コマンド
 	//Jan. 19, 2001 JEPRO 本当は{}付きでキーワードにしたかったが単語として認識してくれないので止めた
 	L"abstract",

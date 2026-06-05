@@ -435,7 +435,7 @@ void CDocOutline::MakeFuncList_Java( CFuncInfoArr* pcFuncInfoArr )
 	return;
 }
 
-const auto g_ppszKeywordsJAVA = std::to_array<const wchar_t*>({
+static const auto g_ppszKeywordsJAVA = std::to_array<const wchar_t*>({
 	L"abstract",
 	L"assert",	// Mar. 8, 2003 genta
 	L"boolean",

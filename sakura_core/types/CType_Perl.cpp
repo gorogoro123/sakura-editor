@@ -161,7 +161,7 @@ void CDocOutline::MakeFuncList_Perl( CFuncInfoArr* pcFuncInfoArr )
 }
 //	To HERE Sep. 8, 2000 genta
 
-const auto g_ppszKeywordsPERL = std::to_array<const wchar_t*>({
+static const auto g_ppszKeywordsPERL = std::to_array<const wchar_t*>({
 	//Jul. 10, 2001 JEPRO	変数を第２強調キーワードとして分離した
 	L"break",
 	L"continue",
@@ -396,7 +396,7 @@ const auto g_ppszKeywordsPERL = std::to_array<const wchar_t*>({
 
 //Jul. 10, 2001 JEPRO	変数を第２強調キーワードとして分離した
 // 2008/05/05 novice 重複文字列削除
-const auto g_ppszKeywordsPERL2 = std::to_array<const wchar_t*>({
+static const auto g_ppszKeywordsPERL2 = std::to_array<const wchar_t*>({
 	L"$ARGV",
 	L"$_",
 	L"$1",

@@ -21,7 +21,7 @@ void CType_Awk::InitTypeConfigImp(STypeConfig* pType)
 	pType->m_nKeyWordSetIdx[0] = 6;						/* キーワードセット */
 }
 
-const auto g_ppszKeywordsAWK = std::to_array<const wchar_t*>({
+static const auto g_ppszKeywordsAWK = std::to_array<const wchar_t*>({
 	L"BEGIN",
 	L"END",
 	L"next",

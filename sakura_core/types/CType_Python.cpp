@@ -523,7 +523,7 @@ void CDocOutline::MakeFuncList_python( CFuncInfoArr* pcFuncInfoArr )
 	}
 }
 
-const auto g_ppszKeywordsPython = std::to_array<const wchar_t*>({
+static const auto g_ppszKeywordsPython = std::to_array<const wchar_t*>({
 	L"and",
 	L"as",
 	L"assert",
