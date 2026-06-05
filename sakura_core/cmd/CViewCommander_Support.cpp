@@ -162,7 +162,6 @@ void CViewCommander::Command_MENU_ALLFUNC( )
 		}
 		//	Oct. 3, 2001 genta
 		pCEditWnd->GetMenuDrawer().MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING | MF_POPUP, (UINT_PTR)hMenuPopUp , FuncLookup.Category2Name(i) , L"");
-//		pCEditWnd->GetMenuDrawer().MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING | MF_POPUP, (UINT)hMenuPopUp , nsFuncCode::ppszFuncKind[i] );
 	}
 
 	nId = ::TrackPopupMenu(

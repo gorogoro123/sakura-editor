@@ -145,8 +145,8 @@
 
 // 機能一覧に関するデータ宣言
 namespace nsFuncCode{
-	extern const uint16_t		ppszFuncKind[];
-	extern const int			nFuncKindNum;
+	std::span<const uint16_t> GetFuncKind();
+
 	extern const int			pnFuncListNumArr[];
 	extern const EFunctionCode*	ppnFuncListArr[];
 	extern const int			nFincListNumArrNum;
