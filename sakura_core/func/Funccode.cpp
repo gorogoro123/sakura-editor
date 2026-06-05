@@ -42,8 +42,6 @@
 #include "util/os.h"
 #include "sakura.hh"
 
-//using namespace nsFuncCode;
-
 const uint16_t nsFuncCode::ppszFuncKind[] = {
 //	"--未定義--",	//Oct. 14, 2000 JEPRO 「--未定義--」を表示させないように変更
 //	Oct. 16, 2000 JEPRO 表示の順番をメニューバーのそれに合わせるように少し入れ替えた(下の個別のものも全部)
@@ -402,40 +400,6 @@ const EFunctionCode pnFuncList_Macro[] = {	//Oct. 16, 2000 JEPRO 変数名変更
 };
 constexpr auto nFincList_Macro_Num = int(std::size(pnFuncList_Macro));	//Oct. 16, 2000 JEPRO 変数名変更(List10→List_Macro)
 
-/* カスタムメニュー */	//Oct. 21, 2000 JEPRO 「その他」から分離独立化
-#if 0
-//	From Here Oct. 15, 2001 genta
-//	カスタムメニューの文字列を動的に変更可能にするためこれは削除．
-const EFunctionCode pnFuncList_Menu[] = {
-	F_MENU_RBUTTON				,	/* 右クリックメニュー */
-	F_CUSTMENU_1				,	/* カスタムメニュー1 */
-	F_CUSTMENU_2				,	/* カスタムメニュー2 */
-	F_CUSTMENU_3				,	/* カスタムメニュー3 */
-	F_CUSTMENU_4				,	/* カスタムメニュー4 */
-	F_CUSTMENU_5				,	/* カスタムメニュー5 */
-	F_CUSTMENU_6				,	/* カスタムメニュー6 */
-	F_CUSTMENU_7				,	/* カスタムメニュー7 */
-	F_CUSTMENU_8				,	/* カスタムメニュー8 */
-	F_CUSTMENU_9				,	/* カスタムメニュー9 */
-	F_CUSTMENU_10				,	/* カスタムメニュー10 */
-	F_CUSTMENU_11				,	/* カスタムメニュー11 */
-	F_CUSTMENU_12				,	/* カスタムメニュー12 */
-	F_CUSTMENU_13				,	/* カスタムメニュー13 */
-	F_CUSTMENU_14				,	/* カスタムメニュー14 */
-	F_CUSTMENU_15				,	/* カスタムメニュー15 */
-	F_CUSTMENU_16				,	/* カスタムメニュー16 */
-	F_CUSTMENU_17				,	/* カスタムメニュー17 */
-	F_CUSTMENU_18				,	/* カスタムメニュー18 */
-	F_CUSTMENU_19				,	/* カスタムメニュー19 */
-	F_CUSTMENU_20				,	/* カスタムメニュー20 */
-	F_CUSTMENU_21				,	/* カスタムメニュー21 */
-	F_CUSTMENU_22				,	/* カスタムメニュー22 */
-	F_CUSTMENU_23				,	/* カスタムメニュー23 */
-	F_CUSTMENU_24				 	/* カスタムメニュー24 */
-};
-constexpr auto nFincList_Menu_Num = int(std::size(pnFuncList_Menu));	//Oct. 21, 2000 JEPRO 「その他」から分離独立化
-#endif
-
 /* ウィンドウ系 */
 const EFunctionCode pnFuncList_Win[] = {	//Oct. 16, 2000 JEPRO 変数名変更(List7→List_Win)
 	F_SPLIT_V			,	//上下に分割	//Sept. 17, 2000 jepro 説明の「縦」を「上下に」に変更
@@ -536,8 +500,6 @@ const EFunctionCode* nsFuncCode::ppnFuncListArr[] = {
 	pnFuncList_Mode,	/* モード切り替え系 */	//Oct. 16, 2000 JEPRO 変数名変更(List8→List_Mode)
 	pnFuncList_Set,	/* 設定系 */			//Oct. 16, 2000 JEPRO 変数名変更(List9→List_Set)
 	pnFuncList_Macro,	/* マクロ系 */			//Oct. 16, 2000 JEPRO 変数名変更(List10→List_Macro)
-//	カスタムメニューの文字列を動的に変更可能にするためこれは削除
-//	pnFuncList_Menu,	/* カスタムメニュー */	//Oct. 21, 2000 JEPRO「その他」から分離独立化
 	pnFuncList_Win,	/* ウィンドウ系 */		//Oct. 16, 2000 JEPRO 変数名変更(List7→List_Win)
 	pnFuncList_Support,/* 支援 */				//Oct. 16, 2000 JEPRO 変数名変更(List11→List_Support)
 	pnFuncList_Others	/* その他 */			//Oct. 16, 2000 JEPRO 変数名変更(List12→List_Others)
