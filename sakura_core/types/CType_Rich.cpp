@@ -28,7 +28,7 @@ void CType_Rich::InitTypeConfigImp(STypeConfig* pType)
 }
 
 //Jul. 10, 2001 JEPRO 追加
-const auto g_ppszKeywordsRTF = std::to_array<const wchar_t*>({
+static const auto g_ppszKeywordsRTF = std::to_array<const wchar_t*>({
 	L"\\ansi",
 	L"\\b",
 	L"\\bin",

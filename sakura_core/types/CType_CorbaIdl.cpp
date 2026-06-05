@@ -12,7 +12,7 @@ void CType_CorbaIdl::InitTypeConfigImp(STypeConfig* pType)
 {
 }
 
-const auto g_ppszKeywordsCORBA_IDL = std::to_array<const wchar_t*>({
+static const auto g_ppszKeywordsCORBA_IDL = std::to_array<const wchar_t*>({
 	L"any",
 	L"attribute",
 	L"boolean",

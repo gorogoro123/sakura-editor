@@ -355,7 +355,7 @@ void CDocOutline::MakeFuncList_PLSQL( CFuncInfoArr* pcFuncInfoArr )
 	return;
 }
 
-const auto g_ppszKeywordsPLSQL = std::to_array<const wchar_t*>({
+static const auto g_ppszKeywordsPLSQL = std::to_array<const wchar_t*>({
 	L"AND",
 	L"AS",
 	L"BEGIN",

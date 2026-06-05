@@ -21,7 +21,7 @@ void CType_Dos::InitTypeConfigImp(STypeConfig* pType)
 	pType->m_nKeyWordSetIdx[0] = 7;					/* キーワードセット */
 }
 
-const auto g_ppszKeywordsBAT = std::to_array<const wchar_t*>({
+static const auto g_ppszKeywordsBAT = std::to_array<const wchar_t*>({
 	L"PATH",
 	L"PROMPT",
 	L"TEMP",

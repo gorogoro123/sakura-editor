@@ -27,7 +27,7 @@ void CType_Pascal::InitTypeConfigImp(STypeConfig* pType)
 	pType->m_bStringLineOnly = true; // 文字列は行内のみ
 }
 
-const auto g_ppszKeywordsPASCAL = std::to_array<const wchar_t*>({
+static const auto g_ppszKeywordsPASCAL = std::to_array<const wchar_t*>({
 	L"and",
 	L"exports",
 	L"mod",

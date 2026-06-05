@@ -369,7 +369,7 @@ void CDocOutline::MakeTopicList_html(CFuncInfoArr* pcFuncInfoArr, bool bXml)
 	}
 }
 
-const auto g_ppszKeywordsHTML = std::to_array<const wchar_t*>({
+static const auto g_ppszKeywordsHTML = std::to_array<const wchar_t*>({
 	L"_blank",
 	L"_parent",
 	L"_self",

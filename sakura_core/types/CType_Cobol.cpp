@@ -120,7 +120,7 @@ void CDocOutline::MakeTopicList_cobol( CFuncInfoArr* pcFuncInfoArr )
 }
 
 //Jul. 10, 2001 JEPRO 追加
-const auto g_ppszKeywordsCOBOL = std::to_array<const wchar_t*>({
+static const auto g_ppszKeywordsCOBOL = std::to_array<const wchar_t*>({
 	L"ACCEPT",
 	L"ADD",
 	L"ADVANCING",

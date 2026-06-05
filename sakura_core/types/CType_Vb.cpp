@@ -380,7 +380,7 @@ void CDocOutline::MakeFuncList_VisualBasic( CFuncInfoArr* pcFuncInfoArr )
 //	To Here June 23, 2001 N.Nakatani
 
 //Jul. 10, 2001 JEPRO 追加
-const auto g_ppszKeywordsVB = std::to_array<const wchar_t*>({
+static const auto g_ppszKeywordsVB = std::to_array<const wchar_t*>({
 	L"And",
 	L"As",
 	L"Attribute",
@@ -505,7 +505,7 @@ const auto g_ppszKeywordsVB = std::to_array<const wchar_t*>({
 });
 
 //Jul. 10, 2001 JEPRO 追加
-const auto g_ppszKeywordsVB2 = std::to_array<const wchar_t*>({
+static const auto g_ppszKeywordsVB2 = std::to_array<const wchar_t*>({
 	L"AppActivate",
 	L"Beep",
 	L"BeginTrans",
