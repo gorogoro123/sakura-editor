@@ -44,8 +44,10 @@ EFunctionCode CFuncLookup::Pos2FuncCode( int category, int position, bool bGetUn
 	const int nFuncKindNum = (int)(funcKinds.size());
 	if( category < nFuncKindNum ){
 		const auto funcLists = nsFuncCode::GetFuncList();
-		if( position < funcLists[category] )
-			return nsFuncCode::ppnFuncListArr[category][position];
+		if (position < funcLists[category]) {
+			const auto funcListArr = nsFuncCode::GetFuncListArr();
+			return funcListArr[category][position];
+		}
 	}
 	else if( category == nFuncKindNum + LUOFFSET_MACRO ){
 		//	キー割り当てマクロ
