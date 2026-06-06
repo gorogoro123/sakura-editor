@@ -460,15 +460,19 @@ const EFunctionCode pnFuncList_Others[] = {
 constexpr auto nFincList_Others_Num = int(std::size(pnFuncList_Others));	//Oct. 16, 2000 JEPRO 変数名変更(List12→List_Others)
 
 // 特殊機能
-const EFunctionCode nsFuncCode::pnFuncList_Special[] = {
+static constexpr auto g_pnFuncList_Special = std::to_array<EFunctionCode>({
 	F_WINDOW_LIST,
 	F_FILE_USED_RECENTLY,
 	F_FOLDER_USED_RECENTLY,
 	F_CUSTMENU_LIST,
 	F_USERMACRO_LIST,
 	F_PLUGIN_LIST,
-};
-const int nsFuncCode::nFuncList_Special_Num = int(std::size(nsFuncCode::pnFuncList_Special));
+});
+
+std::span<const EFunctionCode> nsFuncCode::GetFuncListSpecial()
+{
+	return g_pnFuncList_Special;
+}
 
 static constexpr auto g_pnFuncList = std::to_array<const uint16_t>({
 //	nFincList_Undef_Num,	//Oct. 14, 2000 JEPRO 「--未定義--」を表示させないように変更	//Oct. 16, 2000 JEPRO 変数名変更(List0→List_Undef)
