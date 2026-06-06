@@ -638,8 +638,23 @@ EFunctionCode CKeyBind::GetFuncCodeAt( KEYDATA& KeyData, int nState, BOOL bGetDe
 // 2008.05.30 nasukoji	Ctrl+Alt+W に「右端で折り返す」を追加
 // 2008.05.30 nasukoji	Ctrl+Alt+X に「折り返さない」を追加
 
-#define _SQL_RUN	F_PLSQL_COMPILE_ON_SQLPLUS
-#define _COPYWITHLINENUM	F_COPYLINESWITHLINENUMBER
+/*! 仮想キーコード独自拡張 */
+constexpr auto VKEX_DBL_CLICK = 0x0100;	// ダブルクリック
+constexpr auto VKEX_R_CLICK = 0x0101;	// 右クリック
+constexpr auto VKEX_MDL_CLICK = 0x0102;	// 中クリック
+constexpr auto VKEX_LSD_CLICK = 0x0103;	// 左サイドクリック
+constexpr auto VKEX_RSD_CLICK = 0x0104;	// 右サイドクリック
+
+constexpr auto VKEX_TRI_CLICK = 0x0105;	// トリプルクリック
+constexpr auto VKEX_QUA_CLICK = 0x0106;	// クアドラプルクリック
+
+constexpr auto VKEX_WHEEL_UP = 0x0107;	// ホイールアップ
+constexpr auto VKEX_WHEEL_DOWN = 0x0108;	// ホイールダウン
+constexpr auto VKEX_WHEEL_LEFT = 0x0109;	// ホイール左
+constexpr auto VKEX_WHEEL_RIGHT = 0x010A;	// ホイール右
+
+constexpr auto _SQL_RUN = F_PLSQL_COMPILE_ON_SQLPLUS;
+constexpr auto _COPYWITHLINENUM = F_COPYLINESWITHLINENUMBER;
 static const KEYDATAINIT	KeyDataInit[] = {
 //Sept. 1, 2000 Jepro note: key binding
 //Feb. 17, 2001 jepro note 2: 順番は2進で下位3ビット[Alt][Ctrl][Shift]の組合せの順(それに2を加えた値)
