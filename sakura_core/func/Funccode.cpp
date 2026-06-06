@@ -470,7 +470,7 @@ const EFunctionCode nsFuncCode::pnFuncList_Special[] = {
 };
 const int nsFuncCode::nFuncList_Special_Num = int(std::size(nsFuncCode::pnFuncList_Special));
 
-const int nsFuncCode::pnFuncListNumArr[] = {
+static constexpr auto g_pnFuncList = std::to_array<const uint16_t>({
 //	nFincList_Undef_Num,	//Oct. 14, 2000 JEPRO 「--未定義--」を表示させないように変更	//Oct. 16, 2000 JEPRO 変数名変更(List0→List_Undef)
 	nFincList_File_Num,		/* ファイル操作系 */	//Oct. 16, 2000 JEPRO 変数名変更(List5→List_File)
 	nFincList_Edit_Num,		/* 編集系 */			//Oct. 16, 2000 JEPRO 変数名変更(List3→List_Edit)
@@ -489,7 +489,8 @@ const int nsFuncCode::pnFuncListNumArr[] = {
 	nFincList_Win_Num,		/* ウィンドウ系 */		//Oct. 16, 2000 JEPRO 変数名変更(List7→List_Win)
 	nFincList_Support_Num,	/* 支援 */				//Oct. 16, 2000 JEPRO 変数名変更(List11→List_Support)
 	nFincList_Others_Num	/* その他 */			//Oct. 16, 2000 JEPRO 変数名変更(List12→List_Others)
-};
+});
+
 const EFunctionCode* nsFuncCode::ppnFuncListArr[] = {
 //	pnFuncList_Undef,	//Oct. 14, 2000 JEPRO 「--未定義--」を表示させないように変更	//Oct. 16, 2000 JEPRO 変数名変更(List0→List_Undef)
 	pnFuncList_File,	/* ファイル操作系 */	//Oct. 16, 2000 JEPRO 変数名変更(List5→List_File)
@@ -508,7 +509,11 @@ const EFunctionCode* nsFuncCode::ppnFuncListArr[] = {
 	pnFuncList_Support,/* 支援 */				//Oct. 16, 2000 JEPRO 変数名変更(List11→List_Support)
 	pnFuncList_Others	/* その他 */			//Oct. 16, 2000 JEPRO 変数名変更(List12→List_Others)
 };
-const int nsFuncCode::nFincListNumArrNum = int(std::size(nsFuncCode::pnFuncListNumArr));
+
+std::span<const uint16_t> nsFuncCode::GetFuncList()
+{
+	return g_pnFuncList;
+}
 
 //! 機能番号に応じてヘルプトピック番号を返す
 /*!

@@ -43,7 +43,8 @@ EFunctionCode CFuncLookup::Pos2FuncCode( int category, int position, bool bGetUn
 	const auto funcKinds = nsFuncCode::GetFuncKind();
 	const int nFuncKindNum = (int)(funcKinds.size());
 	if( category < nFuncKindNum ){
-		if( position < nsFuncCode::pnFuncListNumArr[category] )
+		const auto funcLists = nsFuncCode::GetFuncList();
+		if( position < funcLists[category] )
 			return nsFuncCode::ppnFuncListArr[category][position];
 	}
 	else if( category == nFuncKindNum + LUOFFSET_MACRO ){
@@ -248,7 +249,8 @@ int CFuncLookup::GetItemCount(int category) const
 	const auto funcKinds = nsFuncCode::GetFuncKind();
 	const int nFuncKindNum = (int)(funcKinds.size());
 	if( category < nFuncKindNum ){
-		return nsFuncCode::pnFuncListNumArr[category];
+		const auto funcLists = nsFuncCode::GetFuncList();
+		return funcLists[category];
 	}
 	else if( category == nFuncKindNum + LUOFFSET_MACRO ){
 		//	マクロ
