@@ -102,10 +102,10 @@ void CDlgProperty::SetData( )
 	//	To Here  2008/4/27 Uchi
 	cmemProp.AppendString( L"\r\n" );
 
-	auto_sprintf( szWork, LS(STR_DLGFLPROP_LINE_COUNT), pCEditDoc->m_cDocLineMgr.GetLineCount() );
+	auto_snprintf_s( szWork, std::size(szWork), LS(STR_DLGFLPROP_LINE_COUNT), pCEditDoc->m_cDocLineMgr.GetLineCount() );
 	cmemProp.AppendString( szWork );
 
-	auto_sprintf( szWork, LS(STR_DLGFLPROP_LAYOUT_LINE), pCEditDoc->m_cLayoutMgr.GetLineCount() );
+	auto_snprintf_s( szWork, std::size(szWork), LS(STR_DLGFLPROP_LAYOUT_LINE), pCEditDoc->m_cLayoutMgr.GetLineCount() );
 	cmemProp.AppendString( szWork );
 
 	if( CAppMode::getInstance()->IsViewMode() ){
@@ -117,10 +117,10 @@ void CDlgProperty::SetData( )
 		cmemProp.AppendString( LS(STR_DLGFLPROP_NOT_MODIFIED) );
 	}
 
-	auto_sprintf( szWork, LS(STR_DLGFLPROP_CMD_COUNT), pCEditDoc->m_nCommandExecNum );
+	auto_snprintf_s( szWork, std::size(szWork), LS(STR_DLGFLPROP_CMD_COUNT), pCEditDoc->m_nCommandExecNum );
 	cmemProp.AppendString( szWork );
 
-	auto_sprintf( szWork, LS(STR_DLGFLPROP_FILE_INFO), pCEditDoc->m_cDocLineMgr.GetLineCount() );
+	auto_snprintf_s( szWork, std::size(szWork), LS(STR_DLGFLPROP_FILE_INFO), pCEditDoc->m_cDocLineMgr.GetLineCount() );
 	cmemProp.AppendString( szWork );
 
 	if( INVALID_HANDLE_VALUE != ( nFind = ::FindFirstFile( pCEditDoc->m_cDocFile.GetFilePath(), &wfd ) ) ){
