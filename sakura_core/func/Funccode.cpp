@@ -42,33 +42,6 @@
 #include "util/os.h"
 #include "sakura.hh"
 
-static constexpr auto g_ppszFuncKind = std::to_array<const uint16_t>({
-//	"--未定義--",	//Oct. 14, 2000 JEPRO 「--未定義--」を表示させないように変更
-//	Oct. 16, 2000 JEPRO 表示の順番をメニューバーのそれに合わせるように少し入れ替えた(下の個別のものも全部)
-	STR_ERR_DLGFUNCLKUP04,	//L"ファイル操作系",
-	STR_ERR_DLGFUNCLKUP05,	//L"編集系",
-	STR_ERR_DLGFUNCLKUP06,	//L"カーソル移動系",
-	STR_ERR_DLGFUNCLKUP07,	//L"選択系",		//Oct. 15, 2000 JEPRO 「カーソル移動系」が多くなったので「選択系」として独立化(サブメニュー化は構造上できないので)
-	STR_ERR_DLGFUNCLKUP08,	//L"矩形選択系",	//Oct. 17, 2000 JEPRO 「選択系」に一緒にすると多くなりすぎるので「矩形選択系」も独立させた
-	STR_ERR_DLGFUNCLKUP09,	//L"クリップボード系",
-	STR_ERR_DLGFUNCLKUP10,	//L"挿入系",
-	STR_ERR_DLGFUNCLKUP11,	//L"変換系",
-	STR_ERR_DLGFUNCLKUP12,	//L"検索系",
-	STR_ERR_DLGFUNCLKUP13,	//L"モード切り替え系",
-	STR_ERR_DLGFUNCLKUP14,	//L"設定系",
-	STR_ERR_DLGFUNCLKUP15,	//("マクロ系"),
-	//	Oct. 15, 2001 genta カスタムメニューの文字列をは動的に変更可能にするためここからは外す．
-//	L"カスタムメニュー",	//Oct. 21, 2000 JEPRO 「その他」から独立分離化
-	STR_ERR_DLGFUNCLKUP16,	//L"ウィンドウ系",
-	STR_ERR_DLGFUNCLKUP17,	//L"支援",
-	STR_ERR_DLGFUNCLKUP18	//L"その他"
-});
-
-std::span<const uint16_t> nsFuncCode::GetFuncKind()
-{
-	return g_ppszFuncKind;
-}
-
 /* ファイル操作系 */
 const EFunctionCode pnFuncList_File[] = {	//Oct. 16, 2000 JEPRO 変数名変更(List5→List_File)
 	F_FILENEW			,	//新規作成
@@ -475,21 +448,21 @@ std::span<const EFunctionCode> nsFuncCode::GetFuncListSpecial()
 }
 
 static constexpr auto g_funcCategoryTable = std::to_array<nsFuncCode::FuncCategoryInfo>({
-	{ static_cast<uint16_t>(std::size(pnFuncList_File)),    pnFuncList_File },    /* ファイル操作系 */
-	{ static_cast<uint16_t>(std::size(pnFuncList_Edit)),    pnFuncList_Edit },    /* 編集系 */
-	{ static_cast<uint16_t>(std::size(pnFuncList_Move)),    pnFuncList_Move },    /* カーソル移動系 */
-	{ static_cast<uint16_t>(std::size(pnFuncList_Select)),  pnFuncList_Select },  /* 選択系 */
-	{ static_cast<uint16_t>(std::size(pnFuncList_Box)),     pnFuncList_Box },     /* 矩形選択系 */
-	{ static_cast<uint16_t>(std::size(pnFuncList_Clip)),    pnFuncList_Clip },    /* クリップボード系 */
-	{ static_cast<uint16_t>(std::size(pnFuncList_Insert)),  pnFuncList_Insert },  /* 挿入系 */
-	{ static_cast<uint16_t>(std::size(pnFuncList_Convert)), pnFuncList_Convert }, /* 変換系 */
-	{ static_cast<uint16_t>(std::size(pnFuncList_Search)),  pnFuncList_Search },  /* 検索系 */
-	{ static_cast<uint16_t>(std::size(pnFuncList_Mode)),    pnFuncList_Mode },    /* モード切り替え系 */
-	{ static_cast<uint16_t>(std::size(pnFuncList_Set)),     pnFuncList_Set },     /* 設定系 */
-	{ static_cast<uint16_t>(std::size(pnFuncList_Macro)),   pnFuncList_Macro },   /* マクロ系 */
-	{ static_cast<uint16_t>(std::size(pnFuncList_Win)),     pnFuncList_Win },     /* ウィンドウ系 */
-	{ static_cast<uint16_t>(std::size(pnFuncList_Support)), pnFuncList_Support }, /* 支援 */
-	{ static_cast<uint16_t>(std::size(pnFuncList_Others)),  pnFuncList_Others }   /* その他 */
+	{ STR_ERR_DLGFUNCLKUP04, static_cast<uint16_t>(std::size(pnFuncList_File)),    pnFuncList_File },    /* ファイル操作系 */
+	{ STR_ERR_DLGFUNCLKUP05, static_cast<uint16_t>(std::size(pnFuncList_Edit)),    pnFuncList_Edit },    /* 編集系 */
+	{ STR_ERR_DLGFUNCLKUP06, static_cast<uint16_t>(std::size(pnFuncList_Move)),    pnFuncList_Move },    /* カーソル移動系 */
+	{ STR_ERR_DLGFUNCLKUP07, static_cast<uint16_t>(std::size(pnFuncList_Select)),  pnFuncList_Select },  /* 選択系 */
+	{ STR_ERR_DLGFUNCLKUP08, static_cast<uint16_t>(std::size(pnFuncList_Box)),     pnFuncList_Box },     /* 矩形選択系 */
+	{ STR_ERR_DLGFUNCLKUP09, static_cast<uint16_t>(std::size(pnFuncList_Clip)),    pnFuncList_Clip },    /* クリップボード系 */
+	{ STR_ERR_DLGFUNCLKUP10, static_cast<uint16_t>(std::size(pnFuncList_Insert)),  pnFuncList_Insert },  /* 挿入系 */
+	{ STR_ERR_DLGFUNCLKUP11, static_cast<uint16_t>(std::size(pnFuncList_Convert)), pnFuncList_Convert }, /* 変換系 */
+	{ STR_ERR_DLGFUNCLKUP12, static_cast<uint16_t>(std::size(pnFuncList_Search)),  pnFuncList_Search },  /* 検索系 */
+	{ STR_ERR_DLGFUNCLKUP13, static_cast<uint16_t>(std::size(pnFuncList_Mode)),    pnFuncList_Mode },    /* モード切り替え系 */
+	{ STR_ERR_DLGFUNCLKUP14, static_cast<uint16_t>(std::size(pnFuncList_Set)),     pnFuncList_Set },     /* 設定系 */
+	{ STR_ERR_DLGFUNCLKUP15, static_cast<uint16_t>(std::size(pnFuncList_Macro)),   pnFuncList_Macro },   /* マクロ系 */
+	{ STR_ERR_DLGFUNCLKUP16, static_cast<uint16_t>(std::size(pnFuncList_Win)),     pnFuncList_Win },     /* ウィンドウ系 */
+	{ STR_ERR_DLGFUNCLKUP17, static_cast<uint16_t>(std::size(pnFuncList_Support)), pnFuncList_Support }, /* 支援 */
+	{ STR_ERR_DLGFUNCLKUP18, static_cast<uint16_t>(std::size(pnFuncList_Others)),  pnFuncList_Others }   /* その他 */
 });
 
 std::span<const nsFuncCode::FuncCategoryInfo> nsFuncCode::GetFuncCategoryTable()
