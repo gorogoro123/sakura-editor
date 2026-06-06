@@ -30,34 +30,34 @@
 #include "util/string_ex.h"
 
 /* コマンドラインオプション用定数 */
-#define CMDLINEOPT_R			1002 //!< ビューモード
-#define CMDLINEOPT_NOWIN		1003 //!< タスクトレイのみ起動
-#define CMDLINEOPT_GREPMODE		1100 //!< Grep実行モードで起動
-#define CMDLINEOPT_GREPDLG		1101 //!< サクラエディタが起動すると同時にGrepダイアログを表示
-#define CMDLINEOPT_DEBUGMODE	1999 //!< アウトプット用のウィンドウとして起動
-#define CMDLINEOPT_NOMOREOPT	1998 //!< これ以降引数無効
-#define CMDLINEOPT_AT			11   //!< レスポンスファイルを指定
-#define CMDLINEOPT_X			1    //!< ファイルを開いたときのカーソルの桁位置を指定
-#define CMDLINEOPT_Y			2    //!< ファイルを開いたときのカーソルの行位置を指定
-#define CMDLINEOPT_VX			3    //!< スクロール：ウィンドウ左端の桁位置
-#define CMDLINEOPT_VY			4    //!< スクロール：ウィンドウ上端の行位置
-#define CMDLINEOPT_TYPE			5    //!< タイプ別設定
-#define CMDLINEOPT_CODE			6    //!< 文字コード種別
-#define CMDLINEOPT_SX			7    //!< ウィンドウの幅
-#define CMDLINEOPT_SY			8    //!< ウィンドウの高さ
-#define CMDLINEOPT_WX			9    //!< ウィンドウ左上のX座標
-#define CMDLINEOPT_WY			10   //!< ウィンドウ左上のY座標
-#define CMDLINEOPT_GKEY			101  //!< Grepの検索文字列
-#define CMDLINEOPT_GFILE		102  //!< Grepの検索対象のファイル
-#define CMDLINEOPT_GFOLDER		103  //!< Grepの検索対象のフォルダー
-#define CMDLINEOPT_GOPT			104  //!< Grepの条件
-#define CMDLINEOPT_GCODE		105  //!< Grepでの文字コードを指定
-#define CMDLINEOPT_M			106  //!< 起動時に実行するマクロのファイル名を指定
-#define CMDLINEOPT_MTYPE		107  //!< マクロの種類を拡張子名で指定
-#define CMDLINEOPT_GREPR		108  //!< Grepの置換文字列
-#define CMDLINEOPT_GROUP		500  //!< タブモードのグループを指定して開く
-#define CMDLINEOPT_PROF			501  //!< プロファイルを選択
-#define CMDLINEOPT_PROFMGR		502  //!< プロファイルマネージャを起動時に表示
+constexpr auto CMDLINEOPT_R            = 1002; //!< ビューモード
+constexpr auto CMDLINEOPT_NOWIN        = 1003; //!< タスクトレイのみ起動
+constexpr auto CMDLINEOPT_GREPMODE     = 1100; //!< Grep実行モードで起動
+constexpr auto CMDLINEOPT_GREPDLG      = 1101; //!< サクラエディタが起動すると同時にGrepダイアログを表示
+constexpr auto CMDLINEOPT_DEBUGMODE    = 1999; //!< アウトプット用のウィンドウとして起動
+constexpr auto CMDLINEOPT_NOMOREOPT    = 1998; //!< これ以降引数無効
+constexpr auto CMDLINEOPT_AT           = 11;   //!< レスポンスファイルを指定
+constexpr auto CMDLINEOPT_X            = 1;    //!< ファイルを開いたときのカーソルの桁位置を指定
+constexpr auto CMDLINEOPT_Y            = 2;    //!< ファイルを開いたときのカーソルの行位置を指定
+constexpr auto CMDLINEOPT_VX           = 3;    //!< スクロール：ウィンドウ左端の桁位置
+constexpr auto CMDLINEOPT_VY           = 4;    //!< スクロール：ウィンドウ上端の行位置
+constexpr auto CMDLINEOPT_TYPE         = 5;    //!< タイプ別設定
+constexpr auto CMDLINEOPT_CODE         = 6;    //!< 文字コード種別
+constexpr auto CMDLINEOPT_SX           = 7;    //!< ウィンドウの幅
+constexpr auto CMDLINEOPT_SY           = 8;    //!< ウィンドウの高さ
+constexpr auto CMDLINEOPT_WX           = 9;    //!< ウィンドウ左上のX座標
+constexpr auto CMDLINEOPT_WY           = 10;   //!< ウィンドウ左上のY座標
+constexpr auto CMDLINEOPT_GKEY         = 101;  //!< Grepの検索文字列
+constexpr auto CMDLINEOPT_GFILE        = 102;  //!< Grepの検索対象のファイル
+constexpr auto CMDLINEOPT_GFOLDER      = 103;  //!< Grepの検索対象のフォルダー
+constexpr auto CMDLINEOPT_GOPT         = 104;  //!< Grepの条件
+constexpr auto CMDLINEOPT_GCODE        = 105;  //!< Grepでの文字コードを指定
+constexpr auto CMDLINEOPT_M            = 106;  //!< 起動時に実行するマクロのファイル名を指定
+constexpr auto CMDLINEOPT_MTYPE        = 107;  //!< マクロの種類を拡張子名で指定
+constexpr auto CMDLINEOPT_GREPR        = 108;  //!< Grepの置換文字列
+constexpr auto CMDLINEOPT_GROUP        = 500;  //!< タブモードのグループを指定して開く
+constexpr auto CMDLINEOPT_PROF         = 501;  //!< プロファイルを選択
+constexpr auto CMDLINEOPT_PROFMGR      = 502;  //!< プロファイルマネージャを起動時に表示
 
 /*!
 	コマンドラインのチェックを行って、オプション番号と
