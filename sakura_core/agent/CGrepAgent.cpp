@@ -264,7 +264,7 @@ void CGrepAgent::AddTail( CEditView* pcEditView, const CNativeW& cmem, bool bAdd
 	}
 }
 
-int GetHwndTitle(HWND& hWndTarget, CNativeW* pmemTitle, WCHAR* pszWindowName, WCHAR* pszWindowPath, const WCHAR* pszFile)
+int GetHwndTitle(HWND& hWndTarget, CNativeW* pmemTitle, std::span<WCHAR> szWindowName, WCHAR* pszWindowPath, const WCHAR* pszFile)
 {
 	hWndTarget = nullptr;	//out引数をクリアする
 
@@ -296,18 +296,18 @@ int GetHwndTitle(HWND& hWndTarget, CNativeW* pmemTitle, WCHAR* pszWindowName, WC
 		}
 		CFileNameManager::getInstance()->GetMenuFullLabel_WinListNoEscape(szTitle, int(std::size(szTitle)), editInfo, node->m_nId, -1, nullptr );
 #ifdef _WIN64
-		auto_sprintf(pszWindowName, L":HWND:[%016I64x]%s", hWndTarget, pszTagName);
+		auto_snprintf_s(szWindowName.data(), szWindowName.size(), L":HWND:[%016I64x]%s", reinterpret_cast<UINT_PTR>(hWndTarget), pszTagName);
 #else
-		auto_sprintf(pszWindowName, L":HWND:[%08x]%s", hWndTarget, pszTagName);
+		auto_snprintf_s(szWindowName.data(), szWindowName.size(), L":HWND:[%08x]%s", reinterpret_cast<UINT_PTR>(hWndTarget), pszTagName);
 #endif
 		if( pmemTitle ){
 			pmemTitle->AppendString(szTitle);
 		}
 		pszWindowPath[0] = L'\0';
 	}else{
-		SplitPath_FolderAndFile(editInfo->m_szPath, pszWindowPath, pszWindowName);
+		SplitPath_FolderAndFile(editInfo->m_szPath, pszWindowPath, szWindowName.data());
 		if( pmemTitle ){
-			pmemTitle->AppendString(pszWindowName);
+			pmemTitle->AppendString(szWindowName.data());
 		}
 	}
 	if( pmemTitle ){
