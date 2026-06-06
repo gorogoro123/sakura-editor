@@ -235,7 +235,7 @@ BOOL CPrint::GetDefaultPrinter( MYDEVMODE* pMYDEVMODE )
 */
 HDC CPrint::CreateDC(
 	MYDEVMODE*	pMYDEVMODE,
-	WCHAR*		pszErrMsg		/* エラーメッセージ格納場所 */
+	std::span<WCHAR>	szErrMsg		/* エラーメッセージ格納場所 */
 )
 {
 	HDC			hdc = nullptr;
@@ -255,8 +255,9 @@ HDC CPrint::CreateDC(
 		&hPrinter,					/* プリンターハンドルのポインタ */
 		nullptr
 	) ){
-		auto_sprintf(
-			pszErrMsg,
+		auto_snprintf_s(
+			szErrMsg.data(),
+			szErrMsg.size(),
 			LS(STR_ERR_CPRINT01),
 			pMYDEVMODE->m_szPrinterDeviceName	/* プリンターデバイス名 */
 		);
@@ -316,7 +317,7 @@ BOOL CPrint::GetPrintMetrics(
 	short*		pnPaperHeight,		/* 用紙印刷可能高さ */
 	short*		pnPaperOffsetLeft,	/* 用紙余白左端 */
 	short*		pnPaperOffsetTop,	/* 用紙余白上端 */
-	WCHAR*		pszErrMsg			/* エラーメッセージ格納場所 */
+	std::span<WCHAR>	szErrMsg	/* エラーメッセージ格納場所 */
 )
 {
 	BOOL		bRet;
@@ -330,7 +331,7 @@ BOOL CPrint::GetPrintMetrics(
 	}
 
 	// pMYDEVMODEを使って、hdcを取得
-	if ( nullptr == (hdc = CreateDC( pMYDEVMODE, pszErrMsg )) ){
+	if ( nullptr == (hdc = CreateDC( pMYDEVMODE, szErrMsg )) ){
 		return FALSE;
 	}
 
@@ -415,7 +416,7 @@ BOOL CPrint::PrintOpen(
 	WCHAR*		pszJobName,
 	MYDEVMODE*	pMYDEVMODE,
 	HDC*		phdc,
-	WCHAR*		pszErrMsg		/* エラーメッセージ格納場所 */
+	std::span<WCHAR>	szErrMsg		/* エラーメッセージ格納場所 */
 )
 {
 	BOOL		bRet;
@@ -425,7 +426,7 @@ BOOL CPrint::PrintOpen(
 	// 
 	// hdcを取得
 	//
-	if ( nullptr == (hdc = CreateDC( pMYDEVMODE, pszErrMsg )) ){
+	if ( nullptr == (hdc = CreateDC( pMYDEVMODE, szErrMsg )) ){
 		bRet = FALSE;
 		goto end_of_func;
 	}
@@ -443,8 +444,9 @@ BOOL CPrint::PrintOpen(
 	di.lpszDatatype = nullptr;
 	di.fwType = 0;
 	if( 0 >= ::StartDoc( hdc, &di ) ){
-		auto_sprintf(
-			pszErrMsg,
+		auto_snprintf_s(
+			szErrMsg.data(),
+			szErrMsg.size(),
 			LS(STR_ERR_CPRINT02),
 			pMYDEVMODE->m_szPrinterDeviceName	/* プリンターデバイス名 */
 		);

@@ -154,7 +154,7 @@ public:
 		short*		pnPaperHeight,		/* 用紙印刷可能高さ */
 		short*		pnPaperOffsetLeft,	/* 用紙余白左端 */
 		short*		pnPaperOffsetTop,	/* 用紙余白上端 */
-		WCHAR*		pszErrMsg			/* エラーメッセージ格納場所 */
+		std::span<WCHAR>	szErrMsg	/* エラーメッセージ格納場所 */
 	);
 
 	/* 印刷 ジョブ開始 */
@@ -162,7 +162,7 @@ public:
 		WCHAR*		pszJobName,
 		MYDEVMODE*	pMYDEVMODE,
 		HDC*		phdc,
-		WCHAR*		pszErrMsg		/* エラーメッセージ格納場所 */
+		std::span<WCHAR>	szErrMsg	/* エラーメッセージ格納場所 */
 	);
 	void PrintStartPage(HDC hdc);	/* 印刷 ページ開始 */
 	void PrintEndPage(HDC hdc);	/* 印刷 ページ終了 */
@@ -173,7 +173,7 @@ protected:
 	||  実装ヘルパ関数
 	*/
 	// DC作成する(処理をまとめた) 2003.05.02 かろと
-	HDC CreateDC( MYDEVMODE *pMYDEVMODE, WCHAR *pszErrMsg);
+	HDC CreateDC( MYDEVMODE *pMYDEVMODE, std::span<WCHAR> szErrMsg);
 	
 	static const PAPER_INFO* FindPaperInfo( int id );
 private:
