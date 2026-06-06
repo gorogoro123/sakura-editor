@@ -40,10 +40,9 @@ EFunctionCode CFuncLookup::Pos2FuncCode( int category, int position, bool bGetUn
 	if( category < 0 || position < 0 )
 		return F_DISABLE;
 
-	const auto funcKinds = nsFuncCode::GetFuncKind();
-	const int nFuncKindNum = (int)(funcKinds.size());
+	const auto table = nsFuncCode::GetFuncCategoryTable();
+	const int nFuncKindNum = (int)(table.size());
 	if( category < nFuncKindNum ){
-		const auto table = nsFuncCode::GetFuncCategoryTable();
 		if (position < table[category].count) {
 			return table[category].pFuncListArr[position];
 		}
@@ -173,10 +172,10 @@ const WCHAR* CFuncLookup::Category2Name( int category ) const
 	if( category < 0 )
 		return nullptr;
 
-	const auto funcKinds = nsFuncCode::GetFuncKind();
-	const int nFuncKindNum = (int)funcKinds.size();
+	const auto table = nsFuncCode::GetFuncCategoryTable();
+	const int nFuncKindNum = (int)table.size();
 	if( category < nFuncKindNum ){
-		return LS( funcKinds[category] );
+		return LS(table[category].nameId );
 	}
 	else if( category == nFuncKindNum + LUOFFSET_MACRO ){
 		return LS( STR_ERR_DLGFUNCLKUP01 );
@@ -200,8 +199,8 @@ void CFuncLookup::SetCategory2Combo( HWND hComboBox ) const
 	ApiWrap::Combo_ResetContent( hComboBox );
 
 	//	固定機能リスト
-	for (const auto kind : nsFuncCode::GetFuncKind()) {
-		ApiWrap::Combo_AddString(hComboBox, LS(kind));
+	for (const auto& category : nsFuncCode::GetFuncCategoryTable()) {
+		ApiWrap::Combo_AddString(hComboBox, LS(category.nameId));
 	}
 
 	//	ユーザーマクロ
@@ -247,10 +246,9 @@ int CFuncLookup::GetItemCount(int category) const
 	if( category < 0 )
 		return 0;
 
-	const auto funcKinds = nsFuncCode::GetFuncKind();
-	const int nFuncKindNum = (int)(funcKinds.size());
+	const auto table = nsFuncCode::GetFuncCategoryTable();
+	const int nFuncKindNum = (int)(table.size());
 	if( category < nFuncKindNum ){
-		const auto table = nsFuncCode::GetFuncCategoryTable();
 		return table[category].count;
 	}
 	else if( category == nFuncKindNum + LUOFFSET_MACRO ){

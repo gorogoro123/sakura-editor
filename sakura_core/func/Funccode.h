@@ -146,11 +146,11 @@
 // 機能一覧に関するデータ宣言
 namespace nsFuncCode{
 	struct FuncCategoryInfo {
+		uint16_t nameId;
 		uint16_t count;
 		const EFunctionCode* pFuncListArr;
 	};
 
-	std::span<const uint16_t> GetFuncKind();
 	std::span<const FuncCategoryInfo> GetFuncCategoryTable();
 	std::span<const EFunctionCode> GetFuncListSpecial();
 };
