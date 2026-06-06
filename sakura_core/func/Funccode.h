@@ -148,9 +148,7 @@ namespace nsFuncCode{
 	std::span<const uint16_t> GetFuncKind();
 	std::span<const uint16_t> GetFuncList();
 	std::span<const EFunctionCode* const> GetFuncListArr();
-
-	extern const EFunctionCode	pnFuncList_Special[];
-	extern const int			nFuncList_Special_Num;
+	std::span<const EFunctionCode> GetFuncListSpecial();
 };
 
 /*機能番号に対応したヘルプトピックIDを返す*/

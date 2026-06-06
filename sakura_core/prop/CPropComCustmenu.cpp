@@ -117,9 +117,10 @@ static void SetDlgItemsEnableState(
 		::EnableWindow( ::GetDlgItem( hwndDlg, IDC_BUTTON_INSERT ), FALSE );
 		::EnableWindow( ::GetDlgItem( hwndDlg, IDC_BUTTON_ADD ), FALSE );
 	}
+	const auto specialFuncs = nsFuncCode::GetFuncListSpecial();
 	if( CB_ERR != nIdx3 && LB_ERR != nIdx4 &&
 		cLookup.Pos2FuncCode( nIdx3, nIdx4 ) == 0 &&
-		!(nIdx3 == nSpecialFuncsNum && 0 <= nIdx4 && nIdx4 < nsFuncCode::nFuncList_Special_Num)
+		!(nIdx3 == nSpecialFuncsNum && 0 <= nIdx4 && nIdx4 < (int)(specialFuncs.size()))
 	){
 		::EnableWindow( ::GetDlgItem( hwndDlg, IDC_BUTTON_INSERT ), FALSE );
 		::EnableWindow( ::GetDlgItem( hwndDlg, IDC_BUTTON_ADD ), FALSE );
@@ -354,8 +355,9 @@ INT_PTR CPropCustmenu::DispatchEvent(
 				if (nIdx3 == nSpecialFuncsNum) {
 					// 機能一覧に特殊機能をセット
 					ApiWrap::List_ResetContent( hwndLIST_FUNC );
-					for (i = 0; i < nsFuncCode::nFuncList_Special_Num; i++) {
-						ApiWrap::List_AddString( hwndLIST_FUNC, LS( nsFuncCode::pnFuncList_Special[i] ) );
+					const auto specialFuncs = nsFuncCode::GetFuncListSpecial();
+					for (const auto& funcCode : specialFuncs) {
+						ApiWrap::List_AddString(hwndLIST_FUNC, LS(funcCode));
 					}
 				}
 				else {
@@ -468,8 +470,9 @@ INT_PTR CPropCustmenu::DispatchEvent(
 					}
 					//	Oct. 3, 2001 genta
 					if (nIdx3 == nSpecialFuncsNum) {
+						const auto specialFuncs = nsFuncCode::GetFuncListSpecial();
 						// 特殊機能
-						eFuncCode = nsFuncCode::pnFuncList_Special[nIdx4];
+						eFuncCode = specialFuncs[nIdx4];
 					}else{
 						eFuncCode = m_cLookup.Pos2FuncCode( nIdx3, nIdx4 );
 					}
@@ -518,8 +521,9 @@ INT_PTR CPropCustmenu::DispatchEvent(
 					eFuncCode = F_DISABLE;
 					if (nIdx3 == nSpecialFuncsNum) {
 						// 特殊機能
-						if( 0 <= nIdx4 && nIdx4 < nsFuncCode::nFuncList_Special_Num ){
-							eFuncCode = nsFuncCode::pnFuncList_Special[nIdx4];
+						const auto specialFuncs = nsFuncCode::GetFuncListSpecial();
+						if( 0 <= nIdx4 && nIdx4 < (int)(specialFuncs.size()) ){
+							eFuncCode = specialFuncs[nIdx4];
 						}
 					}else{
 						eFuncCode = m_cLookup.Pos2FuncCode( nIdx3, nIdx4 );

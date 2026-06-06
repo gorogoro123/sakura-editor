@@ -414,8 +414,9 @@ INT_PTR CPropMainMenu::DispatchEvent(
 				if (nIdxFIdx == nSpecialFuncsNum) {
 					// 機能一覧に特殊機能をセット
 					ApiWrap::List_ResetContent( hwndListFunk );
-					for (i = 0; i < nsFuncCode::nFuncList_Special_Num; i++) {
-						ApiWrap::List_AddString( hwndListFunk, LS(nsFuncCode::pnFuncList_Special[i]) );
+					const auto specialFuncs = nsFuncCode::GetFuncListSpecial();
+					for (const auto& funcCode : specialFuncs) {
+						ApiWrap::List_AddString( hwndListFunk, LS( funcCode ) );
 					}
 				}
 				else {
@@ -522,8 +523,9 @@ INT_PTR CPropMainMenu::DispatchEvent(
 						}
 						if (nIdxFIdx == nSpecialFuncsNum) {
 							// 特殊機能
-							wcscpy( szLabel, LS(nsFuncCode::pnFuncList_Special[nIdxFunc]) );
-							eFuncCode = nsFuncCode::pnFuncList_Special[nIdxFunc];
+							const auto specialFuncs = nsFuncCode::GetFuncListSpecial();
+							eFuncCode = specialFuncs[nIdxFunc];
+							wcscpy( szLabel, LS(eFuncCode) );
 						}
 						else if (m_cLookup.Pos2FuncCode( nIdxFIdx, nIdxFunc ) != 0) {
 							ApiWrap::List_GetText( hwndListFunk, nIdxFunc, szLabel );
