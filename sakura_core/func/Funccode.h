@@ -147,8 +147,7 @@
 namespace nsFuncCode{
 	std::span<const uint16_t> GetFuncKind();
 	std::span<const uint16_t> GetFuncList();
-
-	extern const EFunctionCode*	ppnFuncListArr[];
+	std::span<const EFunctionCode* const> GetFuncListArr();
 
 	extern const EFunctionCode	pnFuncList_Special[];
 	extern const int			nFuncList_Special_Num;

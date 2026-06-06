@@ -491,7 +491,7 @@ static constexpr auto g_pnFuncList = std::to_array<const uint16_t>({
 	nFincList_Others_Num	/* その他 */			//Oct. 16, 2000 JEPRO 変数名変更(List12→List_Others)
 });
 
-const EFunctionCode* nsFuncCode::ppnFuncListArr[] = {
+static constexpr auto g_ppnFuncList = std::to_array<const EFunctionCode*>({
 //	pnFuncList_Undef,	//Oct. 14, 2000 JEPRO 「--未定義--」を表示させないように変更	//Oct. 16, 2000 JEPRO 変数名変更(List0→List_Undef)
 	pnFuncList_File,	/* ファイル操作系 */	//Oct. 16, 2000 JEPRO 変数名変更(List5→List_File)
 	pnFuncList_Edit,	/* 編集系 */			//Oct. 16, 2000 JEPRO 変数名変更(List3→List_Edit)
@@ -508,7 +508,12 @@ const EFunctionCode* nsFuncCode::ppnFuncListArr[] = {
 	pnFuncList_Win,	/* ウィンドウ系 */		//Oct. 16, 2000 JEPRO 変数名変更(List7→List_Win)
 	pnFuncList_Support,/* 支援 */				//Oct. 16, 2000 JEPRO 変数名変更(List11→List_Support)
 	pnFuncList_Others	/* その他 */			//Oct. 16, 2000 JEPRO 変数名変更(List12→List_Others)
-};
+});
+
+std::span<const EFunctionCode* const> nsFuncCode::GetFuncListArr()
+{
+	return g_ppnFuncList;
+}
 
 std::span<const uint16_t> nsFuncCode::GetFuncList()
 {
