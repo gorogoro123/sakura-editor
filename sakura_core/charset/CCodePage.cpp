@@ -202,19 +202,19 @@ EConvertResult CCodePage::UnicodeToHex(const wchar_t* cSrc, const int iSLen, WCH
 	return CCodeBase::UnicodeToHex(cSrc, iSLen, pDst, psStatusbar);
 }
 
-int CCodePage::GetNameNormal(LPWSTR outName, int charcodeEx)
+int CCodePage::GetNameNormal(std::span<WCHAR> outName, int charcodeEx)
 {
 	if( IsValidCodeType(charcodeEx) ){
-		wcscpy(outName, CCodeTypeName(static_cast<ECodeType>(charcodeEx)).Normal());
+		wcsncpy_s(outName.data(), outName.size(), CCodeTypeName(static_cast<ECodeType>(charcodeEx)).Normal(), _TRUNCATE);
 		return 1;
 	}
 	UINT codepage = CodePageExToMSCP(charcodeEx);
 	if( codepage == CP_ACP ){
-		wcscpy(outName, L"CP_ACP");
+		wcsncpy_s(outName.data(), outName.size(), L"CP_ACP", _TRUNCATE);
 	}else if( codepage == CP_OEMCP ){
-		wcscpy(outName, L"CP_OEM");
+		wcsncpy_s(outName.data(), outName.size(), L"CP_OEM", _TRUNCATE);
 	}else{
-		auto_sprintf(outName, L"CP%d", codepage);
+		auto_snprintf_s(outName.data(), outName.size(), L"CP%d", codepage);
 	}
 	return 2;
 }
