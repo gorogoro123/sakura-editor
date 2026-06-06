@@ -784,7 +784,7 @@ EFunctionCode GetPlugCmdInfoByName(
 // プラグインコマンドを機能番号から名前へ変換
 bool GetPlugCmdInfoByFuncCode(
 	EFunctionCode	eFuncCode,				//!< [in]  機能コード
-	WCHAR*			pszFuncName				//!< [out] 機能名．この先にはMAX_PLUGIN_ID + 20文字のメモリが必要．
+	std::span<WCHAR>	szFuncName			//!< [out] 機能名．この先にはMAX_PLUGIN_ID + 20文字のメモリが必要．
 )
 {
 	CommonSetting_Plugin& plugin = GetDllShareData().m_Common.m_sPlugin;
@@ -798,7 +798,7 @@ bool GetPlugCmdInfoByFuncCode(
 	if (nID < 0 || nNo < 0) {
 		return false;
 	}
-	auto_sprintf(pszFuncName, L"%ls/%02d", plugin.m_PluginTable[nID].m_szId, nNo);
+	auto_snprintf_s(szFuncName.data(), szFuncName.size(), L"%ls/%02d", plugin.m_PluginTable[nID].m_szId, nNo);
 	return true;
 }
 
