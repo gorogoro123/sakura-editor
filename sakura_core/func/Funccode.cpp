@@ -474,54 +474,27 @@ std::span<const EFunctionCode> nsFuncCode::GetFuncListSpecial()
 	return g_pnFuncList_Special;
 }
 
-static constexpr auto g_pnFuncList = std::to_array<const uint16_t>({
-//	nFincList_Undef_Num,	//Oct. 14, 2000 JEPRO 「--未定義--」を表示させないように変更	//Oct. 16, 2000 JEPRO 変数名変更(List0→List_Undef)
-	nFincList_File_Num,		/* ファイル操作系 */	//Oct. 16, 2000 JEPRO 変数名変更(List5→List_File)
-	nFincList_Edit_Num,		/* 編集系 */			//Oct. 16, 2000 JEPRO 変数名変更(List3→List_Edit)
-	nFincList_Move_Num,		/* カーソル移動系 */	//Oct. 16, 2000 JEPRO 変数名変更(List1→List_Move)
-	nFincList_Select_Num,	/* 選択系 */			//Oct. 15, 2000 JEPRO 「カーソル移動系」から(選択)を移動
-	nFincList_Box_Num,		/* 矩形選択系 */		//Oct. 17, 2000 JEPRO (矩形選択)が新設され次第ここにおく
-	nFincList_Clip_Num,		/* クリップボード系 */	//Oct. 16, 2000 JEPRO 変数名変更(List2→List_Clip)
-	nFincList_Insert_Num,	/* 挿入系 */
-	nFincList_Convert_Num,	/* 変換系 */			//Oct. 16, 2000 JEPRO 変数名変更(List6→List_Convert)
-	nFincList_Search_Num,	/* 検索系 */			//Oct. 16, 2000 JEPRO 変数名変更(List4→List_Search)
-	nFincList_Mode_Num,		/* モード切り替え系 */	//Oct. 16, 2000 JEPRO 変数名変更(List8→List_Mode)
-	nFincList_Set_Num,		/* 設定系 */			//Oct. 16, 2000 JEPRO 変数名変更(List9→List_Set)
-	nFincList_Macro_Num,	/* マクロ系 */			//Oct. 16, 2000 JEPRO 変数名変更(List10→List_Macro)
-//	カスタムメニューの文字列を動的に変更可能にするためこれは削除
-//	nFincList_Menu_Num,		/* カスタムメニュー */	//Oct. 21, 2000 JEPRO 「その他」から分離独立化
-	nFincList_Win_Num,		/* ウィンドウ系 */		//Oct. 16, 2000 JEPRO 変数名変更(List7→List_Win)
-	nFincList_Support_Num,	/* 支援 */				//Oct. 16, 2000 JEPRO 変数名変更(List11→List_Support)
-	nFincList_Others_Num	/* その他 */			//Oct. 16, 2000 JEPRO 変数名変更(List12→List_Others)
+static constexpr auto g_funcCategoryTable = std::to_array<nsFuncCode::FuncCategoryInfo>({
+	{ static_cast<uint16_t>(std::size(pnFuncList_File)),    pnFuncList_File },    /* ファイル操作系 */
+	{ static_cast<uint16_t>(std::size(pnFuncList_Edit)),    pnFuncList_Edit },    /* 編集系 */
+	{ static_cast<uint16_t>(std::size(pnFuncList_Move)),    pnFuncList_Move },    /* カーソル移動系 */
+	{ static_cast<uint16_t>(std::size(pnFuncList_Select)),  pnFuncList_Select },  /* 選択系 */
+	{ static_cast<uint16_t>(std::size(pnFuncList_Box)),     pnFuncList_Box },     /* 矩形選択系 */
+	{ static_cast<uint16_t>(std::size(pnFuncList_Clip)),    pnFuncList_Clip },    /* クリップボード系 */
+	{ static_cast<uint16_t>(std::size(pnFuncList_Insert)),  pnFuncList_Insert },  /* 挿入系 */
+	{ static_cast<uint16_t>(std::size(pnFuncList_Convert)), pnFuncList_Convert }, /* 変換系 */
+	{ static_cast<uint16_t>(std::size(pnFuncList_Search)),  pnFuncList_Search },  /* 検索系 */
+	{ static_cast<uint16_t>(std::size(pnFuncList_Mode)),    pnFuncList_Mode },    /* モード切り替え系 */
+	{ static_cast<uint16_t>(std::size(pnFuncList_Set)),     pnFuncList_Set },     /* 設定系 */
+	{ static_cast<uint16_t>(std::size(pnFuncList_Macro)),   pnFuncList_Macro },   /* マクロ系 */
+	{ static_cast<uint16_t>(std::size(pnFuncList_Win)),     pnFuncList_Win },     /* ウィンドウ系 */
+	{ static_cast<uint16_t>(std::size(pnFuncList_Support)), pnFuncList_Support }, /* 支援 */
+	{ static_cast<uint16_t>(std::size(pnFuncList_Others)),  pnFuncList_Others }   /* その他 */
 });
 
-static constexpr auto g_ppnFuncList = std::to_array<const EFunctionCode*>({
-//	pnFuncList_Undef,	//Oct. 14, 2000 JEPRO 「--未定義--」を表示させないように変更	//Oct. 16, 2000 JEPRO 変数名変更(List0→List_Undef)
-	pnFuncList_File,	/* ファイル操作系 */	//Oct. 16, 2000 JEPRO 変数名変更(List5→List_File)
-	pnFuncList_Edit,	/* 編集系 */			//Oct. 16, 2000 JEPRO 変数名変更(List3→List_Edit)
-	pnFuncList_Move,	/* カーソル移動系 */	//Oct. 16, 2000 JEPRO 変数名変更(List1→List_Move)
-	pnFuncList_Select,/* 選択系 */			//Oct. 15, 2000 JEPRO 「カーソル移動系」から(選択)を移動  (矩形選択)は新設され次第ここにおく
-	pnFuncList_Box,	/* 矩形選択系 */		//Oct. 17, 2000 JEPRO (矩形選択)が新設され次第ここにおく
-	pnFuncList_Clip,	/* クリップボード系 */	//Oct. 16, 2000 JEPRO 変数名変更(List2→List_Clip)
-	pnFuncList_Insert,/* 挿入系 */
-	pnFuncList_Convert,/* 変換系 */			//Oct. 16, 2000 JEPRO 変数名変更(List6→List_Convert)
-	pnFuncList_Search,/* 検索系 */			//Oct. 16, 2000 JEPRO 変数名変更(List4→List_Search)
-	pnFuncList_Mode,	/* モード切り替え系 */	//Oct. 16, 2000 JEPRO 変数名変更(List8→List_Mode)
-	pnFuncList_Set,	/* 設定系 */			//Oct. 16, 2000 JEPRO 変数名変更(List9→List_Set)
-	pnFuncList_Macro,	/* マクロ系 */			//Oct. 16, 2000 JEPRO 変数名変更(List10→List_Macro)
-	pnFuncList_Win,	/* ウィンドウ系 */		//Oct. 16, 2000 JEPRO 変数名変更(List7→List_Win)
-	pnFuncList_Support,/* 支援 */				//Oct. 16, 2000 JEPRO 変数名変更(List11→List_Support)
-	pnFuncList_Others	/* その他 */			//Oct. 16, 2000 JEPRO 変数名変更(List12→List_Others)
-});
-
-std::span<const EFunctionCode* const> nsFuncCode::GetFuncListArr()
+std::span<const nsFuncCode::FuncCategoryInfo> nsFuncCode::GetFuncCategoryTable()
 {
-	return g_ppnFuncList;
-}
-
-std::span<const uint16_t> nsFuncCode::GetFuncList()
-{
-	return g_pnFuncList;
+	return g_funcCategoryTable;
 }
 
 //! 機能番号に応じてヘルプトピック番号を返す
