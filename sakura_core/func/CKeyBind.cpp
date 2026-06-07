@@ -151,7 +151,7 @@ int CKeyBind::CreateKeyBindList(
 	int		i;
 	int		j;
 	int		nValidKeys;
-	WCHAR	pszStr[256];
+	WCHAR	szStr[256];
 	WCHAR	szFuncName[256];
 	WCHAR	szFuncNameJapanese[256];
 
@@ -216,8 +216,8 @@ int CKeyBind::CreateKeyBindList(
 
 				/* 機能番号 */
 				cMemList.AppendString( pszTAB );
-				auto_sprintf( pszStr, L"%d", iFunc );
-				cMemList.AppendString( pszStr );
+				auto_snprintf_s( szStr, std::size(szStr), L"%d", iFunc );
+				cMemList.AppendString( szStr );
 
 				/* キーマクロに記録可能な機能かどうかを調べる */
 				cMemList.AppendString( pszTAB );
