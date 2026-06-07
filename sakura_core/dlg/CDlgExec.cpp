@@ -48,11 +48,7 @@ static const DWORD p_helpids[] = {	//12100
 	0, 0
 };	//@@@ 2002.01.07 add end MIK
 
-CDlgExec::CDlgExec()
-{
-	m_szCommand[0] = L'\0';	/* コマンドライン */
-	return;
-}
+CDlgExec::CDlgExec() = default;
 
 static const int codeTable1[] = { 0x00, 0x08, 0x80 };
 static const int codeTable2[] = { 0x00, 0x10, 0x100 };
@@ -95,7 +91,7 @@ void CDlgExec::SetData( )
 	*           初期             *
 	*****************************/
 	/* ユーザーがコンボ ボックスのエディット コントロールに入力できるテキストの長さを制限する */
-	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_COMBO_m_szCommand ), int(std::size(m_szCommand)) - 1 );
+	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_COMBO_m_szCommand ), m_szCommand.capacity() - 1 );
 	ApiWrap::Combo_LimitText( GetItemHwnd( IDC_COMBO_CUR_DIR ), m_szCurDir.capacity() - 1 );
 	/* コンボボックスのユーザー インターフェースを拡張インターフェースにする */
 	ApiWrap::Combo_SetExtendedUI( GetItemHwnd( IDC_COMBO_m_szCommand ), TRUE );
@@ -131,8 +127,8 @@ void CDlgExec::SetData( )
 	ApiWrap::Combo_ResetContent( hwndCombo );
 	const int nCommandsCount = m_pShareData->m_sHistory.m_aCommands.size();
 	if( 0 < nCommandsCount ){
-		wcscpy( m_szCommand, m_pShareData->m_sHistory.m_aCommands[0] );
-		ApiWrap::DlgItem_SetText( GetHwnd(), IDC_COMBO_TEXT, m_szCommand );
+		m_szCommand = m_pShareData->m_sHistory.m_aCommands[0];
+		ApiWrap::DlgItem_SetText( GetHwnd(), IDC_COMBO_TEXT, m_szCommand.c_str() );
 		for( i = 0; i < nCommandsCount; ++i ){
 			ApiWrap::Combo_AddString( hwndCombo, m_pShareData->m_sHistory.m_aCommands[i] );
 		}
@@ -174,7 +170,7 @@ void CDlgExec::SetData( )
 /* ダイアログデータの取得 */
 int CDlgExec::GetData( )
 {
-	ApiWrap::DlgItem_GetText( GetHwnd(), IDC_COMBO_m_szCommand, m_szCommand, int(std::size(m_szCommand)));
+	ApiWrap::DlgItem_GetText( GetHwnd(), IDC_COMBO_m_szCommand, m_szCommand.data(), m_szCommand.capacity());
 	if( IsDlgButtonCheckedBool( GetHwnd(), IDC_CHECK_CUR_DIR ) ){
 		ApiWrap::DlgItem_GetText( GetHwnd(), IDC_COMBO_CUR_DIR, &m_szCurDir[0], m_szCurDir.capacity());
 	}else{
@@ -242,11 +238,11 @@ BOOL CDlgExec::OnBnClicked( int wID )
 				m_hInstance,
 				GetHwnd(),
 				L"*.com;*.exe;*.bat;*.cmd",
-				m_szCommand
+				m_szCommand.c_str()
 			);
 			if( cDlgOpenFile.DoModal_GetOpenFileName( szPath ) ){
-				wcscpy( m_szCommand, szPath );
-				ApiWrap::DlgItem_SetText( GetHwnd(), IDC_COMBO_m_szCommand, m_szCommand );
+				m_szCommand = szPath;
+				ApiWrap::DlgItem_SetText( GetHwnd(), IDC_COMBO_m_szCommand, m_szCommand.c_str() );
 			}
 		}
 		return TRUE;
