@@ -243,14 +243,15 @@ bool CEditView::ExecCmd( const WCHAR* pszCmd, int nFlgOpt, const WCHAR* pszCurDi
 		// command(9x) か cmd(NT) を呼び出す
 
 		// 2010.08.27 Moca システムディレクトリ付加
-		WCHAR szCmdDir[_MAX_PATH];
-		::GetSystemDirectory(szCmdDir, int(std::size(szCmdDir)));
+		SFilePath szCmdDir;
+		::GetSystemDirectory(szCmdDir.data(), szCmdDir.capacity());
 
 		//コマンドライン文字列作成
-		auto_sprintf(
+		auto_snprintf_s(
 			cmdline,
+			std::size(cmdline),
 			L"\"%s\\%s\" %s%s%s",
-			szCmdDir,
+			szCmdDir.c_str(),
 			L"cmd.exe",
 			( outputEncoding == CODE_UNICODE ? L"/U" : L"" ),		// Unicdeモードでコマンド実行	2008/6/17 Uchi
 			( bGetStdout ? L"/C " : L"/K " ),
@@ -584,7 +585,7 @@ user_cancel:
 			::GetExitCodeProcess( pi.hProcess, &result );
 			if( bOutputExtInfo ){
 				WCHAR endCode[128];
-				auto_sprintf( endCode, LS(STR_EDITVIEW_EXECCMD_RET), result );
+				auto_snprintf_s( endCode, std::size(endCode), LS(STR_EDITVIEW_EXECCMD_RET), result );
 				oa.OutputW( endCode );
 			}
 			// 2004.09.20 naoh 終了コードが1以上の時はアウトプットをアクティブにする
