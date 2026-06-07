@@ -629,9 +629,7 @@ INT_PTR CPropTypesColor::DispatchEvent(
 /* ダイアログデータの設定 color */
 void CPropTypesColor::SetData( HWND hwndDlg )
 {
-	HWND	hwndWork;
 	int		i;
-	int		nItem;
 
 	m_nCurrentColorType = 0;	/* 現在選択されている色タイプ */
 
@@ -691,14 +689,14 @@ void CPropTypesColor::SetData( HWND hwndDlg )
 	SetDataKeyword( hwndDlg ); // m_nSet
 
 	/* 色をつける文字種類のリスト */
-	hwndWork = ::GetDlgItem( hwndDlg, IDC_LIST_COLORS );
+	HWND hwndWork = ::GetDlgItem( hwndDlg, IDC_LIST_COLORS );
 	ApiWrap::List_ResetContent( hwndWork );  /* リストを空にする */
 	// 2014.11.25 大きいフォント対応
 	int nItemHeight = CTextWidthCalc(hwndWork).GetTextHeight();
 	ApiWrap::List_SetItemHeight(hwndWork, 0, nItemHeight + 4);
 	for( i = 0; i < COLORIDX_LAST; ++i ){
 		GetDefaultColorInfoName( &m_Types.m_ColorInfoArr[i], i );
-		nItem = ApiWrap::List_AddString( hwndWork, m_Types.m_ColorInfoArr[i].m_szName );
+		int nItem = ApiWrap::List_AddString( hwndWork, m_Types.m_ColorInfoArr[i].m_szName );
 		ApiWrap::List_SetItemData( hwndWork, nItem, &m_Types.m_ColorInfoArr[i] );
 	}
 	/* 現在選択されている色タイプ */
@@ -706,8 +704,7 @@ void CPropTypesColor::SetData( HWND hwndDlg )
 	::SendMessage( hwndDlg, WM_COMMAND, MAKELONG( IDC_LIST_COLORS, LBN_SELCHANGE ), (LPARAM)hwndWork );
 
 	// from here 2005.11.30 Moca 指定位置縦線の設定
-	WCHAR szVertLine[MAX_VERTLINES * 15] = L"";
-	int offset = 0;
+	std::wstring szVertLine;
 	for( i = 0; i < MAX_VERTLINES && m_Types.m_nVertLineIdx[i] != 0; i++ ){
 		CKetaXInt nXCol = m_Types.m_nVertLineIdx[i];
 		CKetaXInt nXColEnd = nXCol;
@@ -720,25 +717,21 @@ void CPropTypesColor::SetData( HWND hwndDlg )
 				if( nXColEnd < nXCol || nXColAdd <= 0 ){
 					continue;
 				}
-				if(offset){
-					szVertLine[offset] = ',';
-					szVertLine[offset+1] = '\0';
-					offset += 1;
+				if(!szVertLine.empty()){
+					szVertLine += L",";
 				}
-				offset += auto_sprintf( &szVertLine[offset], L"%d(%d,%d)", nXColAdd, nXCol, nXColEnd );
+				szVertLine += std::format(L"{}({},{})", nXColAdd, nXCol, nXColEnd);
 			}
 		}
 		else{
-			if(offset){
-				szVertLine[offset] = ',';
-				szVertLine[offset+1] = '\0';
-				offset += 1;
+			if(!szVertLine.empty()){
+				szVertLine += L",";
 			}
-			offset += auto_sprintf( &szVertLine[offset], L"%d", nXCol );
+			szVertLine += std::format(L"{}", nXCol);
 		}
 	}
 	ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_EDIT_VERTLINE ), MAX_VERTLINES * 15 );
-	ApiWrap::DlgItem_SetText( hwndDlg, IDC_EDIT_VERTLINE, szVertLine );
+	ApiWrap::DlgItem_SetText( hwndDlg, IDC_EDIT_VERTLINE, szVertLine.c_str() );
 	// to here 2005.11.30 Moca 指定位置縦線の設定
 	return;
 }
