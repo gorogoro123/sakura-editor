@@ -141,7 +141,7 @@ void CDlgProperty::SetData( )
 			cmemProp.AppendString( szWork );
 		}
 
-		auto_sprintf( szWork, LS(STR_DLGFLPROP_ATTRIBUTES), pCEditDoc->m_cDocLineMgr.GetLineCount() );
+		auto_snprintf_s( szWork, std::size(szWork), LS(STR_DLGFLPROP_ATTRIBUTES), pCEditDoc->m_cDocLineMgr.GetLineCount() );
 		cmemProp.AppendString( szWork );
 		if( wfd.dwFileAttributes & FILE_ATTRIBUTE_ARCHIVE ){
 			cmemProp.AppendString( LS(STR_DLGFLPROP_AT_ARCHIVE) );
@@ -174,7 +174,7 @@ void CDlgProperty::SetData( )
 
 		cmemProp.AppendString( LS(STR_DLGFLPROP_CREATE_DT) );
 		CFileTime ctimeCreation = wfd.ftCreationTime;
-		auto_sprintf( szWork, LS(STR_DLGFLPROP_YMDHMS),
+		auto_snprintf_s( szWork, std::size(szWork), LS(STR_DLGFLPROP_YMDHMS),
 			ctimeCreation->wYear,
 			ctimeCreation->wMonth,
 			ctimeCreation->wDay,
@@ -187,7 +187,7 @@ void CDlgProperty::SetData( )
 
 		cmemProp.AppendString( LS(STR_DLGFLPROP_UPDATE_DT) );
 		CFileTime ctimeLastWrite = wfd.ftLastWriteTime;
-		auto_sprintf( szWork, LS(STR_DLGFLPROP_YMDHMS),
+		auto_snprintf_s( szWork, std::size(szWork), LS(STR_DLGFLPROP_YMDHMS),
 			ctimeLastWrite->wYear,
 			ctimeLastWrite->wMonth,
 			ctimeLastWrite->wDay,
@@ -200,7 +200,7 @@ void CDlgProperty::SetData( )
 
 		cmemProp.AppendString( LS(STR_DLGFLPROP_ACCESS_DT) );
 		CFileTime ctimeLastAccess = wfd.ftLastAccessTime;
-		auto_sprintf( szWork, LS(STR_DLGFLPROP_YMDHMS),
+		auto_snprintf_s( szWork, std::size(szWork), LS(STR_DLGFLPROP_YMDHMS),
 			ctimeLastAccess->wYear,
 			ctimeLastAccess->wMonth,
 			ctimeLastAccess->wDay,
@@ -211,10 +211,10 @@ void CDlgProperty::SetData( )
 		cmemProp.AppendString( szWork );
 		cmemProp.AppendString( L"\r\n" );
 
-		auto_sprintf( szWork, LS(STR_DLGFLPROP_DOS_NAME), wfd.cAlternateFileName );
+		auto_snprintf_s( szWork, std::size(szWork), LS(STR_DLGFLPROP_DOS_NAME), wfd.cAlternateFileName );
 		cmemProp.AppendString( szWork );
 
-		auto_sprintf( szWork, LS(STR_DLGFLPROP_FILE_SIZE), wfd.nFileSizeLow );
+		auto_snprintf_s( szWork, std::size(szWork), LS(STR_DLGFLPROP_FILE_SIZE), wfd.nFileSizeLow );
 		cmemProp.AppendString( szWork );
 
 		::FindClose( nFind );
