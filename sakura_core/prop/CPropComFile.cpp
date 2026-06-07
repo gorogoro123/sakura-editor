@@ -315,14 +315,11 @@ void CPropFile::SetData( HWND hwndDlg )
 	//	自動保存の有効・無効
 	::CheckDlgButton( hwndDlg, IDC_CHECK_AUTOSAVE, m_Common.m_sBackup.IsAutoBackupEnabled() );
 
+	int nN = m_Common.m_sBackup.GetAutoBackupInterval();
+	nN = std::clamp(nN, 1, 35791);
+
 	WCHAR buf[6];
-	int nN;
-
-	nN = m_Common.m_sBackup.GetAutoBackupInterval();
-	nN = nN < 1  ?  1 : nN;
-	nN = nN > 35791 ? 35791 : nN;
-
-	auto_sprintf( buf, L"%d", nN);
+	auto_snprintf_s(buf, std::size(buf), L"%d", nN);
 	ApiWrap::DlgItem_SetText( hwndDlg, IDC_EDIT_AUTOBACKUP_INTERVAL, buf );
 	//	To Here Aug. 21, 2000 genta
 
