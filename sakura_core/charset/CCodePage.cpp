@@ -196,10 +196,10 @@ EConvertResult CCodePage::UnicodeToCP(const CNativeW& cSrc, CMemory* pDst, int c
 }
 
 // 文字コード表示用	UNICODE → Hex 変換
-EConvertResult CCodePage::UnicodeToHex(const wchar_t* cSrc, const int iSLen, WCHAR* pDst, const CommonSetting_Statusbar* psStatusbar)
+EConvertResult CCodePage::UnicodeToHex(const wchar_t* cSrc, const int iSLen, std::span<WCHAR> szDst, const CommonSetting_Statusbar* psStatusbar)
 {
 	// コードの特性がわからないので何もしない
-	return CCodeBase::UnicodeToHex(cSrc, iSLen, pDst, psStatusbar);
+	return CCodeBase::UnicodeToHex(cSrc, iSLen, szDst, psStatusbar);
 }
 
 int CCodePage::GetNameNormal(std::span<WCHAR> outName, int charcodeEx)

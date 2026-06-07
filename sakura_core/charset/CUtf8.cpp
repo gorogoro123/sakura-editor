@@ -190,7 +190,7 @@ EConvertResult CUtf8::_UnicodeToUTF8( const CNativeW& cSrc, CMemory* pDstMem, bo
 }
 
 // 文字コード表示用	UNICODE → Hex 変換	2008/6/21 Uchi
-EConvertResult CUtf8::_UnicodeToHex(const wchar_t* cSrc, const int iSLen, WCHAR* pDst, const CommonSetting_Statusbar* psStatusbar, const bool bCESUMode)
+EConvertResult CUtf8::_UnicodeToHex(const wchar_t* cSrc, const int iSLen, std::span<WCHAR> szDst, const CommonSetting_Statusbar* psStatusbar, const bool bCESUMode)
 {
 	CNativeW		cBuff;
 	EConvertResult	res;
@@ -201,7 +201,7 @@ EConvertResult CUtf8::_UnicodeToHex(const wchar_t* cSrc, const int iSLen, WCHAR*
 
 	if (psStatusbar->m_bDispUtf8Codepoint) {
 		// Unicodeで表示
-		return CCodeBase::UnicodeToHex(cSrc, iSLen, pDst, psStatusbar);
+		return CCodeBase::UnicodeToHex(cSrc, iSLen, szDst, psStatusbar);
 	}
 	cBuff.AllocStringBuffer(4);
 	// 1文字データバッファ
@@ -231,7 +231,7 @@ EConvertResult CUtf8::_UnicodeToHex(const wchar_t* cSrc, const int iSLen, WCHAR*
 
 	// Hex変換
 	ps = reinterpret_cast<unsigned char*>( cBuff._GetMemory()->GetRawPtr() );
-	pd = pDst;
+	pd = szDst.data();
 	if( bbinary == false ){
 		for (i = cBuff._GetMemory()->GetRawLength(); i >0; i--, ps ++, pd += 2) {
 			auto_sprintf( pd, L"%02X", *ps);
