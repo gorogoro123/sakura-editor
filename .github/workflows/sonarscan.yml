@@ -145,6 +145,8 @@ jobs:
           "-Dsonar.cfamily.cppunit.reportPath=*-googletest.xml"
           "-Dsonar.cfamily.cobertura.reportPaths=tests1-coverage.xml"
           "-Dsonar.verbose=true"
+          "-Dsonar.sources=src,sakura_core"
+          "-Dsonar.exclusions=help/**,tools/**,.github/**,externals/**,build/**,tests*-*.xml"
 
     - name: Upload Sonar CFamily failure reproducer (if present)
       if: ${{ always() && hashFiles('sonar-cfamily-reproducer.tar.xz') != '' }}
