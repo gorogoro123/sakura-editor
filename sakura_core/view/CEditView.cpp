@@ -1491,7 +1491,7 @@ int	CEditView::CreatePopUpMenuSub( HMENU hMenu, int nMenuIdx, int* pParentMenus,
 	int			nId;
 	int			i;
 	WCHAR		szLabel[300];
-	int			nParentMenu[MAX_CUSTOM_MENU + 1];
+	int			nParentMenu[MAX_CUSTOM_MENU + 1] = {};
 
 	CMenuDrawer& cMenuDrawer = GetEditWnd().GetMenuDrawer();
 	CFuncLookup& FuncLookup = m_pcEditDoc->m_cFuncLookup;
@@ -1505,8 +1505,6 @@ int	CEditView::CreatePopUpMenuSub( HMENU hMenu, int nMenuIdx, int* pParentMenus,
 			}
 			nParamIndex = k;
 			pNextParam = pParentMenus;
-		}else{
-			memset( nParentMenu, 0, sizeof(nParentMenu) );
 		}
 		EFunctionCode nThisCode = F_0;
 		if( nMenuIdx == CUSTMENU_INDEX_FOR_RBUTTONUP ){
