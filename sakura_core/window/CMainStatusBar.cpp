@@ -26,9 +26,9 @@
 	std::wstring buffer(32, L'\0');
 
 	// Hex変換
-	if (CCodeFactory::CreateCodeBase(eCodeType)->UnicodeToHex(std::data(wide), int(std::size(wide)), std::data(buffer), &sStatusBar) != RESULT_COMPLETE) {
+	if (CCodeFactory::CreateCodeBase(eCodeType)->UnicodeToHex(std::data(wide), int(std::size(wide)), buffer, &sStatusBar) != RESULT_COMPLETE) {
 		// 変換に失敗したらUNICODEで変換する
-		CCodeFactory::CreateCodeBase(CODE_UTF16BE)->UnicodeToHex(std::data(wide), int(std::size(wide)), std::data(buffer), &sStatusBar);
+		CCodeFactory::CreateCodeBase(CODE_UTF16BE)->UnicodeToHex(std::data(wide), int(std::size(wide)), buffer, &sStatusBar);
 	}
 
 	// 出力先バッファのサイズを調整する
