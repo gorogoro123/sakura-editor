@@ -219,19 +219,19 @@ int CCodePage::GetNameNormal(std::span<WCHAR> outName, int charcodeEx)
 	return 2;
 }
 
-int CCodePage::GetNameShort(LPWSTR outName, int charcodeEx)
+int CCodePage::GetNameShort(std::span<WCHAR> outName, int charcodeEx)
 {
 	if( IsValidCodeType(charcodeEx) ){
-		wcscpy(outName, CCodeTypeName(static_cast<ECodeType>(charcodeEx)).Short());
+		wcsncpy_s(outName.data(), outName.size(), CCodeTypeName(static_cast<ECodeType>(charcodeEx)).Short(), _TRUNCATE);
 		return 1;
 	}
 	UINT codepage = CodePageExToMSCP(charcodeEx);
 	if( codepage == CP_ACP ){
-		wcscpy(outName, L"cp_acp");
+		wcsncpy_s(outName.data(), outName.size(), L"cp_acp", _TRUNCATE);
 	}else if( codepage == CP_OEMCP ){
-		wcscpy(outName, L"cp_oem");
+		wcsncpy_s(outName.data(), outName.size(), L"cp_oem", _TRUNCATE);
 	}else{
-		auto_sprintf(outName, L"cp%d", codepage);
+		auto_snprintf_s(outName.data(), outName.size(), L"cp%d", codepage);
 	}
 	return 2;
 }
