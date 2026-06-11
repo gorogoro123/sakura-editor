@@ -117,3 +117,41 @@ TEST( CCodePageTest, GetNameShort_BufferTruncate )
 	EXPECT_EQ(ret, 2);
 	EXPECT_STREQ(smallBuf, L"cp65");
 }
+
+// 1. 正常系：バッファサイズが十分な場合
+TEST( CCodePageTest, GetNameLong_Success )
+{
+    WCHAR buf[64]{};
+    std::span<WCHAR> out(buf);
+
+    int ret = CCodePage::GetNameLong(out, CODE_UTF8);
+
+    EXPECT_EQ(ret, 1);
+    
+    EXPECT_STRNE(buf, L""); 
+}
+
+// 2. 正常系：GetCPInfoEx を通るパターン（例: CP932 / Shift_JIS）
+TEST( CCodePageTest, GetNameLong_CP932 )
+{
+    WCHAR buf[128]{};
+    std::span<WCHAR> out(buf);
+
+    int ret = CCodePage::GetNameLong(out, 932);
+
+    EXPECT_EQ(ret, 2);
+    EXPECT_STRNE(buf, L""); // 最低限、空文字ではないことを検証
+}
+
+// バッファサイズが足りない（切り詰め発生）時の安全性テスト
+TEST( CCodePageTest, GetNameLong_BufferTruncate )
+{
+    WCHAR smallBuf[5]{};
+    std::span<WCHAR> out(smallBuf);
+
+    int ret = CCodePage::GetNameLong(out, CODE_CPACP);
+
+    EXPECT_EQ(ret, 2);
+    
+    EXPECT_STREQ(smallBuf, L"CP_A");
+}
