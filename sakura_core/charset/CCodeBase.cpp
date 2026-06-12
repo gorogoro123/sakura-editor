@@ -5,7 +5,6 @@
 	SPDX-License-Identifier: Zlib
 */
 #include "CCodeBase.h"
-
 #include "charset/CCodeFactory.h"
 #include "convert/convert_util2.h"
 #include "charset/codechecker.h"
@@ -18,23 +17,23 @@ EConvertResult CCodeBase::UnicodeToHex(const wchar_t* cSrc, const int iSLen, std
 	// IVS
 	if (iSLen >= 3 && IsVariationSelector(cSrc + 1)) {
 		if (psStatusbar->m_bDispSPCodepoint) {
-			auto_sprintf(szDst.data(), L"%04X, U+%05X", cSrc[0], ConvertToUtf32(cSrc + 1));
+			auto_snprintf_s(szDst.data(), szDst.size(), L"%04X, U+%05X", cSrc[0], static_cast<unsigned int>(ConvertToUtf32(cSrc + 1)));
 		}
 		else {
-			auto_sprintf(szDst.data(), L"%04X, %04X%04X", cSrc[0], cSrc[1], cSrc[2]);
+			auto_snprintf_s(szDst.data(), szDst.size(), L"%04X, %04X%04X", cSrc[0], cSrc[1], cSrc[2]);
 		}
 	}
 	// サロゲートペア
 	else if (iSLen >= 2 && IsSurrogatePair(cSrc)) {
 		if (psStatusbar->m_bDispSPCodepoint) {
-			auto_sprintf(szDst.data(), L"U+%05X", 0x10000 + ((cSrc[0] & 0x3FF)<<10) + (cSrc[1] & 0x3FF));
+			auto_snprintf_s(szDst.data(), szDst.size(), L"U+%05X", 0x10000 + ((cSrc[0] & 0x3FF)<<10) + (cSrc[1] & 0x3FF));
 		}
 		else {
-			auto_sprintf(szDst.data(), L"%04X%04X", cSrc[0], cSrc[1]);
+			auto_snprintf_s(szDst.data(), szDst.size(), L"%04X%04X", cSrc[0], cSrc[1]);
 		}
 	}
 	else {
-		auto_sprintf(szDst.data(), L"U+%04X", cSrc[0] );
+		auto_snprintf_s(szDst.data(), szDst.size(), L"U+%04X", cSrc[0] );
 	}
 
 	return RESULT_COMPLETE;
