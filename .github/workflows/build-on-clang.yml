@@ -5,10 +5,12 @@ name: Clang Build
 on:
   workflow_dispatch:
   push:
+    branches-ignore:
+      - 'main'
     paths-ignore:
       - '**/*.md'
-      - .gitignore
-      - .editorconfig
+      - '.gitignore'
+      - '.editorconfig'
   pull_request:
     paths-ignore:
       - '**/*.md'
