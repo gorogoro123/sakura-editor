@@ -4,7 +4,7 @@ A free text editor for Windows.
 [![License: Zlib](https://img.shields.io/badge/License-Zlib-lightgrey.svg)](https://opensource.org/licenses/Zlib)
 [![build sakura](https://github.com/sakura-editor/sakura/workflows/build%20sakura/badge.svg)](https://github.com/sakura-editor/sakura/actions?query=workflow%3A%22build+sakura%22)
 [![CodeFactor](https://www.codefactor.io/repository/github/sakura-editor/sakura/badge)](https://www.codefactor.io/repository/github/sakura-editor/sakura)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=sakura-editor_sakura&metric=alert_status)](https://sonarcloud.io/dashboard?id=sakura-editor_sakura)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gorogoro123_sakura-editor&metric=alert_status)](https://sonarcloud.io/dashboard?id=gorogoro123_sakura-editor)
 [![Github Releases All](https://img.shields.io/github/downloads/sakura-editor/sakura/total.svg)](https://github.com/sakura-editor/sakura/releases "All Releases")
 [![Star History](https://img.shields.io/badge/star-histroy-yellow.svg)](https://star-history.t9t.io/#sakura-editor/sakura)
 
@@ -53,9 +53,9 @@ GitHubで公開しているので [GitHub Actionsのビルドページ](https://
 | サービス | 説明 |
 |---------|------|
 | [CodeFactor](https://www.codefactor.io/repository/github/sakura-editor/sakura) |  C++ のスタイルチェック。[cpplint.py](./tools/CodeFactor/README.md)による字句解析。 |
-| [SonarQube](https://sonarcloud.io/summary/new_code?id=sakura-editor_sakura&branch=master) | 多言語対応の静的解析。Build Wrapper + SonarScannerによるコード品質解析。 |
+| [SonarQube](https://sonarcloud.io/summary/new_code?id=gorogoro123_sakura-editor&branch=master) | 多言語対応の静的解析。Build Wrapper + SonarScannerによるコード品質解析。 |
 
-[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=sakura-editor_sakura)](https://sonarcloud.io/summary/overall?id=sakura-editor_sakura)
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=gorogoro123_sakura-editor)](https://sonarcloud.io/summary/overall?id=gorogoro123_sakura-editor)
 
 ## 変更履歴
 
