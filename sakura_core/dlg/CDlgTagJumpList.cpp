@@ -253,15 +253,13 @@ void CDlgTagJumpList::SetData( )
 */
 void CDlgTagJumpList::UpdateData( bool bInit )
 {
-	HWND	hwndList;
 	LV_ITEM	lvi;
 	int		nIndex;
-	int		count;
 
-	hwndList = GetItemHwnd( IDC_LIST_TAGJUMP );
+	HWND hwndList = GetItemHwnd( IDC_LIST_TAGJUMP );
 	ListView_DeleteAllItems( hwndList );
 
-	count = m_pcList->GetCount();
+	const int count = m_pcList->GetCount();
 
 	WCHAR	tmp[32];
 	for( nIndex = 0; nIndex < count; nIndex++ )
@@ -277,13 +275,13 @@ void CDlgTagJumpList::UpdateData( bool bInit )
 		ListView_InsertItem( hwndList, &lvi );
 
 		if( item->baseDirId ){
-			auto_sprintf( tmp, L"(%d)", item->depth );
+			auto_snprintf_s( tmp, std::size(tmp), L"(%d)", item->depth );
 		}else{
-			auto_sprintf( tmp, L"%d", item->depth );
+			auto_snprintf_s( tmp, std::size(tmp), L"%d", item->depth );
 		}
 		ListView_SetItemText( hwndList, nIndex, 1, tmp );
 
-		auto_sprintf( tmp, L"%d", item->no );
+		auto_snprintf_s( tmp, std::size(tmp), L"%d", item->no );
 		ListView_SetItemText( hwndList, nIndex, 2, tmp );
 
 		WCHAR *p = GetNameByType( item->type, item->filename.c_str() );
@@ -1098,7 +1096,7 @@ int CDlgTagJumpList::find_key_core(
 		}
 
 		//タグファイル名を作成する。
-		auto_sprintf( szTagFile, L"%s%s", state.m_szCurPath, TAG_FILENAME_T );
+		auto_snprintf_s( szTagFile, std::size(szTagFile), L"%s%s", state.m_szCurPath, TAG_FILENAME_T );
 		DEBUG_TRACE( L"tag: %s\n", szTagFile );
 		
 		//タグファイルを開く。
