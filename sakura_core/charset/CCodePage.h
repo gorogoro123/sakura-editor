@@ -53,7 +53,7 @@ public:
 	static int GetNameNormal(std::span<WCHAR> outName, int charcodeEx);
 	static int GetNameShort(std::span<WCHAR> outName, int charcodeEx);
 	static int GetNameLong(std::span<WCHAR> outName, int charcodeEx);
-	static int GetNameBracket(LPWSTR outName, int charcodeEx);
+	static int GetNameBracket(std::span<WCHAR> outName, int charcodeEx);
 	static int AddComboCodePages(HWND hwnd, HWND combo, int nSelCode);
 	
 	//CP補助情報
