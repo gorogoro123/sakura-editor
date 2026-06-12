@@ -17,7 +17,6 @@
 
 #include <ObjBase.h>
 #include <InitGuid.h>
-#include <ShlDisp.h>
 #include "macro/CWSH.h"
 #include "macro/CIfObj.h"
 #include "window/CEditWnd.h"
@@ -167,12 +166,10 @@ public:
 			}
 			if(pscripterror->GetSourcePosition(&Context, &Line, &Pos) == S_OK)
 			{
-				wchar_t *Message = new wchar_t[SysStringLen(Info.bstrDescription) + 128];
-				//	Nov. 10, 2003 FILE Win9Xでは、[wsprintfW]が無効のため、[auto_sprintf]に修正
+				std::vector<wchar_t> Message(SysStringLen(Info.bstrDescription) + 128);
 				const wchar_t* szDesc=Info.bstrDescription;
-				auto_sprintf(Message, L"[Line %d] %ls", Line + 1, szDesc);
-				SysReAllocString(&Info.bstrDescription, Message);
-				delete[] Message;
+				auto_snprintf_s(Message.data(), Message.size(), L"[Line %d] %ls", Line + 1, szDesc);
+				SysReAllocString(&Info.bstrDescription, Message.data());
 			}
 			m_Client->Error(Info.bstrDescription, Info.bstrSource);
 			SysFreeString(Info.bstrSource);
