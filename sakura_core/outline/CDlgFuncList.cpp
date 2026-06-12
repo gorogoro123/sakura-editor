@@ -1318,7 +1318,7 @@ void CDlgFuncList::SetListVB ()
 		if(item.pszText[0] != L'\0'){
 			// 検出結果の種類(関数,,,)があるとき
 			// 2006.12.12 Moca szText を自分自身にコピーしていたバグを修正
-			auto_sprintf_s(
+			auto_snprintf_s(
 				szText, std::size(szText),
 				L"%s(%d,%d): ",
 				m_pcFuncInfoArr->m_szFilePath.c_str(),		/* 解析対象ファイル名 */

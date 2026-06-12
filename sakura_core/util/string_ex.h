@@ -168,12 +168,10 @@ inline int auto_vsprintf_s(WCHAR* buf, size_t nBufCount, const WCHAR* format, va
 inline int auto_vsprintf_s(std::span<ACHAR> buf, const ACHAR* format, va_list& v)         noexcept { return auto_vsprintf_s(std::data(buf), std::size(buf), format, v); }
 inline int auto_vsprintf_s(std::span<WCHAR> buf, const WCHAR* format, va_list& v)         noexcept { return auto_vsprintf_s(std::data(buf), std::size(buf), format, v); }
 
-template<typename... Params> inline int auto_sprintf_s(ACHAR* buf, size_t nBufCount, const ACHAR* format, Params&&... params) noexcept { return ::_snprintf_s(buf, nBufCount, _TRUNCATE, format, std::forward<Params>(params)...); }
-template<typename... Params> inline int auto_sprintf_s(WCHAR* buf, size_t nBufCount, const WCHAR* format, Params&&... params) noexcept { return ::_snwprintf_s(buf, nBufCount, _TRUNCATE, format, std::forward<Params>(params)...); }
-template<typename... Params> inline int auto_sprintf_s(std::span<ACHAR> buf, const ACHAR* format, Params&&... params)         noexcept { return auto_sprintf_s(std::data(buf), std::size(buf), format, std::forward<Params>(params)...); }
-template<typename... Params> inline int auto_sprintf_s(std::span<WCHAR> buf, const WCHAR* format, Params&&... params)         noexcept { return auto_sprintf_s(std::data(buf), std::size(buf), format, std::forward<Params>(params)...); }
-
-#define auto_snprintf_s(buf, nBufCount, format, ...)	::_snwprintf_s((buf), nBufCount, _TRUNCATE, (format), __VA_ARGS__)
+template<typename... Params> inline int auto_snprintf_s(ACHAR* buf, size_t nBufCount, const ACHAR* format, Params&&... params) noexcept { return ::_snprintf_s(buf, nBufCount, _TRUNCATE, format, std::forward<Params>(params)...); }
+template<typename... Params> inline int auto_snprintf_s(WCHAR* buf, size_t nBufCount, const WCHAR* format, Params&&... params) noexcept { return ::_snwprintf_s(buf, nBufCount, _TRUNCATE, format, std::forward<Params>(params)...); }
+template<typename... Params> inline int auto_snprintf_s(std::span<ACHAR> buf, const ACHAR* format, Params&&... params)         noexcept { return auto_snprintf_s(std::data(buf), std::size(buf), format, std::forward<Params>(params)...); }
+template<typename... Params> inline int auto_snprintf_s(std::span<WCHAR> buf, const WCHAR* format, Params&&... params)         noexcept { return auto_snprintf_s(std::data(buf), std::size(buf), format, std::forward<Params>(params)...); }
 
 std::wstring& eos(std::wstring& strOut, size_t cchOut);
 std::string& eos(std::string& strOut, size_t cchOut);
