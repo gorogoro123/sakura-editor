@@ -27,12 +27,11 @@
 
 /*!	共有データの設定に従ってパスを縮小表記に変換する
 	@param pszSrc   [in]  ファイル名
-	@param pszDest  [out] 変換後のファイル名の格納先
-	@param nDestLen [in]  終端のNULLを含むpszDestのWCHAR単位の長さ _MAX_PATH まで
+	@param szDest  [out] 変換後のファイル名の格納先
 	@date 2003.01.27 Moca 新規作成
 	@note 連続して呼び出す場合のため、展開済みメタ文字列をキャッシュして高速化している。
 */
-LPWSTR CFileNameManager::GetTransformFileNameFast( LPCWSTR pszSrc, LPWSTR pszDest, int nDestLen, HDC hDC, bool bFitMode, int cchMaxWidth )
+void CFileNameManager::GetTransformFileNameFast( LPCWSTR pszSrc, std::span<WCHAR> szDest, HDC hDC, bool bFitMode, int cchMaxWidth )
 {
 	SFilePath szBuf;
 
@@ -50,28 +49,26 @@ LPWSTR CFileNameManager::GetTransformFileNameFast( LPCWSTR pszSrc, LPWSTR pszDes
 	}
 
 	if( 0 < m_nTransformFileNameCount ){
-		GetFilePathFormat( pszSrc, pszDest, nDestLen,
+		GetFilePathFormat( pszSrc, szDest.data(), szDest.size(),
 			m_szTransformFileNameFromExp[0],
 			m_pShareData->m_Common.m_sFileName.m_szTransformFileNameTo[m_nTransformFileNameOrgId[0]]
 		);
 		for( int i = 1; i < m_nTransformFileNameCount; i++ ){
-			szBuf = pszDest;
-			GetFilePathFormat( szBuf.c_str(), pszDest, nDestLen,
+			szBuf = szDest.data();
+			GetFilePathFormat( szBuf.c_str(), szDest.data(), szDest.size(),
 				m_szTransformFileNameFromExp[i],
 				m_pShareData->m_Common.m_sFileName.m_szTransformFileNameTo[m_nTransformFileNameOrgId[i]] );
 		}
 		if( nPxWidth != -1 ){
-			szBuf = pszDest;
-			GetShortViewPath( pszDest, nDestLen, szBuf.c_str(), hDC, nPxWidth, bFitMode);
+			szBuf = szDest.data();
+			GetShortViewPath( szDest.data(), (int)(szDest.size()), szBuf.c_str(), hDC, nPxWidth, bFitMode );
 		}
 	}else if( nPxWidth != -1 ){
-		GetShortViewPath( pszDest, nDestLen, pszSrc, hDC, nPxWidth, bFitMode );
+		GetShortViewPath( szDest.data(), (int)(szDest.size()), pszSrc, hDC, nPxWidth, bFitMode );
 	}else{
 		// 変換する必要がない コピーだけする
-		wcsncpy( pszDest, pszSrc, nDestLen - 1 );
-		pszDest[nDestLen - 1] = '\0';
+		wcsncpy_s( szDest.data(), szDest.size(), pszSrc, _TRUNCATE );
 	}
-	return pszDest;
 }
 
 /*!	展開済みメタ文字列のキャッシュを作成・更新する
@@ -397,7 +394,7 @@ bool CFileNameManager::GetMenuFullLabel(
 
 	GetAccessKeyLabelByIndex( szAccKey, bEspaceAmp, index, bAccKeyZeroOrigin );
 	if( pszFile[0] ){
-		this->GetTransformFileNameFast( pszFile, szFileName, _MAX_PATH, hDC );
+		GetTransformFileNameFast( pszFile, szFileName, hDC );
 
 		// szFileName → szMenu2
 		//	Jan. 19, 2002 genta

@@ -30,7 +30,7 @@ class CFileNameManager final : public TSingleton<CFileNameManager>{
 
 public:
 	//ファイル名関連
-	LPWSTR GetTransformFileNameFast( LPCWSTR, LPWSTR, int nDestLen, HDC hDC, bool bFitMode = true, int cchMaxWidth = 0 );	// 2002.11.24 Moca Add
+	void GetTransformFileNameFast( LPCWSTR, std::span<WCHAR>, HDC hDC, bool bFitMode = true, int cchMaxWidth = 0 );	// 2002.11.24 Moca Add
 	int TransformFileName_MakeCache( void );
 	static void GetFilePathFormat( std::wstring_view strSrc, LPWSTR pszDest, size_t nDestLen, std::wstring_view strFrom, std::wstring_view strTo );
 	static bool ExpandMetaToFolder( LPCWSTR, LPWSTR, int );
