@@ -31,7 +31,7 @@ bool operator == (const EditInfo& lhs, const EditInfo& rhs) noexcept {
 		&& lhs.m_bIsGrep == rhs.m_bIsGrep
 		&& 0 == wcsncmp(lhs.m_szGrepKey, rhs.m_szGrepKey, lhs.m_szGrepKey.capacity())
 		&& lhs.m_bIsDebug == rhs.m_bIsDebug
-		&& 0 == wcsncmp(lhs.m_szMarkLines, rhs.m_szMarkLines, int(std::size(lhs.m_szMarkLines)))
+		&& 0 == wcsncmp(lhs.m_szMarkLines, rhs.m_szMarkLines, lhs.m_szMarkLines.capacity())
 		&& lhs.m_nWindowSizeX == rhs.m_nWindowSizeX
 		&& lhs.m_nWindowSizeY == rhs.m_nWindowSizeY
 		&& lhs.m_nWindowOriginX == rhs.m_nWindowOriginX
@@ -128,7 +128,7 @@ TEST(EditInfo, operatorNotEqual)
 	ASSERT_NE(value, other);
 	value.m_bIsDebug = other.m_bIsDebug;
 
-	wcscpy_s(value.m_szMarkLines, L"test");
+	value.m_szMarkLines = L"test";
 	ASSERT_NE(value, other);
 	value.m_szMarkLines[0] = 0;
 

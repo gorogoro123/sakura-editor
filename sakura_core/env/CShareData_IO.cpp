@@ -208,10 +208,10 @@ void CShareData_IO::ShareData_IO_Mru( CDataProfile& cProfile )
 		auto_snprintf_s( szKeyName, std::size(szKeyName), L"MRU[%02d].szPath", i );
 		cProfile.IOProfileData(pszSecName, szKeyName, pfiWork->m_szPath);
 		auto_snprintf_s( szKeyName, std::size(szKeyName), L"MRU[%02d].szMark2", i );
-		if( !cProfile.IOProfileData(pszSecName, szKeyName, StringBufferW(pfiWork->m_szMarkLines)) ){
+		if( !cProfile.IOProfileData(pszSecName, szKeyName, pfiWork->m_szMarkLines) ){
 			if( cProfile.IsReadingMode() ){
 				auto_snprintf_s( szKeyName, std::size(szKeyName), L"MRU[%02d].szMark", i ); // 旧ver互換
-				cProfile.IOProfileData(pszSecName, szKeyName, StringBufferW(pfiWork->m_szMarkLines));
+				cProfile.IOProfileData(pszSecName, szKeyName, pfiWork->m_szMarkLines);
 			}
 		}
 		auto_snprintf_s( szKeyName, std::size(szKeyName), L"MRU[%02d].nType", i );
@@ -228,8 +228,6 @@ void CShareData_IO::ShareData_IO_Mru( CDataProfile& cProfile )
 		fiInit.m_nViewLeftCol = CLayoutInt(0);
 		fiInit.m_nViewTopLine = CLayoutInt(0);
 		fiInit.m_ptCursor.Set(CLogicInt(0), CLogicInt(0));
-		fiInit.m_szPath[0] = L'\0';
-		fiInit.m_szMarkLines[0] = L'\0';	// 2002.01.16 hor
 		for( ; i < MAX_MRU; ++i){
 			pShare->m_sHistory.m_fiMRUArr[i] = fiInit;
 			pShare->m_sHistory.m_bMRUArrFavorite[i] = false;	//お気に入り	//@@@ 2003.04.08 MIK
