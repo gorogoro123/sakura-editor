@@ -213,7 +213,7 @@ INT_PTR CPropTypesScreen::DispatchEvent(
 		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_TYPENAME        ), m_Types.m_szTypeName.capacity() - 1 );
 		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_TYPEEXTS        ), m_Types.m_szTypeExts.capacity() - 1 );
 		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_INDENTCHARS     ), m_Types.m_szIndentChars.capacity() - 1 );
-		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_TABVIEWSTRING   ), int(std::size(m_Types.m_szTabViewString)) - 1 );
+		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_TABVIEWSTRING   ), m_Types.m_szTabViewString.capacity() - 1 );
 		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_OUTLINERULEFILE ), m_Types.m_szOutlineRuleFilename.capacity() - 1 );	//	Oct. 5, 2002 genta 画面上でも入力制限
 
 		if( 0 == m_Types.m_nIdx ){
@@ -503,7 +503,7 @@ void CPropTypesScreen::SetData( HWND hwndDlg )
 		::SetDlgItemInt( hwndDlg, IDC_EDIT_CHARSPACE, m_Types.m_nColumnSpace, FALSE );			// 文字の間隔
 		::SetDlgItemInt( hwndDlg, IDC_EDIT_LINESPACE, m_Types.m_nLineSpace, TRUE );			// 行の間隔
 		::SetDlgItemInt( hwndDlg, IDC_EDIT_TABSPACE, (Int)m_Types.m_nTabSpace, FALSE );			// TAB幅	//	Sep. 22, 2002 genta
-		ApiWrap::DlgItem_SetText( hwndDlg, IDC_EDIT_TABVIEWSTRING, m_Types.m_szTabViewString );		// TAB表示(8文字)
+		ApiWrap::DlgItem_SetText( hwndDlg, IDC_EDIT_TABVIEWSTRING, m_Types.m_szTabViewString.c_str() );		// TAB表示(8文字)
 		::EnableWindow( ::GetDlgItem( hwndDlg, IDC_EDIT_TABVIEWSTRING ), m_Types.m_bTabArrow == TABARROW_STRING );	// Mar. 31, 2003 genta 矢印表示のON/OFFをTAB文字列設定に連動させる
 
 		// 矢印表示	//@@@ 2003.03.26 MIK
@@ -697,7 +697,7 @@ int CPropTypesScreen::GetData( HWND hwndDlg )
 		/* TAB表示文字列 */
 		WCHAR szTab[8+1]; /* +1. happy */
 		ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_TABVIEWSTRING, szTab, int(std::size(szTab)) );
-		wcscpy( m_Types.m_szTabViewString, L"^       " );
+		m_Types.m_szTabViewString = L"^       ";
 		for( int i = 0; i < 8; i++ ){
 			if( !WCODE::IsTabAvailableCode(szTab[i]) )break;
 			m_Types.m_szTabViewString[i] = szTab[i];
