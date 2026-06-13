@@ -734,18 +734,21 @@ bool CMacro::HandleCommand(
 		//		0x02	標準出力をキャレット位置に	//	2007.01.02 maru 引数の拡張
 		//		0x04	編集中ファイルを標準入力へ	//	2007.01.02 maru 引数の拡張
 		//	Argument[2]:カレントディレクトリ
-		if( Argument[0] == nullptr ){
-			::MYMESSAGEBOX(
-				nullptr,
-				MB_OK | MB_ICONSTOP | MB_TOPMOST,
-				EXEC_ERROR_TITLE,
-				LS(STR_ERR_DLGMACRO07)
-			);
-			return false;
-		}
 		{
+			if( Argument[0] == nullptr ){
+				::MYMESSAGEBOX(
+					nullptr,
+					MB_OK | MB_ICONSTOP | MB_TOPMOST,
+					EXEC_ERROR_TITLE,
+					LS(STR_ERR_DLGMACRO07)
+				);
+				return false;
+			}
 			int nOpt = wtoi_def(Argument[1], 0);
-			const wchar_t* pDir = wtow_def(Argument[2], nullptr);
+			const wchar_t* pDir = nullptr;
+			if (ArgSize > 2) {
+				pDir = wtow_def(Argument[2], nullptr);
+			}
 			pcEditView->GetCommander().HandleCommand( Index, true, (LPARAM)Argument[0], nOpt, (LPARAM)pDir, 0 );
 		}
 		break;
