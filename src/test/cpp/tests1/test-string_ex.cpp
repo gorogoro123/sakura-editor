@@ -36,31 +36,6 @@ TEST(string_ex, auto_strchrW)
 }
 
 /*!
-	@brief 旧コード互換用。使わないでください。
-
-	代替関数は snprintf_s か auto_snprintf_s です。
-	可能であれば 非Unicodeな文字列 を扱うコードを書かないでください。
- */
-TEST(string_ex, auto_sprintfA)
-{
-	char szText[_MAX_PATH];
-	auto_sprintf(szText, "%s-%d", "test", 101);
-	ASSERT_STREQ("test-101", szText);
-}
-
-/*!
-	@brief 旧コード互換用。使わないでください。
-
-	代替関数は strprintf か _swnprintf_s か auto_snprintf_s です。
- */
-TEST(string_ex, auto_sprintfW)
-{
-	wchar_t szText[_MAX_PATH];
-	auto_sprintf(szText, L"%s-%d", L"test", 101);
-	ASSERT_STREQ(L"test-101", szText);
-}
-
-/*!
 	@brief 独自定義のフォーマット関数。
 
 	C関数をC++に移植する作業を簡便化する目的で作成。
