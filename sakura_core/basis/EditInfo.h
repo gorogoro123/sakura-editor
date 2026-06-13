@@ -47,7 +47,7 @@ struct EditInfo {
 	bool		m_bIsDebug = false;						//!< デバッグモニタモード (アウトプットウィンドウ) か
 
 	//ブックマーク情報
-	wchar_t		m_szMarkLines[MAX_MARKLINES_LEN + 1] = {};	//!< ブックマークの物理行リスト
+	StaticString<MAX_MARKLINES_LEN>		m_szMarkLines;	//!< ブックマークの物理行リスト
 
 	//ウィンドウ
 	int			m_nWindowSizeX = -1;					//!< ウィンドウ  幅(ピクセル数)
