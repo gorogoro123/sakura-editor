@@ -571,15 +571,14 @@ bool CViewCommander::Command_TagsMake( )
 
 	//	To Here Dec. 28, 2002 MIK
 
-	WCHAR	options[1024];
-	wcscpy( options, L"--excmd=n" );	//デフォルトのオプション
-	if( cDlgTagsMake.m_nTagsOpt & 0x0001 ) wcscat( options, L" -R" );	//サブフォルダーも対象
+	std::wstring options = L"--excmd=n";	//デフォルトのオプション
+	if( cDlgTagsMake.m_nTagsOpt & 0x0001 ) options += L" -R";	//サブフォルダーも対象
 	if( cDlgTagsMake.m_szTagsCmdLine[0] != L'\0' )	//個別指定のコマンドライン
 	{
-		wcscat( options, L" " );
-		wcscat( options, cDlgTagsMake.m_szTagsCmdLine );
+		options += L" ";
+		options += cDlgTagsMake.m_szTagsCmdLine;
 	}
-	wcscat( options, L" *" );	//配下のすべてのファイル
+	options += L" *";	//配下のすべてのファイル
 
 	//コマンドライン文字列作成(MAX:1024)
 	{
@@ -589,8 +588,8 @@ bool CViewCommander::Command_TagsMake( )
 		//	2006.08.04 genta add /D to disable autorun
 		auto_snprintf_s( cmdline, std::size(cmdline), L"\"%s\\cmd.exe\" /D /C \"\"%s\" %s\"",
 			szCmdDir,
-			szExePath,		//ctags.exe
-			options			//ctagsオプション
+			szExePath.c_str(),	//ctags.exe
+			options.c_str()		//ctagsオプション
 		);
 	}
 
