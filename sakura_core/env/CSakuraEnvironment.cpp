@@ -198,7 +198,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, wchar_t* pszB
 				met.cbSize = CCSIZEOF_STRUCT(NONCLIENTMETRICS, lfMessageFont);
 				::SystemParametersInfo(SPI_GETNONCLIENTMETRICS, met.cbSize, &met, 0);
 				CDCFont dcFont(met.lfCaptionFont, GetMainWindow()->GetHwnd());
-				CFileNameManager::getInstance()->GetTransformFileNameFast( pcDoc->m_cDocFile.GetFilePath(), szText, 1023, dcFont.GetHDC(), true );
+				CFileNameManager::getInstance()->GetTransformFileNameFast( pcDoc->m_cDocFile.GetFilePath(), szText, dcFont.GetHDC(), true );
 				q = wcs_pushW( q, q_max - q, szText);
 				++p;
 			}
@@ -246,7 +246,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, wchar_t* pszB
 				met.cbSize = CCSIZEOF_STRUCT(NONCLIENTMETRICS, lfMessageFont);
 				::SystemParametersInfo(SPI_GETNONCLIENTMETRICS, met.cbSize, &met, 0);
 				CDCFont dcFont(met.lfCaptionFont, GetMainWindow()->GetHwnd());
-				CFileNameManager::getInstance()->GetTransformFileNameFast( buff, szText, int(std::size(szText))-1, dcFont.GetHDC(), true );
+				CFileNameManager::getInstance()->GetTransformFileNameFast( buff, szText, dcFont.GetHDC(), true );
 				q = wcs_pushW( q, q_max - q, szText);
 			}
 			++p;

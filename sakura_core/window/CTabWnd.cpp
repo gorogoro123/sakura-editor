@@ -2755,7 +2755,7 @@ void CTabWnd::GetTabName( const EditNode* pEditNode, BOOL bFull, BOOL bDupamp, s
 		HDC hdc = ::GetDC(m_hwndTab);
 		HFONT hFontOld = (HFONT)SelectObject(hdc, m_hFont);
 		std::vector<WCHAR> szDest(_MAX_PATH);
-		CFileNameManager::getInstance()->GetTransformFileNameFast( pEditNode->m_szFilePath, szDest.data(), (int)szDest.size(), hdc, false );
+		CFileNameManager::getInstance()->GetTransformFileNameFast( pEditNode->m_szFilePath, szDest, hdc, false );
 		szText = szDest.data();
 		SelectObject(hdc, hFontOld);
 		::ReleaseDC(m_hwndTab, hdc);

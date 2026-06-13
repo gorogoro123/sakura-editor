@@ -373,7 +373,7 @@ void CDlgFileTree::SetDataInit()
 		const int xWidth = calc.GetTextWidth(L"x");
 		const int ctrlWidth = rc.right - rc.left;
 		int nMaxCch = ctrlWidth / xWidth;
-		CFileNameManager::getInstance()->GetTransformFileNameFast(pFile, szFilePath, int(std::size(szFilePath)), calc.GetDC(), true, nMaxCch);
+		CFileNameManager::getInstance()->GetTransformFileNameFast(pFile, szFilePath, calc.GetDC(), true, nMaxCch);
 		::swprintf_s(szMsg, LS(STR_FILETREE_FROM_FILE), szFilePath);
 		::SetWindowText(GetItemHwnd(IDC_STATIC_SETTFING_FROM), szMsg);
 		bEnableDefIni = FALSE;
