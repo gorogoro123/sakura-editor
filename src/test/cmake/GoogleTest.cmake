@@ -41,6 +41,7 @@ add_custom_command(
     -DBUILD_GMOCK=ON
     -Dgtest_build_tests=OFF
     -Dgtest_build_samples=OFF
+    -Dgtest_disable_pthreads=ON
   DEPENDS fetch_gtest_source_files
   COMMENT "Configure GoogleTest Library"
 )
