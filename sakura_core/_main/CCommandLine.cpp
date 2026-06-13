@@ -216,13 +216,13 @@ void CCommandLine::ParseCommandLine( LPCWSTR pszCmdLineSrc, bool bResponse )
 {
 	MY_RUNNINGTIMER( cRunningTimer, L"CCommandLine::Parse" );
 
-	WCHAR	szPath[_MAX_PATH];
+	SFilePath szPath;
 	bool	bFind = false;				// ファイル名発見フラグ
 	bool	bParseOptDisabled = false;	// 2007.09.09 genta オプション解析を行わなず，ファイル名として扱う
 	int		nPos;
 	int		i = 0;
 	if( pszCmdLineSrc[0] != L'-' ){
-		for( i = 0; i < int(std::size(szPath)); ++i ){
+		for( i = 0; i < szPath.capacity(); ++i ){
 			if( pszCmdLineSrc[i] == L' ' || pszCmdLineSrc[i] == L'\0' ){
 				/* ファイルの存在をチェック */
 				szPath[i] = L'\0';	// 終端文字
@@ -273,7 +273,7 @@ void CCommandLine::ParseCommandLine( LPCWSTR pszCmdLineSrc, bool bResponse )
 				if( len > 0 ){
 					cmWork.SetString( &pszToken[1], len - ( pszToken[len] == L'"' ? 1 : 0 ));
 					cmWork.Replace( L"\"\"", L"\"" );
-					if( STRUNCATE == ::wcsncpy_s( szPath, cmWork.GetStringPtr(), _TRUNCATE ) ){
+					if( STRUNCATE == ::wcsncpy_s( szPath.data(), szPath.capacity(), cmWork.GetStringPtr(), _TRUNCATE)) {
 						std::wstring msg;
 						// "%ls\nというファイルを開けません。\nファイルのパスが長すぎます。"
 						strprintf( msg, LS(STR_ERR_FILEPATH_TOO_LONG), cmWork.GetStringPtr() );
@@ -287,7 +287,7 @@ void CCommandLine::ParseCommandLine( LPCWSTR pszCmdLineSrc, bool bResponse )
 				}
 			}
 			else{
-				if( STRUNCATE == ::wcsncpy_s( szPath, pszToken, _TRUNCATE ) ){
+				if( STRUNCATE == ::wcsncpy_s( szPath.data(), szPath.capacity(), pszToken, _TRUNCATE)) {
 					std::wstring msg;
 					// "%ls\nというファイルを開けません。\nファイルのパスが長すぎます。"
 					strprintf( msg, LS(STR_ERR_FILEPATH_TOO_LONG), pszToken );
@@ -300,14 +300,15 @@ void CCommandLine::ParseCommandLine( LPCWSTR pszCmdLineSrc, bool bResponse )
 			// Nov. 11, 2005 susu
 			// 不正なファイル名のままだとファイル保存時ダイアログが出なくなるので
 			// 簡単なファイルチェックを行うように修正
-			if (wcsncmp_literal(szPath, L"file:///")==0) {
-				wcscpy(szPath, &(szPath[8]));
+			constexpr std::wstring_view FILE_URL_PREFIX = L"file:///";
+			if (wcsncmp(szPath.c_str(), FILE_URL_PREFIX.data(), FILE_URL_PREFIX.length())==0) {
+				szPath = szPath.c_str() + FILE_URL_PREFIX.length();
 			}
 
-			if ( IsInvalidFilenameChars( szPath ) ){
+			if ( IsInvalidFilenameChars( szPath.c_str() ) ){
 				std::wstring msg;
 				// "%ls\r\n上記のファイル名は不正です。ファイル名に \\ / : * ? "" < > | の文字は使えません。 "
-				strprintf( msg, LS(STR_CMDLINE_PARSECMD1), szPath );
+				strprintf( msg, LS(STR_CMDLINE_PARSECMD1), szPath.c_str() );
 				const WCHAR* msg_str = msg.c_str();
 				MessageBox( nullptr, msg_str, L"FileNameError", MB_OK);
 				szPath[0] = L'\0';
@@ -319,7 +320,7 @@ void CCommandLine::ParseCommandLine( LPCWSTR pszCmdLineSrc, bool bResponse )
 					m_fi.m_szPath = szPath;
 				}
 				else {
-					m_vFiles.push_back( szPath );
+					m_vFiles.emplace_back( szPath );
 				}
 			}
 		}

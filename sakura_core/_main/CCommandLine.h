@@ -103,5 +103,5 @@ private:
 	CNativeW	m_cmMacro;					//! [out] マクロファイル名／マクロ文
 	CNativeW	m_cmMacroType;				//! [out] マクロ種別
 	CNativeW	m_cmProfile = {L""};		//! プロファイル名
-	std::vector<std::wstring> m_vFiles;	//!< ファイル名(複数)
+	std::vector<SFilePath> m_vFiles;		//!< ファイル名(複数)
 };
