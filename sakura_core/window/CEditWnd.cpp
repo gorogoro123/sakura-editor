@@ -124,7 +124,6 @@ static void ShowCodeBox( HWND hWnd, CEditDoc* pcEditDoc )
 				szChar[nCharChars] = L'\0';
 				for( int i = 0; i < CODE_CODEMAX; i++ ){
 					if( i == CODE_SJIS || i == CODE_JIS || i == CODE_EUC || i == CODE_LATIN1 || i == CODE_UNICODE || i == CODE_UTF8 || i == CODE_CESU8 ){
-						//auto_sprintf( szCaretChar, L"%04x", );
 						//任意の文字コードからUnicodeへ変換する		2008/6/9 Uchi
 						CCodeBase* pCode = CCodeFactory::CreateCodeBase((ECodeType)i, false);
 						EConvertResult ret = pCode->UnicodeToHex(&pLine[nIdx], nLineLen - nIdx, szCode[i], &sStatusbar);
@@ -147,7 +146,7 @@ static void ShowCodeBox( HWND hWnd, CEditDoc* pcEditDoc )
 				}
 
 				// メッセージボックス表示
-				auto_sprintf(szMsg, LS(STR_ERR_DLGEDITWND13),
+				auto_snprintf_s(szMsg, std::size(szMsg), LS(STR_ERR_DLGEDITWND13),
 					szChar, szCodeCP, szCode[CODE_SJIS], szCode[CODE_JIS], szCode[CODE_EUC], szCode[CODE_LATIN1], szCode[CODE_UNICODE], szCode[CODE_UTF8], szCode[CODE_CESU8]);
 				::MessageBox( hWnd, szMsg, GSTR_APPNAME, MB_OK );
 			}
@@ -2414,28 +2413,33 @@ void CEditWnd::InitMenu_Function(HMENU hMenu, EFunctionCode eFunc, const wchar_t
 				else {
 					WCHAR szBuf[60];
 					pszLabel = szBuf;
-					if( mode == CEditView::TGWRAP_FULL ){
-						auto_sprintf(
+					switch (mode){
+					case CEditView::TGWRAP_FULL:
+						auto_snprintf_s(
 							szBuf,
+							std::size(szBuf),
 							LS( STR_WRAP_WIDTH_FULL ),	//L"折り返し桁数: %d 桁（最大）",
 							MAXLINEKETAS
 						);
-					}
-					else if( mode == CEditView::TGWRAP_WINDOW ){
-						auto_sprintf(
+						break;
+					case CEditView::TGWRAP_WINDOW:
+						auto_snprintf_s(
 							szBuf,
+							std::size(szBuf),
 							LS( STR_WRAP_WIDTH_WINDOW ),	//L"折り返し桁数: %d 桁（右端）",
 							int((Int)GetActiveView().ViewColNumToWrapColNum(
 								GetActiveView().GetTextArea().m_nViewColNum
 							))
 						);
-					}
-					else {
-						auto_sprintf(
+						break;
+					default:
+						auto_snprintf_s(
 							szBuf,
+							std::size(szBuf),
 							LS( STR_WRAP_WIDTH_FIXED ),	//L"折り返し桁数: %d 桁（指定）",
 							int((Int)GetDocument()->m_cDocType.GetDocumentAttribute().m_nMaxLineKetas)
 						);
+						break;
 					}
 					m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING, F_WRAPWINDOWWIDTH , pszLabel, pszKey );
 				}
