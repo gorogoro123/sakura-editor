@@ -212,7 +212,7 @@ INT_PTR CPropTypesScreen::DispatchEvent(
 		// エディットコントロールの入力文字数制限
 		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_TYPENAME        ), m_Types.m_szTypeName.capacity() - 1 );
 		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_TYPEEXTS        ), m_Types.m_szTypeExts.capacity() - 1 );
-		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_INDENTCHARS     ), int(std::size(m_Types.m_szIndentChars)) - 1 );
+		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_INDENTCHARS     ), m_Types.m_szIndentChars.capacity() - 1 );
 		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_TABVIEWSTRING   ), int(std::size(m_Types.m_szTabViewString)) - 1 );
 		ApiWrap::EditCtl_LimitText( GetDlgItem( hwndDlg, IDC_EDIT_OUTLINERULEFILE ), m_Types.m_szOutlineRuleFilename.capacity() - 1 );	//	Oct. 5, 2002 genta 画面上でも入力制限
 
@@ -559,7 +559,7 @@ void CPropTypesScreen::SetData( HWND hwndDlg )
 		ApiWrap::Combo_SetCurSel( hwndCombo, nSelPos );
 
 		// その他のインデント対象文字
-		ApiWrap::DlgItem_SetText( hwndDlg, IDC_EDIT_INDENTCHARS, m_Types.m_szIndentChars );
+		ApiWrap::DlgItem_SetText( hwndDlg, IDC_EDIT_INDENTCHARS, m_Types.m_szIndentChars.c_str() );
 
 		//折り返し行インデント	//	Oct. 1, 2002 genta コンボボックスに変更
 		hwndCombo = ::GetDlgItem( hwndDlg, IDC_COMBO_INDENTLAYOUT );
@@ -733,7 +733,7 @@ int CPropTypesScreen::GetData( HWND hwndDlg )
 		}
 
 		/* その他のインデント対象文字 */
-		ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_INDENTCHARS, m_Types.m_szIndentChars, int(std::size(m_Types.m_szIndentChars)) );
+		ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_INDENTCHARS, m_Types.m_szIndentChars.data(), m_Types.m_szIndentChars.capacity() );
 
 		// 折り返し行インデント	//	Oct. 1, 2002 genta コンボボックスに変更
 		hwndCombo = ::GetDlgItem( hwndDlg, IDC_COMBO_INDENTLAYOUT );

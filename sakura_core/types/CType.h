@@ -136,7 +136,7 @@ struct STypeConfig{
 	bool				m_bStringLineOnly;				//!< 文字列は行内のみ
 	bool				m_bStringEndLine;				//!< (終了文字列がない場合)行末まで色分け
 	int					m_nHeredocType;
-	wchar_t				m_szIndentChars[64];			//!< その他のインデント対象文字
+	StaticString<64>	m_szIndentChars;				//!< その他のインデント対象文字
 
 	int					m_nColorInfoArrNum;				//!< 色設定配列の有効数
 	ColorInfo			m_ColorInfoArr[64];				//!< 色設定配列
