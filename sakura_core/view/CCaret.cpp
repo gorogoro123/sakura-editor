@@ -754,7 +754,6 @@ void CCaret::ShowCaretPosInfo()
 		CLogicInt nIdx = GetCaretLogicPos().GetX2() - pcLayout->GetLogicOffset();
 		if( nIdx < nLineLen ){
 			if( nIdx < nLineLen - (pcLayout->GetLayoutEol().GetLen()?1:0) ){
-				//auto_sprintf( szCaretChar, L"%04x", );
 				//任意の文字コードからUnicodeへ変換する		2008/6/9 Uchi
 				CCodeBase* pCode = CCodeFactory::CreateCodeBase(m_pEditDoc->GetDocumentEncoding(), false);
 				CommonSetting_Statusbar* psStatusbar = &GetDllShareData().m_Common.m_sStatusbar;
@@ -785,13 +784,15 @@ void CCaret::ShowCaretPosInfo()
 		{	// メッセージの左側文字列（「行:列」を除いた表示）
 			nLen = int(wcslen(pszCodeName) + wcslen(szEolMode) + wcslen(szCaretChar));
 			// これは %s(%s)%6s%s%s 等になる。%6ts表記は使えないので注意
-			auto_sprintf(
+			auto_snprintf_s(
 				szFormat,
+				std::size(szFormat),
 				L"%%s(%%s)%%%ds%%s%%s",	// 「キャレット位置の文字情報」を右詰で配置（足りないときは左詰になって右に伸びる）
 				(nLen < 15)? 15 - nLen: 1
 			);
-			auto_sprintf(
+			auto_snprintf_s(
 				szLeft,
+				std::size(szLeft),
 				szFormat,
 				pszCodeName,
 				szEolMode,
@@ -804,25 +805,29 @@ void CCaret::ShowCaretPosInfo()
 		nLen = int(MENUBAR_MESSAGE_MAX_LEN - wcslen(szLeft));	// 右側に残っている文字長
 		if( nLen > 0 ){	// メッセージの右側文字列（「行:列」表示）
 			WCHAR szRowCol[32];
-			auto_sprintf(
+			auto_snprintf_s(
 				szRowCol,
+				std::size(szRowCol),
 				L"%d:%-4d",	// 「列」は最小幅を指定して左寄せ（足りないときは右に伸びる）
 				ptCaret.y,
 				ptCaret.x
 			);
-			auto_sprintf(
+			auto_snprintf_s(
 				szFormat,
+				std::size(szFormat),
 				L"%%%ds",	// 「行:列」を右詰で配置（足りないときは左詰になって右に伸びる）
 				nLen
 			);
-			auto_sprintf(
+			auto_snprintf_s(
 				szRight,
+				std::size(szRight),
 				szFormat,
 				szRowCol
 			);
 		}
-		auto_sprintf(
+		auto_snprintf_s(
 			szText,
+			std::size(szText),
 			L"%s%s",
 			szLeft,
 			szRight
@@ -832,7 +837,7 @@ void CCaret::ShowCaretPosInfo()
 	// ステータスバーに状態を書き出す
 	else{
 		WCHAR szRowCol[64];
-		auto_sprintf( szRowCol, LS( STR_STATUS_ROW_COL ), ptCaret.y, ptCaret.x );	//Oct. 30, 2000 JEPRO 千万行も要らん
+		auto_snprintf_s( szRowCol, std::size(szRowCol),LS( STR_STATUS_ROW_COL ), ptCaret.y, ptCaret.x );	//Oct. 30, 2000 JEPRO 千万行も要らん
 
 		WCHAR szInsMode[16];
 		if( m_pEditView->IsInsMode() /* Oct. 2, 2005 genta */ ){
