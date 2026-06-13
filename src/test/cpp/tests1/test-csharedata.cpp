@@ -86,7 +86,7 @@ MATCHER_P(EqSTypeConfig, expected, "Checks if STypeConfig is equal to the expect
 	EXPECT_THAT(actual.m_nLineSpace, expected.m_nLineSpace);
 	EXPECT_THAT(actual.m_nTabSpace, expected.m_nTabSpace);
 	EXPECT_THAT(actual.m_bTabArrow, expected.m_bTabArrow);
-	EXPECT_THAT(actual.m_szTabViewString, StrEq(expected.m_szTabViewString));
+	EXPECT_THAT(actual.m_szTabViewString, StrEq(expected.m_szTabViewString.c_str()));
 	EXPECT_THAT(actual.m_bInsSpace, expected.m_bInsSpace);
 	EXPECT_THAT(actual.m_nTsvMode, expected.m_nTsvMode);
 	for (size_t i = 0; i < std::size(actual.m_nKeyWordSetIdx); ++i) {

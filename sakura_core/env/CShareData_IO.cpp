@@ -1537,9 +1537,9 @@ void CShareData_IO::ShareData_IO_Type_One( CDataProfile& cProfile, STypeConfig& 
 	if( types.m_id < 0 ){
 		types.m_id *= -1;
 	}
-	cProfile.IOProfileData(pszSecName, L"szTabViewString", StringBufferW(types.m_szTabViewString));
+	cProfile.IOProfileData(pszSecName, L"szTabViewString", types.m_szTabViewString);
 	cProfile.IOProfileData(pszSecName, L"bTabArrow", types.m_bTabArrow );	//@@@ 2003.03.26 MIK
-	cProfile.IOProfileData( pszSecName, L"bInsSpace"			, types.m_bInsSpace );	// 2001.12.03 hor
+	cProfile.IOProfileData( pszSecName, L"bInsSpace", types.m_bInsSpace );	// 2001.12.03 hor
 
 	cProfile.IOProfileData( pszSecName, L"nTextWrapMethod", types.m_nTextWrapMethod );		// 2008.05.30 nasukoji
 
