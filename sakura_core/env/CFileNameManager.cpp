@@ -34,8 +34,7 @@
 */
 LPWSTR CFileNameManager::GetTransformFileNameFast( LPCWSTR pszSrc, LPWSTR pszDest, int nDestLen, HDC hDC, bool bFitMode, int cchMaxWidth )
 {
-	int i;
-	WCHAR szBuf[_MAX_PATH + 1];
+	SFilePath szBuf;
 
 	if( -1 == m_nTransformFileNameCount ){
 		TransformFileName_MakeCache();
@@ -55,15 +54,15 @@ LPWSTR CFileNameManager::GetTransformFileNameFast( LPCWSTR pszSrc, LPWSTR pszDes
 			m_szTransformFileNameFromExp[0],
 			m_pShareData->m_Common.m_sFileName.m_szTransformFileNameTo[m_nTransformFileNameOrgId[0]]
 		);
-		for( i = 1; i < m_nTransformFileNameCount; i++ ){
-			wcscpy( szBuf, pszDest );
-			GetFilePathFormat( szBuf, pszDest, nDestLen,
+		for( int i = 1; i < m_nTransformFileNameCount; i++ ){
+			szBuf = pszDest;
+			GetFilePathFormat( szBuf.c_str(), pszDest, nDestLen,
 				m_szTransformFileNameFromExp[i],
 				m_pShareData->m_Common.m_sFileName.m_szTransformFileNameTo[m_nTransformFileNameOrgId[i]] );
 		}
 		if( nPxWidth != -1 ){
-			wcscpy( szBuf, pszDest );
-			GetShortViewPath( pszDest, nDestLen, szBuf, hDC, nPxWidth, bFitMode );
+			szBuf = pszDest;
+			GetShortViewPath( pszDest, nDestLen, szBuf.c_str(), hDC, nPxWidth, bFitMode);
 		}
 	}else if( nPxWidth != -1 ){
 		GetShortViewPath( pszDest, nDestLen, pszSrc, hDC, nPxWidth, bFitMode );
