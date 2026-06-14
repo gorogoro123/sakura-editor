@@ -89,7 +89,7 @@ int CBackupAgent::MakeBackUp(
 
 	const CommonSetting_Backup& bup_setting = GetDllShareData().m_Common.m_sBackup;
 
-	WCHAR	szPath[_MAX_PATH]; // バックアップ先パス名
+	SFilePath szPath; // バックアップ先パス名
 	if( !FormatBackUpPath( szPath, target_file ) ){
 		int nMsgResult = ::TopConfirmMessage(
 			CEditWnd::getInstance()->GetHwnd(),
@@ -117,7 +117,7 @@ int CBackupAgent::MakeBackUp(
 				LS(STR_BACKUP_CONFORM_TITLE1),
 				LS(STR_BACKUP_CONFORM_MSG1),
 				target_file,
-				szPath
+				szPath.c_str()
 			);
 		}
 		else{	//@@@ 2001.12.11 add end MIK
@@ -127,7 +127,7 @@ int CBackupAgent::MakeBackUp(
 				LS(STR_BACKUP_CONFORM_TITLE2),
 				LS(STR_BACKUP_CONFORM_MSG2),
 				target_file,
-				szPath
+				szPath.c_str()
 			);	//Jul. 06, 2001 jepro [名前を付けて保存] の場合もあるのでメッセージを修正
 		}	//@@@ 2001.12.11 add MIK
 		//	Jun.  5, 2005 genta 戻り値変更
@@ -156,7 +156,7 @@ int CBackupAgent::MakeBackUp(
 		//	1. 該当ディレクトリ中のbackupファイルを1つずつ探す
 		for( i = 0; i <= 99; i++ ){	//	最大値に関わらず，99（2桁の最大値）まで探す
 			//	ファイル名をセット
-			auto_snprintf_s(szPath, std::size(szPath), L"%s%02d", base.c_str(), i);
+			auto_snprintf_s(szPath, szPath.capacity(), L"%s%02d", base.c_str(), i);
 
 			hFind = ::FindFirstFile( szPath, &fData);
 			if( hFind == INVALID_HANDLE_VALUE ){
@@ -177,10 +177,10 @@ int CBackupAgent::MakeBackUp(
 
 		for( ; i >= boundary; --i ){
 			//	ファイル名をセット
-			auto_snprintf_s(szPath, std::size(szPath), L"%s%02d", base.c_str(), i);
+			auto_snprintf_s(szPath, szPath.capacity(), L"%s%02d", base.c_str(), i);
 
 			if( ::DeleteFile( szPath ) == 0 ){
-				::MessageBox( CEditWnd::getInstance()->GetHwnd(), szPath, LS(STR_BACKUP_ERR_DELETE), MB_OK );
+				::MessageBox( CEditWnd::getInstance()->GetHwnd(), szPath.c_str(), LS(STR_BACKUP_ERR_DELETE), MB_OK );
 				//	Jun.  5, 2005 genta 戻り値変更
 				//	失敗しても保存は継続
 				return 0;
@@ -192,18 +192,18 @@ int CBackupAgent::MakeBackUp(
 		//	この位置でiは存在するバックアップファイルの最大番号を表している．
 
 		//	3. そこから0番まではコピーしながら移動
-		WCHAR szNewPath[MAX_PATH];
+		SFilePath szNewPath;
 
 		for( ; i >= 0; --i ){
 			//	ファイル名をセット
-			auto_snprintf_s(szPath, std::size(szPath), L"%s%02d", base.c_str(), i);
-			auto_snprintf_s(szNewPath, std::size(szNewPath), L"%s%02d", base.c_str(), i+1);
+			auto_snprintf_s(szPath, szPath.capacity(), L"%s%02d", base.c_str(), i);
+			auto_snprintf_s(szNewPath, szNewPath.capacity(), L"%s%02d", base.c_str(), i+1);
 
 			//	ファイルの移動
-			if( ::MoveFile( szPath, szNewPath ) == 0 ){
+			if( ::MoveFile( szPath.c_str(), szNewPath.c_str() ) == 0 ){
 				//	失敗した場合
 				//	後で考える
-				::MessageBox( CEditWnd::getInstance()->GetHwnd(), szPath, LS(STR_BACKUP_ERR_MOVE), MB_OK );
+				::MessageBox( CEditWnd::getInstance()->GetHwnd(), szPath.c_str(), LS(STR_BACKUP_ERR_MOVE), MB_OK );
 				//	Jun.  5, 2005 genta 戻り値変更
 				//	失敗しても保存は継続
 				return 0;
@@ -232,7 +232,7 @@ int CBackupAgent::MakeBackUp(
 	}
 	::FindClose( hFind );
 
-	if( ::CopyFile( target_file, szPath, FALSE ) ){
+	if( ::CopyFile( target_file, szPath.c_str(), FALSE ) ){
 		/* 正常終了 */
 		//@@@ 2001.12.11 start MIK
 		if( bup_setting.m_bBackUpDustBox && !dustflag ){	//@@@ 2002.03.23 ネットワーク・リムーバブルドライブでない
