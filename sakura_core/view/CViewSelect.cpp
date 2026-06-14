@@ -4,7 +4,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#include <climits>
 #include "CViewSelect.h"
 #include "CEditView.h"
 #include "doc/CEditDoc.h"
@@ -671,7 +670,7 @@ void CViewSelect::PrintSelectionInfoMsg() const
 			select_col = -select_col;
 		}
 		int select_col_keta = (Int)select_col / (Int)pView->GetTextMetrics().GetLayoutXDefault();
-		auto_sprintf( msg, L"%d col (%dpx) * %d lines selected.",
+		auto_snprintf_s( msg, std::size(msg), L"%d col (%dpx) * %d lines selected.",
 			select_col_keta, select_col, select_line );
 	}
 	else {
@@ -815,14 +814,14 @@ void CViewSelect::PrintSelectionInfoMsg() const
 		}
 
 #ifdef _DEBUG
-		auto_sprintf( msg, L"%d %s (%d lines) selected. [%d:%d]-[%d:%d]",
+		auto_snprintf_s( msg, std::size(msg), L"%d %s (%d lines) selected. [%d:%d]-[%d:%d]",
 			select_sum,
 			( bCountByByte ? L"bytes" : L"chars" ),
 			select_line,
 			m_sSelect.GetFrom().x, m_sSelect.GetFrom().y,
 			m_sSelect.GetTo().x, m_sSelect.GetTo().y );
 #else
-		auto_sprintf( msg, L"%d %s (%d lines) selected.", select_sum, ( bCountByByte ? L"bytes" : L"chars" ), select_line );
+		auto_snprintf_s( msg, std::size(msg), L"%d %s (%d lines) selected.", select_sum, ( bCountByByte ? L"bytes" : L"chars" ), select_line );
 #endif
 	}
 	const_cast<CEditView*>(pView)->GetCaret().m_bClearStatus = false;
