@@ -321,6 +321,6 @@ public:
 	)
 	{
 		// std::span<WCHAR>型に変換して入出力する
-		return IOProfileData(sectionName, entryKey, std::span<WCHAR, N>{ szEntryValue });
+		return IOProfileData(sectionName, entryKey, std::span<WCHAR>{ szEntryValue });
 	}
 };
