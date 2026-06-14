@@ -88,8 +88,7 @@ void CDocOutline::MakeTopicList_txt( CFuncInfoArr* pcFuncInfoArr )
 	*/
 	const int nMaxStack = 32;	//	ネストの最深
 	int nDepth = 0;				//	いまのアイテムの深さを表す数値。
-	wchar_t pszStack[nMaxStack][32];
-	wchar_t szTitle[32];			//	一時領域
+	wchar_t szStack[nMaxStack][32] = {};
 	CLogicInt				nLineCount;
 	bool b278a = false;
 	for( nLineCount = CLogicInt(0); nLineCount <  m_pcDocRef->m_cDocLineMgr.GetLineCount(); ++nLineCount )
@@ -130,36 +129,36 @@ void CDocOutline::MakeTopicList_txt( CFuncInfoArr* pcFuncInfoArr )
 		}
 
 		//見出し種類の判別 -> szTitle
+		std::wstring szTitle;			//	一時領域
 		if( pLine[i] == L'(' ){
-			     if ( IsInRange(pLine[i + 1], L'0', L'9') ) wcscpy( szTitle, L"(0)" ); //数字
-			else if ( IsInRange(pLine[i + 1], L'A', L'Z') ) wcscpy( szTitle, L"(A)" ); //英大文字
-			else if ( IsInRange(pLine[i + 1], L'a', L'z') ) wcscpy( szTitle, L"(a)" ); //英小文字
+			     if ( IsInRange(pLine[i + 1], L'0', L'9') ) szTitle = L"(0)"; //数字
+			else if ( IsInRange(pLine[i + 1], L'A', L'Z') ) szTitle = L"(A)"; //英大文字
+			else if ( IsInRange(pLine[i + 1], L'a', L'z') ) szTitle = L"(a)"; //英小文字
 			else continue; //※「(」の次が英数字で無い場合、見出しとみなさない
 		}
-		else if( IsInRange(pLine[i], L'０', L'９') ) wcscpy( szTitle, L"０" ); // 全角数字
+		else if( IsInRange(pLine[i], L'０', L'９') ) szTitle =L"０"; // 全角数字
 		else if( IsInRange(pLine[i], L'①', L'⑳') || pLine[i] == L'\u24ea'
-			|| IsInRange(pLine[i], L'\u3251', L'\u325f') || IsInRange(pLine[i], L'\u32b1', L'\u32bf') ) wcscpy( szTitle, L"①" ); // ①～⑳ ○0　○21○35　○36○50
-		else if( IsInRange(pLine[i], L'Ⅰ', L'\u216f') ) wcscpy( szTitle, L"Ⅰ" ); // Ⅰ～Ⅹ　XIXIILCDM
-		else if( IsInRange(pLine[i], L'ⅰ', L'\u217f') ) wcscpy( szTitle, L"Ⅰ" ); // Ⅰ～Ⅹ　xixiilcdm
-		else if( IsInRange(pLine[i], L'\u2474', L'\u2487') ) wcscpy( szTitle, L"\u2474" ); // (1)-(20)
-		else if( IsInRange(pLine[i], L'\u2488', L'\u249b') ) wcscpy( szTitle, L"\u2488" ); // 1.-20.
-		else if( IsInRange(pLine[i], L'\u249c', L'\u24b5') ) wcscpy( szTitle, L"\u249c" ); // (a)-(z)
-		else if( IsInRange(pLine[i], L'\u24b6', L'\u24cf') ) wcscpy( szTitle, L"\u24b6" ); // ○A-○Z
-		else if( IsInRange(pLine[i], L'\u24d0', L'\u24e9') ) wcscpy( szTitle, L"\u24d0" ); // ○a-○z
+			|| IsInRange(pLine[i], L'\u3251', L'\u325f') || IsInRange(pLine[i], L'\u32b1', L'\u32bf') ) szTitle = L"①"; // ①～⑳ ○0　○21○35　○36○50
+		else if( IsInRange(pLine[i], L'Ⅰ', L'\u216f') ) szTitle = L"Ⅰ"; // Ⅰ～Ⅹ　XIXIILCDM
+		else if( IsInRange(pLine[i], L'ⅰ', L'\u217f') ) szTitle = L"Ⅰ"; // Ⅰ～Ⅹ　xixiilcdm
+		else if( IsInRange(pLine[i], L'\u2474', L'\u2487') ) szTitle = L"\u2474"; // (1)-(20)
+		else if( IsInRange(pLine[i], L'\u2488', L'\u249b') ) szTitle = L"\u2488"; // 1.-20.
+		else if( IsInRange(pLine[i], L'\u249c', L'\u24b5') ) szTitle = L"\u249c"; // (a)-(z)
+		else if( IsInRange(pLine[i], L'\u24b6', L'\u24cf') ) szTitle = L"\u24b6"; // ○A-○Z
+		else if( IsInRange(pLine[i], L'\u24d0', L'\u24e9') ) szTitle = L"\u24d0"; // ○a-○z
 		else if( IsInRange(pLine[i], L'\u24eb', L'\u24f4') ){ // ●11-●20
-			if(b278a){ wcscpy( szTitle, L"\u278a" ); }
-			else{ wcscpy( szTitle, L"\u2776" ); } }
-		else if( IsInRange(pLine[i], L'\u24f5', L'\u24fe') ) wcscpy( szTitle, L"\u24f5" ); // ◎1-◎10
-		else if( IsInRange(pLine[i], L'\u2776', L'\u277f') ) wcscpy( szTitle, L"\u2776" ); // ●1-●10
-		else if( IsInRange(pLine[i], L'\u2780', L'\u2789') ) wcscpy( szTitle, L"\u2780" ); // ○1-○10
-		else if( IsInRange(pLine[i], L'\u278a', L'\u2793') ){ wcscpy( szTitle, L"\u278a" ); b278a = true; } // ●1-●10(SANS-SERIF)
-		else if( IsInRange(pLine[i], L'\u3220', L'\u3229') ) wcscpy( szTitle, L"\ua3220" ); // (一)-(十)
-		else if( IsInRange(pLine[i], L'\u3280', L'\u3289') ) wcscpy( szTitle, L"\u3220" ); // ○一-○十
-		else if( IsInRange(pLine[i], L'\u32d0', L'\u32fe') ) wcscpy( szTitle, L"\u32d0" ); // ○ア-○ヲ
-		else if( wcschr(L"〇一二三四五六七八九十百零壱弐参伍", pLine[i]) ) wcscpy( szTitle, L"一" ); //漢数字
+			if(b278a){ szTitle = L"\u278a"; }
+			else{ szTitle = L"\u2776"; } }
+		else if( IsInRange(pLine[i], L'\u24f5', L'\u24fe') ) szTitle = L"\u24f5"; // ◎1-◎10
+		else if( IsInRange(pLine[i], L'\u2776', L'\u277f') ) szTitle = L"\u2776"; // ●1-●10
+		else if( IsInRange(pLine[i], L'\u2780', L'\u2789') ) szTitle = L"\u2780"; // ○1-○10
+		else if( IsInRange(pLine[i], L'\u278a', L'\u2793') ){ szTitle = L"\u278a"; b278a = true; } // ●1-●10(SANS-SERIF)
+		else if( IsInRange(pLine[i], L'\u3220', L'\u3229') ) szTitle = L"\u3220"; // (一)-(十)
+		else if( IsInRange(pLine[i], L'\u3280', L'\u3289') ) szTitle = L"\u3220"; // ○一-○十
+		else if( IsInRange(pLine[i], L'\u32d0', L'\u32fe') ) szTitle = L"\u32d0"; // ○ア-○ヲ
+		else if( wcschr(L"〇一二三四五六七八九十百零壱弐参伍", pLine[i]) ) szTitle = L"一"; //漢数字
 		else{
-			wcsncpy( szTitle, &pLine[i], nCharChars );	//	先頭文字をszTitleに保持。
-			szTitle[nCharChars] = L'\0';
+			szTitle.assign(&pLine[i], nCharChars );	//	先頭文字をszTitleに保持。
 		}
 
 		/*	「見出し記号」に含まれる文字で始まるか、
@@ -195,7 +194,7 @@ void CDocOutline::MakeTopicList_txt( CFuncInfoArr* pcFuncInfoArr )
 		int k;
 		bool bAppend = true;
 		for ( k = 0; k < nDepth; k++ ){
-			int nResult = wcscmp( pszStack[k], szTitle );
+			int nResult = wcscmp( szStack[k], szTitle.c_str() );
 			if ( nResult == 0 ){
 				break;
 			}
@@ -207,8 +206,8 @@ void CDocOutline::MakeTopicList_txt( CFuncInfoArr* pcFuncInfoArr )
 		}
 		else if( nMaxStack > k ){
 			//	いままでに同じ見出しが存在しなかった。
-			//	ので、pszStackにコピーしてAppendData.
-			wcscpy(pszStack[nDepth], szTitle);
+			//	ので、szStackにコピーしてAppendData.
+			wcsncpy_s(szStack[nDepth], std::size(szStack[nDepth]), szTitle.c_str(), _TRUNCATE);
 		}
 		else{
 			// 2002.11.03 Moca 最大値を超えるとバッファオーバーラン
