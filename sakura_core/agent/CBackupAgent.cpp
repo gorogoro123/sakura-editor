@@ -90,7 +90,7 @@ int CBackupAgent::MakeBackUp(
 	const CommonSetting_Backup& bup_setting = GetDllShareData().m_Common.m_sBackup;
 
 	WCHAR	szPath[_MAX_PATH]; // バックアップ先パス名
-	if( !FormatBackUpPath( szPath, int(std::size(szPath)), target_file ) ){
+	if( !FormatBackUpPath( szPath, target_file ) ){
 		int nMsgResult = ::TopConfirmMessage(
 			CEditWnd::getInstance()->GetHwnd(),
 			LS(STR_BACKUP_ERR_PATH_CRETE)
@@ -270,7 +270,6 @@ int CBackupAgent::MakeBackUp(
 	@author aroka
 
 	@param szNewPath [out] バックアップ先パス名
-	@param newPathCount [in] szNewPathのサイズ
 	@param target_file [in] バックアップ元パス名
 
 	@retval true  成功
@@ -283,8 +282,7 @@ int CBackupAgent::MakeBackUp(
 	@todo Advanced modeでの世代管理
 */
 bool CBackupAgent::FormatBackUpPath(
-	WCHAR*			szNewPath,
-	size_t 			newPathCount,
+	std::span<WCHAR>	szNewPath,
 	const WCHAR*	target_file
 )
 {
@@ -303,15 +301,15 @@ bool CBackupAgent::FormatBackUpPath(
 	  && (!bup_setting.m_bBackUpFolderRM || !IsLocalDrive( target_file ))) {	/* 指定フォルダーにバックアップを作成する */	// m_bBackUpFolderRM 追加	2010/5/27 Uchi
 		WCHAR selDir[_MAX_PATH];
 		CFileNameManager::ExpandMetaToFolder( bup_setting.m_szBackUpFolder, selDir, int(std::size(selDir)) );
-		if (GetFullPathName(selDir, _MAX_PATH, szNewPath, &psNext) == 0) {
+		if (GetFullPathName(selDir, static_cast<DWORD>(szNewPath.size()), szNewPath.data(), &psNext) == 0) {
 			// うまく取れなかった
-			wcscpy( szNewPath, selDir );
+			wcsncpy_s( szNewPath.data(), szNewPath.size(), selDir, _TRUNCATE );
 		}
 		/* フォルダーの最後が半角かつ'\\'でない場合は、付加する */
-		AddLastYenFromDirectoryPath( szNewPath );
+		AddLastYenFromDirectoryPath( szNewPath.data() );
 	}
 	else{
-		auto_sprintf( szNewPath, L"%s%s", szDrive, szDir );
+		auto_snprintf_s( szNewPath.data(), szNewPath.size(), L"%s%s", szDrive, szDir );
 	}
 
 	/* 相対フォルダーを挿入 */
@@ -321,8 +319,8 @@ bool CBackupAgent::FormatBackUpPath(
 		wchar_t	szTime[64];
 		std::wstring szForm;
 
-		auto pBase = szNewPath + wcslen( szNewPath );
-		const auto nBaseCount = newPathCount - wcslen( szNewPath );
+		auto pBase = szNewPath.data() + wcslen( szNewPath.data() );
+		const auto nBaseCount = szNewPath.size() - wcslen(szNewPath.data());
 
 		/* バックアップファイル名のタイプ 1=(.bak) 2=*_日付.* */
 		switch( bup_setting.GetBackupType() ){
@@ -481,10 +479,10 @@ bool CBackupAgent::FormatBackUpPath(
 						}
 						if( isdigit(*q) ){
 							q[-1] = L'\0';
-							if (STRUNCATE == wcsncat_s(szNewPath, newPathCount, q2, _TRUNCATE)) {
+							if (STRUNCATE == wcsncat_s(szNewPath.data(), szNewPath.size(), q2, _TRUNCATE)) {
 								return false;
 							}
-							if (folders[*q-L'0'] != nullptr && STRUNCATE == wcsncat_s(szNewPath, newPathCount, folders[*q - L'0'], _TRUNCATE)) {
+							if (folders[*q-L'0'] != nullptr && STRUNCATE == wcsncat_s(szNewPath.data(), szNewPath.size(), folders[*q - L'0'], _TRUNCATE)) {
 								return false;
 							}
 							q2 = q+1;
@@ -492,7 +490,7 @@ bool CBackupAgent::FormatBackUpPath(
 					}
 					++q;
 				}
-				if (STRUNCATE == wcsncat_s(szNewPath, newPathCount, q2, _TRUNCATE)) {
+				if (STRUNCATE == wcsncat_s(szNewPath.data(), szNewPath.size(), q2, _TRUNCATE)) {
 					return false;
 				}
 			}
@@ -502,21 +500,21 @@ bool CBackupAgent::FormatBackUpPath(
 			WCHAR *cp;
 			//	2006.03.25 Aroka szExt[0] == '\0'のときのオーバラン問題を修正
 			WCHAR *ep = (szExt[0]!=0) ? &szExt[1] : &szExt[0];
-			assert( newPathCount <= int(std::size(temp)) );
+			assert( szNewPath.size() <= std::size(temp) );
 
 			// * を拡張子にする
-			while( wcschr( szNewPath, L'*' ) ){
-				wcscpy( temp, szNewPath );
+			while( wcschr( szNewPath.data(), L'*')) {
+				wcscpy( temp, szNewPath.data() );
 				cp = wcschr( temp, L'*' );
 				*cp = 0;
-				if( -1 == auto_snprintf_s( szNewPath, newPathCount, L"%s%s%s", temp, ep, cp+1 ) ){
+				if( -1 == auto_snprintf_s( szNewPath.data(), szNewPath.size(), L"%s%s%s", temp, ep, cp+1 ) ){
 					return false;
 				}
 			}
 			//	??はバックアップ連番にしたいところではあるが，
 			//	連番処理は末尾の2桁にしか対応していないので
 			//	使用できない文字?を_に変換してお茶を濁す
-			while(( cp = wcschr( szNewPath, L'?' ) ) != nullptr){
+			while(( cp = wcschr( szNewPath.data(), L'?' ) ) != nullptr){
 				*cp = L'_';
 			}
 		}
