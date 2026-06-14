@@ -479,13 +479,10 @@ std::filesystem::path GetExeFileName()
 	@date 2008.05.05 novice GetModuleHandle(NULL)→NULLに変更
 */
 void GetExedir(
-	LPWSTR	pDir,	//!< [out] EXEファイルのあるディレクトリを返す場所．予め_MAX_PATHのバッファを用意しておくこと．
+	std::span<WCHAR>	pDir,	//!< [out] EXEファイルのあるディレクトリを返す場所．
 	LPCWSTR	szFile	//!< [in]  ディレクトリ名に結合するファイル名．
 )
 {
-	if( pDir == nullptr )
-		return;
-
 	std::wstring partialPath;
 	if (szFile != nullptr) {
 		partialPath = szFile;
@@ -496,7 +493,7 @@ void GetExedir(
 
 	// exeフォルダーのフルパス、またはexe基準のファイルパスを取得
 	auto path = GetExeFileName().parent_path().concat(partialPath);
-	::wcsncpy_s(pDir, decltype(DLLSHAREDATA::m_szIniFile)::BUFFER_COUNT, path.c_str(), _TRUNCATE);
+	::wcsncpy_s(pDir.data(), pDir.size(), path.c_str(), _TRUNCATE);
 }
 
 /*!
@@ -517,13 +514,10 @@ std::filesystem::path GetIniFileName()
 	@date 2007.05.19 新規作成（GetExedirベース）
 */
 void GetInidir(
-	LPWSTR	pDir,				//!< [out] INIファイルのあるディレクトリを返す場所．予め_MAX_PATHのバッファを用意しておくこと．
+	std::span<WCHAR>	pDir,				//!< [out] INIファイルのあるディレクトリを返す場所．
 	LPCWSTR szFile	/*=NULL*/	//!< [in] ディレクトリ名に結合するファイル名．
 )
 {
-	if( pDir == nullptr )
-		return;
-	
 	std::wstring partialPath;
 	if (szFile != nullptr) {
 		partialPath = szFile;
@@ -534,7 +528,7 @@ void GetInidir(
 
 	// 設定フォルダーのフルパス、またはini基準のファイルパスを取得
 	auto path = GetIniFileName().parent_path().concat(partialPath);
-	::wcsncpy_s(pDir, decltype(DLLSHAREDATA::m_szPrivateIniFile)::BUFFER_COUNT, path.c_str(), _TRUNCATE);
+	::wcsncpy_s(pDir.data(), pDir.size(), path.c_str(), _TRUNCATE);
 }
 
 /*!
@@ -544,8 +538,7 @@ void GetInidir(
 	@date 2007.05.22 新規作成
 */
 void GetInidirOrExedir(
-	LPWSTR	pDir,								//!< [out] INIファイルまたはEXEファイルのあるディレクトリを返す場所．
-												//         予め_MAX_PATHのバッファを用意しておくこと．
+	std::span<WCHAR>	pDir,					//!< [out] INIファイルまたはEXEファイルのあるディレクトリを返す場所．
 	LPCWSTR	szFile					/*=NULL*/,	//!< [in] ディレクトリ名に結合するファイル名．
 	BOOL	bRetExedirIfFileEmpty	/*=FALSE*/	//!< [in] ファイル名の指定が空の場合はEXEファイルのフルパスを返す．
 )
@@ -562,18 +555,19 @@ void GetInidirOrExedir(
 	// INI基準のフルパスが実在すればそのパスを返す
 	GetInidir( szInidir, szFile );
 	if( fexist(szInidir) ){
-		::lstrcpy( pDir, szInidir );
+		wcsncpy_s( pDir.data(), pDir.size(), szInidir, _TRUNCATE );
 		return;
 	}
 
 	// EXE基準のフルパスが実在すればそのパスを返す
-	if( GetExedir( szExedir, szFile ); fexist(szExedir) ){
-		::wcsncpy_s( pDir, _MAX_PATH - 1, szExedir, _TRUNCATE );
+	GetExedir( szExedir, szFile );
+	if( fexist(szExedir) ){
+		::wcsncpy_s( pDir.data(), pDir.size(), szExedir, _TRUNCATE );
 		return;
 	}
 
 	// どちらにも実在しなければINI基準のフルパスを返す
-	::lstrcpy( pDir, szInidir );
+	wcsncpy_s( pDir.data(), pDir.size(), szInidir, _TRUNCATE );
 }
 
 /*!
