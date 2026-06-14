@@ -252,7 +252,6 @@ void CViewCommander::Command_EXTHTMLHELP( const WCHAR* _helpfile, const WCHAR* k
 	}
 
 	HWND		hwndHtmlHelp;
-	int			nLen;
 
 	DEBUG_TRACE( L"helpfile=%s\n", helpfile.c_str() );
 
@@ -297,14 +296,13 @@ void CViewCommander::Command_EXTHTMLHELP( const WCHAR* _helpfile, const WCHAR* k
 		// タスクトレイのプロセスにHtmlHelpを起動させる
 		// 2003.06.23 Moca 相対パスは実行ファイルからのパス
 		// 2007.05.21 ryoji 相対パスは設定ファイルからのパスを優先
-		WCHAR* pWork=GetDllShareData().m_sWorkBuffer.GetWorkBuffer<WCHAR>();
+		MywmHtmlHelp* pWork = GetDllShareData().m_sWorkBuffer.GetWorkBuffer<MywmHtmlHelp>();
 		if( _IS_REL_PATH( filename ) ){
-			GetInidirOrExedir( pWork, filename );
+			GetInidirOrExedir( pWork->szFilePath, filename );
 		}else{
-			wcscpy( pWork, filename ); //	Jul. 5, 2002 genta
+			pWork->szFilePath = filename; //	Jul. 5, 2002 genta
 		}
-		nLen = (int)wcslen( pWork );
-		wcscpy( &pWork[nLen + 1], cmemCurText.GetStringPtr() );
+		pWork->szKeywords = cmemCurText.GetStringPtr();
 		hwndHtmlHelp = (HWND)::SendMessage(
 			GetDllShareData().m_sHandles.m_hwndTray,
 			MYWM_HTMLHELP,

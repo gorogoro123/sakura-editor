@@ -476,14 +476,13 @@ LRESULT CControlTray::DispatchEvent(
 	case MYWM_HTMLHELP:
 		{
 			auto &sWorkBuffer = m_pShareData->m_sWorkBuffer;
-			WCHAR* pWork = sWorkBuffer.GetWorkBuffer<WCHAR>();
+			MywmHtmlHelp* pWork = sWorkBuffer.GetWorkBuffer<MywmHtmlHelp>();
 
 			// pszHelpFile取得
-			const WCHAR* pszHelpFile = pWork;
-			const size_t cchHelpFile = wcsnlen( pWork, sWorkBuffer.GetWorkBufferCount<WCHAR>() );
+			const WCHAR* pszHelpFile = pWork->szFilePath.c_str();
 
 			// pszKeywords取得
-			const WCHAR* pszKeywords = &pWork[cchHelpFile + 1];
+			const WCHAR* pszKeywords = pWork->szKeywords.c_str();
 
 			hwndHtmlHelp = HtmlHelpW(nullptr, pszHelpFile, HH_DISPLAY_TOPIC, (DWORD_PTR)0);
 

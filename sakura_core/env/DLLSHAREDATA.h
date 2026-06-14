@@ -40,6 +40,12 @@ struct SShare_Flags{
 	HWND				m_hwndRecordingKeyMacro;	/* キーボードマクロを記録中のウィンドウ */
 };
 
+//! MYWM_HTMLHELP 用
+struct MywmHtmlHelp {
+	SFilePath szFilePath;
+	StaticString<256> szKeywords;
+};
+
 //! 共有ワークバッファ
 struct SShare_WorkBuffer{
 	//2007.09.16 kobake char型だと、常に文字列であるという誤解を招くので、BYTE型に変更。変数名も変更。
