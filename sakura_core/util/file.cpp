@@ -8,13 +8,8 @@
 	SPDX-License-Identifier: Zlib
 */
 
-#include "file.h"
-
 #include <Shlwapi.h>
-
-#include <regex>
-#include <string_view>
-
+#include "file.h"
 #include "charset/codechecker.h"
 #include "util/module.h"
 #include "util/window.h"
@@ -180,7 +175,7 @@ bool IsLocalDrive( const WCHAR* pszDrive )
 	long	lngRet;
 
 	if( iswalpha(pszDrive[0]) ){
-		auto_sprintf(szDriveType, L"%c:\\", towupper(pszDrive[0]));
+		auto_snprintf_s(szDriveType, std::size(szDriveType), L"%c:\\", towupper(pszDrive[0]));
 		lngRet = GetDriveType( szDriveType );
 		if( lngRet == DRIVE_REMOVABLE || lngRet == DRIVE_CDROM || lngRet == DRIVE_REMOTE )
 		{
