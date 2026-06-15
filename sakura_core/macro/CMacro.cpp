@@ -1794,15 +1794,14 @@ bool CMacro::HandleFunction(CEditView *View, EFunctionCode ID, VARIANT *Argument
 				sDefault.c_str()
 			);
 			bool bRet;
-			WCHAR szPath[ _MAX_PATH ];
-			wcscpy( szPath, sDefault.c_str() );
+			SFilePath szPath(sDefault.c_str());
 			if( LOWORD(ID) == F_FILEOPENDIALOG ){
 				bRet = cDlgOpenFile.DoModal_GetOpenFileName( szPath );
 			}else{
 				bRet = cDlgOpenFile.DoModal_GetSaveFileName( szPath );
 			}
 			if( bRet ){
-				SysString S( szPath, wcslen(szPath) );
+				SysString S( szPath, szPath.length() );
 				Wrap( &Result )->Receive( S );
 			}else{
 				Result.vt = VT_BSTR;
