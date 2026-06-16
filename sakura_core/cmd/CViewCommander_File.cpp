@@ -95,17 +95,17 @@ void CViewCommander::Command_FILEOPEN( const WCHAR* filename, ECodeType nCharCod
 	if(!sLoadInfo.cFilePath.IsValidPath()){
 		std::wstring defName = (defaultName ? defaultName : L"");
 		if( !defName.empty() ){
-			WCHAR szPath[_MAX_PATH];
+			SFilePath szPath;
 			WCHAR szDir[_MAX_DIR];
 			WCHAR szName[_MAX_FNAME];
 			WCHAR szExt  [_MAX_EXT];
-			my_splitpath_w(defName.c_str(), szPath, szDir, szName, szExt);
-			wcscat(szPath, szDir);
-			if( 0 == wmemicmp(defName.c_str(), szPath) ){
+			my_splitpath_w(defName.c_str(), szPath.data(), szDir, szName, szExt);
+			szPath.append(szDir);
+			if( 0 == wmemicmp(defName.c_str(), szPath.c_str()) ){
 				// defNameはフォルダー名だった
 			}else{
 				CFilePath path = defName.c_str();
-				if( 0 == wmemicmp(path.GetDirPath().c_str(), szPath) ){
+				if( 0 == wmemicmp(path.GetDirPath().c_str(), szPath.c_str()) ){
 					// フォルダー名までは実在している
 					sLoadInfo.cFilePath = defName.c_str();
 				}
@@ -566,8 +566,8 @@ void CViewCommander::Command_OPEN_COMMAND_PROMPT(BOOL isAdmin)
 	LPCWSTR pszcmdExeParam = cmdExeParam.GetStringPtr();
 
 	/* 環境変数 COMSPEC から cmd.exe のパスを取得する */
-	WCHAR szCmdExePathBuf[MAX_PATH];
-	if (::GetEnvironmentVariableW(L"COMSPEC", szCmdExePathBuf, int(std::size(szCmdExePathBuf))) == 0) {
+	SFilePath szCmdExePathBuf;
+	if (::GetEnvironmentVariableW(L"COMSPEC", szCmdExePathBuf.data(), szCmdExePathBuf.capacity()) == 0) {
 		ErrorBeep();
 		return;
 	}
@@ -588,7 +588,7 @@ void CViewCommander::Command_OPEN_COMMAND_PROMPT(BOOL isAdmin)
 	*/
 	CDisableWow64FsRedirect wow64Redirect(TRUE);
 #endif
-	auto hInstance = ::ShellExecuteW(nullptr, pVerb, szCmdExePathBuf, pszcmdExeParam, strFolder.c_str(), SW_SHOWNORMAL);
+	auto hInstance = ::ShellExecuteW(nullptr, pVerb, szCmdExePathBuf.data(), pszcmdExeParam, strFolder.c_str(), SW_SHOWNORMAL);
 	// If the function succeeds, it returns a value greater than 32. 
 	if (hInstance <= (decltype(hInstance))32) {
 		ErrorBeep();
