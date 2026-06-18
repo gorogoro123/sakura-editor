@@ -1431,8 +1431,6 @@ LRESULT CTabWnd::OnMouseMove( HWND hwnd, [[maybe_unused]] UINT uMsg, [[maybe_unu
 
 	// カーソルがボタン上を出入りするときに再描画
 	RECT rcBtn;
-	LPWSTR pszTip = (LPWSTR)-1L;
-	WCHAR szText[80];	// 2007.12.06 ryoji メンバ変数を使う必要は無いのでローカル変数にした
 
 	GetListBtnRect( &rc, &rcBtn );
 	bHovering = ::PtInRect( &rcBtn, pt );
@@ -1442,12 +1440,20 @@ LRESULT CTabWnd::OnMouseMove( HWND hwnd, [[maybe_unused]] UINT uMsg, [[maybe_unu
 		::InvalidateRect( hwnd, &rcBtn, FALSE );
 
 		// ツールチップ用の文字列作成	// 2007.03.05 ryoji
-		pszTip = nullptr;	// ボタンの外に出るときは消す
+		std::wstring szText;
 		if( m_bListBtnHilighted )	// ボタンに入ってきた?
 		{
-			pszTip = szText;
-			wcscpy( szText, LS(STR_TABWND_LR_INFO) );
+			szText = LS(STR_TABWND_LR_INFO);
 		}
+
+		TOOLINFO ti = {
+			.cbSize       = CCSIZEOF_STRUCT(TOOLINFO, lpszText),
+			.hwnd         = GetHwnd(),
+			.uId          = (UINT_PTR)GetHwnd(),
+			.hinst        = GetAppInstance(),
+			.lpszText     = szText.empty() ? nullptr : szText.data(),
+		};
+		ApiWrap::Tooltip_UpdateTipText( m_hwndToolTip, &ti );
 	}
 
 	GetCloseBtnRect( &rc, &rcBtn );
@@ -1458,38 +1464,33 @@ LRESULT CTabWnd::OnMouseMove( HWND hwnd, [[maybe_unused]] UINT uMsg, [[maybe_unu
 		::InvalidateRect( hwnd, &rcBtn, FALSE );
 
 		// ツールチップ用の文字列作成	// 2007.03.05 ryoji
-		pszTip = nullptr;	// ボタンの外に出るときは消す
+		std::wstring szText;
 		if( m_bCloseBtnHilighted )	// ボタンに入ってきた?
 		{
-			pszTip = szText;
 			if( m_pShareData->m_Common.m_sTabBar.m_bDispTabWnd && !m_pShareData->m_Common.m_sTabBar.m_bDispTabWndMultiWin )
 			{
 				if( !m_pShareData->m_Common.m_sTabBar.m_bTab_CloseOneWin )
 				{
-					wcscpy( szText, LS(STR_TABWND_CLOSETAB) );
+					szText = LS(STR_TABWND_CLOSETAB);
 				}
 				else
 				{
-					wcsncpy_s(szText, LS(F_GROUPCLOSE), _TRUNCATE);
+					szText = LS(F_GROUPCLOSE);
 				}
 			}
 			else
 			{
-					wcsncpy_s(szText, LS(F_EXITALLEDITORS), _TRUNCATE);
+				szText = LS(F_EXITALLEDITORS);
 			}
 		}
-	}
 
-	// ツールチップ更新	// 2007.03.05 ryoji
-	if( pszTip != (LPWSTR)-1L )	// ボタンへの出入りがあった?
-	{
-		TOOLINFO ti;
-		::ZeroMemory( &ti, sizeof(ti) );
-		ti.cbSize       = CCSIZEOF_STRUCT(TOOLINFO, lpszText);
-		ti.hwnd         = GetHwnd();
-		ti.hinst        = GetAppInstance();
-		ti.uId          = (UINT_PTR)GetHwnd();
-		ti.lpszText     = pszTip;
+		TOOLINFO ti = {
+			.cbSize       = CCSIZEOF_STRUCT(TOOLINFO, lpszText),
+			.hwnd         = GetHwnd(),
+			.uId          = (UINT_PTR)GetHwnd(),
+			.hinst        = GetAppInstance(),
+			.lpszText     = szText.empty() ? nullptr : szText.data(),
+		};
 		ApiWrap::Tooltip_UpdateTipText( m_hwndToolTip, &ti );
 	}
 
