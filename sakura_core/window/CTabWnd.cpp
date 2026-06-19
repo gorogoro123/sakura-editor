@@ -1604,14 +1604,13 @@ void CTabWnd::TabWindowNotify( WPARAM wParam, LPARAM lParam )
 	if( nullptr == m_hwndTab ) return;
 
 	bool	bFlag = false;	//前回何もタブがなかったか？
-	int		nCount;
 	int		nIndex;
 	HWND	hwndUpDown;
 	DWORD nScrollPos;
 
 	BreakDrag();	// 2006.01.28 ryoji ドラッグ状態を解除する(関数化)
 
-	nCount = TabCtrl_GetItemCount( m_hwndTab );
+	int nCount = TabCtrl_GetItemCount( m_hwndTab );
 	if( nCount <= 0 )
 	{
 		bFlag = true;
@@ -1627,18 +1626,15 @@ void CTabWnd::TabWindowNotify( WPARAM wParam, LPARAM lParam )
 		nIndex = FindTabIndexByHWND( (HWND)lParam );
 		if( -1 == nIndex )
 		{
-			TCITEM	tcitem;
-			WCHAR	szName[1024];
+			std::wstring szName = LS(STR_NO_TITLE1);
 
-			wcscpy( szName, LS(STR_NO_TITLE1) );
-
-			tcitem.mask    = TCIF_TEXT | TCIF_PARAM;
-			tcitem.pszText = szName;
-			tcitem.lParam  = lParam;
-
-			// 2006.01.28 ryoji タブにアイコンイメージを追加する
-			tcitem.mask |= TCIF_IMAGE;
-			tcitem.iImage = GetImageIndex( nullptr );
+			TCITEM	tcitem = {
+				// 2006.01.28 ryoji タブにアイコンイメージを追加する
+				.mask    = TCIF_TEXT | TCIF_PARAM | TCIF_IMAGE,
+				.pszText = szName.data(),
+				.iImage = GetImageIndex( nullptr ),
+				.lParam = lParam,
+			};
 
 			TabCtrl_InsertItem( m_hwndTab, nCount, &tcitem );
 			nIndex = nCount;
