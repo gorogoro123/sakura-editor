@@ -882,10 +882,10 @@ LPVOID CDlgPrintSetting::GetHelpIdTable()
 //@@@ 2002.01.18 add end
 
 // フォント名/使用ボタンの設定
-void CDlgPrintSetting::SetFontName( int idTxt, int idUse, LOGFONT& lf, int nPointSize )
+void CDlgPrintSetting::SetFontName( int idTxt, int idUse, const LOGFONT& lf, int nPointSize )
 {
 	WCHAR	szName[100];
-	bool	bUseFont = lf.lfFaceName[0] != L'\0';
+	const bool	bUseFont = lf.lfFaceName[0] != L'\0';
 
 	CheckDlgButtonBool( GetHwnd(), idUse, bUseFont);
 	::EnableWindow( GetItemHwnd( idUse ), bUseFont );
@@ -912,7 +912,7 @@ void CDlgPrintSetting::SetFontName( int idTxt, int idUse, LOGFONT& lf, int nPoin
 
 		// フォント名/サイズの作成
 		int		nMM = MulDiv( nPointSize, 254, 720 );	// フォントサイズ計算(pt->1/10mm)
-		auto_sprintf(szName, nPointSize%10 ? L"%.32s(%.1fpt/%d.%dmm)" : L"%.32s(%.0fpt/%d.%dmm)",
+		auto_snprintf_s(szName, std::size(szName), nPointSize%10 ? L"%.32s(%.1fpt/%d.%dmm)" : L"%.32s(%.0fpt/%d.%dmm)",
 					lf.lfFaceName,
 					double(nPointSize)/10,
 					nMM/10, nMM/10);
