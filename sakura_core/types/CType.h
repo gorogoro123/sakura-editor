@@ -430,11 +430,6 @@ protected:
 	void InitTypeConfigImp(STypeConfig* pType) override;
 };
 
-class CType_Other : public CType {
-protected:
-	void InitTypeConfigImp(STypeConfig* pType) override;
-};
-
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                         実装補助                            //
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //

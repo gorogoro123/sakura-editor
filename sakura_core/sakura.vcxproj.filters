@@ -1618,9 +1618,6 @@
     <ClCompile Include="..\sakura_core\types\CType_Java.cpp">
       <Filter>Cpp Source Files\types</Filter>
     </ClCompile>
-    <ClCompile Include="..\sakura_core\types\CType_Others.cpp">
-      <Filter>Cpp Source Files\types</Filter>
-    </ClCompile>
     <ClCompile Include="..\sakura_core\types\CType_Pascal.cpp">
       <Filter>Cpp Source Files\types</Filter>
     </ClCompile>
