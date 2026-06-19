@@ -827,7 +827,6 @@
     <ClCompile Include="..\sakura_core\types\CType_Html.cpp" />
     <ClCompile Include="..\sakura_core\types\CType_Ini.cpp" />
     <ClCompile Include="..\sakura_core\types\CType_Java.cpp" />
-    <ClCompile Include="..\sakura_core\types\CType_Others.cpp" />
     <ClCompile Include="..\sakura_core\types\CType_Pascal.cpp" />
     <ClCompile Include="..\sakura_core\types\CType_Perl.cpp" />
     <ClCompile Include="..\sakura_core\types\CType_Python.cpp" />
