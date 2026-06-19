@@ -126,10 +126,3 @@ jobs:
       with:
         name: Log ${{ matrix.platform }} ${{ matrix.config }}
         path: 'sakura-*-Log.zip'
-
-    - name: Upload Dev
-      uses: actions/upload-artifact@v6
-      if: ${{ matrix.config == 'Release' }}
-      with:
-        name: Dev ${{ matrix.platform }} ${{ matrix.config }}
-        path: 'sakura-*-Dev.zip'
