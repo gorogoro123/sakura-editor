@@ -15,6 +15,7 @@
 
 //	sakura
 #include "_main/global.h"
+#include "util/StaticType.h"
 
 /*-----------------------------------------------------------------------
 クラスの宣言
@@ -40,14 +41,14 @@ public:
 	bool Match( int nPos, const CStringRef& cStr ) const;	//	行コメントに値するか確認する
 
 	const wchar_t* getLineComment( const int n ) const{
-		return m_pszLineComment[n];
+		return m_pszLineComment[n].c_str();
 	}
 	int getLineCommentPos( const int n ) const {
 		return m_nLineCommentPos[n];
 	}
 
 private:
-	wchar_t	m_pszLineComment[COMMENT_DELIMITER_NUM][COMMENT_DELIMITER_BUFFERSIZE];	//!< 行コメントデリミタ
+	StaticString<COMMENT_DELIMITER_BUFFERSIZE>	m_pszLineComment[COMMENT_DELIMITER_NUM];	//!< 行コメントデリミタ
 	int		m_nLineCommentPos[COMMENT_DELIMITER_NUM];	//!< 行コメントの開始位置(負数は指定無し)
 	int		m_nLineCommentLen[COMMENT_DELIMITER_NUM];	//!< 行コメント文字列の長さ
 };
