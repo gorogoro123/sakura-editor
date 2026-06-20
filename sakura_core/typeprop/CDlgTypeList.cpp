@@ -598,7 +598,7 @@ bool CDlgTypeList::CopyType()
 			auto nTempLen = int(wcslen(szTemp));
 			CNativeW cmem;
 			// バッファをはみ出さないように
-			LimitStringLengthW( szTemp, nTempLen, type.m_szTypeName.capacity() - nLen - 1, cmem );
+			cmem.LimitStringLengthW( szTemp, nTempLen, type.m_szTypeName.capacity() - nLen - 1 );
 			type.m_szTypeName = cmem.GetStringPtr();
 			type.m_szTypeName.append(szNum);
 			bUpdate = false;

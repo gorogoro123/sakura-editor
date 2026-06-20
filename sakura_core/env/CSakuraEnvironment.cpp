@@ -437,7 +437,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, wchar_t* pszB
 			{
 				CNativeW	cmemDes;
 				// m_szGrepKey → cmemDes
-				LimitStringLengthW( CAppMode::getInstance()->m_szGrepKey, CAppMode::getInstance()->m_szGrepKey.length(), (q_max - q > 32 ? 32 : q_max - q - 3), cmemDes );
+				cmemDes.LimitStringLengthW( CAppMode::getInstance()->m_szGrepKey, CAppMode::getInstance()->m_szGrepKey.length(), (q_max - q > 32 ? 32 : q_max - q - 3) );
 				if( CAppMode::getInstance()->m_szGrepKey.length() > cmemDes.GetStringLength() ){
 					cmemDes.AppendString(L"...");
 				}

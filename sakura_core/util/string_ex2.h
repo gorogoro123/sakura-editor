@@ -9,14 +9,12 @@
 
 class CEol;
 class CNativeA;
-class CNativeW;
 
 // Aug. 16, 2007 kobake
 wchar_t *wcs_pushW(wchar_t *dst, size_t dst_count, const wchar_t* src, size_t src_count);
 wchar_t *wcs_pushW(wchar_t *dst, size_t dst_count, const wchar_t* src);
 
 int AddLastChar( WCHAR* pszPath, int nMaxLen, WCHAR c );/* 2003.06.24 Moca 最後の文字が指定された文字でないときは付加する */
-size_t LimitStringLengthW( LPCWSTR pszData, size_t nDataLength, size_t nLimitLength, CNativeW& cmemDes );/* データを指定「文字数」以内に切り詰める */
 
 const wchar_t* GetNextLineW ( const wchar_t* pData, int nDataLen, int* pnLineLen, int* pnBgn, CEol* pcEol, bool bExtEol); // GetNextLineのwchar_t版
 //wchar_t* GetNextLineWB( const wchar_t*, int, int*, int*, CEol* ); // GetNextLineのwchar_t版(ビックエンディアン用)  // 未使用

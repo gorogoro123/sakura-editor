@@ -7,7 +7,6 @@
 #include "string_ex2.h"
 #include "charset/charcode.h"
 #include "basis/CEol.h"
-#include "mem/CNativeW.h"
 
 wchar_t *wcs_pushW(wchar_t *dst, size_t dst_count, const wchar_t* src, size_t src_count)
 {
@@ -125,28 +124,6 @@ const wchar_t* GetNextLineW(
 	*pnBgn = i + pcEol->GetLen();
 	*pnLineLen = i - nBgn;
 	return &pData[nBgn];
-}
-
-//! データを指定「文字数」以内に切り詰める。戻り値は結果の文字数。
-size_t LimitStringLengthW(
-	LPCWSTR			pszData,		//!< [in]
-	size_t			nDataLength,	//!< [in]
-	size_t			nLimitLength,	//!< [in]
-	CNativeW&		cmemDes			//!< [out]
-)
-{
-	size_t n = nDataLength;
-	if(n>nLimitLength){
-		size_t i = 0;
-		size_t charSize = CNativeW::GetSizeOfChar(pszData, nDataLength, i);
-		for(; i + charSize <= nLimitLength;){
-			i += charSize;
-			charSize = CNativeW::GetSizeOfChar(pszData, nDataLength, i);
-		}
-		n = i;
-	}
-	cmemDes.SetString(pszData,n);
-	return n;
 }
 
 void GetLineColumn( const wchar_t* pLine, int* pnJumpToLine, int* pnJumpToColumn )

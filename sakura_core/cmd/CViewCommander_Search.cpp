@@ -310,8 +310,7 @@ end_of_func:;
 		/* 検索／置換  見つからないときメッセージを表示 */
 		if( nullptr == pszNotFoundMessage ){
 			CNativeW KeyName;
-			LimitStringLengthW(m_pCommanderView->m_strCurSearchKey.c_str(), m_pCommanderView->m_strCurSearchKey.size(),
-				_MAX_PATH, KeyName);
+			KeyName.LimitStringLengthW(m_pCommanderView->m_strCurSearchKey.c_str(), m_pCommanderView->m_strCurSearchKey.size(), _MAX_PATH);
 			if( (size_t)KeyName.GetStringLength() < m_pCommanderView->m_strCurSearchKey.size() ){
 				KeyName.AppendString( L"..." );
 			}
@@ -467,8 +466,7 @@ end_of_func:;
 
 		/* 検索／置換  見つからないときメッセージを表示 */
 		CNativeW KeyName;
-		LimitStringLengthW(m_pCommanderView->m_strCurSearchKey.c_str(), m_pCommanderView->m_strCurSearchKey.size(),
-			_MAX_PATH, KeyName);
+		KeyName.LimitStringLengthW(m_pCommanderView->m_strCurSearchKey.c_str(), m_pCommanderView->m_strCurSearchKey.size(), _MAX_PATH);
 		if( (size_t)KeyName.GetStringLength() < m_pCommanderView->m_strCurSearchKey.size() ){
 			KeyName.AppendString( L"..." );
 		}
