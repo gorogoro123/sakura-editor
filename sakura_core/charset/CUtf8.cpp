@@ -194,9 +194,6 @@ EConvertResult CUtf8::_UnicodeToHex(const wchar_t* cSrc, const int iSLen, std::s
 {
 	CNativeW		cBuff;
 	EConvertResult	res;
-	int				i;
-	WCHAR*			pd;
-	unsigned char*	ps;
 	bool			bbinary=false;
 
 	if (psStatusbar->m_bDispUtf8Codepoint) {
@@ -204,40 +201,48 @@ EConvertResult CUtf8::_UnicodeToHex(const wchar_t* cSrc, const int iSLen, std::s
 		return CCodeBase::UnicodeToHex(cSrc, iSLen, szDst, psStatusbar);
 	}
 	cBuff.AllocStringBuffer(4);
+	auto* mem = cBuff._GetMemory();
+	
 	// 1文字データバッファ
 	if (IsUTF16High(cSrc[0]) && iSLen >= 2 && IsUTF16Low(cSrc[1])) {
-		cBuff._GetMemory()->SetRawDataHoldBuffer(cSrc, 4);
+		mem->SetRawDataHoldBuffer(cSrc, 4);
 	}
 	else if (iSLen >= 3 && IsVariationSelector(cSrc + 1)) {
-		cBuff._GetMemory()->SetRawDataHoldBuffer(cSrc, sizeof(wchar_t) * 3);
+		mem->SetRawDataHoldBuffer(cSrc, sizeof(wchar_t) * 3);
 	}
 	else {
-		cBuff._GetMemory()->SetRawDataHoldBuffer(cSrc, 2);
-		if( IsBinaryOnSurrogate(cSrc[0]) ){
-			bbinary = true;
-		}
+		mem->SetRawDataHoldBuffer(cSrc, 2);
+		bbinary = IsBinaryOnSurrogate(cSrc[0]);
 	}
 
 	// UTF-8/CESU-8 変換
 	if (bCESUMode != true) {
-		res = UnicodeToUTF8(cBuff, cBuff._GetMemory());
+		res = UnicodeToUTF8(cBuff, mem);
 	}
 	else {
-		res = UnicodeToCESU8(cBuff, cBuff._GetMemory());
+		res = UnicodeToCESU8(cBuff, mem);
 	}
 	if (res != RESULT_COMPLETE) {
 		return res;
 	}
 
 	// Hex変換
-	ps = reinterpret_cast<unsigned char*>( cBuff._GetMemory()->GetRawPtr() );
-	pd = szDst.data();
+	auto* bytes = reinterpret_cast<unsigned char*>(mem->GetRawPtr());
+	const size_t len = mem->GetRawLength();
+
+	std::wstring tmp;
+	tmp.reserve(len * 2 + 2);
+
 	if( bbinary == false ){
-		for (i = cBuff._GetMemory()->GetRawLength(); i >0; i--, ps ++, pd += 2) {
-			auto_sprintf( pd, L"%02X", *ps);
+		for (size_t i = 0; i < len; i++) {
+			std::format_to(std::back_inserter(tmp), L"{:02X}", bytes[i]);
 		}
 	}else{
-		auto_sprintf( pd, L"?%02X", *ps );
+		std::format_to(std::back_inserter(tmp), L"?{:02X}", bytes[0]);
+	}
+
+	if (!szDst.empty()) {
+		wcsncpy_s(szDst.data(), szDst.size(), tmp.c_str(), _TRUNCATE);
 	}
 
 	return RESULT_COMPLETE;
