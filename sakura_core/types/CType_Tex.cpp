@@ -52,8 +52,6 @@ class TagProcessor
 	int tagDepth = 0;      // 直前のタグの深さ。TagHierarchy[tagDepth] == 直前のタグ;
 	int treeDepth = -1;     // 直前のタグの「ツリーにおける」深さ。
 	std::array<int, HierarchyCount> serials{}; // タグの各深さで割り振ったトピック番号の最大値を記憶しておく。
-	// 作業場
-	StaticString<256> szTopic;   // トピック番号 + トピックタイトル; (タグが * で終わっている場合はトピック番号を省略する)
 
 public:
 	TagProcessor(CFuncInfoArr& fia, CLayoutMgr& lmgr, const std::array<LPCWSTR, HierarchyCount>& tagHierarchy)
@@ -145,30 +143,26 @@ public:
 		tagDepth = depth;
 
 		// トピック文字列
-		szTopic[0] = L'\0';
-		wchar_t* pTopicEnd = szTopic; // 書き込みポインタ。
-
+		std::wstring szTopic;
+		szTopic.reserve(256);
 		// トピック文字列を作成する(1)。トビック番号をバッファに埋め込む。
 		if (bAddNumber) {
-			assert(4 * HierarchyCount + 2 <= szTopic.capacity()); // 4 はトピック番号「ddd.」のドットを含む最大桁数。+2 はヌル文字を含む " " の分。
 			int i = 0;
 			while (i <= tagDepth && serials[i] == 0) {
 				i += 1; // "0." プリフィックスを表示しないようにスキップする。
 			}
 			for (; i <= tagDepth && i < int(std::size(serials)); ++i) {
+				WCHAR buf[16];
 				// "1.", "2.", "3.",..., "10.",..., "100.",...,"999.", "000.", "001.",...
-				pTopicEnd += auto_sprintf(pTopicEnd, serials[i]/1000 ? L"%03d." : L"%d.", serials[i]%1000);
+				auto_snprintf_s(buf, std::size(buf), serials[i]/1000 ? L"%03d." : L"%d.", serials[i]%1000);
+				szTopic += buf;
 			}
-			*pTopicEnd++ = L' ';
-			*pTopicEnd   = L'\0';
+			szTopic += L' ';
 		}
-		assert(pTopicEnd < szTopic + szTopic.capacity());
 
 		// トピック文字列を作成する(2)。タイトルをバッファに埋め込む。
-		const auto copyLen = std::min<ptrdiff_t>(szTopic + szTopic.capacity() - 1 - pTopicEnd, pTitleEnd - pTitle);
-		wmemcpy(pTopicEnd, pTitle, copyLen);
-		pTopicEnd += copyLen;
-		*pTopicEnd = L'\0';
+		std::wstring_view titleView(pTitle, pTitleEnd - pTitle);
+		szTopic.append(titleView);
 
 		// トピックツリーにトピックを追加する。
 		CLayoutPoint ptPos;
@@ -176,7 +170,7 @@ public:
 			CLogicPoint(int(pTag - pLine), nLineNumber),
 			&ptPos
 		);
-		refFuncInfoArr.AppendData(nLineNumber + CLogicInt(1), ptPos.GetY2() + CLayoutInt(1), szTopic, 0, treeDepth);
+		refFuncInfoArr.AppendData(nLineNumber + CLogicInt(1), ptPos.GetY2() + CLayoutInt(1), szTopic.c_str(), 0, treeDepth);
 
 		// ループ継続
 		return pTitleEnd;
