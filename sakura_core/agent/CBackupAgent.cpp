@@ -370,26 +370,26 @@ bool CBackupAgent::FormatBackUpPath(
 				CFileTime ctimeLastWrite;
 				GetLastWriteTimestamp( target_file, &ctimeLastWrite );
 
-				szTime[0] = L'\0';
+				std::wstring strTime;
 				if( bup_setting.GetBackupOpt(BKUP_YEAR) ){	/* バックアップファイル名：日付の年 */
-					auto_sprintf(szTime,L"%d",ctimeLastWrite->wYear);
+					strTime += std::format(L"{}", ctimeLastWrite->wYear);
 				}
 				if( bup_setting.GetBackupOpt(BKUP_MONTH) ){	/* バックアップファイル名：日付の月 */
-					auto_sprintf(szTime,L"%ls%02d",szTime,ctimeLastWrite->wMonth);
+					strTime += std::format(L"{:02}", ctimeLastWrite->wMonth);
 				}
 				if( bup_setting.GetBackupOpt(BKUP_DAY) ){	/* バックアップファイル名：日付の日 */
-					auto_sprintf(szTime,L"%ls%02d",szTime,ctimeLastWrite->wDay);
+					strTime += std::format(L"{:02}", ctimeLastWrite->wDay);
 				}
 				if( bup_setting.GetBackupOpt(BKUP_HOUR) ){	/* バックアップファイル名：日付の時 */
-					auto_sprintf(szTime,L"%ls%02d",szTime,ctimeLastWrite->wHour);
+					strTime += std::format(L"{:02}", ctimeLastWrite->wHour);
 				}
 				if( bup_setting.GetBackupOpt(BKUP_MIN) ){	/* バックアップファイル名：日付の分 */
-					auto_sprintf(szTime,L"%ls%02d",szTime,ctimeLastWrite->wMinute);
+					strTime += std::format(L"{:02}", ctimeLastWrite->wMinute);
 				}
 				if( bup_setting.GetBackupOpt(BKUP_SEC) ){	/* バックアップファイル名：日付の秒 */
-					auto_sprintf(szTime,L"%ls%02d",szTime,ctimeLastWrite->wSecond);
+					strTime += std::format(L"{:02}", ctimeLastWrite->wSecond);
 				}
-				if( -1 == auto_snprintf_s( pBase, nBaseCount, L"%s_%ls%s", szFname, szTime, szExt ) ){
+				if( -1 == auto_snprintf_s( pBase, nBaseCount, L"%s_%ls%s", szFname, strTime.c_str(), szExt ) ){
 					return false;
 				}
 			}
