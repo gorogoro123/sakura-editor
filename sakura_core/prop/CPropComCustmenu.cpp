@@ -283,11 +283,9 @@ INT_PTR CPropCustmenu::DispatchEvent(
 					break;
 				}
 
-//			idListBox = (int) LOWORD(wParam);	// identifier of list box
-//			hwndListBox = (HWND) lParam;		// handle of list box
-				WCHAR		szKey[2];
-				auto_sprintf( szKey, L"%hc", m_Common.m_sCustomMenu.m_nCustMenuItemKeyArr[nIdx1][nIdx2] );
 				{
+					WCHAR       szKey[2];
+					auto_snprintf_s(szKey, std::size(szKey), L"%hc", m_Common.m_sCustomMenu.m_nCustMenuItemKeyArr[nIdx1][nIdx2]);
 					BOOL bDlgInputResult = cDlgInput1.DoModal(
 						G_AppInstance(),
 						hwndDlg,
@@ -299,23 +297,22 @@ INT_PTR CPropCustmenu::DispatchEvent(
 					if( !bDlgInputResult ){
 						return TRUE;
 					}
-				}
-				//	Oct. 3, 2001 genta
-				m_cLookup.Funccode2Name( m_Common.m_sCustomMenu.m_nCustMenuItemFuncArr[nIdx1][nIdx2], szLabel, 255 );
 
-				{
+					//	Oct. 3, 2001 genta
+					m_cLookup.Funccode2Name( m_Common.m_sCustomMenu.m_nCustMenuItemFuncArr[nIdx1][nIdx2], szLabel, 255 );
+
 					KEYCODE keycode[3]={0}; wctomb(keycode, szKey[0]);
 					m_Common.m_sCustomMenu.m_nCustMenuItemKeyArr[nIdx1][nIdx2] = keycode[0];
 				}
 //@@@ 2002.01.08 YAZAKI カスタムメニューでアクセスキーを消した時、左カッコ ( がメニュー項目に一回残るバグ修正
 				if (m_Common.m_sCustomMenu.m_nCustMenuItemKeyArr[nIdx1][nIdx2]){
-					auto_sprintf( szLabel2, L"%s(%hc)",
+					auto_snprintf_s( szLabel2, std::size(szLabel2), L"%s(%hc)",
 						szLabel,
 						m_Common.m_sCustomMenu.m_nCustMenuItemKeyArr[nIdx1][nIdx2]
 					);
 				}
 				else {
-					auto_sprintf( szLabel2, L"%ls", szLabel );
+					auto_snprintf_s( szLabel2, std::size(szLabel2), L"%ls", szLabel );
 				}
 
 				ApiWrap::List_InsertString( hwndLIST_RES, nIdx2, szLabel2 );
@@ -705,7 +702,7 @@ void CPropCustmenu::SetDataMenuList(HWND hwndDlg, int nIdx)
 		if( '\0' == m_Common.m_sCustomMenu.m_nCustMenuItemKeyArr[nIdx][i] ){
 			wcscpy( szLabel2, szLabel );
 		}else{
-			auto_sprintf( szLabel2, L"%ls(%hc)",
+			auto_snprintf_s( szLabel2, std::size(szLabel2), L"%ls(%hc)",
 				szLabel,
 				m_Common.m_sCustomMenu.m_nCustMenuItemKeyArr[nIdx][i]
 			);
