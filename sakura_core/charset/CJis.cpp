@@ -474,10 +474,6 @@ EConvertResult CJis::UnicodeToJIS(const CNativeW& cSrc, CMemory* pDstMem)
 EConvertResult CJis::UnicodeToHex(const wchar_t* cSrc, const int iSLen, std::span<WCHAR> szDst, const CommonSetting_Statusbar* psStatusbar)
 {
 	CNativeW		cCharBuffer;
-	EConvertResult	res;
-	int				i;
-	WCHAR*			pd;
-	unsigned char*	ps;
 
 	// 2008/6/21 Uchi
 	if (psStatusbar->m_bDispUniInJis) {
@@ -489,28 +485,36 @@ EConvertResult CJis::UnicodeToHex(const wchar_t* cSrc, const int iSLen, std::spa
 	cCharBuffer.SetString(cSrc, 1);
 
 	// JIS 変換
-	res = UnicodeToJIS(cCharBuffer, cCharBuffer._GetMemory());
+	auto* mem = cCharBuffer._GetMemory();
+	EConvertResult res = UnicodeToJIS(cCharBuffer, mem);
 	if (res != RESULT_COMPLETE) {
 		return res;
 	}
 
 	// Hex変換
-	bool	bInEsc;
-	bInEsc = false;
-	pd = szDst.data();
-	for (i = cCharBuffer._GetMemory()->GetRawLength(), ps = (unsigned char*)cCharBuffer._GetMemory()->GetRawPtr(); i >0; i--, ps ++) {
-		if (*ps == 0x1B) {
+	auto* bytes = reinterpret_cast<unsigned char*>(mem->GetRawPtr());
+	const size_t len = mem->GetRawLength();
+
+	std::wstring tmp;
+	tmp.reserve(len * 2 + 2);
+
+	bool	bInEsc = false;
+	for (size_t i = 0; i < len; i++) {
+		if (bytes[i] == 0x1B) {
 			bInEsc = true;
 		}
 		else if (bInEsc) {
-			if (*ps >= 'A' && *ps <='Z') {
+			if (bytes[i] >= 'A' && bytes[i] <='Z') {
 				bInEsc = false;
 			}
 		}
 		else {
-			auto_sprintf( pd, L"%02X", *ps);
-			pd += 2;
+			std::format_to(std::back_inserter(tmp), L"{:02X}", bytes[i]);
 		}
+	}
+
+	if (!szDst.empty()) {
+		wcsncpy_s(szDst.data(), szDst.size(), tmp.c_str(), _TRUNCATE);
 	}
 
 	return RESULT_COMPLETE;
