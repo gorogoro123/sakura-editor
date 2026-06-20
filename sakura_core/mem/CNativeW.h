@@ -132,6 +132,13 @@ public:
 	void Replace( std::wstring_view strFrom, std::wstring_view strTo );   //!< 文字列置換
 	void Replace( const wchar_t* pszFrom, size_t nFromLen, const wchar_t* pszTo, size_t nToLen );   //!< 文字列置換
 
+	//! データを指定「文字数」以内に切り詰める。戻り値は結果の文字数。
+	size_t LimitStringLengthW(
+		LPCWSTR			pszData,		//!< [in]
+		size_t			nDataLength,	//!< [in]
+		size_t			nLimitLength 	//!< [in]
+	);
+
 public:
 	// -- -- staticインターフェース -- -- //
 	//! 指定した位置の文字がwchar_t何個分かを返す

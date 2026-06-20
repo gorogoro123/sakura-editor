@@ -289,7 +289,7 @@ void CEditView::GetCurrentTextForSearch( CNativeW& cmemCurText, bool bStripMaxPa
 		if( GetSelectedDataOne( cmemCurText, INT_MAX ) ){
 			/* 検索文字列を現在位置の単語で初期化 */
 			if( bStripMaxPath ){
-				LimitStringLengthW(cmemCurText.GetStringPtr(), cmemCurText.GetStringLength(), _MAX_PATH - 1, cmemTopic);
+				cmemTopic.LimitStringLengthW(cmemCurText.GetStringPtr(), cmemCurText.GetStringLength(), _MAX_PATH - 1);
 			}else{
 				cmemTopic = cmemCurText;
 			}
@@ -318,7 +318,7 @@ void CEditView::GetCurrentTextForSearch( CNativeW& cmemCurText, bool bStripMaxPa
 				if( GetSelectedDataOne( cmemCurText, INT_MAX ) ){
 					/* 検索文字列を現在位置の単語で初期化 */
 					if( bStripMaxPath ){
-						LimitStringLengthW(cmemCurText.GetStringPtr(), cmemCurText.GetStringLength(), _MAX_PATH - 1, cmemTopic);
+						cmemTopic.LimitStringLengthW(cmemCurText.GetStringPtr(), cmemCurText.GetStringLength(), _MAX_PATH - 1);
 					}else{
 						cmemTopic = cmemCurText;
 					}
