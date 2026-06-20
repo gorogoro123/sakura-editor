@@ -336,12 +336,12 @@ void CDlgTypeList::SetData( int selIdx )
 			continue;
 		}
 		if( type->m_szTypeExts[0] != L'\0' ){		/* タイプ属性：拡張子リスト */
-			auto_sprintf( szText, L"%s ( %s )",
+			auto_snprintf_s( szText, std::size(szText), L"%s ( %s )",
 				type->m_szTypeName.c_str(),	/* タイプ属性：名称 */
 				type->m_szTypeExts.c_str()	/* タイプ属性：拡張子リスト */
 			);
 		}else{
-			auto_sprintf( szText, L"%s",
+			auto_snprintf_s( szText, std::size(szText), L"%s",
 				type->m_szTypeName.c_str()	/* タイプ属性：拡称 */
 			);
 		}
@@ -525,7 +525,7 @@ bool CDlgTypeList::InitializeType( )
 		bool bUpdate = true;
 		for(int i = 1; i < GetDllShareData().m_nTypesCount; i++){
 			if( bUpdate ){
-				auto_sprintf( type->m_szTypeName, LS(STR_DLGTYPELIST_SETNAME), nNameNum );
+				auto_snprintf_s( type->m_szTypeName, type->m_szTypeName.capacity(), LS(STR_DLGTYPELIST_SETNAME), nNameNum );
 				nNameNum++;
 				bUpdate = false;
 			}
@@ -591,7 +591,7 @@ bool CDlgTypeList::CopyType()
 				n++;
 			}
 			WCHAR szNum[12];
-			auto_sprintf( szNum, L"%d", n );
+			auto_snprintf_s( szNum, std::size(szNum), L"%d", n );
 			auto nLen = int(wcslen(szNum));
 			WCHAR szTemp[type.m_szTypeName.capacity() + 12];
 			wcscpy( szTemp, type.m_szTypeName );
