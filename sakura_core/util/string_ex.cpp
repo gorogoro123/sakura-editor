@@ -49,7 +49,7 @@ int __cdecl my_strnicmp( const char *s1, const char *s2, size_t n )
 */
 
 ACHAR* tcstostr( ACHAR* dest, const WCHAR* src, size_t count){
-	WCHAR* pr = const_cast<WCHAR*>(src);
+	const WCHAR* pr = src;
 	ACHAR* pw = dest;
 	for( ; pr < src+count; ++pr ){
 		*pw = static_cast<ACHAR>(*pr);
@@ -58,7 +58,7 @@ ACHAR* tcstostr( ACHAR* dest, const WCHAR* src, size_t count){
 	return pw;
 }
 WCHAR* tcstostr( WCHAR* dest, const WCHAR* src, size_t count){
-	WCHAR* pr = const_cast<WCHAR*>(src);
+	const WCHAR* pr = src;
 	WCHAR* pw = dest;
 	for( ; pr < src+count; ++pr ){
 		*pw = (*pr);
@@ -79,7 +79,7 @@ WCHAR* strtotcs( WCHAR* dest, const ACHAR* src, size_t count )
 }
 WCHAR* strtotcs( WCHAR* dest, const WCHAR* src, size_t count )
 {
-	WCHAR* pr = const_cast<WCHAR*>(src);
+	const WCHAR* pr = src;
 	WCHAR* pw = dest;
 	for( ; pr < src+count; ++pr ){
 		*pw = (*pr);
