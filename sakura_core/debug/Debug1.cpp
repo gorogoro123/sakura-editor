@@ -18,11 +18,6 @@
 
 #include "debug/Debug1.h"
 
-#include <cstdio>
-#include <cstdarg>
-
-#include "util/string_ex.h"
-
 #if defined(_DEBUG) || defined(USE_RELPRINT)
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
@@ -37,32 +32,28 @@
 */
 void DebugOutW( LPCWSTR lpFmt, ...)
 {
-	static WCHAR szText[16000];
+	thread_local WCHAR szText[16000]; 
 
 	va_list argList;
 	va_start(argList, lpFmt);
 
 	//整形
-	int ret = _vsnwprintf_s( szText, _TRUNCATE, lpFmt, argList );
+	int ret = _vsnwprintf_s( szText, std::size(szText), _TRUNCATE, lpFmt, argList );
+
+	va_end(argList);
 
 	//出力
-	if( errno != EINVAL ){
+	if( ret >= 0 ){
 		::OutputDebugStringW( szText );
 	}
-
 	//切り捨て対策
-	if( -1 == ret && errno != ERANGE ){
+	else if( ret == -1 ){
 		::OutputDebugStringW( L"(切り捨てました...)\n" );
 
 		::DebugBreak();
 
-		std::wstring strTooLongMessage;
-		vstrprintf( strTooLongMessage, lpFmt, argList );
-
-		::OutputDebugStringW( strTooLongMessage.c_str() );
+		::OutputDebugStringW( szText );
 	}
-
-	va_end(argList);
 
 	//ウェイト
 	::Sleep(1);	// Norio Nakatani, 2001/06/23 大量にトレースするときのために
