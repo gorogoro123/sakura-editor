@@ -1768,7 +1768,6 @@ bool CEditView::GetSelectedData(
 	CLogicInt		nIdxTo;
 	int				nRowNum;
 	int				nLineNumCols = 0;
-	wchar_t*		pszLineNum = nullptr;
 	const wchar_t*	pszSpaces = L"                    ";
 	const CLayout*	pcLayout;
 
@@ -1783,7 +1782,6 @@ bool CEditView::GetSelectedData(
 		nLineNumCols = GetTextArea().DetectWidthOfLineNumberArea_calculate(&m_pcEditDoc->m_cLayoutMgr, true);
 		nLineNumCols += 1;
 		strLineNum.assign(nLineNumCols, L'\0');
-		pszLineNum = strLineNum.data();
 	}
 
 	CLayoutRect			rcSel;
@@ -1942,9 +1940,9 @@ bool CEditView::GetSelectedData(
 				buffer->Append( pszQuote, quoteLen );
 			}
 			if( bWithLineNumber ){	/* 行番号を付与する */
-				auto lineNumLen = auto_sprintf( pszLineNum, L" %d:" , nLineNum + 1 );
-				buffer->Append( pszSpaces, nLineNumCols - wcslen( pszLineNum ) );
-				buffer->Append( pszLineNum, (size_t)lineNumLen );
+				auto lineNumLen = auto_snprintf_s( strLineNum.data(), strLineNum.size() , L" %d:" , nLineNum + 1 );
+				buffer->Append( pszSpaces, nLineNumCols - lineNumLen );
+				buffer->Append( strLineNum.c_str(), (size_t)lineNumLen );
 			}
 
 			if( pcLayout->GetLayoutEol().IsValid() ){
