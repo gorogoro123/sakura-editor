@@ -814,13 +814,11 @@ int CDlgGrep::GetData( )
 	ApiWrap::DlgItem_GetText( GetHwnd(), IDC_COMBO_FILE, m_szFile, m_szFile.capacity() );
 	bool bFromThisText = IsDlgButtonCheckedBool(GetHwnd(), IDC_CHK_FROMTHISTEXT);
 	if( bFromThisText ){
-		WCHAR szHwnd[_MAX_PATH];
 #ifdef _WIN64
-		auto_sprintf(szHwnd, L":HWND:%016I64x", ::GetParent(GetHwnd()));
+		auto_snprintf_s(m_szFile.data(), m_szFile.capacity(), L":HWND:%016I64x", ::GetParent(GetHwnd()));
 #else
-		auto_sprintf(szHwnd, L":HWND:%08x", ::GetParent(GetHwnd()));
+		auto_snprintf_s(m_szFile.data(), m_szFile.capacity(), L":HWND:%08x", ::GetParent(GetHwnd()));
 #endif
-		m_szFile = szHwnd;
 	}else{
 		std::wstring strFile(m_szFile);
 		if (strFile.substr(0, 6) == L":HWND:") {
