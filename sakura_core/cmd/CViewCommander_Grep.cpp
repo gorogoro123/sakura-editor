@@ -14,7 +14,6 @@
 */
 #include "CViewCommander.h"
 #include "CViewCommander_inline.h"
-
 #include "_main/CControlTray.h"
 #include "CEditApp.h"
 #include "agent/CGrepAgent.h"
@@ -218,7 +217,6 @@ void CViewCommander::Command_GREP_REPLACE( )
 
 		// -GREPMODE -GKEY="1" -GREPR="2" -GFILE="*.*;*.c;*.h" -GFOLDER="c:\" -GCODE=0 -GOPT=S
 		CNativeW cCmdLine;
-		WCHAR szTemp[20];
 		cCmdLine.AppendString(L"-GREPMODE -GKEY=\"");
 		cCmdLine.AppendString(cmWork1.GetStringPtr());
 		cCmdLine.AppendString(L"\" -GREPR=\"");
@@ -228,7 +226,8 @@ void CViewCommander::Command_GREP_REPLACE( )
 		cCmdLine.AppendString(L"\" -GFOLDER=\"");
 		cCmdLine.AppendString(cmWork3.GetStringPtr());
 		cCmdLine.AppendString(L"\" -GCODE=");
-		auto_sprintf( szTemp, L"%d", cDlgGrepRep.m_nGrepCharSet );
+		WCHAR szTemp[20];
+		auto_snprintf_s( szTemp, std::size(szTemp), L"%d", cDlgGrepRep.m_nGrepCharSet );
 		cCmdLine.AppendString(szTemp);
 
 		//GOPTオプション
