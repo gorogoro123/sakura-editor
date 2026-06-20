@@ -248,11 +248,6 @@ EConvertResult CShiftJis::UnicodeToSJIS( const CNativeW& cSrc, CMemory* pDstMem 
 EConvertResult CShiftJis::UnicodeToHex(const wchar_t* cSrc, const int iSLen, std::span<WCHAR> szDst, const CommonSetting_Statusbar* psStatusbar)
 {
 	CNativeW		cCharBuffer;
-	EConvertResult	res;
-	int				i;
-	unsigned char*	ps;
-	WCHAR*			pd;
-	bool			bbinary=false;
 
 	// 2008/6/21 Uchi
 	if (psStatusbar->m_bDispUniInSjis) {
@@ -262,26 +257,33 @@ EConvertResult CShiftJis::UnicodeToHex(const wchar_t* cSrc, const int iSLen, std
 
 	cCharBuffer.AppendString(cSrc, 1);
 
-	if( IsBinaryOnSurrogate(cSrc[0]) ){
-		bbinary = true;
-	}
+	const bool bbinary = IsBinaryOnSurrogate(cSrc[0]);
 
 	// SJIS 変換
-	res = UnicodeToSJIS(cCharBuffer, cCharBuffer._GetMemory());
+	auto* mem = cCharBuffer._GetMemory();
+	EConvertResult res = UnicodeToSJIS(cCharBuffer, mem);
 	if (res != RESULT_COMPLETE) {
 		return RESULT_LOSESOME;
 	}
 
 	// Hex変換
-	ps = reinterpret_cast<unsigned char*>( cCharBuffer._GetMemory()->GetRawPtr() );
-	pd = szDst.data();
+	auto* bytes = reinterpret_cast<unsigned char*>(mem->GetRawPtr());
+	const size_t len = mem->GetRawLength();
+
+	std::wstring tmp;
+	tmp.reserve(len * 2 + 2);
+
 	if( bbinary == false ){
-		for (i = cCharBuffer._GetMemory()->GetRawLength(); i >0; i--, ps ++, pd += 2) {
-			auto_sprintf( pd, L"%02X", *ps);
+		for (size_t i = 0; i < len; i++) {
+			std::format_to(std::back_inserter(tmp), L"{:02X}", bytes[i]);
 		}
 	}else{
-		auto_sprintf( pd, L"?%02X", *ps );
+		std::format_to(std::back_inserter(tmp), L"?{:02X}", bytes[0]);
 	}
 
+	if (!szDst.empty()) {
+		wcsncpy_s(szDst.data(), szDst.size(), tmp.c_str(), _TRUNCATE);
+	}
+	
 	return RESULT_COMPLETE;
 }
