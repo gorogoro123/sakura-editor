@@ -233,14 +233,13 @@ void CDocOutline::MakeTopicList_txt( CFuncInfoArr* pcFuncInfoArr )
 void CDocOutline::MakeTopicList_wztxt(CFuncInfoArr* pcFuncInfoArr)
 {
 	int levelPrev = 0;
-	bool bExtEol = GetDllShareData().m_Common.m_sEdit.m_bEnableExtEol;
+	const bool bExtEol = GetDllShareData().m_Common.m_sEdit.m_bEnableExtEol;
 
 	for(CLogicInt nLineCount=CLogicInt(0);nLineCount<m_pcDocRef->m_cDocLineMgr.GetLineCount();nLineCount++)
 	{
-		const wchar_t*	pLine;
 		CLogicInt		nLineLen;
 
-		pLine = CDocLine::GetDocLineStrWithEOL(m_pcDocRef->m_cDocLineMgr.GetLine(nLineCount), &nLineLen);
+		const wchar_t* pLine = CDocLine::GetDocLineStrWithEOL(m_pcDocRef->m_cDocLineMgr.GetLine(nLineCount), &nLineLen);
 		if(!pLine)
 		{
 			break;
@@ -249,8 +248,6 @@ void CDocOutline::MakeTopicList_wztxt(CFuncInfoArr* pcFuncInfoArr)
 		if( *pLine == L'.' )
 		{
 			const wchar_t* pPos;	//	May 25, 2003 genta
-			int			nLength;
-			wchar_t		szTitle[1024];
 
 			//	ピリオドの数＝階層の深さを数える
 			for( pPos = pLine + 1 ; *pPos == L'.' ; ++pPos )
@@ -281,23 +278,20 @@ void CDocOutline::MakeTopicList_wztxt(CFuncInfoArr* pcFuncInfoArr)
 			}
 			levelPrev = level;
 
-			nLength = auto_sprintf(szTitle,L"%d - ", level );
+			std::wstring szTitle = std::format(L"{} - ", level);
 			
-			wchar_t *pDest = szTitle + nLength; // 書き込み先
-			wchar_t *pDestEnd = szTitle + int(std::size(szTitle)) - 2;
-			
-			while( pDest < pDestEnd )
+			while (*pPos != L'\0' && szTitle.size() < 1023)
 			{
 				if( WCODE::IsLineDelimiter(*pPos, bExtEol) || *pPos == L'\0')
 				{
 					break;
 				}
 				else {
-					*pDest++ = *pPos++;
+					szTitle.push_back(*pPos);
+					pPos++;
 				}
 			}
-			*pDest = L'\0';
-			pcFuncInfoArr->AppendData(nLineCount+CLogicInt(1),ptPos.GetY2()+CLayoutInt(1),szTitle, 0, level - 1);
+			pcFuncInfoArr->AppendData(nLineCount+CLogicInt(1),ptPos.GetY2()+CLayoutInt(1),szTitle.c_str(), 0, level - 1);
 		}
 	}
 }
