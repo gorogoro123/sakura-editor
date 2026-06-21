@@ -880,7 +880,7 @@ BOOL CEditDoc::OnFileClose(bool bGrepNoConfirm)
 		int			nLen = (int)wcslen( pszGrepKey );
 		CNativeW	cmemDes;
 		cmemDes.LimitStringLengthW( pszGrepKey , nLen, 64 );
-		auto_sprintf( szGrepTitle, LS(STR_TITLE_GREP),
+		auto_snprintf_s( szGrepTitle, std::size(szGrepTitle), LS(STR_TITLE_GREP),
 			cmemDes.GetStringPtr(),
 			( nLen > cmemDes.GetStringLength() ) ? L"..." : L""
 		);
@@ -888,7 +888,7 @@ BOOL CEditDoc::OnFileClose(bool bGrepNoConfirm)
 	}
 	if( nullptr == pszTitle ){
 		const EditNode* node = CAppNodeManager::getInstance()->GetEditNode( CEditWnd::getInstance()->GetHwnd() );
-		auto_sprintf( szGrepTitle, L"%s%d", LS(STR_NO_TITLE1), node->m_nId );	//(無題)
+		auto_snprintf_s( szGrepTitle, std::size(szGrepTitle), L"%s%d", LS(STR_NO_TITLE1), node->m_nId );	//(無題)
 		pszTitle = szGrepTitle;
 	}
 	/* ウィンドウをアクティブにする */
