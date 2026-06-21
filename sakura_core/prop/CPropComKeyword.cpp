@@ -705,12 +705,10 @@ void CPropKeyword::GetKeyWordSet( [[maybe_unused]] HWND hwndDlg, [[maybe_unused]
 //キーワード数を表示する。
 void CPropKeyword::DispKeywordCount( HWND hwndDlg )
 {
-	HWND	hwndList;
-	int		n;
 	WCHAR szCount[ 256 ];
 
-	hwndList = ::GetDlgItem( hwndDlg, IDC_LIST_KEYWORD );
-	n = ListView_GetItemCount( hwndList );
+	HWND hwndList = ::GetDlgItem( hwndDlg, IDC_LIST_KEYWORD );
+	int n = ListView_GetItemCount( hwndList );
 	if( n < 0 ) n = 0;
 
 	int		nAlloc;
@@ -718,6 +716,6 @@ void CPropKeyword::DispKeywordCount( HWND hwndDlg )
 	nAlloc -= m_Common.m_sSpecialKeyword.m_CKeyWordSetMgr.GetKeyWordNum( m_Common.m_sSpecialKeyword.m_CKeyWordSetMgr.m_nCurrentKeyWordSetIdx );
 	nAlloc += m_Common.m_sSpecialKeyword.m_CKeyWordSetMgr.GetFreeSize();
 	
-	auto_sprintf( szCount, LS(STR_PROPCOMKEYWORD_INFO), MAX_KEYWORDLEN, n, nAlloc );
+	auto_snprintf_s( szCount, std::size(szCount), LS(STR_PROPCOMKEYWORD_INFO), MAX_KEYWORDLEN, n, nAlloc );
 	::SetWindowText( ::GetDlgItem( hwndDlg, IDC_STATIC_KEYWORD_COUNT ), szCount );
 }
