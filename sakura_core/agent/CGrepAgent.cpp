@@ -802,9 +802,9 @@ DWORD CGrepAgent::DoGrep(
 	if( sGrepOption.bGrepHeader ){
 		WCHAR szBuffer[128];
 		if( bGrepReplace ){
-			auto_sprintf( szBuffer, LS(STR_GREP_REPLACE_COUNT), nHitCount );
+			auto_snprintf_s( szBuffer, std::size(szBuffer), LS(STR_GREP_REPLACE_COUNT), nHitCount );
 		}else{
-			auto_sprintf( szBuffer, LS( STR_GREP_MATCH_COUNT ), nHitCount );
+			auto_snprintf_s( szBuffer, std::size(szBuffer), LS( STR_GREP_MATCH_COUNT ), nHitCount );
 		}
 		CNativeW cmemOutput;
 		cmemOutput.SetString( szBuffer );
@@ -1373,8 +1373,7 @@ int CGrepAgent::DoGrepFile(
 			X / O  :                  (D)Folder(Abs) -> (G)RelPath(File)
 			X / X  : (H)FullPath
 */
-			auto pszWork = std::make_unique<wchar_t[]>(wcslen(pszFullPath) + wcslen(pszCodeName) + 10);
-			wchar_t* szWork0 = &pszWork[0];
+			std::vector<WCHAR> szWork0(wcslen(pszFullPath) + wcslen(pszCodeName) + 10);
 			if( sGrepOption.bGrepOutputBaseFolder || sGrepOption.bGrepSeparateFolder ){
 				if( !bOutputBaseFolder && sGrepOption.bGrepOutputBaseFolder ){
 					const wchar_t* pszFormatBasePath = L"";
@@ -1383,27 +1382,27 @@ int CGrepAgent::DoGrepFile(
 					}else{
 						pszFormatBasePath = pszFormatBasePath2;	// (B)
 					}
-					auto_sprintf( szWork0, pszFormatBasePath, pszBaseFolder );
-					cmemMessage.AppendString( szWork0 );
+					auto_snprintf_s( szWork0.data(), szWork0.size(), pszFormatBasePath, pszBaseFolder);
+					cmemMessage.AppendString( szWork0.data() );
 					bOutputBaseFolder = true;
 				}
 				if( !bOutputFolderName && sGrepOption.bGrepSeparateFolder ){
 					if( pszFolder[0] ){
-						auto_sprintf( szWork0, L"■\"%s\"\r\n", pszFolder );	// (C), (D)
+						auto_snprintf_s( szWork0.data(), szWork0.size(), L"■\"%s\"\r\n", pszFolder);	// (C), (D)
 					}else{
-						wcscpy( szWork0, L"■\r\n" );
+						wcscpy_s( szWork0.data(), szWork0.size(), L"■\r\n");
 					}
-					cmemMessage.AppendString( szWork0 );
+					cmemMessage.AppendString( szWork0.data() );
 					bOutputFolderName = true;
 				}
-				auto_sprintf( szWork0,
+				auto_snprintf_s( szWork0.data(), szWork0.size(),
 					(sGrepOption.bGrepSeparateFolder ? pszFormatFilePath // (E)
 						: pszFormatFilePath2),	// (F), (G)
 					pszDispFilePath, pszCodeName );
-				cmemMessage.AppendString( szWork0 );
+				cmemMessage.AppendString( szWork0.data() );
 			}else{
-				auto_sprintf( szWork0, pszFormatFullPath, pszFullPath, pszCodeName );	// (H)
-				cmemMessage.AppendString( szWork0 );
+				auto_snprintf_s( szWork0.data(), szWork0.size(), pszFormatFullPath, pszFullPath, pszCodeName);	// (H)
+				cmemMessage.AppendString( szWork0.data() );
 			}
 		}
 		++(*pnHitCount);
@@ -1484,7 +1483,7 @@ int CGrepAgent::DoGrepFile(
 						if( 5 <= nPercent - nOldPercent ){
 							nOldPercent = nPercent;
 							WCHAR szWork[10];
-							::auto_sprintf( szWork, L" (%3d%%)", nPercent );
+							::auto_snprintf_s( szWork, std::size(szWork), L" (%3d%%)", nPercent);
 							std::wstring str;
 							str = str + pszFile + szWork;
 							ApiWrap::DlgItem_SetText( pcDlgCancel->GetHwnd(), IDC_STATIC_CURFILE, str.c_str() );
