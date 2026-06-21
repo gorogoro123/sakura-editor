@@ -18,8 +18,6 @@
 	Please contact the copyright holder to use this code for other purpose.
 */
 
-#include <array>
-#include <wrl.h>
 #include <shlwapi.h>
 #include <shobjidl.h>
 #include "charset/CCodePage.h"
@@ -440,11 +438,10 @@ void CDlgOpenFile_CommonItemDialog::Create(
 		//	Jun. 23, 2002 genta
 		my_splitpath_w( pszDefaultPath, szDrive, szDir, nullptr, nullptr );
 		// 2010.08.28 相対パス解決
-		WCHAR szRelPath[_MAX_PATH];
-		auto_sprintf( szRelPath, L"%s%s", szDrive, szDir );
-		const WCHAR* p = szRelPath;
-		if( ! ::GetLongFileName( p, m_szInitialDir ) ){
-			m_szInitialDir = p;
+		SFilePath szRelPath;
+		auto_snprintf_s( szRelPath.data(), szRelPath.capacity(), L"%s%s", szDrive, szDir );
+		if( ! ::GetLongFileName( szRelPath.c_str(), m_szInitialDir ) ){
+			m_szInitialDir = szRelPath;
 		}
 	}
 	m_vMRU = vMRU;
