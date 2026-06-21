@@ -453,8 +453,7 @@ HFONT CPropCommon::SetFontLabel( HWND hwndDlg, int idc_static, const LOGFONT& lf
 {
 	HFONT	hFont;
 	WCHAR	szFontName[80];
-	LOGFONT lfTemp;
-	lfTemp = lf;
+	LOGFONT lfTemp = lf;
 
 	// 大きすぎるフォントは小さく表示
 	LONG limitSize = ::DpiPointsToPixels( 16 );
@@ -465,7 +464,7 @@ HFONT CPropCommon::SetFontLabel( HWND hwndDlg, int idc_static, const LOGFONT& lf
 	hFont = SetCtrlFont( hwndDlg, idc_static, lfTemp );
 
 	// フォント名の設定
-	auto_sprintf( szFontName, nps % 10 ? L"%s(%.1fpt)" : L"%s(%.0fpt)",
+	auto_snprintf_s( szFontName, std::size(szFontName), nps % 10 ? L"%s(%.1fpt)" : L"%s(%.0fpt)",
 		lf.lfFaceName, double(nps)/10 );
 	ApiWrap::DlgItem_SetText( hwndDlg, idc_static, szFontName );
 
