@@ -265,9 +265,9 @@ const WCHAR* CFuncLookup::Custmenu2Name( int index, std::span<WCHAR> szName ) co
 		return nullptr;
 
 	// 共通設定で名称を設定していればそれを返す
-	if ( m_pCommon->m_sCustomMenu.m_szCustMenuNameArr[ index ][0] != '\0' ) {
-		::wcsncpy_s(szName.data(), szName.size(), m_pCommon->m_sCustomMenu.m_szCustMenuNameArr[ index ], _TRUNCATE);
-		return m_pCommon->m_sCustomMenu.m_szCustMenuNameArr[ index ];
+	if ( !m_pCommon->m_sCustomMenu.m_szCustMenuNameArr[ index ].empty() ) {
+		::wcsncpy_s(szName.data(), szName.size(), m_pCommon->m_sCustomMenu.m_szCustMenuNameArr[ index ].c_str(), _TRUNCATE);
+		return m_pCommon->m_sCustomMenu.m_szCustMenuNameArr[ index ].c_str();
 	}
 
 	// 共通設定で未設定の場合、リソースのデフォルト名を返す

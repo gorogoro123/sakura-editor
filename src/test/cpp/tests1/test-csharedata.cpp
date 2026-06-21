@@ -798,7 +798,7 @@ MATCHER(IsInitializedCommonSettingCustomMenu, "Checks if CommonSetting_CustomMen
 	};
 
 	for (int i = 0; i < MAX_CUSTOM_MENU; ++i) {
-		EXPECT_THAT(sCustomMenu.m_szCustMenuNameArr[i], StrEq(L""));
+		EXPECT_THAT(sCustomMenu.m_szCustMenuNameArr[i].c_str(), StrEq(L""));
 		EXPECT_THAT(sCustomMenu.m_bCustMenuPopupArr[i], IsTrue());
 	}
 
