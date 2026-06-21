@@ -106,13 +106,13 @@ void CDlgTypeAscertain::SetData( )
 			continue;
 		}
 		if (type->m_szTypeExts[0] != L'\0' ) {		/* タイプ属性：拡張子リスト */
-			auto_sprintf( szText, L"%s (%s)",
+			auto_snprintf_s( szText, std::size(szText), L"%s (%s)",
 				type->m_szTypeName.c_str(),	/* タイプ属性：名称 */
 				type->m_szTypeExts.c_str()	/* タイプ属性：拡張子リスト */
 			);
 		}
 		else{
-			auto_sprintf( szText, L"%s",
+			auto_snprintf_s( szText, std::size(szText), L"%s",
 				type->m_szTypeName.c_str()	/* タイプ属性：拡称 */
 			);
 		}
@@ -131,7 +131,7 @@ void CDlgTypeAscertain::SetData( )
 		bFind = FindNextFile( hFind, &wf )) {
 		if ( (wf.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0) {
 			// 読込色設定ファイル発見
-			auto_sprintf( szText, L"File -- %s", wf.cFileName );
+			auto_snprintf_s( szText, std::size(szText), L"File -- %s", wf.cFileName );
 			ApiWrap::Combo_AddString( hwndCombo, szText );
 		}
 	}
