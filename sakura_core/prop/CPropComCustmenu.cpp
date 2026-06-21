@@ -238,7 +238,7 @@ INT_PTR CPropCustmenu::DispatchEvent(
 					break;
 				}
 				ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_MENUNAME,
-					m_Common.m_sCustomMenu.m_szCustMenuNameArr[nIdx1], MAX_CUSTOM_MENU_NAME_LEN );
+					m_Common.m_sCustomMenu.m_szCustMenuNameArr[nIdx1].data(), MAX_CUSTOM_MENU_NAME_LEN );
 				//	Combo Boxも変更 削除＆再登録
 				ApiWrap::Combo_DeleteString( hwndCOMBO_MENU, nIdx1 );
 				ApiWrap::Combo_InsertString( hwndCOMBO_MENU, nIdx1,
@@ -711,7 +711,7 @@ void CPropCustmenu::SetDataMenuList(HWND hwndDlg, int nIdx)
 	}
 	
 	//	Oct. 15, 2001 genta メニュー名を設定
-	ApiWrap::DlgItem_SetText( hwndDlg, IDC_EDIT_MENUNAME, m_Common.m_sCustomMenu.m_szCustMenuNameArr[nIdx] );
+	ApiWrap::DlgItem_SetText( hwndDlg, IDC_EDIT_MENUNAME, m_Common.m_sCustomMenu.m_szCustMenuNameArr[nIdx].c_str() );
 
 	CheckDlgButtonBool( hwndDlg, IDC_CHECK_SUBMENU, m_Common.m_sCustomMenu.m_bCustMenuPopupArr[nIdx] );
 	::SendMessage( hwndDlg, WM_SETREDRAW, TRUE, 0 );

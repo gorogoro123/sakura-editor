@@ -928,7 +928,7 @@ void CShareData_IO::IO_CustMenu( CDataProfile& cProfile, CommonSetting_CustomMen
 
 	for( i = 0; i < MAX_CUSTOM_MENU; ++i ){
 		auto_snprintf_s( szKeyName, std::size(szKeyName), L"szCMN[%02d]", i );
-		cProfile.IOProfileData(pszSecName, szKeyName, StringBufferW(menu.m_szCustMenuNameArr[i]));	//	Oct. 15, 2001 genta 最大長指定
+		cProfile.IOProfileData(pszSecName, szKeyName, menu.m_szCustMenuNameArr[i]);	//	Oct. 15, 2001 genta 最大長指定
 		auto_snprintf_s( szKeyName, std::size(szKeyName), L"bCMPOP[%02d]", i );
 		cProfile.IOProfileData( pszSecName, szKeyName, menu.m_bCustMenuPopupArr[i] );
 		auto_snprintf_s( szKeyName, std::size(szKeyName), L"nCMIN[%02d]", i );
