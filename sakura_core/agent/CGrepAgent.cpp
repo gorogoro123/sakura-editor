@@ -809,7 +809,7 @@ DWORD CGrepAgent::DoGrep(
 		cmemOutput.SetString( szBuffer );
 		AddTail( pcViewDst, cmemOutput, sGrepOption.bGrepStdout );
 #if defined(_DEBUG) && defined(TIME_MEASURE)
-		auto_sprintf( szBuffer, LS(STR_GREP_TIMER), cRunningTimer.Read() );
+		auto_snprintf_s( szBuffer, std::size(szBuffer), LS(STR_GREP_TIMER), cRunningTimer.Read() );
 		cmemOutput.SetString( szBuffer );
 		AddTail( pcViewDst, cmemOutput, sGrepOption.bGrepStdout );
 #endif
@@ -1076,7 +1076,7 @@ cancel_return:;
 }
 
 /*!	@brief マッチした行番号と桁番号をGrep結果に出力する為に文字列化
-	auto_sprintf 関数を 書式文字列 "(%I64d,%d)" で実行するのと同等の処理結果を生成
+	auto_snprintf_s 関数を 書式文字列 "(%I64d,%d)" で実行するのと同等の処理結果を生成
 	高速化の為に自前実装に置き換え
 	@return 出力先文字列
 */
@@ -1109,7 +1109,7 @@ wchar_t* lineColumnToString(
 #ifdef _DEBUG
 	// Debug 版に限って両方実行して、両者が一致することを確認
 	wchar_t strWork2[requiredMinimumCapacity];
-	::auto_sprintf( strWork2, L"(%I64d,%d)", nLine, nColumn );
+	::auto_snprintf_s( strWork2, std::size(strWork2), L"(%I64d,%d)", nLine, nColumn );
 	assert(wcscmp(strWork, strWork2) == 0);
 #endif
 	return strWork;
@@ -1160,7 +1160,7 @@ void CGrepAgent::SetGrepResult(
 	}
 	/* WZ風 */
 	else if( 2 == sGrepOption.nGrepOutputStyle ){
-		::auto_sprintf( strWork, L"・(%6I64d,%-5d): ", nLine, nColumn );
+		::auto_snprintf_s( strWork, std::size(strWork), L"・(%6I64d,%-5d): ", nLine, nColumn );
 		cmemBuf.AppendString( strWork );
 		nMaxOutStr = 2500; // 2003.06.10 Moca 最大長変更
 	}
@@ -1919,7 +1919,7 @@ int CGrepAgent::DoGrepReplaceFile(
 					if( 5 <= nPercent - nOldPercent ){
 						nOldPercent = nPercent;
 						WCHAR szWork[10];
-						::auto_sprintf( szWork, L" (%3d%%)", nPercent );
+						::auto_snprintf_s( szWork, std::size(szWork), L" (%3d%%)", nPercent );
 						std::wstring str;
 						str = str + pszFile + szWork;
 						ApiWrap::DlgItem_SetText( pcDlgCancel->GetHwnd(), IDC_STATIC_CURFILE, str.c_str() );
