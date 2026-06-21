@@ -149,15 +149,16 @@ int CBackupAgent::MakeBackUp(
 		HANDLE			hFind;
 		WIN32_FIND_DATA	fData;
 
-		WCHAR*	pBase = szPath + wcslen( szPath ) - 2;	//	2: 拡張子の最後の2桁の意味
+		std::wstring base(szPath);
+		base.resize(base.size() - 2);
 
 		//------------------------------------------------------------------
 		//	1. 該当ディレクトリ中のbackupファイルを1つずつ探す
 		for( i = 0; i <= 99; i++ ){	//	最大値に関わらず，99（2桁の最大値）まで探す
 			//	ファイル名をセット
-			auto_sprintf( pBase, L"%02d", i );
+			auto_snprintf_s(szPath, std::size(szPath), L"%s%02d", base.c_str(), i);
 
-			hFind = ::FindFirstFile( szPath, &fData );
+			hFind = ::FindFirstFile( szPath, &fData);
 			if( hFind == INVALID_HANDLE_VALUE ){
 				//	検索に失敗した == ファイルは存在しない
 				break;
@@ -176,7 +177,8 @@ int CBackupAgent::MakeBackUp(
 
 		for( ; i >= boundary; --i ){
 			//	ファイル名をセット
-			auto_sprintf( pBase, L"%02d", i );
+			auto_snprintf_s(szPath, std::size(szPath), L"%s%02d", base.c_str(), i);
+
 			if( ::DeleteFile( szPath ) == 0 ){
 				::MessageBox( CEditWnd::getInstance()->GetHwnd(), szPath, LS(STR_BACKUP_ERR_DELETE), MB_OK );
 				//	Jun.  5, 2005 genta 戻り値変更
@@ -191,15 +193,11 @@ int CBackupAgent::MakeBackUp(
 
 		//	3. そこから0番まではコピーしながら移動
 		WCHAR szNewPath[MAX_PATH];
-		WCHAR *pNewNrBase;
-
-		wcscpy( szNewPath, szPath );
-		pNewNrBase = szNewPath + wcslen( szNewPath ) - 2;
 
 		for( ; i >= 0; --i ){
 			//	ファイル名をセット
-			auto_sprintf( pBase, L"%02d", i );
-			auto_sprintf( pNewNrBase, L"%02d", i + 1 );
+			auto_snprintf_s(szPath, std::size(szPath), L"%s%02d", base.c_str(), i);
+			auto_snprintf_s(szNewPath, std::size(szNewPath), L"%s%02d", base.c_str(), i+1);
 
 			//	ファイルの移動
 			if( ::MoveFile( szPath, szNewPath ) == 0 ){
@@ -222,7 +220,7 @@ int CBackupAgent::MakeBackUp(
 	WCHAR	szExt[_MAX_EXT];
 	_wsplitpath_s( szPath, szDrive, szDir, szFname, szExt );
 	WCHAR	szPath2[MAX_PATH];
-	auto_sprintf( szPath2, L"%s%s", szDrive, szDir );
+	auto_snprintf_s( szPath2, std::size(szPath2), L"%s%s", szDrive, szDir );
 
 	HANDLE			hFind;
 	WIN32_FIND_DATA	fData;
