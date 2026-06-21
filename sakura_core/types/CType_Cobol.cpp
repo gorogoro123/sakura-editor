@@ -112,7 +112,7 @@ void CDocOutline::MakeTopicList_cobol( CFuncInfoArr* pcFuncInfoArr )
 				CLogicPoint(0, nLineCount),
 				&ptPos
 			);
-			auto_sprintf( szWork, L"%ls::%ls", szDivision, szLabel );
+			auto_snprintf_s( szWork, std::size(szWork), L"%ls::%ls", szDivision, szLabel );
 			pcFuncInfoArr->AppendData( nLineCount + CLogicInt(1), ptPos.GetY2() + CLayoutInt(1) , szWork, 0 );
 		}
 	}
