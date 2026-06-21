@@ -11,10 +11,8 @@
 	SPDX-License-Identifier: Zlib
 */
 
-#include <memory>
 #include "CImpExpManager.h"
 #include "typeprop/CDlgTypeAscertain.h"
-
 #include "dlg/CDlgOpenFile.h"
 #include "io/CTextStream.h"
 #include "env/CShareData_IO.h"
@@ -343,7 +341,7 @@ bool CImpExpType::Import( const std::wstring& sFileName, std::wstring& sErrMsg )
 	CKeyWordSetMgr&	cKeyWordSetMgr = common.m_sSpecialKeyword.m_CKeyWordSetMgr;
 	for (i=0; i < MAX_KEYWORDSET_PER_TYPE; i++) {
 		//types.m_nKeyWordSetIdx[i] = -1;
-		auto_sprintf( szKeyName, szKeyKeywordTemp, i+1 );
+		auto_snprintf_s( szKeyName, std::size(szKeyName), szKeyKeywordTemp, i+1 );
 		if (m_cProfile.IOProfileData(szSecTypeEx, szKeyName, StringBufferW(szKeyData))) {
 			nIdx = cKeyWordSetMgr.SearchKeyWordSet( szKeyData );
 			if (nIdx < 0) {
@@ -352,14 +350,14 @@ bool CImpExpType::Import( const std::wstring& sFileName, std::wstring& sErrMsg )
 				nIdx = cKeyWordSetMgr.SearchKeyWordSet( szKeyData );
 			}
 			if (nIdx >= 0) {
-				auto_sprintf( szKeyName, szKeyKeywordCaseTemp, i+1 );
+				auto_snprintf_s( szKeyName, std::size(szKeyName), szKeyKeywordCaseTemp, i+1 );
 				bCase = false;		// 大文字小文字区別しない (Defaule)
 				m_cProfile.IOProfileData( szSecTypeEx, szKeyName, bCase );
 
 				// キーワード定義ファイル入力
 				CImpExpKeyWord	cImpExpKeyWord( common, nIdx, bCase );
 
-				auto_sprintf( szKeyName, szKeyKeywordFileTemp, i+1 );
+				auto_snprintf_s( szKeyName, std::size(szKeyName), szKeyKeywordFileTemp, i+1 );
 				szFileName[0] = L'\0';
 				if (m_cProfile.IOProfileData(szSecTypeEx, szKeyName, StringBufferW(szFileName))) {
 					if( cImpExpKeyWord.Import( cImpExpKeyWord.MakeFullPath( szFileName ), TmpMsg )) {
@@ -436,8 +434,8 @@ bool CImpExpType::Export( const std::wstring& sFileName, std::wstring& sErrMsg )
 	// 共通設定との連結部
 	int		i;
 	wchar_t	szKeyName[64];
-	wchar_t buff[MAX_SETNAMELEN+1];
-	wchar_t	szFileName[_MAX_PATH+1];
+	StaticString<MAX_SETNAMELEN+1> buff;
+	SFilePath	szFileName;
 	bool	bCase;
 	std::wstring	files = L"";
 	std::wstring	sTmpMsg;
@@ -449,9 +447,9 @@ bool CImpExpType::Export( const std::wstring& sFileName, std::wstring& sErrMsg )
 	for (i=0; i < MAX_KEYWORDSET_PER_TYPE; i++) {
 		if (m_Types.m_nKeyWordSetIdx[i] >= 0) {
 			nIdx = m_Types.m_nKeyWordSetIdx[i];
-			auto_sprintf( szKeyName, szKeyKeywordTemp, i+1 );
-			wcscpy( buff, cKeyWordSetMgr.GetTypeName( nIdx ));
-			cProfile.IOProfileData(szSecTypeEx, szKeyName, StringBufferW(buff));
+			auto_snprintf_s( szKeyName, std::size(szKeyName), szKeyKeywordTemp, i+1 );
+			buff = cKeyWordSetMgr.GetTypeName( nIdx );
+			cProfile.IOProfileData(szSecTypeEx, szKeyName, buff);
 
 			// 大文字小文字区別
 			bCase = common.m_sSpecialKeyword.m_CKeyWordSetMgr.GetKeyWordCase( nIdx );
@@ -461,14 +459,14 @@ bool CImpExpType::Export( const std::wstring& sFileName, std::wstring& sErrMsg )
 			cImpExpKeyWord.SetBaseName( common.m_sSpecialKeyword.m_CKeyWordSetMgr.GetTypeName( nIdx ));
 
 			if ( cImpExpKeyWord.Export( cImpExpKeyWord.GetFullPath(), sTmpMsg ) ) {
-				wcscpy( szFileName, cImpExpKeyWord.GetFileName().c_str());
-				auto_sprintf( szKeyName, szKeyKeywordFileTemp, i+1 );
-				if (cProfile.IOProfileData(szSecTypeEx, szKeyName, StringBufferW(szFileName))) {
+				szFileName = cImpExpKeyWord.GetFileName().c_str();
+				auto_snprintf_s( szKeyName, std::size(szKeyName), szKeyKeywordFileTemp, i+1 );
+				if (cProfile.IOProfileData(szSecTypeEx, szKeyName, szFileName)) {
 					files += std::wstring( L"\n" ) + cImpExpKeyWord.GetFileName();
 				}
 			}
 
-			auto_sprintf( szKeyName, szKeyKeywordCaseTemp, i+1 );
+			auto_snprintf_s( szKeyName, std::size(szKeyName), szKeyKeywordCaseTemp, i+1 );
 			cProfile.IOProfileData( szSecTypeEx, szKeyName, bCase );
 		}
 	}
@@ -504,13 +502,13 @@ bool CImpExpType::Export( const std::wstring& sFileName, std::wstring& sErrMsg )
 	// Version
 	DLLSHAREDATA* pShare = &GetDllShareData();
 	int		nStructureVersion;
-	wchar_t	wbuff[_MAX_PATH + 1];
-	auto_sprintf( wbuff, L"%d.%d.%d.%d", 
+	StaticString<_MAX_PATH>	wbuff;
+	auto_snprintf_s( wbuff.data(), wbuff.capacity(), L"%d.%d.%d.%d", 
 				HIWORD( pShare->m_sVersion.m_dwProductVersionMS ),
 				LOWORD( pShare->m_sVersion.m_dwProductVersionMS ),
 				HIWORD( pShare->m_sVersion.m_dwProductVersionLS ),
 				LOWORD( pShare->m_sVersion.m_dwProductVersionLS ) );
-	cProfile.IOProfileData(szSecInfo, szKeyVersion, StringBufferW(wbuff));
+	cProfile.IOProfileData(szSecInfo, szKeyVersion, wbuff);
 	nStructureVersion = int(pShare->m_vStructureVersion);
 	cProfile.IOProfileData( szSecInfo, szKeyStructureVersion, nStructureVersion );
 
@@ -782,7 +780,7 @@ bool CImpExpKeyHelp::Import( const std::wstring& sFileName, std::wstring& sErrMs
 
 		//About
 		if (wcslen(p2) > DICT_ABOUT_LEN) {
-			auto_sprintf( msgBuff, LS(STR_IMPEXP_DIC_LENGTH), DICT_ABOUT_LEN );
+			auto_snprintf_s( msgBuff, std::size(msgBuff), LS(STR_IMPEXP_DIC_LENGTH), DICT_ABOUT_LEN );
 			sErrMsg = msgBuff;
 			++invalid_record;
 			continue;
@@ -806,7 +804,7 @@ bool CImpExpKeyHelp::Import( const std::wstring& sFileName, std::wstring& sErrMs
 
 	// 2007.02.03 genta 失敗したら警告する
 	if( invalid_record > 0 ){
-		auto_sprintf( msgBuff, LS(STR_IMPEXP_DIC_RECORD), invalid_record );
+		auto_snprintf_s( msgBuff, std::size(msgBuff), LS(STR_IMPEXP_DIC_RECORD), invalid_record );
 		sErrMsg = msgBuff;
 	}
 
