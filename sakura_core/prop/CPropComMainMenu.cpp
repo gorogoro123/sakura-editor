@@ -238,7 +238,6 @@ INT_PTR CPropMainMenu::DispatchEvent(
 
 	EFunctionCode	eFuncCode;
 	SMainMenuWork*	pFuncWk;	// 機能
-	WCHAR			szKey[2];
 
 	TV_INSERTSTRUCT	tvis;		// 挿入用
 	TV_ITEM			tvi;		// 取得用
@@ -375,7 +374,8 @@ INT_PTR CPropMainMenu::DispatchEvent(
 				}
 				pFuncWk = &msMenu[(int)tvi.lParam];
 				if (pFuncWk->m_nFunc != F_SEPARATOR) {
-					auto_sprintf( szKey, L"%ls", pFuncWk->m_sKey);
+					WCHAR szKey[2];
+					auto_snprintf_s( szKey, std::size(szKey), L"%ls", pFuncWk->m_sKey);
 
 					if (!cDlgInput1.DoModal(
 							G_AppInstance(),
@@ -386,7 +386,7 @@ INT_PTR CPropMainMenu::DispatchEvent(
 							szKey)) {
 						return TRUE;
 					}
-					auto_sprintf( pFuncWk->m_sKey, L"%s", szKey);
+					auto_snprintf_s( pFuncWk->m_sKey, std::size(pFuncWk->m_sKey),L"%s", szKey);
 					pFuncWk->m_bDupErr = false;
 
 					tvi.mask = TVIF_HANDLE | TVIF_TEXT | TVIF_PARAM;
