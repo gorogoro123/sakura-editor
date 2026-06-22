@@ -17,7 +17,7 @@ class CEditView;
 class CPythonMacroManager final : public CMacroManagerBase {
 public:
 	CPythonMacroManager();
-	virtual ~CPythonMacroManager() = default;
+	~CPythonMacroManager() = default;
 
 	bool ExecKeyMacro(CEditView *EditView, int flags) const override;
 	BOOL LoadKeyMacro(HINSTANCE hInstance, const WCHAR* pszPath) override;
