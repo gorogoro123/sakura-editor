@@ -99,4 +99,4 @@ void my_splitpath_w ( const wchar_t *comln , wchar_t *drv,wchar_t *dir,wchar_t *
 int FileMatchScoreSepExt( std::wstring_view file1, std::wstring_view file2 );
 
 void GetStrTrancateWidth( WCHAR* dest, int nSize, const WCHAR* path, HDC hDC, int nPxWidth );
-void GetShortViewPath(WCHAR* dest, int nSize, const WCHAR* path, HDC hDC, int nPxWidth, bool bFitMode );
+void GetShortViewPath( std::span<WCHAR> dest, const WCHAR* path, HDC hDC, int nPxWidth, bool bFitMode );

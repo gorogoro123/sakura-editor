@@ -61,10 +61,10 @@ void CFileNameManager::GetTransformFileNameFast( LPCWSTR pszSrc, std::span<WCHAR
 		}
 		if( nPxWidth != -1 ){
 			szBuf = szDest.data();
-			GetShortViewPath( szDest.data(), (int)(szDest.size()), szBuf.c_str(), hDC, nPxWidth, bFitMode );
+			GetShortViewPath( szDest, szBuf.c_str(), hDC, nPxWidth, bFitMode );
 		}
 	}else if( nPxWidth != -1 ){
-		GetShortViewPath( szDest.data(), (int)(szDest.size()), pszSrc, hDC, nPxWidth, bFitMode );
+		GetShortViewPath( szDest, pszSrc, hDC, nPxWidth, bFitMode );
 	}else{
 		// 変換する必要がない コピーだけする
 		wcsncpy_s( szDest.data(), szDest.size(), pszSrc, _TRUNCATE );
