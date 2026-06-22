@@ -21,13 +21,9 @@
 #include "util/module.h"
 #include "util/shell.h"
 
-CEditApp::CEditApp()
-{
-}
+CEditApp::CEditApp() = default;
 
-CEditApp::~CEditApp()
-{
-}
+CEditApp::~CEditApp() = default;
 
 void CEditApp::Create(HINSTANCE hInst, int nGroupId)
 {
