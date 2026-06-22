@@ -1112,7 +1112,7 @@ void GetStrTrancateWidth( WCHAR* dest, int nSize, const WCHAR* path, HDC hDC, in
 	out C:\...\sub3\file.ext
 	@date 2014.06.12 新規作成 Moca
 */
-void GetShortViewPath( WCHAR* dest, int nSize, const WCHAR* path, HDC hDC, int nPxWidth, bool bFitMode )
+void GetShortViewPath( std::span<WCHAR> dest, const WCHAR* path, HDC hDC, int nPxWidth, bool bFitMode )
 {
 	int nLeft = 0; // 左側固定表示部分
 	int nSkipLevel = 1;
@@ -1120,7 +1120,7 @@ void GetShortViewPath( WCHAR* dest, int nSize, const WCHAR* path, HDC hDC, int n
 	CTextWidthCalc calc(hDC);
 	if( calc.GetTextWidth(path) <= nPxWidth ){
 		// 全部表示可能
-		wcsncpy_s(dest, nSize, path, _TRUNCATE);
+		wcsncpy_s(dest.data(), dest.size(), path, _TRUNCATE);
 		return;
 	}
 	if( path[0] == L'\\' && path[1] == L'\\' ){
@@ -1155,11 +1155,11 @@ void GetShortViewPath( WCHAR* dest, int nSize, const WCHAR* path, HDC hDC, int n
 			}
 		}else{
 			if( bFitMode ){
-				GetStrTrancateWidth(dest, nSize, path, hDC, nPxWidth);
+				GetStrTrancateWidth(dest.data(), (int)dest.size(), path, hDC, nPxWidth);
 				return;
 			}
 			// ここで終端なら全部表示
-			wcsncpy_s(dest, nSize, path, _TRUNCATE);
+			wcsncpy_s(dest.data(), dest.size(), path, _TRUNCATE);
 			return;
 		}
 	}
@@ -1179,16 +1179,16 @@ void GetShortViewPath( WCHAR* dest, int nSize, const WCHAR* path, HDC hDC, int n
 			}
 			strTemp += &path[nRight];
 			if( calc.GetTextWidth(strTemp.c_str()) <= nPxWidth ){
-				wcsncpy_s(dest, nSize, strTemp.c_str(), _TRUNCATE);
+				wcsncpy_s(dest.data(), dest.size(), strTemp.c_str(), _TRUNCATE);
 				return;
 			}
 			// C:\...\dir\   フォルダーパスだった。最後のフォルダーを表示
 			if( path[nNext+1] == L'\0' ){
 				if( bFitMode ){
-					GetStrTrancateWidth(dest, nSize, strTemp.c_str(), hDC, nPxWidth);
+					GetStrTrancateWidth(dest.data(), (int)dest.size(), strTemp.c_str(), hDC, nPxWidth);
 					return;
 				}
-				wcsncpy_s(dest, nSize, strTemp.c_str(), _TRUNCATE);
+				wcsncpy_s(dest.data(), dest.size(), strTemp.c_str(), _TRUNCATE);
 				return;
 			}
 			nRight = nNext;
@@ -1209,7 +1209,7 @@ void GetShortViewPath( WCHAR* dest, int nSize, const WCHAR* path, HDC hDC, int n
 	strTemp += &path[nRight];
 	if( bFitMode ){
 		if( calc.GetTextWidth(strTemp.c_str()) <= nPxWidth ){
-			wcsncpy_s(dest, nSize, strTemp.c_str(), _TRUNCATE);
+			wcsncpy_s(dest.data(), dest.size(), strTemp.c_str(), _TRUNCATE);
 			return;
 		}
 		// ファイル名(か左側固定部)が長すぎてはいらない
@@ -1237,17 +1237,17 @@ void GetShortViewPath( WCHAR* dest, int nSize, const WCHAR* path, HDC hDC, int n
 				std::wstring strFile(&path[nRight], nExtPos - nRight); // \longfilename
 				strLeftFile += strFile; // C:\...\longfilename
 				int nExtLen = nPathLen - nExtPos;
-				GetStrTrancateWidth(dest, t_max(0, nSize - nExtLen), strLeftFile.c_str(), hDC, nPxWidth - nExtWidth);
-				wcscat_s(dest, nSize, &path[nExtPos+1]); // 拡張子連結 C:\...\longf...ext
+				GetStrTrancateWidth(dest.data(), t_max(0, (int)(dest.size()) - nExtLen), strLeftFile.c_str(), hDC, nPxWidth - nExtWidth);
+				wcscat_s(dest.data(), dest.size(), &path[nExtPos+1]); // 拡張子連結 C:\...\longf...ext
 			}else{
 				// ファイル名が置けないくらい拡張子か左側が長い。パスの左側を優先して残す
-				GetStrTrancateWidth(dest, nSize, strTemp.c_str(), hDC, nPxWidth);
+				GetStrTrancateWidth(dest.data(), (int)dest.size(), strTemp.c_str(), hDC, nPxWidth);
 			}
 		}else{
 			// 拡張子はなかった。左側から残す
-			GetStrTrancateWidth(dest, nSize, strTemp.c_str(), hDC, nPxWidth);
+			GetStrTrancateWidth(dest.data(), (int)dest.size(), strTemp.c_str(), hDC, nPxWidth);
 		}
 		return;
 	}
-	wcsncpy_s(dest, nSize, strTemp.c_str(), _TRUNCATE);
+	wcsncpy_s(dest.data(), dest.size(), strTemp.c_str(), _TRUNCATE);
 }
