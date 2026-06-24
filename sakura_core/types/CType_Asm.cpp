@@ -56,12 +56,11 @@ void CDocOutline::MakeTopicList_asm( CFuncInfoArr* pcFuncInfoArr )
 			tmpLine.resize(commentPos);
 		}
 
-		int offset = 0;
-
 		//トークンに分割
 		WCHAR* token[MAX_ASM_TOKEN] = {};
+		CMyStrtok my_strtok(tmpLine, 0, L" \t\r\n");
 		for( int j = 0; j < MAX_ASM_TOKEN; j++ ){
-			WCHAR* pTok = my_strtok( tmpLine, &offset, L" \t\r\n" );
+			WCHAR* pTok = my_strtok.next();
 			if( pTok == nullptr ) break;
 			//トークンに含まれるべき文字でないか？
 			if( wcschr( pTok, L'\"') != nullptr
