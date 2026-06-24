@@ -2254,10 +2254,10 @@ bool CMacro::HandleFunction(CEditView *View, EFunctionCode ID, VARIANT *Argument
 				std::vector<HMENU> vHmenu;
 				vHmenu.push_back( hMenu );
 				HMENU hMenuCurrent = hMenu;
-				int nPos = 0;
 				wchar_t* p;
 				int i = 1;
-				while ((p = my_strtok(vStrMenu, &nPos, L","))) {
+				CMyStrtok my_strtok(vStrMenu, 0, L",");
+				while (p = my_strtok.next()) {
 					wchar_t* r = p;
 					int nFlags = MF_STRING;
 					int nFlagBreak = 0;

@@ -248,7 +248,8 @@ void CCommandLine::ParseCommandLine( LPCWSTR pszCmdLineSrc, bool bResponse )
 
 	CNativeW cmResponseFile = L"";
 	std::wstring szCmdLineWork(pszCmdLineSrc);
-	LPWSTR pszToken = my_strtok( szCmdLineWork, &nPos, L" " );
+	CMyStrtok my_strtok(szCmdLineWork, nPos, L" ");
+	LPWSTR pszToken = my_strtok.next();
 	while( pszToken != nullptr )
 	{
 		DEBUG_TRACE( L"OPT=[%s]\n", pszToken );
@@ -406,7 +407,7 @@ void CCommandLine::ParseCommandLine( LPCWSTR pszCmdLineSrc, bool bResponse )
 				m_gi.cmGrepFolder.Replace( L"\"\"", L"\"" );
 				break;
 			case CMDLINEOPT_GOPT:	//	GOPT
-				for( int i = 0; i < nArgLen; i++ ){
+				for( i = 0; i < nArgLen; i++ ){
 					switch( arg[i] ){
 					case 'X':
 						m_gi.bGrepCurFolder = true;	break;
@@ -494,7 +495,7 @@ void CCommandLine::ParseCommandLine( LPCWSTR pszCmdLineSrc, bool bResponse )
 				break;
 			}
 		}
-		pszToken = my_strtok( szCmdLineWork, &nPos, L" " );
+		pszToken = my_strtok.next();
 	}
 
 	// レスポンスファイル解析

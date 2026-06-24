@@ -11,6 +11,7 @@
 #include <string>
 #include <string_view>
 #include "basis/primitive.h"
+#include "util/design_template.h"
 #include "debug/Debug2.h"
 
 // 2007.10.19 kobake
@@ -80,11 +81,24 @@ inline char* strichr_j( char* s1, char c         ){ return const_cast<char*>(str
 inline char* strstr_j ( char* s1, const char* s2 ){ return const_cast<char*>(strstr_j ((const char*)s1, s2)); }
 inline char* stristr_j( char* s1, const char* s2 ){ return const_cast<char*>(stristr_j((const char*)s1, s2)); }
 
-WCHAR* my_strtok(
-	std::span<WCHAR> buffer,	//[in] 文字列バッファ(終端があること)
-	int*			pnOffset,	//[in,out] オフセット
-	const WCHAR*	pDelimiter	//[in] 区切り文字
-);
+class CMyStrtok {
+public:
+	explicit CMyStrtok( std::span<WCHAR> cmBuffer, int offset, const WCHAR* pszDelimiter )
+		: m_buffer( cmBuffer )
+		, m_nOffset( offset )
+		, m_pDelimiter( pszDelimiter )
+	{
+	}
+
+	WCHAR* next();
+
+private:
+	std::span<WCHAR>	m_buffer;
+	int 		  		m_nOffset;
+	const WCHAR* 		m_pDelimiter;
+
+	DISALLOW_COPY_AND_ASSIGN( CMyStrtok )
+};
 
 // ▽ シグニチャおよび動作仕様は変わらないけど、
 // コンパイラと言語指定によって不正動作をしてしまうことを回避するために

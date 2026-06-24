@@ -207,8 +207,8 @@ void CGrepAgent::CreateFolders( const WCHAR* pszPath, std::vector<std::wstring>&
 	std::wstring strPath( pszPath );
 
 	WCHAR* token;
-	int nPathPos = 0;
-	while( nullptr != (token = my_strtok( strPath, &nPathPos, L";")) ){
+	CMyStrtok my_strtok(strPath, 0, L";");
+	while( nullptr != (token = my_strtok.next())){
 		std::wstring strTemp( token );
 		// パスに含まれる '"' を削除する
 		strTemp.erase( std::remove( strTemp.begin(), strTemp.end(), L'"' ), strTemp.end() );

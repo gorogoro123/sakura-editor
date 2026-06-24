@@ -638,33 +638,29 @@ int wmemicmp_ascii(const WCHAR* p1,const WCHAR* p2,size_t count)
 	@date 2004.02.15 みく   最適化
 	@date 2007.10.21 kobake テンプレート化
 */
-WCHAR* my_strtok(
-	std::span<WCHAR> buffer,	//[in] 文字列バッファ(終端があること)
-	int*			pnOffset,	//[in,out] オフセット
-	const WCHAR*	pDelimiter	//[in] 区切り文字
-)
+WCHAR* CMyStrtok::next()
 {
-	int i = *pnOffset;
-	int nLen = (int)buffer.size();
+	int i = m_nOffset;
+	int nLen = (int)m_buffer.size();
 	WCHAR* p = nullptr;
 
 	do {
 		bool bFlag = false;	//ダブルコーテーションの中か？
 		if( i >= nLen ) return nullptr;
-		p = &buffer[i];
+		p = &m_buffer[i];
 		for( ; i < nLen; i++ )
 		{
-			if( buffer[i] == L'"' ) bFlag = ! bFlag;
+			if( m_buffer[i] == L'"' ) bFlag = ! bFlag;
 			if( ! bFlag )
 			{
-				if( auto_strchr( pDelimiter, buffer[i] ) )
+				if( auto_strchr( m_pDelimiter, m_buffer[i] ) )
 				{
-					buffer[i++] = L'\0';
+					m_buffer[i++] = L'\0';
 					break;
 				}
 			}
 		}
-		*pnOffset = i;
+		m_nOffset = i;
 	} while( ! *p );	//空のトークンなら次を探す
 	return p;
 }
