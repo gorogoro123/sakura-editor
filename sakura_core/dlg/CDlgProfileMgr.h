@@ -17,15 +17,8 @@
 #include <filesystem>
 #include <string>
 #include <string_view>
-#include <vector>
 
-struct SProfileSettings
-{
-	WCHAR m_szDllLanguage[_MAX_PATH];
-	int	m_nDefaultIndex;
-	std::vector<std::wstring> m_vProfList;
-	bool m_bDefaultSelect;
-};
+struct SProfileSettings;
 
 class CDlgProfileMgr final : public CDialog
 {

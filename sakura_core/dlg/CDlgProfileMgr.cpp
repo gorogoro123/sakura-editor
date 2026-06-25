@@ -22,6 +22,14 @@
 #include "sakura_rc.h"
 #include "sakura.hh"
 
+struct SProfileSettings
+{
+	SFilePath m_szDllLanguage;
+	int	m_nDefaultIndex;
+	std::vector<std::wstring> m_vProfList;
+	bool m_bDefaultSelect;
+};
+
 static const DWORD p_helpids[] = {
 	IDC_LIST_PROFILE,				HIDC_LIST_PROFILE,				//プロファイル一覧
 	IDC_CHECK_PROF_DEFSTART,		HIDC_CHECK_PROF_DEFSTART,		//デフォルト設定にして起動
@@ -60,7 +68,7 @@ bool CDlgProfileMgr::TrySelectProfile( CCommandLine* pcCommandLine ) noexcept
 	if( bDialog ){
 		if( bSettingLoaded ){
 			// 設定が読めた場合のみ、日本語以外の設定言語を適用する
-			CSelectLang::ChangeLang( settings.m_szDllLanguage );
+			CSelectLang::ChangeLang( settings.m_szDllLanguage.c_str() );
 		}
 	}
 	return !bDialog;
@@ -504,7 +512,7 @@ static bool IOProfSettings( SProfileSettings& settings, bool bWrite )
 	if( settings.m_nDefaultIndex < -1 ){
 		settings.m_nDefaultIndex = -1;
 	}
-	cProf.IOProfileData(pSection, L"szDllLanguage", StringBufferW(settings.m_szDllLanguage));
+	cProf.IOProfileData(pSection, L"szDllLanguage", settings.m_szDllLanguage);
 	cProf.IOProfileData( pSection, L"bDefaultSelect", settings.m_bDefaultSelect );
 
 	if( bWrite ){
