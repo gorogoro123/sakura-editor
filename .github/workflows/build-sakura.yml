@@ -107,21 +107,21 @@ jobs:
 
     ## see https://github.com/actions/upload-artifact
     - name: Upload Installer
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       if: ${{ matrix.config == 'Release' }}
       with:
         name: Installer ${{ matrix.platform }} ${{ matrix.config }}
         path: 'sakura-*-Installer.zip'
 
     - name: Upload Exe
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       if: ${{ matrix.config == 'Release' }}
       with:
         name: Exe ${{ matrix.platform }} ${{ matrix.config }}
         path: 'sakura-*-Exe.zip'
 
     - name: Upload Log
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       if: ${{ matrix.config == 'Release' }}
       with:
         name: Log ${{ matrix.platform }} ${{ matrix.config }}
