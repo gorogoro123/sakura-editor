@@ -53,7 +53,7 @@ jobs:
       uses: microsoft/setup-msbuild@v3
 
     - name: Install Build Wrapper
-      uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v7.0.0
+      uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v8
 
     - name: Build with Build-Wrapper
       env:
