@@ -52,13 +52,6 @@ jobs:
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v3
 
-    - name: Run the normal MSBuild process
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      if: env.SONAR_TOKEN
-      run: build-sln.bat ${{ env.BUILD_PLATFORM }} ${{ env.BUILD_CONFIGURATION }}
-      shell: cmd
-
     - name: Install Build Wrapper
       uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v7.0.0
 
