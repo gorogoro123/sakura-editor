@@ -22,14 +22,18 @@ jobs:
     name: Scan
     runs-on: windows-latest
 
-    if: ${{ secrets.SONAR_TOKEN != '' }}
-
     env:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       BUILD_PLATFORM: x64
       BUILD_CONFIGURATION: Debug
 
     steps:
+    - name: Check SONAR_TOKEN
+      if: env.SONAR_TOKEN == ''
+      run: |
+        echo "SONAR_TOKEN is empty. Skipping job."
+        exit 1
+
     - name: Checkout
       uses: actions/checkout@v7
       with:
