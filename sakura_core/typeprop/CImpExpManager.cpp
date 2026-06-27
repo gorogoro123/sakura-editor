@@ -110,16 +110,15 @@ bool CImpExpManager::ImportUI( HINSTANCE hInstance, HWND hwndParent )
 		GetDefaultExtension(),
 		GetDllShareData().m_sHistory.m_szIMPORTFOLDER // インポート用フォルダー
 	);
-	WCHAR	szPath[_MAX_PATH + 1];
-	szPath[0] = L'\0';
+	SFilePath	szPath;
 	if( !GetFileName().empty() ){
-		wcscpy( szPath, GetFullPath().c_str());
+		szPath = GetFullPath().c_str();
 	}
 	if( !cDlgOpenFile.DoModal_GetOpenFileName( szPath ) ){
 		return false;
 	}
 
-	const std::wstring sPath = szPath;
+	const std::wstring sPath = szPath.c_str();
 	std::wstring	sErrMsg;
 
 	// 確認

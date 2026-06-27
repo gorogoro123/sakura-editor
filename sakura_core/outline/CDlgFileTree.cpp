@@ -531,9 +531,9 @@ BOOL CDlgFileTree::OnBnClicked( int wID )
 				GetInidir(szDir);
 				dlg.Create( G_AppInstance(), hwndDlg, L"*.*", szDir,
 					std::vector<LPCWSTR>(), std::vector<LPCWSTR>() );
-				WCHAR szFile[_MAX_PATH];
+				SFilePath szFile;
 				if( dlg.DoModal_GetOpenFileName(szFile) ){
-					CNativeW cmemFile = szFile;
+					CNativeW cmemFile = szFile.c_str();
 					cmemFile.Replace(L"%", L"%%");
 					ApiWrap::DlgItem_SetText( GetHwnd(), IDC_EDIT_PATH, cmemFile.GetStringPtr() );
 				}

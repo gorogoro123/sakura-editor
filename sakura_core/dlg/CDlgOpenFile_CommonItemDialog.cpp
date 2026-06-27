@@ -49,7 +49,7 @@ struct CDlgOpenFile_CommonItemDialog final
 		const std::vector<LPCWSTR>& vOPENFOLDER
 	) override;
 
-	bool DoModal_GetOpenFileName( WCHAR* pszPath, EFilter eAddFileter ) override;
+	bool DoModal_GetOpenFileName( SFilePath& szPath, EFilter eAddFileter ) override;
 	bool DoModal_GetSaveFileName( WCHAR* pszPath ) override;
 	bool DoModalOpenDlg( SLoadInfo* pLoadInfo,
 						 std::vector<std::wstring>* pFileNames,
@@ -449,7 +449,7 @@ void CDlgOpenFile_CommonItemDialog::Create(
 	return;
 }
 
-bool CDlgOpenFile_CommonItemDialog::DoModal_GetOpenFileName( WCHAR* pszPath, EFilter eAddFilter )
+bool CDlgOpenFile_CommonItemDialog::DoModal_GetOpenFileName( SFilePath& szPath, EFilter eAddFilter )
 {
 	//	2003.05.12 MIK
 	std::vector<COMDLG_FILTERSPEC> specs;
@@ -486,7 +486,7 @@ bool CDlgOpenFile_CommonItemDialog::DoModal_GetOpenFileName( WCHAR* pszPath, EFi
 	std::vector<std::wstring> fileNames;
 	bool ret = DoModalOpenDlgImpl0(false, &fileNames, L"", specs);
 	if (ret) {
-		wcscpy(pszPath, fileNames[0].c_str());
+		szPath = fileNames[0].c_str();
 	}
 	return ret;
 }
