@@ -117,12 +117,10 @@ bool CFuncLookup::Funccode2Name( int funccode, WCHAR* ptr, size_t size ) const
 	}
 	else if( funccode == F_MENU_RBUTTON ){
 		Custmenu2Name( 0, ptr, bufsize );
-		ptr[bufsize-1] = L'\0';
 		return true;
 	}
 	else if( F_CUSTMENU_1 <= funccode && funccode < F_CUSTMENU_BASE + MAX_CUSTOM_MENU ){	// MAX_CUSTMACRO->MAX_CUSTOM_MENU	2010/3/14 Uchi
 		Custmenu2Name( funccode - F_CUSTMENU_BASE, ptr, bufsize );
-		ptr[bufsize-1] = L'\0';
 		return true;
 	}
 	else if( F_MENU_FIRST <= funccode && funccode < F_MENU_NOT_USED_FIRST ){
@@ -288,7 +286,7 @@ const WCHAR* CFuncLookup::Custmenu2Name( int index, LPWSTR buf, size_t size ) co
 		return buf;
 	}
 	else {
-		_swprintf( buf, LS( STR_CUSTMENU_CUSTOM ), index );
+		auto_snprintf_s( buf, size, LS( STR_CUSTMENU_CUSTOM ), index );
 		return buf;
 	}
 }
