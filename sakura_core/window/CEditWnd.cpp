@@ -1448,7 +1448,7 @@ LRESULT CEditWnd::DispatchEvent(
 
 				//ツールチップテキスト取得、設定
 				auto lptip = (LPTOOLTIPTEXT)pnmh;
-				GetTooltipText(m_szToolTipText.data(), m_szToolTipText.size(), (int)lptip->hdr.idFrom);
+				GetTooltipText(m_szToolTipText, lptip->hdr.idFrom);
 				lptip->lpszText = m_szToolTipText.data();
 			}
 			break;
@@ -4104,13 +4104,13 @@ LRESULT CEditWnd::WinListMenu( HMENU hMenu, const std::vector<EditNode>& vEditNo
 
 //2007.09.08 kobake 追加
 //!ツールチップのテキストを取得
-void CEditWnd::GetTooltipText(WCHAR* pszBuf, size_t nBufCount, UINT_PTR idFrom) const
+void CEditWnd::GetTooltipText(std::span<WCHAR> szBuf, UINT_PTR idFrom) const
 {
 	const auto nID = int(idFrom);
 
 	// 機能文字列の取得 -> pszBuf
-	GetDocument()->m_cFuncLookup.Funccode2Name( nID, pszBuf, nBufCount );
-	size_t nLen = wcsnlen( pszBuf, nBufCount );
+	GetDocument()->m_cFuncLookup.Funccode2Name( nID, szBuf.data(), szBuf.size() );
+	size_t nLen = wcsnlen( szBuf.data(), szBuf.size() );
 
 	// 機能に対応するキー名の取得(複数)
 	CNativeW**	ppcAssignedKeyList;
@@ -4127,9 +4127,9 @@ void CEditWnd::GetTooltipText(WCHAR* pszBuf, size_t nBufCount, UINT_PTR idFrom) 
 		for( int j = 0; j < nAssignedKeyNum; ++j ){
 			const WCHAR* pszKey = ppcAssignedKeyList[j]->GetStringPtr();
 			auto nKeyLen = int(wcslen(pszKey));
-			if ( nLen + 9 + nKeyLen < nBufCount ){
-				wcscat_s( pszBuf, nBufCount, L"\n        " );
-				wcscat_s( pszBuf, nBufCount, pszKey );
+			if ( nLen + 9 + nKeyLen < szBuf.size()){
+				wcscat_s( szBuf.data(), szBuf.size(), L"\n        " );
+				wcscat_s( szBuf.data(), szBuf.size(), pszKey );
 				nLen += 9 + nKeyLen;
 			}
 			delete ppcAssignedKeyList[j];
