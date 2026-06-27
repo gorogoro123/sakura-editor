@@ -114,7 +114,6 @@ INT_PTR CPropKeybind::DispatchEvent(
 	int			i;
 	int			j;
 	EFunctionCode	nFuncCode;
-	static WCHAR pszLabel[256];
 
 	switch( uMsg ){
 	case WM_INITDIALOG:
@@ -259,6 +258,7 @@ INT_PTR CPropKeybind::DispatchEvent(
 			}
 		}else
 		if( hwndKeyList == hwndCtl ){
+			WCHAR szLabel[256];
 			switch( wNotifyCode ){
 			case LBN_SELCHANGE:
 				nIndex = ApiWrap::List_GetCurSel( hwndKeyList );
@@ -276,12 +276,11 @@ INT_PTR CPropKeybind::DispatchEvent(
 				// Oct. 2, 2001 genta
 				// 2007.11.02 ryoji F_DISABLEなら未割当
 				if( nFuncCode == F_DISABLE ){
-					wcsncpy( pszLabel, LS(STR_PROPCOMKEYBIND_UNASSIGN), int(std::size(pszLabel)) - 1 );
-					pszLabel[std::size(pszLabel) - 1] = L'\0';
+					wcsncpy_s( szLabel, LS(STR_PROPCOMKEYBIND_UNASSIGN), _TRUNCATE );
 				}else{
-					m_cLookup.Funccode2Name( nFuncCode, pszLabel, 255 );
+					m_cLookup.Funccode2Name( nFuncCode, szLabel, 255 );
 				}
-				ApiWrap::Wnd_SetText( hwndEDIT_KEYSFUNC, pszLabel );
+				ApiWrap::Wnd_SetText( hwndEDIT_KEYSFUNC, szLabel );
 				return TRUE;
 			default:
 				break;
