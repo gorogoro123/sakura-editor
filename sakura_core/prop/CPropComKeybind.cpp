@@ -278,7 +278,7 @@ INT_PTR CPropKeybind::DispatchEvent(
 				if( nFuncCode == F_DISABLE ){
 					wcsncpy_s( szLabel, LS(STR_PROPCOMKEYBIND_UNASSIGN), _TRUNCATE );
 				}else{
-					m_cLookup.Funccode2Name( nFuncCode, szLabel, 255 );
+					m_cLookup.Funccode2Name( nFuncCode, szLabel);
 				}
 				ApiWrap::Wnd_SetText( hwndEDIT_KEYSFUNC, szLabel );
 				return TRUE;

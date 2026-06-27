@@ -623,7 +623,7 @@ void CPropToolbar::DrawToolBarItemList( DRAWITEMSTRUCT* pDis )
 			cxSmIcon,
 			cySmIcon
 		);
-		m_cLookup.Funccode2Name( tbb.idCommand, szLabel, int(std::size(szLabel)) );
+		m_cLookup.Funccode2Name( tbb.idCommand, szLabel );
 	}
 
 	// 微調整 フォーカス枠の分へこませる

@@ -54,7 +54,7 @@ public:
 
 	EFunctionCode Pos2FuncCode( int category, int position, bool bGetUnavailable = true ) const;	// 2007.10.31 ryoji bGetUnavailableパラメータ追加
 	bool Pos2FuncName( int category, int position, std::span<WCHAR> szName ) const;
-	bool Funccode2Name( int funccode, WCHAR* ptr, size_t size ) const ;
+	bool Funccode2Name( int funccode, std::span<WCHAR> szName ) const ;
 	const WCHAR* Category2Name( int category ) const;
 	const WCHAR* Custmenu2Name( int index, LPWSTR buf, size_t size ) const;
 

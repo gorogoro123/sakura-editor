@@ -299,7 +299,7 @@ INT_PTR CPropCustmenu::DispatchEvent(
 					}
 
 					//	Oct. 3, 2001 genta
-					m_cLookup.Funccode2Name( m_Common.m_sCustomMenu.m_nCustMenuItemFuncArr[nIdx1][nIdx2], szLabel, 255 );
+					m_cLookup.Funccode2Name( m_Common.m_sCustomMenu.m_nCustMenuItemFuncArr[nIdx1][nIdx2], szLabel );
 
 					KEYCODE keycode[3]={0}; wctomb(keycode, szKey[0]);
 					m_Common.m_sCustomMenu.m_nCustMenuItemKeyArr[nIdx1][nIdx2] = keycode[0];
@@ -696,7 +696,7 @@ void CPropCustmenu::SetDataMenuList(HWND hwndDlg, int nIdx)
 		}else{
 			EFunctionCode code = m_Common.m_sCustomMenu.m_nCustMenuItemFuncArr[nIdx][i];
 			//	Oct. 3, 2001 genta
-			m_cLookup.Funccode2Name( code, szLabel, 256 );
+			m_cLookup.Funccode2Name( code, szLabel );
 		}
 		/* キー */
 		if( '\0' == m_Common.m_sCustomMenu.m_nCustMenuItemKeyArr[nIdx][i] ){
