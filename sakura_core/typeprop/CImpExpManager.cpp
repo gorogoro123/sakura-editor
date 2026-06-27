@@ -80,14 +80,11 @@ static       wchar_t	WSTR_FILETREE_HEAD_V1[]	= L"SakuraEditorFileTree_Ver1";
 // Exportファイル名の作成
 //	  タイプ名などファイルとして扱うことを考えていない文字列を扱う
 //		2010/4/12 Uchi
-static wchar_t* MakeExportFileName(wchar_t* res, const wchar_t* trg, const wchar_t* ext)
+static wchar_t* MakeExportFileName(std::span<WCHAR> res, const wchar_t* trg, const wchar_t* ext)
 {
-	wchar_t		conv[_MAX_PATH+1];
-	wchar_t*	p;
+	SFilePath conv(trg);
 
-	wcscpy( conv, trg );
-
-	p = conv;
+	wchar_t* p = conv;
 	while ( (p = wcspbrk( p, L"\t\\:*?\"<>|" )) != nullptr ) {
 		// ファイル名に使えない文字を _ に置き換える
 		*p++ = L'_';
@@ -97,9 +94,9 @@ static wchar_t* MakeExportFileName(wchar_t* res, const wchar_t* trg, const wchar
 		// ファイル名に使えない文字を ／ に置き換える
 		*p++ = L'／';
 	}
-	auto_snprintf_s(res, _MAX_PATH, L"%ls.%ls", conv, ext);
+	auto_snprintf_s(res.data(), res.size(), L"%ls.%ls", conv, ext);
 
-	return res;
+	return res.data();
 }
 
 // インポート ファイル指定付き
