@@ -22,7 +22,7 @@ jobs:
     name: Scan
     runs-on: windows-latest
 
-    if: "${{ secrets.SONAR_TOKEN != '' }}"
+    if: secrets.SONAR_TOKEN != ''
 
     env:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
