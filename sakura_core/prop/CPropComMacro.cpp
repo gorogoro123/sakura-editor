@@ -288,8 +288,9 @@ void CPropMacro::SetData( HWND hwndDlg )
 	ListView_SetExtendedListViewStyle( hListView, dwStyle );
 	
 	//	マクロ停止ダイアログ表示待ち時間
-	WCHAR szCancelTimer[16] = {0};
-	ApiWrap::DlgItem_SetText( hwndDlg, IDC_MACROCANCELTIMER, _itow(m_Common.m_sMacro.m_nMacroCancelTimer, szCancelTimer, 10) );
+	WCHAR szCancelTimer[16] = {};
+	_itow_s(m_Common.m_sMacro.m_nMacroCancelTimer, szCancelTimer, 10);
+	ApiWrap::DlgItem_SetText( hwndDlg, IDC_MACROCANCELTIMER, szCancelTimer );
 
 	return;
 }
@@ -441,7 +442,7 @@ void CPropMacro::InitDialog( HWND hwndDlg )
 		sItem.mask = LVIF_TEXT | LVIF_PARAM;
 		sItem.iItem = pos;
 		sItem.iSubItem = 0;
-		_itow( pos, buf, 10 );
+		_itow_s( pos, buf, 10 );
 		sItem.pszText = buf;
 		sItem.lParam = pos;
 		ListView_InsertItem( hListView, &sItem );

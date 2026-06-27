@@ -805,7 +805,7 @@ void CViewCommander::Command_REPLACE_ALL()
 	int			nReplaceNum = 0;
 	HWND		hwndStatic = ::GetDlgItem( hwndCancel, IDC_STATIC_KENSUU );
 	WCHAR szLabel[64];
-	_itow( nReplaceNum, szLabel, 10 );
+	_itow_s( nReplaceNum, szLabel, 10 );
 	::SendMessage( hwndStatic, WM_SETTEXT, 0, (LPARAM)szLabel );
 
 	CLayoutRange sRangeA;	//選択範囲
@@ -1029,7 +1029,7 @@ void CViewCommander::Command_REPLACE_ALL()
 				ApiWrap::Progress_SetPos( hwndProgress, nNewPos );
 				nOldPos = nNewPos;
 			}
-			_itow( nReplaceNum, szLabel, 10 );
+			_itow_s( nReplaceNum, szLabel, 10 );
 			::SendMessage( hwndStatic, WM_SETTEXT, 0, (LPARAM)szLabel );
 		}
 
@@ -1445,7 +1445,7 @@ void CViewCommander::Command_REPLACE_ALL()
 	}
 	//>> 2002/03/26 Azumaiya
 
-	_itow( nReplaceNum, szLabel, 10 );
+	_itow_s( nReplaceNum, szLabel, 10 );
 	::SendMessage( hwndStatic, WM_SETTEXT, 0, (LPARAM)szLabel );
 
 	if( !cDlgCancel.IsCanceled() ){
