@@ -154,7 +154,7 @@ void CViewCommander::Command_MENU_ALLFUNC( )
 			int code = FuncLookup.Pos2FuncCode( i, j, false );	// 2007.11.02 ryoji 未登録マクロ非表示を明示指定
 			if( code != 0 ){
 				WCHAR	szLabel[300];
-				FuncLookup.Pos2FuncName( i, j, szLabel, 256 );
+				FuncLookup.Pos2FuncName( i, j, szLabel );
 				uFlags = MF_BYPOSITION | MF_STRING | MF_ENABLED;
 				//	Oct. 3, 2001 genta
 				pCEditWnd->GetMenuDrawer().MyAppendMenu( hMenuPopUp, uFlags, code, szLabel, L"" );

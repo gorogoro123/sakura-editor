@@ -78,14 +78,11 @@ EFunctionCode CFuncLookup::Pos2FuncCode( int category, int position, bool bGetUn
 bool CFuncLookup::Pos2FuncName(
 	int		category,	//!< [in]  分類番号 (0-)
 	int		position,	//!< [in]  分類中のindex (0-)
-	WCHAR*	ptr,		//!< [out] 文字列を格納するバッファの先頭
-	size_t	size		//!< [in]  文字列を格納するバッファのサイズ
+	std::span<WCHAR>	szName		//!< [out] 文字列を格納するバッファの先頭
 ) const
 {
-	const auto bufsize = int(size);
-
 	int funccode = Pos2FuncCode( category, position );
-	return Funccode2Name( funccode, ptr, bufsize );
+	return Funccode2Name( funccode, szName.data(), szName.size());
 }
 
 /*!	@brief 機能番号に対応する機能名称を返す．
@@ -220,19 +217,17 @@ void CFuncLookup::SetCategory2Combo( HWND hComboBox ) const
 */
 void CFuncLookup::SetListItem( HWND hListBox, int category ) const
 {
-	WCHAR pszLabel[256];
-	int n;
-	int i;
+	WCHAR szLabel[256];
 
 	//	リストを初期化する
 	ApiWrap::List_ResetContent( hListBox );
 
-	n = GetItemCount( category );
-	for( i = 0; i < n; i++ ){
+	int n = GetItemCount( category );
+	for( int i = 0; i < n; i++ ){
 		if( Pos2FuncCode( category, i ) == F_DISABLE )
 			continue;
-		Pos2FuncName( category, i, pszLabel, int(std::size(pszLabel)) );
-		ApiWrap::List_AddString( hListBox, pszLabel );
+		Pos2FuncName( category, i, szLabel );
+		ApiWrap::List_AddString( hListBox, szLabel );
 	}
 }
 
