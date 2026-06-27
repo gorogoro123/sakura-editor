@@ -211,7 +211,7 @@ public:
 	bool IsActiveApp() const { return m_bIsActiveApp; }
 
 	//!ツールチップのテキストを取得。2007.09.08 kobake 追加
-	void GetTooltipText(WCHAR* pszBuf, size_t nBufCount, UINT_PTR idFrom) const;
+	void GetTooltipText(std::span<WCHAR> szBuf, UINT_PTR idFrom) const;
 
 	//!印刷プレビュー中かどうか
 	bool IsInPreviewMode()
