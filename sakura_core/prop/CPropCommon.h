@@ -148,6 +148,7 @@ protected:
 
 	int nLastPos_Macro; //!< 前回フォーカスのあった場所
 	int m_nLastPos_FILENAME; //!< 前回フォーカスのあった場所 ファイル名タブ用
+	std::wstring m_sTrgDir;
 
 	//! Message Handler
 	INT_PTR DispatchEvent(HWND hWnd, UINT wMsg, WPARAM wParam, LPARAM lParam);

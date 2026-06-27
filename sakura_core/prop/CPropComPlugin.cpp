@@ -157,20 +157,19 @@ INT_PTR CPropPlugin::DispatchEvent( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 				break;
 			case IDC_PLUGIN_INST_ZIP:		// ZIPプラグインを追加
 				{
-					static std::wstring	sTrgDir;
 					CDlgOpenFile	cDlgOpenFile;
-					WCHAR			szPath[_MAX_PATH + 1];
-					wcscpy( szPath, (sTrgDir.empty() ? CPluginManager::getInstance()->GetBaseDir().c_str() : sTrgDir.c_str()));
+					SFilePath		szPath;
+					szPath = m_sTrgDir.empty() ? CPluginManager::getInstance()->GetBaseDir().c_str() : m_sTrgDir.c_str();
 					// ファイルオープンダイアログの初期化
 					cDlgOpenFile.Create(
 						G_AppInstance(),
 						hwndDlg,
 						L"*.zip",
-						szPath
+						szPath.c_str()
 					);
 					if( cDlgOpenFile.DoModal_GetOpenFileName( szPath ) ){
 						GetData( hwndDlg );
-						CPluginManager::getInstance()->InstZipPlugin( m_Common, hwndDlg, szPath );
+						CPluginManager::getInstance()->InstZipPlugin( m_Common, hwndDlg, szPath.c_str() );
 						if( m_bTrayProc ){
 							LoadPluginTemp(m_Common, *m_pcMenuDrawer);
 						}
@@ -179,8 +178,8 @@ INT_PTR CPropPlugin::DispatchEvent( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 					// フォルダーを記憶
 					WCHAR	szFolder[_MAX_PATH + 1];
 					WCHAR	szFname[_MAX_PATH + 1];
-					SplitPath_FolderAndFile(szPath, szFolder, szFname);
-					sTrgDir = szFolder;
+					SplitPath_FolderAndFile(szPath.c_str(), szFolder, szFname);
+					m_sTrgDir = szFolder;
 				}
 				break;
 			case IDC_CHECK_PluginEnable:	// プラグインを有効にする
