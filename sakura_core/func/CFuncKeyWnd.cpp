@@ -287,8 +287,7 @@ LRESULT CFuncKeyWnd::OnTimer( [[maybe_unused]] HWND hwnd, [[maybe_unused]] UINT 
 					//	Oct. 2, 2001 genta
 					m_pcEditDoc->m_cFuncLookup.Funccode2Name(
 						m_nFuncCodeArr[i],
-						m_szFuncNameArr[i],
-						_countof(m_szFuncNameArr[i]) - 1
+						m_szFuncNameArr[i]
 					);
 				}
 				ApiWrap::Wnd_SetText( m_hwndButtonArr[i], m_szFuncNameArr[i] );

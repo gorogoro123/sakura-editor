@@ -187,7 +187,7 @@ int CKeyBind::CreateKeyBindList(
 				//	Oct. 31, 2001 genta 
 				if( !pcFuncLookup->Funccode2Name(
 					iFunc,
-					szFuncNameJapanese, 255 )){
+					szFuncNameJapanese )){
 					wcscpy( szFuncNameJapanese, LS(STR_ERR_DLGKEYBIND2) );
 				}
 				szFuncName[0] = L'\0'; /*"---unknown()--"*/

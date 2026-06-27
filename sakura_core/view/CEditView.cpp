@@ -1558,7 +1558,7 @@ int	CEditView::CreatePopUpMenuSub( HMENU hMenu, int nMenuIdx, int* pParentMenus,
 		}
 		if( !bAppend ){
 			//	Oct. 3, 2001 genta
-			FuncLookup.Funccode2Name( code, szLabel, 256 );
+			FuncLookup.Funccode2Name( code, szLabel );
 			/* キー */
 			if( F_SPECIAL_FIRST <= code && code <= F_SPECIAL_LAST ){
 				GetEditWnd().InitMenu_Special( hMenu, code );

@@ -82,76 +82,70 @@ bool CFuncLookup::Pos2FuncName(
 ) const
 {
 	int funccode = Pos2FuncCode( category, position );
-	return Funccode2Name( funccode, szName.data(), szName.size());
+	return Funccode2Name( funccode, szName );
 }
 
 /*!	@brief 機能番号に対応する機能名称を返す．
 
 	@param funccode [in] 機能番号
-	@param ptr [out] 文字列を格納するバッファの先頭
-	@param bufsize [in] 文字列を格納するバッファのサイズ
+	@param szName [out] 文字列を格納するバッファの先頭
 
 	@retval true 指定された機能番号は定義されている
 	@retval false 指定された機能番号は未定義
 
 	@date 2007.11.02 ryoji 未登録マクロも文字列を格納．戻り値の意味を変更（文字列は必ず格納）．
 */
-bool CFuncLookup::Funccode2Name( int funccode, WCHAR* ptr, size_t size ) const
+bool CFuncLookup::Funccode2Name( int funccode, std::span<WCHAR> szName ) const
 {
-	const auto bufsize = int(size);
+	const auto bufsize = szName.size();
 
 	LPCWSTR pszStr = nullptr;
 
-	assert( ptr != nullptr );
 	assert( bufsize >= 1 );
 
 	if( F_USERMACRO_0 <= funccode && funccode < F_USERMACRO_0 + (int)MAX_CUSTMACRO ){
 		int position = funccode - F_USERMACRO_0;
 		if( m_pMacroRec[position].IsEnabled() ){
 			const WCHAR *p = m_pMacroRec[position].GetTitle();
-			wcsncpy_s( ptr, bufsize, p, _TRUNCATE );
+			wcsncpy_s( szName.data(), bufsize, p, _TRUNCATE );
 		}else{
-			_snwprintf_s( ptr, bufsize, _TRUNCATE, LS(STR_ERR_DLGFUNCLKUP03), position );
+			auto_snprintf_s( szName.data(), bufsize, LS(STR_ERR_DLGFUNCLKUP03), position );
 		}
 		return true;
 	}
 	else if( funccode == F_MENU_RBUTTON ){
-		Custmenu2Name( 0, ptr, bufsize );
+		Custmenu2Name( 0, szName.data(), bufsize );
 		return true;
 	}
 	else if( F_CUSTMENU_1 <= funccode && funccode < F_CUSTMENU_BASE + MAX_CUSTOM_MENU ){	// MAX_CUSTMACRO->MAX_CUSTOM_MENU	2010/3/14 Uchi
-		Custmenu2Name( funccode - F_CUSTMENU_BASE, ptr, bufsize );
+		Custmenu2Name( funccode - F_CUSTMENU_BASE, szName.data(), bufsize );
 		return true;
 	}
 	else if( F_MENU_FIRST <= funccode && funccode < F_MENU_NOT_USED_FIRST ){
 		if( ( pszStr = LS( funccode ) )[0] != L'\0' ){
-			wcsncpy( ptr, pszStr, bufsize );
-			ptr[bufsize-1] = L'\0';
+			wcsncpy_s( szName.data(), szName.size(), pszStr, _TRUNCATE );
 			return true;	// 定義されたコマンド
 		}
 	}
 	else if( F_PLUGCOMMAND_FIRST <= funccode && funccode < F_PLUGCOMMAND_LAST ){
-		if( CJackManager::getInstance()->GetCommandName( funccode, ptr, bufsize ) > 0 ){
+		if( CJackManager::getInstance()->GetCommandName( funccode, szName.data(), (int)bufsize ) > 0 ){
 			return true;	// プラグインコマンド
 		}
 	}
 
 	// 未定義コマンド(または現在のプロセスではロードされていないプラグインなど)
 	if( ( pszStr = LS( funccode ) )[0] != L'\0' ){
-		wcsncpy( ptr, pszStr, bufsize );
-		ptr[bufsize-1] = L'\0';
+		wcsncpy_s( szName.data(), szName.size(), pszStr, _TRUNCATE );
 		return false;
 	}
 
 	// なにかコピーしないとループ処理などで一つ前の名前になることがあるので(-- 不明 --)をコピーしておく
 	if( ( pszStr = LS( F_DISABLE ) )[0] != L'\0' ){
-		wcsncpy( ptr, pszStr, bufsize );
-		ptr[bufsize-1] = L'\0';
+		wcsncpy_s( szName.data(), szName.size(), pszStr, _TRUNCATE );
 		return false;
 	}
 	// リソース全死亡ガード
-	wcsncpy( ptr, L"unknown", bufsize );
-	ptr[bufsize-1] = L'\0';
+	wcsncpy_s( szName.data(), szName.size(), L"unknown", _TRUNCATE);
 
 	return false;
 }

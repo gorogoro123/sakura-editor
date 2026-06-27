@@ -786,7 +786,7 @@ void CEditWnd::LayoutMainMenu()
 		case T_LEAF:
 			/* メニューラベルの作成 */
 			// 2014.05.04 Moca プラグイン/マクロ等を置けるようにFunccode2Nameを使うように
-			GetDocument()->m_cFuncLookup.Funccode2Name( cMainMenu->m_nFunc, szLabel, int(std::size(szLabel)) );
+			GetDocument()->m_cFuncLookup.Funccode2Name( cMainMenu->m_nFunc, szLabel );
 			if (CKeyBind::GetMenuLabel(
 				G_AppInstance(),
 				m_pShareData->m_Common.m_sKeyBind.m_nKeyNameArrNum,
@@ -4109,7 +4109,7 @@ void CEditWnd::GetTooltipText(std::span<WCHAR> szBuf, UINT_PTR idFrom) const
 	const auto nID = int(idFrom);
 
 	// 機能文字列の取得 -> pszBuf
-	GetDocument()->m_cFuncLookup.Funccode2Name( nID, szBuf.data(), szBuf.size() );
+	GetDocument()->m_cFuncLookup.Funccode2Name( nID, szBuf );
 	size_t nLen = wcsnlen( szBuf.data(), szBuf.size() );
 
 	// 機能に対応するキー名の取得(複数)

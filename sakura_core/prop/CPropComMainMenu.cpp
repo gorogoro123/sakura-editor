@@ -918,7 +918,7 @@ void CPropMainMenu::SetData( HWND hwndDlg )
 		pFuncWk->m_bIsNode = false;
 		switch (pcFunc->m_nType) {
 			case T_LEAF:
-				m_cLookup.Funccode2Name( pcFunc->m_nFunc, szLabel, MAX_LABEL_CCH );
+				m_cLookup.Funccode2Name( pcFunc->m_nFunc, szLabel );
 				pFuncWk->m_sName = szLabel;
 				break;
 			case T_SEPARATOR:
