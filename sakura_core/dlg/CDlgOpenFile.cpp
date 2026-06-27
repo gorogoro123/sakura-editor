@@ -38,10 +38,10 @@ void CDlgOpenFile::Create(
 }
 
 inline bool CDlgOpenFile::DoModal_GetOpenFileName(
-	WCHAR* pszPath,
+	SFilePath& szPath,
 	EFilter eAddFileter)
 {
-	return m_pImpl->DoModal_GetOpenFileName(pszPath, eAddFileter);
+	return m_pImpl->DoModal_GetOpenFileName(szPath, eAddFileter);
 }
 
 inline bool CDlgOpenFile::DoModal_GetSaveFileName( WCHAR* pszPath )

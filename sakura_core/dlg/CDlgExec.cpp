@@ -231,8 +231,8 @@ BOOL CDlgExec::OnBnClicked( int wID )
 	case IDC_BUTTON_REFERENCE:	/* ファイル名の「参照...」ボタン */
 		{
 			CDlgOpenFile	cDlgOpenFile;
-			WCHAR			szPath[_MAX_PATH + 1];
-			wcsncpy_s(szPath, m_szCommand, _TRUNCATE);
+			SFilePath		szPath;
+			szPath = m_szCommand.c_str();
 			/* ファイルオープンダイアログの初期化 */
 			cDlgOpenFile.Create(
 				m_hInstance,
@@ -241,7 +241,7 @@ BOOL CDlgExec::OnBnClicked( int wID )
 				m_szCommand.c_str()
 			);
 			if( cDlgOpenFile.DoModal_GetOpenFileName( szPath ) ){
-				m_szCommand = szPath;
+				m_szCommand = szPath.c_str();
 				ApiWrap::DlgItem_SetText( GetHwnd(), IDC_COMBO_m_szCommand, m_szCommand.c_str() );
 			}
 		}

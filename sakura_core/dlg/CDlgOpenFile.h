@@ -21,6 +21,7 @@
 
 #include <memory>
 #include <vector>
+#include "basis/CMyString.h"
 #include "util/design_template.h"
 
 struct SLoadInfo;	// doc/CDocListener.h
@@ -55,7 +56,7 @@ public:
 		@retval false ダイアログをユーザーがキャンセル等で閉じたかもしくは開くのに失敗したか
 	*/
 	virtual bool DoModal_GetOpenFileName(
-		WCHAR* pszPath,
+		SFilePath& szPath,
 		EFilter eAddFilter
 	) = 0;
 
@@ -100,7 +101,7 @@ public:
 	) override;
 
 	//操作
-	bool DoModal_GetOpenFileName(WCHAR* pszPath, EFilter eAddFileter = EFITER_TEXT) override;
+	bool DoModal_GetOpenFileName(SFilePath& szPath, EFilter eAddFileter = EFITER_TEXT) override;
 	bool DoModal_GetSaveFileName(WCHAR* pszPath) override;
 	bool DoModalOpenDlg(SLoadInfo* pLoadInfo,
 		std::vector<std::wstring>* pFilenames,
