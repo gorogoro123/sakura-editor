@@ -22,7 +22,10 @@ jobs:
     name: Scan
     runs-on: windows-latest
 
+    if: "${{ secrets.SONAR_TOKEN != '' }}"
+
     env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       BUILD_PLATFORM: x64
       BUILD_CONFIGURATION: Debug
 
@@ -56,9 +59,6 @@ jobs:
       uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v8.2.0
 
     - name: Build with Build-Wrapper
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      if: env.SONAR_TOKEN
       run: build-wrapper-win-x86-64.exe
         --out-dir bw-output
         MsBuild.exe
@@ -67,9 +67,6 @@ jobs:
         /t:ReBuild
 
     - name: Install OpenCppCoverage
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      if: env.SONAR_TOKEN
       working-directory: ${{ runner.temp }}
       run: |
         $Installer = "OpenCppCoverageSetup.exe"
@@ -78,9 +75,6 @@ jobs:
         echo "C:\Program Files\OpenCppCoverage" >> $env:GITHUB_PATH
 
     - name: Run Tests
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      if: env.SONAR_TOKEN
       run: |
         $env:CMD_TESTS1 = $(Get-ChildItem -Recurse tests1.exe)[0].FullName
         OpenCppCoverage.exe `
@@ -95,9 +89,6 @@ jobs:
 
     - name: Upload test result
       uses: EnricoMi/publish-unit-test-result-action/windows@v2
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      if: env.SONAR_TOKEN
       with:
         files: |
           *-googletest.xml
@@ -106,9 +97,7 @@ jobs:
       uses: SonarSource/sonarqube-scan-action@v8.2.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         LC_ALL: ja_JP.UTF-8
-      if: env.SONAR_TOKEN
       with:
         args: >
           "-Dsonar.organization=${{ github.repository_owner }}"
