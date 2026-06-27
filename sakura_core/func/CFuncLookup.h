@@ -56,7 +56,7 @@ public:
 	bool Pos2FuncName( int category, int position, std::span<WCHAR> szName ) const;
 	bool Funccode2Name( int funccode, std::span<WCHAR> szName ) const ;
 	const WCHAR* Category2Name( int category ) const;
-	const WCHAR* Custmenu2Name( int index, LPWSTR buf, size_t size ) const;
+	const WCHAR* Custmenu2Name( int index, std::span<WCHAR> szName ) const;
 
 	void SetCategory2Combo( HWND hComboBox ) const ;
 	void SetListItem( HWND hListBox, int category ) const;

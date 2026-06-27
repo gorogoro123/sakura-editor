@@ -114,11 +114,11 @@ bool CFuncLookup::Funccode2Name( int funccode, std::span<WCHAR> szName ) const
 		return true;
 	}
 	else if( funccode == F_MENU_RBUTTON ){
-		Custmenu2Name( 0, szName.data(), bufsize );
+		Custmenu2Name( 0, szName );
 		return true;
 	}
 	else if( F_CUSTMENU_1 <= funccode && funccode < F_CUSTMENU_BASE + MAX_CUSTOM_MENU ){	// MAX_CUSTMACRO->MAX_CUSTOM_MENU	2010/3/14 Uchi
-		Custmenu2Name( funccode - F_CUSTMENU_BASE, szName.data(), bufsize );
+		Custmenu2Name( funccode - F_CUSTMENU_BASE, szName );
 		return true;
 	}
 	else if( F_MENU_FIRST <= funccode && funccode < F_MENU_NOT_USED_FIRST ){
@@ -259,28 +259,28 @@ int CFuncLookup::GetItemCount(int category) const
 	
 	@return NULL 分類名称．取得に失敗したらNULL．
 */
-const WCHAR* CFuncLookup::Custmenu2Name( int index, LPWSTR buf, size_t size ) const
+const WCHAR* CFuncLookup::Custmenu2Name( int index, std::span<WCHAR> szName ) const
 {
 	if( index < 0 || CUSTMENU_INDEX_FOR_TABWND < index )
 		return nullptr;
 
 	// 共通設定で名称を設定していればそれを返す
 	if ( m_pCommon->m_sCustomMenu.m_szCustMenuNameArr[ index ][0] != '\0' ) {
-		::wcsncpy_s(buf, size, m_pCommon->m_sCustomMenu.m_szCustMenuNameArr[ index ], _TRUNCATE);
+		::wcsncpy_s(szName.data(), szName.size(), m_pCommon->m_sCustomMenu.m_szCustMenuNameArr[ index ], _TRUNCATE);
 		return m_pCommon->m_sCustomMenu.m_szCustMenuNameArr[ index ];
 	}
 
 	// 共通設定で未設定の場合、リソースのデフォルト名を返す
 	if( index == 0 ){
-		::wcsncpy_s(buf, size, LS(STR_CUSTMENU_RIGHT_CLICK), _TRUNCATE);
-		return buf;
+		::wcsncpy_s(szName.data(), szName.size(), LS(STR_CUSTMENU_RIGHT_CLICK), _TRUNCATE);
+		return szName.data();
 	}
 	else if( index == CUSTMENU_INDEX_FOR_TABWND ){
-		::wcsncpy_s(buf, size, LS(STR_CUSTMENU_TAB), _TRUNCATE);
-		return buf;
+		::wcsncpy_s(szName.data(), szName.size(), LS(STR_CUSTMENU_TAB), _TRUNCATE);
+		return szName.data();
 	}
 	else {
-		auto_snprintf_s( buf, size, LS( STR_CUSTMENU_CUSTOM ), index );
-		return buf;
+		auto_snprintf_s( szName.data(), szName.size(), LS( STR_CUSTMENU_CUSTOM ), index );
+		return szName.data();
 	}
 }
