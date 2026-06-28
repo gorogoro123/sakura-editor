@@ -747,7 +747,7 @@ void CPrintPreview::OnChangePrintSetting( )
 			TopWarningMessage(
 				m_pParentWnd->GetHwnd(),
 				LS(STR_ERR_DLGPRNPRVW3),
-				m_pPrintSetting->m_mdmDevMode.m_szPrinterDeviceName,
+				m_pPrintSetting->m_mdmDevMode.m_szPrinterDeviceName.c_str(),
 				szPaperNameOld.c_str(),
 				szPaperNameNew.c_str()
 			);

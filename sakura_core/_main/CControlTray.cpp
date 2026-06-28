@@ -1129,7 +1129,7 @@ bool CControlTray::OpenNewEditor(
 	//アプリケーションパス
 	SFilePath szEXE;
 	::GetModuleFileName( nullptr, szEXE, szEXE.capacity() );
-	cCmdLineBuf.AppendF( L"\"%s\"", szEXE );
+	cCmdLineBuf.AppendF( L"\"%s\"", szEXE.c_str() );
 
 	// ファイル名
 	if( sLoadInfo.cFilePath.c_str()[0] != L'\0' )	cCmdLineBuf.AppendF( L" \"%s\"", sLoadInfo.cFilePath.c_str() );
@@ -1193,7 +1193,7 @@ bool CControlTray::OpenNewEditor(
 			output.WriteString(szCmdLineOption);
 			output.Close();
 			sync = true;
-			cCmdLineBuf.AppendF(L" -@=\"%s\"", szResponseFile);
+			cCmdLineBuf.AppendF(L" -@=\"%s\"", szResponseFile.c_str());
 		}else{
 			cCmdLineBuf.AppendF(L" %s", szCmdLineOption);
 		}
@@ -1254,12 +1254,7 @@ bool CControlTray::OpenNewEditor(
 						0,
 						nullptr
 		);
-		ErrorMessage(
-			hWndParent,
-			LS(STR_TRAY_CREATEPROC1),
-			szEXE,
-			pMsg
-		);
+		ErrorMessage( hWndParent, LS(STR_TRAY_CREATEPROC1), szEXE.c_str(), pMsg );
 		::LocalFree( (HLOCAL)pMsg );	//	エラーメッセージバッファを解放
 		return false;
 	}
@@ -1269,11 +1264,7 @@ bool CControlTray::OpenNewEditor(
 		//	起動したプロセスが完全に立ち上がるまでちょっと待つ．
 		int nResult = WaitForInputIdle( p.hProcess, 10000 );	//	最大10秒間待つ
 		if( nResult != 0 ){
-			ErrorMessage(
-				hWndParent,
-				LS(STR_TRAY_CREATEPROC2),
-				szEXE
-			);
+			ErrorMessage( hWndParent, LS(STR_TRAY_CREATEPROC2), szEXE.c_str() );
 			bRet = false;
 		}
 	}
