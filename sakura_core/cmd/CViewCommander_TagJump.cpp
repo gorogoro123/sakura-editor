@@ -748,10 +748,10 @@ bool CViewCommander::Command_TagJumpByTagsFile( bool bClose )
 	//タグジャンプする。
 	if( 0 < nMatchAll ){
 		//	@@ 2005.03.31 MIK 階層パラメータ追加
-		WCHAR fileName[1024];
+		SFilePath fileName;
 		int   fileLine;
 
-		if( false == cDlgTagJumpList.GetSelectedFullPathAndLine( fileName, int(std::size(fileName)), &fileLine , nullptr ) ){
+		if( false == cDlgTagJumpList.GetSelectedFullPathAndLine( fileName, &fileLine , nullptr ) ){
 			return false;
 		}
 		return m_pCommanderView->TagJumpSub( fileName, CMyPoint(0, fileLine), bClose );
@@ -770,7 +770,7 @@ bool CViewCommander::Command_TagJumpByTagsFile( bool bClose )
 bool CViewCommander::Command_TagJumpByTagsFileKeyword( const wchar_t* keyword )
 {
 	CDlgTagJumpList	cDlgTagJumpList(false);
-	WCHAR	fileName[1024];
+	SFilePath fileName;
 	int		fileLine;	// 行番号
 	WCHAR	szCurrentPath[1024];
 
@@ -787,7 +787,7 @@ bool CViewCommander::Command_TagJumpByTagsFileKeyword( const wchar_t* keyword )
 	}
 
 	//タグジャンプする。
-	if( false == cDlgTagJumpList.GetSelectedFullPathAndLine( fileName, int(std::size(fileName)), &fileLine, nullptr ) )
+	if( false == cDlgTagJumpList.GetSelectedFullPathAndLine( fileName, &fileLine, nullptr ) )
 	{
 		return false;
 	}

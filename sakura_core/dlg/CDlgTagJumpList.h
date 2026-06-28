@@ -50,7 +50,7 @@ public:
 	void SetKeyword( const wchar_t *pszKeyword );	//	@@ 2005.03.31 MIK
 	int  FindDirectTagJump();
 
-	bool GetSelectedFullPathAndLine( WCHAR* fullPath, int count, int* lineNum, int* depth );
+	bool GetSelectedFullPathAndLine( SFilePath& fullPath, int* lineNum, int* depth );
 
 protected:
 	/*
@@ -112,10 +112,10 @@ private:
 	bool IsDirectTagJump();
 
 	void ClearPrevFindInfo();
-	bool GetFullPathAndLine( int index, WCHAR *fullPath, int count, int *lineNum, int *depth );
+	bool GetFullPathAndLine( int index, SFilePath& fullPath, int *lineNum, int *depth );
 
 	//! depthから完全パス名(相対パス/絶対パス)を作成する
-	static WCHAR* GetFullPathFromDepth(WCHAR* pszOutput, int count, WCHAR* basePath, const WCHAR* fileName, int depth);
+	static const WCHAR* GetFullPathFromDepth(SFilePath& szOutput, WCHAR* basePath, const WCHAR* fileName, int depth);
 	static WCHAR* CopyDirDir( WCHAR* dest, const WCHAR* target, const WCHAR* base );
 public:
 	static int CalcMaxUpDirectory(const WCHAR* p);

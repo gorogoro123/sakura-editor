@@ -664,21 +664,21 @@ bool CDlgTagJumpList::AddParamA( const ACHAR *s0, const ACHAR *s1, int n2, const
 }
 #endif
 
-bool CDlgTagJumpList::GetSelectedFullPathAndLine( WCHAR *fullPath, int count, int *lineNum, int *depth )
+bool CDlgTagJumpList::GetSelectedFullPathAndLine( SFilePath& fullPath, int *lineNum, int *depth )
 {
 	if( 1 != m_pcList->GetCount() ){
 		if( -1 == m_nIndex || m_nIndex >= m_pcList->GetCount() ) return false;
 	}else{
 		m_nIndex = 0;
 	}
-	return GetFullPathAndLine( m_nIndex, fullPath, count, lineNum, depth );
+	return GetFullPathAndLine( m_nIndex, fullPath, lineNum, depth );
 }
 
 /*
 	@param lineNum [out] オプション
 	@param depth [out] オプション
 */
-bool CDlgTagJumpList::GetFullPathAndLine( int index, WCHAR *fullPath, int count, int *lineNum, int *depth )
+bool CDlgTagJumpList::GetFullPathAndLine( int index, SFilePath& fullPath, int *lineNum, int *depth )
 {
 	WCHAR path[1024];
 	WCHAR fileName[1024];
@@ -708,9 +708,9 @@ bool CDlgTagJumpList::GetFullPathAndLine( int index, WCHAR *fullPath, int count,
 	}else{
 		fileNamePath = fileName;
 	}
-	bool ret = nullptr != GetFullPathFromDepth( fullPath, count, path, fileNamePath, tempDepth );
+	bool ret = nullptr != GetFullPathFromDepth( fullPath, path, fileNamePath, tempDepth );
 	if(ret){
-		DEBUG_TRACE( L"jump to: %s\n", static_cast<const WCHAR*>(fullPath) );
+		DEBUG_TRACE( L"jump to: %s\n", fullPath.c_str() );
 	}else{
 		DEBUG_TRACE( L"jump to: error\n" );
 	}
@@ -848,10 +848,10 @@ int CDlgTagJumpList::SearchBestTag( )
 		// タグのファイル名部分をフルパスにする
 		lpPathInfo->szFileNameDst[0] = L'\0';
 		{
-			WCHAR szPath[_MAX_PATH];
-			GetFullPathAndLine( i, szPath, int(std::size(szPath)), nullptr, nullptr );
+			SFilePath szPath;
+			GetFullPathAndLine( i, szPath, nullptr, nullptr );
 			if( FALSE == GetLongFileName( szPath, lpPathInfo->szFileNameDst ) ){
-				wcscpy( lpPathInfo->szFileNameDst, szPath );
+				wcscpy( lpPathInfo->szFileNameDst, szPath.c_str() );
 			}
 		}
 
@@ -1561,7 +1561,7 @@ int CDlgTagJumpList::CalcMaxUpDirectory( const WCHAR* p )
 	@retval pszOutput 成功 「C:\dir1\filename.txt」の形式(..\付加は廃止)
 	@retval NULL   失敗
 */
-WCHAR* CDlgTagJumpList::GetFullPathFromDepth( WCHAR* pszOutput, int count,
+const WCHAR* CDlgTagJumpList::GetFullPathFromDepth( SFilePath& szOutput,
 	WCHAR* basePath, const WCHAR* fileName, int depth )
 {
 	DEBUG_TRACE( L"base  %s\n", basePath );
@@ -1570,19 +1570,19 @@ WCHAR* CDlgTagJumpList::GetFullPathFromDepth( WCHAR* pszOutput, int count,
 	//完全パス名を作成する。
 	const WCHAR	*p = fileName;
 	if( p[0] == L'\\' ){	//ドライブなし絶対パスか？
-		wcscpy( pszOutput, p );	//何も加工しない。
+		szOutput = p;	//何も加工しない。
 	}else if( iswalpha( p[0] ) && p[1] == L':' ){	//絶対パスか？
-		wcscpy( pszOutput, p );	//何も加工しない。
+		szOutput = p;	//何も加工しない。
 	}else{
 		for( int i = 0; i < depth; i++ ){
 			//wcscat( basePath, L"..\\" );
 			DirUp( basePath );
 		}
-		if( -1 == auto_snprintf_s( pszOutput, count, L"%s%s", basePath, p ) ){
+		if( -1 == auto_snprintf_s( szOutput.data(), szOutput.capacity(), L"%s%s", basePath, p ) ){
 			return nullptr;
 		}
 	}
-	return pszOutput;
+	return szOutput.c_str();
 }
 
 /*!
