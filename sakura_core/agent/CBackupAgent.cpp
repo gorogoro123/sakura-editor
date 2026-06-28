@@ -334,7 +334,7 @@ bool CBackupAgent::FormatBackUpPath(
 			break;
 		case 2:	//	日付，時刻
 			_tzset();
-			_wstrdate( szTime );
+			_wstrdate_s( szTime, std::size(szTime) );
 			_time64( &ltime );				/* システム時刻を得ます */
 			_localtime64_s( &result, &ltime );/* 現地時間に変換する */
 
@@ -441,7 +441,7 @@ bool CBackupAgent::FormatBackUpPath(
 			// make keys
 			// $0-$9に対応するフォルダー名を切り出し
 			WCHAR keybuff[1024];
-			wcscpy( keybuff, szDir );
+			wcscpy_s( keybuff, szDir );
 			CutLastYenFromDirectoryPath( keybuff );
 
 			WCHAR *folders[10];
@@ -502,7 +502,7 @@ bool CBackupAgent::FormatBackUpPath(
 
 			// * を拡張子にする
 			while( wcschr( szNewPath.data(), L'*')) {
-				wcscpy( temp, szNewPath.data() );
+				wcscpy_s( temp, szNewPath.data() );
 				cp = wcschr( temp, L'*' );
 				*cp = 0;
 				if( -1 == auto_snprintf_s( szNewPath.data(), szNewPath.size(), L"%s%s%s", temp, ep, cp+1 ) ){
