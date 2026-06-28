@@ -56,7 +56,7 @@ void CViewCommander::Command_RECKEYMACRO( )
 			GetDllShareData().m_Common.m_sMacro.m_szKeyMacroFileName
 		);
 		if ( !nSaveResult ){
-			ErrorMessage(	m_pCommanderView->GetHwnd(), LS(STR_ERR_CEDITVIEW_CMD25), GetDllShareData().m_Common.m_sMacro.m_szKeyMacroFileName );
+			ErrorMessage( m_pCommanderView->GetHwnd(), LS(STR_ERR_CEDITVIEW_CMD25), GetDllShareData().m_Common.m_sMacro.m_szKeyMacroFileName.c_str() );
 		}
 	}else{
 		GetDllShareData().m_sFlags.m_bRecordingKeyMacro = TRUE;
@@ -182,7 +182,7 @@ void CViewCommander::Command_EXECKEYMACRO( )
 			nullptr
 		);
 		if ( !bLoadResult ){
-			ErrorMessage( m_pCommanderView->GetHwnd(), LS(STR_ERR_CEDITVIEW_CMD28), GetDllShareData().m_Common.m_sMacro.m_szKeyMacroFileName );
+			ErrorMessage( m_pCommanderView->GetHwnd(), LS(STR_ERR_CEDITVIEW_CMD28), GetDllShareData().m_Common.m_sMacro.m_szKeyMacroFileName.c_str() );
 		}
 		else {
 			//	2007.07.20 genta : flagsオプション追加
