@@ -25,7 +25,6 @@
 #include "util/window.h"
 #include "util/RegKey.h"
 #include "util/string_ex2.h"
-#include <memory>
 #include "apiwrap/StdApi.h"
 #include "apiwrap/StdControl.h"
 #include "sakura_rc.h"
@@ -593,15 +592,11 @@ bool CDlgTypeList::CopyType()
 			}else{
 				n++;
 			}
-			WCHAR szNum[12];
-			auto_snprintf_s( szNum, std::size(szNum), L"%d", n );
-			auto nLen = int(wcslen(szNum));
-			WCHAR szTemp[type.m_szTypeName.capacity() + 12];
-			wcscpy( szTemp, type.m_szTypeName );
-			auto nTempLen = int(wcslen(szTemp));
+			std::wstring szNum = std::to_wstring(n);
+			std::wstring szTemp(type.m_szTypeName);
 			CNativeW cmem;
 			// バッファをはみ出さないように
-			cmem.LimitStringLengthW( szTemp, nTempLen, type.m_szTypeName.capacity() - nLen - 1 );
+			cmem.LimitStringLengthW( szTemp.c_str(), szTemp.length(), type.m_szTypeName.capacity() - szNum.length() - 1);
 			type.m_szTypeName = cmem.GetStringPtr();
 			type.m_szTypeName.append(szNum);
 			bUpdate = false;
