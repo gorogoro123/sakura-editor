@@ -150,7 +150,8 @@ bool CDocTypeManager::DelTypeConfig(CTypeConfig cDocumentType)
 bool CDocTypeManager::IsFileNameMatch(const WCHAR* pszTypeExts, const WCHAR* pszFileName)
 {
 	StaticString<MAX_TYPES_EXTS> szWork(pszTypeExts);
-	WCHAR* token = _wcstok(szWork, m_typeExtSeps);
+	WCHAR* content = nullptr;
+	WCHAR* token = wcstok_s(szWork, m_typeExtSeps, &content);
 	while (token) {
 		if (wcspbrk(token, m_typeExtWildcards) == nullptr) {
 			if (_wcsicmp(token, pszFileName) == 0) {
@@ -165,7 +166,7 @@ bool CDocTypeManager::IsFileNameMatch(const WCHAR* pszTypeExts, const WCHAR* psz
 				return true;
 			}
 		}
-		token = _wcstok(nullptr, m_typeExtSeps);
+		token = wcstok_s(nullptr, m_typeExtSeps, &content);
 	}
 	return false;
 }
@@ -180,7 +181,8 @@ bool CDocTypeManager::IsFileNameMatch(const WCHAR* pszTypeExts, const WCHAR* psz
 void CDocTypeManager::GetFirstExt(const WCHAR* pszTypeExts, WCHAR szFirstExt[], int nBuffSize)
 {
 	StaticString<MAX_TYPES_EXTS> szWork(pszTypeExts);
-	WCHAR* token = _wcstok(szWork, m_typeExtSeps);
+	WCHAR* content = nullptr;
+	WCHAR* token = wcstok_s(szWork, m_typeExtSeps, &content);
 	while (token) {
 		if (wcspbrk(token, m_typeExtWildcards) == nullptr) {
 			wcsncpy_s(szFirstExt, nBuffSize, token, _TRUNCATE);
