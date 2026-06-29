@@ -94,7 +94,7 @@ private:
 	int		GetData( ) override;	/* ダイアログデータの取得 */
 	void	UpdateData(bool bInit);	//	@@ 2005.03.31 MIK
 
-	WCHAR	*GetNameByType( const WCHAR type, const WCHAR *name );	//タイプを名前に変換する。
+	std::wstring GetNameByType( const WCHAR type, const WCHAR *name );	//タイプを名前に変換する。
 	int		SearchBestTag( );	//もっとも確率の高そうなインデックスを返す。
 	//	@@ 2005.03.31 MIK
 	const WCHAR *GetFileName( );

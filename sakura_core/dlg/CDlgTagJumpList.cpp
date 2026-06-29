@@ -284,9 +284,8 @@ void CDlgTagJumpList::UpdateData( bool bInit )
 		auto_snprintf_s( tmp, std::size(tmp), L"%d", item->no );
 		ListView_SetItemText( hwndList, nIndex, 2, tmp );
 
-		WCHAR *p = GetNameByType( item->type, item->filename.c_str() );
-		ListView_SetItemText( hwndList, nIndex, 3, p );
-		free( p );
+		std::wstring strName = GetNameByType( item->type, item->filename.c_str() );
+		ListView_SetItemText( hwndList, nIndex, 3, strName.data() );
 
 		ListView_SetItemText( hwndList, nIndex, 4, item->filename.data() );
 
@@ -719,48 +718,46 @@ bool CDlgTagJumpList::GetFullPathAndLine( int index, WCHAR *fullPath, int count,
 }
 
 /*!
-	@return 「.ext」形式のタイプ情報。 freeすること
+	@return 「.ext」形式のタイプ情報。
 */
-WCHAR *CDlgTagJumpList::GetNameByType( const WCHAR type, const WCHAR *name )
+std::wstring CDlgTagJumpList::GetNameByType( const WCHAR type, const WCHAR *name )
 {
-	const WCHAR	*p;
-	WCHAR	*token;
-	int		i;
-	//	2005.03.31 MIK
-	WCHAR	tmp[MAX_TAG_STRING_LENGTH];
-
-	p = wcsrchr( name, L'.' );
+	const WCHAR	*p = wcsrchr( name, L'.' );
 	if( ! p ) p = L".c";	//見つからないときは ".c" と想定する。
 	p++;
 
-	for( i = 0; p_extentions[i]; i += 2 )
+	for( int i = 0; p_extentions[i]; i += 2 )
 	{
-		wcscpy( tmp, p_extentions[i] );
-		token = _wcstok( tmp, L"," );
+		WCHAR tmpExt[MAX_TAG_STRING_LENGTH];
+		wcscpy_s( tmpExt, std::size(tmpExt), p_extentions[i] );
+		WCHAR* contextExt = nullptr;
+		WCHAR* token = wcstok_s( tmpExt, L",", &contextExt);
 		while( token )
 		{
 			if( _wcsicmp( p, token ) == 0 )
 			{
-				wcscpy( tmp, p_extentions[i+1] );
-				token = _wcstok( tmp, L"," );
+				WCHAR tmpType[MAX_TAG_STRING_LENGTH];
+				wcscpy_s( tmpType, std::size(tmpType), p_extentions[i+1] );
+				WCHAR* contextType = nullptr;
+				token = wcstok_s( tmpType, L",", &contextType );
 				while( token )
 				{
 					if( token[0] == type )
 					{
-						return _wcsdup( &token[2] );
+						return std::wstring( &token[2] );
 					}
 
-					token = _wcstok( nullptr, L"," );
+					token = wcstok_s( nullptr, L",", &contextType );
 				}
 
-				return _wcsdup( L"" );
+				return L"";
 			}
 
-			token = _wcstok( nullptr, L"," );
+			token = wcstok_s( nullptr, L",", &contextExt);
 		}
 	}
 
-	return _wcsdup( L"" );
+	return L"";
 }
 
 /*!
