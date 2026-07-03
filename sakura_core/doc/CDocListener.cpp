@@ -14,7 +14,6 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#include <map>
 #include "doc/CDocListener.h"
 #include "doc/CEditDoc.h"
 
@@ -36,72 +35,103 @@ CDocSubject::~CDocSubject()
 {
 }
 
-#define DEF_NOTIFY(NAME) ECallbackResult CDocSubject::Notify##NAME() \
-{ \
-	int n = GetListenerCount(); \
-	for(int i=0;i<n;i++){ \
-		ECallbackResult eRet = GetListener(i)->On##NAME(); \
-		if(eRet!=CALLBACK_CONTINUE)return eRet; \
-	} \
-	return CALLBACK_CONTINUE; \
+template <typename F>
+ECallbackResult CDocSubject::NotifyImpl(F&& func)
+{
+	int n = GetListenerCount();
+	for (int i = 0; i < n; i++) {
+		ECallbackResult eRet = func(GetListener(i));
+		if (eRet != CALLBACK_CONTINUE) return eRet;
+	}
+	return CALLBACK_CONTINUE;
 }
 
-#define DEF_NOTIFY2(NAME,ARGTYPE) ECallbackResult CDocSubject::Notify##NAME(ARGTYPE a) \
-{ \
-	int n = GetListenerCount(); \
-	for(int i=0;i<n;i++){ \
-		ECallbackResult eRet = GetListener(i)->On##NAME(a); \
-		if(eRet!=CALLBACK_CONTINUE)return eRet; \
-	} \
-	return CALLBACK_CONTINUE; \
+template <typename F>
+void CDocSubject::VoidNotifyImpl(F&& func)
+{
+	int n = GetListenerCount();
+	for (int i = 0; i < n; i++) {
+		func(GetListener(i));
+	}
 }
 
-#define VOID_NOTIFY(NAME) void CDocSubject::Notify##NAME() \
-{ \
-	int n = GetListenerCount(); \
-	for(int i=0;i<n;i++){ \
-		GetListener(i)->On##NAME(); \
-	} \
+ECallbackResult CDocSubject::NotifyCheckLoad(SLoadInfo* pLoadInfo)
+{
+	return NotifyImpl([&](auto* l) { return l->OnCheckLoad(pLoadInfo); });
 }
 
-#define VOID_NOTIFY2(NAME,ARGTYPE) void CDocSubject::Notify##NAME(ARGTYPE a) \
-{ \
-	int n = GetListenerCount(); \
-	for(int i=0;i<n;i++){ \
-		GetListener(i)->On##NAME(a); \
-	} \
+void CDocSubject::NotifyBeforeLoad(SLoadInfo* sLoadInfo)
+{
+	VoidNotifyImpl([&](auto* l) { l->OnBeforeLoad(sLoadInfo); });
 }
 
-//######仮
-#define CORE_NOTIFY2(NAME,ARGTYPE) ELoadResult CDocSubject::Notify##NAME(ARGTYPE a) \
-{ \
-	int n = GetListenerCount(); \
-	ELoadResult eRet = LOADED_FAILURE; \
-	for(int i=0;i<n;i++){ \
-		ELoadResult e = GetListener(i)->On##NAME(a); \
-		if(e==LOADED_NOIMPLEMENT)continue; \
-		if(e==LOADED_FAILURE)return e; \
-		eRet = e; \
-	} \
-	return eRet; \
+ELoadResult CDocSubject::NotifyLoad(const SLoadInfo& sLoadInfo)
+{
+	int n = GetListenerCount();
+	ELoadResult eRet = LOADED_FAILURE;
+	for (int i = 0; i < n; i++) {
+		ELoadResult e = GetListener(i)->OnLoad(sLoadInfo);
+		if (e == LOADED_NOIMPLEMENT) continue;
+		if (e == LOADED_FAILURE) return e;
+		eRet = e;
+	}
+	return eRet;
 }
 
-DEF_NOTIFY2(CheckLoad,SLoadInfo*)
-VOID_NOTIFY2(BeforeLoad,SLoadInfo*)
-CORE_NOTIFY2(Load,const SLoadInfo&)
-VOID_NOTIFY2(Loading,int)
-VOID_NOTIFY2(AfterLoad,const SLoadInfo&)
-VOID_NOTIFY2(FinalLoad,ELoadResult)
+void CDocSubject::NotifyLoading(int nPer)
+{
+	VoidNotifyImpl([&](auto* l) { l->OnLoading(nPer); });
+}
 
-DEF_NOTIFY2(CheckSave,SSaveInfo*)
-DEF_NOTIFY2(PreBeforeSave,SSaveInfo*)
-VOID_NOTIFY2(BeforeSave,const SSaveInfo&)
-VOID_NOTIFY2(Save,const SSaveInfo&)
-VOID_NOTIFY2(Saving,int)
-VOID_NOTIFY2(AfterSave,const SSaveInfo&)
-VOID_NOTIFY2(FinalSave,ESaveResult)
+void CDocSubject::NotifyAfterLoad(const SLoadInfo& sLoadInfo)
+{
+	VoidNotifyImpl([&](auto* l) { l->OnAfterLoad(sLoadInfo); });
+}
 
-DEF_NOTIFY(BeforeClose)
+void CDocSubject::NotifyFinalLoad(ELoadResult eLoadResult)
+{
+	VoidNotifyImpl([&](auto* l) { l->OnFinalLoad(eLoadResult); });
+}
+
+ECallbackResult CDocSubject::NotifyCheckSave(SSaveInfo* pSaveInfo)
+{
+	return NotifyImpl([&](auto* l) { return l->OnCheckSave(pSaveInfo); });
+}
+
+ECallbackResult CDocSubject::NotifyPreBeforeSave(SSaveInfo* pSaveInfo)
+{
+	return NotifyImpl([&](auto* l) { return l->OnPreBeforeSave(pSaveInfo); });
+}
+
+void CDocSubject::NotifyBeforeSave(const SSaveInfo& sSaveInfo)
+{
+	VoidNotifyImpl([&](auto* l) { l->OnBeforeSave(sSaveInfo); });
+}
+
+void CDocSubject::NotifySave(const SSaveInfo& sSaveInfo)
+{
+	VoidNotifyImpl([&](auto* l) { l->OnSave(sSaveInfo); });
+}
+
+void CDocSubject::NotifySaving(int nPer)
+{
+	VoidNotifyImpl([&](auto* l) { l->OnSaving(nPer); });
+}
+
+void CDocSubject::NotifyAfterSave(const SSaveInfo& sSaveInfo)
+{
+	VoidNotifyImpl([&](auto* l) { l->OnAfterSave(sSaveInfo); });
+}
+
+void CDocSubject::NotifyFinalSave(ESaveResult eSaveResult)
+{
+	VoidNotifyImpl([&](auto* l) { l->OnFinalSave(eSaveResult); });
+}
+
+ECallbackResult CDocSubject::NotifyBeforeClose()
+{
+	return NotifyImpl([](auto* l) { return l->OnBeforeClose(); });
+}
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                       CDocListener                          //
