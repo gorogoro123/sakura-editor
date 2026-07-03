@@ -38,7 +38,7 @@ enum maxdata{
 
 	MAX_KEYHELP_FILE			= 20,	//@@@ 2006.04.10 fon
 
-	MAX_MARKLINES_LEN			= 1023,	// 2002.01.18 hor
+	MAX_MARKLINES_LEN			= 1024,	// 2002.01.18 hor
 	MAX_DOCTYPE_LEN				= 7,
 	MAX_TRANSFORM_FILENAME		= 16,	/// 2002.11.24 Moca
 

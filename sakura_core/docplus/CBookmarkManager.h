@@ -51,7 +51,7 @@ public:
 	void ResetAllBookMark();															//!< ブックマークの全解除
 	bool SearchBookMark( CLogicInt nLineNum, ESearchDirection , CLogicInt* pnLineNum );	//!< ブックマーク検索
 	void SetBookMarks( wchar_t* pMarkLines );											//!< 物理行番号のリストからまとめて行マーク
-	LPCWSTR GetBookMarks();																//!< 行マークされてる物理行番号のリストを作る
+	std::wstring GetBookMarks();														//!< 行マークされてる物理行番号のリストを作る
 	void MarkSearchWord( const CSearchStringPattern& );			//!< 検索条件に該当する行にブックマークをセットする
 
 private:
