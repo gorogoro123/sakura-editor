@@ -144,6 +144,10 @@ public:
 
 	//クローズ前後
 	ECallbackResult NotifyBeforeClose();
+
+private:
+	template <typename F> ECallbackResult NotifyImpl(F&& func);
+	template <typename F> void            VoidNotifyImpl(F&& func);
 };
 
 //Listenerは1つのSubjectを観察する
