@@ -140,17 +140,14 @@ void CBookmarkManager::SetBookMarks( wchar_t* pMarkLines )
 	@date 2002.01.16 hor
 	@date 2014.04.24 Moca ver2 差分32進数方式に変更
 */
-LPCWSTR CBookmarkManager::GetBookMarks()
+std::wstring CBookmarkManager::GetBookMarks()
 {
-	const CDocLine*	pCDocLine;
-	static wchar_t szText[MAX_MARKLINES_LEN + 1];	//2002.01.17 // Feb. 17, 2003 genta staticに
 	wchar_t szBuff[10];
 	wchar_t szBuff2[10];
 	CLogicInt	nLinePos=CLogicInt(0);
 	CLogicInt	nLinePosOld=CLogicInt(-1);
-	int			nTextLen = 2;
-	pCDocLine = m_pcDocLineMgr->GetLine( nLinePos );
-	wcscpy( szText, L":0" );
+	const CDocLine*	pCDocLine = m_pcDocLineMgr->GetLine( nLinePos );
+	std::wstring szText(L":0");
 	while( pCDocLine ){
 		if(CBookmarkGetter(pCDocLine).IsBookmarked()){
 			CLogicInt nDiff = nLinePos - nLinePosOld - CLogicInt(1);
@@ -190,10 +187,9 @@ LPCWSTR CBookmarkManager::GetBookMarks()
 				}
 				szBuff2[nColumn] = L'\0';
 			}
-			auto nBuff2Len = int(wcslen(szBuff2));
-			if( nBuff2Len + nTextLen > MAX_MARKLINES_LEN ) break;	//2002.01.17
-			wcscpy( szText + nTextLen, szBuff2 );
-			nTextLen += nBuff2Len;
+			auto nBuff2Len = wcsnlen(szBuff2, std::size(szBuff2));
+			if( nBuff2Len + szText.length() >= MAX_MARKLINES_LEN ) break;	//2002.01.17
+			szText.append(szBuff2, nBuff2Len);
 		}
 		nLinePos++;
 		pCDocLine = pCDocLine->GetNextLine();
