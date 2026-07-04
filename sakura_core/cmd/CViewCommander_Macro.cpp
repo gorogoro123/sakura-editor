@@ -42,7 +42,7 @@ void CViewCommander::Command_RECKEYMACRO( )
 		SFilePath szInitDir;
 		int nRet;
 		// 2003.06.23 Moca 記録用キーマクロのフルパスをCShareData経由で取得
-		nRet = CShareData::getInstance()->GetMacroFilename( -1, szInitDir, szInitDir.capacity() ); 
+		nRet = CShareData::getInstance()->GetMacroFilename( -1, szInitDir ); 
 		if( nRet <= 0 ){
 			ErrorMessage( m_pCommanderView->GetHwnd(), LS(STR_ERR_CEDITVIEW_CMD24), nRet );
 			return;

@@ -1061,9 +1061,8 @@ bool CShareData::OpenDebugWindow( HWND hwnd, bool bAllwaysActive )
 */
 /*!	idxで指定したマクロファイル名（フルパス）を取得する．
 
-	@param pszPath [in]	パス名の出力先．長さのみを知りたいときはNULLを入れる．
+	@param pszPath [in]	パス名の出力先．
 	@param idx [in]		マクロ番号
-	@param nBufLen [in]	pszPathで指定されたバッファのバッファサイズ
 
 	@retval >0 : パス名の長さ．
 	@retval  0 : エラー，そのマクロは使えない，ファイル名が指定されていない．
@@ -1076,8 +1075,9 @@ bool CShareData::OpenDebugWindow( HWND hwnd, bool bAllwaysActive )
 	
 	@note idxは正確なものでなければならない。(内部で正当性チェックを行っていない)
 */
-int CShareData::GetMacroFilename( int idx, WCHAR *pszPath, int nBufLen )
+int CShareData::GetMacroFilename( int idx, SFilePath& szPath )
 {
+	const int nBufLen = szPath.capacity();
 	if( -1 != idx && !m_pShareData->m_Common.m_sMacro.m_MacroTable[idx].IsEnabled() )
 		return 0;
 	const WCHAR *ptr;
@@ -1089,9 +1089,7 @@ int CShareData::GetMacroFilename( int idx, WCHAR *pszPath, int nBufLen )
 		pszFile = m_pShareData->m_Common.m_sMacro.m_MacroTable[idx].m_szFile;
 	}
 	if( pszFile[0] == L'\0' ){	//	ファイル名が無い
-		if( pszPath != nullptr ){
-			pszPath[0] = L'\0';
-		}
+		szPath = L"";
 		return 0;
 	}
 	ptr = pszFile;
@@ -1099,10 +1097,10 @@ int CShareData::GetMacroFilename( int idx, WCHAR *pszPath, int nBufLen )
 
 	if( !_IS_REL_PATH( pszFile )	// 絶対パス
 		|| m_pShareData->m_Common.m_sMacro.m_szMACROFOLDER[0] == L'\0' ){	//	フォルダー指定なし
-		if( pszPath == nullptr || nBufLen <= nLen ){
+		if( nBufLen <= nLen ){
 			return -nLen;
 		}
-		wcscpy( pszPath, pszFile );
+		szPath = pszFile;
 		return nLen;
 	}
 	else {	//	フォルダー指定あり
@@ -1120,15 +1118,15 @@ int CShareData::GetMacroFilename( int idx, WCHAR *pszPath, int nBufLen )
 
 		int nDirLen = (int)szDir.length();
 		int nAllLen = nDirLen + nLen + ( -1 == nFolderSep ? 1 : 0 );
-		if( pszPath == nullptr || nBufLen <= nAllLen ){
+		if( nBufLen <= nAllLen ){
 			return -nAllLen;
 		}
 
-		::wcsncpy_s(pszPath, nBufLen, szDir, _TRUNCATE);
+		szPath = szDir;
 		if( -1 == nFolderSep ){
-			::wcsncat_s(pszPath, nBufLen, L"\\", _TRUNCATE);
+			szPath.append(L"\\");
 		}
-		::wcsncat_s(pszPath, nBufLen, pszFile, _TRUNCATE);
+		szPath.append(pszFile);
 		return nAllLen;
 	}
 }

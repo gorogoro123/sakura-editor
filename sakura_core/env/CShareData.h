@@ -35,6 +35,7 @@
 #include "charset/charset.h"
 #include "util/design_template.h"
 #include "charset/charset.h"
+#include "basis/CMyString.h"
 
 // 2010.04.19 Moca DLLSHAREDATA関連はDLLSHAREDATA.h等最低限必要な場所へ移動
 // CShareData.hは、自分のInterfaceしか提供しません。別にDLLSHAREDATA.hをincludeすること。
@@ -81,7 +82,7 @@ public:
 	[[nodiscard]] bool IsPrivateSettings( ) const noexcept;
 
 	//マクロ関連
-	int			GetMacroFilename( int idx, WCHAR* pszPath, int nBufLen ); // idxで指定したマクロファイル名（フルパス）を取得する	//	Jun. 14, 2003 genta 引数追加．書式変更
+	int			GetMacroFilename( int idx, SFilePath& szPath ); // idxで指定したマクロファイル名（フルパス）を取得する	//	Jun. 14, 2003 genta 引数追加．書式変更
 	bool		BeReloadWhenExecuteMacro( int idx );	//	idxで指定したマクロは、実行するたびにファイルを読み込む設定か？
 
 	//タイプ別設定(コントロールプロセス専用)
