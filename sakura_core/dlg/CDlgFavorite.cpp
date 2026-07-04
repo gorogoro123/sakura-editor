@@ -549,11 +549,10 @@ BOOL CDlgFavorite::OnBnClicked( int wID )
 					// 存在しないパスの削除
 					for( int i = pRecent->GetItemCount() - 1; i >= 0; i-- ){
 						size_t nLen = wcslen(pRecent->GetItemText(i));
-						std::vector<WCHAR> vecPath(nLen + 2);
-						WCHAR* szPath = &vecPath[0];
-						wcscpy( szPath, pRecent->GetItemText(i) );
-						CutLastYenFromDirectoryPath(szPath);
-						if( false == IsFileExists(szPath, false ) ){
+						std::vector<WCHAR> szPath(nLen + 2);
+						wcscpy_s( szPath.data(), szPath.size(), pRecent->GetItemText(i));
+						CutLastYenFromDirectoryPath(szPath.data());
+						if( false == IsFileExists(szPath.data(), false)) {
 							pRecent->DeleteItem(i);
 						}
 					}
