@@ -54,10 +54,10 @@ public:
 	||  Attributes & Operations
 	*/
 	void ResetContents( );
-	void MyAppendMenu( HMENU hMenu, int nFlag, UINT_PTR nFuncId, const WCHAR*     pszLabel, const WCHAR*     pszKey, BOOL bAddKeyStr = TRUE, int nForceIconId = -1 );	/* メニュー項目を追加 */	//お気に入り	//@@@ 2003.04.08 MIK	// add pszKey	2010/5/17 Uchi
+	void MyAppendMenu( HMENU hMenu, int nFlag, UINT_PTR nFuncId, const WCHAR* pszLabel, WCHAR cKey, BOOL bAddKeyStr = TRUE, int nForceIconId = -1 );	/* メニュー項目を追加 */	//お気に入り	//@@@ 2003.04.08 MIK	// add pszKey	2010/5/17 Uchi
 	void MyAppendMenuSep( HMENU hMenu, int nFlag, int nFuncId, const WCHAR* pszLabel, BOOL bAddKeyStr = TRUE, int nForceIconId = -1 )
 	{
-		MyAppendMenu(hMenu,nFlag,nFuncId,pszLabel,L"",bAddKeyStr,nForceIconId);
+		MyAppendMenu(hMenu,nFlag,nFuncId,pszLabel,L'\0',bAddKeyStr,nForceIconId);
 	}
 	int MeasureItem( int nFuncID, int* pnItemHeight );	/* メニューアイテムの描画サイズを計算 */
 	void DrawItem( DRAWITEMSTRUCT* );	/* メニューアイテム描画 */

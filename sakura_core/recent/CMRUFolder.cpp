@@ -88,7 +88,7 @@ HMENU CMRUFolder::CreateMenu( HMENU	hMenuPopUp, CMenuDrawer* pCMenuDrawer ) cons
 		CFileNameManager::getInstance()->GetMenuFullLabel( szMenu, int(std::size(szMenu)), true, pszFolder, -1, false, CODE_NONE, bFavoriteLabel, i, true, dcFont.GetHDC() );
 
 		//	メニューに追加
-		pCMenuDrawer->MyAppendMenu( hMenuPopUp, MF_BYPOSITION | MF_STRING, IDM_SELOPENFOLDER + i, szMenu, L"", TRUE,
+		pCMenuDrawer->MyAppendMenu( hMenuPopUp, MF_BYPOSITION | MF_STRING, IDM_SELOPENFOLDER + i, szMenu, L'\0', TRUE,
 			bFavorite ? F_FAVORITE : -1 );
 	}
 	return hMenuPopUp;

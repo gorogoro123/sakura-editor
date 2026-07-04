@@ -1473,8 +1473,8 @@ void CEditView::AddKeyHelpMenu(HMENU hMenu, EKeyHelpRMenuType eRmenuType)
 			if( eRmenuType == KEYHELP_RMENU_BOTTOM ){
 				cMenuDrawer.MyAppendMenuSep( hMenu, MF_SEPARATOR, F_0, L"" );
 			}
-			cMenuDrawer.MyAppendMenu( hMenu, 0, IDM_COPYDICINFO, LS(STR_MENU_KEYWORDINFO), L"K" );	// 2006.04.10 fon ToolTip内容を直接表示するのをやめた
-			cMenuDrawer.MyAppendMenu( hMenu, 0, IDM_JUMPDICT, LS(STR_MENU_OPENKEYWORDDIC), L"L" );	// 2006.04.10 fon
+			cMenuDrawer.MyAppendMenu( hMenu, 0, IDM_COPYDICINFO, LS(STR_MENU_KEYWORDINFO), L'K' );	// 2006.04.10 fon ToolTip内容を直接表示するのをやめた
+			cMenuDrawer.MyAppendMenu( hMenu, 0, IDM_JUMPDICT, LS(STR_MENU_OPENKEYWORDDIC), L'L' );	// 2006.04.10 fon
 			if( eRmenuType == KEYHELP_RMENU_TOP ){
 				cMenuDrawer.MyAppendMenuSep( hMenu, MF_SEPARATOR, F_0, L"" );
 			}
@@ -1545,9 +1545,7 @@ int	CEditView::CreatePopUpMenuSub( HMENU hMenu, int nMenuIdx, int* pParentMenus,
 			if( !bMenuLoop ){
 				WCHAR buf[ MAX_CUSTOM_MENU_NAME_LEN + 1 ];
 				LPCWSTR p = GetDocument()->m_cFuncLookup.Custmenu2Name( nCustIdx, buf );
-				wchar_t keys[2];
-				keys[0] = GetDllShareData().m_Common.m_sCustomMenu.m_nCustMenuItemKeyArr[nMenuIdx][i];
-				keys[1] = 0;
+				wchar_t keys = GetDllShareData().m_Common.m_sCustomMenu.m_nCustMenuItemKeyArr[nMenuIdx][i];
 				HMENU hMenuPopUp = ::CreatePopupMenu();
 				cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING | MF_POPUP, (UINT_PTR)hMenuPopUp , p, keys );
 				CreatePopUpMenuSub( hMenuPopUp, nCustIdx, pNextParam, KEYHELP_RMENU_NONE );
@@ -1563,9 +1561,7 @@ int	CEditView::CreatePopUpMenuSub( HMENU hMenu, int nMenuIdx, int* pParentMenus,
 			if( F_SPECIAL_FIRST <= code && code <= F_SPECIAL_LAST ){
 				GetEditWnd().InitMenu_Special( hMenu, code );
 			}else{
-				wchar_t keys[2];
-				keys[0] = GetDllShareData().m_Common.m_sCustomMenu.m_nCustMenuItemKeyArr[nMenuIdx][i];
-				keys[1] = 0;
+				wchar_t keys = GetDllShareData().m_Common.m_sCustomMenu.m_nCustMenuItemKeyArr[nMenuIdx][i];
 				GetEditWnd().InitMenu_Function( hMenu, code, szLabel, keys );
 			}
 		}

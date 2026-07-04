@@ -168,7 +168,7 @@ public:
 	//                         メニュー                            //
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 	void InitMenu(HMENU hMenu, UINT uPos, BOOL fSystemMenu);
-	void InitMenu_Function(HMENU hMenu, EFunctionCode eFunc, const wchar_t* pszName, const wchar_t* pszKey);
+	void InitMenu_Function(HMENU hMenu, EFunctionCode eFunc, const wchar_t* pszName, wchar_t cKey);
 	bool InitMenu_Special(HMENU hMenu, EFunctionCode eFunc);
 	void InitMenubarMessageFont();	//	メニューバーへのメッセージ表示機能をCEditWndより移管	//	Dec. 4, 2002 genta
 	LRESULT WinListMenu(HMENU hMenu, const std::vector<EditNode>& vEditNode, BOOL bFull);	/*!< ウィンドウ一覧メニュー作成処理 */	// 2006.03.23 fon
@@ -177,7 +177,7 @@ public:
 	void RegisterPluginCommand( int id );	//プラグインコマンドをエディタに登録する
 	void RegisterPluginCommand( CPlug* id );	//プラグインコマンドをエディタに登録する
 
-	void SetMenuFuncSel( HMENU hMenu, EFunctionCode nFunc, const WCHAR* sKey, bool flag );				// 表示の動的選択	2010/5/19 Uchi
+	void SetMenuFuncSel( HMENU hMenu, EFunctionCode nFunc, WCHAR cKey, bool flag );				// 表示の動的選択	2010/5/19 Uchi
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 	//                           整形                              //
