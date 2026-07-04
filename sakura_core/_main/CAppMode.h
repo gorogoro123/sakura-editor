@@ -25,9 +25,6 @@ public:
 	//イベント
 	void OnAfterSave(const SSaveInfo& sSaveInfo) override;
 
-protected:
-	void _SetDebugMode(bool bDebugMode){ m_bDebugMode = bDebugMode; }
-
 private:
 	bool			m_bViewMode = false;		//!< ビューモード
 	bool			m_bDebugMode = false;		//!< デバッグモニタモード
