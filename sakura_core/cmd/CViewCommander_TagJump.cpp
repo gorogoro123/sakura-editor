@@ -510,7 +510,7 @@ bool CViewCommander::Command_TagsMake( )
 	WCHAR	szTargetPath[1024 /*_MAX_PATH+1*/ ];
 	if( GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() )
 	{
-		wcscpy( szTargetPath, GetDocument()->m_cDocFile.GetFilePath() );
+		wcscpy_s( szTargetPath, std::size(szTargetPath), GetDocument()->m_cDocFile.GetFilePath() );
 		szTargetPath[ wcslen( szTargetPath ) - wcslen( GetDocument()->m_cDocFile.GetFileName() ) ] = L'\0';
 	}
 	else
