@@ -32,9 +32,6 @@ create_language_dll(zh-CN 2052)
 # Include cmigemo.cmake for migemo.dll
 include(${CMAKE_SOURCE_DIR}/src/main/cmake/cmigemo.cmake)
 
-# Include diffutils.cmake for diff command
-include(${CMAKE_SOURCE_DIR}/src/main/cmake/diffutils.cmake)
-
 # Enable ctest command
 enable_testing()
 
