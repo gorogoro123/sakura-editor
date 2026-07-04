@@ -624,13 +624,13 @@ BOOL CSMacroMgr::Exec( int idx , HINSTANCE hInstance, CEditView* pcEditView, int
 		//	CShareDataから、マクロファイル名を取得
 		//	Jun. 08, 2003 Moca 呼び出し側でパス名を用意
 		//	Jun. 16, 2003 genta 書式をちょっと変更
-		WCHAR ptr[_MAX_PATH * 2];
-		int n = CShareData::getInstance()->GetMacroFilename( idx, ptr, int(std::size(ptr)) );
+		SFilePath szPath;
+		int n = CShareData::getInstance()->GetMacroFilename( idx, szPath );
 		if ( n <= 0 ){
 			return FALSE;
 		}
 
-		if( !Load( idx, hInstance, ptr, nullptr ) )
+		if( !Load( idx, hInstance, szPath.c_str(), nullptr))
 			return FALSE;
 	}
 

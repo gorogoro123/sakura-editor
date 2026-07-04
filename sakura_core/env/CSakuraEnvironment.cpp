@@ -480,10 +480,10 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, wchar_t* pszB
 					break;
 				default:
 					{
-						WCHAR szMacroFilePath[_MAX_PATH * 2];
-						int n = CShareData::getInstance()->GetMacroFilename( pcSMacroMgr->GetCurrentIdx(), szMacroFilePath, int(std::size(szMacroFilePath)) );
+						SFilePath szMacroFilePath;
+						int n = CShareData::getInstance()->GetMacroFilename( pcSMacroMgr->GetCurrentIdx(), szMacroFilePath );
 						if ( 0 < n ){
-							q = wcs_pushW( q, q_max - q, szMacroFilePath );
+							q = wcs_pushW( q, q_max - q, szMacroFilePath.c_str() );
 						}
 					}
 					break;
