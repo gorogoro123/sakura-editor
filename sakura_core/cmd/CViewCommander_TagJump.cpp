@@ -23,7 +23,6 @@
 
 #include "CViewCommander.h"
 #include "CViewCommander_inline.h"
-
 #include "uiparts/CWaitCursor.h"
 #include "dlg/CDlgCancel.h"// 2002/2/8 hor
 #include "dlg/CDlgTagJumpList.h"
@@ -728,7 +727,7 @@ bool CViewCommander::Command_TagJumpByTagsFile( bool bClose )
 	}
 
 	WCHAR	szDirFile[1024];
-	if( false == Sub_PreProcTagJumpByTagsFile( szDirFile, int(std::size(szDirFile)) ) ){
+	if( false == Sub_PreProcTagJumpByTagsFile( szDirFile ) ){
 		return false;
 	}
 	CDlgTagJumpList	cDlgTagJumpList(true);	//タグジャンプリスト
@@ -775,7 +774,7 @@ bool CViewCommander::Command_TagJumpByTagsFileKeyword( const wchar_t* keyword )
 	int		fileLine;	// 行番号
 	WCHAR	szCurrentPath[1024];
 
-	if( false == Sub_PreProcTagJumpByTagsFile( szCurrentPath, int(std::size(szCurrentPath)) ) ){
+	if( false == Sub_PreProcTagJumpByTagsFile( szCurrentPath ) ){
 		return false;
 	}
 
@@ -800,9 +799,9 @@ bool CViewCommander::Command_TagJumpByTagsFileKeyword( const wchar_t* keyword )
 	タグジャンプの前処理
 	実行可能確認と、基準ファイル名の設定
 */
-bool CViewCommander::Sub_PreProcTagJumpByTagsFile( WCHAR* szCurrentPath, int count )
+bool CViewCommander::Sub_PreProcTagJumpByTagsFile( std::span<WCHAR> szCurrentPath )
 {
-	if( count ) szCurrentPath[0] = L'\0';
+	szCurrentPath[0] = L'\0';
 
 	// 実行可能確認
 	if( ! GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() ){
@@ -816,9 +815,9 @@ bool CViewCommander::Sub_PreProcTagJumpByTagsFile( WCHAR* szCurrentPath, int cou
 
 	// 基準ファイル名の設定
 	if( GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() ){
-		wcscpy( szCurrentPath, GetDocument()->m_cDocFile.GetFilePath() );
+		wcscpy_s( szCurrentPath.data(), szCurrentPath.size(), GetDocument()->m_cDocFile.GetFilePath() );
 	}else{
-		if( 0 == ::GetCurrentDirectory( count - int(std::size(L"\\dmy")) - MAX_TYPES_EXTS, szCurrentPath ) ){
+		if( 0 == ::GetCurrentDirectory( (DWORD)(szCurrentPath.size() - std::size(L"\\dmy") - MAX_TYPES_EXTS), szCurrentPath.data() ) ){
 			return false;
 		}
 		// (無題)でもファイル名を要求してくるのでダミーをつける
@@ -826,10 +825,10 @@ bool CViewCommander::Sub_PreProcTagJumpByTagsFile( WCHAR* szCurrentPath, int cou
 		StaticString<MAX_TYPES_EXTS> szExts;
 		CDocTypeManager::GetFirstExt(m_pCommanderView->m_pTypeData->m_szTypeExts, szExts, szExts.capacity());
 		auto nExtLen = szExts.length();
-		wcscat( szCurrentPath, L"\\dmy" );
+		wcscat_s( szCurrentPath.data(), szCurrentPath.size(), L"\\dmy" );
 		if( nExtLen ){
-			wcscat( szCurrentPath, L"." );
-			wcscat( szCurrentPath, szExts );
+			wcscat_s( szCurrentPath.data(), szCurrentPath.size(), L"." );
+			wcscat_s( szCurrentPath.data(), szCurrentPath.size(), szExts );
 		}
 	}
 	return true;
