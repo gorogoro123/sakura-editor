@@ -777,17 +777,16 @@ void CMenuDrawer::MyAppendMenu(
 	int				nForceIconId	//お気に入り	//@@@ 2003.04.08 MIK
 )
 {
-	WCHAR		szLabel[_MAX_PATH * 2+ 30];
+	WCHAR		szLabel[_MAX_PATH * 2+ 30] = {};
 	WCHAR		szKey[10];
 	int			nFlagAdd = 0;
 
 	if( nForceIconId == -1 ) nForceIconId = int(nFuncId);	//お気に入り	//@@@ 2003.04.08 MIK
 
-	szLabel[0] = L'\0';
 	if( nullptr != pszLabel ){
 		wcsncpy_s( szLabel, pszLabel, _TRUNCATE );
 	}
-	wcscpy( szKey, pszKey); 
+	wcscpy_s( szKey, std::size(szKey), pszKey);
 	if( nFuncId != 0 ){
 		/* メニューラベルの作成 */
 		CKeyBind::GetMenuLabel(
@@ -1451,7 +1450,7 @@ LRESULT CMenuDrawer::OnMenuChar( [[maybe_unused]] HWND hwnd, [[maybe_unused]] UI
 		mii.cbSize = sizeof(MENUITEMINFO);
 		mii.fMask = MIIM_CHECKMARKS | MIIM_DATA | MIIM_ID | MIIM_STATE | MIIM_SUBMENU | MIIM_TYPE;
 		mii.fType = MFT_STRING;
-		wcscpy( szText, L"--unknown--" );
+		wcscpy_s( szText, std::size(szText), L"--unknown--" );
 		mii.dwTypeData = szText;
 		mii.cch = int(std::size(szText)) - 1;
 		if( 0 == ::GetMenuItemInfo( hmenu, i, TRUE, &mii ) ){
