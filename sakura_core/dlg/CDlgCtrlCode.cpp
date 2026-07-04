@@ -95,24 +95,21 @@ int CDlgCtrlCode::DoModal(
 /* ダイアログデータの設定 */
 void CDlgCtrlCode::SetData( )
 {
-	HWND	hwndWork;
-	int		i, count;
-	long	lngStyle;
 	LV_ITEM	lvi;
 
 	/* リスト */
-	hwndWork = GetItemHwnd( IDC_LIST_CTRLCODE );
+	HWND hwndWork = GetItemHwnd( IDC_LIST_CTRLCODE );
 	ListView_DeleteAllItems( hwndWork );  /* リストを空にする */
 
 	/* 行選択 */
-	lngStyle = ListView_GetExtendedListViewStyle( hwndWork );
+	long lngStyle = ListView_GetExtendedListViewStyle( hwndWork );
 	lngStyle |= LVS_EX_FULLROWSELECT;
 	ListView_SetExtendedListViewStyle( hwndWork, lngStyle );
 
 	/* データ表示 */
 	WCHAR	tmp[10];
-	count = 0;
-	for( i = 0; i < int(std::size(p_ctrl_list)); i++ )
+	int count = 0;
+	for( int i = 0; i < int(std::size(p_ctrl_list)); i++ )
 	{
 		if( p_ctrl_list[i].jname == nullptr ) continue;
 		
@@ -133,9 +130,9 @@ void CDlgCtrlCode::SetData( )
 		if( p_ctrl_list[i].code <= 0x1f )
 			auto_snprintf_s( tmp, std::size(tmp), L"^%c", L'@' + p_ctrl_list[i].code );
 		else if( p_ctrl_list[i].code == 0x7f )
-			wcscpy( tmp, L"^?" );
+			wcscpy_s( tmp, std::size(tmp), L"^?" );
 		else
-			wcscpy( tmp, L"･" );
+			wcscpy_s( tmp, std::size(tmp), L"･" );
 		lvi.mask     = LVIF_TEXT;
 		lvi.iItem    = count;
 		lvi.iSubItem = 1;
