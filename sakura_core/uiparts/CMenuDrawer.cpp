@@ -772,13 +772,12 @@ void CMenuDrawer::MyAppendMenu(
 	int				nFlag,
 	UINT_PTR		nFuncId,
 	const WCHAR*	pszLabel,
-	const WCHAR*	pszKey,			// 2010/5/18 Uchi
+	WCHAR			cKey,			// 2010/5/18 Uchi
 	BOOL			bAddKeyStr,
 	int				nForceIconId	//お気に入り	//@@@ 2003.04.08 MIK
 )
 {
 	WCHAR		szLabel[_MAX_PATH * 2+ 30] = {};
-	WCHAR		szKey[10];
 	int			nFlagAdd = 0;
 
 	if( nForceIconId == -1 ) nForceIconId = int(nFuncId);	//お気に入り	//@@@ 2003.04.08 MIK
@@ -786,7 +785,7 @@ void CMenuDrawer::MyAppendMenu(
 	if( nullptr != pszLabel ){
 		wcsncpy_s( szLabel, pszLabel, _TRUNCATE );
 	}
-	wcscpy_s( szKey, std::size(szKey), pszKey);
+	WCHAR szKey[2] = { cKey };
 	if( nFuncId != 0 ){
 		/* メニューラベルの作成 */
 		CKeyBind::GetMenuLabel(

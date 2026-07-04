@@ -1386,19 +1386,19 @@ LRESULT CEditWnd::DispatchEvent(
 					m_cMenuDrawer.ResetContents();
 					HMENU hMenuPopUp = ::CreatePopupMenu();
 					m_cMenuDrawer.MyAppendMenu( hMenuPopUp, MF_BYPOSITION | MF_STRING, F_CHGMOD_EOL_CRLF,
-						LS( F_CHGMOD_EOL_CRLF ), L"C" ); // 入力改行コード指定(CRLF)
+						LS( F_CHGMOD_EOL_CRLF ), L'C' ); // 入力改行コード指定(CRLF)
 					m_cMenuDrawer.MyAppendMenu( hMenuPopUp, MF_BYPOSITION | MF_STRING, F_CHGMOD_EOL_LF,
-						LS( F_CHGMOD_EOL_LF ), L"L" ); // 入力改行コード指定(LF)
+						LS( F_CHGMOD_EOL_LF ), L'L' ); // 入力改行コード指定(LF)
 					m_cMenuDrawer.MyAppendMenu( hMenuPopUp, MF_BYPOSITION | MF_STRING, F_CHGMOD_EOL_CR,
-						LS( F_CHGMOD_EOL_CR ), L"R" ); // 入力改行コード指定(CR)
+						LS( F_CHGMOD_EOL_CR ), L'R' ); // 入力改行コード指定(CR)
 					// 拡張EOLが有効の時だけ表示
 					if( GetDllShareData().m_Common.m_sEdit.m_bEnableExtEol ){
 						m_cMenuDrawer.MyAppendMenu( hMenuPopUp, MF_BYPOSITION | MF_STRING, F_CHGMOD_EOL_NEL,
-							LS(STR_EDITWND_MENU_NEL), L"", TRUE, -2 ); // 入力改行コード指定(NEL)
+							LS(STR_EDITWND_MENU_NEL), L'\0', TRUE, -2 ); // 入力改行コード指定(NEL)
 						m_cMenuDrawer.MyAppendMenu( hMenuPopUp, MF_BYPOSITION | MF_STRING, F_CHGMOD_EOL_LS,
-							LS(STR_EDITWND_MENU_LS), L"", TRUE, -2 ); // 入力改行コード指定(LS)
+							LS(STR_EDITWND_MENU_LS), L'\0', TRUE, -2 ); // 入力改行コード指定(LS)
 						m_cMenuDrawer.MyAppendMenu( hMenuPopUp, MF_BYPOSITION | MF_STRING, F_CHGMOD_EOL_PS,
-							LS(STR_EDITWND_MENU_PS), L"", TRUE, -2 ); // 入力改行コード指定(PS)
+							LS(STR_EDITWND_MENU_PS), L'\0', TRUE, -2 ); // 入力改行コード指定(PS)
 					}
 
 					//	mp->ptはステータスバー内部の座標なので，スクリーン座標への変換が必要
@@ -2223,7 +2223,7 @@ void CEditWnd::InitMenu( HMENU hMenu, UINT uPos, BOOL fSystemMenu )
 					pMenuName = cMainMenu->m_sName;
 				}
 				m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING | MF_POPUP, (UINT_PTR)hMenuPopUp ,
-					pMenuName, cMainMenu->m_sKey );
+					pMenuName, cMainMenu->m_sKey[0] );
 				if (hSubMenu.size() > (size_t)nLv) {
 					hSubMenu[nLv] = hMenuPopUp;
 				}
@@ -2232,7 +2232,7 @@ void CEditWnd::InitMenu( HMENU hMenu, UINT uPos, BOOL fSystemMenu )
 				}
 				break;
 			case T_LEAF:
-				InitMenu_Function( hMenu, cMainMenu->m_nFunc, cMainMenu->m_sName, cMainMenu->m_sKey );
+				InitMenu_Function( hMenu, cMainMenu->m_nFunc, cMainMenu->m_sName, cMainMenu->m_sKey[0] );
 				break;
 			case T_SEPARATOR:
 				m_cMenuDrawer.MyAppendMenuSep( hMenu, MF_BYPOSITION | MF_SEPARATOR, 0, nullptr );
@@ -2293,7 +2293,7 @@ void CEditWnd::InitMenu( HMENU hMenu, UINT uPos, BOOL fSystemMenu )
 
 /*!	通常コマンド(Special以外)のメニューへの追加
 */
-void CEditWnd::InitMenu_Function(HMENU hMenu, EFunctionCode eFunc, const wchar_t* pszName, const wchar_t* pszKey)
+void CEditWnd::InitMenu_Function(HMENU hMenu, EFunctionCode eFunc, const wchar_t* pszName, wchar_t cKey)
 {
 	const wchar_t* psName = nullptr;
 	/* メニューラベルの作成 */
@@ -2315,7 +2315,7 @@ void CEditWnd::InitMenu_Function(HMENU hMenu, EFunctionCode eFunc, const wchar_t
 		}
 		WCHAR buf[ MAX_CUSTOM_MENU_NAME_LEN + 1 ];
 		m_cMenuDrawer.MyAppendMenu( hMenu, nFlag,
-			eFunc, GetDocument()->m_cFuncLookup.Custmenu2Name( j, buf ), pszKey );
+			eFunc, GetDocument()->m_cFuncLookup.Custmenu2Name( j, buf ), cKey );
 	}
 	// マクロ
 	else if (eFunc >= F_USERMACRO_0 && eFunc < F_USERMACRO_0 + (int)MAX_CUSTMACRO) {
@@ -2323,12 +2323,12 @@ void CEditWnd::InitMenu_Function(HMENU hMenu, EFunctionCode eFunc, const wchar_t
 		if (mp->IsEnabled()) {
 			psName = mp->m_szName[0] ? mp->m_szName : mp->m_szFile;
 			m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING,
-				eFunc, psName, pszKey );
+				eFunc, psName, cKey );
 		}
 		else {
 			psName = L"-- undefined macro --";
 			m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING | MF_GRAYED,
-				eFunc, psName, pszKey );
+				eFunc, psName, cKey );
 		}
 	}
 	// プラグインコマンド
@@ -2336,13 +2336,13 @@ void CEditWnd::InitMenu_Function(HMENU hMenu, EFunctionCode eFunc, const wchar_t
 		WCHAR szLabel[256];
 		if( 0 < CJackManager::getInstance()->GetCommandName( eFunc, szLabel, int(std::size(szLabel)) ) ){
 			m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING,
-				eFunc, szLabel, pszKey,
+				eFunc, szLabel, cKey,
 				TRUE, eFunc );
 		}else{
 			// not found
 			psName = L"-- undefined plugin command --";
 			m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING | MF_GRAYED,
-				eFunc, psName, pszKey );
+				eFunc, psName, cKey );
 		}
 	}else{
 		switch (eFunc) {
@@ -2350,56 +2350,56 @@ void CEditWnd::InitMenu_Function(HMENU hMenu, EFunctionCode eFunc, const wchar_t
 		case F_SAVEKEYMACRO:
 		case F_LOADKEYMACRO:
 		case F_EXECKEYMACRO:
-			SetMenuFuncSel( hMenu, eFunc, pszKey,
+			SetMenuFuncSel( hMenu, eFunc, cKey,
 				!m_pShareData->m_sFlags.m_bRecordingKeyMacro);
 			break;
 		case F_SPLIT_V:
-			SetMenuFuncSel( hMenu, eFunc, pszKey,
+			SetMenuFuncSel( hMenu, eFunc, cKey,
 				m_cSplitterWnd.GetAllSplitRows() == 1 );
 			break;
 		case F_SPLIT_H:
-			SetMenuFuncSel( hMenu, eFunc, pszKey,
+			SetMenuFuncSel( hMenu, eFunc, cKey,
 				m_cSplitterWnd.GetAllSplitCols() == 1 );
 			break;
 		case F_SPLIT_VH:
-			SetMenuFuncSel( hMenu, eFunc, pszKey,
+			SetMenuFuncSel( hMenu, eFunc, cKey,
 				m_cSplitterWnd.GetAllSplitRows() == 1 || m_cSplitterWnd.GetAllSplitCols() == 1 );
 			break;
 		case F_TAB_CLOSEOTHER:
-			SetMenuFuncSel( hMenu, eFunc, pszKey,
+			SetMenuFuncSel( hMenu, eFunc, cKey,
 				m_pShareData->m_Common.m_sTabBar.m_bDispTabWnd != 0 );
 			break;
 		case F_TOPMOST:
-			SetMenuFuncSel( hMenu, eFunc, pszKey,
+			SetMenuFuncSel( hMenu, eFunc, cKey,
 				((DWORD)::GetWindowLongPtr( GetHwnd(), GWL_EXSTYLE ) & WS_EX_TOPMOST) == 0 );
 			break;
 		case F_BIND_WINDOW:
-			SetMenuFuncSel( hMenu, eFunc, pszKey,
+			SetMenuFuncSel( hMenu, eFunc, cKey,
 				(!m_pShareData->m_Common.m_sTabBar.m_bDispTabWnd
 				|| m_pShareData->m_Common.m_sTabBar.m_bDispTabWndMultiWin) );
 			break;
 		case F_SHOWTOOLBAR:
-			SetMenuFuncSel( hMenu, eFunc, pszKey,
+			SetMenuFuncSel( hMenu, eFunc, cKey,
 				!m_pShareData->m_Common.m_sWindow.m_bMenuIcon || !m_cToolbar.GetToolbarHwnd() );
 			break;
 		case F_SHOWFUNCKEY:
-			SetMenuFuncSel( hMenu, eFunc, pszKey,
+			SetMenuFuncSel( hMenu, eFunc, cKey,
 				!m_pShareData->m_Common.m_sWindow.m_bMenuIcon || !m_cFuncKeyWnd.GetHwnd() );
 			break;
 		case F_SHOWTAB:
-			SetMenuFuncSel( hMenu, eFunc, pszKey,
+			SetMenuFuncSel( hMenu, eFunc, cKey,
 				!m_pShareData->m_Common.m_sWindow.m_bMenuIcon || !m_cTabWnd.GetHwnd() );
 			break;
 		case F_SHOWSTATUSBAR:
-			SetMenuFuncSel( hMenu, eFunc, pszKey,
+			SetMenuFuncSel( hMenu, eFunc, cKey,
 				!m_pShareData->m_Common.m_sWindow.m_bMenuIcon || !m_cStatusBar.GetStatusHwnd() );
 			break;
 		case F_SHOWMINIMAP:
-			SetMenuFuncSel( hMenu, eFunc, pszKey,
+			SetMenuFuncSel( hMenu, eFunc, cKey,
 				!m_pShareData->m_Common.m_sWindow.m_bMenuIcon || !m_cMiniMapView.GetHwnd() );
 			break;
 		case F_TOGGLE_KEY_SEARCH:
-			SetMenuFuncSel( hMenu, eFunc, pszKey,
+			SetMenuFuncSel( hMenu, eFunc, cKey,
 				!m_pShareData->m_Common.m_sWindow.m_bMenuIcon || !IsFuncChecked( GetDocument(), m_pShareData, F_TOGGLE_KEY_SEARCH ) );
 			break;
 		case F_WRAPWINDOWWIDTH:
@@ -2408,7 +2408,7 @@ void CEditWnd::InitMenu_Function(HMENU hMenu, EFunctionCode eFunc, const wchar_t
 				WCHAR*	pszLabel;
 				CEditView::TOGGLE_WRAP_ACTION mode = GetActiveView().GetWrapMode( &ketas );
 				if( mode == CEditView::TGWRAP_NONE ){
-					m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING | MF_GRAYED, F_WRAPWINDOWWIDTH , L"", pszKey );
+					m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING | MF_GRAYED, F_WRAPWINDOWWIDTH , L"", cKey );
 				}
 				else {
 					WCHAR szBuf[60];
@@ -2441,13 +2441,13 @@ void CEditWnd::InitMenu_Function(HMENU hMenu, EFunctionCode eFunc, const wchar_t
 						);
 						break;
 					}
-					m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING, F_WRAPWINDOWWIDTH , pszLabel, pszKey );
+					m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING, F_WRAPWINDOWWIDTH , pszLabel, cKey );
 				}
 			}
 			break;
 		default:
 			m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING, eFunc,
-				pszName, pszKey );
+				pszName, cKey );
 			break;
 		}
 	}
@@ -2491,14 +2491,14 @@ bool CEditWnd::InitMenu_Special(HMENU hMenu, EFunctionCode eFunc)
 		//	右クリックメニュー
 		if( m_pShareData->m_Common.m_sCustomMenu.m_nCustMenuItemNumArr[0] > 0 ){
 			 m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING,
-				 F_MENU_RBUTTON, GetDocument()->m_cFuncLookup.Custmenu2Name( 0, buf ), L"" );
+				 F_MENU_RBUTTON, GetDocument()->m_cFuncLookup.Custmenu2Name( 0, buf ), L'\0' );
 			bInList = true;
 		}
 		//	カスタムメニュー
 		for( j = 1; j < MAX_CUSTOM_MENU; ++j ){
 			if( m_pShareData->m_Common.m_sCustomMenu.m_nCustMenuItemNumArr[j] > 0 ){
 				 m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING,
-			 		F_CUSTMENU_BASE + j, GetDocument()->m_cFuncLookup.Custmenu2Name( j, buf), L""  );
+			 		F_CUSTMENU_BASE + j, GetDocument()->m_cFuncLookup.Custmenu2Name( j, buf), L'\0' );
 				bInList = true;
 			}
 		}
@@ -2508,10 +2508,10 @@ bool CEditWnd::InitMenu_Special(HMENU hMenu, EFunctionCode eFunc)
 			MacroRec *mp = &m_pShareData->m_Common.m_sMacro.m_MacroTable[j];
 			if( mp->IsEnabled() ){
 				if(  mp->m_szName[0] ){
-					m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING, F_USERMACRO_0 + j, mp->m_szName, L"" );
+					m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING, F_USERMACRO_0 + j, mp->m_szName, L'\0' );
 				}
 				else {
-					m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING, F_USERMACRO_0 + j, mp->m_szFile, L"" );
+					m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING, F_USERMACRO_0 + j, mp->m_szFile, L'\0' );
 				}
 				bInList = true;
 			}
@@ -2530,13 +2530,13 @@ bool CEditWnd::InitMenu_Special(HMENU hMenu, EFunctionCode eFunc)
 				if( curPlugin != prevPlugin ){
 					//プラグインが変わったらプラグインポップアップメニューを登録
 					hMenuPlugin = ::CreatePopupMenu();
-					m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING | MF_POPUP, (UINT_PTR)hMenuPlugin, curPlugin->m_sName.c_str(), L"" );
+					m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING | MF_POPUP, (UINT_PTR)hMenuPlugin, curPlugin->m_sName.c_str(), L'\0' );
 					prevPlugin = curPlugin;
 				}
 
 				//コマンドを登録
 				m_cMenuDrawer.MyAppendMenu( hMenuPlugin, MF_BYPOSITION | MF_STRING,
-					it->GetFunctionCode(), it->m_sLabel.c_str(), L"",
+					it->GetFunctionCode(), it->m_sLabel.c_str(), L'\0',
 					TRUE, it->GetFunctionCode() );
 			}
 			bInList = (prevPlugin != nullptr);
@@ -2589,7 +2589,7 @@ void CEditWnd::CheckFreeSubMenuSub( HMENU hMenu, int nLv )
 
 //	フラグにより表示文字列の選択をする。
 //		2010/5/19	Uchi
-void CEditWnd::SetMenuFuncSel( HMENU hMenu, EFunctionCode nFunc, const WCHAR* sKey, bool flag )
+void CEditWnd::SetMenuFuncSel( HMENU hMenu, EFunctionCode nFunc, WCHAR cKey, bool flag )
 {
 	int				i;
 	const WCHAR*	sName = L"";
@@ -2600,7 +2600,7 @@ void CEditWnd::SetMenuFuncSel( HMENU hMenu, EFunctionCode nFunc, const WCHAR* sK
 	}
 	assert( wcslen(sName) );
 
-	m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING, nFunc, sName, sKey );
+	m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING, nFunc, sName, cKey );
 }
 
 STDMETHODIMP CEditWnd::DragEnter(  LPDATAOBJECT pDataObject, DWORD dwKeyState, [[maybe_unused]] POINTL pt, LPDWORD pdwEffect )
@@ -3657,23 +3657,23 @@ int	CEditWnd::CreateFileDropDownMenu( HWND hwnd )
 	if ( cMRUFolder.MenuLength() > 0 )
 	{
 		//	アクティブ
-		m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING | MF_POPUP, (UINT_PTR)hMenuPopUp, LS(F_FOLDER_USED_RECENTLY), L"" );
+		m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING | MF_POPUP, (UINT_PTR)hMenuPopUp, LS(F_FOLDER_USED_RECENTLY), L'\0' );
 	}
 	else
 	{
 		//	非アクティブ
-		m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING | MF_POPUP | MF_GRAYED, (UINT_PTR)hMenuPopUp, LS(F_FOLDER_USED_RECENTLY), L"" );
+		m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING | MF_POPUP | MF_GRAYED, (UINT_PTR)hMenuPopUp, LS(F_FOLDER_USED_RECENTLY), L'\0' );
 	}
 
 	m_cMenuDrawer.MyAppendMenuSep( hMenu, MF_BYPOSITION | MF_SEPARATOR, 0, nullptr, FALSE );
 
 	/* 履歴の管理のメニューを作成 */
-	m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING, F_FAVORITE, L"", L"M", FALSE );
+	m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING, F_FAVORITE, L"", L'M', FALSE );
 	m_cMenuDrawer.MyAppendMenuSep( hMenu, MF_BYPOSITION | MF_SEPARATOR, 0, nullptr, FALSE );
 
-	m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING, F_FILENEW, L"", L"N", FALSE );
-	m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING, F_FILENEW_NEWWINDOW, L"", L"M", FALSE );
-	m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING, F_FILEOPEN, L"", L"O", FALSE );
+	m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING, F_FILENEW, L"", L'N', FALSE );
+	m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING, F_FILENEW_NEWWINDOW, L"", L'M', FALSE );
+	m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING, F_FILEOPEN, L"", L'O', FALSE );
 
 	nId = ::TrackPopupMenu(
 		hMenu,
@@ -4093,7 +4093,7 @@ LRESULT CEditWnd::WinListMenu( HMENU hMenu, const std::vector<EditNode>& vEditNo
 ////	From Here Oct. 4, 2000 JEPRO commented out & modified	開いているファイル数がわかるように履歴とは違って1から数える
 			pfi = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
 			CFileNameManager::getInstance()->GetMenuFullLabel_WinList( szMenu, int(std::size(szMenu)), pfi, vEditNode[i].m_nId, i, dcFont.GetHDC() );
-			m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING, IDM_SELWINDOW + vEditNode[i].m_nIndex, szMenu, L"" );
+			m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING, IDM_SELWINDOW + vEditNode[i].m_nIndex, szMenu, L'\0' );
 			if( GetHwnd() == vEditNode[i].GetHwnd() ){
 				::CheckMenuItem( hMenu, IDM_SELWINDOW + vEditNode[i].m_nIndex, MF_BYCOMMAND | MF_CHECKED );
 			}
