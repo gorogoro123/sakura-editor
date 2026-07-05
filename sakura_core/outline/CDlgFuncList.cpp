@@ -803,12 +803,11 @@ static int TreeDummylParamToFuncInfoIndex(std::vector<int>& vec, LPARAM lParam)
 	// vec = { 3,6,7 }
 	// lParam 0,1,2,3,4,5,6,7,8
 	// return 0 1 2-1 3 4-1-1 5
-	int nCount = (int)vec.size();
 	int nDiff = 0;
-	for( int i = 0; i < nCount; i++ ){
-		if( vec[i] < lParam ){
+	for( const auto& v: vec ){
+		if( v < lParam ){
 			nDiff++;
-		}else if( vec[i] == lParam ){
+		}else if( v == lParam ){
 			return -1;
 		}else{
 			break;
