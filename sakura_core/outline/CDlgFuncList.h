@@ -103,21 +103,21 @@ public:
 	void NotifyDocModification();
 
 protected:
-	bool m_bInChangeLayout;
+	bool m_bInChangeLayout = false;
 
-	CFuncInfoArr*	m_pcFuncInfoArr;	/* 関数情報配列 */
-	CLayoutInt		m_nCurLine;			/* 現在行 */
+	CFuncInfoArr*	m_pcFuncInfoArr = nullptr;	/* 関数情報配列 */
+	CLayoutInt		m_nCurLine = CLayoutInt(0);	/* 現在行 */
 	CLayoutInt		m_nCurCol;			/* 現在桁 */
-	int				m_nSortCol;			/* ソートする列番号 */
-	int				m_nSortColOld;		//!< ソートする列番号(OLD)
+	int				m_nSortCol = 0;			/* ソートする列番号 */
+	int				m_nSortColOld = -1;		//!< ソートする列番号(OLD)
 	bool			m_bSortDesc;		//!< 降順
 	CNativeW		m_cmemClipText;		/* クリップボードコピー用テキスト */
-	bool			m_bLineNumIsCRLF;	/* 行番号の表示 false=折り返し単位／true=改行単位 */
+	bool			m_bLineNumIsCRLF = false;	/* 行番号の表示 false=折り返し単位／true=改行単位 */
 	int				m_nListType;		/* 一覧の種類 */
 public:
 	int				m_nDocType;			//! ドキュメントの種類 */
 	int				m_nOutlineType;		/* アウトライン解析の種別 */
-	bool			m_bEditWndReady;	/* エディタ画面の準備完了 */
+	bool			m_bEditWndReady = false;	/* エディタ画面の準備完了 */
 protected:
 	BOOL OnInitDialog(HWND hwndDlg, WPARAM wParam, LPARAM lParam) override;
 	BOOL OnBnClicked(int wID) override;
@@ -194,18 +194,18 @@ private:
 
 	// 2002.02.16 hor Treeのダブルクリックでフォーカス移動できるように 1/4
 	// (無理矢理なのでどなたか修正お願いします)
-	bool m_bWaitTreeProcess;
+	bool m_bWaitTreeProcess = false;
 
 	int m_nSortType;						//!< ツリービューをソートする基準
 	int m_nTreeItemCount;
-	bool m_bDummyLParamMode;				//!< m_vecDummylParams有効/無効
+	bool m_bDummyLParamMode = false;		//!< m_vecDummylParams有効/無効
 	std::vector<int> m_vecDummylParams;		//!< ダミー要素の識別値
 
 	// 選択中の関数情報
-	CFuncInfo* m_cFuncInfo;
+	CFuncInfo* m_cFuncInfo = nullptr;
 	std::wstring m_sJumpFile;
 
-	const WCHAR* m_pszTimerJumpFile;
+	const WCHAR* m_pszTimerJumpFile = nullptr;
 	CMyPoint	m_pointTimerJump;
 	bool		m_bTimerJumpAutoClose;
 
@@ -223,7 +223,7 @@ private:
 	static DWORD m_dwDlgTmpSize;
 	static HINSTANCE m_lastRcInstance;		// リソース生存チェック用
 
-	POINT				m_ptDefaultSize;
+	POINT				m_ptDefaultSize = { -1, -1 };
 	POINT				m_ptDefaultSizeClient;
 	std::array<RECT,12>	m_rcItems;
 

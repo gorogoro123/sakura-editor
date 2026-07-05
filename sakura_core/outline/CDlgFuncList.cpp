@@ -207,23 +207,10 @@ CDlgFuncList::CDlgFuncList() : CDialog(true)
 	/* サイズ変更時に位置を制御するコントロール数 */
 	static_assert( anchorList.size() == std::tuple_size_v<decltype(m_rcItems)> );
 
-	m_pcFuncInfoArr = nullptr;		/* 関数情報配列 */
-	m_nCurLine = CLayoutInt(0);				/* 現在行 */
 	m_nOutlineType = OUTLINE_DEFAULT;
 	m_nListType = OUTLINE_DEFAULT;
 	//	Apr. 23, 2005 genta 行番号を左端へ
-	m_nSortCol = 0;				/* ソートする列番号 2004.04.06 zenryaku 標準は行番号(1列目) */
-	m_nSortColOld = -1;
-	m_bLineNumIsCRLF = false;	/* 行番号の表示 false=折り返し単位／true=改行単位 */
-	m_bWaitTreeProcess = false;	// 2002.02.16 hor Treeのダブルクリックでフォーカス移動できるように 2/4
 	m_nSortType = SORTTYPE_DEFAULT;
-	m_cFuncInfo = nullptr;			/* 現在の関数情報 */
-	m_bEditWndReady = false;	/* エディタ画面の準備完了 */
-	m_bInChangeLayout = false;
-	m_pszTimerJumpFile = nullptr;
-	m_ptDefaultSize.x = -1;
-	m_ptDefaultSize.y = -1;
-	m_bDummyLParamMode = false;
 }
 
 /*!
