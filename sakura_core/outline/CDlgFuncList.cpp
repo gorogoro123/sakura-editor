@@ -414,10 +414,8 @@ void CDlgFuncList::ChangeView( LPARAM pcEditView )
 /*! ダイアログデータの設定 */
 void CDlgFuncList::SetData()
 {
-	HWND			hwndList;
-	HWND			hwndTree;
-	hwndList = GetItemHwnd( IDC_LIST_FL );
-	hwndTree = GetItemHwnd( IDC_TREE_FL );
+	HWND hwndList = GetItemHwnd( IDC_LIST_FL );
+	HWND hwndTree = GetItemHwnd( IDC_TREE_FL );
 
 	m_bDummyLParamMode = false;
 	m_vecDummylParams.clear();
@@ -430,83 +428,85 @@ void CDlgFuncList::SetData()
 	const HTREEITEM hInsertAfter = (m_nSortType == SORTTYPE_DEFAULT_DESC) ? TVI_FIRST : TVI_LAST;
 
 	SetDocLineFuncList();
-	if( OUTLINE_C_CPP == m_nListType || OUTLINE_CPP == m_nListType ){	/* C++メソッドリスト */
+	switch (m_nListType) {
+	case OUTLINE_C_CPP:
+	case OUTLINE_CPP:	/* C++メソッドリスト */
 		m_nViewType = VIEWTYPE_TREE;
 		SetTreeJava( GetHwnd(), hInsertAfter, TRUE );	// Jan. 04, 2002 genta Java Method Treeに統合
 		::SetWindowText( GetHwnd(), LS(STR_DLGFNCLST_TITLE_CPP) );
-	}
-	else if( OUTLINE_FILE == m_nListType ){	//@@@ 2002.04.01 YAZAKI アウトライン解析にルールファイル導入
+		break;
+	case OUTLINE_FILE:	//@@@ 2002.04.01 YAZAKI アウトライン解析にルールファイル導入
 		m_nViewType = VIEWTYPE_TREE;
 		SetTree(hInsertAfter);
 		::SetWindowText( GetHwnd(), LS(STR_DLGFNCLST_TITLE_RULE) );
-	}
-	else if( OUTLINE_WZTXT == m_nListType ){ //@@@ 2003.05.20 zenryaku 階層付テキストアウトライン解析
+		break;
+	case OUTLINE_WZTXT: //@@@ 2003.05.20 zenryaku 階層付テキストアウトライン解析
 		m_nViewType = VIEWTYPE_TREE;
 		SetTree(hInsertAfter);
 		::SetWindowText( GetHwnd(), LS(STR_DLGFNCLST_TITLE_WZ) ); //	2003.06.22 Moca 名前変更
-	}
-	else if( OUTLINE_HTML == m_nListType ){ //@@@ 2003.05.20 zenryaku HTMLアウトライン解析
+		break;
+	case OUTLINE_HTML: //@@@ 2003.05.20 zenryaku HTMLアウトライン解析
 		m_nViewType = VIEWTYPE_TREE;
 		SetTree(hInsertAfter);
 		::SetWindowText( GetHwnd(), L"HTML" );
-	}
-	else if( OUTLINE_TEX == m_nListType ){ //@@@ 2003.07.20 naoh TeXアウトライン解析
+		break;
+	case OUTLINE_TEX: //@@@ 2003.07.20 naoh TeXアウトライン解析
 		m_nViewType = VIEWTYPE_TREE;
 		SetTree(hInsertAfter);
 		::SetWindowText( GetHwnd(), L"TeX" );
-	}
-	else if( OUTLINE_TEXT == m_nListType ){ /* テキスト・トピックリスト */
+		break;
+	case OUTLINE_TEXT: /* テキスト・トピックリスト */
 		m_nViewType = VIEWTYPE_TREE;
 		SetTree(hInsertAfter);	//@@@ 2002.04.01 YAZAKI テキストトピックツリーも、汎用SetTreeを呼ぶように変更。
 		::SetWindowText( GetHwnd(), LS(STR_DLGFNCLST_TITLE_TEXT) );
-	}
-	else if( OUTLINE_JAVA == m_nListType ){ /* Javaメソッドツリー */
+		break;
+	case OUTLINE_JAVA: /* Javaメソッドツリー */
 		m_nViewType = VIEWTYPE_TREE;
 		SetTreeJava( GetHwnd(), hInsertAfter, TRUE );
 		::SetWindowText( GetHwnd(), LS(STR_DLGFNCLST_TITLE_JAVA) );
-	}
+		break;
 	//	2007.02.08 genta Python追加
-	else if( OUTLINE_PYTHON == m_nListType ){ /* Python メソッドツリー */
+	case OUTLINE_PYTHON: /* Python メソッドツリー */
 		m_nViewType = VIEWTYPE_TREE;
 		SetTree( hInsertAfter, true );
 		::SetWindowText( GetHwnd(), LS(STR_DLGFNCLST_TITLE_PYTHON) );
-	}
-	else if( OUTLINE_COBOL == m_nListType ){ /* COBOL アウトライン */
+		break;
+	case OUTLINE_COBOL: /* COBOL アウトライン */
 		m_nViewType = VIEWTYPE_TREE;
 		SetTreeJava( GetHwnd(), hInsertAfter, FALSE );
 		::SetWindowText( GetHwnd(), LS(STR_DLGFNCLST_TITLE_COBOL) );
-	}
-	else if( OUTLINE_VB == m_nListType ){	/* VisualBasic アウトライン */
+		break;
+	case OUTLINE_VB:	/* VisualBasic アウトライン */
 		m_nViewType = VIEWTYPE_LIST;
 		SetListVB();
 		::SetWindowText( GetHwnd(), LS(STR_DLGFNCLST_TITLE_VB) );
-	}
-	else if( OUTLINE_XML == m_nListType ){ // XMLツリー
+		break;
+	case OUTLINE_XML: // XMLツリー
 		m_nViewType = VIEWTYPE_TREE;
 		SetTree(hInsertAfter);
 		::SetWindowText( GetHwnd(), L"XML" );
-	}
-	else if ( OUTLINE_FILETREE == m_nListType ){
+		break;
+	case OUTLINE_FILETREE:
 		m_nViewType = VIEWTYPE_TREE;
 		SetTreeFile();
 		::SetWindowText( GetHwnd(), LS(F_FILETREE) );	// ファイルツリー
-	}
-	else if( OUTLINE_TREE == m_nListType ){ /* 汎用ツリー */
+		break;
+	case OUTLINE_TREE: /* 汎用ツリー */
 		m_nViewType = VIEWTYPE_TREE;
 		SetTree(hInsertAfter);
 		::SetWindowText( GetHwnd(), L"" );
-	}
-	else if( OUTLINE_TREE_TAGJUMP == m_nListType ){ /* 汎用ツリー(タグジャンプ付き) */
+		break;
+	case OUTLINE_TREE_TAGJUMP: /* 汎用ツリー(タグジャンプ付き) */
 		m_nViewType = VIEWTYPE_TREE;
 		SetTree( hInsertAfter, true );
 		::SetWindowText( GetHwnd(), L"" );
-	}
-	else if( OUTLINE_CLSTREE == m_nListType ){ /* 汎用クラスツリー */
+		break;
+	case OUTLINE_CLSTREE: /* 汎用クラスツリー */
 		m_nViewType = VIEWTYPE_TREE;
 		SetTreeJava( GetHwnd(), hInsertAfter, TRUE );
 		::SetWindowText( GetHwnd(), L"" );
-	}
-	else{
+		break;
+	default:
 		m_nViewType = VIEWTYPE_LIST;
 		switch( m_nListType ){
 		case OUTLINE_C:
@@ -548,9 +548,6 @@ void CDlgFuncList::SetData()
 		//	Windowがいなくなると後で都合が悪いので、表示しないだけにしておく
 		//::DestroyWindow( hwndTree );
 //		::ShowWindow( hwndTree, SW_HIDE );
-		int				i;
-		WCHAR			szText[2048];
-		LV_ITEM			item;
 
 		m_cmemClipText.SetString(L"");	/* クリップボードコピー用テキスト */
 		{
@@ -566,7 +563,9 @@ void CDlgFuncList::SetData()
 
 		::EnableWindow( GetItemHwnd( IDC_BUTTON_COPY ), TRUE );
 
-		for( i = 0; i < m_pcFuncInfoArr->GetNum(); ++i ){
+		for( int i = 0; i < m_pcFuncInfoArr->GetNum(); ++i ){
+			WCHAR			szText[2048];
+			LV_ITEM			item;
 			/* 現在の解析結果要素 */
 			const auto pcFuncInfo = m_pcFuncInfoArr->GetAt( i );
 
