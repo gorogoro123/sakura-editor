@@ -434,7 +434,7 @@ static bool MakeDiffTmpFile_core(CTextOutputStream& out, HWND hwnd, CEditView& v
 	@date	2008/01/26	kobake 出力形式修正
 	@date	2013/06/21 エンコードをASCII系にする(SJIS固定をやめる)
 */
-BOOL CEditView::MakeDiffTmpFile( WCHAR* filename, HWND hWnd, ECodeType code, bool bBom )
+BOOL CEditView::MakeDiffTmpFile( SFilePath& filename, HWND hWnd, ECodeType code, bool bBom )
 {
 	//一時
 	WCHAR* pszTmpName = _wtempnam( nullptr, SAKURA_DIFF_TEMP_PREFIX );
@@ -443,7 +443,7 @@ BOOL CEditView::MakeDiffTmpFile( WCHAR* filename, HWND hWnd, ECodeType code, boo
 		return FALSE;
 	}
 
-	wcscpy( filename, pszTmpName );
+	filename = pszTmpName;
 	free( pszTmpName );
 
 	//自分か？
@@ -452,7 +452,7 @@ BOOL CEditView::MakeDiffTmpFile( WCHAR* filename, HWND hWnd, ECodeType code, boo
 		EConvertResult eWriteResult = CWriteManager().WriteFile_From_CDocLineMgr(
 			m_pcEditDoc->m_cDocLineMgr,
 			SSaveInfo(
-				filename,
+				filename.c_str(),
 				code,
 				CEol(EEolType::none),
 				bBom
@@ -461,7 +461,7 @@ BOOL CEditView::MakeDiffTmpFile( WCHAR* filename, HWND hWnd, ECodeType code, boo
 		return RESULT_FAILURE != eWriteResult;
 	}
 
-	CTextOutputStream out(filename, code, true, false);
+	CTextOutputStream out(filename.c_str(), code, true, false);
 	if(!out){
 		WarningMessage( nullptr, LS(STR_DIFF_FAILED_TEMP) );
 		return FALSE;
@@ -487,7 +487,7 @@ BOOL CEditView::MakeDiffTmpFile( WCHAR* filename, HWND hWnd, ECodeType code, boo
 
 /*!	外部ファイルを指定でのファイルを表示
 */
-BOOL CEditView::MakeDiffTmpFile2( WCHAR* tmpName, const WCHAR* orgName, ECodeType code, ECodeType saveCode )
+BOOL CEditView::MakeDiffTmpFile2( SFilePath& tmpName, const WCHAR* orgName, ECodeType code, ECodeType saveCode )
 {
 	//一時
 	WCHAR* pszTmpName = _wtempnam( nullptr, SAKURA_DIFF_TEMP_PREFIX );
@@ -496,7 +496,7 @@ BOOL CEditView::MakeDiffTmpFile2( WCHAR* tmpName, const WCHAR* orgName, ECodeTyp
 		return FALSE;
 	}
 
-	wcscpy( tmpName, pszTmpName );
+	tmpName = pszTmpName;
 	free( pszTmpName );
 
 	bool bBom = false;
@@ -505,7 +505,7 @@ BOOL CEditView::MakeDiffTmpFile2( WCHAR* tmpName, const WCHAR* orgName, ECodeTyp
 		return FALSE;
 	}
 	CFileLoad	cfl( typeMini->m_encoding );
-	CTextOutputStream out(tmpName, saveCode, true, false);
+	CTextOutputStream out(tmpName.c_str(), saveCode, true, false);
 	if(!out){
 		WarningMessage( nullptr, LS(STR_DIFF_FAILED_TEMP) );
 		return FALSE;
