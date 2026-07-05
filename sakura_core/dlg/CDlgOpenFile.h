@@ -64,7 +64,7 @@ public:
 		@param pszPath [i/o] 初期ファイル名．選択されたファイル名の格納場所
 	*/
 	virtual bool DoModal_GetSaveFileName(
-		WCHAR* pszPath
+		SFilePath& szPath
 	) = 0;
 
 	/* 開くダイアログ モーダルダイアログの表示 */
@@ -102,7 +102,7 @@ public:
 
 	//操作
 	bool DoModal_GetOpenFileName(SFilePath& szPath, EFilter eAddFileter = EFITER_TEXT) override;
-	bool DoModal_GetSaveFileName(WCHAR* pszPath) override;
+	bool DoModal_GetSaveFileName(SFilePath& szPath) override;
 	bool DoModalOpenDlg(SLoadInfo* pLoadInfo,
 		std::vector<std::wstring>* pFilenames,
 		bool bOptions = true) override;

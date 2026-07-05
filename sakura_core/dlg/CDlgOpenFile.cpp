@@ -44,9 +44,9 @@ inline bool CDlgOpenFile::DoModal_GetOpenFileName(
 	return m_pImpl->DoModal_GetOpenFileName(szPath, eAddFileter);
 }
 
-inline bool CDlgOpenFile::DoModal_GetSaveFileName( WCHAR* pszPath )
+inline bool CDlgOpenFile::DoModal_GetSaveFileName( SFilePath& szPath )
 {
-	return m_pImpl->DoModal_GetSaveFileName(pszPath);
+	return m_pImpl->DoModal_GetSaveFileName(szPath);
 }
 
 inline bool CDlgOpenFile::DoModalOpenDlg(
