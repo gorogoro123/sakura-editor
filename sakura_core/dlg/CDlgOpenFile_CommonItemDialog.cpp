@@ -50,7 +50,7 @@ struct CDlgOpenFile_CommonItemDialog final
 	) override;
 
 	bool DoModal_GetOpenFileName( SFilePath& szPath, EFilter eAddFileter ) override;
-	bool DoModal_GetSaveFileName( WCHAR* pszPath ) override;
+	bool DoModal_GetSaveFileName( SFilePath& szPath ) override;
 	bool DoModalOpenDlg( SLoadInfo* pLoadInfo,
 						 std::vector<std::wstring>* pFileNames,
 						 bool bOptions ) override;
@@ -492,22 +492,21 @@ bool CDlgOpenFile_CommonItemDialog::DoModal_GetOpenFileName( SFilePath& szPath, 
 }
 
 /*! 保存ダイアログ モーダルダイアログの表示
-	@param pszPath [i/o] 初期ファイル名．選択されたファイル名の格納場所
+	@param szPath [i/o] 初期ファイル名．選択されたファイル名の格納場所
 */
-bool CDlgOpenFile_CommonItemDialog::DoModal_GetSaveFileName( WCHAR* pszPath )
+bool CDlgOpenFile_CommonItemDialog::DoModal_GetSaveFileName( SFilePath& szPath )
 {
 	// 2010.08.28 カレントディレクトリを移動するのでパス解決する
-	if( pszPath[0] ){
-		WCHAR szFullPath[_MAX_PATH];
-		const WCHAR* pOrg = pszPath;
-		if( ::GetLongFileName( pOrg, szFullPath ) ){
+	if( szPath[0] ){
+		SFilePath szFullPath;
+		if( ::GetLongFileName( szPath.c_str(), szFullPath.data() ) ){
 			// 成功。書き戻す
-			wcscpy( pszPath , szFullPath );
+			szPath = szFullPath;
 		}
 	}
 
 	m_customizeSetting.bCustomize = false;
-	return DoModalSaveDlgImpl0(pszPath);
+	return DoModalSaveDlgImpl0(szPath.data());
 }
 
 HRESULT CDlgOpenFile_CommonItemDialog::Customize()
