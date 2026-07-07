@@ -1518,30 +1518,30 @@ void CDlgFuncList::SetTreeFile()
 	std::vector<HTREEITEM> hParentTree;
 	hParentTree.push_back(TVI_ROOT);
 	for (const auto& item : m_fileTreeSetting.m_aItems){
-		WCHAR szPath[_MAX_PATH];
-		WCHAR szPath2[_MAX_PATH];
+		SFilePath szPath;
+		SFilePath szPath2;
 		// item.m_szTargetPath => szPath メタ文字の展開
-		if( !CFileNameManager::ExpandMetaToFolder(item.m_szTargetPath, szPath, int(std::size(szPath))) ){
-			wcscpy_s(szPath, std::size(szPath), L"<Error:Long Path>");
+		if( !CFileNameManager::ExpandMetaToFolder(item.m_szTargetPath, szPath, szPath.capacity()) ){
+			szPath = L"<Error:Long Path>";
 		}
 		// szPath => szPath2 <iniroot>展開
-		const WCHAR* pszFrom = szPath;
+		const WCHAR* pszFrom = szPath.c_str();
 		if( m_fileTreeSetting.m_szLoadProjectIni[0] != L'\0'){
 			CNativeW strTemp(pszFrom);
 			strTemp.Replace(L"<iniroot>", IniDirPath.c_str());
-			if( int(std::size(szPath2)) <= strTemp.GetStringLength() ){
-				wcscpy_s(szPath2, std::size(szPath), L"<Error:Long Path>");
+			if( szPath2.capacity() <= strTemp.GetStringLength() ){
+				szPath2 = L"<Error:Long Path>";
 			}else{
-				wcscpy_s(szPath2, std::size(szPath), strTemp.GetStringPtr());
+				szPath2 = strTemp.GetStringPtr();
 			}
 		}else{
-			wcscpy(szPath2, pszFrom);
+			szPath2 = pszFrom;
 		}
 		// szPath2 => szPath 「.」やショートパス等の展開
 		pszFrom = szPath2;
 		if( ::GetLongFileName(pszFrom, szPath) ){
 		}else{
-			wcscpy(szPath, pszFrom);
+			szPath = pszFrom;
 		}
 		while( item.m_nDepth < (int)hParentTree.size() - 1 ){
 			hParentTree.resize(hParentTree.size() - 1);
@@ -1560,14 +1560,14 @@ void CDlgFuncList::SetTreeFile()
 		tvis.hParent      = hParentTree.back();
 		tvis.item.mask    = TVIF_TEXT | TVIF_PARAM;
 		if( item.m_eFileTreeItemType == EFileTreeItemType_Grep ){
-			m_pcFuncInfoArr->AppendData( CLogicInt(-1), CLogicInt(-1), CLayoutInt(-1), CLayoutInt(-1), L"", szPath, 0, 0 );
+			m_pcFuncInfoArr->AppendData( CLogicInt(-1), CLogicInt(-1), CLayoutInt(-1), CLayoutInt(-1), L"", szPath.c_str(), 0, 0 );
 			tvis.item.pszText = const_cast<WCHAR*>(pszLabel);
 			tvis.item.lParam  = -(nFuncInfo * 10 + 3);
 			HTREEITEM hParent = TreeView_InsertItem(hwndTree, &tvis);
 			nFuncInfo++;
 			SetTreeFileSub( hParent, nullptr );
 		}else if( item.m_eFileTreeItemType == EFileTreeItemType_File ){
-			m_pcFuncInfoArr->AppendData( CLogicInt(-1), CLogicInt(-1), CLayoutInt(-1), CLayoutInt(-1), L"", szPath, 0, 0 );
+			m_pcFuncInfoArr->AppendData( CLogicInt(-1), CLogicInt(-1), CLayoutInt(-1), CLayoutInt(-1), L"", szPath.c_str(), 0, 0 );
 			tvis.item.pszText = const_cast<WCHAR*>(pszLabel);
 			tvis.item.lParam  = nFuncInfo;
 			TreeView_InsertItem(hwndTree, &tvis);
