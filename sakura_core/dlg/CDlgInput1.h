@@ -27,7 +27,7 @@ class CDlgInput1
 {
 public:
 	BOOL DoModal( HINSTANCE hInstApp, HWND hwndParent, const WCHAR* pszTitle,
-				  const WCHAR* pszMessage, size_t bufferSize, WCHAR* pszText );
+				  const WCHAR* pszMessage, size_t bufferSize, std::span<WCHAR> szText );
 
 	/*
 	||  Attributes & Operations

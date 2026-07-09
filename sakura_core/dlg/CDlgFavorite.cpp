@@ -931,18 +931,17 @@ void CDlgFavorite::AddItem()
 	CRecent& recent = *(m_aFavoriteInfo[m_nCurrentTab].m_pRecent);
 	size_t max_size = recent.GetTextMaxLength();
 	std::vector<WCHAR> vecAddText(max_size);
-	WCHAR* szAddText = &vecAddText[0];
-	szAddText[0] = L'\0';
+	vecAddText[0] = L'\0';
 
 	CDlgInput1	cDlgInput1;
 	std::wstring strTitle = LS( STR_DLGFAV_ADD );
 	std::wstring strMessage = LS( STR_DLGFAV_ADD_PROMPT );
-	if( !cDlgInput1.DoModal( G_AppInstance(), GetHwnd(), strTitle.c_str(), strMessage.c_str(), max_size - 1, szAddText ) ){
+	if( !cDlgInput1.DoModal( G_AppInstance(), GetHwnd(), strTitle.c_str(), strMessage.c_str(), max_size - 1, vecAddText ) ){
 		return;
 	}
 
 	GetFavorite(m_nCurrentTab);
-	if( recent.AppendItemText(szAddText) ){
+	if( recent.AppendItemText(vecAddText.data()) ){
 		SetDataOne(m_nCurrentTab, -1);
 		UpdateUIState();
 	}
@@ -963,16 +962,15 @@ void CDlgFavorite::EditItem()
 			CRecent& recent = *(m_aFavoriteInfo[m_nCurrentTab].m_pRecent);
 			size_t max_size = recent.GetTextMaxLength();
 			std::vector<WCHAR> vecAddText(max_size);
-			WCHAR* szText = &vecAddText[0];
-			wcsncpy_s(szText, max_size, recent.GetItemText(nRecIndex), _TRUNCATE);
+			wcsncpy_s(vecAddText.data(), max_size, recent.GetItemText(nRecIndex), _TRUNCATE);
 			CDlgInput1	cDlgInput1;
 			std::wstring strTitle = LS( STR_DLGFAV_EDIT );
 			std::wstring strMessage = LS( STR_DLGFAV_EDIT_PROMPT );
-			if( !cDlgInput1.DoModal(G_AppInstance(), GetHwnd(), strTitle.c_str(), strMessage.c_str(), max_size - 1, szText) ){
+			if( !cDlgInput1.DoModal(G_AppInstance(), GetHwnd(), strTitle.c_str(), strMessage.c_str(), max_size - 1, vecAddText ) ){
 				return;
 			}
 			GetFavorite(m_nCurrentTab);
-			if( recent.EditItemText(nRecIndex, szText) ){
+			if( recent.EditItemText(nRecIndex, vecAddText.data()) ){
 				SetDataOne(m_nCurrentTab, nRecIndex);
 				UpdateUIState();
 			}
