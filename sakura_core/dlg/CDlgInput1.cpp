@@ -69,7 +69,7 @@ BOOL CDlgInput1::DoModal(
 	const WCHAR*	pszTitle,
 	const WCHAR*	pszMessage,
 	size_t			bufferSize,
-	WCHAR*			pszText
+	std::span<WCHAR>    szText
 )
 {
 	const auto nMaxTextLen = int(bufferSize);
@@ -80,7 +80,7 @@ BOOL CDlgInput1::DoModal(
 	m_pszMessage = pszMessage;		/* メッセージ */
 	m_nMaxTextLen = nMaxTextLen;	/* 入力サイズ上限 */
 //	m_pszText = pszText;			/* テキスト */
-	m_cmemText.SetString( pszText );
+	m_cmemText.SetString( szText.data() );
 	bRet = (BOOL)::DialogBoxParam(
 		CSelectLang::getLangRsrcInstance(),
 		MAKEINTRESOURCE( IDD_INPUT1 ),
@@ -88,7 +88,7 @@ BOOL CDlgInput1::DoModal(
 		CDlgInput1Proc,
 		(LPARAM)this
 	);
-	wcscpy( pszText, m_cmemText.GetStringPtr() );
+	wcsncpy_s( szText.data(), szText.size(), m_cmemText.GetStringPtr(), _TRUNCATE );
 	return bRet;
 }
 

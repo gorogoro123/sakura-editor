@@ -1665,19 +1665,18 @@ bool CMacro::HandleFunction(CEditView *View, EFunctionCode ID, VARIANT *Argument
 				}
 			}
 
-			WCHAR *Buffer = new WCHAR[ nMaxLen+1 ];
+			std::vector<WCHAR> Buffer(nMaxLen + 1);
 			size_t nLen = t_min( sDefaultValue.length(), (size_t)nMaxLen);
-			wmemcpy( Buffer, sDefaultValue.c_str(), nLen );
+			wmemcpy( Buffer.data(), sDefaultValue.c_str(), nLen);
 			Buffer[nLen] = L'\0';
 			CDlgInput1 cDlgInput1;
 			if( cDlgInput1.DoModal( G_AppInstance(), View->GetHwnd(), L"sakura macro", sMessage.c_str(), nMaxLen, Buffer ) ) {
-				SysString S( Buffer, wcslen(Buffer) );
+				SysString S( Buffer.data(), wcsnlen(Buffer.data(), Buffer.size()));
 				Wrap( &Result )->Receive( S );
 			}else{
 				Result.vt = VT_BSTR;
 				Result.bstrVal = SysAllocString(L"");
 			}
-			delete[] Buffer;
 		}
 		return true;
 	case F_MESSAGEBOX:	// メッセージボックスの表示
