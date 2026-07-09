@@ -881,7 +881,7 @@ int CDlgFavorite::DeleteSelected()
 				}
 				int nLvTopIndex = ListView_GetTopIndex(hwndList);
 				SetDataOne(m_nCurrentTab, nItem);
-				if( 1 == nDelItemCount ){
+				if( (1 == nDelItemCount) && (pRecent->GetItemCount() > 0) ){
 					// 1つ削除のときは、Yスクロール位置を保持
 					// 2つ以上は複雑なのでSetDataOneにおまかせする
 					nLvTopIndex = std::clamp(nLvTopIndex, 0, pRecent->GetItemCount() - 1);
@@ -890,8 +890,7 @@ int CDlgFavorite::DeleteSelected()
 						CMyRect rect;
 						if( ListView_GetItemRect(hwndList, nNowLvTopIndex, &rect, LVIR_BOUNDS) ){
 							// ListView_ScrollのY座標はpixel単位でスクロール変化分を指定
-							ListView_Scroll(hwndList, 0,
-								(nLvTopIndex - nNowLvTopIndex) * (rect.bottom - rect.top) );
+							ListView_Scroll(hwndList, 0, (nLvTopIndex - nNowLvTopIndex) * (rect.bottom - rect.top) );
 						}
 					}
 				}
