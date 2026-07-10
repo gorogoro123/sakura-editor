@@ -89,7 +89,7 @@ static int IsNumber(const CStringRef& cStr,/*const wchar_t *buf,*/ int offset/*,
 			p++; i++;
 			while( p < q )
 			{
-				if( ( *p >= L'0' && *p <= L'9' )
+				if( WCODE::Is09(*p)
 				 || ( *p >= L'A' && *p <= L'F' )
 				 || ( *p >= L'a' && *p <= L'f' ) )
 				{
@@ -113,7 +113,7 @@ static int IsNumber(const CStringRef& cStr,/*const wchar_t *buf,*/ int offset/*,
 			}
 			return i;
 		}
-		else if( *p >= L'0' && *p <= L'9' )
+		else if( WCODE::Is09(*p) )
 		{
 			p++; i++;
 			while( p < q )
@@ -135,13 +135,13 @@ static int IsNumber(const CStringRef& cStr,/*const wchar_t *buf,*/ int offset/*,
 						if( p + 2 < q )
 						{
 							if( ( *(p + 1) == L'+' || *(p + 1) == L'-' )
-							 && ( *(p + 2) >= L'0' && *(p + 2) <= L'9' ) )
+							 && WCODE::Is09(*(p + 2)) )
 							{
 								p++; i++;
 								p++; i++;
 								f = 1;
 							}
-							else if( *(p + 1) >= L'0' && *(p + 1) <= L'9' )
+							else if( WCODE::Is09(*(p + 1)) )
 							{
 								p++; i++;
 								f = 1;
@@ -153,7 +153,7 @@ static int IsNumber(const CStringRef& cStr,/*const wchar_t *buf,*/ int offset/*,
 						}
 						else if( p + 1 < q )
 						{
-							if( *(p + 1) >= L'0' && *(p + 1) <= L'9' )
+							if( WCODE::Is09(*(p + 1)) )
 							{
 								p++; i++;
 								f = 1;
@@ -208,13 +208,13 @@ static int IsNumber(const CStringRef& cStr,/*const wchar_t *buf,*/ int offset/*,
 						if( p + 2 < q )
 						{
 							if( ( *(p + 1) == L'+' || *(p + 1) == L'-' )
-							 && ( *(p + 2) >= L'0' && *(p + 2) <= L'9' ) )
+							 && WCODE::Is09(*(p + 2)) )
 							{
 								p++; i++;
 								p++; i++;
 								f = 1;
 							}
-							else if( *(p + 1) >= L'0' && *(p + 1) <= L'9' )
+							else if( WCODE::Is09(*(p + 1)) )
 							{
 								p++; i++;
 								f = 1;
@@ -226,7 +226,7 @@ static int IsNumber(const CStringRef& cStr,/*const wchar_t *buf,*/ int offset/*,
 						}
 						else if( p + 1 < q )
 						{
-							if( *(p + 1) >= L'0' && *(p + 1) <= L'9' )
+							if( WCODE::Is09(*(p + 1)) )
 							{
 								p++; i++;
 								f = 1;
@@ -339,13 +339,13 @@ static int IsNumber(const CStringRef& cStr,/*const wchar_t *buf,*/ int offset/*,
 					if( p + 2 < q )
 					{
 						if( ( *(p + 1) == L'+' || *(p + 1) == L'-' )
-						 && ( *(p + 2) >= L'0' && *(p + 2) <= L'9' ) )
+						 && WCODE::Is09(*(p + 2)) )
 						{
 							p++; i++;
 							p++; i++;
 							f = 1;
 						}
-						else if( *(p + 1) >= L'0' && *(p + 1) <= L'9' )
+						else if( WCODE::Is09(*(p + 1)) )
 						{
 							p++; i++;
 							f = 1;
@@ -357,7 +357,7 @@ static int IsNumber(const CStringRef& cStr,/*const wchar_t *buf,*/ int offset/*,
 					}
 					else if( p + 1 < q )
 					{
-						if( *(p + 1) >= L'0' && *(p + 1) <= L'9' )
+						if( WCODE::Is09(*(p + 1)) )
 						{
 							p++; i++;
 							f = 1;
@@ -414,13 +414,13 @@ static int IsNumber(const CStringRef& cStr,/*const wchar_t *buf,*/ int offset/*,
 					if( p + 2 < q )
 					{
 						if( ( *(p + 1) == L'+' || *(p + 1) == L'-' )
-						 && ( *(p + 2) >= L'0' && *(p + 2) <= L'9' ) )
+						 && WCODE::Is09(*(p + 2)) )
 						{
 							p++; i++;
 							p++; i++;
 							f = 1;
 						}
-						else if( *(p + 1) >= L'0' && *(p + 1) <= L'9' )
+						else if( WCODE::Is09(*(p + 1)) )
 						{
 							p++; i++;
 							f = 1;
@@ -432,7 +432,7 @@ static int IsNumber(const CStringRef& cStr,/*const wchar_t *buf,*/ int offset/*,
 					}
 					else if( p + 1 < q )
 					{
-						if( *(p + 1) >= L'0' && *(p + 1) <= L'9' )
+						if( WCODE::Is09(*(p + 1)) )
 						{
 							p++; i++;
 							f = 1;
@@ -500,13 +500,13 @@ static int IsNumber(const CStringRef& cStr,/*const wchar_t *buf,*/ int offset/*,
 					if( p + 2 < q )
 					{
 						if( ( *(p + 1) == L'+' || *(p + 1) == L'-' )
-						 && ( *(p + 2) >= L'0' && *(p + 2) <= L'9' ) )
+						 && WCODE::Is09(*(p + 2)) )
 						{
 							p++; i++;
 							p++; i++;
 							f = 1;
 						}
-						else if( *(p + 1) >= L'0' && *(p + 1) <= L'9' )
+						else if( WCODE::Is09(*(p + 1)) )
 						{
 							p++; i++;
 							f = 1;
@@ -518,7 +518,7 @@ static int IsNumber(const CStringRef& cStr,/*const wchar_t *buf,*/ int offset/*,
 					}
 					else if( p + 1 < q )
 					{
-						if( *(p + 1) >= L'0' && *(p + 1) <= L'9' )
+						if( WCODE::Is09(*(p + 1)) )
 						{
 							p++; i++;
 							f = 1;
@@ -563,7 +563,7 @@ static int IsNumber(const CStringRef& cStr,/*const wchar_t *buf,*/ int offset/*,
 			p++; i++;
 			while( p < q )
 			{
-				if( ( *p >= L'0' && *p <= L'9' )
+				if( WCODE::Is09(*p)
 				 || ( *p >= L'A' && *p <= L'F' )
 				 || ( *p >= L'a' && *p <= L'f' ) )
 				{
