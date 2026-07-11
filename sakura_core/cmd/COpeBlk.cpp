@@ -46,10 +46,10 @@ bool COpeBlk::AppendOpe( COpe* pcOpe )
 			L"Bug.\n"
 			L"pcOpe->m_ptCaretPos_PHY_Before = %d,%d\n"
 			L"pcOpe->m_ptCaretPos_PHY_After = %d,%d\n",
-			pcOpe->m_ptCaretPos_PHY_Before.x,
-			pcOpe->m_ptCaretPos_PHY_Before.y,
-			pcOpe->m_ptCaretPos_PHY_After.x,
-			pcOpe->m_ptCaretPos_PHY_After.y
+			static_cast<int>(pcOpe->m_ptCaretPos_PHY_Before.x),
+			static_cast<int>(pcOpe->m_ptCaretPos_PHY_Before.y),
+			static_cast<int>(pcOpe->m_ptCaretPos_PHY_After.x),
+			static_cast<int>(pcOpe->m_ptCaretPos_PHY_After.y)
 		);
 	}
 
