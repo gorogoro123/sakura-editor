@@ -31,7 +31,7 @@ void CColor_Quote::Update()
 	const CEditDoc* pCEditDoc = GetDocument();
 	m_pTypeData = &pCEditDoc->m_cDocType.GetDocumentAttribute();
 	m_nStringType = m_pTypeData->m_nStringType;
-	int nEspaceTypeList[] = {
+	EStringLiteralType nEspaceTypeList[] = {
 		STRING_LITERAL_CPP,
 		STRING_LITERAL_PLSQL,
 		STRING_LITERAL_HTML,
@@ -232,14 +232,15 @@ bool CColor_Quote::EndColor(const CStringRef& cStr, int nPos)
 	return false;
 }
 
-int CColor_Quote::Match_Quote( wchar_t wcQuote, int nPos, const CStringRef& cLineStr, int escapeType, bool* pbEscapeEnd )
+int CColor_Quote::Match_Quote( wchar_t wcQuote, int nPos, const CStringRef& cLineStr, EStringLiteralType escapeType, bool* pbEscapeEnd )
 {
 	int nCharChars;
 	int i;
 	for( i = nPos; i < cLineStr.GetLength(); ++i ){
 		// 2005-09-02 D.S.Koba GetSizeOfChar
 		nCharChars = (Int)t_max(CLogicInt(1), CNativeW::GetSizeOfChar( cLineStr.GetPtr(), cLineStr.GetLength(), i ));
-		if( escapeType == STRING_LITERAL_CPP ){
+		switch (escapeType) {
+		case STRING_LITERAL_CPP:
 			// エスケープ \"
 			if( 1 == nCharChars && cLineStr[i] == L'\\' ){
 				++i;
@@ -252,7 +253,8 @@ int CColor_Quote::Match_Quote( wchar_t wcQuote, int nPos, const CStringRef& cLin
 			if( 1 == nCharChars && cLineStr[i] == wcQuote ){
 				return i + 1;
 			}
-		}else if( escapeType == STRING_LITERAL_PLSQL ){
+			break;
+		case STRING_LITERAL_PLSQL:
 			// エスケープ ""
 			if( 1 == nCharChars && cLineStr[i] == wcQuote ){
 				if( i + 1 < cLineStr.GetLength() && cLineStr[i + 1] == wcQuote ){
@@ -261,11 +263,13 @@ int CColor_Quote::Match_Quote( wchar_t wcQuote, int nPos, const CStringRef& cLin
 					return i + 1;
 				}
 			}
-		}else{
+			break;
+		default:
 			// エスケープなし
 			if( 1 == nCharChars && cLineStr[i] == wcQuote ){
 				return i + 1;
 			}
+			break;
 		}
 		if( 2 == nCharChars ){
 			++i;
