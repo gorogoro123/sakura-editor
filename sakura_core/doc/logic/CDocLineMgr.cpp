@@ -21,8 +21,6 @@
 	Please contact the copyright holder to use this code for other purpose.
 */
 
-#include <cstdio>
-#include <list>
 #include "CDocLineMgr.h"
 #include "CDocLine.h"// 2002/2/10 aroka ヘッダー整理
 #include "charset/charcode.h"
@@ -401,7 +399,7 @@ void CDocLineMgr::DUMP()
 	}
 	
 	if( nNum != m_nLines ){
-		MYTRACE( L"error: nNum(%d) != m_nLines(%d)\n", nNum, m_nLines );
+		MYTRACE( L"error: nNum(%d) != m_nLines(%d)\n", static_cast<int>(nNum), static_cast<int>(m_nLines) );
 	}
 	if( false == bIncludeCurrent && m_pDocLineCurrent != nullptr ){
 		MYTRACE( L"error: m_pDocLineCurrent=%08lxh Invalid value.\n", m_pDocLineCurrent );
@@ -411,7 +409,7 @@ void CDocLineMgr::DUMP()
 	}
 
 	// DUMP
-	MYTRACE( L"m_nLines=%d\n", m_nLines );
+	MYTRACE( L"m_nLines=%d\n", static_cast<int>(m_nLines) );
 	MYTRACE( L"m_pDocLineTop=%08lxh\n", m_pDocLineTop );
 	MYTRACE( L"m_pDocLineBot=%08lxh\n", m_pDocLineBot );
 	pDocLine = m_pDocLineTop;
@@ -423,10 +421,10 @@ void CDocLineMgr::DUMP()
 		MYTRACE( L"\tpNext; =%08lxh\n", pDocLine->GetNextLine() );
 
 		MYTRACE( L"\tm_enumEOLType =%ls\n", pDocLine->GetEol().GetName() );
-		MYTRACE( L"\tm_nEOLLen =%d\n", pDocLine->GetEol().GetLen() );
+		MYTRACE( L"\tm_nEOLLen =%d\n", static_cast<int>(pDocLine->GetEol().GetLen()) );
 
 //		MYTRACE( L"\t[%ls]\n", *(pDocLine->m_pLine) );
-		MYTRACE( L"\tpDocLine->m_cLine.GetLength()=[%d]\n", pDocLine->GetLengthWithEOL() );
+		MYTRACE( L"\tpDocLine->m_cLine.GetLength()=[%d]\n", static_cast<int>(pDocLine->GetLengthWithEOL()) );
 		MYTRACE( L"\t[%ls]\n", pDocLine->GetPtr() );
 
 		pDocLine = pDocLineNext;
