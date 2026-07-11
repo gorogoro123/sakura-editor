@@ -1455,7 +1455,7 @@ void CShareData_IO::ShareData_IO_Type_One( CDataProfile& cProfile, STypeConfig& 
 
 	// 2005.04.07 D.S.Koba
 	static const WCHAR* pszForm = L"%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d";	//MIK
-	wcscpy( szKeyName, L"nInts" );
+	wcscpy_s( szKeyName, std::size(szKeyName), L"nInts" );
 	if( cProfile.IsReadingMode() ){
 		if( cProfile.IOProfileData(pszSecName, szKeyName, StringBufferW(szKeyData)) ){
 			int buf[12];
@@ -2146,7 +2146,7 @@ void CShareData_IO::IO_MainMenu( CDataProfile& cProfile, std::vector<std::wstrin
 
 			// 読み出し
 			if( pData ){
-				wcscpy(szLine, data[dataNum++].c_str());
+				wcsncpy_s(szLine, std::size(szLine), data[dataNum++].c_str(), _TRUNCATE);
 			}else{
 				cProfile.IOProfileData(pszSecName, szKeyName, StringBufferW(szLine));
 			}
