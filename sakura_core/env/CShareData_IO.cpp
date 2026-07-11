@@ -241,7 +241,7 @@ void CShareData_IO::ShareData_IO_Mru( CDataProfile& cProfile )
 		auto_snprintf_s( szKeyName, std::size(szKeyName), L"MRUFOLDER[%02d]", i );
 		cProfile.IOProfileData( pszSecName, szKeyName, pShare->m_sHistory.m_szOPENFOLDERArr[i] );
 		//お気に入り	//@@@ 2003.04.08 MIK
-		wcscat( szKeyName, L".bFavorite" );
+		wcscat_s( szKeyName, std::size(szKeyName), L".bFavorite" );
 		cProfile.IOProfileData( pszSecName, szKeyName, pShare->m_sHistory.m_bOPENFOLDERArrFavorite[i] );
 	}
 	//読み込み時は残りを初期化
@@ -1158,7 +1158,7 @@ void CShareData_IO::IO_KeyBind( CDataProfile& cProfile, CommonSetting_KeyBind& s
 						auto_snprintf_s(szWork, std::size(szWork), L",%d", keydata.m_nFuncCodeArr[j]);
 					}
 				}
-				wcscat(szKeyData, szWork);
+				wcscat_s(szKeyData, std::size(szKeyData), szWork);
 			}
 
 			if( 0x0100 <= keydata.m_nKeyCode ){
@@ -1166,7 +1166,7 @@ void CShareData_IO::IO_KeyBind( CDataProfile& cProfile, CommonSetting_KeyBind& s
 			}else{
 				auto_snprintf_s(szWork, std::size(szWork), L",%s", keydata.m_szKeyName.c_str());
 			}
-			wcscat(szKeyData, szWork);
+			wcscat_s(szKeyData, std::size(szKeyData), szWork);
 			cProfile.IOProfileData(szSecName, szKeyName, StringBufferW(szKeyData));
 //
 		}
