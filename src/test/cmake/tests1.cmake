@@ -152,7 +152,6 @@ endif(MINGW)
 add_dependencies(tests1
   sakura
   sakura_lang_en_US
-  sakura_lang_zh_CN
   test_resource_zip
   generate_gtest
   generate_miniz

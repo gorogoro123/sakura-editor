@@ -25,9 +25,7 @@ add_custom_command(TARGET ${PROJECT_NAME} PRE_LINK
 
 # Create language DLL projects
 # en-US: 1033 (0x0409) - English (United States)
-# zh-CN: 2052 (0x0804) - Chinese (Simplified, PRC)
 create_language_dll(en-US 1033)
-create_language_dll(zh-CN 2052)
 
 # Include cmigemo.cmake for migemo.dll
 include(${CMAKE_SOURCE_DIR}/src/main/cmake/cmigemo.cmake)
