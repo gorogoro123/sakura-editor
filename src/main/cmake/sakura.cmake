@@ -274,8 +274,8 @@ endfunction()
 
 # Function to create a language DLL project
 # Parameters:
-#   LOCALE_NAME  - Name of the locale (e.g., en-US, zh-CN)
-#   LOCALE_ID    - Locale identifier in decimal (e.g., 1033 for en-US, 2052 for zh-CN)
+#   LOCALE_NAME  - Name of the locale (e.g., en-US)
+#   LOCALE_ID    - Locale identifier in decimal (e.g., 1033 for en-US)
 function(create_language_dll LOCALE_NAME LOCALE_ID)
   string(REPLACE "-" "_" LOCALE_NAME_UNDERSCORE "${LOCALE_NAME}")
   set(SAKURA_LANG sakura_lang_${LOCALE_NAME_UNDERSCORE})
