@@ -152,7 +152,7 @@ void CDlgCompare::SetData( )
 		SplitPath_FolderAndFile(m_pszPath, nullptr, szFile1);
 		for( i = 0; i < nRowNum; ++i ){
 			/* トレイからエディタへの編集ファイル名要求通知 */
-			::SendMessage( vEditNode[i].GetHwnd(), MYWM_GETFILEINFO, 0, 0 );
+			::SendMessageW( vEditNode[i].GetHwnd(), MYWM_GETFILEINFO, 0, 0 );
 			pfi = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
 
 //@@@ 2001.12.26 YAZAKI ファイル名で比較すると(無題)だったときに問題同士の比較ができない

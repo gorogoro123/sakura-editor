@@ -168,7 +168,7 @@ INT_PTR CPropCustmenu::DispatchEvent(
 		hwndLIST_RES = ::GetDlgItem( hwndDlg, IDC_LIST_RES );
 
 		/* キー選択時の処理 */
-		::SendMessage( hwndDlg, WM_COMMAND, MAKELONG( IDC_COMBO_FUNCKIND, CBN_SELCHANGE ), (LPARAM)hwndCOMBO_FUNCKIND );
+		::SendMessageW( hwndDlg, WM_COMMAND, MAKELONG( IDC_COMBO_FUNCKIND, CBN_SELCHANGE ), (LPARAM)hwndCOMBO_FUNCKIND );
 
 		::SetTimer( hwndDlg, 1, 300, nullptr );
 		SetDlgItemsEnableState( hwndDlg, hwndCOMBO_MENU, hwndLIST_RES, hwndCOMBO_FUNCKIND, hwndLIST_FUNC, m_cLookup, m_Common );
@@ -196,13 +196,13 @@ INT_PTR CPropCustmenu::DispatchEvent(
 			nIdx3 = ApiWrap::Combo_GetCurSel( hwndCOMBO_FUNCKIND );
 			nIdx4 = ApiWrap::List_GetCurSel( hwndLIST_FUNC );
 			if( nIdx1 != CB_ERR ){
-				::SendMessage( hwndDlg, WM_COMMAND, MAKEWPARAM( IDC_COMBO_MENU, CBN_SELCHANGE ), (LPARAM)hwndCOMBO_MENU );
+				::SendMessageW( hwndDlg, WM_COMMAND, MAKEWPARAM( IDC_COMBO_MENU, CBN_SELCHANGE ), (LPARAM)hwndCOMBO_MENU );
 				if( nIdx2 != LB_ERR ){
 					ApiWrap::List_SetCurSel( hwndLIST_RES, nIdx2 );
 				}
 			}
 			if( nIdx3 != CB_ERR ){
-				::SendMessage( hwndDlg, WM_COMMAND, MAKEWPARAM( IDC_COMBO_FUNCKIND, CBN_SELCHANGE ), (LPARAM)hwndCOMBO_FUNCKIND );
+				::SendMessageW( hwndDlg, WM_COMMAND, MAKEWPARAM( IDC_COMBO_FUNCKIND, CBN_SELCHANGE ), (LPARAM)hwndCOMBO_FUNCKIND );
 				if( nIdx4 != LB_ERR ){
 					ApiWrap::List_SetCurSel( hwndLIST_FUNC, nIdx4 );
 				}
@@ -685,7 +685,7 @@ void CPropCustmenu::SetDataMenuList(HWND hwndDlg, int nIdx)
 	WCHAR		szLabel[300];
 	WCHAR		szLabel2[300+4];
 
-	::SendMessage( hwndDlg, WM_SETREDRAW, FALSE, 0 );
+	::SendMessageW( hwndDlg, WM_SETREDRAW, FALSE, 0 );
 	/* メニュー項目一覧に文字列をセット（リストボックス）*/
 	HWND hwndLIST_RES = ::GetDlgItem( hwndDlg, IDC_LIST_RES );
 //	hwndEDIT_KEY = ::GetDlgItem( hwndDlg, IDC_EDIT_KEY );
@@ -714,7 +714,7 @@ void CPropCustmenu::SetDataMenuList(HWND hwndDlg, int nIdx)
 	ApiWrap::DlgItem_SetText( hwndDlg, IDC_EDIT_MENUNAME, m_Common.m_sCustomMenu.m_szCustMenuNameArr[nIdx].c_str() );
 
 	CheckDlgButtonBool( hwndDlg, IDC_CHECK_SUBMENU, m_Common.m_sCustomMenu.m_bCustMenuPopupArr[nIdx] );
-	::SendMessage( hwndDlg, WM_SETREDRAW, TRUE, 0 );
+	::SendMessageW( hwndDlg, WM_SETREDRAW, TRUE, 0 );
 	::InvalidateRect( hwndDlg, nullptr, FALSE );
 	return;
 }
@@ -738,7 +738,7 @@ void CPropCustmenu::Import( HWND hwndDlg )
 	
 	// 画面更新
 	HWND	hwndCtrl = ::GetDlgItem( hwndDlg, IDC_COMBO_MENU );
-	::SendMessage( hwndDlg, WM_COMMAND, MAKELONG( IDC_COMBO_MENU, CBN_SELCHANGE ), (LPARAM)hwndCtrl );
+	::SendMessageW( hwndDlg, WM_COMMAND, MAKELONG( IDC_COMBO_MENU, CBN_SELCHANGE ), (LPARAM)hwndCtrl );
 }
 
 /* カスタムメニュー設定をエクスポートする */

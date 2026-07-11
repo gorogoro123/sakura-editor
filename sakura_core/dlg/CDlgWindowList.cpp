@@ -124,7 +124,7 @@ void CDlgWindowList::CommandSave()
 		DWORD dwPid = 0;
 		::GetWindowThreadProcessId(hwnd, &dwPid);
 		::AllowSetForegroundWindow(dwPid);
-		::SendMessage(hwnd, WM_COMMAND, MAKELONG(F_FILESAVE, 0), 0);
+		::SendMessageW(hwnd, WM_COMMAND, MAKELONG(F_FILESAVE, 0), 0);
 	}
 	SetData();
 }
@@ -137,7 +137,7 @@ void CDlgWindowList::CommandClose()
 		DWORD dwPid = 0;
 		::GetWindowThreadProcessId(hwnd, &dwPid);
 		::AllowSetForegroundWindow(dwPid);
-		::SendMessage(hwnd, MYWM_CLOSE, 0, 0);
+		::SendMessageW(hwnd, MYWM_CLOSE, 0, 0);
 	}
 	SetData();
 }
@@ -151,7 +151,7 @@ void CDlgWindowList::SetData()
 	if (0 < nRowNum) {
 		CTextWidthCalc calc(hwndList);
 		for (int i = 0; i < nRowNum; i++) {
-			::SendMessage(vEditNode[i].GetHwnd(), MYWM_GETFILEINFO, 0, 0);
+			::SendMessageW(vEditNode[i].GetHwnd(), MYWM_GETFILEINFO, 0, 0);
 			const EditInfo* pEditInfo = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
 
 			WCHAR szName[512];

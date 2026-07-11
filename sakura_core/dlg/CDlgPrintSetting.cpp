@@ -147,11 +147,11 @@ BOOL CDlgPrintSetting::OnDestroy( )
 
 	// フォントの破棄
 	HFONT	hFontOld;
-	hFontOld = (HFONT)::SendMessage(GetItemHwnd( IDC_STATIC_FONT_HEAD ), WM_GETFONT, 0, 0 );
+	hFontOld = (HFONT)::SendMessageW(GetItemHwnd( IDC_STATIC_FONT_HEAD ), WM_GETFONT, 0, 0 );
 	if (GetDialogFont() != hFontOld) {
 		::DeleteObject( hFontOld );
 	}
-	hFontOld = (HFONT)::SendMessage(GetItemHwnd( IDC_STATIC_FONT_FOOT ), WM_GETFONT, 0, 0 );
+	hFontOld = (HFONT)::SendMessageW(GetItemHwnd( IDC_STATIC_FONT_FOOT ), WM_GETFONT, 0, 0 );
 	if (GetDialogFont() != hFontOld) {
 		::DeleteObject( hFontOld );
 	}
@@ -897,13 +897,13 @@ void CDlgPrintSetting::SetFontName( int idTxt, int idUse, const LOGFONT& lf, int
 		::GetObject( GetDialogFont(), sizeof(LOGFONT), &lfDialogFont );
 		lfCreate.lfHeight = lfDialogFont.lfHeight;
 
-		HFONT	hFontOld = (HFONT)::SendMessage(GetItemHwnd( idTxt ), WM_GETFONT, 0, 0 );
+		HFONT	hFontOld = (HFONT)::SendMessageW(GetItemHwnd( idTxt ), WM_GETFONT, 0, 0 );
 
 		// 論理フォントを作成
 		HFONT	hFont = ::CreateFontIndirect( &lfCreate );
 		if (hFont) {
 			// フォントの設定
-			::SendMessage( GetItemHwnd( idTxt ), WM_SETFONT, (WPARAM)hFont, MAKELPARAM(FALSE, 0) );
+			::SendMessageW( GetItemHwnd( idTxt ), WM_SETFONT, (WPARAM)hFont, MAKELPARAM(FALSE, 0) );
 		}
 		if (GetDialogFont() != hFontOld) {
 			// 古いフォントの破棄

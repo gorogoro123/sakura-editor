@@ -135,7 +135,7 @@ LRESULT CALLBACK CPropMainMenu::TreeViewProc(
 		switch (wParam) {
 		case VK_BACK:
 		case VK_DELETE:	//	DELキーが押されたらダイアログボックスにメッセージを送信
-			::SendMessage( m_hwndDlg, WM_COMMAND, IDC_BUTTON_DELETE, (LPARAM)::GetDlgItem( m_hwndDlg, IDC_BUTTON_DELETE ) );
+			::SendMessageW( m_hwndDlg, WM_COMMAND, IDC_BUTTON_DELETE, (LPARAM)::GetDlgItem( m_hwndDlg, IDC_BUTTON_DELETE ) );
 			return 0;
 		case VK_F2:						// F2で編集
 			if (htiItem != nullptr) {
@@ -263,7 +263,7 @@ INT_PTR CPropMainMenu::DispatchEvent(
 		hwndTreeRes = ::GetDlgItem( hwndDlg, IDC_TREE_RES );
 
 		/* キー選択時の処理 */
-		::SendMessage( hwndDlg, WM_COMMAND, MAKELONG( IDC_COMBO_FUNCKIND, CBN_SELCHANGE ), (LPARAM)hwndComboFunkKind );
+		::SendMessageW( hwndDlg, WM_COMMAND, MAKELONG( IDC_COMBO_FUNCKIND, CBN_SELCHANGE ), (LPARAM)hwndComboFunkKind );
 
 		// TreeViewのメッセージ処理（アクセスキー入力用）
 		m_hwndDlg = hwndDlg;
@@ -296,7 +296,7 @@ INT_PTR CPropMainMenu::DispatchEvent(
 			nIdxFIdx = ApiWrap::Combo_GetCurSel( hwndComboFunkKind );
 			nIdxFunc = ApiWrap::List_GetCurSel( hwndListFunk );
 			if( nIdxFIdx != CB_ERR ){
-				::SendMessage( hwndDlg, WM_COMMAND, MAKEWPARAM( IDC_COMBO_FUNCKIND, CBN_SELCHANGE ), (LPARAM)hwndComboFunkKind );
+				::SendMessageW( hwndDlg, WM_COMMAND, MAKEWPARAM( IDC_COMBO_FUNCKIND, CBN_SELCHANGE ), (LPARAM)hwndComboFunkKind );
 				if( nIdxFunc != LB_ERR ){
 					ApiWrap::List_SetCurSel( hwndListFunk, nIdxFunc );
 				}
@@ -410,7 +410,7 @@ INT_PTR CPropMainMenu::DispatchEvent(
 			case CBN_SELCHANGE:
 				nIdxFIdx = ApiWrap::Combo_GetCurSel( hwndComboFunkKind );
 
-				::SendMessage( hwndListFunk, WM_SETREDRAW, FALSE, 0 );
+				::SendMessageW( hwndListFunk, WM_SETREDRAW, FALSE, 0 );
 				if (nIdxFIdx == nSpecialFuncsNum) {
 					// 機能一覧に特殊機能をセット
 					ApiWrap::List_ResetContent( hwndListFunk );
@@ -423,7 +423,7 @@ INT_PTR CPropMainMenu::DispatchEvent(
 					/* 機能一覧に文字列をセット（リストボックス）*/
 					m_cLookup.SetListItem( hwndListFunk, nIdxFIdx );
 				}
-				::SendMessage( hwndListFunk, WM_SETREDRAW, TRUE, 0 );
+				::SendMessageW( hwndListFunk, WM_SETREDRAW, TRUE, 0 );
 
 				return TRUE;
 			default:

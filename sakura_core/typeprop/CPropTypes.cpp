@@ -282,7 +282,7 @@ HFONT CPropTypes::SetCtrlFont( HWND hwndDlg, int idc_ctrl, const LOGFONT& lf )
 	hFont = ::CreateFontIndirect( &lf );
 	if (hFont) {
 		// フォントの設定
-		::SendMessage( hCtrl, WM_SETFONT, (WPARAM)hFont, MAKELPARAM(FALSE, 0) );
+		::SendMessageW( hCtrl, WM_SETFONT, (WPARAM)hFont, MAKELPARAM(FALSE, 0) );
 	}
 
 	return hFont;

@@ -240,7 +240,7 @@ void CDlgDiff::SetData( )
 		int			selCode = CODE_NONE;
 
 		// 自分の文字コードを取得
-		::SendMessage( CEditWnd::getInstance()->GetHwnd(), MYWM_GETFILEINFO, 0, 0 );
+		::SendMessageW( CEditWnd::getInstance()->GetHwnd(), MYWM_GETFILEINFO, 0, 0 );
 		pFileInfo = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
 		code = pFileInfo->m_nCharCode;
 
@@ -259,7 +259,7 @@ void CDlgDiff::SetData( )
 			for( i = 0; i < nRowNum; i++ )
 			{
 				/* トレイからエディタへの編集ファイル名要求通知 */
-				::SendMessage( vEditNode[i].GetHwnd(), MYWM_GETFILEINFO, 0, 0 );
+				::SendMessageW( vEditNode[i].GetHwnd(), MYWM_GETFILEINFO, 0, 0 );
 				pFileInfo = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
 
 				/* 自分ならスキップ */
@@ -376,7 +376,7 @@ int CDlgDiff::GetData( )
 			m_hWnd_Dst = (HWND)ApiWrap::List_GetItemData( hwndList, nItem );
 
 			/* トレイからエディタへの編集ファイル名要求通知 */
-			::SendMessage( m_hWnd_Dst, MYWM_GETFILEINFO, 0, 0 );
+			::SendMessageW( m_hWnd_Dst, MYWM_GETFILEINFO, 0, 0 );
 			pFileInfo = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
 
 			m_szFile2 = pFileInfo->m_szPath;

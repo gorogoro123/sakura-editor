@@ -806,7 +806,7 @@ void CViewCommander::Command_REPLACE_ALL()
 	HWND		hwndStatic = ::GetDlgItem( hwndCancel, IDC_STATIC_KENSUU );
 	WCHAR szLabel[64];
 	_itow_s( nReplaceNum, szLabel, 10 );
-	::SendMessage( hwndStatic, WM_SETTEXT, 0, (LPARAM)szLabel );
+	::SendMessageW( hwndStatic, WM_SETTEXT, 0, (LPARAM)szLabel );
 
 	CLayoutRange sRangeA;	//選択範囲
 	CLogicPoint ptColLineP;
@@ -1030,7 +1030,7 @@ void CViewCommander::Command_REPLACE_ALL()
 				nOldPos = nNewPos;
 			}
 			_itow_s( nReplaceNum, szLabel, 10 );
-			::SendMessage( hwndStatic, WM_SETTEXT, 0, (LPARAM)szLabel );
+			::SendMessageW( hwndStatic, WM_SETTEXT, 0, (LPARAM)szLabel );
 		}
 
 		// From Here 2001.12.03 hor
@@ -1446,7 +1446,7 @@ void CViewCommander::Command_REPLACE_ALL()
 	//>> 2002/03/26 Azumaiya
 
 	_itow_s( nReplaceNum, szLabel, 10 );
-	::SendMessage( hwndStatic, WM_SETTEXT, 0, (LPARAM)szLabel );
+	::SendMessageW( hwndStatic, WM_SETTEXT, 0, (LPARAM)szLabel );
 
 	if( !cDlgCancel.IsCanceled() ){
 		nNewPos = nAllLineNum;

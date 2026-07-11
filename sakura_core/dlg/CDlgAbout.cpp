@@ -265,7 +265,7 @@ BOOL CDlgAbout::OnBnClicked( int wID )
 		{
 			HWND hwndEditVer = GetItemHwnd( IDC_EDIT_VER );
 			ApiWrap::EditCtl_SetSel( hwndEditVer, 0, -1); 
-	 		SendMessage( hwndEditVer, WM_COPY, 0, 0 );
+	 		SendMessageW( hwndEditVer, WM_COPY, 0, 0 );
 	 		ApiWrap::EditCtl_SetSel( hwndEditVer, -1, 0); 
  		}
 		return TRUE;
@@ -339,18 +339,18 @@ BOOL CUrlWnd::SetSubclassWindow( HWND hWnd )
 	// 下線付きフォントに変更する
 	HFONT hFont;
 	LOGFONT lf;
-	hFont = (HFONT)SendMessage( hWnd, WM_GETFONT, (WPARAM)0, (LPARAM)0 );
+	hFont = (HFONT)SendMessageW( hWnd, WM_GETFONT, (WPARAM)0, (LPARAM)0 );
 	GetObject( hFont, sizeof(lf), &lf );
 	lf.lfUnderline = TRUE;
 	m_hFont = CreateFontIndirect( &lf );
 	if(m_hFont != nullptr)
-		SendMessage( hWnd, WM_SETFONT, (WPARAM)m_hFont, (LPARAM)FALSE );
+		SendMessageW( hWnd, WM_SETFONT, (WPARAM)m_hFont, (LPARAM)FALSE );
 
 	// 設定されているテキストを取得する
 	std::wstring strText;
 	if( ApiWrap::Wnd_GetText( hWnd, strText ) ){
 		// サイズを調整する
-		auto ret = SendMessage( hWnd, WM_SETTEXT, (WPARAM)0, (LPARAM)strText.data() );
+		auto ret = SendMessageW( hWnd, WM_SETTEXT, (WPARAM)0, (LPARAM)strText.data() );
 		return ret ? TRUE : FALSE;
 	}
 
@@ -372,7 +372,7 @@ LRESULT CALLBACK CUrlWnd::UrlWndProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM
 		return (LRESULT)0;
 	case WM_LBUTTONDOWN:
 		// キーボードフォーカスを自分に当てる
-		SendMessage( GetParent(hWnd), WM_NEXTDLGCTL, (WPARAM)hWnd, (LPARAM)1 );
+		SendMessageW( GetParent(hWnd), WM_NEXTDLGCTL, (WPARAM)hWnd, (LPARAM)1 );
 		break;
 	case WM_SETFOCUS:
 	case WM_KILLFOCUS:
@@ -408,7 +408,7 @@ LRESULT CALLBACK CUrlWnd::UrlWndProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM
 		ScreenToClient( hWnd, &pt );
 		GetClientRect( hWnd, &rc );
 		if( !PtInRect( &rc, pt ) )
-			SendMessage( hWnd, WM_MOUSEMOVE, 0, MAKELONG( pt.x, pt.y ) );
+			SendMessageW( hWnd, WM_MOUSEMOVE, 0, MAKELONG( pt.x, pt.y ) );
 		break;
 	case WM_PAINT:
 		// ウィンドウの描画
@@ -422,7 +422,7 @@ LRESULT CALLBACK CUrlWnd::UrlWndProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM
 		// 現在のクライアント矩形、テキスト、フォントを取得する
 		GetClientRect( hWnd, &rc );
 		GetWindowText( hWnd, szText, int(std::size(szText)) );
-		hFont = (HFONT)SendMessage( hWnd, WM_GETFONT, (WPARAM)0, (LPARAM)0 );
+		hFont = (HFONT)SendMessageW( hWnd, WM_GETFONT, (WPARAM)0, (LPARAM)0 );
 
 		// テキスト描画
 		SetBkMode( hdc, TRANSPARENT );
@@ -453,7 +453,7 @@ LRESULT CALLBACK CUrlWnd::UrlWndProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM
 			// 親にWM_CTLCOLORSTATICを送って背景ブラシを取得し、背景描画する
 			HBRUSH hbr;
 			HBRUSH hbrOld;
-			hbr = (HBRUSH)SendMessage( GetParent( hWnd ), WM_CTLCOLORSTATIC, wParam, (LPARAM)hWnd );
+			hbr = (HBRUSH)SendMessageW( GetParent( hWnd ), WM_CTLCOLORSTATIC, wParam, (LPARAM)hWnd );
 			hbrOld = (HBRUSH)SelectObject( hdc, hbr );
 			::PatBlt( hdc, rc.left, rc.top, rc.right, rc.bottom, PATCOPY );
 			SelectObject( hdc, hbrOld );

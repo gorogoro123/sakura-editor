@@ -80,7 +80,7 @@ LRESULT CALLBACK EditViewWndProc(
 			//	May 16, 2000 genta
 			//	From Here
 			if( uMsg == WM_COMMAND ){
-				::SendMessage( ::GetParent( pCEdit->m_hwndParent ), WM_COMMAND, wParam,  lParam );
+				::SendMessageW( ::GetParent( pCEdit->m_hwndParent ), WM_COMMAND, wParam,  lParam );
 			}
 			else{
 				return pCEdit->DispatchEvent( hwnd, uMsg, wParam, lParam );
@@ -749,7 +749,7 @@ LRESULT CEditView::DispatchEvent(
 //		nPosX = (int)wParam;
 //		nPosY = (int)lParam;
 //		MYTRACE( L"MYWM_DOSPLIT nPosX=%d nPosY=%d\n", nPosX, nPosY );
-		::SendMessage( m_hwndParent, MYWM_DOSPLIT, wParam, lParam );
+		::SendMessageW( m_hwndParent, MYWM_DOSPLIT, wParam, lParam );
 		return 0L;
 
 	case MYWM_SETACTIVEPANE:

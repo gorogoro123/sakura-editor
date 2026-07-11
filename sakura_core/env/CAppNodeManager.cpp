@@ -279,8 +279,8 @@ BOOL CAppNodeGroupHandle::RequestCloseEditor(const std::vector<EditNode>& vEditN
 				}
 				DWORD dwPid;
 				::GetWindowThreadProcessId(vEditNode[i].m_hWnd, &dwPid);
-				::SendMessage(hWndActive, MYWM_ALLOWACTIVATE, dwPid, 0);	// アクティブ化の許可を依頼する
-				if( !::SendMessage( vEditNode[i].m_hWnd, MYWM_CLOSE, bExit ? PM_CLOSE_EXIT : 0, (LPARAM)hWndActive ) ){	// 2007.02.13 ryoji bExitを引き継ぐ
+				::SendMessageW(hWndActive, MYWM_ALLOWACTIVATE, dwPid, 0);	// アクティブ化の許可を依頼する
+				if( !::SendMessageW( vEditNode[i].m_hWnd, MYWM_CLOSE, bExit ? PM_CLOSE_EXIT : 0, (LPARAM)hWndActive ) ){	// 2007.02.13 ryoji bExitを引き継ぐ
 					return FALSE;
 				}
 			}
@@ -394,7 +394,7 @@ BOOL CAppNodeGroupHandle::SendMessageToAllEditors(
 			if( m_nGroup == 0 || m_nGroup == vEditNode[i].m_nGroup ){
 				if( IsSakuraMainWindow( vEditNode[i].m_hWnd ) ){
 					/* メッセージを送る */
-					::SendMessage( vEditNode[i].m_hWnd, uMsg, wParam, lParam );
+					::SendMessageW( vEditNode[i].m_hWnd, uMsg, wParam, lParam );
 				}
 			}
 		}
@@ -406,7 +406,7 @@ BOOL CAppNodeGroupHandle::SendMessageToAllEditors(
 			if( m_nGroup == 0 || m_nGroup == vEditNode[i].m_nGroup ){
 				if( IsSakuraMainWindow( vEditNode[i].m_hWnd ) ){
 					/* メッセージを送る */
-					::SendMessage( vEditNode[i].m_hWnd, uMsg, wParam, lParam );
+					::SendMessageW( vEditNode[i].m_hWnd, uMsg, wParam, lParam );
 				}
 			}
 		}

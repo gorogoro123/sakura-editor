@@ -174,7 +174,7 @@ LRESULT APIENTRY CPropTypesColor::ColorList_SubclassProc( HWND hwnd, UINT uMsg, 
 		}
 		if( DpiScaleX(18) <= xPos && xPos <= rcItem.right - DpiScaleX(29) ){	// 2009.02.22 ryoji 有効範囲の制限追加
 			ApiWrap::List_SetCurSel( hwnd, nIndex );
-			::SendMessage( ::GetParent( hwnd ), WM_COMMAND, MAKELONG( IDC_LIST_COLORS, LBN_SELCHANGE ), (LPARAM)hwnd );
+			::SendMessageW( ::GetParent( hwnd ), WM_COMMAND, MAKELONG( IDC_LIST_COLORS, LBN_SELCHANGE ), (LPARAM)hwnd );
 			pColorInfo = (ColorInfo*)ApiWrap::List_GetItemData( hwnd, nIndex );
 			/* 下線 */
 			if( 0 == (g_ColorAttributeArr[nIndex].fAttribute & COLOR_ATTRIB_NO_UNDERLINE) )	// 2006.12.18 ryoji フラグ利用で簡素化
@@ -308,7 +308,7 @@ INT_PTR CPropTypesColor::DispatchEvent(
 
 		{
 			LOGFONT	lf = {};
-			const auto hFont = (HFONT)::SendMessage(hwndListColor, WM_GETFONT, 0, 0);
+			const auto hFont = (HFONT)::SendMessageW(hwndListColor, WM_GETFONT, 0, 0);
 			::GetObject(hFont, sizeof(LOGFONT), &lf);
 			m_pViewFont = std::make_shared<CViewFont>(&lf);
 		}
@@ -701,7 +701,7 @@ void CPropTypesColor::SetData( HWND hwndDlg )
 	}
 	/* 現在選択されている色タイプ */
 	ApiWrap::List_SetCurSel( hwndWork, m_nCurrentColorType );
-	::SendMessage( hwndDlg, WM_COMMAND, MAKELONG( IDC_LIST_COLORS, LBN_SELCHANGE ), (LPARAM)hwndWork );
+	::SendMessageW( hwndDlg, WM_COMMAND, MAKELONG( IDC_LIST_COLORS, LBN_SELCHANGE ), (LPARAM)hwndWork );
 
 	// from here 2005.11.30 Moca 指定位置縦線の設定
 	std::wstring szVertLine;

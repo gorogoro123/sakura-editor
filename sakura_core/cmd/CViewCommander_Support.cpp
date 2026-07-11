@@ -303,7 +303,7 @@ void CViewCommander::Command_EXTHTMLHELP( const WCHAR* _helpfile, const WCHAR* k
 			pWork->szFilePath = filename; //	Jul. 5, 2002 genta
 		}
 		pWork->szKeywords = cmemCurText.GetStringPtr();
-		hwndHtmlHelp = (HWND)::SendMessage(
+		hwndHtmlHelp = (HWND)::SendMessageW(
 			GetDllShareData().m_sHandles.m_hwndTray,
 			MYWM_HTMLHELP,
 			(WPARAM)GetMainWindow(),

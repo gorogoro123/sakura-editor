@@ -866,7 +866,7 @@ void CCaret::ShowCaretPosInfo()
 				::UnionRect(&updatedRect, &updatedRect, &partRect);
 			}
 		};
-		::SendMessage(hWnd, WM_SETREDRAW, FALSE, 0);
+		::SendMessageW(hWnd, WM_SETREDRAW, FALSE, 0);
 		if( m_bClearStatus ){
 			setStatusText( 0, SBT_NOBORDERS, L"" );
 		}
@@ -878,7 +878,7 @@ void CCaret::ShowCaretPosInfo()
 		setStatusText( nIndex++, SBT_OWNERDRAW, L"" );
 		setStatusText( nIndex++, 0,             szInsMode );
 		setStatusText( nIndex++, 0,             szFontSize );
-		::SendMessage(hWnd, WM_SETREDRAW, TRUE, 0);
+		::SendMessageW(hWnd, WM_SETREDRAW, TRUE, 0);
 		InvalidateRect(hWnd, &updatedRect, TRUE);
 		UpdateWindow(hWnd);
 	}

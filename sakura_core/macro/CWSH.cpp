@@ -277,15 +277,15 @@ static void AbortMacroProc(SAbortMacroParam* pParam)
 		CDlgCancel cDlgCancel;
 		HWND hwndDlg = cDlgCancel.DoModeless(G_AppInstance(), nullptr, IDD_MACRORUNNING);	// エディタビジーでも表示できるよう、親を指定しない
 		// ダイアログタイトルとファイル名を設定
-		::SendMessage(hwndDlg, WM_SETTEXT, 0, (LPARAM)GSTR_APPNAME);
-		::SendMessage(GetDlgItem(hwndDlg, IDC_STATIC_CMD),
+		::SendMessageW(hwndDlg, WM_SETTEXT, 0, (LPARAM)GSTR_APPNAME);
+		::SendMessageW(GetDlgItem(hwndDlg, IDC_STATIC_CMD),
 			WM_SETTEXT, 0, (LPARAM)pParam->view->GetDocument()->m_cDocFile.GetFilePath());
 		
 		bool bCanceled = false;
 		for(;;){
 			DWORD dwResult = MsgWaitForMultipleObjects( 1, &pParam->hEvent, FALSE, INFINITE, QS_ALLINPUT );
 			if(dwResult == WAIT_OBJECT_0){
-				::SendMessage( cDlgCancel.GetHwnd(), WM_CLOSE, 0, 0 );
+				::SendMessageW( cDlgCancel.GetHwnd(), WM_CLOSE, 0, 0 );
 			}else if(dwResult == WAIT_OBJECT_0+1){
 				while(::PeekMessage(&msg , nullptr , 0 , 0, PM_REMOVE )){
 					if(cDlgCancel.GetHwnd() != nullptr && ::IsDialogMessage(cDlgCancel.GetHwnd(), &msg)){
