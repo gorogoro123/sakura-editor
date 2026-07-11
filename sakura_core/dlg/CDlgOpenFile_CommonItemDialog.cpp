@@ -66,9 +66,9 @@ struct CDlgOpenFile_CommonItemDialog final
 								 std::vector<std::wstring>* pFileNames,
 								 LPCWSTR fileName,
 								 const std::vector<COMDLG_FILTERSPEC>& specs );
-	bool DoModalSaveDlgImpl0( WCHAR* pszPath );
+	bool DoModalSaveDlgImpl0( SFilePath& szPath );
 	HRESULT DoModalSaveDlgImpl1( IFileSaveDialog* pFileSaveDialog,
-								 WCHAR* pszPath );
+								 SFilePath& szPath );
 
 	HINSTANCE		m_hInstance = nullptr;	/* アプリケーションインスタンスのハンドル */
 	HWND			m_hwndParent = nullptr;	/* オーナーウィンドウのハンドル */
@@ -506,7 +506,7 @@ bool CDlgOpenFile_CommonItemDialog::DoModal_GetSaveFileName( SFilePath& szPath )
 	}
 
 	m_customizeSetting.bCustomize = false;
-	return DoModalSaveDlgImpl0(szPath.data());
+	return DoModalSaveDlgImpl0(szPath);
 }
 
 HRESULT CDlgOpenFile_CommonItemDialog::Customize()
@@ -724,7 +724,7 @@ bool CDlgOpenFile_CommonItemDialog::DoModalOpenDlg(
 
 HRESULT CDlgOpenFile_CommonItemDialog::DoModalSaveDlgImpl1(
 	IFileSaveDialog* pFileSaveDialog,
-	WCHAR* pszPath)
+	SFilePath& szPath)
 {
 	//カレントディレクトリを保存。関数から抜けるときに自動でカレントディレクトリは復元される。
 	CCurrentDirectoryBackupPoint cCurDirBackup;
@@ -752,7 +752,7 @@ HRESULT CDlgOpenFile_CommonItemDialog::DoModalSaveDlgImpl1(
 	SHCreateItemFromParsingName(m_szInitialDir, nullptr, IID_PPV_ARGS(&psiFolder));
 	hr = pFileSaveDialog->SetFolder(psiFolder.Get()); RETURN_IF_FAILED
 	WCHAR szFileName[_MAX_FNAME];
-	SplitPath_FolderAndFile(pszPath, nullptr, szFileName);
+	SplitPath_FolderAndFile(szPath.c_str(), nullptr, szFileName);
 	hr = pFileSaveDialog->SetFileName(szFileName); RETURN_IF_FAILED
 
 	if (m_customizeSetting.bCustomize) {
@@ -765,7 +765,7 @@ HRESULT CDlgOpenFile_CommonItemDialog::DoModalSaveDlgImpl1(
 		hr = pFileSaveDialog->GetResult(&pShellItem); RETURN_IF_FAILED
 		PWSTR pszFilePath;
 		hr = pShellItem->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath); RETURN_IF_FAILED
-		wcscpy(pszPath, pszFilePath);
+		szPath = pszFilePath;
 		CoTaskMemFree(pszFilePath);
 	}
 
@@ -774,7 +774,7 @@ HRESULT CDlgOpenFile_CommonItemDialog::DoModalSaveDlgImpl1(
 	return S_OK;
 }
 
-bool CDlgOpenFile_CommonItemDialog::DoModalSaveDlgImpl0( WCHAR* pszPath )
+bool CDlgOpenFile_CommonItemDialog::DoModalSaveDlgImpl0( SFilePath& szPath )
 {
 	using namespace Microsoft::WRL;
 	ComPtr<IFileSaveDialog> pFileDialog;
@@ -793,12 +793,12 @@ bool CDlgOpenFile_CommonItemDialog::DoModalSaveDlgImpl0( WCHAR* pszPath )
 		hr = pFileDialog.Get()->QueryInterface(IID_PPV_ARGS(&pFileDialogCustomize)); RETURN_IF_FAILED
 		m_pFileDialogCustomize = pFileDialogCustomize.Get();
 		hr = pFileDialog->Advise(this, &dwCookie); RETURN_IF_FAILED
-		hr = DoModalSaveDlgImpl1(pFileDialog.Get(), pszPath);
+		hr = DoModalSaveDlgImpl1(pFileDialog.Get(), szPath);
 		pFileDialog->Unadvise(dwCookie);
 		m_pFileDialogCustomize = nullptr;
 	}
 	else {
-		hr = DoModalSaveDlgImpl1(pFileDialog.Get(), pszPath);
+		hr = DoModalSaveDlgImpl1(pFileDialog.Get(), szPath);
 	}
 	m_pFileDialog = nullptr;
 	RETURN_IF_FAILED
