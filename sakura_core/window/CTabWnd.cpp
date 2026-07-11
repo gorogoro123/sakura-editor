@@ -611,7 +611,7 @@ BOOL CTabWnd::SeparateGroup( HWND hwndSrc, HWND hwndDst, POINT ptDrag, POINT ptD
 		if( pNextEditNode != nullptr )
 		{
 			DWORD_PTR dwResult;
-			::SendMessageTimeout( pNextEditNode->m_hWnd, MYWM_TAB_WINDOW_NOTIFY, TWNT_WNDPL_ADJUST, (LPARAM)nullptr,
+			::SendMessageTimeoutW( pNextEditNode->m_hWnd, MYWM_TAB_WINDOW_NOTIFY, TWNT_WNDPL_ADJUST, (LPARAM)nullptr,
 									SMTO_ABORTIFHUNG | SMTO_BLOCK, 10000, &dwResult );
 		}
 	}
@@ -2062,7 +2062,7 @@ void CTabWnd::ShowHideWindow( HWND hwnd, BOOL bDisp )
 
 			// 対象ウィンドウのスレッドに位置合わせを依頼する	// 2007.04.03 ryoji
 			DWORD_PTR dwResult;
-			::SendMessageTimeout( hwnd, MYWM_TAB_WINDOW_NOTIFY, TWNT_WNDPL_ADJUST, (LPARAM)nullptr,
+			::SendMessageTimeoutW( hwnd, MYWM_TAB_WINDOW_NOTIFY, TWNT_WNDPL_ADJUST, (LPARAM)nullptr,
 				SMTO_ABORTIFHUNG | SMTO_BLOCK, 10000, &dwResult );
 		}
 

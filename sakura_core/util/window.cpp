@@ -118,7 +118,7 @@ void ActivateFrameWindow( HWND hwnd )
 
 			// 対象ウィンドウのスレッドに位置合わせを依頼する	// 2007.04.03 ryoji
 			DWORD_PTR dwResult;
-			::SendMessageTimeout(
+			::SendMessageTimeoutW(
 				hwnd,
 				MYWM_TAB_WINDOW_NOTIFY,
 				TWNT_WNDPL_ADJUST,

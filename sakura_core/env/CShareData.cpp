@@ -992,7 +992,7 @@ void CShareData::TraceOutString( const wchar_t* pStr, int len )
 			wmemcpy( pOutBuffer, pStr + outPos, outLen );
 			pOutBuffer[outLen] = L'\0';
 			DWORD_PTR	dwMsgResult;
-			if( 0 == ::SendMessageTimeout( m_pShareData->m_sHandles.m_hwndDebug, MYWM_ADDSTRINGLEN_W, outLen, 0,
+			if( 0 == ::SendMessageTimeoutW( m_pShareData->m_sHandles.m_hwndDebug, MYWM_ADDSTRINGLEN_W, outLen, 0,
 				SMTO_NORMAL, 10000, &dwMsgResult ) ){
 				// エラーかタイムアウト
 				break;

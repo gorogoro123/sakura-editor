@@ -105,7 +105,7 @@ public:
 	{
 		if( m_hWnd ){
 			DWORD_PTR dwMsgResult = 0;
-			if( 0 == ::SendMessageTimeout(m_hWnd, MYWM_GETLINECOUNT, 0, 0, SMTO_NORMAL, 10000, &dwMsgResult) ){
+			if( 0 == ::SendMessageTimeoutW(m_hWnd, MYWM_GETLINECOUNT, 0, 0, SMTO_NORMAL, 10000, &dwMsgResult) ){
 				// エラーかタイムアウト
 				throw CError_FileOpen();
 			}
