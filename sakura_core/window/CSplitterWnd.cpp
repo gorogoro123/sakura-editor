@@ -41,9 +41,7 @@ CSplitterWnd::CSplitterWnd()
 	return;
 }
 
-CSplitterWnd::~CSplitterWnd()
-{
-}
+CSplitterWnd::~CSplitterWnd() = default;
 
 /* 初期化 */
 HWND CSplitterWnd::Create( HWND hwndParent )
@@ -225,14 +223,11 @@ void CSplitterWnd::DoSplit( int nHorizontal, int nVertical )
 	RECT				rc;
 	int					nAllSplitRowsOld = m_nAllSplitRows;	/* 分割行数 */
 	int					nAllSplitColsOld = m_nAllSplitCols;	/* 分割桁数 */
-	CEditView*			pcViewArr[MAXCOUNTOFVIEW];
-//	int					i;
-	BOOL				bVUp;
-	BOOL				bHUp;
+	CEditView*			pcViewArr[MAXCOUNTOFVIEW] = {};
+	BOOL				bVUp = FALSE;
+	BOOL				bHUp = FALSE;
 	BOOL				bSizeBox;
 	CEditWnd*			pCEditWnd = &GetEditWnd();
-	bVUp = FALSE;
-	bHUp = FALSE;
 
 	if( -1 == nHorizontal && -1 == nVertical ){
 		nVertical = m_nVSplitPos;		/* 垂直分割位置 */
@@ -801,12 +796,11 @@ LRESULT CSplitterWnd::OnPaint( HWND hwnd, [[maybe_unused]] UINT uMsg, [[maybe_un
 LRESULT CSplitterWnd::OnSize( [[maybe_unused]] HWND hwnd, [[maybe_unused]] UINT uMsg, [[maybe_unused]] WPARAM wParam, [[maybe_unused]] LPARAM lParam )
 {
 	CEditWnd*	pCEditWnd = &GetEditWnd();
-	CEditView*	pcViewArr[MAXCOUNTOFVIEW];
-	int					i;
+	CEditView*	pcViewArr[MAXCOUNTOFVIEW] = {};
 	RECT		rcClient;
 	const int	nFrameWidth = DpiScaleX(SPLITTER_FRAME_WIDTH);
 	BOOL		bSizeBox;
-	for( i = 0; i < m_nChildWndCount; ++i ){
+	for( int i = 0; i < m_nChildWndCount; ++i ){
 		pcViewArr[i] = ( CEditView* )::GetWindowLongPtr( m_ChildWndArr[i], GWLP_USERDATA );
 	}
 
