@@ -15,7 +15,8 @@
 //共通型
 using SFilePath = StaticString<_MAX_PATH>;
 using SFilePathLong = StaticString<MAX_GREP_PATH>;
-class CFilePath : public StaticString<_MAX_PATH>{
+
+class CFilePath : public SFilePath {
 private:
 	using Super = StaticString<_MAX_PATH>;
 public:
