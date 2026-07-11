@@ -189,7 +189,7 @@ BOOL CDlgGrep::OnCbnDropDown( HWND hwndCtl, int wID )
 {
 	switch( wID ){
 	case IDC_COMBO_TEXT:
-		if ( ::SendMessage(hwndCtl, CB_GETCOUNT, 0L, 0L) == 0) {
+		if ( ::SendMessageW(hwndCtl, CB_GETCOUNT, 0L, 0L) == 0) {
 			int nSize = m_pShareData->m_sSearchKeywords.m_aSearchKeys.size();
 			for( int i = 0; i < nSize; ++i ){
 				ApiWrap::Combo_AddString( hwndCtl, m_pShareData->m_sSearchKeywords.m_aSearchKeys[i] );
@@ -197,7 +197,7 @@ BOOL CDlgGrep::OnCbnDropDown( HWND hwndCtl, int wID )
 		}
 		break;
 	case IDC_COMBO_FILE:
-		if ( ::SendMessage(hwndCtl, CB_GETCOUNT, 0L, 0L) == 0) {
+		if ( ::SendMessageW(hwndCtl, CB_GETCOUNT, 0L, 0L) == 0) {
 			int nSize = m_pShareData->m_sSearchKeywords.m_aGrepFiles.size();
 			for( int i = 0; i < nSize; ++i ){
 				ApiWrap::Combo_AddString( hwndCtl, m_pShareData->m_sSearchKeywords.m_aGrepFiles[i] );
@@ -205,7 +205,7 @@ BOOL CDlgGrep::OnCbnDropDown( HWND hwndCtl, int wID )
 		}
 		break;
 	case IDC_COMBO_FOLDER:
-		if ( ::SendMessage(hwndCtl, CB_GETCOUNT, 0L, 0L) == 0) {
+		if ( ::SendMessageW(hwndCtl, CB_GETCOUNT, 0L, 0L) == 0) {
 			int nSize = m_pShareData->m_sSearchKeywords.m_aGrepFolders.size();
 			for( int i = 0; i < nSize; ++i ){
 				ApiWrap::Combo_AddString( hwndCtl, m_pShareData->m_sSearchKeywords.m_aGrepFolders[i] );
@@ -213,7 +213,7 @@ BOOL CDlgGrep::OnCbnDropDown( HWND hwndCtl, int wID )
 		}
 		break;
 	case IDC_COMBO_EXCLUDE_FILE:
-		if (::SendMessage(hwndCtl, CB_GETCOUNT, 0L, 0L) == 0) {
+		if (::SendMessageW(hwndCtl, CB_GETCOUNT, 0L, 0L) == 0) {
 			int nSize = m_pShareData->m_sSearchKeywords.m_aExcludeFiles.size();
 			for (int i = 0; i < nSize; ++i) {
 				ApiWrap::Combo_AddString(hwndCtl, m_pShareData->m_sSearchKeywords.m_aExcludeFiles[i]);
@@ -221,7 +221,7 @@ BOOL CDlgGrep::OnCbnDropDown( HWND hwndCtl, int wID )
 		}
 		break;
 	case IDC_COMBO_EXCLUDE_FOLDER:
-		if (::SendMessage(hwndCtl, CB_GETCOUNT, 0L, 0L) == 0) {
+		if (::SendMessageW(hwndCtl, CB_GETCOUNT, 0L, 0L) == 0) {
 			int nSize = m_pShareData->m_sSearchKeywords.m_aExcludeFolders.size();
 			for (int i = 0; i < nSize; ++i) {
 				ApiWrap::Combo_AddString(hwndCtl, m_pShareData->m_sSearchKeywords.m_aExcludeFolders[i]);
@@ -322,8 +322,8 @@ BOOL CDlgGrep::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 	//	Dec, 2, 2002 genta アイコン読み込み方法変更
 	hIconBig   = GetAppIcon( m_hInstance, ICON_DEFAULT_GREP, FN_GREP_ICON, false );
 	hIconSmall = GetAppIcon( m_hInstance, ICON_DEFAULT_GREP, FN_GREP_ICON, true );
-	::SendMessage( GetHwnd(), WM_SETICON, ICON_SMALL, (LPARAM)hIconSmall );
-	::SendMessage( GetHwnd(), WM_SETICON, ICON_BIG, (LPARAM)hIconBig );
+	::SendMessageW( GetHwnd(), WM_SETICON, ICON_SMALL, (LPARAM)hIconSmall );
+	::SendMessageW( GetHwnd(), WM_SETICON, ICON_BIG, (LPARAM)hIconBig );
 
 	// 2002/09/22 Moca Add
 	int i;
@@ -353,7 +353,7 @@ BOOL CDlgGrep::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 	m_cFontDeleters.resize( int(std::size(nItemIds)) );
 	for( size_t i2 = 0; i2 < int(std::size(nItemIds)); ++i2 ){
 		HWND hwndItem = GetItemHwnd( nItemIds[i2] );
-		HFONT hFontOld = (HFONT)::SendMessage( hwndItem, WM_GETFONT, 0, 0 );
+		HFONT hFontOld = (HFONT)::SendMessageW( hwndItem, WM_GETFONT, 0, 0 );
 		HFONT hFont = SetMainFont( hwndItem );
 		m_cFontDeleters[i2].SetFont( hFontOld, hFont, hwndItem );
 	}

@@ -124,12 +124,12 @@ namespace ApiWrap{
 		// CB_ADDSTRING は失敗の時、負の値を返す。
 		// 成功した場合 0 ベースのインデックスを返す。
 		// 64bit 対応時に int で十分
-		return (int)::SendMessage( hwndCombo, CB_ADDSTRING, 0, LPARAM(str) );
+		return (int)::SendMessageW( hwndCombo, CB_ADDSTRING, 0, LPARAM(str) );
 	}
 
 	inline LRESULT Combo_GetLBText(HWND hwndCombo, int nIndex, WCHAR* str)
 	{
-		return ::SendMessage( hwndCombo, CB_GETLBTEXT, nIndex, LPARAM(str) );
+		return ::SendMessageW( hwndCombo, CB_GETLBTEXT, nIndex, LPARAM(str) );
 	}
 
 	inline LRESULT Combo_GetText(HWND hwndCombo, WCHAR* str, int cchMax)
@@ -137,24 +137,24 @@ namespace ApiWrap{
 		return ::GetWindowText( hwndCombo, str, cchMax );
 	}
 
-	inline int Combo_DeleteString(HWND hwndCtl, int index)				{ return (int)(DWORD)::SendMessage(hwndCtl, CB_DELETESTRING, (WPARAM)index, 0L); }
-	inline int Combo_FindStringExact(HWND hwndCtl, int indexStart, const WCHAR* lpszFind)	{ return (int)(DWORD)::SendMessage(hwndCtl, CB_FINDSTRINGEXACT, (WPARAM)indexStart, LPARAM(lpszFind) ); }
+	inline int Combo_DeleteString(HWND hwndCtl, int index)				{ return (int)(DWORD)::SendMessageW(hwndCtl, CB_DELETESTRING, (WPARAM)index, 0L); }
+	inline int Combo_FindStringExact(HWND hwndCtl, int indexStart, const WCHAR* lpszFind)	{ return (int)(DWORD)::SendMessageW(hwndCtl, CB_FINDSTRINGEXACT, (WPARAM)indexStart, LPARAM(lpszFind) ); }
 	
-	inline int Combo_GetCount(HWND hwndCtl)								{ return (int)(DWORD)::SendMessage(hwndCtl, CB_GETCOUNT, 0L, 0L); }
-	inline int Combo_GetCurSel(HWND hwndCtl)							{ return (int)(DWORD)::SendMessage(hwndCtl, CB_GETCURSEL, 0L, 0L); }
+	inline int Combo_GetCount(HWND hwndCtl)								{ return (int)(DWORD)::SendMessageW(hwndCtl, CB_GETCOUNT, 0L, 0L); }
+	inline int Combo_GetCurSel(HWND hwndCtl)							{ return (int)(DWORD)::SendMessageW(hwndCtl, CB_GETCURSEL, 0L, 0L); }
 	inline int Combo_SetCurSel(HWND hwndCtl, size_t index) noexcept		{ return ComboBox_SetCurSel(hwndCtl, index); }
-	inline LRESULT Combo_GetItemData(HWND hwndCtl, int index)			{ return ((LRESULT)(ULONG_PTR)::SendMessage(hwndCtl, CB_GETITEMDATA, (WPARAM)index, 0L)); }
-	inline int Combo_SetItemData(HWND hwndCtl, int index, int data)		{ return (int)(DWORD)::SendMessage(hwndCtl, CB_SETITEMDATA, (WPARAM)index, (LPARAM)data); }
-	inline int Combo_SetItemData(HWND hwndCtl, int index, void* data)	{ return (int)(DWORD)::SendMessage(hwndCtl, CB_SETITEMDATA, (WPARAM)index, (LPARAM)data); }
-	inline int Combo_GetLBTextLen(HWND hwndCtl, int index)				{ return (int)(DWORD)::SendMessage(hwndCtl, CB_GETLBTEXTLEN, (WPARAM)index, 0L); }
+	inline LRESULT Combo_GetItemData(HWND hwndCtl, int index)			{ return ((LRESULT)(ULONG_PTR)::SendMessageW(hwndCtl, CB_GETITEMDATA, (WPARAM)index, 0L)); }
+	inline int Combo_SetItemData(HWND hwndCtl, int index, int data)		{ return (int)(DWORD)::SendMessageW(hwndCtl, CB_SETITEMDATA, (WPARAM)index, (LPARAM)data); }
+	inline int Combo_SetItemData(HWND hwndCtl, int index, void* data)	{ return (int)(DWORD)::SendMessageW(hwndCtl, CB_SETITEMDATA, (WPARAM)index, (LPARAM)data); }
+	inline int Combo_GetLBTextLen(HWND hwndCtl, int index)				{ return (int)(DWORD)::SendMessageW(hwndCtl, CB_GETLBTEXTLEN, (WPARAM)index, 0L); }
 	inline int Combo_InsertString(HWND hwndCtl, size_t index, LPCWSTR lpsz) noexcept { return ComboBox_InsertString(hwndCtl, index, lpsz); }
 	inline int Combo_LimitText(HWND hwndCtl, size_t cchLimit) noexcept	{ return ComboBox_LimitText(hwndCtl, cchLimit); }
-	inline int Combo_ResetContent(HWND hwndCtl)							{ return (int)(DWORD)::SendMessage(hwndCtl, CB_RESETCONTENT, 0L, 0L); }
-	inline int Combo_SetEditSel(HWND hwndCtl, int ichStart, int ichEnd)	{ return (int)(DWORD)::SendMessage(hwndCtl, CB_SETEDITSEL, 0L, MAKELPARAM(ichStart, ichEnd)); }
-	inline int Combo_SetExtendedUI(HWND hwndCtl, UINT flags)			{ return (int)(DWORD)::SendMessage(hwndCtl, CB_SETEXTENDEDUI, (WPARAM)flags, 0L); }
-	inline BOOL Combo_ShowDropdown(HWND hwndCtl, BOOL fShow)			{ return (BOOL)(DWORD)::SendMessage(hwndCtl, CB_SHOWDROPDOWN, (WPARAM)fShow, 0L); }
-	inline int Combo_SetDroppedWidth(HWND hwndCtl, int width)			{ return (int)(DWORD)::SendMessage(hwndCtl, CB_SETDROPPEDWIDTH, (WPARAM)width, 0L); }
-	inline BOOL Combo_GetDroppedState(HWND hwndCtl)						{ return (BOOL)(DWORD)::SendMessage(hwndCtl, CB_GETDROPPEDSTATE, 0L, 0L ); }
+	inline int Combo_ResetContent(HWND hwndCtl)							{ return (int)(DWORD)::SendMessageW(hwndCtl, CB_RESETCONTENT, 0L, 0L); }
+	inline int Combo_SetEditSel(HWND hwndCtl, int ichStart, int ichEnd)	{ return (int)(DWORD)::SendMessageW(hwndCtl, CB_SETEDITSEL, 0L, MAKELPARAM(ichStart, ichEnd)); }
+	inline int Combo_SetExtendedUI(HWND hwndCtl, UINT flags)			{ return (int)(DWORD)::SendMessageW(hwndCtl, CB_SETEXTENDEDUI, (WPARAM)flags, 0L); }
+	inline BOOL Combo_ShowDropdown(HWND hwndCtl, BOOL fShow)			{ return (BOOL)(DWORD)::SendMessageW(hwndCtl, CB_SHOWDROPDOWN, (WPARAM)fShow, 0L); }
+	inline int Combo_SetDroppedWidth(HWND hwndCtl, int width)			{ return (int)(DWORD)::SendMessageW(hwndCtl, CB_SETDROPPEDWIDTH, (WPARAM)width, 0L); }
+	inline BOOL Combo_GetDroppedState(HWND hwndCtl)						{ return (BOOL)(DWORD)::SendMessageW(hwndCtl, CB_GETDROPPEDSTATE, 0L, 0L ); }
 
 	inline bool Combo_GetLBText(HWND hwndCombo, int nIndex, CNativeW& str)
 	{
@@ -198,7 +198,7 @@ namespace ApiWrap{
 	}
 	inline void Combo_GetEditSel( HWND hwndCombo, DWORD& dwSelStart, DWORD& dwSelEnd )
 	{
-		::SendMessage( hwndCombo, CB_GETEDITSEL, WPARAM( &dwSelStart ), LPARAM( &dwSelEnd ) );
+		::SendMessageW( hwndCombo, CB_GETEDITSEL, WPARAM( &dwSelStart ), LPARAM( &dwSelEnd ) );
 	}
 	inline void Combo_SHAutoComplete( HWND hwndCombo, DWORD dwFlags )
 	{
@@ -220,62 +220,62 @@ namespace ApiWrap{
 	{
 		return ListBox_AddString(hwndList, str);
 	}
-	inline int List_AddItemData(HWND hwndCtl, int data)					{ return (int)(DWORD)::SendMessage(hwndCtl, LB_ADDSTRING, 0L, (LPARAM)data); }
-	inline int List_AddItemData(HWND hwndCtl, void* data)				{ return (int)(DWORD)::SendMessage(hwndCtl, LB_ADDSTRING, 0L, (LPARAM)data); }
-	inline int List_DeleteString(HWND hwndCtl, int index)				{ return (int)(DWORD)::SendMessage(hwndCtl, LB_DELETESTRING, (WPARAM)index, 0L); }
-	inline int List_FindStringExact(HWND hwndCtl, int indexStart, WCHAR* lpszFind)	{ return (int)(DWORD)::SendMessage( hwndCtl, LB_FINDSTRINGEXACT, WPARAM(indexStart), LPARAM(lpszFind) ); }
-	inline int List_GetCaretIndex(HWND hwndCtl)							{ return (int)(DWORD)::SendMessage(hwndCtl, LB_GETCARETINDEX, 0L, 0L); }
-	inline int List_GetCount(HWND hwndCtl)								{ return (int)(DWORD)::SendMessage(hwndCtl, LB_GETCOUNT, 0L, 0L); }
-	inline int List_GetCurSel(HWND hwndCtl)								{ return (int)(DWORD)::SendMessage(hwndCtl, LB_GETCURSEL, 0L, 0L); }
-	inline int List_GetTextLen(HWND hwndCtl, int nIndex)				{ return (int)(DWORD)::SendMessage(hwndCtl, LB_GETTEXTLEN, nIndex, 0L); }
-	inline int List_SetCurSel(HWND hwndCtl, int index)					{ return (int)(DWORD)::SendMessage(hwndCtl, LB_SETCURSEL, (WPARAM)index, 0L); }
-	inline LRESULT List_GetItemData(HWND hwndCtl, int index)			{ return (LRESULT)(ULONG_PTR)::SendMessage(hwndCtl, LB_GETITEMDATA, (WPARAM)index, 0L); }
-	inline int List_SetItemData(HWND hwndCtl, int index, int data)		{ return (int)(DWORD)::SendMessage(hwndCtl, LB_SETITEMDATA, (WPARAM)index, (LPARAM)data); }
-	inline int List_SetItemData(HWND hwndCtl, int index, void* data)	{ return (int)(DWORD)::SendMessage(hwndCtl, LB_SETITEMDATA, (WPARAM)index, (LPARAM)data); }
-	inline int List_GetItemRect(HWND hwndCtl, int index, RECT* lprc)	{ return (int)(DWORD)::SendMessage(hwndCtl, LB_GETITEMRECT, (WPARAM)index, (LPARAM)lprc); }
-	inline int List_GetTopIndex(HWND hwndCtl)							{ return (int)(DWORD)::SendMessage(hwndCtl, LB_GETTOPINDEX, 0L, 0L); }
-	inline int List_InsertItemData(HWND hwndCtl, int index, int data)	{ return (int)(DWORD)::SendMessage(hwndCtl, LB_INSERTSTRING, (WPARAM)index, (LPARAM)data); }
-	inline int List_InsertItemData(HWND hwndCtl, int index, void* data)	{ return (int)(DWORD)::SendMessage(hwndCtl, LB_INSERTSTRING, (WPARAM)index, (LPARAM)data); }
-	inline int List_InsertString(HWND hwndCtl, int index, const WCHAR* lpsz)	{ return (int)(DWORD)::SendMessage(hwndCtl, LB_INSERTSTRING, (WPARAM)index, LPARAM(lpsz)); }
-	inline BOOL List_ResetContent(HWND hwndCtl)							{ return (BOOL)(DWORD)::SendMessage(hwndCtl, LB_RESETCONTENT, 0L, 0L); }
-	inline void List_SetHorizontalExtent(HWND hwndCtl, int cxExtent)	{ ::SendMessage(hwndCtl, LB_SETHORIZONTALEXTENT, (WPARAM)cxExtent, 0L); }
+	inline int List_AddItemData(HWND hwndCtl, int data)					{ return (int)(DWORD)::SendMessageW(hwndCtl, LB_ADDSTRING, 0L, (LPARAM)data); }
+	inline int List_AddItemData(HWND hwndCtl, void* data)				{ return (int)(DWORD)::SendMessageW(hwndCtl, LB_ADDSTRING, 0L, (LPARAM)data); }
+	inline int List_DeleteString(HWND hwndCtl, int index)				{ return (int)(DWORD)::SendMessageW(hwndCtl, LB_DELETESTRING, (WPARAM)index, 0L); }
+	inline int List_FindStringExact(HWND hwndCtl, int indexStart, WCHAR* lpszFind)	{ return (int)(DWORD)::SendMessageW( hwndCtl, LB_FINDSTRINGEXACT, WPARAM(indexStart), LPARAM(lpszFind) ); }
+	inline int List_GetCaretIndex(HWND hwndCtl)							{ return (int)(DWORD)::SendMessageW(hwndCtl, LB_GETCARETINDEX, 0L, 0L); }
+	inline int List_GetCount(HWND hwndCtl)								{ return (int)(DWORD)::SendMessageW(hwndCtl, LB_GETCOUNT, 0L, 0L); }
+	inline int List_GetCurSel(HWND hwndCtl)								{ return (int)(DWORD)::SendMessageW(hwndCtl, LB_GETCURSEL, 0L, 0L); }
+	inline int List_GetTextLen(HWND hwndCtl, int nIndex)				{ return (int)(DWORD)::SendMessageW(hwndCtl, LB_GETTEXTLEN, nIndex, 0L); }
+	inline int List_SetCurSel(HWND hwndCtl, int index)					{ return (int)(DWORD)::SendMessageW(hwndCtl, LB_SETCURSEL, (WPARAM)index, 0L); }
+	inline LRESULT List_GetItemData(HWND hwndCtl, int index)			{ return (LRESULT)(ULONG_PTR)::SendMessageW(hwndCtl, LB_GETITEMDATA, (WPARAM)index, 0L); }
+	inline int List_SetItemData(HWND hwndCtl, int index, int data)		{ return (int)(DWORD)::SendMessageW(hwndCtl, LB_SETITEMDATA, (WPARAM)index, (LPARAM)data); }
+	inline int List_SetItemData(HWND hwndCtl, int index, void* data)	{ return (int)(DWORD)::SendMessageW(hwndCtl, LB_SETITEMDATA, (WPARAM)index, (LPARAM)data); }
+	inline int List_GetItemRect(HWND hwndCtl, int index, RECT* lprc)	{ return (int)(DWORD)::SendMessageW(hwndCtl, LB_GETITEMRECT, (WPARAM)index, (LPARAM)lprc); }
+	inline int List_GetTopIndex(HWND hwndCtl)							{ return (int)(DWORD)::SendMessageW(hwndCtl, LB_GETTOPINDEX, 0L, 0L); }
+	inline int List_InsertItemData(HWND hwndCtl, int index, int data)	{ return (int)(DWORD)::SendMessageW(hwndCtl, LB_INSERTSTRING, (WPARAM)index, (LPARAM)data); }
+	inline int List_InsertItemData(HWND hwndCtl, int index, void* data)	{ return (int)(DWORD)::SendMessageW(hwndCtl, LB_INSERTSTRING, (WPARAM)index, (LPARAM)data); }
+	inline int List_InsertString(HWND hwndCtl, int index, const WCHAR* lpsz)	{ return (int)(DWORD)::SendMessageW(hwndCtl, LB_INSERTSTRING, (WPARAM)index, LPARAM(lpsz)); }
+	inline BOOL List_ResetContent(HWND hwndCtl)							{ return (BOOL)(DWORD)::SendMessageW(hwndCtl, LB_RESETCONTENT, 0L, 0L); }
+	inline void List_SetHorizontalExtent(HWND hwndCtl, int cxExtent)	{ ::SendMessageW(hwndCtl, LB_SETHORIZONTALEXTENT, (WPARAM)cxExtent, 0L); }
 	inline int List_GetItemHeight(HWND hwndCtl, size_t index) noexcept { return ListBox_GetItemHeight(hwndCtl, index); }
 	inline int List_SetItemHeight(HWND hwndCtl, size_t index, int cy) noexcept { return ListBox_SetItemHeight(hwndCtl, index, cy); }
-	inline int List_SetTopIndex(HWND hwndCtl, int indexTop)				{ return (int)(DWORD)::SendMessage(hwndCtl, LB_SETTOPINDEX, (WPARAM)indexTop, 0L); }
+	inline int List_SetTopIndex(HWND hwndCtl, int indexTop)				{ return (int)(DWORD)::SendMessageW(hwndCtl, LB_SETTOPINDEX, (WPARAM)indexTop, 0L); }
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 	//                      エディット コントロール                //
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 	inline void EditCtl_LimitText(HWND hwndCtl, size_t cchLimit) noexcept	{ Edit_LimitText(hwndCtl, cchLimit); }
-	inline void EditCtl_SetSel(HWND hwndCtl, int ichStart, int ichEnd)	{ ::SendMessage(hwndCtl, EM_SETSEL, ichStart, ichEnd); }
+	inline void EditCtl_SetSel(HWND hwndCtl, int ichStart, int ichEnd)	{ ::SendMessageW(hwndCtl, EM_SETSEL, ichStart, ichEnd); }
 
-	inline void EditCtl_ReplaceSel(HWND hwndCtl, const WCHAR* lpsz)		{ ::SendMessage(hwndCtl, EM_REPLACESEL, 0, LPARAM(lpsz)); }
+	inline void EditCtl_ReplaceSel(HWND hwndCtl, const WCHAR* lpsz)		{ ::SendMessageW(hwndCtl, EM_REPLACESEL, 0, LPARAM(lpsz)); }
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 	//                      ボタン コントロール                    //
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
-	inline int BtnCtl_GetCheck(HWND hwndCtl)							{ return (int)(DWORD)::SendMessage(hwndCtl, BM_GETCHECK, 0L, 0L); }
-	inline void BtnCtl_SetCheck(HWND hwndCtl, int check)				{ ::SendMessage(hwndCtl, BM_SETCHECK, (WPARAM)check, 0L); }
+	inline int BtnCtl_GetCheck(HWND hwndCtl)							{ return (int)(DWORD)::SendMessageW(hwndCtl, BM_GETCHECK, 0L, 0L); }
+	inline void BtnCtl_SetCheck(HWND hwndCtl, int check)				{ ::SendMessageW(hwndCtl, BM_SETCHECK, (WPARAM)check, 0L); }
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 	//                      スタティック コントロール              //
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
-	inline HICON StCtl_SetIcon(HWND hwndCtl, HICON hIcon)				{ return (HICON)(UINT_PTR)::SendMessage(hwndCtl, STM_SETICON, (WPARAM)hIcon, 0L); }
+	inline HICON StCtl_SetIcon(HWND hwndCtl, HICON hIcon)				{ return (HICON)(UINT_PTR)::SendMessageW(hwndCtl, STM_SETICON, (WPARAM)hIcon, 0L); }
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 	//                      スタティック コントロール              //
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 	inline void TrackBarCtl_SetRange(HWND hwndCtl, BOOL bRedraw, WORD minimum, WORD maximum)
 	{
-		::SendMessage(hwndCtl, TBM_SETRANGE, (WPARAM)bRedraw, (LPARAM)MAKELONG(minimum, maximum));
+		::SendMessageW(hwndCtl, TBM_SETRANGE, (WPARAM)bRedraw, (LPARAM)MAKELONG(minimum, maximum));
 	}
 	inline void TrackBarCtl_SetPos(HWND hwndCtl, BOOL bRedraw, LPARAM pos)
 	{
-		::SendMessage(hwndCtl, TBM_SETPOS, (WPARAM)bRedraw, pos);
+		::SendMessageW(hwndCtl, TBM_SETPOS, (WPARAM)bRedraw, pos);
 	}
 	inline LRESULT TrackBarCtl_GetPos(HWND hwndCtl)
 	{
-		return ::SendMessage(hwndCtl, TBM_GETPOS, (WPARAM)0, (LPARAM)0);
+		return ::SendMessageW(hwndCtl, TBM_GETPOS, (WPARAM)0, (LPARAM)0);
 	}
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //

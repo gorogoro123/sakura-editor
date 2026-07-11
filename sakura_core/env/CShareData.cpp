@@ -868,7 +868,7 @@ BOOL CShareData::IsPathOpened( const WCHAR* pszPath, HWND* phwndOwner )
 	for( int i = 0; i < m_pShareData->m_sNodes.m_nEditArrNum; ++i ){
 		if( IsSakuraMainWindow( m_pShareData->m_sNodes.m_pEditArr[i].m_hWnd ) ){
 			// トレイからエディタへの編集ファイル名要求通知
-			::SendMessage( m_pShareData->m_sNodes.m_pEditArr[i].m_hWnd, MYWM_GETFILEINFO, 1, 0 );
+			::SendMessageW( m_pShareData->m_sNodes.m_pEditArr[i].m_hWnd, MYWM_GETFILEINFO, 1, 0 );
 			pfi = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
 
 			// 同一パスのファイルが既に開かれているか
@@ -905,7 +905,7 @@ BOOL CShareData::ActiveAlreadyOpenedWindow( const WCHAR* pszPath, HWND* phwndOwn
 		
 		//文字コードの一致確認
 		EditInfo*		pfi;
-		::SendMessage( *phwndOwner, MYWM_GETFILEINFO, 0, 0 );
+		::SendMessageW( *phwndOwner, MYWM_GETFILEINFO, 0, 0 );
 		pfi = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
 		if(nCharCode != CODE_AUTODETECT){
 			WCHAR szCpNameCur[100];
@@ -972,7 +972,7 @@ void CShareData::TraceOutString( const wchar_t* pStr, int len )
 		// 0のときは何も追加しないが、カーソル移動が発生する
 		LockGuard<CMutex> guard( CShareData::GetMutexShareWork() );
 		pOutBuffer[0] = L'\0';
-		::SendMessage( m_pShareData->m_sHandles.m_hwndDebug, MYWM_ADDSTRINGLEN_W, 0, 0 );
+		::SendMessageW( m_pShareData->m_sHandles.m_hwndDebug, MYWM_ADDSTRINGLEN_W, 0, 0 );
 	}else{
 		while(outPos < len){
 			int outLen = buffLen;

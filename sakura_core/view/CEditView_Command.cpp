@@ -114,7 +114,7 @@ bool CEditView::TagJumpSub(
 				poCaret.x = 0;
 			}
 			GetDllShareData().m_sWorkBuffer.m_LogicPoint.Set(CLogicInt(poCaret.x), CLogicInt(poCaret.y));
-			::SendMessage( hwndOwner, MYWM_SETCARETPOS, 0, 0 );
+			::SendMessageW( hwndOwner, MYWM_SETCARETPOS, 0, 0 );
 		}
 		/* アクティブにする */
 		ActivateFrameWindow( hwndOwner );

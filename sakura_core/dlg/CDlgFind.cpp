@@ -61,7 +61,7 @@ BOOL CDlgFind::OnCbnDropDown( HWND hwndCtl, int wID )
 {
 	switch( wID ){
 	case IDC_COMBO_TEXT:
-		if ( ::SendMessage(hwndCtl, CB_GETCOUNT, 0L, 0L) == 0) {
+		if ( ::SendMessageW(hwndCtl, CB_GETCOUNT, 0L, 0L) == 0) {
 			int nSize = m_pShareData->m_sSearchKeywords.m_aSearchKeys.size();
 			for (int i = 0; i < nSize; ++i) {
 				ApiWrap::Combo_AddString( hwndCtl, m_pShareData->m_sSearchKeywords.m_aSearchKeys[i] );
@@ -97,7 +97,7 @@ BOOL CDlgFind::OnInitDialog( HWND hwnd, WPARAM wParam, LPARAM lParam )
 	SetComboBoxDeleter(GetItemHwnd(IDC_COMBO_TEXT), &m_cRecentSearch);
 
 	// フォント設定	2012/11/27 Uchi
-	HFONT hFontOld = (HFONT)::SendMessage( GetItemHwnd( IDC_COMBO_TEXT ), WM_GETFONT, 0, 0 );
+	HFONT hFontOld = (HFONT)::SendMessageW( GetItemHwnd( IDC_COMBO_TEXT ), WM_GETFONT, 0, 0 );
 	HFONT hFont = SetMainFont( GetItemHwnd( IDC_COMBO_TEXT ) );
 	m_cFontText.SetFont( hFontOld, hFont, GetItemHwnd( IDC_COMBO_TEXT ) );
 	return bRet;
@@ -373,7 +373,7 @@ BOOL CDlgFind::OnBnClicked( int wID )
 					CloseDialog( 0 );
 				}
 				else{
-					::SendMessage(GetHwnd(),WM_NEXTDLGCTL,(WPARAM)GetItemHwnd(IDC_COMBO_TEXT ),TRUE);
+					::SendMessageW(GetHwnd(),WM_NEXTDLGCTL,(WPARAM)GetItemHwnd(IDC_COMBO_TEXT ),TRUE);
 				}
 			}
 		}

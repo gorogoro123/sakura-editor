@@ -150,7 +150,7 @@ bool CMainStatusBar::SetStatusText(int nIndex, int nOption, const WCHAR* pszText
 		return false;
 	}
 	// StatusBar_SetText 関数を呼びだすかどうかを判定する
-	// （StatusBar_SetText は SB_SETTEXT メッセージを SendMessage で送信する）
+	// （StatusBar_SetText は SB_SETTEXT メッセージを SendMessageW で送信する）
 	bool bDraw = true;
 	do {
 		// オーナードローの場合は SB_SETTEXT メッセージを無条件に発行するように判定

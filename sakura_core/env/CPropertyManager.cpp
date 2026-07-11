@@ -59,7 +59,7 @@ bool CPropertyManager::OpenPropertySheet( HWND hWnd, int nPageNum, bool bTrayPro
 		}
 
 		/* アクセラレータテーブルの再作成 */
-		::SendMessage( GetDllShareData().m_sHandles.m_hwndTray, MYWM_CHANGESETTING,  (WPARAM)0, (LPARAM)PM_CHANGESETTING_ALL );
+		::SendMessageW( GetDllShareData().m_sHandles.m_hwndTray, MYWM_CHANGESETTING,  (WPARAM)0, (LPARAM)PM_CHANGESETTING_ALL );
 
 		/* 設定変更を反映させる */
 		/* 全編集ウィンドウへメッセージをポストする */
@@ -109,7 +109,7 @@ bool CPropertyManager::OpenPropertySheetTypes( HWND hWnd, int nPageNum, CTypeCon
 		CDocTypeManager().SetTypeConfig(nSettingType, *pType);
 
 		/* アクセラレータテーブルの再作成 */
-		// ::SendMessage( GetDllShareData().m_sHandles.m_hwndTray, MYWM_CHANGESETTING,  (WPARAM)0, (LPARAM)PM_CHANGESETTING_ALL );
+		// ::SendMessageW( GetDllShareData().m_sHandles.m_hwndTray, MYWM_CHANGESETTING,  (WPARAM)0, (LPARAM)PM_CHANGESETTING_ALL );
 
 		/* 設定変更を反映させる */
 		/* 全編集ウィンドウへメッセージをポストする */

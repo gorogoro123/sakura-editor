@@ -274,7 +274,7 @@ INT_PTR CDlgFuncList::DispatchEvent( HWND hWnd, UINT wMsg, WPARAM wParam, LPARAM
 	case WM_NCRBUTTONUP:
 		if( IsDocking() && wParam == HTCAPTION ){
 			// ドッキングのときはコンテキストメニューを明示的に呼び出す必要があるらしい
-			::SendMessage( GetHwnd(), WM_CONTEXTMENU, (WPARAM)GetHwnd(), lParam );
+			::SendMessageW( GetHwnd(), WM_CONTEXTMENU, (WPARAM)GetHwnd(), lParam );
 			return 1L;
 		}
 		break;
@@ -422,8 +422,8 @@ void CDlgFuncList::SetData()
 	m_bDummyLParamMode = false;
 	m_vecDummylParams.clear();
 
-	::SendMessage(hwndList, WM_SETREDRAW, (WPARAM)FALSE, 0);
-	::SendMessage(hwndTree, WM_SETREDRAW, (WPARAM)FALSE, 0);
+	::SendMessageW(hwndList, WM_SETREDRAW, (WPARAM)FALSE, 0);
+	::SendMessageW(hwndTree, WM_SETREDRAW, (WPARAM)FALSE, 0);
 	ListView_DeleteAllItems( hwndList );
 	TreeView_DeleteAllItems( hwndTree );
 	::ShowWindow( GetItemHwnd(IDC_BUTTON_SETTING), SW_HIDE );
@@ -748,8 +748,8 @@ void CDlgFuncList::SetData()
 	::ShowWindow(hwndTree, SW_HIDE);
 	::ShowWindow(hwndList, SW_HIDE);
 	::ShowWindow(hwndShow, SW_SHOW);
-	::SendMessage(hwndList, WM_SETREDRAW, (WPARAM)TRUE, 0);
-	::SendMessage(hwndTree, WM_SETREDRAW, (WPARAM)TRUE, 0);
+	::SendMessageW(hwndList, WM_SETREDRAW, (WPARAM)TRUE, 0);
+	::SendMessageW(hwndTree, WM_SETREDRAW, (WPARAM)TRUE, 0);
 	// 選択状態更新
 	int nFuncInfoIndex = -1;
 	if (GetFuncInfoIndex(m_nCurLine, m_nCurCol, &nFuncInfoIndex)) {
@@ -2332,9 +2332,9 @@ BOOL CDlgFuncList::OnCbnSelEndOk( HWND hwndCtl, int wID )
 			type->m_nOutlineSortType = m_nSortType;
 			SetTypeConfig( CTypeConfig(m_nDocType), *type );
 			HWND hWndTree = GetItemHwnd(IDC_TREE_FL);
-			::SendMessage(hWndTree, WM_SETREDRAW, (WPARAM)FALSE, 0);
+			::SendMessageW(hWndTree, WM_SETREDRAW, (WPARAM)FALSE, 0);
 			SortTree(hWndTree,TVI_ROOT);
-			::SendMessage(hWndTree, WM_SETREDRAW, (WPARAM)TRUE, 0);
+			::SendMessageW(hWndTree, WM_SETREDRAW, (WPARAM)TRUE, 0);
 		}
 		return TRUE;
 	default:
@@ -2474,7 +2474,7 @@ BOOL CDlgFuncList::OnJump( bool bCheckAutoClose, bool bFileJump )	//2002.02.08 h
 				m_pShareData->m_sWorkBuffer.m_LogicPoint = poCaret;
 
 				//	2006.07.09 genta 移動時に選択状態を保持するように
-				::SendMessage( GetEditWnd().GetHwnd(),
+				::SendMessageW( GetEditWnd().GetHwnd(),
 					MYWM_SETCARETPOS, 0, PM_SETCARETPOS_KEEPSELECT );
 			}
 			if( bCheckAutoClose && bFileJumpSelf ){
@@ -2835,7 +2835,7 @@ BOOL CDlgFuncList::OnTimer( HWND hwnd, [[maybe_unused]] UINT uMsg, WPARAM wParam
 		::GetCursorPos( &pt );
 		::GetWindowRect( hwnd, &rc );
 		if( !::PtInRect( &rc, pt ) ){
-			::SendMessage( hwnd, WM_NCMOUSEMOVE, 0, MAKELONG( pt.x, pt.y ) );
+			::SendMessageW( hwnd, WM_NCMOUSEMOVE, 0, MAKELONG( pt.x, pt.y ) );
 		}
 	}
 
@@ -3582,7 +3582,7 @@ BOOL CDlgFuncList::OnContextMenu( WPARAM wParam, LPARAM lParam )
 {
 	// キャプションかリスト／ツリー上ならメニューを表示する
 	HWND hwndFrom = (HWND)wParam;
-	if( ::SendMessage( GetHwnd(), WM_NCHITTEST, 0, lParam ) == HTCAPTION
+	if( ::SendMessageW( GetHwnd(), WM_NCHITTEST, 0, lParam ) == HTCAPTION
 			|| hwndFrom == GetItemHwnd( IDC_LIST_FL )
 			|| hwndFrom == GetItemHwnd( IDC_TREE_FL )
 	){

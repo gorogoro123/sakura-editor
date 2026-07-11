@@ -135,7 +135,7 @@ BOOL CDlgGrepReplace::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 	BOOL bRet = CDlgGrep::OnInitDialog( hwndDlg, wParam, lParam );
 	if( !bRet ) return bRet;
 
-	HFONT hFontOld = (HFONT)::SendMessage( GetItemHwnd( IDC_COMBO_TEXT2 ), WM_GETFONT, 0, 0 );
+	HFONT hFontOld = (HFONT)::SendMessageW( GetItemHwnd( IDC_COMBO_TEXT2 ), WM_GETFONT, 0, 0 );
 	HFONT hFont = SetMainFont( GetItemHwnd( IDC_COMBO_TEXT2 ) );
 	m_cFontText2.SetFont( hFontOld, hFont, GetItemHwnd( IDC_COMBO_TEXT2 ) );
 
@@ -146,7 +146,7 @@ BOOL CDlgGrepReplace::OnCbnDropDown( HWND hwndCtl, int wID )
 {
 	switch( wID ){
 	case IDC_COMBO_TEXT2:
-		if ( ::SendMessage(hwndCtl, CB_GETCOUNT, 0L, 0L) == 0) {
+		if ( ::SendMessageW(hwndCtl, CB_GETCOUNT, 0L, 0L) == 0) {
 			const auto& keys = m_pShareData->m_sSearchKeywords.m_aReplaceKeys;
 			for( int i = 0; i < keys.size(); ++i ){
 				ApiWrap::Combo_AddString( hwndCtl, keys[i] );

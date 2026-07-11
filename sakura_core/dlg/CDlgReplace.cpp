@@ -77,7 +77,7 @@ BOOL CDlgReplace::OnCbnDropDown( HWND hwndCtl, int wID )
 {
 	switch( wID ){
 	case IDC_COMBO_TEXT:
-		if ( ::SendMessage(hwndCtl, CB_GETCOUNT, 0L, 0L) == 0) {
+		if ( ::SendMessageW(hwndCtl, CB_GETCOUNT, 0L, 0L) == 0) {
 			int nSize = m_pShareData->m_sSearchKeywords.m_aSearchKeys.size();
 			for (int i = 0; i < nSize; ++i) {
 				ApiWrap::Combo_AddString( hwndCtl, m_pShareData->m_sSearchKeywords.m_aSearchKeys[i] );
@@ -85,7 +85,7 @@ BOOL CDlgReplace::OnCbnDropDown( HWND hwndCtl, int wID )
 		}
 		break;
 	case IDC_COMBO_TEXT2:
-		if ( ::SendMessage(hwndCtl, CB_GETCOUNT, 0L, 0L) == 0) {
+		if ( ::SendMessageW(hwndCtl, CB_GETCOUNT, 0L, 0L) == 0) {
 			int nSize = m_pShareData->m_sSearchKeywords.m_aReplaceKeys.size();
 			for (int i = 0; i < nSize; ++i) {
 				ApiWrap::Combo_AddString( hwndCtl, m_pShareData->m_sSearchKeywords.m_aReplaceKeys[i] );
@@ -353,11 +353,11 @@ BOOL CDlgReplace::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 	if( !bRet ) return bRet;
 
 	// フォント設定	2012/11/27 Uchi
-	HFONT hFontOld = (HFONT)::SendMessage( GetItemHwnd( IDC_COMBO_TEXT ), WM_GETFONT, 0, 0 );
+	HFONT hFontOld = (HFONT)::SendMessageW( GetItemHwnd( IDC_COMBO_TEXT ), WM_GETFONT, 0, 0 );
 	HFONT hFont = SetMainFont( GetItemHwnd( IDC_COMBO_TEXT ) );
 	m_cFontText.SetFont( hFontOld, hFont, GetItemHwnd( IDC_COMBO_TEXT ) );
 
-	hFontOld = (HFONT)::SendMessage( GetItemHwnd( IDC_COMBO_TEXT2 ), WM_GETFONT, 0, 0 );
+	hFontOld = (HFONT)::SendMessageW( GetItemHwnd( IDC_COMBO_TEXT2 ), WM_GETFONT, 0, 0 );
 	hFont = SetMainFont( GetItemHwnd( IDC_COMBO_TEXT2 ) );
 	m_cFontText2.SetFont( hFontOld, hFont, GetItemHwnd( IDC_COMBO_TEXT2 ) );
 
@@ -527,7 +527,7 @@ BOOL CDlgReplace::OnBnClicked( int wID )
 		nRet = GetData();
 		if( 0 < nRet ){
 			pcEditView->GetCommander().HandleCommand( F_BOOKMARK_PATTERN, false, 0, 0, 0, 0 );
-			::SendMessage(GetHwnd(),WM_NEXTDLGCTL,(WPARAM)GetItemHwnd( IDC_COMBO_TEXT ),TRUE);
+			::SendMessageW(GetHwnd(),WM_NEXTDLGCTL,(WPARAM)GetItemHwnd( IDC_COMBO_TEXT ),TRUE);
 		}
 		return TRUE;
 

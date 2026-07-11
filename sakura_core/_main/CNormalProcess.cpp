@@ -99,13 +99,13 @@ bool CNormalProcess::InitializeProcess()
 				CLogicPoint& pt = GetDllShareData().m_sWorkBuffer.m_LogicPoint;
 				if( fi.m_ptCursor.x < 0 ){
 					//	桁の指定が無い場合
-					::SendMessage( hwndOwner, MYWM_GETCARETPOS, 0, 0 );
+					::SendMessageW( hwndOwner, MYWM_GETCARETPOS, 0, 0 );
 				}
 				else {
 					pt.x = fi.m_ptCursor.x;
 				}
 				pt.y = fi.m_ptCursor.y;
-				::SendMessage( hwndOwner, MYWM_SETCARETPOS, 0, 0 );
+				::SendMessageW( hwndOwner, MYWM_SETCARETPOS, 0, 0 );
 			}
 			//	To Here Oct. 19, 2001 genta
 			/* アクティブにする */
@@ -181,7 +181,7 @@ bool CNormalProcess::InitializeProcess()
 		if( !::IsIconic( hEditWnd ) && pEditWnd->m_cDlgFuncList.GetHwnd() ){
 			RECT rc;
 			::GetClientRect( hEditWnd, &rc );
-			::SendMessage( hEditWnd, WM_SIZE, ::IsZoomed( hEditWnd )? SIZE_MAXIMIZED: SIZE_RESTORED, MAKELONG( rc.right - rc.left, rc.bottom - rc.top ) );
+			::SendMessageW( hEditWnd, WM_SIZE, ::IsZoomed( hEditWnd )? SIZE_MAXIMIZED: SIZE_RESTORED, MAKELONG( rc.right - rc.left, rc.bottom - rc.top ) );
 		}
 		GrepInfo gi;
 		CCommandLine::getInstance()->GetGrepInfo(&gi); // 2002/2/8 aroka ここに移動

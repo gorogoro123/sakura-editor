@@ -266,7 +266,7 @@ normal_action:;
 
 			// コマンドコードによる処理振り分け
 			// マウスからのメッセージはCMD_FROM_MOUSEを上位ビットに入れて送る
-			::SendMessage( ::GetParent( m_hwndParent ), WM_COMMAND, MAKELONG( nFuncID, CMD_FROM_MOUSE ), (LPARAM)nullptr );
+			::SendMessageW( ::GetParent( m_hwndParent ), WM_COMMAND, MAKELONG( nFuncID, CMD_FROM_MOUSE ), (LPARAM)nullptr );
 
 			// 1行選択でない場合はここで抜ける（他の選択コマンドの時問題となるかも）
 			if(F_SELECTLINE != nFuncID)
@@ -1626,7 +1626,7 @@ void CEditView::OnLBUTTONDBLCLK( WPARAM fwKeys, int _xPos , int _yPos )
 	if( nFuncID != 0 ){
 		/* コマンドコードによる処理振り分け */
 		//	May 19, 2006 genta マウスからのメッセージはCMD_FROM_MOUSEを上位ビットに入れて送る
-		::SendMessage( ::GetParent( m_hwndParent ), WM_COMMAND, MAKELONG( nFuncID, CMD_FROM_MOUSE ),  (LPARAM)nullptr );
+		::SendMessageW( ::GetParent( m_hwndParent ), WM_COMMAND, MAKELONG( nFuncID, CMD_FROM_MOUSE ),  (LPARAM)nullptr );
 	}
 
 	// 2007.10.06 nasukoji	クアドラプルクリック時もここで抜ける
@@ -2110,7 +2110,7 @@ void CEditView::OnMyDropFiles( HDROP hDrop )
 	switch( nId ){
 	case 110:	// ファイルを開く
 		// 通常のドロップファイル処理を行う
-		::SendMessage( GetEditWnd().GetHwnd(), WM_DROPFILES, (WPARAM)hDrop, 0 );
+		::SendMessageW( GetEditWnd().GetHwnd(), WM_DROPFILES, (WPARAM)hDrop, 0 );
 		break;
 
 	case 100:	// パス名を貼り付ける

@@ -319,7 +319,7 @@ void CDlgTypeList::SetData( int selIdx )
 	int		nExtent = 0;
 	HWND	hwndList = GetItemHwnd( IDC_LIST_TYPES );
 	HDC		hDC = ::GetDC( hwndList );
-	HFONT	hFont = (HFONT)::SendMessage(hwndList, WM_GETFONT, 0, 0);
+	HFONT	hFont = (HFONT)::SendMessageW(hwndList, WM_GETFONT, 0, 0);
 	HFONT	hFontOld = (HFONT)::SelectObject(hDC, hFont);
 
 	if( -1 == selIdx ){
@@ -369,7 +369,7 @@ void CDlgTypeList::SetData( int selIdx )
 	}
 	ApiWrap::List_SetCurSel( hwndList, selIdx );
 
-	::SendMessage( GetHwnd(), WM_COMMAND, MAKEWPARAM(IDC_LIST_TYPES, LBN_SELCHANGE), 0 );
+	::SendMessageW( GetHwnd(), WM_COMMAND, MAKEWPARAM(IDC_LIST_TYPES, LBN_SELCHANGE), 0 );
 	DlgItem_Enable( GetHwnd(), IDC_BUTTON_TEMPCHANGE, m_bEnableTempChange );
 	DlgItem_Enable( GetHwnd(), IDC_BUTTON_COPY_TYPE, GetDllShareData().m_nTypesCount < MAX_TYPES );
 	DlgItem_Enable( GetHwnd(), IDC_BUTTON_ADD_TYPE, GetDllShareData().m_nTypesCount < MAX_TYPES );

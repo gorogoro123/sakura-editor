@@ -470,7 +470,7 @@ LRESULT CControlTray::DispatchEvent(
 
 	case MYWM_UIPI_CHECK:
 		/* エディタ－トレイ間でのUI特権分離の確認メッセージ */	// 2007.06.07 ryoji
-		::SendMessage( (HWND)lParam, MYWM_UIPI_CHECK,  (WPARAM)0, (LPARAM)0 );	// 返事を返す
+		::SendMessageW( (HWND)lParam, MYWM_UIPI_CHECK,  (WPARAM)0, (LPARAM)0 );	// 返事を返す
 		return 0L;
 
 	case MYWM_HTMLHELP:
@@ -508,7 +508,7 @@ LRESULT CControlTray::DispatchEvent(
 			nRowNum = CAppNodeManager::getInstance()->GetOpenedWindowArr( vEditNode, TRUE );
 			// 編集ウィンドウの数が0になったら終了
 			if( 0 == nRowNum ){
-				::SendMessage( hwnd, WM_CLOSE, 0, 0 );
+				::SendMessageW( hwnd, WM_CLOSE, 0, 0 );
 			}
 		}
 		return 0;
@@ -1558,7 +1558,7 @@ int	CControlTray::CreatePopUpMenu_L( )
 		for( i = 0; i < m_pShareData->m_sNodes.m_nEditArrNum; ++i ){
 			if( IsSakuraMainWindow( m_pShareData->m_sNodes.m_pEditArr[i].GetHwnd() ) ){
 				/* トレイからエディタへの編集ファイル名要求通知 */
-				::SendMessage( m_pShareData->m_sNodes.m_pEditArr[i].GetHwnd(), MYWM_GETFILEINFO, 0, 0 );
+				::SendMessageW( m_pShareData->m_sNodes.m_pEditArr[i].GetHwnd(), MYWM_GETFILEINFO, 0, 0 );
 				pfi = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
 
 				// メニューラベル。1からアクセスキーを振る

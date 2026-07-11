@@ -663,7 +663,7 @@ HWND CEditWnd::Create(
 	// エディタ－トレイ間でのUI特権分離の確認（Vista UIPI機能） 2007.06.07 ryoji
 	{
 		m_bUIPI = FALSE;
-		::SendMessage( m_pShareData->m_sHandles.m_hwndTray, MYWM_UIPI_CHECK,  (WPARAM)0, (LPARAM)GetHwnd() );
+		::SendMessageW( m_pShareData->m_sHandles.m_hwndTray, MYWM_UIPI_CHECK,  (WPARAM)0, (LPARAM)GetHwnd() );
 		if( !m_bUIPI ){	// 返事が返らない
 			TopErrorMessage( GetHwnd(),
 				LS(STR_ERR_DLGEDITWND02)
@@ -989,8 +989,8 @@ void CEditWnd::EndLayoutBars( BOOL bAdjust/* = TRUE*/ )
 		m_cSplitterWnd.DoSplit( -1, -1 );
 		::GetClientRect( GetHwnd(), &rc );
 		auto nWinSizeType = m_nWinSizeType;
-		::SendMessage( GetHwnd(), WM_SIZE, 0, 0 ); // ツールバーの表示ON/OFFを行うとちらつきが発生する事への対策
-		::SendMessage( GetHwnd(), WM_SIZE, nWinSizeType, MAKELONG( rc.right - rc.left, rc.bottom - rc.top ) );
+		::SendMessageW( GetHwnd(), WM_SIZE, 0, 0 ); // ツールバーの表示ON/OFFを行うとちらつきが発生する事への対策
+		::SendMessageW( GetHwnd(), WM_SIZE, nWinSizeType, MAKELONG( rc.right - rc.left, rc.bottom - rc.top ) );
 		::RedrawWindow( GetHwnd(), nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW );	// ステータスバーに必要？
 
 		GetActiveView().SetIMECompFormPos();
@@ -1751,7 +1751,7 @@ LRESULT CEditWnd::DispatchEvent(
 				GetDocument()->m_cDocType.SetDocumentTypeIdx();
 				// タイプが変更になった場合は適用する
 				if (GetDocument()->m_cDocType.GetDocumentType().GetIndex() != wParam) {
-					::SendMessage(m_hWnd, MYWM_CHANGESETTING, wParam, PM_CHANGESETTING_TYPE);
+					::SendMessageW(m_hWnd, MYWM_CHANGESETTING, wParam, PM_CHANGESETTING_TYPE);
 				}
 			}
 			break;
@@ -2679,7 +2679,7 @@ void CEditWnd::OnDropFiles( HDROP hDrop )
 
 		/* 指定ファイルが開かれているか調べる */
 		if( CShareData::getInstance()->IsPathOpened( szFile, &hWndOwner ) ){
-			::SendMessage( hWndOwner, MYWM_GETFILEINFO, 0, 0 );
+			::SendMessageW( hWndOwner, MYWM_GETFILEINFO, 0, 0 );
 			pfi = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
 			/* アクティブにする */
 			ActivateFrameWindow( hWndOwner );
@@ -2968,13 +2968,13 @@ LRESULT CEditWnd::OnSize2( WPARAM wParam, LPARAM lParam, bool bUpdateStatus )
 	hwndToolBar = (nullptr != m_cToolbar.GetRebarHwnd())? m_cToolbar.GetRebarHwnd(): m_cToolbar.GetToolbarHwnd();
 	nToolBarHeight = 0;
 	if( nullptr != hwndToolBar ){
-		::SendMessage( hwndToolBar, WM_SIZE, wParam, lParam );
+		::SendMessageW( hwndToolBar, WM_SIZE, wParam, lParam );
 		::GetWindowRect( hwndToolBar, &rc );
 		nToolBarHeight = rc.bottom - rc.top;
 	}
 	nFuncKeyWndHeight = 0;
 	if( nullptr != m_cFuncKeyWnd.GetHwnd() ){
-		::SendMessage( m_cFuncKeyWnd.GetHwnd(), WM_SIZE, wParam, lParam );
+		::SendMessageW( m_cFuncKeyWnd.GetHwnd(), WM_SIZE, wParam, lParam );
 		::GetWindowRect( m_cFuncKeyWnd.GetHwnd(), &rc );
 		nFuncKeyWndHeight = rc.bottom - rc.top;
 	}
@@ -2986,7 +2986,7 @@ LRESULT CEditWnd::OnSize2( WPARAM wParam, LPARAM lParam, bool bUpdateStatus )
 	}
 	nStatusBarHeight = 0;
 	if( nullptr != m_cStatusBar.GetStatusHwnd() ){
-		::SendMessage( m_cStatusBar.GetStatusHwnd(), WM_SIZE, wParam, lParam );
+		::SendMessageW( m_cStatusBar.GetStatusHwnd(), WM_SIZE, wParam, lParam );
 		::GetClientRect( m_cStatusBar.GetStatusHwnd(), &rc );
 		//	May 12, 2000 genta
 		//	2カラム目に改行コードの表示を挿入
@@ -3008,7 +3008,7 @@ LRESULT CEditWnd::OnSize2( WPARAM wParam, LPARAM lParam, bool bUpdateStatus )
 		// 2004-02-28 yasu
 		// 正確な幅を計算するために、表示フォントを取得してhdcに選択させる。
 		hdc = ::GetDC( m_cStatusBar.GetStatusHwnd() );
-		HFONT hFont = (HFONT)::SendMessage(m_cStatusBar.GetStatusHwnd(), WM_GETFONT, 0, 0);
+		HFONT hFont = (HFONT)::SendMessageW(m_cStatusBar.GetStatusHwnd(), WM_GETFONT, 0, 0);
 		if (hFont != nullptr)
 		{
 			hFont = (HFONT)::SelectObject(hdc, hFont);
@@ -3157,7 +3157,7 @@ LRESULT CEditWnd::OnSize2( WPARAM wParam, LPARAM lParam, bool bUpdateStatus )
 	int nFuncListHeight = 0;
 	if( m_cDlgFuncList.GetHwnd() && m_cDlgFuncList.IsDocking() )
 	{
-		::SendMessage( m_cDlgFuncList.GetHwnd(), WM_SIZE, wParam, lParam );
+		::SendMessageW( m_cDlgFuncList.GetHwnd(), WM_SIZE, wParam, lParam );
 		::GetWindowRect( m_cDlgFuncList.GetHwnd(), &rc );
 		nFuncListWidth = rc.right - rc.left;
 		nFuncListHeight = rc.bottom - rc.top;
@@ -3305,7 +3305,7 @@ LRESULT CEditWnd::OnMouseMove( WPARAM wParam, LPARAM lParam )
 		{
 			POINT P;
 			GetCursorPos(&P); //スクリーン座標
-			if(SendMessage(GetHwnd(), WM_NCHITTEST, 0, P.x | (P.y << 16)) != HTSYSMENU)
+			if(SendMessageW(GetHwnd(), WM_NCHITTEST, 0, P.x | (P.y << 16)) != HTSYSMENU)
 			{
 				ReleaseCapture();
 				m_IconClicked = icNone;
@@ -3597,7 +3597,7 @@ LRESULT CEditWnd::OnLButtonDblClk(WPARAM wp, LPARAM lp) //by 鬼(2)
 		ReleaseCapture();
 		m_IconClicked = icDoubleClicked;
 
-		SendMessage(GetHwnd(), WM_SYSCOMMAND, SC_CLOSE, 0);
+		SendMessageW(GetHwnd(), WM_SYSCOMMAND, SC_CLOSE, 0);
 
 		Result = 0;
 	}
@@ -3707,7 +3707,7 @@ int	CEditWnd::CreateFileDropDownMenu( HWND hwnd )
 */
 void CEditWnd::SetWindowIcon(HICON hIcon, int flag)
 {
-	HICON hOld = (HICON)::SendMessage( GetHwnd(), WM_SETICON, flag, (LPARAM)hIcon );
+	HICON hOld = (HICON)::SendMessageW( GetHwnd(), WM_SETICON, flag, (LPARAM)hIcon );
 	if( hOld != nullptr ){
 		::DestroyIcon( hOld );
 	}
@@ -4063,7 +4063,7 @@ LRESULT CEditWnd::PopupWinList( bool bMousePos )
 									( pt.y < rcWork.bottom )? pt.y: rcWork.bottom,
 									0, GetHwnd(), nullptr);
 		::DestroyMenu( hMenu );
-		::SendMessage( GetHwnd(), WM_COMMAND, (WPARAM)nId, (LPARAM)nullptr );
+		::SendMessageW( GetHwnd(), WM_COMMAND, (WPARAM)nId, (LPARAM)nullptr );
 	}
 
 	return 0L;
@@ -4089,7 +4089,7 @@ LRESULT CEditWnd::WinListMenu( HMENU hMenu, const std::vector<EditNode>& vEditNo
 		CDCFont dcFont(met.lfMenuFont, GetHwnd());
 		for( i = 0; i < nRowNum; ++i ){
 			/* トレイからエディタへの編集ファイル名要求通知 */
-			::SendMessage( vEditNode[i].GetHwnd(), MYWM_GETFILEINFO, 0, 0 );
+			::SendMessageW( vEditNode[i].GetHwnd(), MYWM_GETFILEINFO, 0, 0 );
 ////	From Here Oct. 4, 2000 JEPRO commented out & modified	開いているファイル数がわかるように履歴とは違って1から数える
 			pfi = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
 			CFileNameManager::getInstance()->GetMenuFullLabel_WinList( szMenu, int(std::size(szMenu)), pfi, vEditNode[i].m_nId, i, dcFont.GetHDC() );

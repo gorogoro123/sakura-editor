@@ -584,7 +584,7 @@ BOOL CDialog::OnCbnDropDown( HWND hwndCtl, bool scrollBar )
 	hDC = ::GetDC( hwndCtl );
 	if( nullptr == hDC )
 		return FALSE;
-	hFont = (HFONT)::SendMessage( hwndCtl, WM_GETFONT, 0, (LPARAM)nullptr );
+	hFont = (HFONT)::SendMessageW( hwndCtl, WM_GETFONT, 0, (LPARAM)nullptr );
 	hFont = (HFONT)::SelectObject( hDC, hFont );
 	nItem = ApiWrap::Combo_GetCount( hwndCtl );
 	::GetWindowRect( hwndCtl, &rc );
@@ -637,7 +637,7 @@ HFONT CDialog::SetMainFont( HWND hTarget )
 	LOGFONT	lf;
 
 	// 設定するフォントの高さを取得
-	hFont = (HFONT)::SendMessage(hTarget, WM_GETFONT, 0, 0);
+	hFont = (HFONT)::SendMessageW(hTarget, WM_GETFONT, 0, 0);
 	GetObject(hFont, sizeof(lf), &lf);
 	LONG nfHeight = lf.lfHeight;
 
@@ -662,7 +662,7 @@ HFONT CDialog::SetMainFont( HWND hTarget )
 	hFont = ::CreateFontIndirect(&lf);
 	if (hFont) {
 		// フォントの設定
-		::SendMessage(hTarget, WM_SETFONT, (WPARAM)hFont, MAKELPARAM(FALSE, 0));
+		::SendMessageW(hTarget, WM_SETFONT, (WPARAM)hFont, MAKELPARAM(FALSE, 0));
 	}
 	return hFont;
 }

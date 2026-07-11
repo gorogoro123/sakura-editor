@@ -215,7 +215,7 @@ INT_PTR CPropToolbar::DispatchEvent(
 
 //	From Here Oct.14, 2000 JEPRO added	(Ref. CPropComCustmenu.cpp 内のWM_INITDIALOGを参考にした)
 		/* キー選択時の処理 */
-		::SendMessage( hwndDlg, WM_COMMAND, MAKELONG( IDC_COMBO_FUNCKIND, CBN_SELCHANGE ), (LPARAM)hwndCombo );
+		::SendMessageW( hwndDlg, WM_COMMAND, MAKELONG( IDC_COMBO_FUNCKIND, CBN_SELCHANGE ), (LPARAM)hwndCombo );
 //	To Here Oct. 14, 2000
 
 		::SetTimer( hwndDlg, 1, 300, nullptr );
@@ -275,7 +275,7 @@ INT_PTR CPropToolbar::DispatchEvent(
 			case CBN_SELCHANGE:
 				nIndex2 = ApiWrap::Combo_GetCurSel( hwndCombo );
 
-				::SendMessage( hwndFuncList, WM_SETREDRAW, FALSE, 0 );
+				::SendMessageW( hwndFuncList, WM_SETREDRAW, FALSE, 0 );
 				ApiWrap::List_ResetContent( hwndFuncList );
 
 				/* 機能一覧に文字列をセット (リストボックス) */
@@ -294,7 +294,7 @@ INT_PTR CPropToolbar::DispatchEvent(
 						lResult = ApiWrap::List_SetItemHeight( hwndFuncList, lResult, nListItemHeight );
 					}
 				}
-				::SendMessage( hwndFuncList, WM_SETREDRAW, TRUE, 0 );
+				::SendMessageW( hwndFuncList, WM_SETREDRAW, TRUE, 0 );
 				return TRUE;
 			default:
 				break;
