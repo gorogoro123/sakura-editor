@@ -10,9 +10,7 @@
 // 要先行定義
 #include "EColorIndexType.h"
 #include "uiparts/CGraphics.h"
-
 #include "view/DispPos.h"
-#include "util/design_template.h"
 
 struct DispPos;
 
@@ -163,12 +161,10 @@ protected:
 	const STypeConfig* m_pTypeData = nullptr;
 };
 
-class CColorStrategyPool final : public TSingleton<CColorStrategyPool>{
-	friend TSingleton<CColorStrategyPool>;
+class CColorStrategyPool {
+public:
 	CColorStrategyPool();
 	~CColorStrategyPool();
-
-public:
 
 	//取得
 	CColorStrategy*	GetStrategy(int nIndex) const noexcept { return m_vStrategiesDisp[nIndex]; }

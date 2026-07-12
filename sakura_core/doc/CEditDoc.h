@@ -100,7 +100,7 @@ public:
 
 	void SetAllEol(CEol cEol);
 
-	CColorStrategyPool* GetColorStrategyPool() const;
+	CColorStrategyPool* GetColorStrategyPool() const noexcept { return m_pColorStrategyPool.get(); }
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 	//                       メンバ変数群                          //
@@ -159,6 +159,7 @@ public:
 
 private:
 	CEditWnd* 		m_pcEditWnd = nullptr;
+	std::unique_ptr<CColorStrategyPool> m_pColorStrategyPool;
 };
 
 CEditDoc* GetDocument() noexcept;
