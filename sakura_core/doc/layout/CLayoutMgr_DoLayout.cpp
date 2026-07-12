@@ -241,9 +241,9 @@ void CLayoutMgr::_MakeOneLine(SLayoutWork* pWork, PF_OnLine pfOnLine)
 	CLogicInt nLength = pWork->cLineStr.GetLength() - CLogicInt(nEol_1);
 
 	if(pWork->pcColorStrategy)pWork->pcColorStrategy->InitStrategyStatus();
-	CColorStrategyPool& color = *CColorStrategyPool::getInstance();
+	CColorStrategyPool* pColor = m_pcEditDoc->GetColorStrategyPool();
 
-	const bool bCheckColorEnabled = color.HasRangeBasedColorStrategies();
+	const bool bCheckColorEnabled = pColor->HasRangeBasedColorStrategies();
 	const bool bKinsokuEnabled = m_pTypeConfig->m_bWordWrap
 		|| m_pTypeConfig->m_bKinsokuKuto
 		|| m_pTypeConfig->m_bKinsokuHead
@@ -278,7 +278,7 @@ void CLayoutMgr::_MakeOneLine(SLayoutWork* pWork, PF_OnLine pfOnLine)
 
 		if( bCheckColorEnabled ){
 			// 範囲を持つ色分けの開始終了チェック
-			color.CheckColorMODE( &pWork->pcColorStrategy, pWork->nPos, pWork->cLineStr );
+			pColor->CheckColorMODE( &pWork->pcColorStrategy, pWork->nPos, pWork->cLineStr );
 		}
 
 		const auto& ch = pWork->cLineStr[pWork->nPos];
@@ -339,7 +339,7 @@ void CLayoutMgr::_DoLayout(bool bBlockingHook)
 	if (nAllLineCount < 1000) {
 		// 行数が多くなければマルチスレッド処理するまでもない
 		nWorkerThreadCount = 0;
-	} else if (CColorStrategyPool::getInstance()->HasRangeBasedColorStrategies()) {
+	} else if (CColorStrategyPool* pColor = m_pcEditDoc->GetColorStrategyPool(); pColor->HasRangeBasedColorStrategies() ) {
 		// 行をまたぐ可能性のある色分けが有効の場合、途中で処理単位が分割されて
 		// しまうと色分けがおかしくなってしまうためやむなくマルチスレッド処理の対象外とする
 		nWorkerThreadCount = 0;
@@ -566,10 +566,11 @@ CLayoutInt CLayoutMgr::DoLayout_Range(
 	m_nEOFColumn = CLayoutInt(-1);
 	m_nEOFLine = CLayoutInt(-1);
 
+	CColorStrategyPool* pColor = m_pcEditDoc->GetColorStrategyPool();
 	SLayoutWork _sWork;
 	SLayoutWork* pWork = &_sWork;
 	pWork->pLayout					= pLayoutPrev;
-	pWork->pcColorStrategy			= CColorStrategyPool::getInstance()->GetStrategyByColor(nCurrentLineType);
+	pWork->pcColorStrategy			= pColor->GetStrategyByColor(nCurrentLineType);
 	pWork->colorPrev				= nCurrentLineType;
 	pWork->exInfoPrev.SetColorInfo(colorInfo);
 	pWork->bNeedChangeCOMMENTMODE	= false;

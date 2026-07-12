@@ -44,6 +44,7 @@ class CEditWnd; // Sep. 10, 2002 genta
 struct EditInfo; // 20050705 aroka
 class CFuncInfoArr;
 class CEditApp;
+class CColorStrategyPool;
 
 /*!
 	文書関連情報の管理
@@ -96,6 +97,8 @@ public:
 	void SetBackgroundImage();
 
 	void SetCurDirNotitle();
+
+	CColorStrategyPool* GetColorStrategyPool() const;
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 	//                       メンバ変数群                          //

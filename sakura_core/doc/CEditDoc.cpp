@@ -59,6 +59,7 @@
 #include "util/window.h"
 #include "sakura_rc.h"
 #include "config/app_constants.h"
+#include "view/colors/CColorStrategy.h"
 
 #define IDT_ROLLMOUSE	1
 
@@ -1017,4 +1018,9 @@ void CEditDoc::SetCurDirNotitle()
 	if( pszDir != nullptr ){
 		::SetCurrentDirectory( pszDir );
 	}
+}
+
+CColorStrategyPool* CEditDoc::GetColorStrategyPool() const
+{
+	return CColorStrategyPool::getInstance();
 }
