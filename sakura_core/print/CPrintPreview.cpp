@@ -1363,7 +1363,7 @@ CColorStrategy* CPrintPreview::DrawPageTextFirst(int nPageNum)
 	// ページトップの色指定を取得
 	CColorStrategy*	pStrategy = nullptr;
 	if (m_pPrintSetting->m_bColorPrint) {
-		m_pool = CColorStrategyPool::getInstance();
+		m_pool = m_pParentWnd->GetDocument()->GetColorStrategyPool();
 		m_pool->SetCurrentView(&(m_pParentWnd->GetActiveView()));
 
 		const CLayoutInt	nPageTopLineNum = CLayoutInt( (nPageNum * m_pPrintSetting->m_nPrintDansuu) * m_bPreview_EnableLines );
