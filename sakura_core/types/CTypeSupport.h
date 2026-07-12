@@ -9,36 +9,23 @@
 
 #include "util/design_template.h"
 #include "uiparts/CGraphics.h"
-#include "doc/CEditDoc.h"
-#include "view/CEditView.h"
-#include "view/CViewFont.h"
-#include "view/colors/CColorStrategy.h"
+#include "doc/CDocTypeSetting.h"
+
+enum EColorIndexType : int;
+class CEditView;
+class CViewFont;
+struct STypeConfig;
 
 //2007.08.28 kobake 追加
 /*!タイプサポートクラス
 	今のところタイプ別設定の色情報取得の補助
 */
-class CTypeSupport{
-	static const COLORREF INVALID_COLOR=0xFFFFFFFF; //無効な色定数
+class CTypeSupport final {
+	static constexpr COLORREF INVALID_COLOR=0xFFFFFFFF; //無効な色定数
 
 public:
-	CTypeSupport(const CEditView* pEditView, EColorIndexType eColorIdx)
-	: m_pFontset(&pEditView->GetFontset())
-	, m_nColorIdx(ToColorInfoArrIndex(eColorIdx))
-	{
-		assert(0 <= m_nColorIdx);
-		m_pTypes = &pEditView->m_pcEditDoc->m_cDocType.GetDocumentAttribute();
-		m_pColorInfoArr = &m_pTypes->m_ColorInfoArr[m_nColorIdx];
-
-		m_gr = nullptr;
-	}
-
-	virtual ~CTypeSupport()
-	{
-		if(m_gr){
-			RewindGraphicsState(*m_gr);
-		}
-	}
+	CTypeSupport(const CEditView* pEditView, EColorIndexType eColorIdx);
+	~CTypeSupport();
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 	//                           取得                              //
@@ -81,53 +68,22 @@ public:
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 	//                           描画                              //
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
-	void FillBack(CGraphics& gr,const RECT& rc)
-	{
-		gr.FillSolidMyRect(rc, m_pColorInfoArr->m_sColorAttr.m_cBACK);
-	}
+	void FillBack(CGraphics& gr,const RECT& rc);
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 	//                           設定                              //
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
-	SFONT GetTypeFont()
-	{
-		SFONT sFont;
-		sFont.m_sFontAttr = m_pColorInfoArr->m_sFontAttr;
-		sFont.m_hFont = m_pFontset->ChooseFontHandle( 0, m_pColorInfoArr->m_sFontAttr );
-		return sFont;
-	}
-	void SetGraphicsState_WhileThisObj(CGraphics& gr)
-	{
-		if(m_gr){
-			RewindGraphicsState(*m_gr);
-		}
-
-		m_gr = &gr;
-
-		//テキスト色
-		gr.PushTextBackColor(GetBackColor());
-		gr.PushTextForeColor(GetTextColor());
-
-		//フォント
-		gr.PushMyFont(GetTypeFont());
-	}
-	void RewindGraphicsState(CGraphics& gr)
-	{
-		if(m_gr){
-			gr.PopTextBackColor();
-			gr.PopTextForeColor();
-			gr.PopMyFont();
-			m_gr = nullptr;
-		}
-	}
+	SFONT GetTypeFont();
+	void SetGraphicsState_WhileThisObj(CGraphics& gr);
+	void RewindGraphicsState(CGraphics& gr);
 
 private:
-	const CViewFont*		m_pFontset;
-	const STypeConfig*		m_pTypes;
-	int						m_nColorIdx;
-	const ColorInfo*		m_pColorInfoArr;
+	const CViewFont*		m_pFontset = nullptr;
+	const STypeConfig*		m_pTypes = nullptr;
+	int						m_nColorIdx = 0;
+	const ColorInfo*		m_pColorInfoArr = nullptr;
 
-	CGraphics* m_gr;        //設定を変更したHDC
+	CGraphics* 				m_gr = nullptr;        //設定を変更したHDC
 
 	DISALLOW_COPY_AND_ASSIGN(CTypeSupport);
 };
