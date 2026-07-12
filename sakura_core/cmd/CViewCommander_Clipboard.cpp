@@ -854,7 +854,7 @@ void CViewCommander::Command_COPY_COLOR_HTML(bool bLineNumber)
 	SFontAttr sFontAttrNext = { false, false };
 	SFontAttr sFontAttrLast = { false, false };
 	SFontAttr sFontAttrLast2 = { false, false };
-	CColorStrategyPool* pool = CColorStrategyPool::getInstance();
+	CColorStrategyPool* pool = GetDocument()->GetColorStrategyPool();
 	pool->SetCurrentView(m_pCommanderView);
 	for(CLogicInt nLineNum = sSelectLogic.GetFrom().y; nLineNum <= nLineNumLast; nLineNum++, pcDocLine = pcDocLine->GetNextLine()){
 		if( pcDocLine == nullptr ){

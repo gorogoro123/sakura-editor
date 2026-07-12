@@ -351,7 +351,8 @@ CColor3Setting CEditView::GetColorIndex(
 		return cColor;
 	}
 	// 2014.12.30 Skipモードの時もCOLORIDX_TEXT
-	if (CColorStrategyPool::getInstance()->IsSkipBeforeLayout()) {
+	CColorStrategyPool* pool = GetDocument()->GetColorStrategyPool();
+	if (pool->IsSkipBeforeLayout()) {
 		CColor3Setting cColor = { COLORIDX_TEXT, COLORIDX_TEXT, COLORIDX_TEXT };
 		return cColor;
 	}
@@ -380,7 +381,6 @@ CColor3Setting CEditView::GetColorIndex(
 		pInfo->m_nPosInLogic = pcLayoutLineFirst->GetLogicOffset();
 
 		//CColorStrategyPool初期化
-		CColorStrategyPool* pool = CColorStrategyPool::getInstance();
 		pool->SetCurrentView(this);
 		pool->NotifyOnStartScanLogic();
 
@@ -409,7 +409,6 @@ CColor3Setting CEditView::GetColorIndex(
 	CStringRef cLineStr(pcDocLine->GetPtr(),pcDocLine->GetLengthWithEOL());
 
 	//color strategy
-	CColorStrategyPool* pool = CColorStrategyPool::getInstance();
 	pInfo->m_pStrategy = pool->GetStrategyByColor(eRet);
 	if(pInfo->m_pStrategy){
 		pInfo->m_pStrategy->InitStrategyStatus();
@@ -876,7 +875,7 @@ bool CEditView::DrawLogicLine(
 	bool bDispEOF = false;
 
 	//CColorStrategyPool初期化
-	CColorStrategyPool* pool = CColorStrategyPool::getInstance();
+	CColorStrategyPool* pool = GetDocument()->GetColorStrategyPool();
 	pool->SetCurrentView(this);
 	pool->NotifyOnStartScanLogic();
 	bool bSkipBeforeLayout = pool->IsSkipBeforeLayout();
@@ -1057,7 +1056,8 @@ bool CEditView::DrawLayoutLine(SColorStrategyInfo* pInfo)
 			bSkipRight = true; // 次の行は別のロジック行なのでスキップ可能
 		}
 		if( !bSkipRight ){
-			bSkipRight = CColorStrategyPool::getInstance()->IsSkipBeforeLayout();
+			CColorStrategyPool* pool = GetDocument()->GetColorStrategyPool();
+			bSkipRight = pool->IsSkipBeforeLayout();
 		}
 	}
 	//行終端または折り返しに達するまでループ
