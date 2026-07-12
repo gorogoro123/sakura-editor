@@ -191,6 +191,7 @@ BOOL CEditDoc::Create(CEditWnd& cEditWnd)
 	m_pcAutoSaveAgent = std::make_unique<CAutoSaveAgent>(*this);
 	m_pcAutoReloadAgent = std::make_unique<CAutoReloadAgent>(*this, cEditWnd);
 	m_pcDocLocker = std::make_unique<CDocLocker>(*this);
+	m_pColorStrategyPool = std::make_unique<CColorStrategyPool>();
 
 	// レイアウト管理情報の初期化
 	m_cLayoutMgr.Create( this, &m_cDocLineMgr );
@@ -1089,11 +1090,6 @@ void CEditDoc::SetAllEol(CEol cEol)
 		}
 		pcView->SetUndoBuffer();
 	}
-}
-
-CColorStrategyPool* CEditDoc::GetColorStrategyPool() const
-{
-	return CColorStrategyPool::getInstance();
 }
 
 const CEditWnd& CEditDoc::GetEditWnd() const
