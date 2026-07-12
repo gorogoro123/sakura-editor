@@ -10,6 +10,7 @@
 #include "window/CEditWnd.h"
 #include "doc/CEditDoc.h"
 #include "types/CTypeSupport.h"
+#include "view/colors/CColorStrategy.h"
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                           括弧                              //
