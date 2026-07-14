@@ -767,9 +767,8 @@ void CEditView::OnPaint2( HDC _hdc, PAINTSTRUCT *pPs, BOOL bDrawFromComptibleBmp
 		}
 	}else{
 		auto caretY = GetCaret().GetCaretLayoutPos().GetY2();
-		SColorStrategyInfo sInfo(gr);
+		SColorStrategyInfo sInfo(this, gr);
 		sInfo.m_pDispPos = &sPos;
-		sInfo.m_pcView = this;
 		while(sPos.GetLayoutLineRef() <= nLayoutLineTo)
 		{
 			//描画X位置リセット

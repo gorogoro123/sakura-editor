@@ -74,13 +74,13 @@ struct CColor3Setting {
 };
 
 struct SColorStrategyInfo{
-	explicit SColorStrategyInfo(HDC hDC = nullptr)
-		: m_gr(hDC)
+	explicit SColorStrategyInfo(CEditView *pcView, HDC hDC = nullptr)
+		: m_pcView(pcView), m_gr(hDC)
 	{
 	}
 
 	//参照
-	CEditView*	m_pcView = nullptr;
+	CEditView*	m_pcView;
 	CGraphics	m_gr = nullptr;	//(SColorInfoでは未使用)
 
 	//スキャン位置
