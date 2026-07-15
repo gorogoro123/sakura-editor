@@ -160,9 +160,6 @@
     <ClInclude Include="..\sakura_core\agent\CAutoSaveAgent.h">
       <Filter>Cpp Source Files\agent</Filter>
     </ClInclude>
-    <ClInclude Include="..\sakura_core\agent\CBackupAgent.h">
-      <Filter>Cpp Source Files\agent</Filter>
-    </ClInclude>
     <ClInclude Include="..\sakura_core\env\CCodeChecker.h">
       <Filter>Cpp Source Files\env</Filter>
     </ClInclude>
@@ -1211,9 +1208,6 @@
       <Filter>Cpp Source Files\agent</Filter>
     </ClCompile>
     <ClCompile Include="..\sakura_core\agent\CAutoSaveAgent.cpp">
-      <Filter>Cpp Source Files\agent</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sakura_core\agent\CBackupAgent.cpp">
       <Filter>Cpp Source Files\agent</Filter>
     </ClCompile>
     <ClCompile Include="..\sakura_core\env\CCodeChecker.cpp">
