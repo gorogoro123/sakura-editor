@@ -40,14 +40,14 @@ bool SColorStrategyInfo::CheckChangeColor(const CStringRef& cLineStr)
 
 	//選択範囲色終了
 	if(m_pStrategySelect){
-		if(m_pStrategySelect->EndColor(cLineStr,this->GetPosInLogic())){
+		if(m_pStrategySelect->EndColor(cLineStr, m_nPosInLogic)){
 			m_pStrategySelect = nullptr;
 			bChange = true;
 		}
 	}
 	//選択範囲色開始
 	if(!m_pStrategySelect){
-		if(pcSelect->BeginColorEx(cLineStr,this->GetPosInLogic(), m_pDispPos->GetLayoutLineRef(), this->GetLayout())){
+		if(pcSelect->BeginColorEx(cLineStr, m_nPosInLogic, m_pDispPos->GetLayoutLineRef(), this->GetLayout())){
 			m_pStrategySelect = pcSelect;
 			bChange = true;
 		}
@@ -55,7 +55,7 @@ bool SColorStrategyInfo::CheckChangeColor(const CStringRef& cLineStr)
 
 	//検索色終了
 	if(m_pStrategyFound){
-		if(m_pStrategyFound->EndColor(cLineStr,this->GetPosInLogic())){
+		if(m_pStrategyFound->EndColor(cLineStr, m_nPosInLogic)){
 			m_pStrategyFound = nullptr;
 			bChange = true;
 		}
@@ -63,7 +63,7 @@ bool SColorStrategyInfo::CheckChangeColor(const CStringRef& cLineStr)
 
 	//検索色開始
 	if(!m_pStrategyFound){
-		if(pcFound->BeginColor(cLineStr,this->GetPosInLogic())){
+		if(pcFound->BeginColor(cLineStr, m_nPosInLogic)){
 			m_pStrategyFound = pcFound;
 			bChange = true;
 		}
@@ -71,7 +71,7 @@ bool SColorStrategyInfo::CheckChangeColor(const CStringRef& cLineStr)
 
 	//色終了
 	if(m_pStrategy){
-		if(m_pStrategy->EndColor(cLineStr,this->GetPosInLogic())){
+		if(m_pStrategy->EndColor(cLineStr, m_nPosInLogic)){
 			m_pStrategy = nullptr;
 			bChange = true;
 		}
@@ -81,7 +81,7 @@ bool SColorStrategyInfo::CheckChangeColor(const CStringRef& cLineStr)
 	if(!m_pStrategy){
 		int size = pool->GetStrategyCount();
 		for(int i = 0; i < size; i++ ){
-			if(pool->GetStrategy(i)->BeginColor(cLineStr,this->GetPosInLogic())){
+			if(pool->GetStrategy(i)->BeginColor(cLineStr, m_nPosInLogic)){
 				m_pStrategy = pool->GetStrategy(i);
 				bChange = true;
 				break;
