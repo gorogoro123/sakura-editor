@@ -352,7 +352,7 @@ CColor3Setting CEditView::GetColorIndex(
 	}
 	// 2014.12.30 Skipモードの時もCOLORIDX_TEXT
 	CColorStrategyPool* pool = GetDocument()->GetColorStrategyPool();
-	if (pool->IsSkipBeforeLayout()) {
+	if (pool->IsSkipBeforeLayout(m_bCurSrchKeyMark)) {
 		CColor3Setting cColor = { COLORIDX_TEXT, COLORIDX_TEXT, COLORIDX_TEXT };
 		return cColor;
 	}
@@ -877,7 +877,7 @@ bool CEditView::DrawLogicLine(
 	CColorStrategyPool* pool = GetDocument()->GetColorStrategyPool();
 	pool->SetCurrentView(this);
 	pool->NotifyOnStartScanLogic();
-	bool bSkipBeforeLayout = pool->IsSkipBeforeLayout();
+	bool bSkipBeforeLayout = pool->IsSkipBeforeLayout(m_bCurSrchKeyMark);
 
 	//DispPosを保存しておく
 	pInfo->m_sDispPosBegin = *pInfo->m_pDispPos;
@@ -1056,7 +1056,7 @@ bool CEditView::DrawLayoutLine(SColorStrategyInfo* pInfo)
 		}
 		if( !bSkipRight ){
 			CColorStrategyPool* pool = GetDocument()->GetColorStrategyPool();
-			bSkipRight = pool->IsSkipBeforeLayout();
+			bSkipRight = pool->IsSkipBeforeLayout(m_bCurSrchKeyMark);
 		}
 	}
 	//行終端または折り返しに達するまでループ
