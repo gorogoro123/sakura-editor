@@ -70,9 +70,7 @@ bool CColor_Select::EndColor([[maybe_unused]] const CStringRef& cStr, int nPos)
 	return false;
 }
 
-CColor_Found::CColor_Found()
-: validColorNum( 0 )
-{}
+CColor_Found::CColor_Found() = default;
 
 void CColor_Found::OnStartScanLogic()
 {
@@ -80,10 +78,10 @@ void CColor_Found::OnStartScanLogic()
 	m_nSearchStart	= CLogicInt(-1);
 	m_nSearchEnd	= CLogicInt(-1);
 
-	this->validColorNum = 0;
+	m_validColorNum = 0;
 	for( int color = COLORIDX_SEARCH; color <= COLORIDX_SEARCHTAIL; ++color ) {
 		if( m_pTypeData->m_ColorInfoArr[ color ].m_bDisp ) {
-			this->highlightColors[ this->validColorNum++ ] = EColorIndexType( color );
+			m_highlightColors[ m_validColorNum++ ] = EColorIndexType( color );
 		}
 	}
 }
@@ -92,7 +90,7 @@ bool CColor_Found::BeginColor(const CStringRef& cStr, int nPos)
 {
 	if(!cStr.IsValid())return false;
 	const CEditView* pcView = CColorStrategyPool::getInstance()->GetCurrentView();
-	if( !pcView->m_bCurSrchKeyMark || 0 == this->validColorNum ){
+	if( !pcView->m_bCurSrchKeyMark || 0 == m_validColorNum ){
 		return false;
 	}
 
