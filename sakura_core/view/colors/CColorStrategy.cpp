@@ -327,12 +327,12 @@ void CColorStrategyPool::OnChangeSetting()
 	}
 }
 
-bool CColorStrategyPool::IsSkipBeforeLayout()
+bool CColorStrategyPool::IsSkipBeforeLayout(bool bCurSrchKeyMark)
 {
 	if( !m_bSkipBeforeLayoutGeneral ){
 		return false;
 	}
-	if( !m_bSkipBeforeLayoutFound && m_pcView->m_bCurSrchKeyMark ){
+	if( !m_bSkipBeforeLayoutFound && bCurSrchKeyMark ){
 		return false;
 	}
 	return true;
