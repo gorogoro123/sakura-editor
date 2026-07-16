@@ -90,8 +90,8 @@ void CFuncInfoArr::DUMP( )
 	MYTRACE( L"=============================\n" );
 	for(int i = 0; const auto& pcFuncInfo : m_pcFuncInfoArr){
 		MYTRACE( L"[%d]------------------\n", i );
-		MYTRACE( L"m_nFuncLineCRLF	=%d\n", pcFuncInfo->m_nFuncLineCRLF );
-		MYTRACE( L"m_nFuncLineLAYOUT	=%d\n", pcFuncInfo->m_nFuncLineLAYOUT );
+		MYTRACE( L"m_nFuncLineCRLF	=%d\n", static_cast<int>(pcFuncInfo->m_nFuncLineCRLF) );
+		MYTRACE( L"m_nFuncLineLAYOUT	=%d\n", static_cast<int>(pcFuncInfo->m_nFuncLineLAYOUT) );
 		MYTRACE( L"m_cmemFuncName	=[%s]\n", pcFuncInfo->m_cmemFuncName.GetStringPtr() );
 		MYTRACE( L"m_cmemFileName	=[%s]\n",
 			(pcFuncInfo->m_cmemFileName.GetStringPtr() ? pcFuncInfo->m_cmemFileName.GetStringPtr() : L"NULL") );
