@@ -60,7 +60,7 @@ jobs:
       uses: microsoft/setup-msbuild@v3
 
     - name: Install Build Wrapper
-      uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v8.2.0
+      uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v8.2.1
 
     - name: Build with Build-Wrapper
       run: build-wrapper-win-x86-64.exe
