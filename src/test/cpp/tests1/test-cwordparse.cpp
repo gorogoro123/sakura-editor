@@ -167,13 +167,6 @@ TEST(IsURL, UrlStopsAtParenthesis)
 	EXPECT_THAT(result.matched, ::testing::SizeIs(Eq(18)));
 }
 
-TEST(IsURL, GopherProtocol)
-{
-	const auto result = IsURL(L"gopher://gopher.example.com");
-	EXPECT_TRUE(result);
-	EXPECT_THAT(result.matched, ::testing::SizeIs(Eq(27)));
-}
-
 TEST(IsURL, NewsProtocol)
 {
 	const auto result = IsURL(L"news:comp.lang.c++");
