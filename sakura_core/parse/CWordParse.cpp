@@ -392,20 +392,19 @@ struct _url_table_t {
 
 static constexpr auto url_table = std::to_array<_url_table_t>({
 	/* アルファベット順 */
-	{ L"file://",		false }, /* 1 */
-	{ L"ftp://",		false }, /* 2 */
-	{ L"gopher://",		false }, /* 3 */
-	{ L"http://",		false }, /* 4 */
-	{ L"https://",		false }, /* 5 */
-	{ L"mailto:",		true  }, /* 6 */
-	{ L"news:",			false }, /* 7 */
-	{ L"nntp://",		false }, /* 8 */
-	{ L"prospero://",	false }, /* 9 */
-	{ L"telnet://",		false }, /* 10 */
-	{ L"tp://",			false }, /* 11 */
-	{ L"ttp://",		false }, /* 12 */
-	{ L"wais://",		false }, /* 13 */
-	{ L"{",				false }  /* 14 */  /* '{' is 'z'+1 : terminate */
+	{ L"file://",		false },
+	{ L"ftp://",		false },
+	{ L"http://",		false },
+	{ L"https://",		false },
+	{ L"mailto:",		true  },
+	{ L"news:",			false },
+	{ L"nntp://",		false },
+	{ L"prospero://",	false },
+	{ L"telnet://",		false },
+	{ L"tp://",			false },
+	{ L"ttp://",		false },
+	{ L"wais://",		false },
+	{ L"{",				false }   /* '{' is 'z'+1 : terminate */
 });
 
 constexpr auto get_index_of(std::wstring_view urlHeader)
@@ -416,7 +415,6 @@ constexpr auto get_index_of(std::wstring_view urlHeader)
 
 // テーブルの保守性を高めるための定義
 constexpr auto urF = get_index_of(L"file://") + 1;
-constexpr auto urG = get_index_of(L"gopher://") + 1;
 constexpr auto urH = get_index_of(L"http://") + 1;
 constexpr auto urM = get_index_of(L"mailto:") + 1;
 constexpr auto urN = get_index_of(L"news:") + 1;
@@ -433,7 +431,7 @@ constexpr char url_char[] = {
 	   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  0, -1,  0, -1,	/* +30: "0123456789:;<=>?" */
 	   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,	/* +40: "@ABCDEFGHIJKLMNO" */
 	   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  0, -1,  0,  0, -1,	/* +50: "PQRSTUVWXYZ[\]^_" */
-	    0, -1, -1, -1, -1, -1,urF,urG,urH, -1, -1, -1, -1,urM,urN, -1,	/* +60: "`abcdefghijklmno" */
+	    0, -1, -1, -1, -1, -1,urF, -1,urH, -1, -1, -1, -1,urM,urN, -1,	/* +60: "`abcdefghijklmno" */
 	  urP, -1, -1, -1,urT, -1, -1,urW, -1, -1, -1,  0,  0,  0, -1,  0,	/* +70: "pqrstuvwxyz{|}~ " */
 // clang-format on
 	/* あと128バイト犠牲にすればif文を2箇所削除できる */
