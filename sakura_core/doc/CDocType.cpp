@@ -88,7 +88,8 @@ void CDocType::SetDocumentIcon()
 	if( CEditApp::getInstance()->GetGrepAgent()->GrepMode() )	// Grepモードの時はアイコンを変更しない
 		return;
 	
-	HICON	hIconBig, hIconSmall;
+	HICON hIconBig = nullptr;
+	HICON hIconSmall = nullptr;
 	if( this->GetDocumentAttribute().m_bUseDocumentIcon )
 		GetEditWnd().GetRelatedIcon( m_pcDocRef->m_cDocFile.GetFilePath(), &hIconBig, &hIconSmall );
 	else
