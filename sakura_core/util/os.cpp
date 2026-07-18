@@ -207,20 +207,6 @@ HGLOBAL GetGlobalData( LPDATAOBJECT pDataObject, CLIPFORMAT cfFormat )
 	return hDest;
 }
 
-/*
-	https://docs.microsoft.com/en-us/windows/desktop/api/wow64apiset/nf-wow64apiset-iswow64process
-*/
-BOOL IsWow64()
-{
-	BOOL bIsWow64 = FALSE;
-	if (!IsWow64Process(GetCurrentProcess(),&bIsWow64))
-	{
-		// 失敗したら WOW64 はオフとみなす
-		bIsWow64 = FALSE;
-	}
-	return bIsWow64;
-}
-
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                        便利クラス                           //
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
@@ -246,33 +232,8 @@ CCurrentDirectoryBackupPoint::~CCurrentDirectoryBackupPoint()
 	}
 }
 
-CDisableWow64FsRedirect::CDisableWow64FsRedirect(BOOL isOn)
-{
-	if (isOn && IsWow64()) {
-		m_isSuccess = Wow64DisableWow64FsRedirection(&m_OldValue);
-	}
-	else {
-		m_isSuccess = FALSE;
-	}
-}
-
-CDisableWow64FsRedirect::~CDisableWow64FsRedirect()
-{
-	if (m_isSuccess) {
-		Wow64RevertWow64FsRedirection(m_OldValue);
-	}
-}
-
 BOOL IsPowerShellAvailable()
 {
-#ifndef _WIN64
-	/*
-		64bit OS で 32bit アプリから起動する場合に意図したパスを見つけられるようにするために
-		Wow64 の FileSystem Redirection を一時的にオフにする。
-	*/
-	CDisableWow64FsRedirect wow64Redirect(TRUE);
-#endif
-
 	WCHAR szFileBuff[MAX_PATH];
 	LPWSTR lpFilePart = nullptr;
 
