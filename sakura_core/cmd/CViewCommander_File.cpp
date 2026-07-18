@@ -578,16 +578,6 @@ void CViewCommander::Command_OPEN_COMMAND_PROMPT(BOOL isAdmin)
 		pVerb = L"runas";
 	}
 
-#ifndef _WIN64
-	/*
-		64bit OS で 32bit アプリからコマンドプロンプトを起動する場合
-		通常は 32bit 版のコマンドプロンプトが開かれる。
-
-		Wow64 の FileSystem Redirection を一時的にオフにすることにより 64bit 版の
-		コマンドプロンプトを起動する
-	*/
-	CDisableWow64FsRedirect wow64Redirect(TRUE);
-#endif
 	auto hInstance = ::ShellExecuteW(nullptr, pVerb, szCmdExePathBuf.data(), pszcmdExeParam, strFolder.c_str(), SW_SHOWNORMAL);
 	// If the function succeeds, it returns a value greater than 32. 
 	if (hInstance <= (decltype(hInstance))32) {
@@ -622,16 +612,6 @@ void CViewCommander::Command_OPEN_POWERSHELL(BOOL isAdmin)
 		pVerb = L"runas";
 	}
 
-#ifndef _WIN64
-	/*
-		64bit OS で 32bit アプリから PowerShell を起動する場合
-		通常は 32bit 版の PowerShell が開かれる。
-
-		Wow64 の FileSystem Redirection を一時的にオフにすることにより 64bit 版の
-		PowerShell を起動する
-	*/
-	CDisableWow64FsRedirect wow64Redirect(TRUE);
-#endif
 	auto hInstance = ::ShellExecuteW(nullptr, pVerb, L"powershell.exe", pszcmdExeParam, strFolder.c_str(), SW_SHOWNORMAL);
 	// If the function succeeds, it returns a value greater than 32. 
 	if (hInstance <= (decltype(hInstance))32) {
