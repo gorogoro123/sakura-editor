@@ -871,9 +871,9 @@ int CDlgGrep::GetData( )
 
 		// 2011.11.24 Moca 複数フォルダー指定
 		std::vector<std::wstring> vPaths;
-		CGrepAgent::CreateFolders( m_szFolder, vPaths );
+		CGrepAgent::CreateFolders( m_szFolder.c_str(), vPaths );
 		int nFolderLen = 0;
-		const int nMaxPath = MAX_GREP_PATH;
+		constexpr int nMaxPath = MAX_GREP_PATH;
 		WCHAR szFolder[nMaxPath];
 		szFolder[0] = L'\0';
 		for( int i = 0 ; i < (int)vPaths.size(); i ++ ){
@@ -888,7 +888,7 @@ int CDlgGrep::GetData( )
 			if( wcschr( szFolderItem, L';' ) ){
 				szFolderItem[0] = L'"';
 				::GetCurrentDirectory( nMaxPath, szFolderItem + 1 );
-				wcscat(szFolderItem, L"\"");
+				wcscat_s(szFolderItem, std::size(szFolderItem), L"\"");
 			}
 			auto nFolderItemLen = int(wcslen(szFolderItem));
 			if( nMaxPath < nFolderLen + nFolderItemLen + 1 ){
@@ -896,9 +896,9 @@ int CDlgGrep::GetData( )
 				return FALSE;
 			}
 			if( i ){
-				wcscat( szFolder, L";" );
+				wcscat_s( szFolder, std::size(szFolder), L";" );
 			}
-			wcscat( szFolder, szFolderItem );
+			wcscat_s( szFolder, std::size(szFolder), szFolderItem );
 			nFolderLen = (int)wcslen( szFolder );
 		}
 		m_szFolder = szFolder;
