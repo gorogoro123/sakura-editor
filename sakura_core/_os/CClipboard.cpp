@@ -351,10 +351,10 @@ bool CClipboard::GetText(IWBuffer* cmemBuf, bool* pbColumnSelect, bool* pbLineSe
 		HDROP hDrop = (HDROP)GetClipboardData(CF_HDROP);
 		if(hDrop != nullptr){
 			WCHAR sTmpPath[_MAX_PATH + 1] = {0};
-			const int nMaxCnt = DragQueryFile(hDrop, 0xFFFFFFFF, nullptr, 0);
+			const int nMaxCnt = DragQueryFileW(hDrop, 0xFFFFFFFF, nullptr, 0);
 
 			for(int nLoop = 0; nLoop < nMaxCnt; nLoop++){
-				DragQueryFile(hDrop, nLoop, sTmpPath, int(std::size(sTmpPath)) - 1);
+				DragQueryFileW(hDrop, nLoop, sTmpPath, int(std::size(sTmpPath)) - 1);
 				// 2012.10.05 Moca ANSI版に合わせて最終行にも改行コードをつける
 				cmemBuf->Append(sTmpPath, wcslen(sTmpPath));
 				if(nMaxCnt > 1){

@@ -21,7 +21,6 @@
 	Please contact the copyright holders to use this code for other purpose.
 */
 
-#include <climits>
 #include "CEditView.h"
 #include "_main/CAppMode.h"
 #include "CEditApp.h"
@@ -2122,9 +2121,9 @@ void CEditView::OnMyDropFiles( HDROP hDrop )
 		WCHAR szExt[_MAX_EXT];
 		WCHAR szWork[_MAX_PATH];
 
-		nFiles = ::DragQueryFile( hDrop, 0xFFFFFFFF, nullptr, 0 );
+		nFiles = ::DragQueryFileW( hDrop, 0xFFFFFFFF, nullptr, 0 );
 		for( UINT i = 0; i < nFiles; i++ ){
-			::DragQueryFile( hDrop, i, szPath, int(std::size(szPath)) );
+			::DragQueryFileW( hDrop, i, szPath, int(std::size(szPath)) );
 			if( !::GetLongFileName( szPath, szWork ) )
 				continue;
 			if( nId == 100 ){	// パス名
