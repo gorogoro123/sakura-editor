@@ -263,7 +263,7 @@ void CGrepAgent::AddTail( CEditView* pcEditView, const CNativeW& cmem, bool bAdd
 	}
 }
 
-int GetHwndTitle(HWND& hWndTarget, CNativeW* pmemTitle, std::span<WCHAR> szWindowName, WCHAR* pszWindowPath, const WCHAR* pszFile)
+int GetHwndTitle(HWND& hWndTarget, CNativeW* pmemTitle, std::span<WCHAR> szWindowName, SFilePath& szWindowPath, const WCHAR* pszFile)
 {
 	hWndTarget = nullptr;	//out引数をクリアする
 
@@ -302,9 +302,9 @@ int GetHwndTitle(HWND& hWndTarget, CNativeW* pmemTitle, std::span<WCHAR> szWindo
 		if( pmemTitle ){
 			pmemTitle->AppendString(szTitle);
 		}
-		pszWindowPath[0] = L'\0';
+		szWindowPath[0] = L'\0';
 	}else{
-		SplitPath_FolderAndFile(editInfo->m_szPath, pszWindowPath, szWindowName.data());
+		SplitPath_FolderAndFile(editInfo->m_szPath, szWindowPath, szWindowName.data());
 		if( pmemTitle ){
 			pmemTitle->AppendString(szWindowName.data());
 		}
@@ -569,7 +569,7 @@ DWORD CGrepAgent::DoGrep(
 
 	HWND hWndTarget = nullptr;
 	WCHAR szWindowName[_MAX_PATH];
-	WCHAR szWindowPath[_MAX_PATH];
+	SFilePath szWindowPath;
 	{
 		int nHwndRet = GetHwndTitle(hWndTarget, &cmemWork, szWindowName, szWindowPath, pcmGrepFile->GetStringPtr());
 		if( -1 == nHwndRet ){
@@ -715,8 +715,8 @@ DWORD CGrepAgent::DoGrep(
 			bool bOutputBaseFolder = false;
 			bool bOutputFolderName = false;
 			// 複数ウィンドウループ予約
-			auto nPathLen = wcsnlen_s(szWindowPath, std::size(szWindowPath));
-			std::wstring currentFile = szWindowPath;
+			auto nPathLen = szWindowPath.length();
+			std::wstring currentFile = szWindowPath.c_str();
 			if( currentFile.size() ){
 				currentFile += L'\\';
 				nPathLen += 1;
