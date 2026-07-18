@@ -2658,7 +2658,7 @@ void CEditWnd::OnDropFiles( HDROP hDrop )
 	HWND		hWndOwner;
 
 	::DragQueryPoint( hDrop, &pt );
-	cFiles = (int)::DragQueryFile( hDrop, 0xFFFFFFFF, nullptr, 0);
+	cFiles = (int)::DragQueryFileW( hDrop, 0xFFFFFFFF, nullptr, 0);
 	/* ファイルをドロップしたときは閉じて開く */
 	if( m_pShareData->m_Common.m_sFile.m_bDropFileAndClose ){
 		cFiles = 1;
@@ -2674,7 +2674,7 @@ void CEditWnd::OnDropFiles( HDROP hDrop )
 	for( i = 0; i < cFiles; i++ ) {
 		//ファイルパス取得、解決。
 		WCHAR		szFile[_MAX_PATH + 1];
-		::DragQueryFile( hDrop, i, szFile, int(std::size(szFile)) );
+		::DragQueryFileW( hDrop, i, szFile, int(std::size(szFile)) );
 		CSakuraEnvironment::ResolvePath(szFile);
 
 		/* 指定ファイルが開かれているか調べる */

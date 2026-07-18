@@ -373,12 +373,12 @@ LRESULT CALLBACK CDlgGrep::OnFolderProc(HWND hwnd, UINT msg, WPARAM wparam, LPAR
 	{
 		//	From Here 2007.09.02 genta 
 		SFilePath sPath;
-		if( DragQueryFile((HDROP)wparam, 0, nullptr, 0 ) > sPath.capacity() ){
+		if( DragQueryFileW((HDROP)wparam, 0, nullptr, 0 ) > sPath.capacity() ){
 			// skip if the length of the path exceeds buffer capacity
 			::DragFinish((HDROP)wparam);
 			return 0;
 		}
-		DragQueryFile((HDROP)wparam, 0, sPath, sPath.capacity() - 1);
+		DragQueryFileW((HDROP)wparam, 0, sPath, sPath.capacity() - 1);
 		::DragFinish((HDROP)wparam);
 
 		//ファイルパスの解決
