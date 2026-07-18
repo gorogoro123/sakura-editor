@@ -407,8 +407,8 @@ LRESULT CALLBACK CDlgGrep::OnFolderProc(HWND hwnd, UINT msg, WPARAM wparam, LPAR
 
 BOOL CDlgGrep::OnDestroy()
 {
-	for( size_t i = 0; i < m_cFontDeleters.size(); ++i ){
-		m_cFontDeleters[i].ReleaseOnDestroy();
+	for (auto &cFontDeleter : m_cFontDeleters) {
+		cFontDeleter.ReleaseOnDestroy();
 	}
 	return CDialog::OnDestroy();
 }
