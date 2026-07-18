@@ -1469,13 +1469,11 @@ CColorStrategy* CPrintPreview::DrawPageText(
 
 				/* 行番号区切り  0=なし 1=縦線 2=任意 */
 				if( 2 == m_pParentWnd->GetDocument()->m_cDocType.GetDocumentAttribute().m_nLineTermType ){
-					wchar_t szLineTerm[2];
-					szLineTerm[0] = m_pParentWnd->GetDocument()->m_cDocType.GetDocumentAttribute().m_cLineTermChar;	/* 行番号区切り文字 */
-					szLineTerm[1] = L'\0';
-					wcscat( szLineNum, szLineTerm );
+					wchar_t szLineTerm[2] = { m_pParentWnd->GetDocument()->m_cDocType.GetDocumentAttribute().m_cLineTermChar };	/* 行番号区切り文字 */
+					wcscat_s( szLineNum, std::size(szLineNum), szLineTerm );
 				}
 				else{
-					wcscat( szLineNum, L" " );
+					wcscat_s( szLineNum, std::size(szLineNum), L" " );
 				}
 
 				//文字列長
