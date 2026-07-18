@@ -130,7 +130,7 @@ static void ShowCodeBox( HWND hWnd, CEditDoc* pcEditDoc )
 						delete pCode;
 						if (ret != RESULT_COMPLETE) {
 							// うまくコードが取れなかった
-							wcscpy(szCode[i], L"-");
+							wcscpy_s(szCode[i], std::size(szCode[i]), L"-");
 						}
 					}
 				}
@@ -142,7 +142,7 @@ static void ShowCodeBox( HWND hWnd, CEditDoc* pcEditDoc )
 				delete pCode;
 				if (ret != RESULT_COMPLETE) {
 					// うまくコードが取れなかった
-					wcscpy(szCodeCP, L"-");
+					wcscpy_s(szCodeCP, std::size(szCodeCP), L"-");
 				}
 
 				// メッセージボックス表示
@@ -796,7 +796,7 @@ void CEditWnd::LayoutMainMenu()
 				cMainMenu->m_sKey,
 				FALSE,
 				int(std::size(szLabel))) == nullptr) {
-				wcscpy( szLabel, L"?" );
+				wcscpy_s( szLabel, std::size(szLabel), L"?" );
 			}
 			::AppendMenu( hMenu, MF_STRING, cMainMenu->m_nFunc, szLabel );
 			break;
