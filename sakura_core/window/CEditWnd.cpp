@@ -3746,29 +3746,32 @@ void CEditWnd::GetDefaultIcon( HICON* hIconBig, HICON* hIconSmall ) const
 */
 bool CEditWnd::GetRelatedIcon(const WCHAR* szFile, HICON* hIconBig, HICON* hIconSmall) const
 {
-	if( nullptr != szFile && szFile[0] != L'\0' ){
-		WCHAR szExt[_MAX_EXT];
-		WCHAR FileType[1024];
-
-		// (.で始まる)拡張子の取得
-		_wsplitpath_s( szFile, nullptr, 0, nullptr, 0, nullptr, 0, szExt, std::size(szExt) );
-
-		if( ReadRegistry(HKEY_CLASSES_ROOT, szExt, nullptr, FileType, int(std::size(FileType)) - 13)){
-			wcscat( FileType, L"\\DefaultIcon" );
-			if( ReadRegistry(HKEY_CLASSES_ROOT, FileType, nullptr, nullptr, 0)){
-				// 関連づけられたアイコンを取得する
-				SHFILEINFO shfi;
-				SHGetFileInfo( szFile, 0, &shfi, sizeof(shfi), SHGFI_ICON | SHGFI_LARGEICON );
-				*hIconBig = shfi.hIcon;
-				SHGetFileInfo( szFile, 0, &shfi, sizeof(shfi), SHGFI_ICON | SHGFI_SMALLICON );
-				*hIconSmall = shfi.hIcon;
-				return true;
-			}
-		}
+	if (nullptr == szFile || szFile[0] == L'\0') {
+		GetDefaultIcon(hIconBig, hIconSmall);
+		return false;
 	}
 
-	//	標準のアイコンを返す
-	GetDefaultIcon( hIconBig, hIconSmall );
+	SHFILEINFO shfiBig = {};
+	SHFILEINFO shfiSmall = {};
+
+	DWORD_PTR resBig = ::SHGetFileInfo(szFile, FILE_ATTRIBUTE_NORMAL, &shfiBig, sizeof(shfiBig), 
+									   SHGFI_ICON | SHGFI_LARGEICON | SHGFI_USEFILEATTRIBUTES);
+	
+	DWORD_PTR resSmall = ::SHGetFileInfo(szFile, FILE_ATTRIBUTE_NORMAL, &shfiSmall, sizeof(shfiSmall), 
+										 SHGFI_ICON | SHGFI_SMALLICON | SHGFI_USEFILEATTRIBUTES);
+
+	bool okBig = (resBig != 0) && (shfiBig.hIcon != nullptr);
+	bool okSmall = (resSmall != 0) && (shfiSmall.hIcon != nullptr);
+
+	if (okBig)   *hIconBig = shfiBig.hIcon;
+	if (okSmall) *hIconSmall = shfiSmall.hIcon;
+
+	if (okBig && okSmall) return true;
+
+	if (okBig)   ::DestroyIcon(shfiBig.hIcon);
+	if (okSmall) ::DestroyIcon(shfiSmall.hIcon);
+
+	GetDefaultIcon(hIconBig, hIconSmall);
 	return false;
 }
 
