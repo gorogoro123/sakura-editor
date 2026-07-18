@@ -1015,7 +1015,7 @@ void CPrintPreview::OnPrint( )
 
 	/* プリンターに渡すジョブ名を生成 */
 	if( ! m_pParentWnd->GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() ){	/* 現在編集中のファイルのパス */
-		wcscpy( szJobName, LS(STR_NO_TITLE2) );
+		wcscpy_s( szJobName, std::size(szJobName), LS(STR_NO_TITLE2) );
 	}else{
 		WCHAR	szFileName[_MAX_FNAME];
 		WCHAR	szExt[_MAX_EXT];
@@ -1025,8 +1025,7 @@ void CPrintPreview::OnPrint( )
 
 	/* 印刷範囲を指定できるプリンターダイアログを作成 */
 	//	2003.05.02 かろと
-	PRINTDLG pd;
-	memset( &pd, 0, sizeof(pd) );
+	PRINTDLG pd = {};
 #ifndef _DEBUG
 // Debugモードで、hwndOwnerを指定すると、Win2000では落ちるので・・・
 	pd.hwndOwner = m_pParentWnd->GetHwnd();
@@ -1458,7 +1457,7 @@ CColorStrategy* CPrintPreview::DrawPageText(
 				if( m_pParentWnd->GetDocument()->m_cDocType.GetDocumentAttribute().m_bLineNumIsCRLF ){
 					/* 論理行番号表示モード */
 					if( 0 != pcLayout->GetLogicOffset() ){ //折り返しレイアウト行
-						wcscpy( szLineNum, L" " );
+						wcscpy_s( szLineNum, std::size(szLineNum), L" " );
 					}else{
 						_itow_s( pcLayout->GetLogicLineNo() + 1, szLineNum, 10 );	/* 対応する論理行番号 */
 					}
@@ -1872,9 +1871,9 @@ void CPrintPreview::SetPreviewFontHan( const LOGFONT* lf )
 	m_lfPreviewHan = *lf;
 
 	//	PrintSettingからコピー
-	m_lfPreviewHan.lfHeight			= m_pPrintSetting->m_nPrintFontHeight;
+	m_lfPreviewHan.lfHeight	= m_pPrintSetting->m_nPrintFontHeight;
 	m_lfPreviewHan.lfWidth	= 0;
-	wcscpy(m_lfPreviewHan.lfFaceName, m_pPrintSetting->m_szPrintFontFaceHan);
+	wcscpy_s(m_lfPreviewHan.lfFaceName, std::size(m_lfPreviewHan.lfFaceName), m_pPrintSetting->m_szPrintFontFaceHan);
 }
 
 void CPrintPreview::SetPreviewFontZen( const LOGFONT* lf )
@@ -1883,7 +1882,7 @@ void CPrintPreview::SetPreviewFontZen( const LOGFONT* lf )
 	//	PrintSettingからコピー
 	m_lfPreviewZen.lfHeight	= m_pPrintSetting->m_nPrintFontHeight;
 	m_lfPreviewZen.lfWidth	= 0;
-	wcscpy(m_lfPreviewZen.lfFaceName, m_pPrintSetting->m_szPrintFontFaceZen );
+	wcscpy_s(m_lfPreviewZen.lfFaceName, std::size(m_lfPreviewZen.lfFaceName), m_pPrintSetting->m_szPrintFontFaceZen );
 }
 
 int CALLBACK CPrintPreview::MyEnumFontFamProc(
@@ -2171,7 +2170,7 @@ void CPrintPreview::CreateFonts( HDC hdc )
 	// 印刷用半角フォントを作成 -> m_hFontHan
 	m_lfPreviewHan.lfHeight	= m_pPrintSetting->m_nPrintFontHeight;
 	m_lfPreviewHan.lfWidth = 0;
-	wcscpy( m_lfPreviewHan.lfFaceName, m_pPrintSetting->m_szPrintFontFaceHan );
+	wcscpy_s( m_lfPreviewHan.lfFaceName, std::size(m_lfPreviewHan.lfFaceName), m_pPrintSetting->m_szPrintFontFaceHan );
 	m_hFontHan	= CreateFontIndirect( &m_lfPreviewHan );
 	if (m_pPrintSetting->m_bColorPrint) {
 		lf = m_lfPreviewHan;	lf.lfWeight = FW_BOLD;
@@ -2195,7 +2194,7 @@ void CPrintPreview::CreateFonts( HDC hdc )
 	if (wcscmp(m_pPrintSetting->m_szPrintFontFaceHan, m_pPrintSetting->m_szPrintFontFaceZen)) {
 		m_lfPreviewZen.lfHeight	= m_pPrintSetting->m_nPrintFontHeight;
 		m_lfPreviewZen.lfWidth	= 0;
-		wcscpy( m_lfPreviewZen.lfFaceName, m_pPrintSetting->m_szPrintFontFaceZen );
+		wcscpy_s( m_lfPreviewZen.lfFaceName, std::size(m_lfPreviewZen.lfFaceName), m_pPrintSetting->m_szPrintFontFaceZen );
 		m_hFontZen	= CreateFontIndirect( &m_lfPreviewZen );
 		if (m_pPrintSetting->m_bColorPrint) {
 			lf = m_lfPreviewZen;	lf.lfWeight = FW_BOLD;
