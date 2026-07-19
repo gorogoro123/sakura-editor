@@ -836,10 +836,10 @@ int CDlgTagJumpList::SearchBestTag( )
 	lpPathInfo->szFileSrc[0] = L'\0';
 	lpPathInfo->szExtSrc[0] = L'\0';
 	_wsplitpath_s( m_szFileName.c_str(), lpPathInfo->szDriveSrc, lpPathInfo->szPathSrc, lpPathInfo->szFileSrc, lpPathInfo->szExtSrc );
-	lpPathInfo->nDriveSrc = wcslen(lpPathInfo->szDriveSrc);
-	lpPathInfo->nPathSrc = wcslen(lpPathInfo->szPathSrc);
-	lpPathInfo->nFileSrc = wcslen(lpPathInfo->szFileSrc);
-	lpPathInfo->nExtSrc = wcslen(lpPathInfo->szExtSrc);
+	lpPathInfo->nDriveSrc = wcsnlen(lpPathInfo->szDriveSrc, std::size(lpPathInfo->szDriveSrc));
+	lpPathInfo->nPathSrc = wcsnlen(lpPathInfo->szPathSrc, std::size(lpPathInfo->szPathSrc));
+	lpPathInfo->nFileSrc = wcsnlen(lpPathInfo->szFileSrc, std::size(lpPathInfo->szFileSrc));
+	lpPathInfo->nExtSrc = wcsnlen(lpPathInfo->szExtSrc, std::size(lpPathInfo->szExtSrc));
 
 	count = m_pcList->GetCount();
 
@@ -860,10 +860,10 @@ int CDlgTagJumpList::SearchBestTag( )
 		lpPathInfo->szFileDst[0] = L'\0';
 		lpPathInfo->szExtDst[0] = L'\0';
 		_wsplitpath_s( lpPathInfo->szFileNameDst, lpPathInfo->szDriveDst, lpPathInfo->szPathDst, lpPathInfo->szFileDst, lpPathInfo->szExtDst );
-		lpPathInfo->nDriveDst = wcslen(lpPathInfo->szDriveDst);
-		lpPathInfo->nPathDst = wcslen(lpPathInfo->szPathDst);
-		lpPathInfo->nFileDst = wcslen(lpPathInfo->szFileDst);
-		lpPathInfo->nExtDst = wcslen(lpPathInfo->szExtDst);
+		lpPathInfo->nDriveDst = wcsnlen(lpPathInfo->szDriveDst, std::size(lpPathInfo->szDriveDst));
+		lpPathInfo->nPathDst = wcsnlen(lpPathInfo->szPathDst, std::size(lpPathInfo->szPathDst));
+		lpPathInfo->nFileDst = wcsnlen(lpPathInfo->szFileDst, std::size(lpPathInfo->szFileDst));
+		lpPathInfo->nExtDst = wcsnlen(lpPathInfo->szExtDst, std::size(lpPathInfo->szExtDst));
 		
 		if(_wcsicmp(m_szFileName.c_str(), lpPathInfo->szFileNameDst) == 0){
 			return i;	//同一ファイルを見つけた
