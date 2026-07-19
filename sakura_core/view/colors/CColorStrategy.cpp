@@ -255,13 +255,12 @@ void CColorStrategyPool::OnChangeSetting()
 
 	m_pcSelectStrategy->Update();
 	m_pcFoundStrategy->Update();
-	int size = (int)m_vStrategies.size();
-	for(int i = 0; i < size; i++){
-		m_vStrategies[i]->Update();
+	for (auto& strategy : m_vStrategies) {
+		strategy->Update();
 
 		// 色分け表示対象であれば登録
-		if( m_vStrategies[i]->Disp() ){
-			m_vStrategiesDisp.push_back(m_vStrategies[i].get());
+		if(strategy->Disp()){
+			m_vStrategiesDisp.emplace_back(strategy.get());
 		}
 	}
 
