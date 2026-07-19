@@ -1050,11 +1050,9 @@ void CDlgFuncList::SetTreeJava( [[maybe_unused]] HWND hwndDlg, HTREEITEM hInsert
 					{
 						if( pcFuncInfo->m_nInfo == FL_OBJ_NAMESPACE )
 						{
-							//wcscat( pClassName, L" 名前空間" );
 							strClassName += m_pcFuncInfoArr->GetAppendText(FL_OBJ_NAMESPACE);
 						}
 						else
-							//wcscat( pClassName, L" クラス" );
 							strClassName += m_pcFuncInfoArr->GetAppendText(FL_OBJ_CLASS);
 					}
 					tvis.hParent = htiParent;
@@ -3873,10 +3871,10 @@ void CDlgFuncList::LoadFileTreeSetting( CFileTreeSetting& data, SFilePath& IniDi
 	data.m_szLoadProjectIni = L"";
 	if( data.m_bProject ){
 		// 各フォルダーのプロジェクトファイル読み込み
-		WCHAR szPath[_MAX_PATH];
+		SFilePath szPath;
 		::GetLongFileName( L".", szPath );
-		wcscat( szPath, L"\\" );
-		int maxDir = CDlgTagJumpList::CalcMaxUpDirectory( szPath );
+		szPath.append(L"\\");
+		int maxDir = CDlgTagJumpList::CalcMaxUpDirectory( szPath.c_str() );
 		for( int i = 0; i <= maxDir; i++ ){
 			CDataProfile cProfile;
 			cProfile.SetReadingMode();
