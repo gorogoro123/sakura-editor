@@ -85,4 +85,5 @@ protected:
 	||  実装ヘルパ関数
 	*/
 	LPVOID GetHelpIdTable() override;	//@@@ 2002.01.18 add
+	static LRESULT CALLBACK HokanList_SubclassProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData );
 };
