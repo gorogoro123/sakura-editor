@@ -1547,8 +1547,7 @@ void CDlgTagJumpList::SetTextDir()
 int CDlgTagJumpList::CalcMaxUpDirectory( const WCHAR* p )
 {
 	int loop = CalcDirectoryDepth( p );
-	if( loop <  0 ) loop =  0;
-	if( loop > (_MAX_PATH/2) ) loop = (_MAX_PATH/2);	//\A\B\C...のようなとき1フォルダーで2文字消費するので...
+	loop = std::clamp(loop, 0, _MAX_PATH / 2); //\A\B\C...のようなとき1フォルダーで2文字消費するので...
 	return loop;
 }
 
