@@ -437,7 +437,7 @@ int CalcDirectoryDepth(
  
 	//	補正
 	//	ドライブ名はパスの深さに数えない
-	if (std::regex_search(path, std::wregex(LR"(^[A-Z]:\\)", std::wregex::icase))) {
+	if (p.length() >= 3 && WCODE::IsAZ(p[0]) && p[1] == L':' && p[2] == L'\\') {
 		//フルパス
 		--depth; // C:\ の \ はルートの記号なので階層深さではない
 	}
