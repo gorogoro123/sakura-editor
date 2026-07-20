@@ -52,15 +52,25 @@ void CProfile::_ReadOneline(
 	}
 
 	// セクション取得
-	if (std::wsmatch m; std::regex_match(line, m, std::wregex(LR"(^\[([^=]+)\]$)"))) {
-		m_ProfileData.emplace_back(static_cast<std::wstring>(m[1]));
+	if (line.length() >= 2 && line.front() == L'[' && line.back() == L']') {
+		std::wstring section_name = line.substr(1, line.length() - 2);
+
+		if (section_name.find(L'=') == std::wstring::npos && !section_name.empty()) {
+			m_ProfileData.emplace_back(std::move(section_name));
+		}
 		return;
 	}
 
 	// エントリ取得
 	// ※最初のセクション以前の行のエントリは無視
-	if (std::wsmatch m; !m_ProfileData.empty() && std::regex_match(line, m, std::wregex(LR"(^([^=]+)=(.*)$)"))) {
-		m_ProfileData.back().m_Entries.try_emplace(m[1], m[2]);
+	if (!m_ProfileData.empty()) {
+		const auto pos = line.find(L'=');
+		if (pos != std::wstring::npos && pos > 0) { // Keyが空でないこと
+			std::wstring key = line.substr(0, pos);
+			std::wstring value = line.substr(pos + 1);
+
+			m_ProfileData.back().m_Entries.try_emplace(std::move(key), std::move(value));
+		}
 	}
 }
 
