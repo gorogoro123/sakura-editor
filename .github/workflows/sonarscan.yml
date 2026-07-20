@@ -98,7 +98,7 @@ jobs:
           *-googletest.xml
 
     - name: Analyze with SonarQube Scan action
-      uses: SonarSource/sonarqube-scan-action@v8.2.0
+      uses: SonarSource/sonarqube-scan-action@v8.2.1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         LC_ALL: ja_JP.UTF-8
