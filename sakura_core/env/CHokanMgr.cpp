@@ -16,7 +16,6 @@
 	This source code is designed for sakura editor.
 	Please contact the copyright holders to use this code for other purpose.
 */
-#include <memory>
 #include "env/CHokanMgr.h"
 #include "env/CShareData.h"
 #include "view/CEditView.h"
@@ -28,12 +27,10 @@
 #include "apiwrap/StdControl.h"
 #include "sakura_rc.h"
 
-WNDPROC			gm_wpHokanListProc;
-
-LRESULT APIENTRY HokanList_SubclassProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
+LRESULT CALLBACK CHokanMgr::HokanList_SubclassProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData )
 {
-	// Modified by KEITA for WIN64 2003.9.6
-	CHokanMgr* pCHokanMgr = (CHokanMgr*)::GetWindowLongPtr( ::GetParent( hwnd ), DWLP_USER );
+	auto pCHokanMgr = (CHokanMgr*)dwRefData;
+	if (!pCHokanMgr) return ::DefSubclassProc(hwnd, uMsg, wParam, lParam);
 
 	switch( uMsg ){
 	case WM_LBUTTONDOWN:
@@ -52,10 +49,13 @@ LRESULT APIENTRY HokanList_SubclassProc( HWND hwnd, UINT uMsg, WPARAM wParam, LP
 			}
 		}
 		return 0;	// 本来のウィンドウプロシージャは呼ばない（アクティブ化しない）
+	case WM_DESTROY:
+		::RemoveWindowSubclass(hwnd, &HokanList_SubclassProc, uIdSubclass);
+		return 0;
 	default:
 		break;
 	}
-	return CallWindowProc( gm_wpHokanListProc, hwnd, uMsg, wParam, lParam);
+	return ::DefSubclassProc(hwnd, uMsg, wParam, lParam);
 }
 
 CHokanMgr::CHokanMgr()
@@ -66,9 +66,7 @@ CHokanMgr::CHokanMgr()
 	m_bTimerFlag = TRUE;
 }
 
-CHokanMgr::~CHokanMgr()
-{
-}
+CHokanMgr::~CHokanMgr() = default;
 
 /* モードレスダイアログの表示 */
 HWND CHokanMgr::DoModeless( HINSTANCE hInstance , HWND hwndParent, LPARAM lParam )
@@ -78,8 +76,7 @@ HWND CHokanMgr::DoModeless( HINSTANCE hInstance , HWND hwndParent, LPARAM lParam
 	::SetFocus( ((CEditView*)m_lParam)->GetHwnd() );	//エディタにフォーカスを戻す
 	OnSize( 0, 0 );
 	/* リストをフック */
-	// Modified by KEITA for WIN64 2003.9.6
-	::gm_wpHokanListProc = (WNDPROC) ::SetWindowLongPtr( GetItemHwnd( IDC_LIST_WORDS ), GWLP_WNDPROC, (LONG_PTR)HokanList_SubclassProc  );
+	::SetWindowSubclass( GetItemHwnd( IDC_LIST_WORDS ), &HokanList_SubclassProc, 0, (DWORD_PTR)this );
 
 	return hwndWork;
 }
@@ -623,7 +620,7 @@ int CHokanMgr::KeyProc( WPARAM wParam, LPARAM lParam )
 	case VK_PRIOR:
 	case VK_NEXT:
 		/* リストボックスのデフォルトの動作をさせる */
-		::CallWindowProc( gm_wpHokanListProc, GetItemHwnd( IDC_LIST_WORDS ), WM_KEYDOWN, wParam, lParam );
+		::SendMessage(GetItemHwnd(IDC_LIST_WORDS), WM_KEYDOWN, wParam, lParam);
 		return -1;
 	case VK_RETURN:
 	case VK_TAB:
