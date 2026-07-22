@@ -2260,9 +2260,6 @@
     <ClCompile Include="..\sakura_core\uiparts\CWaitCursor.cpp">
       <Filter>Cpp Source Files\uiparts</Filter>
     </ClCompile>
-    <ClCompile Include="..\sakura_core\config\build_config.cpp">
-      <Filter>Cpp Source Files\config</Filter>
-    </ClCompile>
     <ClCompile Include="..\sakura_core\recent\CRecentExcludeFile.cpp">
       <Filter>Cpp Source Files\recent</Filter>
     </ClCompile>

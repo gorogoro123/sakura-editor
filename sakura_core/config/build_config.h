@@ -34,11 +34,6 @@
 //! USE_UNFIXED_FONT を定義すると、フォント選択ダイアログで等幅フォント以外も選べるようになる
 //#define USE_UNFIXED_FONT
 
-//newされた領域をわざと汚すかどうか (デバッグ用)
-#if defined(_MSC_VER) &&  defined(_DEBUG)
-#define FILL_STRANGE_IN_NEW_MEMORY
-#endif
-
 //crtdbg.hによるメモリリークチェックを使うかどうか (デバッグ用)
 #if defined(_MSC_VER) &&  defined(_DEBUG)
 #define USE_LEAK_CHECK_WITH_CRTDBG
@@ -50,21 +45,6 @@
 //#define NEW_ZENSPACE //新しい描画ルーチン (全角スペースを破線矩形で描画) を採用
 
 // -- -- -- -- ↑以上、ビルド設定完了 -- -- -- -- //
-
-//デバッグ検証用：newされた領域をわざと汚す。2007.11.27 kobake
-#ifdef FILL_STRANGE_IN_NEW_MEMORY
-	void* operator new(
-		size_t const size,
-		int const    block_use,
-		char const*  file_name,
-		int const    line_number
-		);
-	void* operator new[](size_t const size,
-		int const    block_use,
-		char const*  file_name,
-		int const    line_number
-		);
-#endif
 
 //crtdbg.hによるメモリリークチェックを使うかどうか (デバッグ用)
 #ifdef USE_LEAK_CHECK_WITH_CRTDBG
