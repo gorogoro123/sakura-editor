@@ -450,18 +450,13 @@ EConvertResult CJis::UnicodeToJIS(const CNativeW& cSrc, CMemory* pDstMem)
 	int nSrcLen = cSrc.GetStringLength();
 
 	// 必要なバッファ容量を確認してバッファを確保
-	char* pDst = new (std::nothrow) char[nSrcLen * 8];
-	if( pDst == nullptr ){
-		return RESULT_FAILURE;
-	}
+	std::vector<char> vDst(nSrcLen * 8);
 
 	// 変換
-	int nDstLen = UniToJis( pSrc, nSrcLen, pDst, &berror );
+	int nDstLen = UniToJis( pSrc, nSrcLen, vDst.data(), &berror );
 
 	// pDstMem をセット
-	pDstMem->SetRawDataHoldBuffer( pDst, nDstLen );
-
-	delete [] pDst;
+	pDstMem->SetRawDataHoldBuffer( vDst.data(), nDstLen );
 
 	if( berror ){
 		return RESULT_LOSESOME;
