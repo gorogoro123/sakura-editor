@@ -27,7 +27,6 @@ bool CConvert_Trim::DoConvert(CNativeW* pcData)
 {
 	const wchar_t*	pLine;
 	int			nLineLen;
-	wchar_t*	pDes;
 	int			nBgn;
 	int			i,j;
 	int			nPosDes;
@@ -46,7 +45,7 @@ bool CConvert_Trim::DoConvert(CNativeW* pcData)
 	if( 0 >= nPosDes ){
 		return true;
 	}
-	pDes = new wchar_t[nPosDes + 1];
+	std::vector<wchar_t> vDes(nPosDes + 1);
 	nBgn = 0;
 	nPosDes = 0;
 	// LTRIM
@@ -61,11 +60,11 @@ bool CConvert_Trim::DoConvert(CNativeW* pcData)
 					}
 				}
 				if(nLineLen-i>0){
-					wmemcpy( &pDes[nPosDes], &pLine[i], nLineLen );
+					wmemcpy( &vDes[nPosDes], &pLine[i], nLineLen );
 					nPosDes+=nLineLen-i;
 				}
 			}
-			wmemcpy( &pDes[nPosDes], cEol.GetValue2(), cEol.GetLen() );
+			wmemcpy( &vDes[nPosDes], cEol.GetValue2(), cEol.GetLen() );
 			nPosDes += cEol.GetLen();
 		}
 	}
@@ -83,18 +82,16 @@ bool CConvert_Trim::DoConvert(CNativeW* pcData)
 					i += nCharChars;
 				}
 				if(j>0){
-					wmemcpy( &pDes[nPosDes], &pLine[0], j );
+					wmemcpy( &vDes[nPosDes], &pLine[0], j );
 					nPosDes+=j;
 				}
 			}
-			wmemcpy( &pDes[nPosDes], cEol.GetValue2(), cEol.GetLen() );
+			wmemcpy( &vDes[nPosDes], cEol.GetValue2(), cEol.GetLen() );
 			nPosDes += cEol.GetLen();
 		}
 	}
-	pDes[nPosDes] = L'\0';
+	vDes[nPosDes] = L'\0';
 
-	pcData->SetString( pDes, nPosDes );
-	delete [] pDes;
-	pDes = nullptr;
+	pcData->SetString( vDes.data(), nPosDes);
 	return true;
 }
