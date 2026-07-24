@@ -73,19 +73,13 @@ EConvertResult CUtf8::_UTF8ToUnicode( const CMemory& cSrc, CNativeW* pDstMem, bo
 	if( &cSrc == pDstMem->_GetMemory() )
 	{
 		// 必要なバッファサイズを調べて確保する
-		wchar_t* pDst = new (std::nothrow) wchar_t[nSrcLen];
-		if( pDst == nullptr ){
-			return RESULT_FAILURE;
-		}
+		std::vector<wchar_t> vDst(nSrcLen);
 
 		// 変換
-		int nDstLen = Utf8ToUni( pSrc, nSrcLen, pDst, bCESU8Mode );
+		int nDstLen = Utf8ToUni( pSrc, nSrcLen, vDst.data(), bCESU8Mode );
 
 		// pDstMem を更新
-		pDstMem->_GetMemory()->SetRawDataHoldBuffer( pDst, nDstLen*sizeof(wchar_t) );
-
-		// 後始末
-		delete [] pDst;
+		pDstMem->_GetMemory()->SetRawDataHoldBuffer( vDst.data(), nDstLen*sizeof(wchar_t) );
 	}
 	else
 	{
@@ -168,19 +162,13 @@ EConvertResult CUtf8::_UnicodeToUTF8( const CNativeW& cSrc, CMemory* pDstMem, bo
 	int nSrcLen = cSrc.GetStringLength();
 
 	// 必要なバッファサイズを調べてメモリを確保
-	char* pDst = new (std::nothrow) char[nSrcLen * 3];
-	if( pDst == nullptr ){
-		return RESULT_FAILURE;
-	}
+	std::vector<char> vDst(nSrcLen * 3);
 
 	// 変換
-	int nDstLen = UniToUtf8( pSrc, nSrcLen, pDst, &bError, bCesu8Mode );
+	int nDstLen = UniToUtf8( pSrc, nSrcLen, vDst.data(), &bError, bCesu8Mode );
 
 	// pDstMem を更新
-	pDstMem->SetRawDataHoldBuffer( pDst, nDstLen );
-
-	// 後始末
-	delete [] pDst;
+	pDstMem->SetRawDataHoldBuffer( vDst.data(), nDstLen );
 
 	if( bError == false ){
 		return RESULT_COMPLETE;
