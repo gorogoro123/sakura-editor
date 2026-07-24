@@ -163,19 +163,13 @@ EConvertResult CEuc::UnicodeToEUC(const CNativeW& cSrc, CMemory* pDstMem)
 	int nSrcLen = cSrc.GetStringLength();
 
 	// 必要なバッファサイズを調べてメモリを確保
-	char* pDst = new (std::nothrow) char[nSrcLen * 2];
-	if( pDst == nullptr ){
-		return RESULT_FAILURE;
-	}
+	std::vector<char> vDst(nSrcLen * 2);
 
 	// 変換
-	int nDstLen = UniToEucjp( pSrc, nSrcLen, pDst, &bError );
+	int nDstLen = UniToEucjp( pSrc, nSrcLen, vDst.data(), &bError );
 
 	// pDstMem を更新
-	pDstMem->SetRawDataHoldBuffer( pDst, nDstLen );
-
-	// 後始末
-	delete [] pDst;
+	pDstMem->SetRawDataHoldBuffer( vDst.data(), nDstLen );
 
 	if( bError == false ){
 		return RESULT_COMPLETE;
