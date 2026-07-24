@@ -100,17 +100,13 @@ EConvertResult CCodePage::CPToUnicode(const CMemory& cSrc, CNativeW* pDst, int c
 	UINT codepage = CodePageExToMSCP(codepageEx);
 	int nDstCch = MultiByteToWideChar2(codepage, nToWideCharFlags, pSrc, nSrcLen, nullptr, 0);
 	// 変換先バッファサイズとその確保
-	wchar_t* pDstBuffer = new (std::nothrow) wchar_t[nDstCch];
-	if( pDstBuffer == nullptr ){
-		return RESULT_FAILURE;
-	}
+	std::vector<wchar_t> vDstBuffer(nDstCch);
 
 	// 変換
 	int nDstLen; // cch
-	EConvertResult ret = CPToUni(pSrc, nSrcLen, pDstBuffer, nDstCch, nDstLen, codepage);
+	EConvertResult ret = CPToUni(pSrc, nSrcLen, vDstBuffer.data(), nDstCch, nDstLen, codepage);
 
-	pDst->_GetMemory()->SetRawDataHoldBuffer( pDstBuffer, nDstLen*sizeof(wchar_t) );
-	delete [] pDstBuffer;
+	pDst->_GetMemory()->SetRawDataHoldBuffer( vDstBuffer.data(), nDstLen*sizeof(wchar_t) );
 
 	return ret;
 }
