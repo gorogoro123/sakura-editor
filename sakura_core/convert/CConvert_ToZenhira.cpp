@@ -16,21 +16,18 @@
 bool CConvert_ToZenhira::DoConvert(CNativeW* pcData)
 {
 	//半カナ→全角カナ
-	wchar_t* pBuf = new wchar_t[pcData->GetStringLength()+1]; //文字数が減ることはあっても増えることは無いので、これでＯＫ
+	std::vector<wchar_t> vBuf(static_cast<size_t>(pcData->GetStringLength())+1); //文字数が減ることはあっても増えることは無いので、これでＯＫ
 	int nBufLen = 0;
-	Convert_HankataToZenkata(pcData->GetStringPtr(), pcData->GetStringLength(), pBuf, &nBufLen);
+	Convert_HankataToZenkata(pcData->GetStringPtr(), pcData->GetStringLength(), vBuf.data(), &nBufLen);
 
 	//全カナ→全角ひらがな
-	Convert_ZenkataToZenhira(pBuf, nBufLen);
+	Convert_ZenkataToZenhira(vBuf.data(), nBufLen);
 
 	//半角英数→全角英数
-	Convert_HaneisuToZeneisu(pBuf, nBufLen);
+	Convert_HaneisuToZeneisu(vBuf.data(), nBufLen);
 
 	//設定
-	pcData->SetString(pBuf, nBufLen);
-
-	//バッファ解放
-	delete[] pBuf;
+	pcData->SetString(vBuf.data(), nBufLen);
 
 	return true;
 }
