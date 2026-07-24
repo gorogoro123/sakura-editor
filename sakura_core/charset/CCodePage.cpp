@@ -177,17 +177,13 @@ EConvertResult CCodePage::UnicodeToCP(const CNativeW& cSrc, CMemory* pDst, int c
 #endif
 		return RESULT_FAILURE;
 	}
-	char* pDstBuffer = new (std::nothrow) char[nBuffSize];
-	if( pDstBuffer == nullptr ){
-		return RESULT_FAILURE;
-	}
+	std::vector<char> vDstBuffer(nBuffSize);
 
 	// 変換
 	int nDstLen;
-	EConvertResult ret = UniToCP(pSrc, nSrcLen, pDstBuffer, nBuffSize, nDstLen, codepage);
+	EConvertResult ret = UniToCP(pSrc, nSrcLen, vDstBuffer.data(), nBuffSize, nDstLen, codepage);
 	// pMem を更新
-	pDst->SetRawDataHoldBuffer(pDstBuffer, nDstLen);
-	delete [] pDstBuffer;
+	pDst->SetRawDataHoldBuffer(vDstBuffer.data(), nDstLen);
 	return ret;
 }
 
