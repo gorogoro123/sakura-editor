@@ -83,19 +83,13 @@ EConvertResult CLatin1::Latin1ToUnicode( const CMemory& cSrc, CNativeW* pDstMem 
 	const char* pSrc = reinterpret_cast<const char*>( cSrc.GetRawPtr() );
 
 	// 変換先バッファサイズを設定してメモリ領域確保
-	wchar_t* pDst = new (std::nothrow) wchar_t[nSrcLen];
-	if( pDst == nullptr ){
-		return RESULT_FAILURE;
-	}
+	std::vector<wchar_t> vDst(nSrcLen);
 
 	// 変換
-	int nDstLen = Latin1ToUni( pSrc, nSrcLen, pDst, &bError );
+	int nDstLen = Latin1ToUni( pSrc, nSrcLen, vDst.data(), &bError );
 
 	// pDstMemを更新
-	pDstMem->_GetMemory()->SetRawDataHoldBuffer( pDst, nDstLen*sizeof(wchar_t) );
-
-	// 後始末
-	delete [] pDst;
+	pDstMem->_GetMemory()->SetRawDataHoldBuffer( vDst.data(), nDstLen*sizeof(wchar_t) );
 
 	if( bError == false ){
 		return RESULT_COMPLETE;
