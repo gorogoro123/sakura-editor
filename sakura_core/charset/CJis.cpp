@@ -264,18 +264,13 @@ EConvertResult CJis::JISToUnicode(const CMemory& cSrc, CNativeW* pDstMem, bool b
 	}
 
 	// 変換先バッファを取得
-	wchar_t* pDst = new (std::nothrow) wchar_t[nsrclen * 3 + 1];
-	if( pDst == nullptr ){
-		return RESULT_FAILURE;
-	}
+	std::vector<wchar_t> vDst(nsrclen * 3 + 1);
 
 	// 変換
-	int nDstLen = JisToUni( psrc, nsrclen, pDst, &berror );
+	int nDstLen = JisToUni( psrc, nsrclen, vDst.data(), &berror );
 
 	// pDstMem にセット
-	pDstMem->_GetMemory()->SetRawDataHoldBuffer( pDst, nDstLen * sizeof(wchar_t) );
-
-	delete [] pDst;
+	pDstMem->_GetMemory()->SetRawDataHoldBuffer( vDst.data(), nDstLen * sizeof(wchar_t) );
 
 	if( berror == false ){
 		return RESULT_COMPLETE;
