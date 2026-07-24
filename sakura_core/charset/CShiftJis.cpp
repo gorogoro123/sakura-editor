@@ -8,7 +8,6 @@
 #include "charset/charcode.h"
 #include "charset/codechecker.h"
 #include "env/CommonSetting.h"
-#include <new>
 
 //! 指定した位置の文字が何バイト文字かを返す
 /*!
@@ -116,19 +115,13 @@ EConvertResult CShiftJis::SJISToUnicode( const CMemory& cSrc, CNativeW* pDstMem 
 	if( &cSrc == pDstMem->_GetMemory() )
 	{
 		// 変換先バッファサイズを設定してメモリ領域確保
-		wchar_t* pDst = new (std::nothrow) wchar_t[nSrcLen];
-		if( pDst == nullptr ){
-			return RESULT_FAILURE;
-		}
+		std::vector<wchar_t> vDst(nSrcLen);
 
 		// 変換
-		int nDstLen = SjisToUni( pSrc, nSrcLen, pDst, &bError );
+		int nDstLen = SjisToUni( pSrc, nSrcLen, vDst.data(), &bError );
 
 		// pDstを更新
-		pDstMem->_GetMemory()->SetRawDataHoldBuffer( pDst, nDstLen*sizeof(wchar_t) );
-
-		// 後始末
-		delete [] pDst;
+		pDstMem->_GetMemory()->SetRawDataHoldBuffer( vDst.data(), nDstLen*sizeof(wchar_t) );
 	}
 	else
 	{
