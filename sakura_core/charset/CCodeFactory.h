@@ -24,7 +24,4 @@ public:
 	{
 		return std::unique_ptr<CCodeBase>( CreateCodeBase( eCodeType, 0 ) );
 	}
-
-	static SLoadFromCodeResult	LoadFromCode(ECodeType eCodeType, std::string_view code);
-	static SConvertToCodeResult	ConvertToCode(ECodeType eCodeType, std::wstring_view wide);
 };

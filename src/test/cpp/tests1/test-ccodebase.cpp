@@ -149,6 +149,54 @@ INSTANTIATE_TEST_SUITE_P(
 		MIMEHeaderDecodeTestParam{ CODE_JIS,  "From: =?iso-2022-jp?B?GyRCJTUlLyVpGyhC",         "From: =?iso-2022-jp?B?GyRCJTUlLyVpGyhC" }			// 末尾の ?= がなければ変換しない
 	));
 
+namespace {
+	struct SLoadFromCodeResult {
+		EConvertResult result;
+		std::string_view source;
+		size_t consumed = 0;
+		std::wstring destination{};
+
+		explicit operator bool() const noexcept { return result == RESULT_COMPLETE; }
+	};
+
+	struct SConvertToCodeResult {
+		EConvertResult result;
+		std::wstring_view source;
+		size_t consumed = 0;
+		std::string destination{};
+
+		explicit operator bool() const noexcept { return result == RESULT_COMPLETE; }
+	};
+
+	// バイト列から文字列を読み込むヘルパー
+	SLoadFromCodeResult LoadFromCode(ECodeType eCodeType, std::string_view code)
+	{
+		CMemory cmemSrc{ code.data(), code.size() };
+		CNativeW cDest;
+
+		// CreateCodeBaseUnique ではなく GetCodeBase を使用する
+		auto pCodeBase = CCodeFactory::CreateCodeBase(eCodeType);
+		const auto result = pCodeBase->CodeToUnicode(cmemSrc, &cDest);
+
+		std::wstring loaded{ cDest.GetStringPtr(), static_cast<size_t>(cDest.GetStringLength()) };
+		return SLoadFromCodeResult{ result, code, std::size(code), std::move(loaded) };
+	}
+
+	// 文字列をバイト列に書き込むヘルパー
+	SConvertToCodeResult ConvertToCode(ECodeType eCodeType, std::wstring_view wide)
+	{
+		CNativeW cSrc{ wide.data(), wide.size() };
+		CMemory cDest;
+
+		// こちらも同様に GetCodeBase を使用する
+		auto pCodeBase = CCodeFactory::CreateCodeBase(eCodeType);
+		const auto result = pCodeBase->UnicodeToCode(cSrc, &cDest);
+
+		std::string loaded{ reinterpret_cast<LPCSTR>(cDest.GetRawPtr()), static_cast<size_t>(cDest.GetRawLength()) };
+		return SConvertToCodeResult{ result, wide, std::size(wide), std::move(loaded) };
+	}
+} // namespace
+
 /*!
  * @brief 文字コード変換のテスト
  */
@@ -161,11 +209,11 @@ TEST(CCodeBase, codeSJis)
 	constexpr const auto& mbsAscii = "\x01\x02\x03\x04\x05\x06\a\b\t\n\v\f\r\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7F";
 	constexpr const auto& wcsAscii = L"\x01\x02\x03\x04\x05\x06\a\b\t\n\v\f\r\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7F";
 
-	auto result1 = CCodeFactory::LoadFromCode(eCodeType, mbsAscii);
+	auto result1 = LoadFromCode(eCodeType, mbsAscii);
 	EXPECT_THAT(result1.destination, StrEq(wcsAscii));
 	EXPECT_THAT(result1, IsTrue());
 
-	auto cresult1 = CCodeFactory::ConvertToCode(eCodeType, result1.destination);
+	auto cresult1 = ConvertToCode(eCodeType, result1.destination);
 	EXPECT_THAT(cresult1.destination, StrEq(mbsAscii));
 	EXPECT_THAT(cresult1, IsTrue());
 
@@ -173,11 +221,11 @@ TEST(CCodeBase, codeSJis)
 	constexpr const auto& wcsKanaKanji = L"ｶﾅかなカナ漢字";
 	constexpr const auto& mbsKanaKanji = "\xB6\xC5\x82\xA9\x82\xC8\x83\x4A\x83\x69\x8A\xBF\x8E\x9A";
 
-	auto result2 = CCodeFactory::LoadFromCode(eCodeType, mbsKanaKanji);
+	auto result2 = LoadFromCode(eCodeType, mbsKanaKanji);
 	EXPECT_THAT(result2.destination, StrEq(wcsKanaKanji));
 	EXPECT_THAT(result2, IsTrue());
 
-	auto cresult2 = CCodeFactory::ConvertToCode(eCodeType, result2.destination);
+	auto cresult2 = ConvertToCode(eCodeType, result2.destination);
 	EXPECT_THAT(cresult2.destination, StrEq(mbsKanaKanji));
 	EXPECT_THAT(cresult2, IsTrue());
 
@@ -201,7 +249,7 @@ TEST(CCodeBase, codeSJis)
 		L"\xDC81\n\xDC81\x7F\xDC81\xDCFD\xDC81\xDCFE\xDC81\xDCFF"
 		;
 
-	auto result3 = CCodeFactory::LoadFromCode(eCodeType, mbsCantConvSJis);
+	auto result3 = LoadFromCode(eCodeType, mbsCantConvSJis);
 	EXPECT_THAT(result3.destination, StrEq(wcsCantConvSJis));
 	EXPECT_THAT(result3, IsTrue());	//👈 仕様バグ。変換できないので true が返るべき。
 
@@ -209,7 +257,7 @@ TEST(CCodeBase, codeSJis)
 	constexpr const auto& wcsOGuy = L"森鷗外";
 	constexpr const auto& mbsOGuy = "\x90\x58\x3F\x8A\x4F"; //森?外
 
-	const auto cresult4 = CCodeFactory::ConvertToCode(eCodeType, wcsOGuy);
+	const auto cresult4 = ConvertToCode(eCodeType, wcsOGuy);
 	EXPECT_THAT(cresult4.destination, StrEq(mbsOGuy));
 	EXPECT_THAT(cresult4, IsFalse());
 }
@@ -227,14 +275,14 @@ TEST(CCodeBase, codeJis)
 
 	// 不具合1: 不正なエスケープシーケンスをエラーバイナリに格納してない
 	// 不具合2: C0領域の文字 DEL(0x7F) を取り込めてない
-	auto result1 = CCodeFactory::LoadFromCode(eCodeType, mbsAscii);
+	auto result1 = LoadFromCode(eCodeType, mbsAscii);
 	EXPECT_THAT(result1.destination, StrEq(L"\x1\x2\x3\x4\x5\x6\a\b\t\n\v\f\r\xE\xF\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A???!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~?"));
 	EXPECT_THAT(result1, IsFalse());	// 👈 不正なエスケープシーケンスを検出してるので戻り値は false で正しい。
 
 	result1.destination = wcsAscii;
 
 	// 不具合3: エラーバイナリを復元してない
-	auto cresult1 = CCodeFactory::ConvertToCode(eCodeType, result1.destination);
+	auto cresult1 = ConvertToCode(eCodeType, result1.destination);
 	EXPECT_THAT(cresult1.destination, StrEq("\x1\x2\x3\x4\x5\x6\a\b\t\n\v\f\r\xE\xF\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A??????!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7F"));
 	EXPECT_THAT(cresult1, IsFalse());	// 👈 エラーバイナリの復元はエラーではないので true を返すべき。
 
@@ -242,22 +290,22 @@ TEST(CCodeBase, codeJis)
 	constexpr const auto& wcsKanaKanji = L"ｶﾅかなカナ漢字";
 	constexpr const auto& mbsKanaKanji = "\x1B(I6E\x1B$B$+$J%+%J4A;z\x1B(B";
 
-	auto result2 = CCodeFactory::LoadFromCode(eCodeType, mbsKanaKanji);
+	auto result2 = LoadFromCode(eCodeType, mbsKanaKanji);
 	EXPECT_THAT(result2.destination, StrEq(wcsKanaKanji));
 	EXPECT_THAT(result2, IsTrue());
 
-	auto cresult2 = CCodeFactory::ConvertToCode(eCodeType, result2.destination);
+	auto cresult2 = ConvertToCode(eCodeType, result2.destination);
 	EXPECT_THAT(cresult2.destination, StrEq(mbsKanaKanji));
 	EXPECT_THAT(cresult2, IsTrue());
 
 	// JIS範囲外（ありえない値を使う。Windows拡張があるため境界テスト不可。）
-	EXPECT_THAT(CCodeFactory::LoadFromCode(eCodeType, "\x1B$B\xFF\xFF\x1B(B").result, RESULT_LOSESOME);
+	EXPECT_THAT(LoadFromCode(eCodeType, "\x1B$B\xFF\xFF\x1B(B").result, RESULT_LOSESOME);
 
 	// 不正なエスケープシーケンス（JIS X 0212には非対応。）
-	EXPECT_THAT(CCodeFactory::LoadFromCode(eCodeType, "\x1B(D33\x1B(B").result, RESULT_LOSESOME);
+	EXPECT_THAT(LoadFromCode(eCodeType, "\x1B(D33\x1B(B").result, RESULT_LOSESOME);
 
 	// Shift-Jisに変換できない文字
-	EXPECT_THAT(CCodeFactory::ConvertToCode(eCodeType, L"\u9DD7").result, RESULT_LOSESOME);	// 森鴎外の鷗
+	EXPECT_THAT(ConvertToCode(eCodeType, L"\u9DD7").result, RESULT_LOSESOME);	// 森鴎外の鷗
 }
 
 /*!
@@ -272,11 +320,11 @@ TEST(CCodeBase, codeEucJp)
 	constexpr const auto& mbsAscii = "\x01\x02\x03\x04\x05\x06\a\b\t\n\v\f\r\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7F";
 	constexpr const auto& wcsAscii = L"\x01\x02\x03\x04\x05\x06\a\b\t\n\v\f\r\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7F";
 
-	auto result1 = CCodeFactory::LoadFromCode(eCodeType, mbsAscii);
+	auto result1 = LoadFromCode(eCodeType, mbsAscii);
 	EXPECT_THAT(result1.destination, StrEq(wcsAscii));
 	EXPECT_THAT(result1, IsTrue());
 
-	auto cresult1 = CCodeFactory::ConvertToCode(eCodeType, result1.destination);
+	auto cresult1 = ConvertToCode(eCodeType, result1.destination);
 	EXPECT_THAT(cresult1.destination, StrEq(mbsAscii));
 	EXPECT_THAT(cresult1, IsTrue());
 
@@ -284,11 +332,11 @@ TEST(CCodeBase, codeEucJp)
 	constexpr const auto& wcsKanaKanji = L"ｶﾅかなカナ漢字";
 	constexpr const auto& mbsKanaKanji = "\x8E\xB6\x8E\xC5\xA4\xAB\xA4\xCA\xA5\xAB\xA5\xCA\xB4\xC1\xBB\xFA";
 
-	auto result2 = CCodeFactory::LoadFromCode(eCodeType, mbsKanaKanji);
+	auto result2 = LoadFromCode(eCodeType, mbsKanaKanji);
 	EXPECT_THAT(result2.destination, StrEq(wcsKanaKanji));
 	EXPECT_THAT(result2, IsTrue());
 
-	auto cresult2 = CCodeFactory::ConvertToCode(eCodeType, result2.destination);
+	auto cresult2 = ConvertToCode(eCodeType, result2.destination);
 	EXPECT_THAT(cresult2.destination, StrEq(mbsKanaKanji));
 	EXPECT_THAT(cresult2, IsTrue());
 
@@ -303,7 +351,7 @@ TEST(CCodeBase, codeEucJp)
 		L""
 		;
 
-	auto result3 = CCodeFactory::LoadFromCode(eCodeType, mbsCantConvEucJp);
+	auto result3 = LoadFromCode(eCodeType, mbsCantConvEucJp);
 	//ASSERT_THAT(result3.destination, StrEq(wcsCantConvEucJp));
 	//ASSERT_THAT(result3.losesome, IsFalse());
 
@@ -315,7 +363,7 @@ TEST(CCodeBase, codeEucJp)
 	//constexpr const auto& wcsOGuy = L"森鷗外";
 	//constexpr const auto& mbsOGuy = "\xBF\xB9\x8F\xEC\x3F\xB3\xB0";
 
-	const auto cresult4 = CCodeFactory::ConvertToCode(eCodeType, wcsOGuy);
+	const auto cresult4 = ConvertToCode(eCodeType, wcsOGuy);
 	EXPECT_THAT(cresult4.destination, StrEq(mbsOGuy));
 	EXPECT_THAT(cresult4, IsFalse());
 }
@@ -331,11 +379,11 @@ TEST(CCodeBase, codeLatin1)
 	constexpr const auto& mbsAscii = "\x01\x02\x03\x04\x05\x06\a\b\t\n\v\f\r\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7F";
 	constexpr const auto& wcsAscii = L"\x01\x02\x03\x04\x05\x06\a\b\t\n\v\f\r\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7F";
 
-	auto result1 = CCodeFactory::LoadFromCode(eCodeType, mbsAscii);
+	auto result1 = LoadFromCode(eCodeType, mbsAscii);
 	EXPECT_THAT(result1.destination, StrEq(wcsAscii));
 	EXPECT_THAT(result1, IsTrue());
 
-	auto cresult1 = CCodeFactory::ConvertToCode(eCodeType, result1.destination);
+	auto cresult1 = ConvertToCode(eCodeType, result1.destination);
 	EXPECT_THAT(cresult1.destination, StrEq(mbsAscii));
 	EXPECT_THAT(cresult1, IsTrue());
 
@@ -362,11 +410,11 @@ TEST(CCodeBase, codeLatin1)
 		"\xF0\xF1\xF2\xF3\xF4\xF5\xF6\xF7\xF8\xF9\xFA\xFB\xFC\xFD\xFE\xFF"
 		;
 
-	auto result2 = CCodeFactory::LoadFromCode(eCodeType, mbsLatin1ExtChars);
+	auto result2 = LoadFromCode(eCodeType, mbsLatin1ExtChars);
 	EXPECT_THAT(result2.destination, StrEq(wcsLatin1ExtChars));
 	EXPECT_THAT(result2, IsTrue());
 
-	auto cresult2 = CCodeFactory::ConvertToCode(eCodeType, result2.destination);
+	auto cresult2 = ConvertToCode(eCodeType, result2.destination);
 	EXPECT_THAT(cresult2.destination, StrEq(mbsLatin1ExtChars));
 	EXPECT_THAT(cresult2, IsTrue());
 
@@ -376,7 +424,7 @@ TEST(CCodeBase, codeLatin1)
 	constexpr const auto& wcsKanaKanji = L"ｶﾅかなカナ漢字";
 	constexpr const auto& mbsKanaKanji = "????????";
 
-	const auto cresult4 = CCodeFactory::ConvertToCode(eCodeType, wcsKanaKanji);
+	const auto cresult4 = ConvertToCode(eCodeType, wcsKanaKanji);
 	EXPECT_THAT(cresult4.destination, StrEq(mbsKanaKanji));
 	EXPECT_THAT(cresult4, IsFalse());
 }
@@ -393,11 +441,11 @@ TEST(CCodeBase, codeUtf8)
 	constexpr const auto& mbsAscii = "\x01\x02\x03\x04\x05\x06\a\b\t\n\v\f\r\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7F";
 	constexpr const auto& wcsAscii = L"\x01\x02\x03\x04\x05\x06\a\b\t\n\v\f\r\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7F";
 
-	auto result1 = CCodeFactory::LoadFromCode(eCodeType, mbsAscii);
+	auto result1 = LoadFromCode(eCodeType, mbsAscii);
 	EXPECT_THAT(result1.destination, StrEq(wcsAscii));
 	EXPECT_THAT(result1, IsTrue());
 
-	auto cresult1 = CCodeFactory::ConvertToCode(eCodeType, result1.destination);
+	auto cresult1 = ConvertToCode(eCodeType, result1.destination);
 	EXPECT_THAT(cresult1.destination, StrEq(mbsAscii));
 	EXPECT_THAT(cresult1, IsTrue());
 
@@ -405,11 +453,11 @@ TEST(CCodeBase, codeUtf8)
 	constexpr const auto& mbsKanaKanji = u8"ｶﾅかなカナ漢字";
 	constexpr const auto& wcsKanaKanji = L"ｶﾅかなカナ漢字";
 
-	auto result2 = CCodeFactory::LoadFromCode(eCodeType, (LPCSTR)mbsKanaKanji);
+	auto result2 = LoadFromCode(eCodeType, (LPCSTR)mbsKanaKanji);
 	EXPECT_THAT(result2.destination, StrEq(wcsKanaKanji));
 	EXPECT_THAT(result2, IsTrue());
 
-	auto cresult2 = CCodeFactory::ConvertToCode(eCodeType, result2.destination);
+	auto cresult2 = ConvertToCode(eCodeType, result2.destination);
 	EXPECT_THAT(cresult2.destination, StrEq((LPCSTR)mbsKanaKanji));
 	EXPECT_THAT(cresult2, IsTrue());
 }
@@ -426,11 +474,11 @@ TEST(CCodeBase, codeUtf8_OracleImplementation)
 	constexpr const auto& mbsAscii = "\x01\x02\x03\x04\x05\x06\a\b\t\n\v\f\r\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7F";
 	constexpr const auto& wcsAscii = L"\x01\x02\x03\x04\x05\x06\a\b\t\n\v\f\r\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7F";
 
-	auto result1 = CCodeFactory::LoadFromCode(eCodeType, mbsAscii);
+	auto result1 = LoadFromCode(eCodeType, mbsAscii);
 	EXPECT_THAT(result1.destination, StrEq(wcsAscii));
 	EXPECT_THAT(result1, IsTrue());
 
-	auto cresult1 = CCodeFactory::ConvertToCode(eCodeType, result1.destination);
+	auto cresult1 = ConvertToCode(eCodeType, result1.destination);
 	EXPECT_THAT(cresult1.destination, StrEq(mbsAscii));
 	EXPECT_THAT(cresult1, IsTrue());
 
@@ -438,11 +486,11 @@ TEST(CCodeBase, codeUtf8_OracleImplementation)
 	constexpr const auto& mbsKanaKanji = u8"ｶﾅかなカナ漢字";
 	constexpr const auto& wcsKanaKanji = L"ｶﾅかなカナ漢字";
 
-	auto result2 = CCodeFactory::LoadFromCode(eCodeType, (LPCSTR)mbsKanaKanji);
+	auto result2 = LoadFromCode(eCodeType, (LPCSTR)mbsKanaKanji);
 	EXPECT_THAT(result2.destination, StrEq(wcsKanaKanji));
 	EXPECT_THAT(result2, IsTrue());
 
-	auto cresult2 = CCodeFactory::ConvertToCode(eCodeType, result2.destination);
+	auto cresult2 = ConvertToCode(eCodeType, result2.destination);
 	EXPECT_THAT(cresult2.destination, StrEq((LPCSTR)mbsKanaKanji));
 	EXPECT_THAT(cresult2, IsTrue());
 }
@@ -458,11 +506,11 @@ TEST(CCodeBase, codeUtf7)
 	constexpr const auto& mbsAscii = "+AAEAAgADAAQABQAGAAcACA-\t\n+AAsADA-\r+AA4ADwAQABEAEgATABQAFQAWABcAGAAZABoAGwAcAB0AHgAf- +ACEAIgAjACQAJQAm-'()+ACoAKw-,-./0123456789:+ADsAPAA9AD4-?+AEA-ABCDEFGHIJKLMNOPQRSTUVWXYZ+AFsAXABdAF4AXwBg-abcdefghijklmnopqrstuvwxyz+AHsAfAB9AH4Afw-";
 	constexpr const auto& wcsAscii = L"\x01\x02\x03\x04\x05\x06\a\b\t\n\v\f\r\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7F";
 
-	auto result1 = CCodeFactory::LoadFromCode(eCodeType, mbsAscii);
+	auto result1 = LoadFromCode(eCodeType, mbsAscii);
 	EXPECT_THAT(result1.destination, StrEq(wcsAscii));
 	EXPECT_THAT(result1, IsTrue());
 
-	auto cresult1 = CCodeFactory::ConvertToCode(eCodeType, result1.destination);
+	auto cresult1 = ConvertToCode(eCodeType, result1.destination);
 	EXPECT_THAT(cresult1.destination, StrEq(mbsAscii));
 	EXPECT_THAT(cresult1, IsTrue());
 
@@ -470,11 +518,11 @@ TEST(CCodeBase, codeUtf7)
 	constexpr const auto& wcsKanaKanji = L"ｶﾅかなカナ漢字";
 	constexpr const auto& mbsKanaKanji = "+/3b/hTBLMGowqzDKbyJbVw-";
 
-	auto result2 = CCodeFactory::LoadFromCode(eCodeType, mbsKanaKanji);
+	auto result2 = LoadFromCode(eCodeType, mbsKanaKanji);
 	EXPECT_THAT(result2.destination, StrEq(wcsKanaKanji));
 	EXPECT_THAT(result2, IsTrue());
 
-	auto cresult2 = CCodeFactory::ConvertToCode(eCodeType, result2.destination);
+	auto cresult2 = ConvertToCode(eCodeType, result2.destination);
 	EXPECT_THAT(cresult2.destination, StrEq(mbsKanaKanji));
 	EXPECT_THAT(cresult2, IsTrue());
 
@@ -482,11 +530,11 @@ TEST(CCodeBase, codeUtf7)
 	constexpr const auto& wcsPlusPlus = L"C++";
 	constexpr const auto& mbsPlusPlus = "C+-+-";
 
-	auto result5 = CCodeFactory::LoadFromCode(eCodeType, mbsPlusPlus);
+	auto result5 = LoadFromCode(eCodeType, mbsPlusPlus);
 	EXPECT_THAT(result5.destination, StrEq(wcsPlusPlus));
 	EXPECT_THAT(result5, IsTrue());
 
-	auto cresult5 = CCodeFactory::ConvertToCode(eCodeType, result5.destination);
+	auto cresult5 = ConvertToCode(eCodeType, result5.destination);
 	EXPECT_THAT(cresult5.destination, StrEq(mbsPlusPlus));
 	EXPECT_THAT(cresult5, IsTrue());
 }
@@ -503,11 +551,11 @@ TEST(CCodeBase, codeUtf16Le)
 	constexpr auto& wcsAscii = L"\x01\x02\x03\x04\x05\x06\a\b\t\n\v\f\r\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7F";
 
 	const auto bytesAscii = ToUtf16LeBytes(mbsAscii);
-	auto result1 = CCodeFactory::LoadFromCode(eCodeType, bytesAscii);
+	auto result1 = LoadFromCode(eCodeType, bytesAscii);
 	EXPECT_THAT(result1.destination, StrEq(wcsAscii));
 	EXPECT_THAT(result1, IsTrue());
 
-	auto cresult1 = CCodeFactory::ConvertToCode(eCodeType, result1.destination);
+	auto cresult1 = ConvertToCode(eCodeType, result1.destination);
 	EXPECT_THAT(cresult1.destination, StrEq(bytesAscii));
 	EXPECT_THAT(cresult1, IsTrue());
 
@@ -515,11 +563,11 @@ TEST(CCodeBase, codeUtf16Le)
 	constexpr const auto& wcsKanaKanji = L"ｶﾅかなカナ漢字";
 
 	const auto bytesKanaKanji = ToUtf16LeBytes(wcsKanaKanji);
-	auto result2 = CCodeFactory::LoadFromCode(eCodeType, bytesKanaKanji);
+	auto result2 = LoadFromCode(eCodeType, bytesKanaKanji);
 	EXPECT_THAT(result2.destination, StrEq(wcsKanaKanji));
 	EXPECT_THAT(result2, IsTrue());
 
-	auto cresult2 = CCodeFactory::ConvertToCode(eCodeType, result2.destination);
+	auto cresult2 = ConvertToCode(eCodeType, result2.destination);
 	EXPECT_THAT(cresult2.destination, StrEq(bytesKanaKanji));
 	EXPECT_THAT(cresult2, IsTrue());
 }
@@ -536,11 +584,11 @@ TEST(CCodeBase, codeUtf16Be)
 	constexpr auto& wcsAscii = L"\x01\x02\x03\x04\x05\x06\a\b\t\n\v\f\r\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7F";
 
 	const auto bytesAscii = ToUtf16BeBytes(mbsAscii);
-	auto result1 = CCodeFactory::LoadFromCode(eCodeType, bytesAscii);
+	auto result1 = LoadFromCode(eCodeType, bytesAscii);
 	EXPECT_THAT(result1.destination, StrEq(wcsAscii));
 	EXPECT_THAT(result1, IsTrue());
 
-	auto cresult1 = CCodeFactory::ConvertToCode(eCodeType, result1.destination);
+	auto cresult1 = ConvertToCode(eCodeType, result1.destination);
 	EXPECT_THAT(cresult1.destination, StrEq(bytesAscii));
 	EXPECT_THAT(cresult1, IsTrue());
 
@@ -548,11 +596,11 @@ TEST(CCodeBase, codeUtf16Be)
 	constexpr const auto& wcsKanaKanji = L"ｶﾅかなカナ漢字";
 
 	const auto bytesKanaKanji = ToUtf16BeBytes(wcsKanaKanji);
-	auto result2 = CCodeFactory::LoadFromCode(eCodeType, bytesKanaKanji);
+	auto result2 = LoadFromCode(eCodeType, bytesKanaKanji);
 	EXPECT_THAT(result2.destination, StrEq(wcsKanaKanji));
 	EXPECT_THAT(result2, IsTrue());
 
-	auto cresult2 = CCodeFactory::ConvertToCode(eCodeType, result2.destination);
+	auto cresult2 = ConvertToCode(eCodeType, result2.destination);
 	EXPECT_THAT(cresult2.destination, StrEq(bytesKanaKanji));
 	EXPECT_THAT(cresult2, IsTrue());
 }
@@ -569,11 +617,11 @@ TEST(CCodeBase, codeUtf32Le)
 	constexpr auto& wcsAscii = L"\x01\x02\x03\x04\x05\x06\a\b\t\n\v\f\r\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7F";
 
 	const auto bytesAscii = ToUtf32LeBytes(mbsAscii);
-	auto result1 = CCodeFactory::LoadFromCode(eCodeType, bytesAscii);
+	auto result1 = LoadFromCode(eCodeType, bytesAscii);
 	EXPECT_THAT(result1.destination, StrEq(wcsAscii));
 	EXPECT_THAT(result1, IsTrue());
 
-	auto cresult1 = CCodeFactory::ConvertToCode(eCodeType, result1.destination);
+	auto cresult1 = ConvertToCode(eCodeType, result1.destination);
 	EXPECT_THAT(cresult1.destination, StrEq(bytesAscii));
 	EXPECT_THAT(cresult1, IsTrue());
 
@@ -581,11 +629,11 @@ TEST(CCodeBase, codeUtf32Le)
 	constexpr const auto& wcsKanaKanji = L"ｶﾅかなカナ漢字";
 
 	const auto bytesKanaKanji = ToUtf32LeBytes(wcsKanaKanji);
-	auto result2 = CCodeFactory::LoadFromCode(eCodeType, bytesKanaKanji);
+	auto result2 = LoadFromCode(eCodeType, bytesKanaKanji);
 	EXPECT_THAT(result2.destination, StrEq(wcsKanaKanji));
 	EXPECT_THAT(result2, IsTrue());
 
-	auto cresult2 = CCodeFactory::ConvertToCode(eCodeType, result2.destination);
+	auto cresult2 = ConvertToCode(eCodeType, result2.destination);
 	EXPECT_THAT(cresult2.destination, StrEq(bytesKanaKanji));
 	EXPECT_THAT(cresult2, IsTrue());
 }
@@ -602,11 +650,11 @@ TEST(CCodeBase, codeUtf32Be)
 	constexpr auto& wcsAscii = L"\x01\x02\x03\x04\x05\x06\a\b\t\n\v\f\r\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7F";
 
 	const auto bytesAscii = ToUtf32BeBytes(mbsAscii);
-	auto result1 = CCodeFactory::LoadFromCode(eCodeType, bytesAscii);
+	auto result1 = LoadFromCode(eCodeType, bytesAscii);
 	EXPECT_THAT(result1.destination, StrEq(wcsAscii));
 	EXPECT_THAT(result1, IsTrue());
 
-	auto cresult1 = CCodeFactory::ConvertToCode(eCodeType, result1.destination);
+	auto cresult1 = ConvertToCode(eCodeType, result1.destination);
 	EXPECT_THAT(cresult1.destination, StrEq(bytesAscii));
 	EXPECT_THAT(cresult1, IsTrue());
 
@@ -614,11 +662,11 @@ TEST(CCodeBase, codeUtf32Be)
 	constexpr const auto& wcsKanaKanji = L"ｶﾅかなカナ漢字";
 
 	const auto bytesKanaKanji = ToUtf32BeBytes(wcsKanaKanji);
-	auto result2 = CCodeFactory::LoadFromCode(eCodeType, bytesKanaKanji);
+	auto result2 = LoadFromCode(eCodeType, bytesKanaKanji);
 	EXPECT_THAT(result2.destination, StrEq(wcsKanaKanji));
 	EXPECT_THAT(result2, IsTrue());
 
-	auto cresult2 = CCodeFactory::ConvertToCode(eCodeType, result2.destination);
+	auto cresult2 = ConvertToCode(eCodeType, result2.destination);
 	EXPECT_THAT(cresult2.destination, StrEq(bytesKanaKanji));
 	EXPECT_THAT(cresult2, IsTrue());
 }
