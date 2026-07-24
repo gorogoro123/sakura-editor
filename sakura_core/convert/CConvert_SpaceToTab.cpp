@@ -17,7 +17,6 @@ bool CConvert_SpaceToTab::DoConvert(CNativeW* pcData)
 
 	const wchar_t*	pLine;
 	int			nLineLen;
-	wchar_t*	pDes;
 	int			nBgn;
 	int			i;
 	int			nPosDes;
@@ -40,7 +39,7 @@ bool CConvert_SpaceToTab::DoConvert(CNativeW* pcData)
 	if( 0 >= nPosDes ){
 		return false;
 	}
-	pDes = new wchar_t[nPosDes + 1];
+	std::vector<wchar_t> vDes(nPosDes + 1);
 	nBgn = 0;
 	nPosDes = 0;
 	/* CRLFで区切られる「行」を返す。CRLFは行長に加えない */
@@ -64,11 +63,11 @@ bool CConvert_SpaceToTab::DoConvert(CNativeW* pcData)
 				}else{
 					if( bSpace ){
 						if( (1 == nPosX - nStartPos) && (SPACE == pLine[i - 1]) ){
-							pDes[nPosDes] = SPACE;
+							vDes[nPosDes] = SPACE;
 							nPosDes++;
 						} else{
 							for( j = nStartPos / m_nTabWidth; j < (nPosX / m_nTabWidth); j++ ){
-								pDes[nPosDes] = TAB;
+								vDes[nPosDes] = TAB;
 								nPosDes++;
 								nStartPos += m_nTabWidth - ( nStartPos % m_nTabWidth );
 							}
@@ -76,30 +75,30 @@ bool CConvert_SpaceToTab::DoConvert(CNativeW* pcData)
 							//	変換後にTABが1つも入らない場合にスペースを詰めすぎて
 							//	バッファをはみ出すのを修正
 							for( j = nStartPos; j < nPosX; j++ ){
-								pDes[nPosDes] = SPACE;
+								vDes[nPosDes] = SPACE;
 								nPosDes++;
 							}
 						}
 					}
 					nPosX++;
 					if(WCODE::IsZenkaku(pLine[i], m_cCache)) nPosX++;	//全角文字ずれ対応 2008.10.17 matsumo
-					pDes[nPosDes] = pLine[i];
+					vDes[nPosDes] = pLine[i];
 					nPosDes++;
 					bSpace = FALSE;
 				}
 			}
 			//for( ; i < nLineLen; ++i ){
-			//	pDes[nPosDes] = pLine[i];
+			//	vDes[nPosDes] = pLine[i];
 			//	nPosDes++;
 			//}
 			if( bSpace ){
 				if( (1 == nPosX - nStartPos) && (SPACE == pLine[i - 1]) ){
-					pDes[nPosDes] = SPACE;
+					vDes[nPosDes] = SPACE;
 					nPosDes++;
 				} else{
 					//for( j = nStartPos - 1; (j + m_nTabWidth) <= nPosX + 1; j+=m_nTabWidth ){
 					for( j = nStartPos / m_nTabWidth; j < (nPosX / m_nTabWidth); j++ ){
-						pDes[nPosDes] = TAB;
+						vDes[nPosDes] = TAB;
 						nPosDes++;
 						nStartPos += m_nTabWidth - ( nStartPos % m_nTabWidth );
 					}
@@ -107,7 +106,7 @@ bool CConvert_SpaceToTab::DoConvert(CNativeW* pcData)
 					//	変換後にTABが1つも入らない場合にスペースを詰めすぎて
 					//	バッファをはみ出すのを修正
 					for( j = nStartPos; j < nPosX; j++ ){
-						pDes[nPosDes] = SPACE;
+						vDes[nPosDes] = SPACE;
 						nPosDes++;
 					}
 				}
@@ -115,13 +114,11 @@ bool CConvert_SpaceToTab::DoConvert(CNativeW* pcData)
 		}
 
 		/* 行末の処理 */
-		wmemcpy( &pDes[nPosDes], cEol.GetValue2(), cEol.GetLen() );
+		wmemcpy( &vDes[nPosDes], cEol.GetValue2(), cEol.GetLen() );
 		nPosDes += cEol.GetLen();
 	}
-	pDes[nPosDes] = L'\0';
+	vDes[nPosDes] = L'\0';
 
-	pcData->SetString( pDes, nPosDes );
-	delete [] pDes;
-	pDes = nullptr;
+	pcData->SetString( vDes.data(), nPosDes );
 	return true;
 }
