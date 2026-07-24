@@ -84,19 +84,13 @@ EConvertResult CEuc::EUCToUnicode(const CMemory& cSrc, CNativeW* pDstMem)
 	const char* pSrc = reinterpret_cast<const char*>( cSrc.GetRawPtr() );
 
 	// 変換先バッファサイズとその確保
-	wchar_t* pDst = new (std::nothrow) wchar_t[nSrcLen];
-	if( pDst == nullptr ){
-		return RESULT_FAILURE;
-	}
+	std::vector<wchar_t> vDst(nSrcLen);
 
 	// 変換
-	int nDstLen = EucjpToUni( pSrc, nSrcLen, pDst, &bError );
+	int nDstLen = EucjpToUni( pSrc, nSrcLen, vDst.data(), &bError );
 
 	// pDstMem を更新
-	pDstMem->_GetMemory()->SetRawDataHoldBuffer( pDst, nDstLen*sizeof(wchar_t) );
-
-	// 後始末
-	delete [] pDst;
+	pDstMem->_GetMemory()->SetRawDataHoldBuffer( vDst.data(), nDstLen*sizeof(wchar_t) );
 
 	//$$ SJISを介しているので無駄にデータを失うかも？
 	// エラーを返すようにする。	2008/5/12 Uchi
