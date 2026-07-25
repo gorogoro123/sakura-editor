@@ -795,8 +795,7 @@ void CMenuDrawer::MyAppendMenu(
 			int(nFuncId),
 			szLabel,
 			szKey,
-			bAddKeyStr,
-			int(std::size(szLabel))
+			bAddKeyStr
 		 );
 
 		/* アイコン用ビットマップを持つものは、オーナードロウにする */

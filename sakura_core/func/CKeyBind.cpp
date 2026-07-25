@@ -427,29 +427,27 @@ WCHAR*	CKeyBind::MakeMenuLabel(const WCHAR* sName, const WCHAR* sKey)
 	2010/5/17	アクセスキーの追加
 	@date 2014.05.04 Moca LABEL_MAX=256 => nLabelSize
 */
-WCHAR* CKeyBind::GetMenuLabel(
+bool CKeyBind::GetMenuLabel(
 		HINSTANCE	hInstance,
 		int			nKeyNameArrNum,
 		KEYDATA*	pKeyNameArr,
 		int			nFuncId,
-		WCHAR*      pszLabel,   //!< [in,out] バッファは256以上と仮定
+		std::span<WCHAR> szLabel,   //!< [in,out]
 		const WCHAR*	pszKey,
 		BOOL		bKeyStr,
-		int			nLabelSize,
 		BOOL		bGetDefFuncCode /* = TRUE */
 )
 {
-	const unsigned int LABEL_MAX = nLabelSize;
+	const auto LABEL_MAX = szLabel.size();
 
-	if( L'\0' == pszLabel[0] ){
-		wcsncpy( pszLabel, LS( nFuncId ), LABEL_MAX - 1 );
-		pszLabel[ LABEL_MAX - 1 ] = L'\0';
+	if( L'\0' == szLabel[0] ){
+		wcscpy_s( szLabel.data(), LABEL_MAX, LS( nFuncId ) );
 	}
-	if( L'\0' == pszLabel[0] ){
-		wcscpy( pszLabel, L"-- undefined name --" );
+	if( L'\0' == szLabel[0] ){
+		wcscpy_s( szLabel.data(), LABEL_MAX, L"-- undefined name --" );
 	}
 	// アクセスキーの追加	2010/5/17 Uchi
-	wcsncpy_s( pszLabel, LABEL_MAX, MakeMenuLabel( pszLabel, pszKey ), _TRUNCATE );
+	wcsncpy_s( szLabel.data(), LABEL_MAX, MakeMenuLabel(szLabel.data(), pszKey), _TRUNCATE);
 
 	/* 機能に対応するキー名を追加するか */
 	if( bKeyStr ){
@@ -459,13 +457,13 @@ WCHAR* CKeyBind::GetMenuLabel(
 		/* 機能に対応するキー名の取得 */
 		if( GetKeyStr( hInstance, nKeyNameArrNum, pKeyNameArr, cMemAccessKey, nFuncId, bGetDefFuncCode ) ){
 			// バッファが足りないときは入れない
-			if( wcslen( pszLabel ) + (Int)cMemAccessKey.GetStringLength() + 1 < LABEL_MAX ){
-				wcscat( pszLabel, L"\t" );
-				wcscat( pszLabel, cMemAccessKey.GetStringPtr() );
+			if( wcsnlen( szLabel.data(), LABEL_MAX ) + (Int)cMemAccessKey.GetStringLength() + 1 < LABEL_MAX ){
+				wcscat_s( szLabel.data(), LABEL_MAX, L"\t" );
+				wcscat_s( szLabel.data(), LABEL_MAX, cMemAccessKey.GetStringPtr() );
 			}
 		}
 	}
-	return pszLabel;
+	return L'\0' != szLabel[0];
 }
 
 /*! キーのデフォルト機能を取得する

@@ -787,15 +787,14 @@ void CEditWnd::LayoutMainMenu()
 			/* メニューラベルの作成 */
 			// 2014.05.04 Moca プラグイン/マクロ等を置けるようにFunccode2Nameを使うように
 			GetDocument()->m_cFuncLookup.Funccode2Name( cMainMenu->m_nFunc, szLabel );
-			if (CKeyBind::GetMenuLabel(
+			if (!CKeyBind::GetMenuLabel(
 				G_AppInstance(),
 				m_pShareData->m_Common.m_sKeyBind.m_nKeyNameArrNum,
 				m_pShareData->m_Common.m_sKeyBind.m_pKeyNameArr,
 				cMainMenu->m_nFunc,
 				szLabel,
 				cMainMenu->m_sKey,
-				FALSE,
-				int(std::size(szLabel))) == nullptr) {
+				FALSE)) {
 				wcscpy_s( szLabel, std::size(szLabel), L"?" );
 			}
 			::AppendMenu( hMenu, MF_STRING, cMainMenu->m_nFunc, szLabel );
