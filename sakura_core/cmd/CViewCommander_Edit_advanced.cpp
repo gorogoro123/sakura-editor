@@ -69,23 +69,16 @@ void CViewCommander::Command_INDENT( const wchar_t* const pData, const CLogicInt
 		{ return ch == WCODE::SPACE || ch == WCODE::TAB; }
 	} IsIndentChar;
 	struct SSoftTabData {
-		SSoftTabData( CLayoutXInt nTab, int width ) : m_szTab(nullptr), m_nTab((Int)nTab), m_nXWidth(width - 1), m_nSpWidth(width) {}
-		~SSoftTabData() { delete []m_szTab; }
-		operator const wchar_t* ()
-		{
-			if( !m_szTab ){
-				m_szTab = new wchar_t[m_nTab];
-				wmemset( m_szTab, WCODE::SPACE, m_nTab );
-			}
-			return m_szTab;
+		SSoftTabData( CLayoutXInt nTab, int width ) : m_nTab((Int)nTab), m_szTab((Int)nTab, WCODE::SPACE), m_nXWidth(width - 1), m_nSpWidth(width) {
 		}
+		const wchar_t* GetTab() const { return m_szTab.c_str(); };
 		// TAB=4 だとしても、TAB="x"幅*4 なのでSPとは幅が違うので、PPFontだとレイアウト上は桁が一致しません
 		// @see CConvert_TabToSpace::DoConvert() convert/CConvert_TabToSpace.cpp
 		// とりあえずCMemoryIterator/CLayoutMgr::GetActualTabSpace互換で計算してx幅での個数分を追加する
 		// nColまでの文字のGetKetaOfCharとGetTabSpaceKetasを使うとTAB指定文字数分になる
 		int Len( CLayoutInt nCol ) { return (m_nTab + m_nXWidth - ((Int)nCol + m_nXWidth) % m_nTab) / m_nSpWidth; }
-		wchar_t* m_szTab;
 		int m_nTab;
+		std::wstring m_szTab;
 		int m_nXWidth;
 		int m_nSpWidth;
 		DISALLOW_COPY_AND_ASSIGN(SSoftTabData);
@@ -106,7 +99,7 @@ void CViewCommander::Command_INDENT( const wchar_t* const pData, const CLogicInt
 			}
 			m_pCommanderView->InsertData_CEditView(
 				GetCaret().GetCaretLayoutPos(),
-				!bSoftTab? pData: stabData,
+				!bSoftTab? pData: stabData.GetTab(),
 				!bSoftTab? nDataLen: stabData.Len(GetCaret().GetCaretLayoutPos().GetX2()),
 				&ptInserted,
 				true
@@ -251,7 +244,7 @@ void CViewCommander::Command_INDENT( const wchar_t* const pData, const CLogicInt
 				/* 現在位置にデータを挿入 */
 				m_pCommanderView->InsertData_CEditView(
 					ptInsert,
-					!bSoftTab? pData: stabData,
+					!bSoftTab? pData: stabData.GetTab(),
 					!bSoftTab? nDataLen: stabData.Len(ptInsert.x),
 					&ptInserted,
 					false
@@ -315,7 +308,7 @@ void CViewCommander::Command_INDENT( const wchar_t* const pData, const CLogicInt
 			m_pCommanderView->DeleteData( false );
 			m_pCommanderView->InsertData_CEditView(
 				GetCaret().GetCaretLayoutPos(),
-				!bSoftTab? pData: stabData,
+				!bSoftTab? pData: stabData.GetTab(),
 				!bSoftTab? nDataLen: stabData.Len(GetCaret().GetCaretLayoutPos().GetX2()),
 				&ptInserted,
 				false
@@ -357,7 +350,7 @@ void CViewCommander::Command_INDENT( const wchar_t* const pData, const CLogicInt
 			/* 現在位置にデータを挿入 */
 			m_pCommanderView->InsertData_CEditView(
 				CLayoutPoint(CLayoutInt(0),i),
-				!bSoftTab? pData: stabData,
+				!bSoftTab? pData: stabData.GetTab(),
 				!bSoftTab? nDataLen: stabData.Len(CLayoutInt(0)),
 				&ptInserted,
 				false
