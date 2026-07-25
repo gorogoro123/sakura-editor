@@ -208,6 +208,24 @@ void CImpExpManager::SetBaseName(const std::wstring& sBase)
 	m_sOriginName = MakeExportFileName( wbuff, sBase.c_str(), GetOriginExtension() );
 }
 
+std::wstring CImpExpManager::GetFullPath()
+{
+	return { LPCWSTR(GetDllShareData().m_sHistory.m_szIMPORTFOLDER) + m_sOriginName };
+}
+
+std::wstring CImpExpManager::MakeFullPath( std::wstring sFileName )
+{
+	return { LPCWSTR(GetDllShareData().m_sHistory.m_szIMPORTFOLDER) + sFileName };
+}
+
+void CImpExpManager::SetImportFolder( const WCHAR* szPath )
+{
+	/* ファイルのフルパスをフォルダーとファイル名に分割 */
+	/* [c:\work\test\aaa.txt] → [c:\work\test] + [aaa.txt] */
+	::SplitPath_FolderAndFile( szPath, GetDllShareData().m_sHistory.m_szIMPORTFOLDER, nullptr );
+	GetDllShareData().m_sHistory.m_szIMPORTFOLDER.append(L"\\");
+}
+
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                          タイプ別設定                       //
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //

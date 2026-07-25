@@ -423,7 +423,7 @@ bool CDlgTypeList::Import()
 	// ベースのデータは基本
 	CDocTypeManager().GetTypeConfig(CTypeConfig(0), type);
 
-	CImpExpType	cImpExpType( nIdx, type, hwndList );
+	CImpExpType	cImpExpType(  &GetDllShareData(), nIdx, type, hwndList );
 	const STypeConfigMini* typeMini = nullptr;
 	if( !CDocTypeManager().GetTypeConfigMini( CTypeConfig(nIdx), &typeMini ) ){
 		return false;
@@ -471,7 +471,7 @@ bool CDlgTypeList::Export()
 	STypeConfig types;
 	CDocTypeManager().GetTypeConfig(CTypeConfig(nIdx), types);
 
-	CImpExpType	cImpExpType( nIdx, types, hwndList );
+	CImpExpType	cImpExpType( &GetDllShareData(), nIdx, types, hwndList );
 
 	// エクスポート
 	cImpExpType.SetBaseName( types.m_szTypeName.c_str() );

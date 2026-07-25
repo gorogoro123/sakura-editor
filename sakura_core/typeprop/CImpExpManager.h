@@ -26,27 +26,15 @@ public:
 	// ファイル名の初期値を設定
 	void SetBaseName(const std::wstring& sBase);
 	// フルパス名を取得
-	inline std::wstring GetFullPath()
-	{
-		return { LPCWSTR(GetDllShareData().m_sHistory.m_szIMPORTFOLDER) + m_sOriginName };
-	}
+	std::wstring GetFullPath();
 	// フルパス名を取得
-	inline std::wstring MakeFullPath( std::wstring sFileName )
-	{
-		return { LPCWSTR(GetDllShareData().m_sHistory.m_szIMPORTFOLDER) + sFileName };
-	}
+	std::wstring MakeFullPath( std::wstring sFileName );
 	// ファイル名を取得
 	inline std::wstring GetFileName()	{ return m_sOriginName; }
 
 protected:
 	// Import Folderの設定
-	inline void SetImportFolder( const WCHAR* szPath ) 
-	{
-		/* ファイルのフルパスをフォルダーとファイル名に分割 */
-		/* [c:\work\test\aaa.txt] → [c:\work\test] + [aaa.txt] */
-		::SplitPath_FolderAndFile( szPath, GetDllShareData().m_sHistory.m_szIMPORTFOLDER, nullptr );
-		GetDllShareData().m_sHistory.m_szIMPORTFOLDER.append(L"\\");
-	}
+	void SetImportFolder( const WCHAR* szPath );
 
 	// デフォルト拡張子の取得(「*.txt」形式)
 	virtual const WCHAR* GetDefaultExtension();
@@ -65,13 +53,12 @@ class CImpExpType : public CImpExpManager
 {
 public:
 	// Constructor
-	CImpExpType( int nIdx, STypeConfig& types, HWND hwndList )
-		: m_nIdx( nIdx )
+	CImpExpType(DLLSHAREDATA* pShareData,  int nIdx, STypeConfig& types, HWND hwndList )
+		: m_pShareData( pShareData )
+		, m_nIdx( nIdx )
 		, m_Types( types )
 		, m_hwndList( hwndList )
 	{
-		/* 共有データ構造体のアドレスを返す */
-		m_pShareData = &GetDllShareData();
 	}
 
 public:
