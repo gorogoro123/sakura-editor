@@ -456,21 +456,20 @@ const wchar_t* CNativeW::GetCharPrev(const wchar_t* pData, size_t nDataLen, cons
 }
 
 size_t CNativeW::LimitStringLengthW(
-	LPCWSTR			pszData,		//!< [in]
-	size_t			nDataLength,	//!< [in]
+	std::span<const WCHAR> szData,	//!< [in]
 	size_t			nLimitLength	//!< [in]
 )
 {
-	size_t n = nDataLength;
+	size_t n = szData.size();
 	if(n>nLimitLength){
 		size_t i = 0;
-		size_t charSize = CNativeW::GetSizeOfChar(pszData, nDataLength, i);
+		size_t charSize = CNativeW::GetSizeOfChar(szData.data(), n, i);
 		for(; i + charSize <= nLimitLength;){
 			i += charSize;
-			charSize = CNativeW::GetSizeOfChar(pszData, nDataLength, i);
+			charSize = CNativeW::GetSizeOfChar(szData.data(), n, i);
 		}
 		n = i;
 	}
-	SetString(pszData,n);
+	SetString(szData.data(), n);
 	return n;
 }

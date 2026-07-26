@@ -901,3 +901,44 @@ TEST(CNativeW, GetCharPrev_Bugs_Preview)
 	// 対処方法 関数コメントにある仕様通りに修正する。
 	ASSERT_EQ(&text[2], CNativeW::GetCharPrev(pText, 2, pText));
 }
+
+TEST(CNativeWTest, LimitStringLengthW)
+{
+	// 1. 制限長より短い場合はそのままになること
+	{
+		CNativeW cmem;
+		std::wstring testStr = L"Hello";
+		size_t len = cmem.LimitStringLengthW(testStr, 10);
+		EXPECT_EQ(len, 5);
+		EXPECT_STREQ(cmem.GetStringPtr(), L"Hello");
+	}
+
+	// 2. 制限長より長い場合に正しく切り詰められること
+	{
+		CNativeW cmem;
+		std::wstring testStr = L"Hello, World!";
+		size_t len = cmem.LimitStringLengthW(testStr, 5);
+		EXPECT_EQ(len, 5);
+		EXPECT_STREQ(cmem.GetStringPtr(), L"Hello");
+	}
+
+	// 3. サロゲートペア（補助文字）が含まれる場合に途中で切断されないこと
+		// 例: 𠮷野家 (𠮷 はサロゲートペアで 2 WCHAR: U+20BB7 -> \xD842\xDFB7)
+	{
+		CNativeW cmem;
+		std::wstring testStr = L"\xD842\xDFB7野家";
+		// 𠮷 を収めるには 2 WCHAR 必要なので、nLimitLength = 2 を指定する
+		size_t len = cmem.LimitStringLengthW(testStr, 2);
+		EXPECT_EQ(len, 2); // WCHARの数として 2
+		EXPECT_STREQ(cmem.GetStringPtr(), L"\xD842\xDFB7");
+	}
+
+	// 4. 空文字列の場合
+	{
+		CNativeW cmem;
+		std::wstring testStr = L"";
+		size_t len = cmem.LimitStringLengthW(testStr, 5);
+		EXPECT_EQ(len, 0);
+		EXPECT_STREQ(cmem.GetStringPtr(), L"");
+	}
+}

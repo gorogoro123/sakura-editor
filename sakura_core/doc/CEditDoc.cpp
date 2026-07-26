@@ -877,10 +877,10 @@ BOOL CEditDoc::OnFileClose(bool bGrepNoConfirm)
 	WCHAR szGrepTitle[90];
 	LPCWSTR pszTitle = m_cDocFile.GetFilePathClass().IsValidPath() ? m_cDocFile.GetFilePath() : nullptr;
 	if( CEditApp::getInstance()->GetGrepAgent()->GrepMode() ){
-		LPCWSTR		pszGrepKey = CAppMode::getInstance()->m_szGrepKey;
-		int			nLen = (int)wcslen( pszGrepKey );
+		std::wstring szGrepKey(CAppMode::getInstance()->m_szGrepKey);
+		int			nLen = (int)szGrepKey.length();
 		CNativeW	cmemDes;
-		cmemDes.LimitStringLengthW( pszGrepKey , nLen, 64 );
+		cmemDes.LimitStringLengthW( szGrepKey, 64 );
 		auto_snprintf_s( szGrepTitle, std::size(szGrepTitle), LS(STR_TITLE_GREP),
 			cmemDes.GetStringPtr(),
 			( nLen > cmemDes.GetStringLength() ) ? L"..." : L""

@@ -71,6 +71,14 @@ public:
 	{
 		return reinterpret_cast<wchar_t*>(GetRawPtr());
 	}
+	std::span<const WCHAR> GetString() const
+	{
+		return std::span<const WCHAR>(GetStringPtr(), GetStringLength());
+	}
+	std::span<WCHAR> GetString()
+	{
+		return std::span<WCHAR>(GetStringPtr(), GetStringLength());
+	}
 
 	//特殊
 	void _SetStringLength( size_t nLength )
@@ -116,9 +124,8 @@ public:
 
 	//! データを指定「文字数」以内に切り詰める。戻り値は結果の文字数。
 	size_t LimitStringLengthW(
-		LPCWSTR			pszData,		//!< [in]
-		size_t			nDataLength,	//!< [in]
-		size_t			nLimitLength 	//!< [in]
+		const std::span<const WCHAR> szData,	//!< [in]
+		size_t				nLimitLength 	//!< [in]
 	);
 
 public:
