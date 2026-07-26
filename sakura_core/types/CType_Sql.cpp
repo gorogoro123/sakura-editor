@@ -138,7 +138,7 @@ void CDocOutline::MakeFuncList_PLSQL( CFuncInfoArr* pcFuncInfoArr )
 							3 == nFuncOrProc ||
 							4 == nFuncOrProc ){
 							++nParseCnt;
-							wcscpy( szFuncName, szWord );
+							wcscpy_s( szFuncName, std::size(szFuncName), szWord );
 //						}else
 //						if( 3 == nFuncOrProc ){
 						}
@@ -209,7 +209,7 @@ void CDocOutline::MakeFuncList_PLSQL( CFuncInfoArr* pcFuncInfoArr )
 							}
 						}
 					}
-					wcscpy( szWordPrev, szWord );
+					wcscpy_s( szWordPrev, std::size(szWordPrev), szWord );
 					nWordIdx = 0;
 					szWord[0] = L'\0';
 					nMode = 0;
@@ -238,7 +238,7 @@ void CDocOutline::MakeFuncList_PLSQL( CFuncInfoArr* pcFuncInfoArr )
 					 L'-' == pLine[i] ||
 					 2 == nCharChars
 				){
-					wcscpy( szWordPrev, szWord );
+					wcscpy_s( szWordPrev, std::size(szWordPrev), szWord );
 					nWordIdx = 0;
 					szWord[0] = L'\0';
 					nMode = 0;
@@ -325,7 +325,7 @@ void CDocOutline::MakeFuncList_PLSQL( CFuncInfoArr* pcFuncInfoArr )
 						) )
 					 || 2 == nCharChars
 					){
-						wcscpy( szWordPrev, szWord );
+						wcscpy_s( szWordPrev, std::size(szWordPrev), szWord );
 						nWordIdx = 0;
 
 //						szWord[nWordIdx] = pLine[i];
@@ -336,7 +336,7 @@ void CDocOutline::MakeFuncList_PLSQL( CFuncInfoArr* pcFuncInfoArr )
 
 						nMode = 1;
 					}else{
-						wcscpy( szWordPrev, szWord );
+						wcscpy_s( szWordPrev, std::size(szWordPrev), szWord );
 						nWordIdx = 0;
 //						szWord[nWordIdx] = pLine[i];
 //						szWord[nWordIdx + 1] = '\0';
