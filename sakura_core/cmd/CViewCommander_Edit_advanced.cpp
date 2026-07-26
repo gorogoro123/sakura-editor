@@ -865,7 +865,7 @@ void CViewCommander::Command_MERGE()
 	GetDocument()->m_cLayoutMgr.LogicToLayout(sSelectOld, &sSelectOld_Layout);
 
 	// 2010.08.22 NUL対応修正
-	std::vector<CStringRef> lineArr;
+	std::vector<std::span<const WCHAR>> lineArr;
 	pLinew=nullptr;
 	int nLineLenw = 0;
 	bool bMerge = false;
@@ -874,7 +874,7 @@ void CViewCommander::Command_MERGE()
 		const wchar_t*	pLine = CDocLine::GetDocLineStrWithEOL(GetDocument()->m_cDocLineMgr.GetLine(i), &nLineLen);
 		if( nullptr == pLine ) continue;
 		if( nullptr == pLinew || nLineLen != nLineLenw || wmemcmp(pLine, pLinew, nLineLen) ){
-			lineArr.push_back( CStringRef(pLine, nLineLen) );
+			lineArr.emplace_back( std::span<const WCHAR>(pLine, nLineLen) );
 		}else{
 			bMerge = true;
 		}
@@ -888,7 +888,7 @@ void CViewCommander::Command_MERGE()
 		int opeSeq = GetDocument()->m_cDocEditor.m_cOpeBuf.GetNextSeq();
 		for( int idx = 0; idx < nSize; idx++ ){
 			repData[idx].nSeq = opeSeq;
-			repData[idx].cmemLine.SetString( lineArr[idx].GetPtr(), lineArr[idx].GetLength() );
+			repData[idx].cmemLine.SetString( lineArr[idx].data(), lineArr[idx].size() );
 		}
 		m_pCommanderView->ReplaceData_CEditView3(
 			sSelectOld_Layout,
