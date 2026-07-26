@@ -596,7 +596,7 @@ bool CDlgTypeList::CopyType()
 			std::wstring szTemp(type.m_szTypeName);
 			CNativeW cmem;
 			// バッファをはみ出さないように
-			cmem.LimitStringLengthW( szTemp.c_str(), szTemp.length(), type.m_szTypeName.capacity() - szNum.length() - 1);
+			cmem.LimitStringLengthW( szTemp, type.m_szTypeName.capacity() - szNum.length() - 1);
 			type.m_szTypeName = cmem.GetStringPtr();
 			type.m_szTypeName.append(szNum);
 			bUpdate = false;
