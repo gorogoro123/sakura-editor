@@ -70,14 +70,14 @@ bool CEditView::TagJumpSub(
 			GetInidirOrExedir( szJumpToFile, pszFileName );
 		}
 		else {
-			wcscpy( szJumpToFile, pszFileName );
+			wcsncpy_s( szJumpToFile, std::size(szJumpToFile), pszFileName, _TRUNCATE );
 		}
 
 		/* ロングファイル名を取得する */
 		WCHAR	szWork[1024];
 		if( FALSE != ::GetLongFileName( szJumpToFile, szWork ) )
 		{
-			wcscpy( szJumpToFile, szWork );
+			wcsncpy_s( szJumpToFile, std::size(szJumpToFile), szWork, _TRUNCATE );
 		}
 	}
 
