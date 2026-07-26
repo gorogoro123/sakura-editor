@@ -462,7 +462,7 @@ static int GetEndModeByMode(int nMode, int nEndMode)
 	return nEndMode;
 }
 
-bool CClipboard::SetClipboardByFormat(const CStringRef& cstr, const wchar_t* pFormatName, int nMode, int nEndMode)
+bool CClipboard::SetClipboardByFormat(std::span<const WCHAR> cstr, const wchar_t* pFormatName, int nMode, int nEndMode)
 {
 	CLIPFORMAT uFormat = GetClipFormat(pFormatName);
 	if( uFormat == (CLIPFORMAT)-1 ){
@@ -470,7 +470,7 @@ bool CClipboard::SetClipboardByFormat(const CStringRef& cstr, const wchar_t* pFo
 	}
 	if( nMode == -2 ){
 		if( uFormat == CF_UNICODETEXT || uFormat == GetSakuraFormat() ){
-			return SetText(cstr.GetPtr(), cstr.GetLength(), false, false, uFormat);
+			return SetText(cstr.data(), cstr.size(), false, false, uFormat);
 		}
 		return false;
 	}
@@ -480,11 +480,11 @@ bool CClipboard::SetClipboardByFormat(const CStringRef& cstr, const wchar_t* pFo
 	size_t nTextByteLen = 0;
 	if( nMode == -1 ){
 		// バイナリモード U+00 - U+ffを0x00 - 0xffにマッピング
-		cmemBuf.AllocBuffer(cstr.GetLength());
-		cmemBuf._SetRawLength(cstr.GetLength());
+		cmemBuf.AllocBuffer(cstr.size());
+		cmemBuf._SetRawLength(cstr.size());
 		pBuf = (char*)cmemBuf.GetRawPtr();
-		size_t len = cstr.GetLength();
-		const wchar_t* pMem = cstr.GetPtr();
+		size_t len = cstr.size();
+		const wchar_t* pMem = cstr.data();
 		for(size_t i = 0; i < len; i++){
 			pBuf[i] = (unsigned char)pMem[i];
 			if( 0xff < pMem[i] ){
@@ -498,8 +498,8 @@ bool CClipboard::SetClipboardByFormat(const CStringRef& cstr, const wchar_t* pFo
 			return false;
 		}
 		if( eMode == CODE_UNICODE ){
-			pBuf = (char*)cstr.GetPtr();
-			nTextByteLen = cstr.GetLength() * sizeof(wchar_t);
+			pBuf = (char*)cstr.data();
+			nTextByteLen = cstr.size() * sizeof(wchar_t);
 		}else{
 			CCodeBase* pCode = CCodeFactory::CreateCodeBase(eMode, GetDllShareData().m_Common.m_sFile.GetAutoMIMEdecode());
 			if( RESULT_FAILURE == pCode->UnicodeToCode(cstr, &cmemBuf) ){
