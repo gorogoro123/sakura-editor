@@ -242,15 +242,18 @@ CControlProcess::~CControlProcess()
 {
 	if( m_hEventCPInitialized ){
 		::ResetEvent( m_hEventCPInitialized );
+		::CloseHandle( m_hEventCPInitialized );
+		m_hEventCPInitialized = nullptr;
 	}
-	::CloseHandle( m_hEventCPInitialized );
 	if( m_hMutexCP ){
 		::ReleaseMutex( m_hMutexCP );
+		::CloseHandle( m_hMutexCP );
+		m_hMutexCP = nullptr;
 	}
-	::CloseHandle( m_hMutexCP );
 	// 旧バージョン（1.2.104.1以前）との互換性：「異なるバージョン...」が二回出ないように
 	if( m_hMutex ){
 		::ReleaseMutex( m_hMutex );
+		::CloseHandle( m_hMutex );
+		m_hMutex = nullptr;
 	}
-	::CloseHandle( m_hMutex );
 };
