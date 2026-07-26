@@ -1041,8 +1041,8 @@ prev_line:;
 			nInsSize--;
 		}
 	}
-	CStringRef	cPrevLine;
-	CStringRef	cNextLine;
+	std::span<const WCHAR> cPrevLine;
+	std::span<const WCHAR> cNextLine;
 	CNativeW	cmemCurLine;
 	if( nullptr == pCDocLine ){
 		/* ここでNULLが帰ってくるということは、*/
@@ -1054,8 +1054,8 @@ prev_line:;
 			cmemCurLine.swap(pCDocLine->_GetDocLineData());
 			nLineLen = cmemCurLine.GetStringLength();
 			pLine = cmemCurLine.GetStringPtr();
-			cPrevLine = CStringRef(pLine, pArg->sDelRange.GetFrom().x);
-			cNextLine = CStringRef(&pLine[pArg->sDelRange.GetFrom().x], nLineLen - pArg->sDelRange.GetFrom().x);
+			cPrevLine = std::span<const WCHAR>(pLine, pArg->sDelRange.GetFrom().x);
+			cNextLine = std::span<const WCHAR>(&pLine[pArg->sDelRange.GetFrom().x], nLineLen - pArg->sDelRange.GetFrom().x);
 			pArg->nInsSeq = CModifyVisitor().GetLineModifiedSeq(pCDocLine);
 		}else{
 			pArg->nInsSeq = 0;
@@ -1099,7 +1099,7 @@ prev_line:;
 						tmp._SetStringLength(cPrevLine.size());
 						tmp.AppendNativeData(cmemLine);
 						pCDocLine->SetDocLineStringMove(&tmp, bEnableExtEol);
-						cNextLine = CStringRef(cmemCurLine.GetStringPtr(), cmemCurLine.GetStringLength());
+						cNextLine = std::span<const WCHAR>(cmemCurLine.GetStringPtr(), cmemCurLine.GetStringLength());
 					}else{
 						CNativeW tmp;
 						tmp.AllocStringBuffer(cPrevLine.size() + cmemLine.GetStringLength());
@@ -1133,9 +1133,9 @@ prev_line:;
 	}
 	if( bLastInsert || 0 < cNextLine.size() ){
 		CNativeW cNull;
-		CStringRef cNullStr(L"", 0);
+		std::span<const WCHAR> cNullStr(L"", 0);
 		CNativeW& cmemLine = bLastInsert ? pArg->pInsData->back().cmemLine : cNull;
-		const CStringRef& cPrevLine2 = ((0 == nCount) ? cPrevLine: cNullStr);
+		std::span<const WCHAR> cPrevLine2 = ((0 == nCount) ? cPrevLine: cNullStr);
 		int nSeq = pArg->pInsData->back().nSeq;
 		int nLen = cmemLine.GetStringLength();
 		CNativeW tmp;
