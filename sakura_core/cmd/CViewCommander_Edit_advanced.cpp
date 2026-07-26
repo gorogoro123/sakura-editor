@@ -577,7 +577,7 @@ void CViewCommander::Command_TRIM(
 /*!	物理行のソートに使う構造体*/
 struct SORTDATA {
 	const CNativeW* pCmemLine;
-	CStringRef sKey;
+	std::span<const WCHAR> sKey;
 };
 
 inline int CNativeW_comp(const CNativeW& lhs, const CNativeW& rhs )
@@ -593,9 +593,9 @@ bool SortByLineAsc (SORTDATA* pst1, SORTDATA* pst2) {return CNativeW_comp(*pst1-
 /*!	物理行のソートに使う関数(降順) */
 bool SortByLineDesc(SORTDATA* pst1, SORTDATA* pst2) {return CNativeW_comp(*pst1->pCmemLine, *pst2->pCmemLine) > 0;}
 
-inline int CStringRef_comp(const CStringRef& c1, const CStringRef& c2)
+inline int Span_comp(std::span<const WCHAR> c1, std::span<const WCHAR> c2)
 {
-	int ret = wmemcmp(c1.data(), c2.data(), t_min(c1.size(), c2.size()));
+	int ret = wmemcmp(c1.data(), c2.data(), (std::min)(c1.size(), c2.size()));
 	if( ret == 0 ){
 		return (int)c1.size() - (int)c2.size();
 	}
@@ -603,10 +603,10 @@ inline int CStringRef_comp(const CStringRef& c1, const CStringRef& c2)
 }
 
 /*!	物理行のソートに使う関数(昇順) */
-bool SortByKeyAsc(SORTDATA* pst1, SORTDATA* pst2)  {return CStringRef_comp(pst1->sKey, pst2->sKey) < 0 ;}
+bool SortByKeyAsc(SORTDATA* pst1, SORTDATA* pst2)  {return Span_comp(pst1->sKey, pst2->sKey) < 0 ;}
 
 /*!	物理行のソートに使う関数(降順) */
-bool SortByKeyDesc(SORTDATA* pst1, SORTDATA* pst2) {return CStringRef_comp(pst1->sKey, pst2->sKey) > 0 ;}
+bool SortByKeyDesc(SORTDATA* pst1, SORTDATA* pst2) {return Span_comp(pst1->sKey, pst2->sKey) > 0 ;}
 
 /*!	@brief 物理行のソート
 
@@ -695,12 +695,12 @@ void CViewCommander::Command_SORT(BOOL bAsc)	//bAsc:TRUE=昇順,FALSE=降順
 			nColumnTo   = m_pCommanderView->LineColumnToIndex( pcDocLine, nCT );
 			if(nColumnTo<nLineLenWithoutEOL){	// BOX選択範囲の右端が行内に収まっている場合
 				// 2006.03.31 genta std::string::assignを使って一時変数削除
-				pst->sKey = CStringRef( &pLine[nColumnFrom], nColumnTo-nColumnFrom );
+				pst->sKey = std::span<const WCHAR>( &pLine[nColumnFrom], nColumnTo-nColumnFrom );
 			}else if(nColumnFrom<nLineLenWithoutEOL){	// BOX選択範囲の右端が行末より右にはみ出している場合
-				pst->sKey = CStringRef( &pLine[nColumnFrom], nLineLenWithoutEOL-nColumnFrom );
+				pst->sKey = std::span<const WCHAR>( &pLine[nColumnFrom], nLineLenWithoutEOL-nColumnFrom );
 			}else{
 				// 選択範囲の左端もはみ出している==データなし
-				pst->sKey = CStringRef( L"", 0 );
+				pst->sKey = std::span<const WCHAR>( L"", 0 );
 			}
 		}
 		pst->pCmemLine = &cmemLine;
