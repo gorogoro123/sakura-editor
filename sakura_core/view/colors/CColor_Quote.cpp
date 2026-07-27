@@ -109,11 +109,11 @@ bool CColor_Quote::IsCppRawString(std::span<const WCHAR> cStr, int nPos)
 	return false;
 }
 
-bool CColor_Quote::BeginColor(const CStringRef& cStr, int nPos)
+bool CColor_Quote::BeginColor(std::span<const WCHAR> cStr, int nPos)
 {
-	if(!cStr.IsValid())return false;
+	if(cStr.size() == 0) return false;
 
-	if( cStr.At(nPos) == m_cQuote ){
+	if( cStr[nPos] == m_cQuote) {
 		m_nCOMMENTEND = -1;
 		int nStringType = m_pTypeData->m_nStringType;
 		bool bPreString = true;
@@ -141,17 +141,17 @@ bool CColor_Quote::BeginColor(const CStringRef& cStr, int nPos)
 			{
 				int i;
 				for(i = nPos - 1; 0 <= i; i--){
-					if( cStr.At(i) != L' ' && cStr.At(i) != L'\t' ){
+					if( cStr[i] != L' ' && cStr[i] != L'\t') {
 						break;
 					}
 				}
-				if( !(0 <= i && cStr.At(i) == L'=') ){
+				if( !(0 <= i && cStr[i] == L'=')) {
 					bPreString = false;
 				}
 			}
 			break;
 		case STRING_LITERAL_CSHARP:
-			if( 0 < nPos && cStr.At(nPos - 1) == L'@' && m_cQuote == L'"' ){
+			if( 0 < nPos && cStr[nPos - 1] == L'@' && m_cQuote == L'"') {
 				m_nCOMMENTEND = Match_Quote( m_cQuote, nPos + 1, cStr, STRING_LITERAL_PLSQL );
 				m_nColorTypeIndex = 2;
 				return true;
@@ -201,7 +201,7 @@ bool CColor_Quote::BeginColor(const CStringRef& cStr, int nPos)
 	return false;
 }
 
-bool CColor_Quote::EndColor(const CStringRef& cStr, int nPos)
+bool CColor_Quote::EndColor(std::span<const WCHAR> cStr, int nPos)
 {
 	if( -1 == m_nCOMMENTEND ){
 		// ここにくるのは行頭のはず
@@ -231,7 +231,7 @@ bool CColor_Quote::EndColor(const CStringRef& cStr, int nPos)
 	return false;
 }
 
-int CColor_Quote::Match_Quote( wchar_t wcQuote, int nPos, const CStringRef& cLineStr, EStringLiteralType escapeType, bool* pbEscapeEnd )
+int CColor_Quote::Match_Quote( wchar_t wcQuote, int nPos, std::span<const WCHAR> cLineStr, EStringLiteralType escapeType, bool* pbEscapeEnd )
 {
 	int nCharChars;
 	int i;
@@ -277,7 +277,7 @@ int CColor_Quote::Match_Quote( wchar_t wcQuote, int nPos, const CStringRef& cLin
 	return (int)cLineStr.size() + 1; // 終端なしはLength + 1
 }
 
-int CColor_Quote::Match_QuoteStr( const wchar_t* pszQuote, int nQuoteLen, int nPos, const CStringRef& cLineStr, bool bEscape )
+int CColor_Quote::Match_QuoteStr( const wchar_t* pszQuote, int nQuoteLen, int nPos, std::span<const WCHAR> cLineStr, bool bEscape )
 {
 	int nCharChars;
 	int i;

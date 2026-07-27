@@ -15,9 +15,9 @@
 //                           URL                               //
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 
-bool CColor_Url::BeginColor(const CStringRef& cStr, int nPos)
+bool CColor_Url::BeginColor(std::span<const WCHAR> cStr, int nPos)
 {
-	if(!cStr.IsValid())return false;
+	if(cStr.size() == 0) return false;
 
 	int	nUrlLen;
 
@@ -30,7 +30,7 @@ bool CColor_Url::BeginColor(const CStringRef& cStr, int nPos)
 	return false;
 }
 
-bool CColor_Url::EndColor([[maybe_unused]] const CStringRef& cStr, int nPos)
+bool CColor_Url::EndColor([[maybe_unused]] std::span<const WCHAR> cStr, int nPos)
 {
 	if( nPos == m_nCOMMENTEND ){
 		return true;

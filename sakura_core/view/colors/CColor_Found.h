@@ -14,11 +14,11 @@ public:
 	EColorIndexType GetStrategyColor() const override{ return COLORIDX_SELECT; }
 	//色替え
 	void InitStrategyStatus() override{ }
-	bool BeginColor(const CStringRef& cStr, int nPos) override;
+	bool BeginColor(std::span<const WCHAR> cStr, int nPos) override;
 	bool Disp() const override{ return true; }
-	bool EndColor(const CStringRef& cStr, int nPos) override;
+	bool EndColor(std::span<const WCHAR> cStr, int nPos) override;
 
-	virtual bool BeginColorEx(const CStringRef& cStr, int nPos, CLayoutInt, const CLayout*);
+	virtual bool BeginColorEx(std::span<const WCHAR> cStr, int nPos, CLayoutInt, const CLayout*);
 
 	//イベント
 	void OnStartScanLogic() override;
@@ -36,9 +36,9 @@ public:
 	{ return m_validColorNum != 0 ? m_highlightColors[ (m_nSearchResult - 1) % m_validColorNum ] : COLORIDX_DEFAULT; }
 	//色替え
 	void InitStrategyStatus() override{ } //############要検証
-	bool BeginColor(const CStringRef& cStr, int nPos) override;
+	bool BeginColor(std::span<const WCHAR> cStr, int nPos) override;
 	bool Disp() const override{ return true; }
-	bool EndColor(const CStringRef& cStr, int nPos) override;
+	bool EndColor(std::span<const WCHAR> cStr, int nPos) override;
 	//イベント
 	void OnStartScanLogic() override;
 

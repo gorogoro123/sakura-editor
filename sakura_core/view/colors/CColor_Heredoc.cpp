@@ -43,16 +43,16 @@ CLayoutColorInfo* CColor_Heredoc::GetStrategyColorInfo() const
 	return info;
 }
 
-bool CColor_Heredoc::BeginColor(const CStringRef& cStr, int nPos)
+bool CColor_Heredoc::BeginColor(std::span<const WCHAR> cStr, int nPos)
 {
-	if(!cStr.IsValid())return false;
+	if(cStr.size() == 0) return false;
 
 	// ヒアドキュメント
 	// <<<HEREDOC_ID
 	// ...
 	// HEREDOC_ID
 	if( m_pTypeData->m_nHeredocType == HEREDOC_PHP
-	 && cStr.At(nPos) == '<' && nPos + 3 < cStr.size()
+	 && cStr[nPos] == '<' && nPos + 3 < cStr.size()
 	 && wmemcmp(cStr.data() + nPos + 1, L"<<", 2) == 0
 	){
 		// <<<[ \t]*((['"][_A-Za-z0-9]+['"])|[_A-Za-z0-9]+)[\r\n]+
@@ -99,7 +99,7 @@ bool CColor_Heredoc::BeginColor(const CStringRef& cStr, int nPos)
 	return false;
 }
 
-bool CColor_Heredoc::EndColor(const CStringRef& cStr, int nPos)
+bool CColor_Heredoc::EndColor(std::span<const WCHAR> cStr, int nPos)
 {
 	if (!m_nCOMMENTEND) {
 		if( m_pTypeData->m_nHeredocType == HEREDOC_PHP
