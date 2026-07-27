@@ -14,8 +14,8 @@ public:
 	CColor_RegexKeyword() : m_nCOMMENTEND(0), m_nCOMMENTMODE(ToColorIndexType_RegularExpression(0)) { }
 	EColorIndexType GetStrategyColor() const override{ return m_nCOMMENTMODE; }
 	void InitStrategyStatus() override{ m_nCOMMENTEND = 0; m_nCOMMENTMODE = ToColorIndexType_RegularExpression(0); }
-	bool BeginColor(const CStringRef& cStr, int nPos) override;
-	bool EndColor(const CStringRef& cStr, int nPos) override;
+	bool BeginColor(std::span<const WCHAR> cStr, int nPos) override;
+	bool EndColor(std::span<const WCHAR> cStr, int nPos) override;
 	bool Disp() const override{ return m_pTypeData->m_bUseRegexKeyword; }
 	void OnStartScanLogic() override;
 private:

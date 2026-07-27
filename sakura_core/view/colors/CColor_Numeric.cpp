@@ -17,9 +17,9 @@ static int IsNumber( std::span<const WCHAR> cStr, int offset );/* 数値なら�
 //                         半角数値                            //
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 
-bool CColor_Numeric::BeginColor(const CStringRef& cStr, int nPos)
+bool CColor_Numeric::BeginColor(std::span<const WCHAR> cStr, int nPos)
 {
-	if(!cStr.IsValid())return false;
+	if(cStr.size() == 0) return false;
 
 	int	nnn;
 
@@ -33,7 +33,7 @@ bool CColor_Numeric::BeginColor(const CStringRef& cStr, int nPos)
 	return false;
 }
 
-bool CColor_Numeric::EndColor([[maybe_unused]] const CStringRef& cStr, int nPos)
+bool CColor_Numeric::EndColor([[maybe_unused]] std::span<const WCHAR> cStr, int nPos)
 {
 	if( nPos == m_nCOMMENTEND ){
 		return true;

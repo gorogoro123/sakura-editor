@@ -12,9 +12,9 @@
 //                        行コメント                           //
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 
-bool CColor_LineComment::BeginColor(const CStringRef& cStr, int nPos)
+bool CColor_LineComment::BeginColor(std::span<const WCHAR> cStr, int nPos)
 {
-	if(!cStr.IsValid())return false;
+	if(cStr.size() == 0) return false;
 
 	// 行コメント
 	if( m_pTypeData->m_cLineComment.Match( nPos, cStr )	//@@@ 2002.09.22 YAZAKI
@@ -24,7 +24,7 @@ bool CColor_LineComment::BeginColor(const CStringRef& cStr, int nPos)
 	return false;
 }
 
-bool CColor_LineComment::EndColor(const CStringRef& cStr, int nPos)
+bool CColor_LineComment::EndColor(std::span<const WCHAR> cStr, int nPos)
 {
 	//文字列終端
 	if( nPos >= cStr.size() ){
@@ -43,9 +43,9 @@ bool CColor_LineComment::EndColor(const CStringRef& cStr, int nPos)
 //                    ブロックコメント１                       //
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 
-bool CColor_BlockComment::BeginColor(const CStringRef& cStr, int nPos)
+bool CColor_BlockComment::BeginColor(std::span<const WCHAR> cStr, int nPos)
 {
-	if(!cStr.IsValid())return false;
+	if(cStr.size() == 0) return false;
 
 	// ブロックコメント
 	if( m_pcBlockComment->Match_CommentFrom( nPos, cStr )	//@@@ 2002.09.22 YAZAKI
@@ -61,7 +61,7 @@ bool CColor_BlockComment::BeginColor(const CStringRef& cStr, int nPos)
 	return false;
 }
 
-bool CColor_BlockComment::EndColor(const CStringRef& cStr, int nPos)
+bool CColor_BlockComment::EndColor(std::span<const WCHAR> cStr, int nPos)
 {
 	if( 0 == m_nCOMMENTEND ){
 		/* この物理行にブロックコメントの終端があるか */

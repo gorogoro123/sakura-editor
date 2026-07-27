@@ -14,8 +14,8 @@ public:
 	CColor_KeywordSet() = default;
 	EColorIndexType GetStrategyColor() const override{ return (EColorIndexType)(COLORIDX_KEYWORD1 + m_nKeywordIndex); }
 	void InitStrategyStatus() override{ m_nCOMMENTEND = 0; }
-	bool BeginColor(const CStringRef& cStr, int nPos) override;
-	bool EndColor(const CStringRef& cStr, int nPos) override;
+	bool BeginColor(std::span<const WCHAR> cStr, int nPos) override;
+	bool EndColor(std::span<const WCHAR> cStr, int nPos) override;
 	bool Disp() const override{ return true; }
 private:
 	int m_nKeywordIndex = 0;
