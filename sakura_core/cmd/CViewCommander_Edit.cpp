@@ -896,9 +896,9 @@ void CViewCommander::DelCharForOverwrite( const wchar_t* pszInput, int nLen )
 		}else{
 			// 文字幅に合わせてスペースを詰める
 			if( GetDllShareData().m_Common.m_sEdit.m_bOverWriteFixMode ){
-				const CStringRef line = pcLayout->GetDocLineRef()->GetStringRefWithEOL();
+				std::span<const WCHAR> line = pcLayout->GetDocLineRef()->GetStringRefWithEOL();
 				CLogicInt nPos = GetCaret().GetCaretLogicPos().GetX();
-				if( line.At(nPos) != WCODE::TAB ){
+				if( line[nPos] != WCODE::TAB) {
 					CKetaXInt nKetaBefore = CNativeW::GetKetaOfChar(line, nPos);
 					CKetaXInt nKetaAfter = CNativeW::GetKetaOfChar(pszInput, nLen, 0);
 					nKetaDiff = nKetaBefore - nKetaAfter;

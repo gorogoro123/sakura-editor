@@ -20,7 +20,6 @@ class CEditWnd;
 class CColorStrategy;
 class CColorStrategyPool;
 class CSMacroMgr;
-class CStringRef;
 
 class CViewCommander{
 public:
@@ -216,7 +215,7 @@ public:
 	void Command_COPYLINESWITHLINENUMBER( );	/* 選択範囲内全行行番号付きコピー */
 	void Command_COPY_COLOR_HTML(bool bLineNumber = false);	//選択範囲内全行行番号付きコピー
 	void Command_COPY_COLOR_HTML_LINENUMBER( );		//選択範囲内色付きHTMLコピー
-	CColorStrategy* GetColorStrategyHTML(const CStringRef&	cStringLine, int iLogic, const CColorStrategyPool*	pool, CColorStrategy**	ppStrategy, CColorStrategy** pStrategyFound, bool& bChange);
+	CColorStrategy* GetColorStrategyHTML(std::span<const WCHAR> cStringLine, int iLogic, const CColorStrategyPool*	pool, CColorStrategy**	ppStrategy, CColorStrategy** pStrategyFound, bool& bChange);
 	void Command_CREATEKEYBINDLIST( );			// キー割り当て一覧をコピー //Sept. 15, 2000 JEPRO	Command_の作り方がわからないので殺してある
 
 	/* 挿入系 */
