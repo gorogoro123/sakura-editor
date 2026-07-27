@@ -406,7 +406,7 @@ CColor3Setting CEditView::GetColorIndex(
 
 	//文字列参照
 	const CDocLine* pcDocLine = pcLayout->GetDocLineRef();
-	CStringRef cLineStr(pcDocLine->GetPtr(),pcDocLine->GetLengthWithEOL());
+	std::span<const WCHAR> cLineStr(pcDocLine->GetPtr(),pcDocLine->GetLengthWithEOL());
 
 	//color strategy
 	pInfo->m_pStrategy = pool->GetStrategyByColor(eRet);
@@ -968,7 +968,7 @@ bool CEditView::DrawLayoutLine(SColorStrategyInfo* pInfo)
 
 	//文字列参照
 	const CDocLine* pcDocLine = pInfo->GetDocLine();
-	CStringRef cLineStr = CDocLine::GetStringRefWithEOL(pcDocLine);
+	std::span<const WCHAR> cLineStr = CDocLine::GetStringRefWithEOL(pcDocLine);
 
 	// 描画範囲外の場合は色切替だけで抜ける
 	if(pInfo->m_pDispPos->GetDrawPos().y < GetTextArea().GetAreaTop()){

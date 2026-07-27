@@ -61,17 +61,17 @@ public:
 			*pnLen = 0; return nullptr;
 		}
 	}
-	CStringRef GetStringRefWithEOL() const //###仮の名前、仮の対処
+	std::span<const WCHAR> GetStringRefWithEOL() const //###仮の名前、仮の対処
 	{
-		return CStringRef(GetPtr(),GetLengthWithEOL());
+		return std::span<const WCHAR>(GetPtr(), GetLengthWithEOL());
 	}
-	static CStringRef GetStringRefWithEOL(const CDocLine* docline) //###仮の名前、仮の対処
+	static std::span<const WCHAR> GetStringRefWithEOL(const CDocLine* docline) //###仮の名前、仮の対処
 	{
 		if(docline){
 			return docline->GetStringRefWithEOL();
 		}
 		else{
-			return CStringRef(nullptr, 0);
+			return std::span<const WCHAR>(L"", 0);
 		}
 	}
 	const CEol& GetEol() const{ return m_cEol; }

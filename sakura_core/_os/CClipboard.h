@@ -11,7 +11,6 @@
 #include "mem/CNativeW.h"
 
 class CEol;
-class CStringRef;
 
 struct IWBuffer {
 	virtual void Clear() = 0;

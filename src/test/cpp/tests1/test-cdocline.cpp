@@ -117,7 +117,7 @@ TEST(CDocLine, GetStringRefWithEOL)
 	{
 		CDocLine line;
 		line.SetDocLineString(L"もじれつ", 4, false);
-		CStringRef ref = line.GetStringRefWithEOL();
+		std::span<const WCHAR> ref = line.GetStringRefWithEOL();
 		EXPECT_EQ(ref.data(), line.GetPtr());
 		EXPECT_EQ(ref.size(), line.GetLengthWithEOL());
 
@@ -126,9 +126,7 @@ TEST(CDocLine, GetStringRefWithEOL)
 		EXPECT_EQ(ref.size(), line.GetLengthWithEOL());
 	}
 	{
-		CLogicInt n(123);
-		CStringRef ref = CDocLine::GetStringRefWithEOL(nullptr);
-		EXPECT_EQ(ref.data(), nullptr);
+		std::span<const WCHAR> ref = CDocLine::GetStringRefWithEOL(nullptr);
 		EXPECT_EQ(ref.size(), 0);
 	}
 }

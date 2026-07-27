@@ -91,7 +91,7 @@ public:
 	CLayoutInt CalcLayoutOffset(const CLayoutMgr& cLayoutMgr, CLogicInt nStartPos = CLogicInt(0), CLayoutInt nStartOffset = CLayoutInt(0)) const;
 
 	//! 文字列参照を取得
-	CStringRef GetStringRef() const{ return CStringRef(GetPtr(), GetLengthWithEOL()); }
+	std::span<const WCHAR> GetStringRef() const{ return std::span<const WCHAR>(GetPtr(), GetLengthWithEOL()); }
 
 	//チェーン属性
 	CLayout* GetPrevLayout(){ return m_pPrev; }
