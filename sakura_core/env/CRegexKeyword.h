@@ -41,8 +41,6 @@ struct REGEX_INFO {
 	int    nFlag;           //色指定のチェックが入っているか？ YES=RK_EMPTY, NO=RK_NOMATCH
 };
 
-class CStringRef;
-
 //!	正規表現キーワードクラス
 /*!
 	正規表現キーワードを扱う。
@@ -55,7 +53,7 @@ public:
 	//! 行検索開始
 	BOOL RegexKeyLineStart( void );
 	//! 行検索
-	BOOL RegexIsKeyword( const CStringRef& cStr, int nPos, int *nMatchLen, int *nMatchColor );
+	BOOL RegexIsKeyword( std::span<const WCHAR> cStr, int nPos, int *nMatchLen, int *nMatchColor );
 	//! タイプ設定
 	BOOL RegexKeySetTypes( const STypeConfig *pTypesPtr );
 
