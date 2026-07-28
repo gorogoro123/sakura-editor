@@ -27,7 +27,7 @@ bool CColor_LineComment::BeginColor(const CStringRef& cStr, int nPos)
 bool CColor_LineComment::EndColor(const CStringRef& cStr, int nPos)
 {
 	//文字列終端
-	if( nPos >= cStr.GetLength() ){
+	if( nPos >= cStr.size() ){
 		return true;
 	}
 

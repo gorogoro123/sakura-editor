@@ -20,13 +20,13 @@ TEST(CStringRef, CStringRef)
 
 	CStringRef v1;
 	EXPECT_EQ(NULL, v1.data());
-	EXPECT_EQ(0, v1.GetLength());
+	EXPECT_EQ(0, v1.size());
 	EXPECT_FALSE(v1.IsValid());
 	EXPECT_EQ(L'\0', v1.At(0));
 
 	CStringRef v2(sz, cch);
 	EXPECT_STREQ(sz, v2.data());
-	EXPECT_EQ(cch, v2.GetLength());
+	EXPECT_EQ(cch, v2.size());
 	EXPECT_TRUE(v2.IsValid());
 	EXPECT_EQ(L't', v2.At(0));
 	EXPECT_EQ(L'e', v2.At(1));
@@ -37,7 +37,7 @@ TEST(CStringRef, CStringRef)
 	CNativeW cmem(sz, cch);
 	CStringRef v3(cmem);
 	EXPECT_STREQ(sz, v3.data());
-	EXPECT_EQ(cch, v3.GetLength());
+	EXPECT_EQ(cch, v3.size());
 	EXPECT_TRUE(v3.IsValid());
 	EXPECT_EQ(L't', v3.At(0));
 	EXPECT_EQ(L'e', v3.At(1));

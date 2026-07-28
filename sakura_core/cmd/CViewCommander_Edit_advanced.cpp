@@ -595,9 +595,9 @@ bool SortByLineDesc(SORTDATA* pst1, SORTDATA* pst2) {return CNativeW_comp(*pst1-
 
 inline int CStringRef_comp(const CStringRef& c1, const CStringRef& c2)
 {
-	int ret = wmemcmp(c1.data(), c2.data(), t_min(c1.GetLength(), c2.GetLength()));
+	int ret = wmemcmp(c1.data(), c2.data(), t_min(c1.size(), c2.size()));
 	if( ret == 0 ){
-		return c1.GetLength() - c2.GetLength();
+		return (int)c1.size() - (int)c2.size();
 	}
 	return ret;
 }
