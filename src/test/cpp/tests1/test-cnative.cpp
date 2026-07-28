@@ -19,13 +19,13 @@ TEST(CStringRef, CStringRef)
 	constexpr auto cch = std::size(sz) - 1;
 
 	CStringRef v1;
-	EXPECT_EQ(NULL, v1.GetPtr());
+	EXPECT_EQ(NULL, v1.data());
 	EXPECT_EQ(0, v1.GetLength());
 	EXPECT_FALSE(v1.IsValid());
 	EXPECT_EQ(L'\0', v1.At(0));
 
 	CStringRef v2(sz, cch);
-	EXPECT_STREQ(sz, v2.GetPtr());
+	EXPECT_STREQ(sz, v2.data());
 	EXPECT_EQ(cch, v2.GetLength());
 	EXPECT_TRUE(v2.IsValid());
 	EXPECT_EQ(L't', v2.At(0));
@@ -36,7 +36,7 @@ TEST(CStringRef, CStringRef)
 
 	CNativeW cmem(sz, cch);
 	CStringRef v3(cmem);
-	EXPECT_STREQ(sz, v3.GetPtr());
+	EXPECT_STREQ(sz, v3.data());
 	EXPECT_EQ(cch, v3.GetLength());
 	EXPECT_TRUE(v3.IsValid());
 	EXPECT_EQ(L't', v3.At(0));

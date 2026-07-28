@@ -118,17 +118,17 @@ TEST(CDocLine, GetStringRefWithEOL)
 		CDocLine line;
 		line.SetDocLineString(L"もじれつ", 4, false);
 		CStringRef ref = line.GetStringRefWithEOL();
-		EXPECT_EQ(ref.GetPtr(), line.GetPtr());
+		EXPECT_EQ(ref.data(), line.GetPtr());
 		EXPECT_EQ(ref.GetLength(), line.GetLengthWithEOL());
 
 		ref = CDocLine::GetStringRefWithEOL(&line);
-		EXPECT_EQ(ref.GetPtr(), line.GetPtr());
+		EXPECT_EQ(ref.data(), line.GetPtr());
 		EXPECT_EQ(ref.GetLength(), line.GetLengthWithEOL());
 	}
 	{
 		CLogicInt n(123);
 		CStringRef ref = CDocLine::GetStringRefWithEOL(nullptr);
-		EXPECT_EQ(ref.GetPtr(), nullptr);
+		EXPECT_EQ(ref.data(), nullptr);
 		EXPECT_EQ(ref.GetLength(), 0);
 	}
 }
