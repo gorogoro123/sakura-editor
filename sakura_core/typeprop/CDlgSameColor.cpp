@@ -117,8 +117,9 @@ BOOL CDlgSameColor::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 		for( i = 0; i < COLORIDX_LAST; ++i ){
 			if( 0 != (g_ColorAttributeArr[i].fAttribute & COLOR_ATTRIB_NO_TEXT) )
 				continue;
-			if( m_cr != m_pTypes->m_ColorInfoArr[i].m_sColorAttr.m_cTEXT ){
-				_ultow( m_pTypes->m_ColorInfoArr[i].m_sColorAttr.m_cTEXT, szText, 10 );
+			const auto cr = m_pTypes->m_ColorInfoArr[i].m_sColorAttr.m_cTEXT;
+			if( m_cr != cr ){
+				_ultow_s( cr, szText, std::size(szText), 10 );
 				if( LB_ERR == ApiWrap::List_FindStringExact( hwndList, -1, szText ) ){
 					nItem = ApiWrap::List_AddString( hwndList, szText );
 					ApiWrap::List_SetItemData( hwndList, nItem, FALSE ); 
@@ -133,8 +134,9 @@ BOOL CDlgSameColor::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 		for( i = 0; i < COLORIDX_LAST; ++i ){
 			if( 0 != (g_ColorAttributeArr[i].fAttribute & COLOR_ATTRIB_NO_BACK) )	// 2006.12.18 ryoji フラグ利用で簡素化
 				continue;
-			if( m_cr != m_pTypes->m_ColorInfoArr[i].m_sColorAttr.m_cBACK ){
-				_ultow( m_pTypes->m_ColorInfoArr[i].m_sColorAttr.m_cBACK, szText, 10 );
+			const auto cr = m_pTypes->m_ColorInfoArr[i].m_sColorAttr.m_cBACK;
+			if( m_cr != cr ){
+				_ultow_s( cr, szText, std::size(szText), 10 );
 				if( LB_ERR == ApiWrap::List_FindStringExact( hwndList, -1, szText ) ){
 					nItem = ApiWrap::List_AddString( hwndList, szText );
 					ApiWrap::List_SetItemData( hwndList, nItem, FALSE ); 
