@@ -31,7 +31,7 @@ static bool _GetKeywordLength(
 	CLogicInt nWordBgn = nPos;
 	CLogicInt nWordLen = CLogicInt(0);
 	CLayoutInt nWordKetas = CLayoutInt(0);
-	while(nPos<cLineStr.GetLength() && IS_KEYWORD_CHAR(cLineStr[nPos])){
+	while(nPos<cLineStr.size() && IS_KEYWORD_CHAR(cLineStr[nPos])){
 		CLogicXInt nCharSize = CNativeW::GetSizeOfChar( cLineStr, nPos );
 		CLayoutInt k = cLayoutMgr.GetLayoutXOfChar(cLineStr, nPos);
 
@@ -121,7 +121,7 @@ bool CLayoutMgr::_DoKinsokuSkip(SLayoutWork* pWork, PF_OnLine pfOnLine)
 			{
 				int	nEol = pWork->pcDocLine->GetEol().GetLen();
 
-				if( ! (m_pTypeConfig->m_bKinsokuRet && (pWork->nPos == pWork->cLineStr.GetLength() - nEol) && nEol ) )	//改行文字をぶら下げる		//@@@ 2002.04.14 MIK
+				if( ! (m_pTypeConfig->m_bKinsokuRet && (pWork->nPos == pWork->cLineStr.size() - nEol) && nEol ) )	//改行文字をぶら下げる		//@@@ 2002.04.14 MIK
 				{
 					(this->*pfOnLine)(pWork);
 				}
@@ -180,7 +180,7 @@ void CLayoutMgr::_DoKutoBurasage(SLayoutWork* pWork) const
 void CLayoutMgr::_DoGyotoKinsoku(SLayoutWork* pWork, PF_OnLine pfOnLine)
 {
 	// 現在位置が行末付近かつ行頭ではなく、禁則処理の実行中でないこと
-	if( (pWork->nPos+1 < pWork->cLineStr.GetLength())	// 2007.02.17 ryoji 追加
+	if( (pWork->nPos+1 < pWork->cLineStr.size())	// 2007.02.17 ryoji 追加
 	 && ( GetMaxLineLayout() - pWork->nPosX < 4 * GetWidthPerKeta() )
 	 && ( pWork->nPosX > pWork->nIndent )	//	2004.04.09 pWork->nPosXの解釈変更のため，行頭チェックも変更
 	 && (pWork->eKinsokuType == KINSOKU_TYPE_NONE) )
@@ -207,7 +207,7 @@ void CLayoutMgr::_DoGyotoKinsoku(SLayoutWork* pWork, PF_OnLine pfOnLine)
 void CLayoutMgr::_DoGyomatsuKinsoku(SLayoutWork* pWork, PF_OnLine pfOnLine)
 {
 	// 現在位置が行末付近かつ行頭ではなく、禁則処理の実行中でないこと
-	if( (pWork->nPos+1 < pWork->cLineStr.GetLength())	// 2007.02.17 ryoji 追加
+	if( (pWork->nPos+1 < pWork->cLineStr.size())	// 2007.02.17 ryoji 追加
 	 && ( GetMaxLineLayout() - pWork->nPosX < 4 * GetWidthPerKeta() )
 	 && ( pWork->nPosX > pWork->nIndent )	//	2004.04.09 pWork->nPosXの解釈変更のため，行頭チェックも変更
 	 && (pWork->eKinsokuType == KINSOKU_TYPE_NONE) )
@@ -238,7 +238,7 @@ void CLayoutMgr::_MakeOneLine(SLayoutWork* pWork, PF_OnLine pfOnLine)
 	if( 0 >	nEol_1 ){
 		nEol_1 = 0;
 	}
-	CLogicInt nLength = pWork->cLineStr.GetLength() - CLogicInt(nEol_1);
+	CLogicInt nLength = pWork->cLineStr.size() - CLogicInt(nEol_1);
 
 	if(pWork->pcColorStrategy)pWork->pcColorStrategy->InitStrategyStatus();
 	CColorStrategyPool* pColor = m_pcEditDoc->GetColorStrategyPool();
@@ -292,7 +292,7 @@ void CLayoutMgr::_MakeOneLine(SLayoutWork* pWork, PF_OnLine pfOnLine)
 		if( pWork->nPosX + nCharKetas > GetMaxLineLayout() ){
 			if( pWork->eKinsokuType != KINSOKU_TYPE_KINSOKU_KUTO )
 			{
-				if( ! (m_pTypeConfig->m_bKinsokuRet && (pWork->nPos == pWork->cLineStr.GetLength() - nEol) && nEol) )	//改行文字をぶら下げる		//@@@ 2002.04.14 MIK
+				if( ! (m_pTypeConfig->m_bKinsokuRet && (pWork->nPos == pWork->cLineStr.size() - nEol) && nEol) )	//改行文字をぶら下げる		//@@@ 2002.04.14 MIK
 				{
 					(this->*pfOnLine)(pWork);
 					continue;

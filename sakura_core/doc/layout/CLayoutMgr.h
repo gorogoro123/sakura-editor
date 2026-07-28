@@ -270,7 +270,7 @@ public:
 
 	BOOL CalculateTextWidth( BOOL bCalLineLen = TRUE, CLayoutInt nStart = CLayoutInt(-1), CLayoutInt nEnd = CLayoutInt(-1) );	/* テキスト最大幅を算出する */		// 2009.08.28 nasukoji
 	void ClearLayoutLineWidth( );				/* 各行のレイアウト行長の記憶をクリアする */		// 2009.08.28 nasukoji
-	CLayoutXInt GetLayoutXOfChar( const wchar_t* pData, int nDataLen, int i ) const {
+	CLayoutXInt GetLayoutXOfChar( const wchar_t* pData, size_t nDataLen, int i ) const {
 		CLayoutXInt nSpace = CLayoutXInt(0);
 		if( m_nSpacing ){
 			nSpace = CLayoutXInt(CNativeW::GetKetaOfChar(pData, nDataLen, i)) * m_nSpacing;
@@ -279,7 +279,7 @@ public:
 			GetDllShareData().m_Common.m_sEdit.m_bEnableExtEol) + nSpace;
 	}
 	CLayoutXInt GetLayoutXOfChar( const CStringRef& str, int i ) const {
-		return GetLayoutXOfChar(str.data(), str.GetLength(), i);
+		return GetLayoutXOfChar(str.data(), str.size(), i);
 	}
 	CPixelXInt GetWidthPerKeta() const { return Int(m_nCharLayoutXPerKeta); }
 	CPixelXInt GetCharSpacing() const { return m_nSpacing; }
