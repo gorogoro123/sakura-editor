@@ -51,7 +51,7 @@ bool CLineComment::Match( int nPos, const CStringRef& cStr ) const
 		if (
 			!m_pszLineComment[i].empty() &&	/* 行コメントデリミタ */
 			( m_nLineCommentPos[i] < 0 || nPos == m_nLineCommentPos[i] ) &&	//	位置指定ON.
-			nPos <= cStr.size() - m_nLineCommentLen[i] &&	/* 行コメントデリミタ */
+			nPos + m_nLineCommentLen[i] <= cStr.size() &&	/* 行コメントデリミタ */
 			0 == wmemicmp_ascii( &cStr.data()[nPos], m_pszLineComment[i].c_str(), m_nLineCommentLen[i] )	//ASCIIのみ大文字小文字を区別しない（高速）
 		){
 			return true;
