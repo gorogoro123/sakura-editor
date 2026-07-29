@@ -26,7 +26,7 @@ public:
 	[[nodiscard]] wchar_t operator []( size_t nIndex ) const noexcept { return m_pData[nIndex]; }
 
 	[[nodiscard]] constexpr const wchar_t* data() const noexcept { return m_pData; }
-	[[nodiscard]] constexpr size_t size() const noexcept { return m_nDataLen; }
+	[[nodiscard]] constexpr int size() const noexcept { return (int)m_nDataLen; }
 	[[nodiscard]] constexpr bool empty() const noexcept { return m_nDataLen == 0; }
 	[[nodiscard]] operator std::span<const wchar_t>() const noexcept {
 		return std::span<const wchar_t>(m_pData, m_nDataLen);
