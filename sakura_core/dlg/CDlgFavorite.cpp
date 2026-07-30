@@ -13,7 +13,6 @@
 	SPDX-License-Identifier: Zlib
 */
 
-#include <algorithm>
 #include "CDlgFavorite.h"
 #include "dlg/CDlgInput1.h"
 #include "env/DLLSHAREDATA.h"
@@ -751,8 +750,8 @@ bool CDlgFavorite::RefreshList( )
 		{
 			ret_val = true;
 		
-			if( msg[0] != L'\0' ) wcscat( msg, LS( STR_DLGFAV_DELIMITER ) );
-			wcscat( msg, m_aFavoriteInfo[nTab].m_pszCaption );
+			if( msg[0] != L'\0' ) wcscat_s( msg, std::size(msg), LS( STR_DLGFAV_DELIMITER ) );
+			wcscat_s( msg, std::size(msg), m_aFavoriteInfo[nTab].m_pszCaption );
 		}
 	}
 
@@ -1140,7 +1139,7 @@ void CDlgFavorite::ListViewSort(ListViewSortInfo& info, const CRecent* pRecent, 
 	col.cchTextMax = int(std::size(szHeader)) - 4;
 	col.iSubItem = 0;
 	ListView_GetColumn( info.hListView, column, &col );
-	wcscat(szHeader, info.bSortAscending ? L"▼" : L"▲");
+	wcscat_s(szHeader, std::size(szHeader), info.bSortAscending ? L"▼" : L"▲");
 	col.mask = LVCF_TEXT;
 	col.pszText = szHeader;
 	col.iSubItem = 0;
