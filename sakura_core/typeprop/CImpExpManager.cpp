@@ -60,7 +60,6 @@ static const wchar_t	WSTR_KEYHELP_HEAD[]		= L"// キーワード辞書設定 Ver
 // キー割り当て
 static const wchar_t	WSTR_KEYBIND_HEAD4[]		= L"SakuraKeyBind_Ver4";	//2013.12.05 syat 多言語対応
 static const wchar_t	WSTR_KEYBIND_HEAD3[]	= L"SakuraKeyBind_Ver3";	//2007.10.05 kobake ファイル形式をini形式に変更
-static const wchar_t	WSTR_KEYBIND_HEAD2[]	= L"// テキストエディタキー設定 Ver2";	// (旧バージョン(ANSI版)） 読み込みのみ対応 2008/5/3 by Uchi
 
 // カスタムメニューファイル
 // 2007.10.02 kobake UNICODE化に際して、カスタムメニューファイルの仕様を変更
@@ -842,7 +841,6 @@ bool CImpExpKeybind::Import( const std::wstring& sFileName, std::wstring& sErrMs
 {
 	constexpr auto KEYNAME_SIZE = _countof(m_Common.m_sKeyBind.m_pKeyNameArr) - 1;// 最後の１要素はダミー用に予約 2012.11.25 aroka
 
-	const auto& strPath = sFileName;
 	CommonSetting_KeyBind sKeyBind = m_Common.m_sKeyBind;
 
 	//オープン
@@ -855,13 +853,9 @@ bool CImpExpKeybind::Import( const std::wstring& sFileName, std::wstring& sErrMs
 	}
 
 	//バージョン確認
-	bool	bVer4;			// 新バージョン（多言語対応）のファイル
-	bool	bVer3;			// 新バージョンのファイル
-	bool	bVer2;
+	bool	bVer4 = false;			// 新バージョン（多言語対応）のファイル
+	bool	bVer3 = false;			// 新バージョンのファイル
 	WCHAR szHeader[256];
-	bVer4 = false;
-	bVer3 = false;
-	bVer2 = false;
 	in.IOProfileData(szSecInfo, L"KEYBIND_VERSION", StringBufferW(szHeader));
 	if(wcscmp(szHeader,WSTR_KEYBIND_HEAD4)==0)	bVer4=true;
 	else if(wcscmp(szHeader,WSTR_KEYBIND_HEAD3)==0)	bVer3=true;
@@ -875,78 +869,7 @@ bool CImpExpKeybind::Import( const std::wstring& sFileName, std::wstring& sErrMs
 		CShareData_IO::IO_KeyBind(in, sKeyBind, true);	// 2008/5/25 Uchi
 	}
 
-	if (!bVer3 && !bVer4) {
-		// 新バージョンでない
-		CTextInputStream in2(strPath.c_str());
-		if (!in2) {
-			sErrMsg = LS(STR_IMPEXP_ERR_FILEOPEN);
-			sErrMsg += sFileName;
-			return false;
-		}
-		// ヘッダーチェック
-		std::wstring	szLine = in2.ReadLineW();
-		bVer2 = true;
-		if ( wcscmp(szLine.c_str(), WSTR_KEYBIND_HEAD2) != 0)	bVer2 = false;
-		// カウントチェック
-		int	i, cnt;
-		if ( bVer2 ) {
-			int	an;
-			szLine = in2.ReadLineW();
-			cnt = swscanf(szLine.c_str(), L"Count=%d", &an);
-			if ( cnt != 1 || an < 0 || an > KEYNAME_SIZE ) {
-				bVer2 = false;
-			}
-			else {
-				sKeyBind.m_nKeyNameArrNum = an;
-			}
-		}
-		if ( bVer2 ) {
-			//各要素取得
-			for(i = 0; i < KEYNAME_SIZE; i++) {
-				int n, kc, nc;
-				//値 -> szData
-				wchar_t szData[1024];
-				wcsncpy(szData, in2.ReadLineW().c_str(), int(std::size(szData)) - 1);
-				szData[std::size(szData) - 1] = L'\0';
-
-				//解析開始
-				cnt = swscanf(szData, L"KeyBind[%03d]=%04x,%n",
-												&n,   &kc, &nc);
-				if( cnt !=2 && cnt !=3 )	{ bVer2= false; break;}
-				if( i != n ) break;
-				sKeyBind.m_pKeyNameArr[i].m_nKeyCode = (short)kc;
-				wchar_t* p = szData + nc;
-
-				//後に続くトークン
-				for(int j=0;j<8;j++)
-				{
-					wchar_t* q=wcschr(p,L',');
-					if(!q)	{ bVer2= false; break;}
-					*q=L'\0';
-
-					//機能名を数値に置き換える。(数値の機能名もあるかも)
-					//@@@ 2002.2.2 YAZAKI マクロをCSMacroMgrに統一
-					EFunctionCode n2 = CSMacroMgr::GetFuncInfoByName(G_AppInstance(), p, nullptr);
-					if( n2 == F_INVALID )
-					{
-						if( WCODE::Is09(*p) )
-						{
-							n2 = (EFunctionCode)_wtol(p);
-						}
-						else
-						{
-							n2 = F_DEFAULT;
-						}
-					}
-					sKeyBind.m_pKeyNameArr[i].m_nFuncCodeArr[j] = n2;
-					p = q + 1;
-				}
-
-				sKeyBind.m_pKeyNameArr[i].m_szKeyName = p;
-			}
-		}
-	}
-	if (!bVer4 && !bVer3 && !bVer2) {
+	if (!bVer4 && !bVer3) {
 		sErrMsg = std::wstring(LS(STR_IMPEXP_KEY_FORMAT)) + sFileName;
 		return false;
 	}
@@ -954,7 +877,7 @@ bool CImpExpKeybind::Import( const std::wstring& sFileName, std::wstring& sErrMs
 	// データのコピー 	// マウスコードの固定と重複排除 2012.11.19 aroka
 	int nKeyNameArrUsed = m_Common.m_sKeyBind.m_nKeyNameArrNum; // 使用済み領域
 	for( int j=sKeyBind.m_nKeyNameArrNum-1; j>=0; j-- ){
-		if( (bVer2 || bVer3) && sKeyBind.m_pKeyNameArr[j].m_nKeyCode <= 0 ){ // マウスコードは先頭に固定されている KeyCodeが同じなのでKeyNameで判別
+		if( bVer3 && sKeyBind.m_pKeyNameArr[j].m_nKeyCode <= 0 ){ // マウスコードは先頭に固定されている KeyCodeが同じなのでKeyNameで判別
 			for( int im=0; im< MOUSEFUNCTION_KEYBEGIN; im++ ){
 				if( wcscmp( sKeyBind.m_pKeyNameArr[j].m_szKeyName, m_Common.m_sKeyBind.m_pKeyNameArr[im].m_szKeyName ) == 0 ){
 					m_Common.m_sKeyBind.m_pKeyNameArr[im] = sKeyBind.m_pKeyNameArr[j];
