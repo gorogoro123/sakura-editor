@@ -2,10 +2,8 @@
 
 A free text editor for Windows.  
 [![License: Zlib](https://img.shields.io/badge/License-Zlib-lightgrey.svg)](https://opensource.org/licenses/Zlib)
-[![build sakura](https://github.com/sakura-editor/sakura/workflows/build%20sakura/badge.svg)](https://github.com/sakura-editor/sakura/actions?query=workflow%3A%22build+sakura%22)
+[![build sakura](https://github.com/gorogoro123/sakura-editor/workflows/build%20sakura/badge.svg)](https://github.com/gorogoro123/sakura-editor/actions?query=workflow%3A%22build+sakura%22)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gorogoro123_sakura-editor&metric=alert_status)](https://sonarcloud.io/dashboard?id=gorogoro123_sakura-editor)
-[![Github Releases All](https://img.shields.io/github/downloads/sakura-editor/sakura/total.svg)](https://github.com/sakura-editor/sakura/releases "All Releases")
-[![Star History](https://img.shields.io/badge/star-histroy-yellow.svg)](https://star-history.t9t.io/#sakura-editor/sakura)
 
 <!-- 以下は Markdownの参照形式によるリンク の定義です。 -->
 <!-- 参照 https://hail2u.net/blog/coding/markdown-reference-style-links.html -->
