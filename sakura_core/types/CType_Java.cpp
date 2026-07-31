@@ -301,7 +301,7 @@ void CDocOutline::MakeFuncList_Java( CFuncInfoArr* pcFuncInfoArr )
 					if( 0 < nClassNestArrNum /*nNestLevel == 1*/ &&
 						0 != wcscmp( L"new", szWordPrev )
 					){
-						wcscpy( szFuncName, szWord );
+						wcscpy_s( szFuncName, std::size(szFuncName), szWord );
 						nFuncLine = nLineCount + CLogicInt(1);
 						if( 0 < nClassNestArrNum ){
 							nNestLevel2Arr[nClassNestArrNum - 1] = 1;
@@ -416,7 +416,7 @@ void CDocOutline::MakeFuncList_Java( CFuncInfoArr* pcFuncInfoArr )
 						! WCODE::IsControlCode(pLine[i]) &&
 						wcschr( szJavaKigou, pLine[i] ) == nullptr
 						){
-						wcscpy( szWordPrev, szWord );
+						wcscpy_s( szWordPrev, std::size(szWordPrev), szWord );
 						nWordIdx = 0;
 						memcpy(&szWord[nWordIdx], &pLine[i], sizeof(wchar_t)*nCharChars);
 						szWord[nWordIdx + nCharChars] = L'\0';
