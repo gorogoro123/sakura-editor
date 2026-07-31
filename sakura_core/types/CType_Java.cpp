@@ -138,9 +138,9 @@ void CDocOutline::MakeFuncList_Java( CFuncInfoArr* pcFuncInfoArr )
 						nNestLevel2Arr.push_back( 0 );
 						++nClassNestArrNum;
 						if( 0 < nNestLevel	){
-							wcscat( szClass, L"\\" );
+							wcscat_s( szClass, std::size(szClass), L"\\" );
 						}
-						wcscat( szClass, szWord );
+						wcscat_s( szClass, std::size(szClass), szWord );
 
 						nFuncId = FL_OBJ_DEFINITION;
 						++nFuncNum;
