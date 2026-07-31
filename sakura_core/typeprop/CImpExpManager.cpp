@@ -489,27 +489,27 @@ bool CImpExpType::Export( const std::wstring& sFileName, std::wstring& sErrMsg )
 	CommonSetting_Plugin& plugin = common.m_sPlugin;
 	int		nPIdx;
 	int		nPlug;
-	wchar_t szId[ MAX_PLUGIN_ID + 1 + 2 ];
+	StaticString<MAX_PLUGIN_ID + 1 + 2> szId;
 	if ((nPIdx = CPlug::GetPluginId( static_cast<EFunctionCode>( m_Types.m_eDefaultOutline ))) >= 0) {
 		cProfile.IOProfileData(szSecTypeEx, szKeyPluginOutlineName, StringBufferW(plugin.m_PluginTable[nPIdx].m_szName));
-		::wcsncpy_s(szId, plugin.m_PluginTable[nPIdx].m_szId, _TRUNCATE);
+		szId = plugin.m_PluginTable[nPIdx].m_szId;
 		if( (nPlug = CPlug::GetPlugId( static_cast<EFunctionCode>( m_Types.m_eDefaultOutline ))) != 0 ){
 			wchar_t szPlug[8];
 			auto_snprintf_s( szPlug, std::size(szPlug), L"/%d", nPlug );
-			wcscat( szId, szPlug );
+			szId.append(szPlug);
 		}
-		cProfile.IOProfileData(szSecTypeEx, szKeyPluginOutlineId, StringBufferW(szId));
+		cProfile.IOProfileData(szSecTypeEx, szKeyPluginOutlineId, szId);
 	}
 	//  スマートインデント
 	if ((nPIdx = CPlug::GetPluginId( static_cast<EFunctionCode>( m_Types.m_eSmartIndent ))) >= 0) {
 		cProfile.IOProfileData(szSecTypeEx, szKeyPluginSmartIndentName, StringBufferW(plugin.m_PluginTable[nPIdx].m_szName));
-		::wcsncpy_s(szId, plugin.m_PluginTable[nPIdx].m_szId, _TRUNCATE);
+		szId = plugin.m_PluginTable[nPIdx].m_szId;
 		if( (nPlug = CPlug::GetPlugId( static_cast<EFunctionCode>( m_Types.m_eSmartIndent ))) != 0 ){
 			wchar_t szPlug[8];
 			auto_snprintf_s( szPlug, std::size(szPlug), L"/%d", nPlug );
-			wcscat( szId, szPlug );
+			szId.append(szPlug);
 		}
-		cProfile.IOProfileData(szSecTypeEx, szKeyPluginSmartIndentId, StringBufferW(szId));
+		cProfile.IOProfileData(szSecTypeEx, szKeyPluginSmartIndentId, szId);
 	}
 
 	// Version
