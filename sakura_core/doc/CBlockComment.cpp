@@ -24,22 +24,22 @@ CBlockComment::CBlockComment() = default;
 	ブロックコメントデリミタをコピーする
 */
 void CBlockComment::SetBlockCommentRule(
-	const wchar_t*	pszFrom,	//!< [in] コメント開始文字列
-	const wchar_t*	pszTo		//!< [in] コメント終了文字列
+	std::span<const WCHAR> szFrom,	//!< [in] コメント開始文字列
+	std::span<const WCHAR> szTo		//!< [in] コメント終了文字列
 )
 {
-	auto nStrLen = int(wcslen(pszFrom));
+	auto nStrLen = (int)szFrom.size();
 	if( 0 < nStrLen && nStrLen < BLOCKCOMMENT_BUFFERSIZE ){
-		wcsncpy_s( m_szBlockCommentFrom, std::size(m_szBlockCommentFrom), pszFrom, _TRUNCATE );
+		wcsncpy_s( m_szBlockCommentFrom, std::size(m_szBlockCommentFrom), szFrom.data(), _TRUNCATE );
 		m_nBlockFromLen = nStrLen;
 	}
 	else {
 		m_szBlockCommentFrom[0] = L'\0';
 		m_nBlockFromLen = 0;
 	}
-	nStrLen = (int)wcslen( pszTo );
+	nStrLen = (int)szTo.size();
 	if( 0 < nStrLen && nStrLen < BLOCKCOMMENT_BUFFERSIZE ){
-		wcsncpy_s( m_szBlockCommentTo, std::size(m_szBlockCommentTo), pszTo, _TRUNCATE );
+		wcsncpy_s( m_szBlockCommentTo, std::size(m_szBlockCommentTo), szTo.data(), _TRUNCATE );
 		m_nBlockToLen = nStrLen;
 	}
 	else {
