@@ -54,8 +54,8 @@ public:
 	int getBlockToLen() const { return m_nBlockToLen; }
 
 private:
-	wchar_t	m_szBlockCommentFrom[BLOCKCOMMENT_BUFFERSIZE]; //!< ブロックコメントデリミタ(From)
-	wchar_t	m_szBlockCommentTo[BLOCKCOMMENT_BUFFERSIZE];   //!< ブロックコメントデリミタ(To)
-	int		m_nBlockFromLen;
-	int		m_nBlockToLen;
+	wchar_t	m_szBlockCommentFrom[BLOCKCOMMENT_BUFFERSIZE] = {}; //!< ブロックコメントデリミタ(From)
+	wchar_t	m_szBlockCommentTo[BLOCKCOMMENT_BUFFERSIZE] = {};   //!< ブロックコメントデリミタ(To)
+	int		m_nBlockFromLen = 0;
+	int		m_nBlockToLen = 0;
 };
