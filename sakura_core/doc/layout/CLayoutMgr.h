@@ -37,7 +37,6 @@
 #include "util/container.h"
 #include "util/design_template.h"
 #include "charset/charcode.h"
-#include "env/DLLSHAREDATA.h"
 
 class CBregexp;// 2002/2/10 aroka
 class CLayout;// 2002/2/10 aroka
