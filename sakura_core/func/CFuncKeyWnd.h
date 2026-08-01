@@ -16,10 +16,10 @@
 #pragma once
 
 #include "window/CWnd.h"
-#include "env/DLLSHAREDATA.h"
 
 struct DLLSHAREDATA;
 class CEditDoc; // 2002/2/10 aroka
+enum EFunctionCode : int;
 
 //! ファンクションキーウィンドウ
 //	@date 2002.2.17 YAZAKI CShareDataのインスタンスは、CProcessにひとつあるのみ。

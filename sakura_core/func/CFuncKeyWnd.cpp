@@ -21,7 +21,6 @@
 #include "func/CFuncKeyWnd.h"
 #include "env/CShareData.h"
 #include "env/DLLSHAREDATA.h"
-#include "window/CEditWnd.h"
 #include "doc/CEditDoc.h"
 #include "util/input.h"
 #include "util/window.h"
