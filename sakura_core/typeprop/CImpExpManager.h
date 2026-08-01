@@ -13,7 +13,11 @@
 #pragma once
 
 #include "env/CDataProfile.h"
-#include "env/DLLSHAREDATA.h"
+struct DLLSHAREDATA;
+struct ColorInfo;
+struct STypeConfig;
+struct CommonSetting;
+struct SFileTreeItem;
 
 class CImpExpManager
 {
