@@ -6,7 +6,6 @@
 	SPDX-License-Identifier: Zlib
 */
 
-#include <climits>
 #include "CEditView.h"
 #include "window/CEditWnd.h"
 #include "parse/CWordParse.h"
@@ -414,11 +413,7 @@ bool CEditView::GetCurrentTextForSearchDlg( CNativeW& cmemCurText, bool bGetHist
 		(それ以外) 指定位置が検索文字列の始まりだった。
 */
 int CEditView::IsSearchString(
-	const CStringRef&	cStr,
-	/*
-	const wchar_t*	pszData,
-	CLogicInt		nDataLen,
-	*/
+	std::span<const WCHAR> cStr,
 	CLogicInt		nPos,
 	CLogicInt*		pnSearchStart,
 	CLogicInt*		pnSearchEnd
