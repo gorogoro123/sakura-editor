@@ -56,7 +56,7 @@ void CBlockComment::SetBlockCommentRule(
 */
 bool CBlockComment::Match_CommentFrom(
 	int					nPos,		//!< [in] 探索開始位置
-	const CStringRef&	cStr		//!< [in] 探索対象文字列 ※探索開始位置のポインタではないことに注意
+	std::span<const WCHAR> cStr		//!< [in] 探索対象文字列 ※探索開始位置のポインタではないことに注意
 	/*
 	int				nLineLen,	//!< [in] pLineの長さ
 	const wchar_t*	pLine		//!< [in] 探索行の先頭．
@@ -68,7 +68,7 @@ bool CBlockComment::Match_CommentFrom(
 		L'\0' != m_szBlockCommentTo[0]  &&
 		nPos + m_nBlockFromLen <= cStr.size() &&	/* ブロックコメントデリミタ(From) */
 		//0 == wmemicmp( &cStr.GetPtr()[nPos], m_szBlockCommentFrom, m_nBlockFromLen )	//非ASCIIも大文字小文字を区別しない	//###locale 依存
-		0 == wmemicmp_ascii( &cStr.data()[nPos], m_szBlockCommentFrom, m_nBlockFromLen )	//ASCIIのみ大文字小文字を区別しない（高速）
+		0 == wmemicmp_ascii( &cStr[nPos], m_szBlockCommentFrom, m_nBlockFromLen )	//ASCIIのみ大文字小文字を区別しない（高速）
 	){
 		return true;
 	}
@@ -82,7 +82,7 @@ bool CBlockComment::Match_CommentFrom(
 */
 int CBlockComment::Match_CommentTo(
 	int					nPos,		//!< [in] 探索開始位置
-	const CStringRef&	cStr		//!< [in] 探索対象文字列 ※探索開始位置のポインタではないことに注意
+	std::span<const WCHAR>	cStr	//!< [in] 探索対象文字列 ※探索開始位置のポインタではないことに注意
 	/*
 	int				nLineLen,	//!< [in] pLineの長さ
 	const wchar_t*	pLine		//!< [in] 探索行の先頭．探索開始位置のポインタではないことに注意
@@ -91,7 +91,7 @@ int CBlockComment::Match_CommentTo(
 {
 	for( int i = nPos; i + m_nBlockToLen <= cStr.size(); ++i ){
 		//if( 0 == wmemicmp( &cStr.GetPtr()[i], m_szBlockCommentTo, m_nBlockToLen ) ){	//非ASCIIも大文字小文字を区別しない	//###locale 依存
-		if( 0 == wmemicmp_ascii( &cStr.data()[i], m_szBlockCommentTo, m_nBlockToLen ) ){	//ASCIIのみ大文字小文字を区別しない（高速）
+		if( 0 == wmemicmp_ascii( &cStr[i], m_szBlockCommentTo, m_nBlockToLen ) ){	//ASCIIのみ大文字小文字を区別しない（高速）
 			return i + m_nBlockToLen;
 		}
 	}

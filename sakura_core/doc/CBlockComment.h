@@ -32,8 +32,6 @@ enum ECommentType{
 #define BLOCKCOMMENT_NUM	2
 #define BLOCKCOMMENT_BUFFERSIZE	16
 
-class CStringRef;
-
 //	2005.11.10 Moca アクセス関数追加
 class CBlockComment{
 public:
@@ -44,8 +42,8 @@ public:
 	void SetBlockCommentRule( std::span<const WCHAR> szFrom, std::span<const WCHAR> szTo );	//	行コメントデリミタをコピーする
 
 	//判定
-	bool Match_CommentFrom( int nPos, const CStringRef& cStr ) const;	//	行コメントに値するか確認する
-	int Match_CommentTo( int nPos, const CStringRef& cStr ) const;	//	行コメントに値するか確認する
+	bool Match_CommentFrom( int nPos, std::span<const WCHAR> cStr ) const;	//	行コメントに値するか確認する
+	int Match_CommentTo( int nPos, std::span<const WCHAR> cStr ) const;	//	行コメントに値するか確認する
 
 	//取得
 	const wchar_t* getBlockCommentFrom() const{ return m_szBlockCommentFrom; }
