@@ -76,10 +76,9 @@ CLayoutColorInfo* CColor_Quote::GetStrategyColorInfo() const
 
 // nPos "の位置
 //staic
-bool CColor_Quote::IsCppRawString(const CStringRef& cStr, int nPos)
+bool CColor_Quote::IsCppRawString(std::span<const WCHAR> cStr, int nPos)
 {
-	if( 0 < nPos && cStr.At(nPos-1) == 'R' && cStr.At(nPos) == '"'
-		&& nPos + 1 < cStr.size() ){
+	if( 0 < nPos && nPos + 1 < cStr.size() && cStr[nPos-1] == 'R' && cStr[nPos] == '"'  ){
 		// \b(u8|u|U|L|)R"[^(]*\(
 		// \b = ^|[\s!"#$%&'()=@{};:<>?,.*/\-\+\[\]\]
 		wchar_t c1 = L' ';
