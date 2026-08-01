@@ -51,7 +51,7 @@ bool CColor_BlockComment::BeginColor(const CStringRef& cStr, int nPos)
 	if( m_pcBlockComment->Match_CommentFrom( nPos, cStr )	//@@@ 2002.09.22 YAZAKI
 	){
 		/* この物理行にブロックコメントの終端があるか */	//@@@ 2002.09.22 YAZAKI
-		this->m_nCOMMENTEND = m_pcBlockComment->Match_CommentTo(
+		m_nCOMMENTEND = m_pcBlockComment->Match_CommentTo(
 			nPos + m_pcBlockComment->getBlockFromLen(),
 			cStr
 		);
@@ -63,14 +63,14 @@ bool CColor_BlockComment::BeginColor(const CStringRef& cStr, int nPos)
 
 bool CColor_BlockComment::EndColor(const CStringRef& cStr, int nPos)
 {
-	if( 0 == this->m_nCOMMENTEND ){
+	if( 0 == m_nCOMMENTEND ){
 		/* この物理行にブロックコメントの終端があるか */
-		this->m_nCOMMENTEND = m_pcBlockComment->Match_CommentTo(
+		m_nCOMMENTEND = m_pcBlockComment->Match_CommentTo(
 			nPos,
 			cStr
 		);
 	}
-	else if( nPos == this->m_nCOMMENTEND ){
+	else if( nPos == m_nCOMMENTEND ){
 		return true;
 	}
 	return false;

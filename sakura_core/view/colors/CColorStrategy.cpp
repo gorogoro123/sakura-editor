@@ -47,7 +47,7 @@ bool SColorStrategyInfo::CheckChangeColor(const CStringRef& cLineStr)
 	}
 	//選択範囲色開始
 	if(!m_pStrategySelect){
-		if(pcSelect->BeginColorEx(cLineStr, m_nPosInLogic, m_pDispPos->GetLayoutLineRef(), this->GetLayout())){
+		if(pcSelect->BeginColorEx(cLineStr, m_nPosInLogic, m_pDispPos->GetLayoutLineRef(), GetLayout())){
 			m_pStrategySelect = pcSelect;
 			bChange = true;
 		}

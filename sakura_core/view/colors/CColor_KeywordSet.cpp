@@ -78,8 +78,8 @@ bool CColor_KeywordSet::BeginColor(const CStringRef& cStr, int nPos)
 
 		// nPos...posWordEnd がキーワード。
 		if( nPos < posWordEnd ) {
-			this->m_nCOMMENTEND = posWordEnd;
-			this->m_nKeywordIndex = i;
+			m_nCOMMENTEND = posWordEnd;
+			m_nKeywordIndex = i;
 			return true;
 		}
 	}
@@ -88,7 +88,7 @@ bool CColor_KeywordSet::BeginColor(const CStringRef& cStr, int nPos)
 
 bool CColor_KeywordSet::EndColor([[maybe_unused]] const CStringRef& cStr, int nPos)
 {
-	return nPos == this->m_nCOMMENTEND;
+	return nPos == m_nCOMMENTEND;
 }
 
 static inline int NextWordBreak( const CStringRef& str, const int start )

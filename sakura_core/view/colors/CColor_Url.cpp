@@ -24,7 +24,7 @@ bool CColor_Url::BeginColor(const CStringRef& cStr, int nPos)
 	if( _IsPosKeywordHead(cStr,nPos) /* URLを表示する */
 	 && IsURL( cStr.data(), nPos, cStr.size(), &nUrlLen )	/* 指定アドレスがURLの先頭ならばTRUEとその長さを返す */
 	){
-		this->m_nCOMMENTEND = nPos + nUrlLen;
+		m_nCOMMENTEND = nPos + nUrlLen;
 		return true;
 	}
 	return false;
@@ -32,7 +32,7 @@ bool CColor_Url::BeginColor(const CStringRef& cStr, int nPos)
 
 bool CColor_Url::EndColor([[maybe_unused]] const CStringRef& cStr, int nPos)
 {
-	if( nPos == this->m_nCOMMENTEND ){
+	if( nPos == m_nCOMMENTEND ){
 		return true;
 	}
 	return false;
