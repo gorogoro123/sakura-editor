@@ -215,7 +215,7 @@ void CDataObject::SetText( LPCWSTR lpszText, size_t nTextLen, BOOL bColumnSelect
 
 		i++;
 		if( bColumnSelect ){
-			m_pData[i].cfFormat = (CLIPFORMAT)::RegisterClipboardFormat( L"MSDEVColumnSelect" );
+			m_pData[i].cfFormat = (CLIPFORMAT)::RegisterClipboardFormatW( L"MSDEVColumnSelect" );
 			m_pData[i].size = 1;
 			m_pData[i].data = new BYTE[1];
 			m_pData[i].data[0] = '\0';
