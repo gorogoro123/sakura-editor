@@ -28,7 +28,7 @@ void CBlockComment::SetBlockCommentRule(
 	std::span<const WCHAR> szTo		//!< [in] コメント終了文字列
 )
 {
-	auto nStrLen = (int)szFrom.size();
+	auto nStrLen = (int)wcsnlen(szFrom.data(), szFrom.size());
 	if( 0 < nStrLen && nStrLen < BLOCKCOMMENT_BUFFERSIZE ){
 		wcsncpy_s( m_szBlockCommentFrom, std::size(m_szBlockCommentFrom), szFrom.data(), _TRUNCATE );
 		m_nBlockFromLen = nStrLen;
@@ -37,7 +37,7 @@ void CBlockComment::SetBlockCommentRule(
 		m_szBlockCommentFrom[0] = L'\0';
 		m_nBlockFromLen = 0;
 	}
-	nStrLen = (int)szTo.size();
+	nStrLen = (int)wcsnlen(szTo.data(), szTo.size());
 	if( 0 < nStrLen && nStrLen < BLOCKCOMMENT_BUFFERSIZE ){
 		wcsncpy_s( m_szBlockCommentTo, std::size(m_szBlockCommentTo), szTo.data(), _TRUNCATE );
 		m_nBlockToLen = nStrLen;
