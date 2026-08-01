@@ -1705,7 +1705,7 @@ STDMETHODIMP CEditView::DragEnter( LPDATAOBJECT pDataObject, DWORD dwKeyState, P
 	m_nCaretPosX_Prev_DragEnter = GetCaret().m_nCaretPosX_Prev;
 
 	// ドラッグデータは矩形か
-	m_bDragBoxData = IsDataAvailable( pDataObject, (CLIPFORMAT)::RegisterClipboardFormat( L"MSDEVColumnSelect" ) );
+	m_bDragBoxData = IsDataAvailable( pDataObject, (CLIPFORMAT)::RegisterClipboardFormatW( L"MSDEVColumnSelect" ) );
 
 	/* 選択テキストのドラッグ中か */
 	_SetDragMode( TRUE );

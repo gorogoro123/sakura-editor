@@ -247,7 +247,7 @@ bool CClipboard::SetHtmlText(const CNativeW& cmemBUf)
 	::GlobalUnlock( hgClipText );
 
 	//クリップボードに設定
-	UINT uFormat = ::RegisterClipboardFormat( L"HTML Format" );
+	UINT uFormat = ::RegisterClipboardFormatW( L"HTML Format" );
 	SetClipboardData( uFormat, hgClipText );
 	return true;
 }
@@ -666,7 +666,7 @@ CLIPFORMAT CClipboard::GetSakuraFormat()
 		以前のバージョンのクリップボードデータと競合しないように
 		フォーマット名を変更
 	*/
-	return (CLIPFORMAT)::RegisterClipboardFormat( L"SAKURAClipW" );
+	return (CLIPFORMAT)::RegisterClipboardFormatW( L"SAKURAClipW" );
 }
 
 //!< クリップボードデータ形式(CF_UNICODETEXT等)の取得

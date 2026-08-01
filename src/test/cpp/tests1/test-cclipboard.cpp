@@ -114,7 +114,7 @@ TEST(CClipboard, SetHtmlText1)
 		"test 109\r\n"
 		"<!--EndFragment-->\r\n"
 		"</body></html>\r\n";
-	const UINT uHtmlFormat = ::RegisterClipboardFormat(L"HTML Format");
+	const UINT uHtmlFormat = ::RegisterClipboardFormatW(L"HTML Format");
 
 	MockCClipboard clipboard;
 	EXPECT_CALL(clipboard, SetClipboardData(uHtmlFormat, AnsiStringInGlobalMemory(expected)));
@@ -144,7 +144,7 @@ TEST(CClipboard, SetText2) {
 	MockCClipboard clipboard;
 	ON_CALL(clipboard, GlobalAlloc(_, _)).WillByDefault(::GlobalAlloc);
 	EXPECT_CALL(clipboard, SetClipboardData(CF_UNICODETEXT, WideStringInGlobalMemory(text)));
-	EXPECT_CALL(clipboard, SetClipboardData(::RegisterClipboardFormat(L"MSDEVColumnSelect"), ByteValueInGlobalMemory(0)));
+	EXPECT_CALL(clipboard, SetClipboardData(::RegisterClipboardFormatW(L"MSDEVColumnSelect"), ByteValueInGlobalMemory(0)));
 	EXPECT_FALSE(clipboard.SetText(text.data(), text.length(), true, false, CF_UNICODETEXT));
 }
 
@@ -155,8 +155,8 @@ TEST(CClipboard, SetText3) {
 	MockCClipboard clipboard;
 	ON_CALL(clipboard, GlobalAlloc(_, _)).WillByDefault(::GlobalAlloc);
 	EXPECT_CALL(clipboard, SetClipboardData(sakuraFormat, SakuraFormatInGlobalMemory(text)));
-	EXPECT_CALL(clipboard, SetClipboardData(::RegisterClipboardFormat(L"MSDEVLineSelect"), ByteValueInGlobalMemory(1)));
-	EXPECT_CALL(clipboard, SetClipboardData(::RegisterClipboardFormat(L"VisualStudioEditorOperationsLineCutCopyClipboardTag"), ByteValueInGlobalMemory(1)));
+	EXPECT_CALL(clipboard, SetClipboardData(::RegisterClipboardFormatW(L"MSDEVLineSelect"), ByteValueInGlobalMemory(1)));
+	EXPECT_CALL(clipboard, SetClipboardData(::RegisterClipboardFormatW(L"VisualStudioEditorOperationsLineCutCopyClipboardTag"), ByteValueInGlobalMemory(1)));
 	EXPECT_FALSE(clipboard.SetText(text.data(), text.length(), false, true, sakuraFormat));
 }
 
