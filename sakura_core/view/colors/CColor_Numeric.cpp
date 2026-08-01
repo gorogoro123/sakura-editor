@@ -27,7 +27,7 @@ bool CColor_Numeric::BeginColor(const CStringRef& cStr, int nPos)
 		&& (nnn = IsNumber(cStr, nPos)) > 0 )		/* 半角数字を表示する */
 	{
 		/* キーワード文字列の終端をセットする */
-		this->m_nCOMMENTEND = nPos + nnn;
+		m_nCOMMENTEND = nPos + nnn;
 		return true;	/* 半角数値である */ // 2002/03/13 novice
 	}
 	return false;
@@ -35,7 +35,7 @@ bool CColor_Numeric::BeginColor(const CStringRef& cStr, int nPos)
 
 bool CColor_Numeric::EndColor([[maybe_unused]] const CStringRef& cStr, int nPos)
 {
-	if( nPos == this->m_nCOMMENTEND ){
+	if( nPos == m_nCOMMENTEND ){
 		return true;
 	}
 	return false;

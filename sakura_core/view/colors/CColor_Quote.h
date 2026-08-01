@@ -22,7 +22,7 @@ public:
 	void SetStrategyColorInfo(const CLayoutColorInfo*) override;
 	bool BeginColor(const CStringRef& cStr, int nPos) override;
 	bool EndColor(const CStringRef& cStr, int nPos) override;
-	bool Disp() const override{ return m_pTypeData->m_ColorInfoArr[this->GetStrategyColor()].m_bDisp; }
+	bool Disp() const override{ return m_pTypeData->m_ColorInfoArr[GetStrategyColor()].m_bDisp; }
 
 	static bool IsCppRawString(const CStringRef& cStr, int nPos);
 	static int Match_Quote( wchar_t wcQuote, int nPos, const CStringRef& cLineStr, EStringLiteralType escapeType, bool* pbEscapeEnd = nullptr );

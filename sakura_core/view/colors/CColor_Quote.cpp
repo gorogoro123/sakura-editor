@@ -22,7 +22,7 @@ public:
 		if( info == nullptr ){
 			return false;
 		}
-		return info->m_tag == this->m_tag;
+		return info->m_tag == m_tag;
 	}
 };
 

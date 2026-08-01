@@ -20,7 +20,7 @@ public:
 		if( info == nullptr ){
 			return false;
 		}
-		return info->m_id == this->m_id;
+		return info->m_id == m_id;
 	}
 };
 
@@ -92,7 +92,7 @@ bool CColor_Heredoc::BeginColor(const CStringRef& cStr, int nPos)
 			m_id = std::wstring(cStr.data()+nPosIdStart, k - nPosIdStart);
 			m_pszId = m_id.c_str();
 			m_nSize = m_id.size();
-			this->m_nCOMMENTEND = length;
+			m_nCOMMENTEND = length;
 			return true;
 		}
 	}

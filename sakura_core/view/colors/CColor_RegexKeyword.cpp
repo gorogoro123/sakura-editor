@@ -21,8 +21,8 @@ bool CColor_RegexKeyword::BeginColor(const CStringRef& cStr, int nPos)
 	//正規表現キーワード
 	if( pcView->m_cRegexKeyword->RegexIsKeyword( cStr, nPos, &nMatchLen, &nMatchColor )
 	){
-		this->m_nCOMMENTEND = nPos + nMatchLen;  /* キーワード文字列の終端をセットする */
-		this->m_nCOMMENTMODE = ToColorIndexType_RegularExpression(nMatchColor);
+		m_nCOMMENTEND = nPos + nMatchLen;  /* キーワード文字列の終端をセットする */
+		m_nCOMMENTMODE = ToColorIndexType_RegularExpression(nMatchColor);
 		return true;
 	}
 	return false;
@@ -30,7 +30,7 @@ bool CColor_RegexKeyword::BeginColor(const CStringRef& cStr, int nPos)
 
 bool CColor_RegexKeyword::EndColor([[maybe_unused]] const CStringRef& cStr, int nPos)
 {
-	if( nPos == this->m_nCOMMENTEND ){
+	if( nPos == m_nCOMMENTEND ){
 		return true;
 	}
 	return false;
