@@ -94,7 +94,7 @@ bool CClipboard::SetText(
 
 	// UNICODE形式のデータ (CF_UNICODETEXT)
 	HGLOBAL hgClipText = nullptr;
-	bool bUnicodeText = (uFormat == (UINT)-1 || uFormat == CF_UNICODETEXT);
+	bool bUnicodeText = (uFormat == UINT_MAX || uFormat == CF_UNICODETEXT);
 	while(bUnicodeText){
 		//領域確保
 		hgClipText = ::GlobalAlloc(
@@ -121,7 +121,7 @@ bool CClipboard::SetText(
 	HGLOBAL hgClipSakura = nullptr;
 	//サクラエディタ専用フォーマットを取得
 	CLIPFORMAT	uFormatSakuraClip = CClipboard::GetSakuraFormat();
-	bool bSakuraText = (uFormat == (UINT)-1 || uFormat == uFormatSakuraClip);
+	bool bSakuraText = (uFormat == UINT_MAX || uFormat == uFormatSakuraClip);
 	while(bSakuraText){
 		if( 0 == uFormatSakuraClip )break;
 
@@ -296,7 +296,7 @@ bool CClipboard::GetText(IWBuffer* cmemBuf, bool* pbColumnSelect, bool* pbLineSe
 
 	//サクラ形式のデータがあれば取得
 	CLIPFORMAT uFormatSakuraClip = CClipboard::GetSakuraFormat();
-	if( (uGetFormat == -1 || uGetFormat == uFormatSakuraClip)
+	if( (uGetFormat == UINT_MAX || uGetFormat == uFormatSakuraClip)
 		&& IsClipboardFormatAvailable( uFormatSakuraClip ) ){
 		HGLOBAL hSakura = GetClipboardData( uFormatSakuraClip );
 		if (hSakura != nullptr) {
@@ -312,7 +312,7 @@ bool CClipboard::GetText(IWBuffer* cmemBuf, bool* pbColumnSelect, bool* pbLineSe
 	//UNICODE形式のデータがあれば取得
 	// From Here 2005/05/29 novice UNICODE TEXT 対応処理を追加
 	HGLOBAL hUnicode = nullptr;
-	if( uGetFormat == -1 || uGetFormat == CF_UNICODETEXT ){
+	if( uGetFormat == UINT_MAX || uGetFormat == CF_UNICODETEXT ){
 		hUnicode = GetClipboardData( CF_UNICODETEXT );
 	}
 	if( hUnicode != nullptr ){
@@ -327,7 +327,7 @@ bool CClipboard::GetText(IWBuffer* cmemBuf, bool* pbColumnSelect, bool* pbLineSe
 
 	//OEMTEXT形式のデータがあれば取得
 	HGLOBAL hText = nullptr;
-	if( uGetFormat == -1 || uGetFormat == CF_OEMTEXT ){
+	if( uGetFormat == UINT_MAX || uGetFormat == CF_OEMTEXT ){
 		hText = GetClipboardData( CF_OEMTEXT );
 	}
 	if( hText != nullptr ){
@@ -346,7 +346,7 @@ bool CClipboard::GetText(IWBuffer* cmemBuf, bool* pbColumnSelect, bool* pbLineSe
 
 	/* 2008.09.10 bosagami パス貼り付け対応 */
 	//HDROP形式のデータがあれば取得
-	if( (uGetFormat == -1 || uGetFormat == CF_HDROP)
+	if( (uGetFormat == UINT_MAX || uGetFormat == CF_HDROP)
 		&& IsClipboardFormatAvailable(CF_HDROP) ){
 		HDROP hDrop = (HDROP)GetClipboardData(CF_HDROP);
 		if(hDrop != nullptr){
@@ -408,7 +408,7 @@ static const SSystemClipFormatNames sClipFormatNames[] =
 
 static CLIPFORMAT GetClipFormat(const wchar_t* pFormatName)
 {
-	CLIPFORMAT uFormat = (CLIPFORMAT)-1;
+	CLIPFORMAT uFormat = 0;
 	if( pFormatName[0] == L'\0' ){
 		return uFormat;
 	}
@@ -417,7 +417,7 @@ static CLIPFORMAT GetClipFormat(const wchar_t* pFormatName)
 			uFormat = sClipFormatNames[i].m_nClipFormat;
 		}
 	}
-	if( uFormat == (CLIPFORMAT)-1 ){
+	if( uFormat == 0 ){
 		bool bNumber = true;
 		for( int i =0; pFormatName[i]; i++ ){
 			if( !WCODE::Is09(pFormatName[i]) ){
@@ -465,7 +465,7 @@ static int GetEndModeByMode(int nMode, int nEndMode)
 bool CClipboard::SetClipboardByFormat(std::span<const WCHAR> cstr, const wchar_t* pFormatName, int nMode, int nEndMode)
 {
 	CLIPFORMAT uFormat = GetClipFormat(pFormatName);
-	if( uFormat == (CLIPFORMAT)-1 ){
+	if( uFormat == 0 ){
 		return false;
 	}
 	if( nMode == -2 ){
@@ -571,7 +571,7 @@ bool CClipboard::GetClipboardByFormat(CNativeW& mem, const wchar_t* pFormatName,
 {
 	mem.SetString(L"");
 	CLIPFORMAT uFormat = GetClipFormat(pFormatName);
-	if( uFormat == (CLIPFORMAT)-1 ){
+	if( uFormat == 0 ){
 		return false;
 	}
 	if( !IsClipboardFormatAvailable(uFormat) ){

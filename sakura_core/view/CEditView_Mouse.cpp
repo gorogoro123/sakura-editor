@@ -1782,8 +1782,7 @@ STDMETHODIMP CEditView::Drop( LPDATAOBJECT pDataObject, DWORD dwKeyState, POINTL
 	if( pDataObject == nullptr || pdwEffect == nullptr )
 		return E_INVALIDARG;
 
-	CLIPFORMAT cf;
-	cf = GetAvailableClipFormat( pDataObject );
+	CLIPFORMAT cf = GetAvailableClipFormat( pDataObject );
 	if( cf == 0 )
 		return E_INVALIDARG;
 
