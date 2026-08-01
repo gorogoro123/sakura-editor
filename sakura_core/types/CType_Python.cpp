@@ -476,27 +476,18 @@ void CDocOutline::MakeFuncList_python( CFuncInfoArr* pcFuncInfoArr )
 			
 			//	このあたりは暫定
 
-			wchar_t szWord[512];	// 適当に大きな数(pythonでは名前の長さの上限があるのか？)
+			std::wstring szWord;
 			int len = w_end - col;
 			
 			if( len > 0 ){
-				if( len > int(std::size(szWord)) - 1){
-					len = int(std::size(szWord)) - 1;
-				}
-				wcsncpy( szWord, pLine + col, len );
-				szWord[ len ] = L'\0';
+				szWord.assign(pLine + col, len);
 			}
 			else {
-				wcscpy( szWord, LS(STR_OUTLINE_PYTHON_UNDEFINED) );
-				len = 8;
+				szWord.assign(LS(STR_OUTLINE_PYTHON_UNDEFINED));
 			}
 			if( nItemFuncId == 4  ){
-				if( int(std::size(szWord)) - 8  < len ){
-					//	後ろを削って入れる
-					len = int(std::size(szWord)) - 8;
-				}
 				// class
-				wcscpy( szWord + len, LS(STR_OUTLINE_PYTHON_CLASS) );
+				szWord.append(LS(STR_OUTLINE_PYTHON_CLASS));
 			}
 			
 			/*
@@ -513,7 +504,7 @@ void CDocOutline::MakeFuncList_python( CFuncInfoArr* pcFuncInfoArr )
 			pcFuncInfoArr->AppendData(
 				nLineCount + CLogicInt(1),
 				ptPosXY.GetY2() + CLayoutInt(1),
-				szWord,
+				szWord.c_str(),
 				nItemFuncId,
 				depth_index
 			);
