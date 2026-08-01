@@ -23,6 +23,7 @@
 
 #include "CPropTypes.h"
 #include "env/CShareData.h"
+#include "env/DLLSHAREDATA.h"
 #include "typeprop/CImpExpManager.h"	// 2010/4/23 Uchi
 #include "CDlgSameColor.h"
 #include "CDlgKeywordSelect.h"

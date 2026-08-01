@@ -16,6 +16,7 @@
 #include "dlg/CDlgOpenFile.h"
 #include "io/CTextStream.h"
 #include "env/CShareData_IO.h"
+#include "env/DLLSHAREDATA.h"
 #include "plugin/CPlugin.h"
 #include "view/CEditView.h"
 #include "view/colors/CColorStrategy.h"
