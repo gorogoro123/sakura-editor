@@ -27,7 +27,7 @@ class CColor_Heredoc;
 class CEditView;
 class CStringRef;
 
-bool _IsPosKeywordHead(const CStringRef& cStr, int nPos);
+bool _IsPosKeywordHead(std::span<const WCHAR> cStr, int nPos);
 
 //! 正規表現キーワードのEColorIndexType値を作る関数
 inline EColorIndexType ToColorIndexType_RegularExpression(const int nRegexColorIndex)
