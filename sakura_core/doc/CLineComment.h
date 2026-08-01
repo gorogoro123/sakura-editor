@@ -23,8 +23,6 @@
 #define COMMENT_DELIMITER_NUM	3
 #define COMMENT_DELIMITER_BUFFERSIZE	16
 
-class CStringRef;
-
 /*! 行コメントデリミタを管理する
 
 	@note CLineCommentは、共有メモリSTypeConfigに含まれるので、メンバ変数は常に実体を持っていなければならない。
@@ -38,7 +36,7 @@ public:
 	CLineComment();
 
 	void CopyTo( const int n, const wchar_t* buffer, int nCommentPos );	//	行コメントデリミタをコピーする
-	bool Match( int nPos, const CStringRef& cStr ) const;	//	行コメントに値するか確認する
+	bool Match( int nPos, std::span<const WCHAR> cStr ) const;	//	行コメントに値するか確認する
 
 	const wchar_t* getLineComment( const int n ) const{
 		return m_pszLineComment[n].c_str();

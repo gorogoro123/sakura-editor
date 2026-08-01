@@ -45,14 +45,14 @@ void CLineComment::CopyTo( const int n, const wchar_t* buffer, int nCommentPos )
 	}
 }
 
-bool CLineComment::Match( int nPos, const CStringRef& cStr ) const
+bool CLineComment::Match( int nPos,  std::span<const WCHAR> cStr ) const
 {
 	for ( int i=0; i<COMMENT_DELIMITER_NUM; i++ ){
 		if (
 			!m_pszLineComment[i].empty() &&	/* 行コメントデリミタ */
 			( m_nLineCommentPos[i] < 0 || nPos == m_nLineCommentPos[i] ) &&	//	位置指定ON.
 			nPos + m_nLineCommentLen[i] <= cStr.size() &&	/* 行コメントデリミタ */
-			0 == wmemicmp_ascii( &cStr.data()[nPos], m_pszLineComment[i].c_str(), m_nLineCommentLen[i] )	//ASCIIのみ大文字小文字を区別しない（高速）
+			0 == wmemicmp_ascii( &cStr[nPos], m_pszLineComment[i].c_str(), m_nLineCommentLen[i] )	//ASCIIのみ大文字小文字を区別しない（高速）
 		){
 			return true;
 		}
