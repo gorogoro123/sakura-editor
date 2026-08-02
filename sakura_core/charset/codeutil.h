@@ -170,10 +170,9 @@ inline int MyWideCharToMultiByte_JP( const unsigned short* pSrc, const int nSrcL
 */
 inline int MyMultiByteToWideChar_JP( const unsigned char* pSrc, const int nSrcLen, unsigned short* pDst, bool bKeepRt = true )
 {
-	int nret;
-	unsigned char czenkaku[4];
+	unsigned char czenkaku[4] = {};
 
-	nret = ::MultiByteToWideChar( 932, 0, reinterpret_cast<const char*>(pSrc), nSrcLen, reinterpret_cast<wchar_t*>(pDst), 4 );
+	int nret = ::MultiByteToWideChar( 932, 0, reinterpret_cast<const char*>(pSrc), nSrcLen, reinterpret_cast<wchar_t*>(pDst), 4 );
 	if( nret > 0 &&	bKeepRt == true ){
 		MyWideCharToMultiByte_JP( pDst, nret, czenkaku );
 		if( nSrcLen == 2 ){
