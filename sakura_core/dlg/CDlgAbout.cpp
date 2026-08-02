@@ -157,9 +157,11 @@ BOOL CDlgAbout::OnInitDialog([[maybe_unused]] HWND hwndDlg, WPARAM wParam, LPARA
 	GetAppVersionInfo( &dwVersionMS, &dwVersionLS );
 	
 	cmemMsg.AppendStringF(
-		L"%s Ver. %d.%d.%d.%d " LTEXT(BUILD_ENV_NAME) LTEXT(VERSION_HASH) L"\r\n",
+		L"%s Ver. %d.%d.%d.%d %s %s\r\n",
 		LS(STR_GSTR_APPNAME),
-		HIWORD(dwVersionMS), LOWORD(dwVersionMS), HIWORD(dwVersionLS), LOWORD(dwVersionLS) // e.g. {2, 3, 2, 0}
+		HIWORD(dwVersionMS), LOWORD(dwVersionMS), HIWORD(dwVersionLS), LOWORD(dwVersionLS), // e.g. {2, 3, 2, 0}
+		LTEXT(BUILD_ENV_NAME),
+		LTEXT(VERSION_HASH)
 	);
 
 	// 2行目
