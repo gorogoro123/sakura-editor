@@ -2439,10 +2439,6 @@ BOOL CDlgFuncList::OnJump( bool bCheckAutoClose, bool bFileJump )	//2002.02.08 h
 			if( 0 < m_sJumpFile.size() ){
 				if( bFileJump ){
 					// ファイルツリーの場合
-					if( m_bModal ){		/* モーダル ダイアログか */
-						//モーダル表示する場合は、m_cFuncInfoを取得するアクセサを実装して結果取得すること。
-						::EndDialog( GetHwnd(), 1 );
-					}
 					CMyPoint poCaret;
 					poCaret.x = -1;
 					poCaret.y = -1;
@@ -2459,7 +2455,8 @@ BOOL CDlgFuncList::OnJump( bool bCheckAutoClose, bool bFileJump )	//2002.02.08 h
 					poCaret.y = nLineTo;
 					bFileJumpSelf = TagJumpTimer(m_cFuncInfo->m_cmemFileName.GetStringPtr(), poCaret, bCheckAutoClose);
 				}
-			}else{
+			}else
+			if(m_cFuncInfo != nullptr){
 				nLineTo = m_cFuncInfo->m_nFuncLineCRLF;
 				nColTo = m_cFuncInfo->m_nFuncColCRLF;
 				/* カーソルを移動させる */
