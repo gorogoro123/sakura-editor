@@ -11,7 +11,7 @@
 
 class CColor_Quote : public CColorStrategy{
 public:
-	CColor_Quote(wchar_t cQuote) : m_cQuote(cQuote), m_nCOMMENTEND(-1),m_nColorTypeIndex(0) {
+	CColor_Quote(wchar_t cQuote) : m_cQuote(cQuote) {
 		m_szQuote[0] = cQuote;
 		m_szQuote[1] = cQuote;
 		m_szQuote[2] = cQuote;
@@ -28,18 +28,16 @@ public:
 	static int Match_Quote( wchar_t wcQuote, int nPos, std::span<const WCHAR> cLineStr, EStringLiteralType escapeType, bool* pbEscapeEnd = nullptr );
 	static int Match_QuoteStr( const wchar_t* szQuote, int nQuoteLen, int nPos, std::span<const WCHAR> cLineStr, bool bEscape );
 private:
-
 	wchar_t m_cQuote;
 	wchar_t m_szQuote[3];
-	int m_nCOMMENTEND;
+	int m_nCOMMENTEND = -1;
 	std::wstring m_tag;
 
-	int m_nStringType;
+	int m_nStringType = 0;
 	EStringLiteralType m_nEscapeType = STRING_LITERAL_CPP;
-	bool* m_pbEscapeEnd;
-	bool m_bEscapeEnd;
-protected:
-	int m_nColorTypeIndex;
+	bool* m_pbEscapeEnd = nullptr;
+	bool m_bEscapeEnd = false;
+	int m_nColorTypeIndex = 0;
 };
 
 class CColor_SingleQuote final : public CColor_Quote{
