@@ -60,7 +60,7 @@ int CRecentCmd::CompareItem( const CCmdString* p1, LPCWSTR p2 ) const
 
 void CRecentCmd::CopyItem( CCmdString* dst, LPCWSTR src ) const
 {
-	wcscpy(*dst,src);
+	dst->assign(src);
 }
 
 bool CRecentCmd::ValidateReceiveType( LPCWSTR p ) const
