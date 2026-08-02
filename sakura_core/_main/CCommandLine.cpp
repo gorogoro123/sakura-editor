@@ -301,8 +301,9 @@ void CCommandLine::ParseCommandLine( LPCWSTR pszCmdLineSrc, bool bResponse )
 			// 不正なファイル名のままだとファイル保存時ダイアログが出なくなるので
 			// 簡単なファイルチェックを行うように修正
 			constexpr std::wstring_view FILE_URL_PREFIX = L"file:///";
-			if (wcsncmp(szPath.c_str(), FILE_URL_PREFIX.data(), FILE_URL_PREFIX.length())==0) {
-				szPath = szPath.c_str() + FILE_URL_PREFIX.length();
+			std::wstring_view path_view(szPath);
+			if (path_view.starts_with(FILE_URL_PREFIX)) {
+				szPath = path_view.substr(FILE_URL_PREFIX.length());
 			}
 
 			if ( IsInvalidFilenameChars( szPath.c_str() ) ){
