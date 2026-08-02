@@ -60,7 +60,7 @@ int CRecentGrepFile::CompareItem( const CGrepFileString* p1, LPCWSTR p2 ) const
 
 void CRecentGrepFile::CopyItem( CGrepFileString* dst, LPCWSTR src ) const
 {
-	wcscpy(*dst,src);
+	dst->assign(src);
 }
 
 bool CRecentGrepFile::ValidateReceiveType( LPCWSTR p ) const

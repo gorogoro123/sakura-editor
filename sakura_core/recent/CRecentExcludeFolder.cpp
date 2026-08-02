@@ -59,7 +59,7 @@ int CRecentExcludeFolder::CompareItem( const CExcludeFolderString* p1, LPCWSTR p
 
 void CRecentExcludeFolder::CopyItem( CExcludeFolderString* dst, LPCWSTR src ) const
 {
-	wcscpy(*dst,src);
+	dst->assign(src);
 }
 
 bool CRecentExcludeFolder::ValidateReceiveType( LPCWSTR p ) const

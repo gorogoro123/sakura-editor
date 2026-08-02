@@ -61,7 +61,7 @@ int CRecentSearch::CompareItem( const CSearchString* p1, LPCWSTR p2 ) const
 
 void CRecentSearch::CopyItem( CSearchString* dst, LPCWSTR src ) const
 {
-	wcscpy(*dst,src);
+	dst->assign(src);
 }
 
 bool CRecentSearch::ValidateReceiveType( LPCWSTR p ) const
