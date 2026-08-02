@@ -731,16 +731,15 @@ bool CShareData::InitShareData()
 	return true;
 }
 
-static void ConvertLangString( wchar_t* pBuf, size_t chBufSize, std::wstring& org, std::wstring& to )
+static void ConvertLangString( std::span<WCHAR> buf, std::wstring& org, std::wstring& to )
 {
 	CNativeW mem;
-	mem.SetString(pBuf);
+	mem.SetString(buf.data());
 	mem.Replace(org.c_str(), to.c_str());
-	wcsncpy(pBuf, mem.GetStringPtr(), chBufSize);
-	pBuf[chBufSize - 1] = L'\0';
+	wcsncpy_s(buf.data(), buf.size(), mem.GetStringPtr(), _TRUNCATE);
 }
 
-static void ConvertLangValueImpl( wchar_t* pBuf, size_t chBufSize, int nStrId, std::vector<std::wstring>& values, int& index, bool setValues, bool bUpdate )
+static void ConvertLangValueImpl( std::span<WCHAR> buf, int nStrId, std::vector<std::wstring>& values, int& index, bool setValues, bool bUpdate )
 {
 	if( setValues ){
 		if( bUpdate ){
@@ -749,12 +748,12 @@ static void ConvertLangValueImpl( wchar_t* pBuf, size_t chBufSize, int nStrId, s
 		return;
 	}
 	std::wstring to = LS(nStrId);
-	ConvertLangString( pBuf, chBufSize, values[index], to );
+	ConvertLangString( buf, values[index], to );
 	index++;
 }
 
-#define ConvertLangValue(buf, id)  ConvertLangValueImpl(buf, buf.capacity(), id, values, index, bSetValues, true)
-#define ConvertLangValue2(buf, id) ConvertLangValueImpl(buf, buf.capacity(), id, values, index, bSetValues, false)
+#define ConvertLangValue(buf, id)  ConvertLangValueImpl(buf, id, values, index, bSetValues, true)
+#define ConvertLangValue2(buf, id) ConvertLangValueImpl(buf, id, values, index, bSetValues, false)
 
 /*!
 	国際化対応のための文字列を変更する
