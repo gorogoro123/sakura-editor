@@ -84,9 +84,9 @@ private:
 
 	// 内部使用
 	DLLSHAREDATA*	m_pShareData;
-	int				m_nColorType;
+	int				m_nColorType = 0;
 	std::wstring 	m_sColorFile;
-	bool			m_bAddType;
+	bool			m_bAddType = false;
 	CDataProfile	m_cProfile;
 };
 
