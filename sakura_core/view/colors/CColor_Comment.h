@@ -39,7 +39,7 @@ public:
 
 class CColor_BlockComment final : public CColorStrategy{
 public:
-	CColor_BlockComment(EColorIndexType nType) : m_nType(nType), m_nCOMMENTEND(0){}
+	CColor_BlockComment(EColorIndexType nType) : m_nType(nType) {}
 	void Update() override {
 		const CEditDoc* pCEditDoc = GetDocument();
 		m_pTypeData = &pCEditDoc->m_cDocType.GetDocumentAttribute();
@@ -58,6 +58,6 @@ public:
 	}
 private:
 	EColorIndexType m_nType;
-	const CBlockComment* m_pcBlockComment;
-	int m_nCOMMENTEND;
+	const CBlockComment* m_pcBlockComment = nullptr;
+	int m_nCOMMENTEND = 0;
 };
