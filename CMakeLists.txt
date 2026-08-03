@@ -27,9 +27,6 @@ add_custom_command(TARGET ${PROJECT_NAME} PRE_LINK
 # en-US: 1033 (0x0409) - English (United States)
 create_language_dll(en-US 1033)
 
-# Include cmigemo.cmake for migemo.dll
-include(${CMAKE_SOURCE_DIR}/src/main/cmake/cmigemo.cmake)
-
 # Enable ctest command
 enable_testing()
 
