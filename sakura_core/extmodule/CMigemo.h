@@ -22,7 +22,7 @@ Migemo はローマ字のまま日本語をインクリメンタル検索する�
 
 #include "basis/primitive.h"
 #include "extmodule/CDllHandler.h"
-#include "cmigemo/migemo.h"
+#include "migemo.h"
 
 class CMigemo : public CDllImp {
 public:

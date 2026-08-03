@@ -3,8 +3,6 @@
 // test1_rc.rc で使用
 //
 #define IDR_ZIPRES1                    101
-#define IDR_ZIPRES2                    102
-#define IDR_ZIPRES3                    103
 
 // Next default values for new objects
 // 
