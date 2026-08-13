@@ -122,10 +122,10 @@ void CDlgTypeAscertain::SetData( )
 	HANDLE	hFind;
 	WIN32_FIND_DATA	wf;
 	BOOL	bFind;
-	WCHAR	sTrgCol[_MAX_PATH + 1];
+	SFilePath sTrgCol;
 
 	::SplitPath_FolderAndFile( m_psi->sImportFile.c_str(), sTrgCol, nullptr );
-	wcscat( sTrgCol, L"\\*.col" );
+	sTrgCol.append(L"\\*.col");
 	for (bFind = ( ( hFind = FindFirstFile( sTrgCol, &wf ) ) != INVALID_HANDLE_VALUE );
 		bFind;
 		bFind = FindNextFile( hFind, &wf )) {
