@@ -16,7 +16,6 @@
 	Please contact the copyright holder to use this code for other purpose.
 */
 
-#include <ShlObj.h>
 #include "recent/CMRUFile.h"
 #include "recent/CMRUFolder.h"
 #include "env/CShareData.h"
@@ -213,7 +212,6 @@ void CMRUFile::Add( EditInfo* pEditInfo )
 
 	WCHAR	szDrive[_MAX_DRIVE];
 	WCHAR	szDir[_MAX_DIR];
-	WCHAR	szFolder[_MAX_PATH + 1];	//	ドライブ＋フォルダー
 
 	_wsplitpath_s( pEditInfo->m_szPath, szDrive, std::size(szDrive), szDir, std::size(szDir), nullptr, 0, nullptr, 0 );	//	ドライブとフォルダーを取り出す。
 
@@ -225,8 +223,8 @@ void CMRUFile::Add( EditInfo* pEditInfo )
 	//}
 
 	//	szFolder作成
-	wcscpy( szFolder, szDrive );
-	wcscat( szFolder, szDir );
+	SFilePath szFolder(szDrive);
+	szFolder.append(szDir);
 
 	//	Folderを、CMRUFolderに登録
 	CMRUFolder cMRUFolder;
