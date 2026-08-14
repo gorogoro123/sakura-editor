@@ -113,25 +113,21 @@ class CDataObject : public CYbInterfaceImpl<IDataObject> {
 private:
 	friend CEnumFORMATETC;	// 2008.03.26 ryoji
 
-	struct DATA;
-	using PDATA = DATA*;
-
 	//Feb. 26, 2001, fixed by yebisuya sugoroku
 	struct DATA {
-		CLIPFORMAT	cfFormat = CF_UNICODETEXT;	//!< クリップボードフォーマット
-		LPBYTE		data = nullptr;				//!< データ
-		SIZE_T		size = 0ULL;				//!< データサイズ。バイト単位。
+		CLIPFORMAT			cfFormat = CF_UNICODETEXT;	//!< クリップボードフォーマット
+		std::vector<BYTE>	vBuf;						//!< データ
 	};
 
 	int m_nFormat = 0;
-	PDATA m_pData = nullptr;
+	std::vector<DATA> m_Data;
 
 public:
 	CDataObject (LPCWSTR lpszText, size_t nTextLen, BOOL bColumnSelect )
 	{
 		SetText( lpszText, nTextLen, bColumnSelect );
 	}
-	~CDataObject(){SetText( nullptr, 0, FALSE );}
+	~CDataObject() = default;
 	void	SetText( LPCWSTR lpszText, size_t nTextLen, BOOL bColumnSelect );
 	DWORD	DragDrop( BOOL bLeft, DWORD dwEffects );
 
