@@ -180,45 +180,40 @@ STDMETHODIMP CDropSource::GiveFeedback( [[maybe_unused]] DWORD dropEffect )
 void CDataObject::SetText( LPCWSTR lpszText, size_t nTextLen, BOOL bColumnSelect )
 {
 	//Feb. 26, 2001, fixed by yebisuya sugoroku
-	int i;
-	if( m_pData != nullptr )
-	{
-		for( i = 0; i < m_nFormat; i++ )
-			delete [](m_pData[i].data);
-		delete []m_pData;
-		m_pData = nullptr;
-		m_nFormat = 0;
-	}
+	m_Data.clear();
+	m_nFormat = 0;
+
 	if( lpszText != nullptr ){
 		m_nFormat = bColumnSelect? 4: 3;	// 矩形を含めるか
-		m_pData = new DATA[m_nFormat];
+		m_Data.resize(m_nFormat);
 
-		i = 0;
-		m_pData[0].cfFormat = CF_UNICODETEXT;
-		m_pData[0].size = (nTextLen + 1) * sizeof(wchar_t);
-		m_pData[0].data = new BYTE[m_pData[0].size];
-		memcpy( m_pData[0].data, lpszText, nTextLen * sizeof(wchar_t) );
-		*((wchar_t*)m_pData[0].data + nTextLen) = L'\0';
-
-		i++;
-		m_pData[i].cfFormat = CF_TEXT;
-		m_pData[i].size = ::WideCharToMultiByte( CP_ACP, 0, (LPCWSTR)m_pData[0].data, int(m_pData[0].size / sizeof(wchar_t)), nullptr, 0, nullptr, nullptr );
-		m_pData[i].data = new BYTE[m_pData[i].size];
-		::WideCharToMultiByte( CP_ACP, 0, (LPCWSTR)m_pData[0].data, int(m_pData[0].size / sizeof(wchar_t)), (LPSTR)m_pData[i].data, int(m_pData[i].size), nullptr, nullptr );
+		size_t len;
+		int i = 0;
+		m_Data[0].cfFormat = CF_UNICODETEXT;
+		len = (nTextLen + 1) * sizeof(wchar_t);
+		m_Data[0].vBuf.resize(len);
+		memcpy( m_Data[0].vBuf.data(), lpszText, nTextLen * sizeof(wchar_t));
+		reinterpret_cast<wchar_t*>(m_Data[0].vBuf.data())[nTextLen] = L'\0';
 
 		i++;
-		m_pData[i].cfFormat = CClipboard::GetSakuraFormat();
-		m_pData[i].size = sizeof(size_t) + nTextLen * sizeof( wchar_t );
-		m_pData[i].data = new BYTE[m_pData[i].size];
-		*(size_t*)m_pData[i].data = nTextLen;
-		memcpy( m_pData[i].data + sizeof(size_t), lpszText, nTextLen * sizeof( wchar_t ) );
+		m_Data[i].cfFormat = CF_TEXT;
+		len = ::WideCharToMultiByte(CP_ACP, 0, (LPCWSTR)m_Data[0].vBuf.data(), int(m_Data[0].vBuf.size() / sizeof(wchar_t)), nullptr, 0, nullptr, nullptr);
+		m_Data[i].vBuf.resize(len);
+		::WideCharToMultiByte( CP_ACP, 0, (LPCWSTR)m_Data[0].vBuf.data(), int(m_Data[0].vBuf.size() / sizeof(wchar_t)), (LPSTR)m_Data[i].vBuf.data(), int(m_Data[i].vBuf.size()), nullptr, nullptr);
+
+		i++;
+		m_Data[i].cfFormat = CClipboard::GetSakuraFormat();
+		len = sizeof(size_t) + nTextLen * sizeof(wchar_t);
+		m_Data[i].vBuf.resize(len);
+		len = nTextLen;
+		memcpy( m_Data[i].vBuf.data(), &len, sizeof(len) );
+		memcpy( m_Data[i].vBuf.data() + sizeof(size_t), lpszText, nTextLen * sizeof( wchar_t ) );
 
 		i++;
 		if( bColumnSelect ){
-			m_pData[i].cfFormat = (CLIPFORMAT)::RegisterClipboardFormatW( L"MSDEVColumnSelect" );
-			m_pData[i].size = 1;
-			m_pData[i].data = new BYTE[1];
-			m_pData[i].data[0] = '\0';
+			m_Data[i].cfFormat = (CLIPFORMAT)::RegisterClipboardFormatW( L"MSDEVColumnSelect" );
+			m_Data[i].vBuf.resize(1);
+			m_Data[i].vBuf[0] = '\0';
 		}
 	}
 }
@@ -240,7 +235,7 @@ STDMETHODIMP CDataObject::GetData( LPFORMATETC lpfe, LPSTGMEDIUM lpsm )
 	//Feb. 26, 2001, fixed by yebisuya sugoroku
 	if( lpfe == nullptr || lpsm == nullptr )
 		return E_INVALIDARG;
-	if( m_pData == nullptr )
+	if( m_Data.empty() )
 		return OLE_E_NOTRUNNING;
 	if( lpfe->lindex != -1 )
 		return DV_E_LINDEX;
@@ -255,15 +250,15 @@ STDMETHODIMP CDataObject::GetData( LPFORMATETC lpfe, LPSTGMEDIUM lpsm )
 
 	int i;
 	for( i = 0; i < m_nFormat; i++ ){
-		if( lpfe->cfFormat == m_pData[i].cfFormat )
+		if( lpfe->cfFormat == m_Data[i].cfFormat )
 			break;
 	}
 	if( i == m_nFormat )
 		return DV_E_FORMATETC;
 
 	lpsm->tymed = TYMED_HGLOBAL;
-	lpsm->hGlobal = ::GlobalAlloc( GHND | GMEM_DDESHARE, m_pData[i].size );
-	memcpy_s( ::GlobalLock( lpsm->hGlobal ), m_pData[i].size, m_pData[i].data, m_pData[i].size );
+	lpsm->hGlobal = ::GlobalAlloc( GHND | GMEM_DDESHARE, m_Data[i].vBuf.size() );
+	memcpy_s( ::GlobalLock( lpsm->hGlobal ), m_Data[i].vBuf.size(), m_Data[i].vBuf.data(), m_Data[i].vBuf.size());
 	::GlobalUnlock( lpsm->hGlobal );
 	lpsm->pUnkForRelease = nullptr;
 
@@ -278,7 +273,7 @@ STDMETHODIMP CDataObject::GetDataHere( LPFORMATETC lpfe, LPSTGMEDIUM lpsm )
 	//Feb. 26, 2001, fixed by yebisuya sugoroku
 	if( lpfe == nullptr || lpsm == nullptr || lpsm->hGlobal == nullptr )
 		return E_INVALIDARG;
-	if( m_pData == nullptr )
+	if( m_Data.empty() )
 		return OLE_E_NOTRUNNING;
 
 	if( lpfe->lindex != -1 )
@@ -291,15 +286,15 @@ STDMETHODIMP CDataObject::GetDataHere( LPFORMATETC lpfe, LPSTGMEDIUM lpsm )
 
 	int i;
 	for( i = 0; i < m_nFormat; i++ ){
-		if( lpfe->cfFormat == m_pData[i].cfFormat )
+		if( lpfe->cfFormat == m_Data[i].cfFormat )
 			break;
 	}
 	if( i == m_nFormat )
 		return DV_E_FORMATETC;
-	if( m_pData[i].size > ::GlobalSize( lpsm->hGlobal ) )
+	if( m_Data[i].vBuf.size() > ::GlobalSize( lpsm->hGlobal ) )
 		return STG_E_MEDIUMFULL;
 
-	memcpy_s( ::GlobalLock( lpsm->hGlobal ), m_pData[i].size, m_pData[i].data, m_pData[i].size );
+	memcpy_s( ::GlobalLock( lpsm->hGlobal ), m_Data[i].vBuf.size(), m_Data[i].vBuf.data(), m_Data[i].vBuf.size());
 	::GlobalUnlock( lpsm->hGlobal );
 
 	return S_OK;
@@ -313,7 +308,7 @@ STDMETHODIMP CDataObject::QueryGetData( LPFORMATETC lpfe )
 	if( lpfe == nullptr )
 		return E_INVALIDARG;
 	//Feb. 26, 2001, fixed by yebisuya sugoroku
-	if( m_pData == nullptr )
+	if( m_Data.empty() )
 		return OLE_E_NOTRUNNING;
 
 	if( lpfe->ptd != nullptr
@@ -324,7 +319,7 @@ STDMETHODIMP CDataObject::QueryGetData( LPFORMATETC lpfe )
 
 	int i;
 	for( i = 0; i < m_nFormat; i++ ){
-		if( lpfe->cfFormat == m_pData[i].cfFormat )
+		if( lpfe->cfFormat == m_Data[i].cfFormat )
 			break;
 	}
 	if( i == m_nFormat )
@@ -380,7 +375,7 @@ STDMETHODIMP CEnumFORMATETC::Next(ULONG celt, FORMATETC* rgelt, ULONG* pceltFetc
 
 	ULONG i = celt;
 	while( m_nIndex < m_pcDataObject->m_nFormat && i > 0 ){
-		(*rgelt).cfFormat = m_pcDataObject->m_pData[m_nIndex].cfFormat;
+		(*rgelt).cfFormat = m_pcDataObject->m_Data[m_nIndex].cfFormat;
 		(*rgelt).ptd = nullptr;
 		(*rgelt).dwAspect = DVASPECT_CONTENT;
 		(*rgelt).lindex = -1;
