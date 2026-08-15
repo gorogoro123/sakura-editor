@@ -28,7 +28,7 @@ class CGrepAgent;
 class CEditApp final : public TSingleton<CEditApp>{
 	friend TSingleton<CEditApp>;
 	CEditApp();
-	virtual ~CEditApp();
+	~CEditApp();
 
 public:
 	void Create(HINSTANCE hInst, int);
