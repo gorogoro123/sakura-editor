@@ -525,14 +525,14 @@ INT_PTR CPropMainMenu::DispatchEvent(
 							// 特殊機能
 							const auto specialFuncs = nsFuncCode::GetFuncListSpecial();
 							eFuncCode = specialFuncs[nIdxFunc];
-							wcscpy( szLabel, LS(eFuncCode) );
+							wcscpy_s( szLabel, std::size(szLabel), LS(eFuncCode) );
 						}
 						else if (m_cLookup.Pos2FuncCode( nIdxFIdx, nIdxFunc ) != 0) {
 							ApiWrap::List_GetText( hwndListFunk, nIdxFunc, szLabel );
 							eFuncCode = m_cLookup.Pos2FuncCode( nIdxFIdx, nIdxFunc );
 						}
 						else {
-							wcscpy( szLabel, L"?" );
+							wcscpy_s( szLabel, std::size(szLabel), L"?" );
 							eFuncCode = F_SEPARATOR;
 						}
 						break;
@@ -938,7 +938,7 @@ void CPropMainMenu::SetData( HWND hwndDlg )
 				}
 				break;
 		}
-		wcscpy(pFuncWk->m_sKey, pcFunc->m_sKey);
+		wcscpy_s(pFuncWk->m_sKey, std::size(pFuncWk->m_sKey), pcFunc->m_sKey);
 		pFuncWk->m_bDupErr = false;
 		// TreeViewに挿入
 		tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_CHILDREN;
@@ -1044,7 +1044,7 @@ bool CPropMainMenu::GetDataTree( HWND hwndTree, HTREEITEM htiTrg, int nLevel )
 			break;
 		}
 		pcFunc->m_nFunc = pFuncWk->m_nFunc;
-		wcscpy( pcFunc->m_sKey, pFuncWk->m_sKey );
+		wcscpy_s( pcFunc->m_sKey, std::size(pcFunc->m_sKey), pFuncWk->m_sKey );
 		pcFunc->m_nLevel = nLevel;
 
 		if (tvi.cChildren) {
@@ -1066,7 +1066,7 @@ bool CPropMainMenu::GetDataTree( HWND hwndTree, HTREEITEM htiTrg, int nLevel )
 			pcFunc = &pcMenuTBL[m_Common.m_sMainMenu.m_nMainMenuNum++];
 			pcFunc->m_nType = T_NODE;
 			pcFunc->m_nFunc = F_NODE;
-			wcscpy( pcFunc->m_sName, L"auto_add" );
+			wcscpy_s( pcFunc->m_sName, std::size(pcFunc->m_sName), L"auto_add" );
 			pcFunc->m_sKey[0] = L'\0';
 			pcFunc->m_nLevel = nLevel++;
 		}
