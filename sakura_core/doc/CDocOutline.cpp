@@ -17,8 +17,6 @@
 	Please contact the copyright holders to use this code for other purpose.
 */
 
-#include <cstring>
-#include <memory>
 #include "doc/CDocOutline.h"
 #include "doc/CEditDoc.h"
 #include "doc/logic/CDocLine.h"
@@ -230,7 +228,7 @@ void CDocOutline::MakeFuncList_RuleFile( CFuncInfoArr* pcFuncInfoArr, std::wstri
 	*/
 	const int	nMaxStack = 32;	//	ネストの最深
 	int			nDepth = 0;				//	いまのアイテムの深さを表す数値。
-	wchar_t		pszStack[nMaxStack][256];
+	wchar_t		szStack[nMaxStack][256] = {};
 	wchar_t		nLvStack[nMaxStack];
 	wchar_t		szTitle[256];			//	一時領域
 	std::unique_ptr<CBregexp[]> pRegex;
@@ -267,7 +265,7 @@ void CDocOutline::MakeFuncList_RuleFile( CFuncInfoArr* pcFuncInfoArr, std::wstri
 	// 項目名はグループ名
 	if( test[0].nLength == 0 ){
 		const wchar_t* g = test[0].szGroupName;
-		wcscpy(pszStack[0], g);
+		wcscpy_s(szStack[0], std::size(szStack[0]), g);
 		nLvStack[0] = wchar_t(test[0].nLv);
 		const wchar_t *p = wcschr(g, L',');
 		int len;
@@ -379,7 +377,7 @@ void CDocOutline::MakeFuncList_RuleFile( CFuncInfoArr* pcFuncInfoArr, std::wstri
 		int k;
 		bool bAppend = true;
 		for ( k = 0; k < nDepth; k++ ){
-			int nResult = wcscmp( pszStack[k], szTitle );
+			int nResult = wcscmp( szStack[k], szTitle );
 			if ( nResult == 0 ){
 				break;
 			}
@@ -401,7 +399,7 @@ void CDocOutline::MakeFuncList_RuleFile( CFuncInfoArr* pcFuncInfoArr, std::wstri
 			if( k < 0 ){
 				k = 0;
 			}
-			wcscpy(pszStack[k], szTitle);
+			wcscpy_s(szStack[k], std::size(szStack[k]), szTitle);
 			nLvStack[k] = wchar_t(test[j].nLv);
 			nDepth = k;
 		}else{
