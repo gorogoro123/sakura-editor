@@ -84,7 +84,7 @@ public:
 	IWSHClient *m_Owner;
 
 	// 操作
-	void AddMethod(const wchar_t* Name, int ID, VARTYPE *ArgumentTypes,
+	void AddMethod(std::span<const wchar_t> Name, int ID, VARTYPE *ArgumentTypes,
 		int ArgumentCount, VARTYPE ResultType, CIfObjMethod Method);
 	void ReserveMethods(int Count)
 	{
