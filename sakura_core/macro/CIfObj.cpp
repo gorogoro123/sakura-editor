@@ -343,7 +343,7 @@ HRESULT STDMETHODCALLTYPE CIfObj::GetIDsOfNames(
 
 //型情報にメソッドを追加する
 void CIfObj::AddMethod(
-	const wchar_t*	Name,
+	std::span<const wchar_t>	Name,
 	int				ID,
 	VARTYPE*		ArgumentTypes,
 	int				ArgumentCount,
@@ -361,8 +361,7 @@ void CIfObj::AddMethod(
 	Info->Desc.cParams = (SHORT)ArgumentCount + 1; //戻り値の分
 	Info->Desc.lprgelemdescParam = Info->Arguments;
 	//	Nov. 10, 2003 FILE Win9Xでは、[lstrcpyW]が無効のため、[wcscpy]に修正
-	assert( wcslen(Name)<int(std::size(Info->Name)) );
-	wcscpy(Info->Name, Name);
+	wcsncpy_s(Info->Name, std::size(Info->Name), Name.data(), _TRUNCATE);
 	Info->Method = Method;
 	Info->ID = ID;
 	for(int i = 0; i < ArgumentCount; ++i)
