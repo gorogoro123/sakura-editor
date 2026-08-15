@@ -51,7 +51,7 @@ struct SOneRule {
 	@date 2013.06.02 _wfopen_absini,fgetwsをCTextInputStream_AbsIniに変更。UTF-8対応。Regex対応
 	@date 2014.06.20 RegexReplace 正規表現置換モード追加
 */
-int CDocOutline::ReadRuleFile( const WCHAR* pszFilename, SOneRule* pcOneRule, int nMaxCount, bool& bRegex, std::wstring& title )
+int CDocOutline::ReadRuleFile( const WCHAR* pszFilename, std::vector<SOneRule>& vOneRule, bool& bRegex, std::wstring& title )
 {
 	// 2003.06.23 Moca 相対パスは実行ファイルからのパスとして開く
 	// 2007.05.19 ryoji 相対パスは設定ファイルからのパスを優先
@@ -79,7 +79,7 @@ int CDocOutline::ReadRuleFile( const WCHAR* pszFilename, SOneRule* pcOneRule, in
 	// RegexMode /// GroupName,Lv=1
 	// 正規表現置換モード
 	// RegexReplace /// TitleReplace /// GroupName
-	while( file.Good() && nCount < nMaxCount ){
+	while( file.Good() ){
 		strLine = file.ReadLineW();
 		pszWork = wcsstr( strLine.c_str(), pszDelimit );
 		if( nullptr != pszWork && 0 < strLine.length() && strLine[0] != cComment ){
@@ -141,13 +141,15 @@ int CDocOutline::ReadRuleFile( const WCHAR* pszFilename, SOneRule* pcOneRule, in
 				nLv = _wtoi( p + 4 );
 			}
 			while( nullptr != pszToken ){
-				wcsncpy_s( pcOneRule[nCount].szMatch, pszToken, _TRUNCATE );
-				wcsncpy_s( pcOneRule[nCount].szText, pszTextReplace, _TRUNCATE );
-				wcsncpy_s( pcOneRule[nCount].szGroupName, pszWork, _TRUNCATE );
-				pcOneRule[nCount].nLv = nLv;
-				pcOneRule[nCount].nLength = (int)wcslen(pcOneRule[nCount].szMatch);
-				pcOneRule[nCount].nRegexOption = regexOption;
-				pcOneRule[nCount].nRegexMode = bRegexRep2 ? 1 : 0; // 文字列が正しい時だけReplaceMode
+				SOneRule rule = {};
+				wcsncpy_s( rule.szMatch, std::size(rule.szMatch), pszToken, _TRUNCATE );
+				wcsncpy_s( rule.szText, std::size(rule.szText), pszTextReplace, _TRUNCATE );
+				wcsncpy_s( rule.szGroupName, std::size(rule.szGroupName), pszWork, _TRUNCATE );
+				rule.nLv = nLv;
+				rule.nLength = (int)wcsnlen(rule.szMatch, std::size(rule.szMatch));
+				rule.nRegexOption = regexOption;
+				rule.nRegexMode = bRegexRep2 ? 1 : 0; // 文字列が正しい時だけReplaceMode
+				vOneRule.push_back(std::move(rule));	
 				nCount++;
 				if( bTopDummy || bRegex ){
 					pszToken = nullptr;
@@ -212,10 +214,10 @@ int CDocOutline::ReadRuleFile( const WCHAR* pszFilename, SOneRule* pcOneRule, in
 void CDocOutline::MakeFuncList_RuleFile( CFuncInfoArr* pcFuncInfoArr, std::wstring& sTitleOverride )
 {
 	/* ルールファイルの内容をバッファに読み込む */
-	auto test = std::make_unique<SOneRule[]>(1024);	// 1024個許可。 2007.11.29 kobake スタック使いすぎなので、ヒープに確保するように修正。
+	std::vector<SOneRule> test;
 	bool bRegex;
 	std::wstring title;
-	int nCount = ReadRuleFile(m_pcDocRef->m_cDocType.GetDocumentAttribute().m_szOutlineRuleFilename, test.get(), 1024, bRegex, title );
+	int nCount = ReadRuleFile(m_pcDocRef->m_cDocType.GetDocumentAttribute().m_szOutlineRuleFilename, test, bRegex, title );
 	if ( nCount < 1 ){
 		return;
 	}
