@@ -60,7 +60,7 @@ void CDocOutline::MakeTopicList_html(CFuncInfoArr* pcFuncInfoArr, bool bXml)
 	// 2014.12.25 ネスト32→64
 	const int		nMaxStack = 64;	//	ネストの最深
 	int				nDepth = 0;				//	いまのアイテムの深さを表す数値。
-	wchar_t			pszStack[nMaxStack][32];
+	wchar_t			szStack[nMaxStack][32];
 	wchar_t			szTitle[32];			//	一時領域
 	wchar_t			szTag[32];				//	一時領域  小文字で保持して高速化しています。
 
@@ -158,7 +158,7 @@ void CDocOutline::MakeTopicList_html(CFuncInfoArr* pcFuncInfoArr, bool bXml)
 				都度比較するのはコストが高いので、最初に分類しておく。 2008.08.15 aroka
 				比較の回数が多いため、小文字に変換しておいてstrcmpを使う。
 			*/
-			wcscpy( szTag, szTitle );
+			wcscpy_s( szTag, std::size(szTag), szTitle );
 			if( !bXml ){
 				_wcslwr( szTag );
 			}
@@ -266,7 +266,7 @@ void CDocOutline::MakeTopicList_html(CFuncInfoArr* pcFuncInfoArr, bool bXml)
 
 					if( nLabelType!=LT_EMPTY ){
 						// 終了タグなしを除く全てのタグらしきものを判定
-						wcscpy(pszStack[nDepth],szTitle);
+						wcscpy_s(szStack[nDepth], std::size(szStack[nDepth]), szTitle);
 						k	=	j;
 						int x = j;
 						// 2014.12.25 32文字以上のとき,別の行のときにも「/>」bEndTagに対応
@@ -333,11 +333,11 @@ void CDocOutline::MakeTopicList_html(CFuncInfoArr* pcFuncInfoArr, bool bXml)
 				{
 					nDepth--;
 					if (bXml) {
-						if(!wcscmp(pszStack[nDepth],szTitle)){
+						if(!wcscmp(szStack[nDepth],szTitle)){
 							break;
 						}
 					}else{
-						if(!_wcsicmp(pszStack[nDepth],szTitle)){
+						if(!_wcsicmp(szStack[nDepth],szTitle)){
 							break;
 						}
 					}
@@ -346,11 +346,11 @@ void CDocOutline::MakeTopicList_html(CFuncInfoArr* pcFuncInfoArr, bool bXml)
 				if( nDepth == 0 )
 				{
 					if (bXml) {
-						if(wcscmp(pszStack[nDepth],szTitle)){
+						if(wcscmp(szStack[nDepth],szTitle)){
 							nDepth = nDepthOrg;
 						}
 					}else{
-						if(_wcsicmp(pszStack[nDepth],szTitle)){
+						if(_wcsicmp(szStack[nDepth],szTitle)){
 							nDepth = nDepthOrg;
 						}
 					}
