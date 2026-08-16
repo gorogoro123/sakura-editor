@@ -15,7 +15,7 @@ class CVisualProgress final : public CDocListenerEx, public CProgressListener{
 public:
 	//コンストラクタ・デストラクタ
 	CVisualProgress();
-	virtual ~CVisualProgress();
+	~CVisualProgress();
 
 	//ロード前後
 	void OnBeforeLoad(SLoadInfo* sLoadInfo) override;
