@@ -36,7 +36,7 @@ public:
 	/*
 	||  Constructors
 	*/
-	CKeyMacroMgr();
+	CKeyMacroMgr() = default;
 	~CKeyMacroMgr();
 
 	/*
