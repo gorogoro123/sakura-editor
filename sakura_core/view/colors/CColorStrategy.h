@@ -169,7 +169,7 @@ protected:
 class CColorStrategyPool final : public TSingleton<CColorStrategyPool>{
 	friend TSingleton<CColorStrategyPool>;
 	CColorStrategyPool();
-	virtual ~CColorStrategyPool();
+	~CColorStrategyPool();
 
 public:
 
