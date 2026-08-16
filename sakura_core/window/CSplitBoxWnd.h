@@ -30,7 +30,7 @@ public:
 	||  Constructors
 	*/
 	CSplitBoxWnd();
-	virtual ~CSplitBoxWnd();
+	~CSplitBoxWnd();
 	HWND Create(HINSTANCE hInstance, HWND hwndParent, int bVertical);
 
 	static void Draw3dRect(HDC hdc, int x, int y, int cx, int cy, COLORREF clrTopLeft, COLORREF clrBottomRight);
