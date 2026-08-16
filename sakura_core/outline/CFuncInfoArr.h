@@ -37,7 +37,7 @@ class CFuncInfo;
 //! アウトライン解析 データ配列
 class CFuncInfoArr {
 public:
-	CFuncInfoArr();	/* CFuncInfoArrクラス構築 */
+	CFuncInfoArr() = default;	/* CFuncInfoArrクラス構築 */
 	~CFuncInfoArr();	/* CFuncInfoArrクラス消滅 */
 	CFuncInfo* GetAt(size_t nIdx) noexcept;	/* 0<=の指定番号のデータを返す */
 	void AppendData( CLogicInt nFuncLineCRLF, CLayoutInt nFuncLineLAYOUT, const WCHAR* pszFuncName,
