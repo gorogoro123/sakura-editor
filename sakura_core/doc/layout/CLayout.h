@@ -54,7 +54,7 @@ public:
 		m_nIndent		= nTypeIndent;	// このレイアウト行のインデント数 @@@ 2002.09.23 YAZAKI
 		m_cExInfo.SetColorInfo(pColorInfo);
 	}
-	~CLayout();
+	~CLayout() = default;
 	void DUMP( );
 
 	// m_ptLogicPos.xで補正したあとの文字列を得る
