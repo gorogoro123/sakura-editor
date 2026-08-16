@@ -14,7 +14,7 @@
 class CFigureManager final : public TSingleton<CFigureManager>{
 	friend TSingleton<CFigureManager>;
 	CFigureManager();
-	virtual ~CFigureManager();
+	~CFigureManager();
 
 public:
 	//! 描画するCFigureを取得
