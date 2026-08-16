@@ -16,12 +16,6 @@
 #include "outline/CFuncInfoArr.h"
 #include "outline/CFuncInfo.h"
 
-/* CFuncInfoArrクラス構築 */
-CFuncInfoArr::CFuncInfoArr()
-{
-	return;
-}
-
 /* CFuncInfoArrクラス消滅 */
 CFuncInfoArr::~CFuncInfoArr()
 {
