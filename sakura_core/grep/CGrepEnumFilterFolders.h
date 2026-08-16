@@ -16,14 +16,11 @@
 #include "grep/CGrepEnumFolders.h"
 
 class CGrepEnumFilterFolders final : public CGrepEnumFolders {
-private:
-
 public:
 	CGrepEnumFolders m_cGrepEnumExceptFolders;
 
-public:
 	CGrepEnumFilterFolders() = default;
-	virtual ~CGrepEnumFilterFolders() = default;
+	~CGrepEnumFilterFolders() = default;
 
 	BOOL IsValid( WIN32_FIND_DATA& w32fd, LPCWSTR pFile = nullptr ) override{
 		if( CGrepEnumFolders::IsValid( w32fd, pFile ) ){
