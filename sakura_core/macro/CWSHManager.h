@@ -34,7 +34,7 @@ class CWSHMacroManager final : public CMacroManagerBase
 {
 public:
 	CWSHMacroManager(std::wstring const AEngineName);
-	virtual ~CWSHMacroManager();
+	~CWSHMacroManager();
 
 	//	2007.07.20 genta : flags追加
 	bool ExecKeyMacro(CEditView *EditView, int flags) const override;
