@@ -34,7 +34,7 @@ public:
 	||  Constructors
 	*/
 	CTabWnd();
-	virtual ~CTabWnd();
+	~CTabWnd();
 
 	/*
 	|| メンバ関数
