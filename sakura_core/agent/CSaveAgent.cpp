@@ -17,10 +17,6 @@
 #include "_main/CAppMode.h"
 #include "env/CShareData.h"
 
-CSaveAgent::CSaveAgent()
-{
-}
-
 ECallbackResult CSaveAgent::OnCheckSave(SSaveInfo* pSaveInfo)
 {
 	CEditDoc* pcDoc = GetListeningDoc();

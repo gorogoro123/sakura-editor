@@ -11,7 +11,7 @@
 
 class CSaveAgent : public CDocListenerEx{
 public:
-	CSaveAgent();
+	CSaveAgent() = default;
 	ECallbackResult OnCheckSave(SSaveInfo* pSaveInfo) override;
 	void OnBeforeSave(const SSaveInfo& sSaveInfo) override;
 	void OnSave(const SSaveInfo& sSaveInfo) override;
