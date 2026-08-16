@@ -398,7 +398,6 @@ static constexpr auto url_table = std::to_array<_url_table_t>({
 	{ L"https://",		false },
 	{ L"mailto:",		true  },
 	{ L"news:",			false },
-	{ L"nntp://",		false },
 	{ L"prospero://",	false },
 	{ L"telnet://",		false },
 	{ L"tp://",			false },
