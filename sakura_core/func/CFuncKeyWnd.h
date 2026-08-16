@@ -30,7 +30,7 @@ public:
 	||  Constructors
 	*/
 	CFuncKeyWnd();
-	virtual ~CFuncKeyWnd();
+	~CFuncKeyWnd();
 	/*
 	|| メンバ関数
 	*/
