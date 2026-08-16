@@ -28,11 +28,6 @@
 #include "CSelectLang.h"
 #include "mem/CNativeW.h"
 
-CKeyMacroMgr::CKeyMacroMgr()
-{
-	return;
-}
-
 CKeyMacroMgr::~CKeyMacroMgr()
 {
 	/* キーマクロのバッファをクリアする */
