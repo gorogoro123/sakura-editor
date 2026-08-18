@@ -289,29 +289,27 @@ INT_PTR CPropKeybind::DispatchEvent(
 		if( hwndFuncList == hwndCtl ){
 			switch( wNotifyCode ){
 			case LBN_SELCHANGE:
+			{
 				nIndex = ApiWrap::List_GetCurSel( hwndKeyList );
 				nIndex2 = ApiWrap::Combo_GetCurSel( hwndCombo );
 				nIndex3 = ApiWrap::List_GetCurSel( hwndFuncList );
 				nFuncCode = m_cLookup.Pos2FuncCode( nIndex2, nIndex3 );	// Oct. 2, 2001 genta
 				/* 機能に対応するキー名の取得(複数) */
-				CNativeW**	ppcAssignedKeyList;
-				nAssignedKeyNum = CKeyBind::GetKeyStrList(	/* 機能に対応するキー名の取得(複数) */
+				std::vector<CNativeW> assignedKeyList;
+				CKeyBind::GetKeyStrList(	/* 機能に対応するキー名の取得(複数) */
 					G_AppInstance(), m_Common.m_sKeyBind.m_nKeyNameArrNum, (KEYDATA*)m_Common.m_sKeyBind.m_pKeyNameArr,
-					&ppcAssignedKeyList, nFuncCode,
+					assignedKeyList, nFuncCode,
 					FALSE	// 2007.02.22 ryoji デフォルト機能は取得しない
-				);	
+				);
 				/* 割り当てキーリストをクリアして値の設定 */
 				ApiWrap::List_ResetContent( hwndAssignedkeyList );
-				if( 0 < nAssignedKeyNum){
-					for( j = 0; j < nAssignedKeyNum; ++j ){
-						/* デバッグモニタに出力 */
-						const WCHAR* cpszString = ppcAssignedKeyList[j]->GetStringPtr();
-						ApiWrap::List_AddString( hwndAssignedkeyList, cpszString );
-						delete ppcAssignedKeyList[j];
-					}
-					delete [] ppcAssignedKeyList;
+				for (const auto& assignedKey : assignedKeyList) {
+					/* デバッグモニタに出力 */
+					const WCHAR* cpszString = assignedKey.GetStringPtr();
+					ApiWrap::List_AddString( hwndAssignedkeyList, cpszString );
 				}
 				return TRUE;
+			}
 			default:
 				break;
 			}
