@@ -561,7 +561,7 @@ bool CPropPlugin::BrowseReadMe(const std::wstring& sReadMeName)
 	cCmdLineBuf.AppendF(L" -R -CODE=99");
 
 	// グループID
-	int nGroup = GetDllShareData().m_sNodes.m_nGroupSequences;
+	int nGroup = m_pShareData->m_sNodes.m_nGroupSequences;
 	if( nGroup > 0 ){
 		cCmdLineBuf.AppendF( L" -GROUP=%d", nGroup+1 );
 	}

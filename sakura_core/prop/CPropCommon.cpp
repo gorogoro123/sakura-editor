@@ -303,7 +303,7 @@ void CPropCommon::InitData( const int* tempTypeKeywordSet, const WCHAR* name, co
 		m_Types_nKeyWordSetIdx.push_back(indexs);
 	}
 	int i;
-	for( i = 0; i < GetDllShareData().m_nTypesCount; ++i ){
+	for( i = 0; i < m_pShareData->m_nTypesCount; ++i ){
 		SKeywordSetIndex indexs;
 		STypeConfig type;
 		CDocTypeManager().GetTypeConfig(CTypeConfig(i), type);
