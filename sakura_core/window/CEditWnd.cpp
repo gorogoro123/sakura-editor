@@ -1106,25 +1106,21 @@ LRESULT CEditWnd::DispatchEvent(
 			CNativeW	cmemWork;
 
 			/* 機能に対応するキー名の取得(複数) */
-			CNativeW**	ppcAssignedKeyList;
-			int			nAssignedKeyNum;
-			int			j;
-			nAssignedKeyNum = CKeyBind::GetKeyStrList(
+			std::vector<CNativeW> assignedKeyList;
+			CKeyBind::GetKeyStrList(
 				G_AppInstance(),
 				m_pShareData->m_Common.m_sKeyBind.m_nKeyNameArrNum,
 				(KEYDATA*)m_pShareData->m_Common.m_sKeyBind.m_pKeyNameArr,
-				&ppcAssignedKeyList,
+				assignedKeyList,
 				uItem
 			);
-			if( 0 < nAssignedKeyNum ){
-				for( j = 0; j < nAssignedKeyNum; ++j ){
-					if( j > 0 ){
-						cmemWork.AppendString(L" , ");
-					}
-					cmemWork.AppendNativeData( *ppcAssignedKeyList[j] );
-					delete ppcAssignedKeyList[j];
+			bool first = true;
+			for (const auto& assignedKey : assignedKeyList) {
+				if(!first){
+					cmemWork.AppendString(L" , ");
 				}
-				delete [] ppcAssignedKeyList;
+				first = false;
+				cmemWork.AppendNativeData( assignedKey );
 			}
 
 			const WCHAR* pszItemStr = cmemWork.GetStringPtr();
@@ -4115,28 +4111,24 @@ void CEditWnd::GetTooltipText(std::span<WCHAR> szBuf, UINT_PTR idFrom) const
 	size_t nLen = wcsnlen( szBuf.data(), szBuf.size() );
 
 	// 機能に対応するキー名の取得(複数)
-	CNativeW**	ppcAssignedKeyList;
-	int nAssignedKeyNum = CKeyBind::GetKeyStrList(
+	std::vector<CNativeW> assignedKeyList;
+	CKeyBind::GetKeyStrList(
 		G_AppInstance(),
 		m_pShareData->m_Common.m_sKeyBind.m_nKeyNameArrNum,
 		m_pShareData->m_Common.m_sKeyBind.m_pKeyNameArr,
-		&ppcAssignedKeyList,
+		assignedKeyList,
 		nID
 	);
 
 	// pszBufへ結合
-	if( 0 < nAssignedKeyNum ){
-		for( int j = 0; j < nAssignedKeyNum; ++j ){
-			const WCHAR* pszKey = ppcAssignedKeyList[j]->GetStringPtr();
-			auto nKeyLen = int(wcslen(pszKey));
-			if ( nLen + 9 + nKeyLen < szBuf.size()){
-				wcscat_s( szBuf.data(), szBuf.size(), L"\n        " );
-				wcscat_s( szBuf.data(), szBuf.size(), pszKey );
-				nLen += 9 + nKeyLen;
-			}
-			delete ppcAssignedKeyList[j];
+	for (const auto& assignedKey : assignedKeyList) {
+		const WCHAR *pszKey = assignedKey.GetStringPtr();
+		auto nKeyLen = int(wcslen(pszKey));
+		if (nLen + 9 + nKeyLen < szBuf.size()){
+			wcscat_s(szBuf.data(), szBuf.size(), L"\n        ");
+			wcscat_s(szBuf.data(), szBuf.size(), pszKey);
+			nLen += 9 + nKeyLen;
 		}
-		delete [] ppcAssignedKeyList;
 	}
 }
 
