@@ -14,7 +14,6 @@
 	SPDX-License-Identifier: Zlib
 */
 
-#include <memory>
 #include "macro/CWSHIfObj.h"
 #include "macro/CSMacroMgr.h" // MacroFuncInfo
 #include "Funccode_enum.h" // EFunctionCode::FA_FROMMACRO
@@ -39,7 +38,7 @@ void CWSHIfObj::ReadyCommands(MacroFuncInfo *Info, int flags)
 	while(Info->m_nFuncID != -1)	// Aug. 29, 2002 genta 番人の値が変更されたのでここも変更
 	{
 		wchar_t FuncName[256];
-		wcscpy(FuncName, Info->m_pszFuncName);
+		wcscpy_s(FuncName, std::size(FuncName), Info->m_pszFuncName);
 
 		int ArgCount = 0;
 		if( Info->m_pData ){
