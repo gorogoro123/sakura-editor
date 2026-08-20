@@ -49,10 +49,11 @@ void CWSHIfObj::ReadyCommands(MacroFuncInfo *Info, int flags)
 					++ArgCount;
 			}
 		}
-		VARTYPE* varArgTmp = nullptr;
+		std::vector<VARTYPE> varArgTmp;
 		VARTYPE* varArg = Info->m_varArguments;
 		if( 4 < ArgCount ){
-			varArgTmp = varArg = new VARTYPE[ArgCount];
+			varArgTmp.resize(ArgCount);
+			varArg = varArgTmp.data();
 			for( int i = 0; i < ArgCount; i++ ){
 				if( i < 4 ){
 					varArg[i] = Info->m_varArguments[i];
@@ -62,7 +63,7 @@ void CWSHIfObj::ReadyCommands(MacroFuncInfo *Info, int flags)
 			}
 		}
 		//	2007.07.21 genta : flagを加えた値を登録する
-		this->AddMethod(
+		AddMethod(
 			FuncName,
 			(Info->m_nFuncID | flags),
 			varArg,
@@ -72,7 +73,6 @@ void CWSHIfObj::ReadyCommands(MacroFuncInfo *Info, int flags)
 			/* CWSHIfObjを継承したサブクラスからReadyCommandsを呼び出した場合、
 			 * サブクラスのMacroCommandが呼び出される。 */
 		);
-		delete [] varArgTmp;
 		++Info;
 	}
 }
