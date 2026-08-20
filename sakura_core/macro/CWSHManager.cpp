@@ -100,8 +100,8 @@ CMacroManagerBase* CWSHMacroManager::Creator(const WCHAR* FileExt)
 {
 	WCHAR FileExtWithDot[1024], FileType[1024], EngineName[1024]; //1024を超えたら後は知りません
 	
-	wcscpy( FileExtWithDot, L"." );
-	wcscat( FileExtWithDot, FileExt );
+	wcscpy_s( FileExtWithDot, std::size(FileExtWithDot), L"." );
+	wcsncat_s( FileExtWithDot, std::size(FileExtWithDot), FileExt, _TRUNCATE );
 
 	if(ReadRegistry(HKEY_CLASSES_ROOT, FileExtWithDot, nullptr, FileType, 1024))
 	{
