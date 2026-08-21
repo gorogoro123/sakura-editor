@@ -12,11 +12,9 @@
 */
 int CEuc::EucjpToUni( const char* pSrc, const int nSrcLen, wchar_t* pDst, bool* pbError )
 {
-	const unsigned char *pr, *pr_end;
-	unsigned short *pw;
 	int nclen;
 	ECharSet echarset;
-	bool berror_tmp, berror=false;
+	bool berror=false;
 
 	if( nSrcLen < 1 ){
 		if( pbError ){
@@ -25,17 +23,16 @@ int CEuc::EucjpToUni( const char* pSrc, const int nSrcLen, wchar_t* pDst, bool* 
 		return 0;
 	}
 
-	pr = reinterpret_cast<const unsigned char*>(pSrc);
-	pr_end = reinterpret_cast<const unsigned char*>(pSrc + nSrcLen);
-	pw = reinterpret_cast<unsigned short*>(pDst);
+	const unsigned char *pr = reinterpret_cast<const unsigned char *>(pSrc);
+	const unsigned char *pr_end = reinterpret_cast<const unsigned char *>(pSrc + nSrcLen);
+	unsigned short *pw = reinterpret_cast<unsigned short *>(pDst);
 
 	for( ; (nclen = CheckEucjpChar(reinterpret_cast<const char*>(pr), pr_end-pr, &echarset)) != 0; pr += nclen ){
+		bool berror_tmp;
 		switch( echarset ){
 		case CHARSET_ASCII7:
 			// 保護コード
-			if( nclen != 1 ){
-				nclen = 1;
-			}
+			nclen = 1;
 			// 7-bit ASCII の変換
 			*pw = *pr;
 			++pw;
@@ -57,9 +54,7 @@ int CEuc::EucjpToUni( const char* pSrc, const int nSrcLen, wchar_t* pDst, bool* 
 			break;
 		default:// case CHARSET_BINARY:
 			// 保護コード
-			if( nclen != 1 ){
-				nclen = 1;
-			}
+			nclen = 1;
 			// 読み込みエラーになった文字を PUA に対応づける
 			pw += BinToText( pr, nclen, pw );
 		}
@@ -104,16 +99,15 @@ EConvertResult CEuc::EUCToUnicode(const CMemory& cSrc, CNativeW* pDstMem)
 int CEuc::UniToEucjp( const wchar_t* pSrc, const int nSrcLen, char* pDst, bool* pbError )
 {
 	int nclen;
-	const unsigned short *pr, *pr_end;
-	unsigned char* pw;
-	bool berror=false, berror_tmp;
+	bool berror=false;
 	ECharSet echarset;
 
-	pr = reinterpret_cast<const unsigned short*>(pSrc);
-	pr_end = reinterpret_cast<const unsigned short*>(pSrc + nSrcLen);
-	pw = reinterpret_cast<unsigned char*>(pDst);
+	const unsigned short *pr = reinterpret_cast<const unsigned short *>(pSrc);
+	const unsigned short *pr_end = reinterpret_cast<const unsigned short *>(pSrc + nSrcLen);
+	unsigned char *pw = reinterpret_cast<unsigned char *>(pDst);
 
 	while( (nclen = CheckUtf16leChar(reinterpret_cast<const wchar_t*>(pr), pr_end-pr, &echarset, 0)) > 0 ){
+		bool berror_tmp;
 		// 保護コード
 		switch( echarset ){
 		case CHARSET_UNI_NORMAL:
@@ -181,8 +175,6 @@ EConvertResult CEuc::UnicodeToEUC(const CNativeW& cSrc, CMemory* pDstMem)
 // 文字コード表示用	UNICODE → Hex 変換	2008/6/9 Uchi
 EConvertResult CEuc::UnicodeToHex(const wchar_t* cSrc, const int iSLen, std::span<WCHAR> szDst, const CommonSetting_Statusbar* psStatusbar)
 {
-	CNativeW		cCharBuffer;
-
 	// 2008/6/21 Uchi
 	if (psStatusbar->m_bDispUniInEuc) {
 		// Unicodeで表示
@@ -190,6 +182,7 @@ EConvertResult CEuc::UnicodeToHex(const wchar_t* cSrc, const int iSLen, std::spa
 	}
 
 	// 1文字データバッファ
+	CNativeW cCharBuffer;
 	cCharBuffer.SetString(cSrc, 1);
 
 	const bool bbinary = IsBinaryOnSurrogate(cSrc[0]);
