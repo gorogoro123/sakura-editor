@@ -75,7 +75,7 @@ int WINAPI wWinMain(
 
 	//プロセスの生成とメッセージループ
 	CProcessFactory aFactory;
-	CProcess *process = nullptr;
+	std::unique_ptr<CProcess> process = nullptr;
 	try{
 		process = aFactory.Create( hInstance, lpCmdLine );
 		MY_TRACETIME( cRunningTimer, L"ProcessObject Created" );
@@ -84,7 +84,6 @@ int WINAPI wWinMain(
 	}
 	if( nullptr != process ){
 		process->Run();
-		delete process;
 	}
 
 	::OleUninitialize();	// 2009.01.07 ryoji 追加

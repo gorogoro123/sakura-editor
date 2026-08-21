@@ -32,7 +32,7 @@ class CProcess;
 */
 class CProcessFactory {
 public:
-	CProcess* Create( HINSTANCE hInstance, LPCWSTR lpCmdLine );
+	std::unique_ptr<CProcess> Create( HINSTANCE hInstance, LPCWSTR lpCmdLine );
 protected:
 private:
 	bool ProfileSelect(HINSTANCE hInstance, LPCWSTR lpCmdLine);

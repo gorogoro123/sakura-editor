@@ -40,7 +40,7 @@
 	@date 2002/01/08
 	@date 2006/04/10 ryoji
 */
-CProcess* CProcessFactory::Create( HINSTANCE hInstance, LPCWSTR lpCmdLine )
+std::unique_ptr<CProcess> CProcessFactory::Create( HINSTANCE hInstance, LPCWSTR lpCmdLine )
 {
 	// 言語環境を初期化する
 	CSelectLang::InitializeLanguageEnvironment();
@@ -48,8 +48,6 @@ CProcess* CProcessFactory::Create( HINSTANCE hInstance, LPCWSTR lpCmdLine )
 	if( !ProfileSelect( hInstance, lpCmdLine ) ){
 		return nullptr;
 	}
-
-	CProcess* process = nullptr;
 
 	// プロセスクラスを生成する
 	//
@@ -62,7 +60,7 @@ CProcess* CProcessFactory::Create( HINSTANCE hInstance, LPCWSTR lpCmdLine )
 	//
 	if( IsStartingControlProcess() ){
 		if( !IsExistControlProcess() ){
-			process = new CControlProcess( hInstance, lpCmdLine );
+			return std::make_unique<CControlProcess>( hInstance, lpCmdLine );
 		}
 	}
 	else{
@@ -70,10 +68,10 @@ CProcess* CProcessFactory::Create( HINSTANCE hInstance, LPCWSTR lpCmdLine )
 			StartControlProcess();
 		}
 		if( WaitForInitializedControlProcess() ){	// 2006.04.10 ryoji コントロールプロセスの初期化完了待ち
-			process = new CNormalProcess( hInstance, lpCmdLine );
+			return std::make_unique<CNormalProcess>( hInstance, lpCmdLine );
 		}
 	}
-	return process;
+	return nullptr;
 }
 
 bool CProcessFactory::ProfileSelect( HINSTANCE hInstance, LPCWSTR lpCmdLine )
