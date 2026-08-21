@@ -40,10 +40,6 @@ int CLatin1::GetSizeOfChar( [[maybe_unused]] const char* pData, int nDataLen, in
 */
 int CLatin1::Latin1ToUni( const char *pSrc, const int nSrcLen, wchar_t *pDst, bool* pbError )
 {
-	int nret;
-	const unsigned char *pr, *pr_end;
-	unsigned short *pw;
-
 	if( pbError ){
 		*pbError = false;
 	}
@@ -51,14 +47,14 @@ int CLatin1::Latin1ToUni( const char *pSrc, const int nSrcLen, wchar_t *pDst, bo
 		return 0;
 	}
 
-	pr = reinterpret_cast<const unsigned char*>( pSrc );
-	pr_end = reinterpret_cast<const unsigned char*>(pSrc + nSrcLen);
-	pw = reinterpret_cast<unsigned short*>(pDst);
+	const unsigned char *pr = reinterpret_cast<const unsigned char *>(pSrc);
+	const unsigned char *pr_end = reinterpret_cast<const unsigned char *>(pSrc + nSrcLen);
+	unsigned short *pw = reinterpret_cast<unsigned short *>(pDst);
 
 	for( ; pr < pr_end; pr++ ){
 		if (*pr >= 0x80 && *pr <=0x9f) {
 			// Windows 拡張部
-			nret = ::MultiByteToWideChar( 1252, 0, reinterpret_cast<const char*>(pr), 1, reinterpret_cast<wchar_t*>(pw), 4 );
+			int nret = ::MultiByteToWideChar( 1252, 0, reinterpret_cast<const char*>(pr), 1, reinterpret_cast<wchar_t*>(pw), 4 );
 			if( nret == 0 ){
 				*pw = static_cast<unsigned short>( *pr );
 			}
@@ -104,10 +100,8 @@ EConvertResult CLatin1::Latin1ToUnicode( const CMemory& cSrc, CNativeW* pDstMem 
 int CLatin1::UniToLatin1( const wchar_t* pSrc, const int nSrcLen, char* pDst, bool *pbError )
 {
 	int nclen;
-	const unsigned short *pr, *pr_end;
-	unsigned char* pw;
 	ECharSet echarset;
-	bool berror=false, berror_tmp;
+	bool berror=false;
 
 	if( nSrcLen < 1 ){
 		if( pbError ){
@@ -116,11 +110,12 @@ int CLatin1::UniToLatin1( const wchar_t* pSrc, const int nSrcLen, char* pDst, bo
 		return 0;
 	}
 
-	pr = reinterpret_cast<const unsigned short*>(pSrc);
-	pr_end = reinterpret_cast<const unsigned short*>(pSrc+nSrcLen);
-	pw = reinterpret_cast<unsigned char*>(pDst);
+	const unsigned short *pr = reinterpret_cast<const unsigned short *>(pSrc);
+	const unsigned short *pr_end = reinterpret_cast<const unsigned short *>(pSrc + nSrcLen);
+	unsigned char *pw = reinterpret_cast<unsigned char *>(pDst);
 
 	while( (nclen = CheckUtf16leChar(reinterpret_cast<const wchar_t*>(pr), pr_end-pr, &echarset, 0)) > 0 ){
+		bool berror_tmp;
 		// 保護コード
 		switch( echarset ){
 		case CHARSET_UNI_NORMAL:
@@ -189,14 +184,13 @@ EConvertResult CLatin1::UnicodeToLatin1( const CNativeW& cSrc, CMemory* pDstMem 
 // 文字コード表示用	UNICODE → Hex 変換	2008/6/9 Uchi
 EConvertResult CLatin1::UnicodeToHex(const wchar_t* cSrc, const int iSLen, std::span<WCHAR> szDst, const CommonSetting_Statusbar* psStatusbar)
 {
-	CNativeW		cCharBuffer;
-
 	// 2008/6/21 Uchi
 	if (psStatusbar->m_bDispUniInSjis) {
 		// Unicodeで表示
 		return CCodeBase::UnicodeToHex(cSrc, iSLen, szDst, psStatusbar);
 	}
 
+	CNativeW cCharBuffer;
 	cCharBuffer.SetString(cSrc, 1);
 
 	const bool bbinary = IsBinaryOnSurrogate(cSrc[0]);
