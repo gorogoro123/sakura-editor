@@ -4,67 +4,10 @@
 
 	SPDX-License-Identifier: Zlib
 */
-#include <clocale>
 #include <mbstring.h>
 #include "charset/codeutil.h"
 #include "charset/charcode.h"
 #include "charset/codechecker.h"
-
-#if 0
-/*!
-	@brief 拡張版 SJIS→JIS変換
-
-	SJISコードをJISに変換する．その際，JISに対応領域のないIBM拡張文字を
-	NEC選定IBM拡張文字に変換する．
-
-	Shift_JIS fa40～fc4b の範囲の文字は 8754～879a または ed40～eefc に
-	散在する文字に変換された後に，JISに変換されます．
-
-	@param pszSrc [in] 変換する文字列へのポインタ (Shift JIS)
-
-	@author すい
-	@date 2002.10.03 1文字のみ扱い，変換まで行うように変更 genta
-*/
-unsigned int _mbcjmstojis_ex( unsigned int nSrc, bool* pbNonroundtrip )
-{
-	unsigned int	tmpw;	/* ← int が 16 bit 以上である事を期待しています。 */
-	bool bnonrt = false;
-
-	unsigned char c0 = static_cast<unsigned char>((nSrc & 0x0000ff00) >> 8);
-	unsigned char c1 = static_cast<unsigned char>(nSrc & 0x000000ff);
-
-	if(	IsSjisZen1( static_cast<char>(c0) )	/* Shift_JIS 全角文字の 1バイト目 */
-	 && IsSjisZen2( static_cast<char>(c1) )	/* Shift_JIS 全角文字の 2バイト目 */
-	){	/* Shift_JIS全角文字である */
-		tmpw = static_cast<unsigned int>(c0 << 8) | static_cast<unsigned int>(c1);
-		//tmpw = ( ((unsigned int)*pszSrc) << 8 ) | ( (unsigned int)*(pszSrc + 1) );
-		if(
-			( c0 == 0x0fa ) ||
-			( c0 == 0x0fb ) ||
-			( ( c0 == 0x0fc ) && ( c1 <= 0x04b ) )
-		) {		/* fa40～fc4b の文字である。 */
-			/* 文字コード変換処理 */
-			if		  ( tmpw <= 0xfa49 ) {	tmpw -= 0x0b51;	}	/* fa40～fa49 → eeef～eef8 (ⅰ～ⅹ) */
-			else	if( tmpw <= 0xfa53 ) {	tmpw -= 0x72f6;	}	/* fa4a～fa53 → 8754～875d (Ⅰ～Ⅹ) */
-			else	if( tmpw <= 0xfa57 ) {	tmpw -= 0x0b5b;	}	/* fa54～fa57 → eef9～eefc (￢～＂) */
-			else	if( tmpw == 0xfa58 ) {	tmpw  = 0x878a;	}	/* ㈱ */
-			else	if( tmpw == 0xfa59 ) {	tmpw  = 0x8782;	}	/* № */
-			else	if( tmpw == 0xfa5a ) {	tmpw  = 0x8784;	}	/* ℡ */
-			else	if( tmpw == 0xfa5b ) {	tmpw  = 0x879a;	}	/* ∵ */
-			else	if( tmpw <= 0xfa7e ) {	tmpw -= 0x0d1c;	}	/* fa5c～fa7e → ed40～ed62 (纊～兊) */
-			else	if( tmpw <= 0xfa9b ) {	tmpw -= 0x0d1d;	}	/* fa80～fa9b → ed63～ed7e (兤～﨏) */
-			else	if( tmpw <= 0xfafc ) {	tmpw -= 0x0d1c;	}	/* fa9c～fafc → ed80～ede0 (塚～浯) */
-			else	if( tmpw <= 0xfb5b ) {	tmpw -= 0x0d5f;	}	/* fb40～fb5b → ede1～edfc (涖～犱) */
-			else	if( tmpw <= 0xfb7e ) {	tmpw -= 0x0d1c;	}	/* fb5c～fb7e → ee40～ee62 (犾～神) */
-			else	if( tmpw <= 0xfb9b ) {	tmpw -= 0x0d1d;	}	/* fb80～fb9b → ee63～ee7e (祥～蕙) */
-			else	if( tmpw <= 0xfbfc ) {	tmpw -= 0x0d1c;	}	/* fb9c～fbfc → ee80～eee0 (蕫～髙) */
-			else{							tmpw -= 0x0d5f;	}	/* fc40～fc4b → eee1～eeec (髜～黑) */
-		}
-		return _mbcjmstojis_j( tmpw );
-	}
-	return 0;
-}
-#endif
 
 static _locale_t ja_locale = nullptr;
 
