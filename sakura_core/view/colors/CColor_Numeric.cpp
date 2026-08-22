@@ -11,8 +11,6 @@
 #include "doc/layout/CLayout.h"
 #include "types/CTypeSupport.h"
 
-static int IsNumber( std::span<const WCHAR> cStr, int offset );/* 数値ならその長さを返す */	//@@@ 2001.02.17 by MIK
-
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                         半角数値                            //
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
@@ -70,7 +68,7 @@ bool CColor_Numeric::EndColor([[maybe_unused]] std::span<const WCHAR> cStr, int 
  *   10進数, 16進数, LF接尾語, 浮動小数点数, 負符号
  *   IPアドレスのドット連結(本当は数値じゃないんだよね)
  */
-static int IsNumber(std::span<const WCHAR> cStr,/*const wchar_t *buf,*/ int offset/*, int length*/)
+int CColor_Numeric::IsNumber(std::span<const WCHAR> cStr,/*const wchar_t *buf,*/ int offset/*, int length*/)
 {
 	const wchar_t* p;
 	const wchar_t* q;
@@ -80,6 +78,38 @@ static int IsNumber(std::span<const WCHAR> cStr,/*const wchar_t *buf,*/ int offs
 
 	p = cStr.data() + offset;
 	q = cStr.data() + cStr.size();
+
+	auto TryParseExponent = [&]() -> bool {
+		if( f == 1 ) return false; /* 指数部に入っている */
+		
+		if( p + 2 < q )
+		{
+			if( ( *(p + 1) == L'+' || *(p + 1) == L'-' )
+			 && WCODE::Is09(*(p + 2)) )
+			{
+				p++; i++;
+				p++; i++;
+				f = 1;
+				return true;
+			}
+			else if( WCODE::Is09(*(p + 1)) )
+			{
+				p++; i++;
+				f = 1;
+				return true;
+			}
+		}
+		else if( p + 1 < q )
+		{
+			if( WCODE::Is09(*(p + 1)) )
+			{
+				p++; i++;
+				f = 1;
+				return true;
+			}
+		}
+		return false;
+	};
 
 	if( *p == L'0' )  /* 10進数,Cの16進数 */
 	{
@@ -131,42 +161,7 @@ static int IsNumber(std::span<const WCHAR> cStr,/*const wchar_t *buf,*/ int offs
 					}
 					else if( *p == L'E' || *p == L'e' )
 					{
-						if( f == 1 ) break;  /* 指数部に入っている */
-						if( p + 2 < q )
-						{
-							if( ( *(p + 1) == L'+' || *(p + 1) == L'-' )
-							 && WCODE::Is09(*(p + 2)) )
-							{
-								p++; i++;
-								p++; i++;
-								f = 1;
-							}
-							else if( WCODE::Is09(*(p + 1)) )
-							{
-								p++; i++;
-								f = 1;
-							}
-							else
-							{
-								break;
-							}
-						}
-						else if( p + 1 < q )
-						{
-							if( WCODE::Is09(*(p + 1)) )
-							{
-								p++; i++;
-								f = 1;
-							}
-							else
-							{
-								break;
-							}
-						}
-						else
-						{
-							break;
-						}
+						if (!TryParseExponent()) { break; }
 					}
 					else
 					{
@@ -204,42 +199,7 @@ static int IsNumber(std::span<const WCHAR> cStr,/*const wchar_t *buf,*/ int offs
 					}
 					else if( *p == L'E' || *p == L'e' )
 					{
-						if( f == 1 ) break;  /* 指数部に入っている */
-						if( p + 2 < q )
-						{
-							if( ( *(p + 1) == L'+' || *(p + 1) == L'-' )
-							 && WCODE::Is09(*(p + 2)) )
-							{
-								p++; i++;
-								p++; i++;
-								f = 1;
-							}
-							else if( WCODE::Is09(*(p + 1)) )
-							{
-								p++; i++;
-								f = 1;
-							}
-							else
-							{
-								break;
-							}
-						}
-						else if( p + 1 < q )
-						{
-							if( WCODE::Is09(*(p + 1)) )
-							{
-								p++; i++;
-								f = 1;
-							}
-							else
-							{
-								break;
-							}
-						}
-						else
-						{
-							break;
-						}
+						if (!TryParseExponent()) { break; }
 					}
 					else
 					{
@@ -335,42 +295,7 @@ static int IsNumber(std::span<const WCHAR> cStr,/*const wchar_t *buf,*/ int offs
 				}
 				else if( *p == L'E' || *p == L'e' )
 				{
-					if( f == 1 ) break;  /* 指数部に入っている */
-					if( p + 2 < q )
-					{
-						if( ( *(p + 1) == L'+' || *(p + 1) == L'-' )
-						 && WCODE::Is09(*(p + 2)) )
-						{
-							p++; i++;
-							p++; i++;
-							f = 1;
-						}
-						else if( WCODE::Is09(*(p + 1)) )
-						{
-							p++; i++;
-							f = 1;
-						}
-						else
-						{
-							break;
-						}
-					}
-					else if( p + 1 < q )
-					{
-						if( WCODE::Is09(*(p + 1)) )
-						{
-							p++; i++;
-							f = 1;
-						}
-						else
-						{
-							break;
-						}
-					}
-					else
-					{
-						break;
-					}
+					if (!TryParseExponent()) { break; }
 				}
 				else
 				{
@@ -410,42 +335,7 @@ static int IsNumber(std::span<const WCHAR> cStr,/*const wchar_t *buf,*/ int offs
 				}
 				else if( *p == L'E' || *p == L'e' )
 				{
-					if( f == 1 ) break;  /* 指数部に入っている */
-					if( p + 2 < q )
-					{
-						if( ( *(p + 1) == L'+' || *(p + 1) == L'-' )
-						 && WCODE::Is09(*(p + 2)) )
-						{
-							p++; i++;
-							p++; i++;
-							f = 1;
-						}
-						else if( WCODE::Is09(*(p + 1)) )
-						{
-							p++; i++;
-							f = 1;
-						}
-						else
-						{
-							break;
-						}
-					}
-					else if( p + 1 < q )
-					{
-						if( WCODE::Is09(*(p + 1)) )
-						{
-							p++; i++;
-							f = 1;
-						}
-						else
-						{
-							break;
-						}
-					}
-					else
-					{
-						break;
-					}
+					if (!TryParseExponent()) { break; }
 				}
 				else
 				{
@@ -496,42 +386,7 @@ static int IsNumber(std::span<const WCHAR> cStr,/*const wchar_t *buf,*/ int offs
 				}
 				else if( *p == L'E' || *p == L'e' )
 				{
-					if( f == 1 ) break;  /* 指数部に入っている */
-					if( p + 2 < q )
-					{
-						if( ( *(p + 1) == L'+' || *(p + 1) == L'-' )
-						 && WCODE::Is09(*(p + 2)) )
-						{
-							p++; i++;
-							p++; i++;
-							f = 1;
-						}
-						else if( WCODE::Is09(*(p + 1)) )
-						{
-							p++; i++;
-							f = 1;
-						}
-						else
-						{
-							break;
-						}
-					}
-					else if( p + 1 < q )
-					{
-						if( WCODE::Is09(*(p + 1)) )
-						{
-							p++; i++;
-							f = 1;
-						}
-						else
-						{
-							break;
-						}
-					}
-					else
-					{
-						break;
-					}
+					if (!TryParseExponent()) { break; }
 				}
 				else
 				{
@@ -553,36 +408,6 @@ static int IsNumber(std::span<const WCHAR> cStr,/*const wchar_t *buf,*/ int offs
 		}
 		return i;
 	}
-
-#if 0
-	else if( *p == L'&' )  /* VBの16進数 */
-	{
-		p++; i++;
-		if( ( p < q ) && ( *p == L'H' ) )
-		{
-			p++; i++;
-			while( p < q )
-			{
-				if( WCODE::Is09(*p)
-				 || ( *p >= L'A' && *p <= L'F' )
-				 || ( *p >= L'a' && *p <= L'f' ) )
-				{
-					p++; i++;
-				}
-				else
-				{
-					break;
-				}
-			}
-			/* "&H" だけなら数値でない */
-			if( i == 2 ) i = 0;
-			return i;
-		}
-
-		/* "&" だけなら数値でない */
-		return 0;
-	}
-#endif
 
 	/* 数値ではない */
 	return 0;

@@ -17,6 +17,8 @@ public:
 	bool BeginColor(std::span<const WCHAR> cStr, int nPos) override;
 	bool EndColor(std::span<const WCHAR> cStr, int nPos) override;
 	bool Disp() const override{ return m_pTypeData->m_ColorInfoArr[COLORIDX_DIGIT].m_bDisp; }
+
+	static int IsNumber( std::span<const WCHAR> cStr, int offset );/* 数値ならその長さを返す */	//@@@ 2001.02.17 by MIK
 private:
 	int m_nCOMMENTEND;
 };
