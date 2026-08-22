@@ -23,15 +23,6 @@ class CPropPlugin;
 	使用されるダイアログボックス
 */
 
-// 編集最大長
-#define MAX_LENGTH_VALUE	1024
-
-// 型 
-static const std::wstring	OPTION_TYPE_BOOL = std::wstring( L"bool" );
-static const std::wstring	OPTION_TYPE_INT  = std::wstring( L"int" );
-static const std::wstring	OPTION_TYPE_SEL  = std::wstring( L"sel" );
-static const std::wstring	OPTION_TYPE_DIR  = std::wstring( L"dir" );
-
 class CDlgPluginOption final : public CDialog
 {
 public:
