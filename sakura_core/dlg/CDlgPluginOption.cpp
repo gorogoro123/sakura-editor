@@ -22,9 +22,20 @@
 #include "sakura_rc.h"
 #include "sakura.hh"
 
-// BOOL変数の表示
-inline constexpr wchar_t BOOL_DISP_TRUE[]  = L"\u2611";
-inline constexpr wchar_t BOOL_DISP_FALSE[] = L"\u2610";
+namespace {
+	// 編集最大長
+	constexpr auto MAX_LENGTH_VALUE = 1024;
+
+	// BOOL変数の表示
+	constexpr wchar_t BOOL_DISP_TRUE[]  = L"\u2611";
+	constexpr wchar_t BOOL_DISP_FALSE[] = L"\u2610";
+
+	// 型 
+	constexpr std::wstring_view	OPTION_TYPE_BOOL = L"bool";
+	constexpr std::wstring_view	OPTION_TYPE_INT  = L"int";
+	constexpr std::wstring_view	OPTION_TYPE_SEL  = L"sel";
+	constexpr std::wstring_view	OPTION_TYPE_DIR  = L"dir";
+};
 
 // 編集領域を表示、非表示にする
 static inline void CtrlShow(HWND hwndDlg, int id, BOOL bShow)
@@ -50,13 +61,9 @@ static const DWORD p_helpids[] = {
 	0, 0
 };
 
-CDlgPluginOption::CDlgPluginOption()
-{
-}
+CDlgPluginOption::CDlgPluginOption() = default;
 
-CDlgPluginOption::~CDlgPluginOption()
-{
-}
+CDlgPluginOption::~CDlgPluginOption() = default;
 
 /* モーダルダイアログの表示 */
 int CDlgPluginOption::DoModal(
