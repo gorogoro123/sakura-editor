@@ -24,7 +24,6 @@ bool CConvert_SpaceToTab::DoConvert(CNativeW* pcData)
 	CEol		cEol;
 
 	BOOL		bSpace = FALSE;	//スペースの処理中かどうか
-	int		j;
 	int		nStartPos;
 
 	nBgn = 0;
@@ -49,7 +48,30 @@ bool CConvert_SpaceToTab::DoConvert(CNativeW* pcData)
 			nPosX = (pcData->GetStringPtr() == pLine)? m_nStartColumn: 0;	// 処理中のiに対応する表示桁位置
 			bSpace = FALSE;	//直前がスペースか
 			nStartPos = 0;	// スペースの先頭
+
+			auto FlushSpaces = [&](int nStartPos, int nPosX) {
+				if ((1 == nPosX - nStartPos) && (SPACE == pLine[i - 1])) {
+					vDes[nPosDes] = SPACE;
+					nPosDes++;
+				}
+				else {
+					for (int j = nStartPos / m_nTabWidth; j < (nPosX / m_nTabWidth); j++) {
+						vDes[nPosDes] = TAB;
+						nPosDes++;
+						nStartPos += m_nTabWidth - (nStartPos % m_nTabWidth);
+					}
+					//	2003.08.05 Moca
+					//	変換後にTABが1つも入らない場合にスペースを詰めすぎて
+					//	バッファをはみ出すのを修正
+					for (int j = nStartPos; j < nPosX; j++) {
+						vDes[nPosDes] = SPACE;
+						nPosDes++;
+					}
+				}
+			};
+
 			for( i = 0; i < nLineLen; ++i ){
+
 				if( SPACE == pLine[i] || TAB == pLine[i] ){
 					if( bSpace == FALSE ){
 						nStartPos = nPosX;
@@ -62,23 +84,7 @@ bool CConvert_SpaceToTab::DoConvert(CNativeW* pcData)
 					}
 				}else{
 					if( bSpace ){
-						if( (1 == nPosX - nStartPos) && (SPACE == pLine[i - 1]) ){
-							vDes[nPosDes] = SPACE;
-							nPosDes++;
-						} else{
-							for( j = nStartPos / m_nTabWidth; j < (nPosX / m_nTabWidth); j++ ){
-								vDes[nPosDes] = TAB;
-								nPosDes++;
-								nStartPos += m_nTabWidth - ( nStartPos % m_nTabWidth );
-							}
-							//	2003.08.05 Moca
-							//	変換後にTABが1つも入らない場合にスペースを詰めすぎて
-							//	バッファをはみ出すのを修正
-							for( j = nStartPos; j < nPosX; j++ ){
-								vDes[nPosDes] = SPACE;
-								nPosDes++;
-							}
-						}
+						FlushSpaces(nStartPos, nPosX);
 					}
 					nPosX++;
 					if(WCODE::IsZenkaku(pLine[i], m_cCache)) nPosX++;	//全角文字ずれ対応 2008.10.17 matsumo
@@ -87,29 +93,9 @@ bool CConvert_SpaceToTab::DoConvert(CNativeW* pcData)
 					bSpace = FALSE;
 				}
 			}
-			//for( ; i < nLineLen; ++i ){
-			//	vDes[nPosDes] = pLine[i];
-			//	nPosDes++;
-			//}
+
 			if( bSpace ){
-				if( (1 == nPosX - nStartPos) && (SPACE == pLine[i - 1]) ){
-					vDes[nPosDes] = SPACE;
-					nPosDes++;
-				} else{
-					//for( j = nStartPos - 1; (j + m_nTabWidth) <= nPosX + 1; j+=m_nTabWidth ){
-					for( j = nStartPos / m_nTabWidth; j < (nPosX / m_nTabWidth); j++ ){
-						vDes[nPosDes] = TAB;
-						nPosDes++;
-						nStartPos += m_nTabWidth - ( nStartPos % m_nTabWidth );
-					}
-					//	2003.08.05 Moca
-					//	変換後にTABが1つも入らない場合にスペースを詰めすぎて
-					//	バッファをはみ出すのを修正
-					for( j = nStartPos; j < nPosX; j++ ){
-						vDes[nPosDes] = SPACE;
-						nPosDes++;
-					}
-				}
+				FlushSpaces(nStartPos, nPosX);
 			}
 		}
 
