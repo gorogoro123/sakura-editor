@@ -104,7 +104,7 @@ INT_PTR CPropPlugin::DispatchEvent( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 						::EnableWindow( ::GetDlgItem( hwndDlg, IDC_PLUGIN_OPTION ), state == PLS_LOADED && plugin && plugin->m_options.size() > 0 );
 						::EnableWindow( ::GetDlgItem( hwndDlg, IDC_PLUGIN_README ), 
 							(state == PLS_INSTALLED || state == PLS_UPDATED || state == PLS_LOADED || state == PLS_DELETED)
-							&& !GetReadMeFile(m_Common.m_sPlugin.m_PluginTable[sel].m_szName).empty());
+							&& !GetReadMeFile(m_Common.m_sPlugin.m_PluginTable[sel].m_szName.c_str()).empty());
 						::EnableWindow(::GetDlgItem(hwndDlg, IDC_PLUGIN_URL), state == PLS_LOADED && plugin && plugin->m_sUrl.size() > 0);
 					}
 				}
@@ -191,7 +191,7 @@ INT_PTR CPropPlugin::DispatchEvent( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 					int sel = ListView_GetNextItem( hListView, -1, LVNI_SELECTED );
 					if( sel >= 0 ){
 						
-						if( MYMESSAGEBOX( hwndDlg, MB_YESNO, GSTR_APPNAME, LS(STR_PROPCOMPLG_DELETE), m_Common.m_sPlugin.m_PluginTable[sel].m_szName ) == IDYES ){
+						if( MYMESSAGEBOX( hwndDlg, MB_YESNO, GSTR_APPNAME, LS(STR_PROPCOMPLG_DELETE), m_Common.m_sPlugin.m_PluginTable[sel].m_szName.c_str() ) == IDYES ){
 							CPluginManager::getInstance()->UninstallPlugin( m_Common, sel );
 							SetData_LIST( hwndDlg );
 						}
@@ -230,7 +230,7 @@ INT_PTR CPropPlugin::DispatchEvent( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 				{
 					HWND hListView = ::GetDlgItem( hwndDlg, IDC_PLUGINLIST );
 					int sel = ListView_GetNextItem( hListView, -1, LVNI_SELECTED );
-					std::wstring sName = m_Common.m_sPlugin.m_PluginTable[sel].m_szName;	// 個別フォルダー名
+					std::wstring sName = m_Common.m_sPlugin.m_PluginTable[sel].m_szName.c_str();	// 個別フォルダー名
 					std::wstring sReadMeName = GetReadMeFile(sName);
 					if (!sReadMeName.empty()) {
 						if (!BrowseReadMe(sReadMeName)) {
@@ -403,7 +403,7 @@ void CPropPlugin::SetData_LIST( HWND hwndDlg )
 				sDirName = plugin->GetFolderName();
 				sItem.pszText = sDirName.data();
 			}else{
-				sItem.pszText = const_cast<LPWSTR>( plugin_table[index].m_szName );
+				sItem.pszText = plugin_table[index].m_szName.data();
 			}
 			break;
 		default:

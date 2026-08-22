@@ -370,12 +370,12 @@ int CPluginManager::InstallPlugin( CommonSetting& common, const WCHAR* pszPlugin
 			nEmpty = iNo;
 			// break してはいけない。後ろで同一IDがあるかも
 		}
-		if( wcscmp( sId.c_str(), plugin_table[iNo].m_szId ) == 0 ){	//ID一致
+		if( wcscmp( sId.c_str(), plugin_table[iNo].m_szId.c_str() ) == 0 ){	//ID一致
 			if (!bUpdate) {
 				const WCHAR* msg = LS(STR_PLGMGR_INST_NAME);
 				// 2010.08.04 削除中のIDは元の位置へ追加(復活させる)
 				if( plugin_table[iNo].m_state != PLS_DELETED &&
-				  ConfirmMessage( hWndOwner, msg, pszPluginName, static_cast<const WCHAR*>(plugin_table[iNo].m_szName) ) != IDYES ){
+				  ConfirmMessage( hWndOwner, msg, pszPluginName, plugin_table[iNo].m_szName.c_str() ) != IDYES ){
 					errorMsg = LS(STR_PLGMGR_INST_USERCANCEL);
 					return -1;
 				}
@@ -391,10 +391,8 @@ int CPluginManager::InstallPlugin( CommonSetting& common, const WCHAR* pszPlugin
 		return -1;
 	}
 
-	wcsncpy( plugin_table[nEmpty].m_szName, pszPluginName, MAX_PLUGIN_NAME );
-	plugin_table[nEmpty].m_szName[ MAX_PLUGIN_NAME-1 ] = '\0';
-	wcsncpy( plugin_table[nEmpty].m_szId, sId.c_str(), MAX_PLUGIN_ID );
-	plugin_table[nEmpty].m_szId[ MAX_PLUGIN_ID-1 ] = '\0';
+	plugin_table[nEmpty].m_szName = pszPluginName;
+	plugin_table[nEmpty].m_szId = sId.c_str();
 	plugin_table[nEmpty].m_state = isDuplicate ? PLS_UPDATED : PLS_INSTALLED;
 
 	// コマンド数の設定	2010/7/11 Uchi
@@ -452,14 +450,14 @@ bool CPluginManager::LoadAllPlugin(CommonSetting* common)
 		// 2010.08.04 削除状態を見る(今のところ保険)
 		if( plugin_table[iNo].m_state == PLS_DELETED ) continue;
 		if( nullptr != GetPlugin( iNo ) ) continue; // 2013.05.31 読み込み済み
-		std::wstring name = plugin_table[iNo].m_szName;
+		std::wstring name = plugin_table[iNo].m_szName.c_str();
 		CPlugin* plugin = LoadPlugin( m_sBaseDir.c_str(), name.c_str(), szLangName.c_str() );
 		if( !plugin ){
 			plugin = LoadPlugin( m_sExePluginDir.c_str(), name.c_str(), szLangName.c_str() );
 		}
 		if( plugin ){
 			// 要検討：plugin.defのidとsakuraw.iniのidの不一致処理
-			assert_warning( 0 == wcscmp( plugin_table[iNo].m_szId, plugin->m_sId.c_str() ) );
+			assert_warning( 0 == wcscmp( plugin_table[iNo].m_szId.c_str(), plugin->m_sId.c_str() ) );
 			plugin->m_id = iNo;		//プラグインテーブルの行番号をIDとする
 			m_plugins.push_back( plugin );
 			plugin_table[iNo].m_state = PLS_LOADED;
