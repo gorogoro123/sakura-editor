@@ -23,8 +23,8 @@
 #include "sakura.hh"
 
 // BOOL変数の表示
-#define	BOOL_DISP_TRUE	L"\u2611"
-#define	BOOL_DISP_FALSE	L"\u2610"
+inline constexpr wchar_t BOOL_DISP_TRUE[]  = L"\u2611";
+inline constexpr wchar_t BOOL_DISP_FALSE[] = L"\u2610";
 
 // 編集領域を表示、非表示にする
 static inline void CtrlShow(HWND hwndDlg, int id, BOOL bShow)
@@ -222,10 +222,10 @@ int CDlgPluginOption::GetData( )
 
 		if (cOpt->GetType() == OPTION_TYPE_BOOL) {
 			if (wcscmp(buf,  BOOL_DISP_FALSE) == 0) {
-				wcscpy (buf, L"0");
+				wcscpy_s(buf, std::size(buf), L"0");
 			}
 			else {
-				wcscpy (buf, L"1");
+				wcscpy_s(buf, std::size(buf), L"1");
 			}
 		}
 		else if (cOpt->GetType() == OPTION_TYPE_SEL) {
@@ -640,10 +640,10 @@ void CDlgPluginOption::SetFromEdit( int iLine )
 		transform(sType.begin (), sType.end (), sType.begin (), my_towlower2);
 		if (sType == OPTION_TYPE_BOOL) {
 			if( ::IsDlgButtonChecked( GetHwnd(), IDC_CHECK_PLUGIN_OPTION ) ) {
-				wcscpy( buf, BOOL_DISP_TRUE );
+				wcscpy_s(buf, std::size(buf), BOOL_DISP_TRUE);
 			}
 			else {
-				wcscpy( buf, BOOL_DISP_FALSE );
+				wcscpy_s(buf, std::size(buf), BOOL_DISP_FALSE);
 			}
 			lvi.mask     = LVIF_TEXT;
 			lvi.iItem    = iLine;
