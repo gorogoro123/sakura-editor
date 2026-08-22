@@ -692,22 +692,21 @@ void CDlgPluginOption::SepSelect(std::wstring sTrg, std::wstring* spView, std::w
 // ディレクトリを選択する
 void CDlgPluginOption::SelectDirectory( int iLine )
 {
-	WCHAR	szDir[_MAX_PATH+1];
+	SFilePath szDir;
 
 	/* 検索フォルダー */
-	ApiWrap::DlgItem_GetText( GetHwnd(), IDC_EDIT_PLUGIN_OPTION_DIR, szDir, int(std::size(szDir)) );
+	ApiWrap::DlgItem_GetText( GetHwnd(), IDC_EDIT_PLUGIN_OPTION_DIR, szDir, szDir.capacity() );
 
 	if (_IS_REL_PATH( szDir )) {
-		WCHAR	folder[_MAX_PATH];
-		wcscpy( folder, szDir );
+		SFilePath folder;
+		folder = szDir;
 		GetInidirOrExedir( szDir, folder );
 	}
 
 	// 項目名の取得
 	HWND	hwndList = GetItemHwnd( IDC_LIST_PLUGIN_OPTIONS );
-	LVITEM	lvi;
+	LVITEM	lvi = {};
 	WCHAR	buf[MAX_LENGTH_VALUE+1];
-	memset( &lvi, 0, sizeof( lvi ));
 	lvi.mask       = LVIF_TEXT;
 	lvi.iItem      = iLine;
 	lvi.iSubItem   = 0;
@@ -717,9 +716,9 @@ void CDlgPluginOption::SelectDirectory( int iLine )
 
 	WCHAR	sTitle[MAX_LENGTH_VALUE+10];
 	auto_snprintf_s( sTitle, std::size(sTitle), LS(STR_DLGPLUGINOPT_SELECT), buf);
-	if (SelectDir( GetHwnd(), (const WCHAR*)sTitle /*L"ディレクトリの選択"*/, szDir, szDir )) {
+	if (SelectDir( GetHwnd(), (const WCHAR*)sTitle /*L"ディレクトリの選択"*/, szDir.c_str(), szDir)) {
 		//	末尾に\マークを追加する．
-		AddLastChar( szDir, int(std::size(szDir)), L'\\' );
+		AddLastChar( szDir, szDir.capacity(), L'\\' );
 		ApiWrap::DlgItem_SetText( GetHwnd(), IDC_EDIT_PLUGIN_OPTION_DIR, szDir );
 	}
 }
