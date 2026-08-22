@@ -10,11 +10,6 @@
 #include <Windows.h>
 #include "basis/primitive.h"
 
-#if 0  // 未使用
-//	Oct. 3, 2002 genta
-//	2008.11.10 引数と戻り値の型を _mbcjmstojis に似せる
-unsigned int _mbcjmstojis_ex( unsigned int );
-#endif
 unsigned int _mbcjmstojis_j( unsigned int );
 unsigned int _mbcjistojms_j( unsigned int );
 
