@@ -111,6 +111,33 @@ int CColor_Numeric::IsNumber(std::span<const WCHAR> cStr,/*const wchar_t *buf,*/
 		return false;
 	};
 
+	auto ParseDigitsAndFraction = [&]() {
+		while( p < q )
+		{
+			if( *p < L'0' || *p > L'9' )
+			{
+				if( *p == L'.' )
+				{
+					if( f == 1 ) break;  /* 指数部に入っている */
+					d++;
+					if( d > 1 )
+					{
+						if( *(p - 1) == L'.' ) break;  /* "." が連続なら中断 */
+					}
+				}
+				else if( *p == L'E' || *p == L'e' )
+				{
+					if (!TryParseExponent()) { break; }
+				}
+				else
+				{
+					break;
+				}
+			}
+			p++; i++;
+		}
+	};
+
 	if( *p == L'0' )  /* 10進数,Cの16進数 */
 	{
 		p++; i++;
@@ -146,30 +173,7 @@ int CColor_Numeric::IsNumber(std::span<const WCHAR> cStr,/*const wchar_t *buf,*/
 		else if( WCODE::Is09(*p) )
 		{
 			p++; i++;
-			while( p < q )
-			{
-				if( *p < L'0' || *p > L'9' )
-				{
-					if( *p == L'.' )
-					{
-						if( f == 1 ) break;  /* 指数部に入っている */
-						d++;
-						if( d > 1 )
-						{
-							if( *(p - 1) == L'.' ) break;  /* "." が連続なら中断 */
-						}
-					}
-					else if( *p == L'E' || *p == L'e' )
-					{
-						if (!TryParseExponent()) { break; }
-					}
-					else
-					{
-						break;
-					}
-				}
-				p++; i++;
-			}
+			ParseDigitsAndFraction();
 			if( *(p - 1)  == L'.' ) return i - 1;  /* 最後が "." なら含めない */
 			/* 接尾語 */
 			if( p < q )
@@ -184,30 +188,7 @@ int CColor_Numeric::IsNumber(std::span<const WCHAR> cStr,/*const wchar_t *buf,*/
 		}
 		else if( *p == L'.' )
 		{
-			while( p < q )
-			{
-				if( *p < L'0' || *p > L'9' )
-				{
-					if( *p == L'.' )
-					{
-						if( f == 1 ) break;  /* 指数部に入っている */
-						d++;
-						if( d > 1 )
-						{
-							if( *(p - 1) == L'.' ) break;  /* "." が連続なら中断 */
-						}
-					}
-					else if( *p == L'E' || *p == L'e' )
-					{
-						if (!TryParseExponent()) { break; }
-					}
-					else
-					{
-						break;
-					}
-				}
-				p++; i++;
-			}
+			ParseDigitsAndFraction();
 			if( *(p - 1)  == L'.' ) return i - 1;  /* 最後が "." なら含めない */
 			/* 接尾語 */
 			if( p < q )
@@ -280,30 +261,7 @@ int CColor_Numeric::IsNumber(std::span<const WCHAR> cStr,/*const wchar_t *buf,*/
 	else if( *p >= L'1' && *p <= L'9' )  /* 10進数 */
 	{
 		p++; i++;
-		while( p < q )
-		{
-			if( *p < L'0' || *p > L'9' )
-			{
-				if( *p == L'.' )
-				{
-					if( f == 1 ) break;  /* 指数部に入っている */
-					d++;
-					if( d > 1 )
-					{
-						if( *(p - 1) == L'.' ) break;  /* "." が連続なら中断 */
-					}
-				}
-				else if( *p == L'E' || *p == L'e' )
-				{
-					if (!TryParseExponent()) { break; }
-				}
-				else
-				{
-					break;
-				}
-			}
-			p++; i++;
-		}
+		ParseDigitsAndFraction();
 		if( *(p - 1) == L'.' ) return i - 1;  /* 最後が "." なら含めない */
 		/* 接尾語 */
 		if( p < q )
@@ -320,30 +278,7 @@ int CColor_Numeric::IsNumber(std::span<const WCHAR> cStr,/*const wchar_t *buf,*/
 	else if( *p == L'-' )  /* マイナス */
 	{
 		p++; i++;
-		while( p < q )
-		{
-			if( *p < L'0' || *p > L'9' )
-			{
-				if( *p == L'.' )
-				{
-					if( f == 1 ) break;  /* 指数部に入っている */
-					d++;
-					if( d > 1 )
-					{
-						if( *(p - 1) == L'.' ) break;  /* "." が連続なら中断 */
-					}
-				}
-				else if( *p == L'E' || *p == L'e' )
-				{
-					if (!TryParseExponent()) { break; }
-				}
-				else
-				{
-					break;
-				}
-			}
-			p++; i++;
-		}
+		ParseDigitsAndFraction();
 		/* "-", "-." だけなら数値でない */
 		//@@@ 2001.11.09 start MIK
 		//if( i <= 2 ) return 0;
@@ -371,30 +306,7 @@ int CColor_Numeric::IsNumber(std::span<const WCHAR> cStr,/*const wchar_t *buf,*/
 	{
 		d++;
 		p++; i++;
-		while( p < q )
-		{
-			if( *p < L'0' || *p > L'9' )
-			{
-				if( *p == L'.' )
-				{
-					if( f == 1 ) break;  /* 指数部に入っている */
-					d++;
-					if( d > 1 )
-					{
-						if( *(p - 1) == L'.' ) break;  /* "." が連続なら中断 */
-					}
-				}
-				else if( *p == L'E' || *p == L'e' )
-				{
-					if (!TryParseExponent()) { break; }
-				}
-				else
-				{
-					break;
-				}
-			}
-			p++; i++;
-		}
+		ParseDigitsAndFraction();
 		/* "." だけなら数値でない */
 		if( i == 1 ) return 0;
 		if( *(p - 1)  == L'.' ) return i - 1;  /* 最後が "." なら含めない */
