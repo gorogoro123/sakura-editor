@@ -148,14 +148,11 @@ int CKeyBind::CreateKeyBindList(
 	BOOL			bGetDefFuncCode //!< [in] ON:デフォルト機能割り当てを使う/OFF:使わない デフォルト:TRUE
 )
 {
-	int		i;
-	int		j;
-	int		nValidKeys;
 	WCHAR	szStr[256];
 	WCHAR	szFuncName[256];
 	WCHAR	szFuncNameJapanese[256];
 
-	nValidKeys = 0;
+	int nValidKeys = 0;
 	cMemList.SetString(L"");
 	const WCHAR*	pszSHIFT = L"Shift+";
 	const WCHAR*	pszCTRL  = L"Ctrl+";
@@ -168,8 +165,8 @@ int CKeyBind::CreateKeyBindList(
 	cMemList.AppendString( L"-----\t-----\t-----\t-----\t-----" );
 	cMemList.AppendString( pszCR );
 
-	for( j = 0; j < 8; ++j ){
-		for( i = 0; i < nKeyNameArrNum; ++i ){
+	for( int j = 0; j < 8; ++j ){
+		for( int i = 0; i < nKeyNameArrNum; ++i ){
 			int iFunc = GetFuncCodeAt( pKeyNameArr[i], j, bGetDefFuncCode );
 
 			if( 0 != iFunc ){
@@ -188,16 +185,10 @@ int CKeyBind::CreateKeyBindList(
 				if( !pcFuncLookup->Funccode2Name(
 					iFunc,
 					szFuncNameJapanese )){
-					wcscpy( szFuncNameJapanese, LS(STR_ERR_DLGKEYBIND2) );
+					wcscpy_s( szFuncNameJapanese, std::size(szFuncNameJapanese), LS(STR_ERR_DLGKEYBIND2) );
 				}
 				szFuncName[0] = L'\0'; /*"---unknown()--"*/
 
-//				/* 機能名日本語 */
-//				::LoadString(
-//					hInstance,
-//					pKeyNameArr[i].m_nFuncCodeArr[j],
-//					 szFuncNameJapanese, 255
-//				);
 				cMemList.AppendString( pszTAB );
 				cMemList.AppendString( szFuncNameJapanese );
 
