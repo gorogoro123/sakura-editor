@@ -184,7 +184,7 @@ void CDlgPluginOption::SetData( )
 	}
 
 	// ReadMe Button
-	m_sReadMeName = m_cPropPlugin->GetReadMeFile( m_pShareData->m_Common.m_sPlugin.m_PluginTable[m_ID].m_szName );
+	m_sReadMeName = m_cPropPlugin->GetReadMeFile( m_pShareData->m_Common.m_sPlugin.m_PluginTable[m_ID].m_szName.c_str() );
 	::EnableWindow( GetItemHwnd( IDC_PLUGIN_README ), !m_sReadMeName.empty() );
 	return;
 }

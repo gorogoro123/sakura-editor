@@ -767,7 +767,7 @@ EFunctionCode GetPlugCmdInfoByName(
 	int nId = -1;
 	for (int i = 0; i < MAX_PLUGIN; i++) {
 		PluginRec& pluginrec = plugin.m_PluginTable[i];
-		 if (sPluginName == pluginrec.m_szId) {
+		 if (sPluginName == pluginrec.m_szId.c_str()) {
 			nId = i;
 			break;
 		}
@@ -799,7 +799,7 @@ bool GetPlugCmdInfoByFuncCode(
 	if (nID < 0 || nNo < 0) {
 		return false;
 	}
-	auto_snprintf_s(szFuncName.data(), szFuncName.size(), L"%ls/%02d", plugin.m_PluginTable[nID].m_szId, nNo);
+	auto_snprintf_s(szFuncName.data(), szFuncName.size(), L"%ls/%02d", plugin.m_PluginTable[nID].m_szId.c_str(), nNo);
 	return true;
 }
 
@@ -1936,9 +1936,9 @@ void CShareData_IO::ShareData_IO_Plugin( CDataProfile& cProfile, CMenuDrawer* pc
 			pluginrec.m_szId[0] = L'\0';
 		}
 		auto_snprintf_s( szKeyName, std::size(szKeyName), L"P[%02d].Name", i );
-		cProfile.IOProfileData(pszSecName, szKeyName, StringBufferW(pluginrec.m_szName));
+		cProfile.IOProfileData(pszSecName, szKeyName, pluginrec.m_szName);
 		auto_snprintf_s( szKeyName, std::size(szKeyName), L"P[%02d].Id", i );
-		cProfile.IOProfileData(pszSecName, szKeyName, StringBufferW(pluginrec.m_szId));
+		cProfile.IOProfileData(pszSecName, szKeyName, pluginrec.m_szId);
 		auto_snprintf_s( szKeyName, std::size(szKeyName), L"P[%02d].CmdNum", i );
 		cProfile.IOProfileData( pszSecName, szKeyName, pluginrec.m_nCmdNum );	// 2010/7/4 Uchi
 		pluginrec.m_state = ( pluginrec.m_szId[0] == '\0' ? PLS_NONE : PLS_STOPPED );

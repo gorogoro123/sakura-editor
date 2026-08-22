@@ -392,7 +392,7 @@ bool CImpExpType::Import( const std::wstring& sFileName, std::wstring& sErrMsg )
 		pSlashPos = wcschr( szKeyData, L'/' );
 		nIdx = -1;
 		for (i = 0; i < MAX_PLUGIN; i++) {
-			if (wcsncmp(szKeyData, plugin.m_PluginTable[i].m_szId, pSlashPos ? pSlashPos-szKeyData : nDataLen) == 0) {
+			if (wcsncmp(szKeyData, plugin.m_PluginTable[i].m_szId.c_str(), pSlashPos ? pSlashPos-szKeyData : nDataLen) == 0) {
 				nIdx = i;
 				if (pSlashPos) {	// スラッシュの後ろのプラグIDを取得
 					nPlug = _wtoi( pSlashPos + 1 );
@@ -413,7 +413,7 @@ bool CImpExpType::Import( const std::wstring& sFileName, std::wstring& sErrMsg )
 		pSlashPos = wcschr( szKeyData, L'/' );
 		nIdx = -1;
 		for (i = 0; i < MAX_PLUGIN; i++) {
-			if (wcsncmp(szKeyData, plugin.m_PluginTable[i].m_szId, pSlashPos ? pSlashPos-szKeyData : nDataLen) == 0) {
+			if (wcsncmp(szKeyData, plugin.m_PluginTable[i].m_szId.c_str(), pSlashPos ? pSlashPos-szKeyData : nDataLen) == 0) {
 				nIdx = i;
 				if (pSlashPos) {	// スラッシュの後ろのプラグIDを取得
 					nPlug = _wtoi( pSlashPos + 1 );
@@ -491,8 +491,8 @@ bool CImpExpType::Export( const std::wstring& sFileName, std::wstring& sErrMsg )
 	int		nPlug;
 	StaticString<MAX_PLUGIN_ID + 1 + 2> szId;
 	if ((nPIdx = CPlug::GetPluginId( static_cast<EFunctionCode>( m_Types.m_eDefaultOutline ))) >= 0) {
-		cProfile.IOProfileData(szSecTypeEx, szKeyPluginOutlineName, StringBufferW(plugin.m_PluginTable[nPIdx].m_szName));
-		szId = plugin.m_PluginTable[nPIdx].m_szId;
+		cProfile.IOProfileData(szSecTypeEx, szKeyPluginOutlineName, plugin.m_PluginTable[nPIdx].m_szName);
+		szId = plugin.m_PluginTable[nPIdx].m_szId.c_str();
 		if( (nPlug = CPlug::GetPlugId( static_cast<EFunctionCode>( m_Types.m_eDefaultOutline ))) != 0 ){
 			wchar_t szPlug[8];
 			auto_snprintf_s( szPlug, std::size(szPlug), L"/%d", nPlug );
@@ -502,8 +502,8 @@ bool CImpExpType::Export( const std::wstring& sFileName, std::wstring& sErrMsg )
 	}
 	//  スマートインデント
 	if ((nPIdx = CPlug::GetPluginId( static_cast<EFunctionCode>( m_Types.m_eSmartIndent ))) >= 0) {
-		cProfile.IOProfileData(szSecTypeEx, szKeyPluginSmartIndentName, StringBufferW(plugin.m_PluginTable[nPIdx].m_szName));
-		szId = plugin.m_PluginTable[nPIdx].m_szId;
+		cProfile.IOProfileData(szSecTypeEx, szKeyPluginSmartIndentName, plugin.m_PluginTable[nPIdx].m_szName);
+		szId = plugin.m_PluginTable[nPIdx].m_szId.c_str();
 		if( (nPlug = CPlug::GetPlugId( static_cast<EFunctionCode>( m_Types.m_eSmartIndent ))) != 0 ){
 			wchar_t szPlug[8];
 			auto_snprintf_s( szPlug, std::size(szPlug), L"/%d", nPlug );
