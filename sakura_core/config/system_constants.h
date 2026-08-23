@@ -601,9 +601,9 @@
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //	Dec. 2, 2002 genta
 //	固定ファイル名
-#define FN_APP_ICON  L"my_appicon.ico"
-#define FN_GREP_ICON L"my_grepicon.ico"
-#define FN_TOOL_BMP  L"my_icons.bmp"
+inline constexpr const wchar_t* FN_APP_ICON = L"my_appicon.ico";
+inline constexpr const wchar_t* FN_GREP_ICON = L"my_grepicon.ico";
+inline constexpr const wchar_t* FN_TOOL_BMP = L"my_icons.bmp";
 
 //	標準アプリケーションアイコンリソース名
 #define ICON_DEFAULT_APP IDI_ICON_STD
@@ -613,15 +613,15 @@
 //                      パフォーマンス                         //
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //バッファサイズ
-const int LINEREADBUFSIZE	= 10240;	//!< ファイルから1行分データを読み込むときのバッファサイズ
+constexpr auto LINEREADBUFSIZE = 10240;	//!< ファイルから1行分データを読み込むときのバッファサイズ
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                          フラグ                             //
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 
-#define _SHIFT	0x00000001
-#define _CTRL	0x00000002
-#define _ALT	0x00000004
+constexpr auto _SHIFT = 0x00000001;
+constexpr auto _CTRL  = 0x00000002;
+constexpr auto _ALT   = 0x00000004;
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                        メッセージ                           //
@@ -629,15 +629,15 @@ const int LINEREADBUFSIZE	= 10240;	//!< ファイルから1行分データを読
 
 //wParam: X
 //lParam: Y
-#define MYWM_DOSPLIT        (WM_APP+1500)	
+constexpr auto MYWM_DOSPLIT = (WM_APP+1500);
 
 //wParam: なんかのインデックス
 //lParam: boolっぽい何か
-#define MYWM_SETACTIVEPANE  (WM_APP+1510)
+constexpr auto MYWM_SETACTIVEPANE = (WM_APP+1510);
 
 //!設定が変更されたことの通知メッセージ
 //wParam:PM_CHANGESETTING_TYPEのとき、タイプ別設定Index。それ以外なし。
-#define MYWM_CHANGESETTING  (WM_APP+1520)
+constexpr auto MYWM_CHANGESETTING = (WM_APP+1520);
 //! MYWM_CHANGESETTINGメッセージのlParam
 enum e_PM_CHANGESETTING_SELECT {
 	PM_CHANGESETTING_ALL		= 0, //!< 全部
@@ -648,24 +648,24 @@ enum e_PM_CHANGESETTING_SELECT {
 	PM_PRINTSETTING				= 5, //!< プリント設定
 };
 //!座標位置情報の保存
-#define MYWM_SAVEEDITSTATE  (WM_APP+1521)
+constexpr auto MYWM_SAVEEDITSTATE = (WM_APP+1521);
 
 //! タスクトレイからの通知メッセージ
-#define MYWM_NOTIFYICON		(WM_APP+100)
+constexpr auto MYWM_NOTIFYICON = (WM_APP+100);
 
 /*! トレイからエディタへの終了要求 */
-#define	MYWM_CLOSE			(WM_APP+200)
+constexpr auto MYWM_CLOSE = (WM_APP+200);
 enum e_PM_CLOSE_WPARAM {
 	PM_CLOSE_EXIT				= 1, //!< 全終了
 	PM_CLOSE_GREPNOCONFIRM		= 2, //!< Grepで終了確認しない
 };
-#define	MYWM_ALLOWACTIVATE	(WM_APP+201)
+constexpr auto MYWM_ALLOWACTIVATE = (WM_APP+201);
 
 /*! トレイからエディタへの編集ファイル情報 要求通知 */
-#define	MYWM_GETFILEINFO	(WM_APP+203)
+constexpr auto MYWM_GETFILEINFO = (WM_APP+203);
 
 /*! カーソル位置変更通知 */
-#define	MYWM_SETCARETPOS	(WM_APP+204)
+constexpr auto MYWM_SETCARETPOS = (WM_APP+204);
 //! MYWM_SETCARETPOSメッセージのlParam
 enum e_PM_SETCARETPOS_SELECTSTATE {
 	PM_SETCARETPOS_NOSELECT		= 0, //!< 選択解除
@@ -674,15 +674,15 @@ enum e_PM_SETCARETPOS_SELECTSTATE {
 };
 
 /*! カーソル位置取得要求 */
-#define	MYWM_GETCARETPOS	(WM_APP+205)
+constexpr auto MYWM_GETCARETPOS = (WM_APP+205);
 
 //! 未使用
 //wParam:未使用
 //lParam:未使用
-#define	MYWM_ADDSTRING		(WM_APP+206)
+constexpr auto MYWM_ADDSTRING = (WM_APP+206);
 
 /*! タグジャンプ元通知 */
-#define	MYWM_SETREFERER		(WM_APP+207)
+constexpr auto MYWM_SETREFERER = (WM_APP+207);
 
 /*! 行(改行単位)データの要求(Send)
 	共有データ： EditWnd:Write→呼び出し元Read
@@ -693,57 +693,57 @@ enum e_PM_SETCARETPOS_SELECTSTATE {
 	@retval -1以下：エラー
 	@date 2014.05.07 仕様変更。戻り値のマイナス lParamに意味を追加
 */
-#define	MYWM_GETLINEDATA	(WM_APP+208)
+constexpr auto MYWM_GETLINEDATA = (WM_APP+208);
 
 /*! 編集ウィンドウオブジェクトからのオブジェクト削除要求 */
-#define	MYWM_DELETE_ME		(WM_APP+209)
+constexpr auto MYWM_DELETE_ME = (WM_APP+209);
 
 /*! 新しい編集ウィンドウの作成依頼(コマンドラインを渡す) */
-#define	MYWM_OPENNEWEDITOR	(WM_APP+210)
+constexpr auto MYWM_OPENNEWEDITOR = (WM_APP+210);
 
 //ヘルプっぽい何か
-#define	MYWM_HTMLHELP			(WM_APP+212)
+constexpr auto MYWM_HTMLHELP = (WM_APP+212);
 
 /*! タブウインドウ用メッセージ */
-#define	MYWM_TAB_WINDOW_NOTIFY	(WM_APP+213)	//@@@ 2003.05.31 MIK
+constexpr auto MYWM_TAB_WINDOW_NOTIFY = (WM_APP+213);	//@@@ 2003.05.31 MIK
 
 /*! バーの表示・非表示変更メッセージ */
-#define	MYWM_BAR_CHANGE_NOTIFY	(WM_APP+214)	//@@@ 2003.06.10 MIK
+constexpr auto MYWM_BAR_CHANGE_NOTIFY = (WM_APP+214);	//@@@ 2003.06.10 MIK
 
 /*! エディタ－トレイ間でのUI特権分離の確認メッセージ */
-#define	MYWM_UIPI_CHECK	(WM_APP+215)	//@@@ 2007.06.07 ryoji
+constexpr auto MYWM_UIPI_CHECK = (WM_APP+215);	//@@@ 2007.06.07 ryoji
 
 /*! ポップアップウィンドウの表示切替指示 */
-#define MYWM_SHOWOWNEDPOPUPS (WM_APP+216)	//@@@ 2007.10.22 ryoji
+constexpr auto MYWM_SHOWOWNEDPOPUPS = (WM_APP+216);	//@@@ 2007.10.22 ryoji
 
 /*! プロセスの初回アイドリング通知 */
-#define MYWM_FIRST_IDLE (WM_APP+217)	//@@@ 2008.04.19 ryoji
+constexpr auto MYWM_FIRST_IDLE = (WM_APP+217);	//@@@ 2008.04.19 ryoji
 
 /*! 独自のドロップファイル通知 */
-#define MYWM_DROPFILES (WM_APP+218)	//@@@ 2008.06.18 ryoji
+constexpr auto MYWM_DROPFILES = (WM_APP+218);	//@@@ 2008.06.18 ryoji
 
 //! テキスト追加通知(共有データ経由)
 // wParam:追加する文字数(WCHAR単位)
 // lParam:未使用
 // @2010.05.11 Moca メッセージ追加
-#define	MYWM_ADDSTRINGLEN_W (WM_APP+219)
+constexpr auto MYWM_ADDSTRINGLEN_W = (WM_APP+219);
 
 /*! アウトライン解析画面の通知 */
-#define MYWM_OUTLINE_NOTIFY (WM_APP+220)	//@@@ 2010.06.06 ryoji
+constexpr auto MYWM_OUTLINE_NOTIFY = (WM_APP+220);	//@@@ 2010.06.06 ryoji
 
 //! タイプ別を設定
 // wParam:タイプ別番号
-#define MYWM_SET_TYPESETTING (WM_APP+221)
+constexpr auto MYWM_SET_TYPESETTING = (WM_APP+221);
 //! タイプ別を取得
-#define MYWM_GET_TYPESETTING (WM_APP+222)
+constexpr auto MYWM_GET_TYPESETTING = (WM_APP+222);
 
 //! タイプ別を追加
-#define MYWM_ADD_TYPESETTING (WM_APP+223)
+constexpr auto MYWM_ADD_TYPESETTING = (WM_APP+223);
 //! タイプ別を削除
-#define MYWM_DEL_TYPESETTING (WM_APP+224)
+constexpr auto MYWM_DEL_TYPESETTING = (WM_APP+224);
 
 //! ウィンドウ一覧表示
-#define MYWM_DLGWINLIST (WM_APP+225)
+constexpr auto MYWM_DLGWINLIST = (WM_APP+225);
 
 //! 行数を取得
-#define MYWM_GETLINECOUNT (WM_APP+226)
+constexpr auto MYWM_GETLINECOUNT = (WM_APP+226);
