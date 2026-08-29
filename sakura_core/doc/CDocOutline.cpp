@@ -312,7 +312,7 @@ void CDocOutline::MakeFuncList_RuleFile( CFuncInfoArr* pcFuncInfoArr, std::wstri
 			if( bRegex ){
 				if( test[j].nRegexMode == 0 ){
 					if( 0 < test[j].nLength && pRegex[j].Match( pLine, nLineLen, 0 ) ){
-						wcscpy( szTitle, test[j].szGroupName );
+						wcscpy_s( szTitle, std::size(szTitle), test[j].szGroupName );
 						break;
 					}
 				}else{
@@ -327,13 +327,13 @@ void CDocOutline::MakeFuncList_RuleFile( CFuncInfoArr* pcFuncInfoArr, std::wstri
 						int nTextLen = pRegex[j].GetStringLen() - nLineLen + nMatchLen;
 						strText.assign( pRegex[j].GetString() + nIndex, nTextLen );
 						pszText = strText.c_str();
-						wcscpy( szTitle, test[j].szGroupName );
+						wcscpy_s( szTitle, std::size(szTitle), test[j].szGroupName );
 						break;
 					}
 				}
 			}else{
 				if ( 0 < test[j].nLength && 0 == wcsncmp( &pLine[i], test[j].szMatch, test[j].nLength ) ){
-					wcscpy( szTitle, test[j].szGroupName );
+					wcscpy_s( szTitle, std::size(szTitle), test[j].szGroupName );
 					break;
 				}
 			}
