@@ -396,8 +396,7 @@ void CDlgProfileMgr::RenameProf()
 	int nCurIndex = ApiWrap::List_GetCurSel(hwndList);
 	WCHAR szText[_MAX_PATH];
 	bool bDefault = MyList_GetText( hwndList, nCurIndex, szText );
-	WCHAR szTextOld[_MAX_PATH];
-	wcscpy( szTextOld, szText );
+	std::wstring szTextOld = szText;
 	std::wstring strTitle = LS(STR_DLGPROFILE_RENAME_TITLE);
 	std::wstring strMessage = LS(STR_DLGPROFILE_RENAME_MSG);
 	int max_size = _MAX_PATH;
@@ -407,7 +406,7 @@ void CDlgProfileMgr::RenameProf()
 	if( szText[0] == L'\0' ){
 		return;
 	}
-	if( 0 == wcscmp( szTextOld, szText ) ){
+	if( 0 == wcscmp( szTextOld.c_str(), szText ) ){
 		return; // 未変更
 	}
 	std::wstring strText = szText;
