@@ -437,13 +437,13 @@ BOOL CEditDoc::Create( )
 	@author genta
 	@date 2002.09.09
 */
-void CEditDoc::SetFilePathAndIcon(const WCHAR* szFile)
+void CEditDoc::SetFilePathAndIcon(std::span<const WCHAR> szFile)
 {
-	WCHAR szWork[MAX_PATH];
-	if( ::GetLongFileName( szFile, szWork ) ){
-		szFile = szWork;
+	SFilePath szWork;
+	if (!szFile.empty() && !::GetLongFileName( szFile.data(), szWork ) ){
+		 szWork = szFile.data();
 	}
-	m_cDocFile.SetFilePath(szFile);
+	m_cDocFile.SetFilePath(szWork);
 	m_cDocType.SetDocumentIcon();
 }
 

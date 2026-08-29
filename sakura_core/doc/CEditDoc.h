@@ -70,7 +70,7 @@ public:
 	void Clear();
 
 	//設定
-	void SetFilePathAndIcon(const WCHAR* szFile);	// Sep. 9, 2002 genta
+	void SetFilePathAndIcon(std::span<const WCHAR> szFile);	// Sep. 9, 2002 genta
 
 	//属性
 	ECodeType	GetDocumentEncoding() const;				//!< ドキュメントの文字コードを取得
