@@ -114,7 +114,7 @@ HRESULT CWSHIfObj::MacroCommand(int IntID, DISPPARAMS *Arguments, VARIANT* Resul
 	else
 	{
 		// 最低4つは確保
-		int argCountMin = t_max(4, ArgCount);
+		int argCountMin = (std::max)(4, ArgCount);
 		//	Nov. 29, 2005 FILE 引数を文字列で取得する
 		auto StrArgs = std::make_unique<LPWSTR[]>(argCountMin);
 		auto strLengths = std::make_unique<int[]>(argCountMin);
