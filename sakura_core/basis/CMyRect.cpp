@@ -10,9 +10,9 @@
 CMyRect MergeRect(const CMyRect& rc1, const CMyRect& rc2)
 {
 	return CMyRect(
-		t_min(rc1.left  , rc2.left),
-		t_min(rc1.top   , rc2.top),
-		t_max(rc1.right , rc2.right),
-		t_max(rc1.bottom, rc2.bottom)
+		(std::min)(rc1.left  , rc2.left),
+		(std::min)(rc1.top   , rc2.top),
+		(std::max)(rc1.right , rc2.right),
+		(std::max)(rc1.bottom, rc2.bottom)
 	);
 }
