@@ -329,29 +329,14 @@ int CKeyBind::GetKeyStrList(
 	BOOL		bGetDefFuncCode /* = TRUE */
 )
 {
-	int		i;
-	int		j;
-	int		nAssignedKeysNum;
-
-	memList.clear();
-	nAssignedKeysNum = 0;
 	if( 0 == nFuncId ){
 		return 0;
 	}
-	for( j = 0; j < 8; ++j ){
-		for( i = 0; i < nKeyNameArrNum; ++i ){
-			if( nFuncId == GetFuncCodeAt( pKeyNameArr[i], j, bGetDefFuncCode ) ){
-				nAssignedKeysNum++;
-			}
-		}
-	}
-	if( 0 == nAssignedKeysNum ){
-		return 0;
-	}
 
-	memList.reserve(nAssignedKeysNum);
-	for( j = 0; j < 8; ++j ){
-		for( i = 0; i < nKeyNameArrNum; /* 1を加えてはいけない */ ){
+	memList.clear();
+
+	for( int j = 0; j < 8; ++j ){
+		for( int i = 0; i < nKeyNameArrNum; /* 1を加えてはいけない */ ){
 			//	2007.11.04 genta 共通機能のサブルーチン化
 			CNativeW tempKey;
 			if( GetKeyStrSub( i, nKeyNameArrNum, pKeyNameArr, j, tempKey, nFuncId, bGetDefFuncCode )){
