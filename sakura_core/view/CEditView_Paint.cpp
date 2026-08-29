@@ -6,8 +6,6 @@
 	SPDX-License-Identifier: Zlib
 */
 
-#include <vector>
-#include <climits>
 #include "view/CEditView_Paint.h"
 #include "view/CEditView.h"
 #include "view/CViewFont.h"
@@ -52,10 +50,10 @@ void CEditView_Paint::Call_OnPaint(
 	if(nPaintFlag & PAINT_RULER)rcs.push_back(rcRuler);
 	if(nPaintFlag & PAINT_BODY)rcs.push_back(rcBody);
 	if(rcs.size()==0)return;
-	CMyRect rc=rcs[0];
-	int nSize = (int)rcs.size();
-	for(int i=1;i<nSize;i++)
-		rc=MergeRect(rc,rcs[i]);
+	CMyRect rc = rcs[0];
+	for (const auto& rc1 : rcs) {
+		rc = MergeRect(rc, rc1);
+	}
 
 	//描画
 	PAINTSTRUCT	ps;
