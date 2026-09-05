@@ -177,6 +177,7 @@
     <ClInclude Include="..\sakura_core\basis\SakuraBasis.h" />
     <ClInclude Include="..\sakura_core\agent\CAutoReloadAgent.h" />
     <ClInclude Include="..\sakura_core\agent\CAutoSaveAgent.h" />
+    <ClInclude Include="..\sakura_core\agent\CBackupAgent.h" />
     <ClInclude Include="..\sakura_core\env\CCodeChecker.h" />
     <ClInclude Include="..\sakura_core\env\CDataProfile.h" />
     <ClInclude Include="..\sakura_core\env\CDicMgr.h" />
@@ -530,6 +531,7 @@
     <ClCompile Include="..\sakura_core\basis\SakuraBasis.cpp" />
     <ClCompile Include="..\sakura_core\agent\CAutoReloadAgent.cpp" />
     <ClCompile Include="..\sakura_core\agent\CAutoSaveAgent.cpp" />
+    <ClCompile Include="..\sakura_core\agent\CBackupAgent.cpp" />
     <ClCompile Include="..\sakura_core\env\CCodeChecker.cpp" />
     <ClCompile Include="..\sakura_core\env\CDataProfile.cpp" />
     <ClCompile Include="..\sakura_core\env\CDicMgr.cpp" />
