@@ -31,6 +31,7 @@
 #include "CDocLocker.h"
 #include "layout/CLayoutMgr.h"
 #include "logic/CDocLineMgr.h"
+#include "agent/CBackupAgent.h"
 #include "agent/CAutoSaveAgent.h"
 #include "agent/CAutoReloadAgent.h"
 #include "func/CFuncLookup.h"
@@ -119,6 +120,7 @@ public:
 
 	//ヘルパ
 public:
+	CBackupAgent		m_cBackupAgent;
 	CAutoSaveAgent		m_cAutoSaveAgent;		//!< 自動保存管理
 	CAutoReloadAgent	m_cAutoReloadAgent;
 	CDocOutline			m_cDocOutline;
