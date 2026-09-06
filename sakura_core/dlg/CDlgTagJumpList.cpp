@@ -1119,7 +1119,7 @@ int CDlgTagJumpList::find_key_core(
 			rule.nTop = nTop;
 
 			// tagsファイルのパラメータを読みこみ
-			bRet = ReadTagsParameter(fp, bTagJumpICaseByTags, &state, cList, &nTagFormat, &bSorted, &bFoldcase, &bTagJumpICase, &szNextPath[0], &baseDirId);
+			bRet = ReadTagsParameter(fp, bTagJumpICaseByTags, &state, cList, &nTagFormat, &bSorted, &bFoldcase, &bTagJumpICase, szNextPath, &baseDirId);
 			if ( bRet ) {
 				if ( bSorted && !bFoldcase && !bTagJumpICase && ( bTagJumpExactMatch && !bTagJumpPartialMatch ) ) {
 					//二分探索が可能な場合は二分探索を行う
@@ -1182,7 +1182,7 @@ bool CDlgTagJumpList::ReadTagsParameter(
 	bool* bSorted,
 	bool* bFoldcase,
 	bool* bTagJumpICase,
-	PTCHAR szNextPath,
+	std::span<WCHAR> szNextPath,
 	int* baseDirId
 )
 {
@@ -1246,9 +1246,9 @@ bool CDlgTagJumpList::ReadTagsParameter(
 							WCHAR baseWork[1024];
 							CopyDirDir(baseWork, to_wchar(s[2]), state->m_szCurPath);
 							szNextPath[0] = 0;
-							if (!GetLongFileName(baseWork, szNextPath)) {
+							if (!GetLongFileName(baseWork, szNextPath.data())) {
 								// エラーなら変換前を適用
-								wcscpy(szNextPath, baseWork);
+								wcsncpy_s(szNextPath.data(), szNextPath.size(), baseWork, _TRUNCATE);
 							}
 						}
 					}
