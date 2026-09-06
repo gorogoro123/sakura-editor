@@ -39,7 +39,7 @@ void AddLastYenFromDirectoryPath( WCHAR* pszFolder );			/* フォルダーの最
 std::wstring AddLastYenPath(std::wstring_view path);
 void SplitPath_FolderAndFile( const WCHAR* pszFilePath, std::span<WCHAR> szFolder, std::span<WCHAR> szFile );	/* ファイルのフルパスを、フォルダーとファイル名に分割 */
 void Concat_FolderAndFile( const WCHAR* pszDir, const WCHAR* pszTitle, WCHAR* pszPath );/* フォルダー、ファイル名から、結合したパスを作成 */
-BOOL GetLongFileName( const WCHAR* pszFilePathSrc, WCHAR* pszFilePathDes );					/* ロングファイル名を取得する */
+BOOL GetLongFileName( const WCHAR* pszFilePathSrc, std::span<WCHAR> szFilePathDes );					/* ロングファイル名を取得する */
 BOOL CheckEXT( const WCHAR* pszPath, const WCHAR* pszExt );					/* 拡張子を調べる */
 const WCHAR* GetFileTitlePointer(const WCHAR* pszPath);							//!< ファイルフルパス内のファイル名を指すポインタを取得。2007.09.20 kobake 作成
 bool _IS_REL_PATH(const WCHAR* path);											//!< 相対パスか判定する。2003.06.23 Moca

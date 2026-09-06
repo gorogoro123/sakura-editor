@@ -677,4 +677,58 @@ TEST(CFilePath, GetDirPath102)
 	EXPECT_THAT(path.GetDirPath(), StrEq(L""));
 }
 
+TEST(GetLongFileNameTest, ValidFileConversion)
+{
+    // 実際に存在するシステムディレクトリ（例: C:\Windows など）を使ってテスト
+    // ※環境に合わせて適宜調整してください
+    WCHAR windir[MAX_PATH];
+    GetEnvironmentVariableW(L"WINDIR", windir, MAX_PATH);
+
+    std::wstring srcPath = std::wstring(windir) + L"\\notepad.exe";
+    
+    // バッファを用意
+    std::vector<WCHAR> destPath(MAX_PATH, 0);
+
+    BOOL result = GetLongFileName(srcPath.c_str(), destPath);
+
+    EXPECT_TRUE(result);
+    // 変換されたパスが空でないこと、末尾が null 終端されていること
+    EXPECT_GT(wcslen(destPath.data()), 0u);
+}
+
+TEST(GetLongFileNameTest, NonExistentFileFallback)
+{
+    // 存在しないパスを指定した場合、GetLongPathName は失敗しますが、
+    // GetFullPathName で解決されたフルパスがバッファにフォールバックコピーされる挙動をテスト
+    std::wstring srcPath = L"C:\\ThisPathDoNotExist_123456789\\test.txt";
+    
+    std::vector<WCHAR> destPath(MAX_PATH, 0);
+
+    BOOL result = GetLongFileName(srcPath.c_str(), destPath);
+
+    // GetLongFileName の現在の実装では、フルパス取得に成功すれば TRUE を返します
+    EXPECT_TRUE(result);
+    
+    // フルパスに展開されていることを確認
+    std::wstring expected = L"C:\\ThisPathDoNotExist_123456789\\test.txt";
+    EXPECT_STREQ(destPath.data(), expected.c_str());
+}
+
+TEST(GetLongFileNameTest, BufferTooSmall)
+{
+    // わざと小さすぎるバッファを渡したときの挙動テスト
+    std::wstring srcPath = L"C:\\Windows";
+    
+    // 非常に小さなバッファ (例: 5文字分のみ)
+    std::vector<WCHAR> destPath(5, 0);
+
+    BOOL result = GetLongFileName(srcPath.c_str(), destPath);
+
+    // バッファが小さくても、切り詰められて成功（TRUE）を返す設計になっている
+    EXPECT_TRUE(result);
+    
+    // バッファサイズ（5文字）の範囲内で正しく切り詰められていること（末尾ヌル含む）
+    EXPECT_EQ(destPath[4], L'\0');
+}
+
 } // namespace path_util

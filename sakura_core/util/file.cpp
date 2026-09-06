@@ -356,21 +356,21 @@ void Concat_FolderAndFile( const WCHAR* pszDir, const WCHAR* pszTitle, WCHAR* ps
 	@date Oct. 4, 2005 genta 相対パスが絶対パスに直されなかった
 	@date Oct. 5, 2005 Moca  相対パスを絶対パスに変換するように
 */
-BOOL GetLongFileName( const WCHAR* pszFilePathSrc, WCHAR* pszFilePathDes )
+BOOL GetLongFileName( const WCHAR* pszFilePathSrc, std::span<WCHAR> szFilePathDes )
 {
 	WCHAR* name;
-	WCHAR szBuf[_MAX_PATH + 1];
+	WCHAR szBuf[_MAX_PATH];
 	int len = ::GetFullPathName( pszFilePathSrc, _MAX_PATH, szBuf, &name );
 	if( len <= 0 || _MAX_PATH <= len ){
-		len = ::GetLongPathName( pszFilePathSrc, pszFilePathDes, _MAX_PATH );
-		if( len <= 0 || _MAX_PATH < len ){
+		len = ::GetLongPathName( pszFilePathSrc, szFilePathDes.data(), static_cast<DWORD>(szFilePathDes.size()) );
+		if( len <= 0 || szFilePathDes.size() < len ){
 			return FALSE;
 		}
 		return TRUE;
 	}
-	len = ::GetLongPathName( szBuf, pszFilePathDes, _MAX_PATH );
-	if( len <= 0 || _MAX_PATH < len ){
-		wcscpy( pszFilePathDes, szBuf );
+	len = ::GetLongPathName( szBuf, szFilePathDes.data(), static_cast<DWORD>(szFilePathDes.size()) );
+	if( len <= 0 || szFilePathDes.size() < len ){
+		wcsncpy_s( szFilePathDes.data(), szFilePathDes.size(), szBuf, _TRUNCATE );
 	}
 	return TRUE;
 }

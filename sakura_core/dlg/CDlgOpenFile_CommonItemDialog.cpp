@@ -499,7 +499,7 @@ bool CDlgOpenFile_CommonItemDialog::DoModal_GetSaveFileName( SFilePath& szPath )
 	// 2010.08.28 カレントディレクトリを移動するのでパス解決する
 	if( szPath[0] ){
 		SFilePath szFullPath;
-		if( ::GetLongFileName( szPath.c_str(), szFullPath.data() ) ){
+		if( ::GetLongFileName( szPath.c_str(), szFullPath ) ){
 			// 成功。書き戻す
 			szPath = szFullPath;
 		}

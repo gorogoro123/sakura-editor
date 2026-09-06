@@ -1246,7 +1246,7 @@ bool CDlgTagJumpList::ReadTagsParameter(
 							WCHAR baseWork[1024];
 							CopyDirDir(baseWork, to_wchar(s[2]), state->m_szCurPath);
 							szNextPath[0] = 0;
-							if (!GetLongFileName(baseWork, szNextPath.data())) {
+							if (!GetLongFileName(baseWork, szNextPath)) {
 								// エラーなら変換前を適用
 								wcsncpy_s(szNextPath.data(), szNextPath.size(), baseWork, _TRUNCATE);
 							}
