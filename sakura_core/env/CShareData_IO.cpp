@@ -955,7 +955,7 @@ void CShareData_IO::IO_CustMenu( CDataProfile& cProfile, CommonSetting_CustomMen
 							G_AppInstance(),
 							menu.m_nCustMenuItemFuncArr[i][j],
 							szFuncName,
-							nullptr
+							{}
 						);
 						if ( p == nullptr ) {
 							auto_snprintf_s( szFuncName, std::size(szFuncName), L"%d", menu.m_nCustMenuItemFuncArr[i][j] );
@@ -1145,7 +1145,7 @@ void CShareData_IO::IO_KeyBind( CDataProfile& cProfile, CommonSetting_KeyBind& s
 							nullptr,
 							keydata.m_nFuncCodeArr[j],
 							szFuncName,
-							nullptr
+							{}
 						);
 						if( p ) {
 							auto_snprintf_s(szWork, std::size(szWork), L",%ls", p);
@@ -2210,7 +2210,7 @@ void CShareData_IO::IO_MainMenu( CDataProfile& cProfile, std::vector<std::wstrin
 						G_AppInstance(),
 						pcMenu->m_nFunc,
 						szFuncName,
-						nullptr
+						{}
 					);
 				}
 				if ( !bOutCmdName || p == nullptr ) {

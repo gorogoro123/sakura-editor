@@ -805,29 +805,29 @@ const MacroFuncInfo* CSMacroMgr::GetFuncInfoByID( int nFuncID )
 /*!
 	機能番号から関数名と機能名日本語を取得
 	
-	@return 成功したときはpszFuncName．見つからなかったときはNULL．
-	
+	@return 成功したときはszFuncName.data()．機能番号が見つからなかったとき，
+		またはszFuncNameが空のspanの場合はnullptr．
+
 	@note
-	それぞれ，文字列格納領域の指す先がNULLの時は文字列を格納しない．
-	ただし，pszFuncNameをNULLにしてしまうと戻り値が常にNULLになって
-	成功判定が行えなくなる．
-	各国語メッセージリソース対応により機能名が日本語でない場合がある	
+	それぞれ，空のspanが渡された場合は文字列を格納しない．
+	ただし，szFuncNameが空のspanの場合，戻り値はnullptrになる．
+	各国語メッセージリソース対応により機能名が日本語でない場合がある．
 
 	@date 2002.06.16 genta 新設のGetFuncInfoById(int)を内部で使うように．
 	@date 2011.04.10 nasukoji 各国語メッセージリソース対応
 */
 WCHAR* CSMacroMgr::GetFuncInfoByID(
-	[[maybe_unused]] HINSTANCE	hInstance,			//!< [in] リソース取得のためのInstance Handle
-	int			nFuncID,			//!< [in] 機能番号
-	WCHAR*		pszFuncName,		//!< [out] 関数名．この先には最長関数名＋1バイトのメモリが必要．
-	WCHAR*		pszFuncNameJapanese	//!< [out] 機能名日本語．NULL許容. この先には256バイトのメモリが必要．
+	[[maybe_unused]] HINSTANCE	hInstance,	//!< [in] リソース取得のためのInstance Handle
+	int					nFuncID,			//!< [in] 機能番号
+	std::span<WCHAR>	szFuncName,			//!< [out] 関数名．空のspanを許容．終端文字を含む十分なWCHAR数を確保すること．
+	std::span<WCHAR>	szFuncNameJapanese	//!< [out] 機能名日本語．空のspanを許容．終端文字を含む十分なWCHAR数を確保すること．
 )
 {
 	const MacroFuncInfo* MacroInfo = GetFuncInfoByID( nFuncID );
 	if( MacroInfo != nullptr ){
-		if( pszFuncName != nullptr ){
-			wcscpy( pszFuncName, MacroInfo->m_pszFuncName );
-			WCHAR *p = pszFuncName;
+		if( szFuncName.size() > 0 ){
+			wcsncpy_s( szFuncName.data(), szFuncName.size(), MacroInfo->m_pszFuncName, _TRUNCATE );
+			WCHAR *p = szFuncName.data();
 			while (*p){
 				if (*p == L'('){
 					*p = L'\0';
@@ -837,10 +837,10 @@ WCHAR* CSMacroMgr::GetFuncInfoByID(
 			}
 		}
 		//	Jun. 16, 2002 genta NULLのときは何もしない．
-		if( pszFuncNameJapanese != nullptr ){
-			wcsncpy( pszFuncNameJapanese, LS( nFuncID ), 255 );
+		if( szFuncNameJapanese.size() > 0 ){
+			wcsncpy_s( szFuncNameJapanese.data(), szFuncNameJapanese.size(), LS( nFuncID ), _TRUNCATE );
 		}
-		return pszFuncName;
+		return szFuncName.empty() ? nullptr : szFuncName.data();
 	}
 	return nullptr;
 }
