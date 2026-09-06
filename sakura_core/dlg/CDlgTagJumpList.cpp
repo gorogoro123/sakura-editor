@@ -684,7 +684,7 @@ bool CDlgTagJumpList::GetFullPathAndLine( int index, SFilePath& fullPath, int *l
 	WCHAR fileName[1024];
 	WCHAR dirFileName[1024];
 	int tempDepth = 0;
-	SplitPath_FolderAndFile( GetFilePath(), path, nullptr );
+	SplitPath_FolderAndFile(GetFilePath(), path, {});
 	AddLastYenFromDirectoryPath( path );
 	
 	m_pcList->GetParam( index, nullptr, fileName, lineNum, nullptr, nullptr, &tempDepth, dirFileName );

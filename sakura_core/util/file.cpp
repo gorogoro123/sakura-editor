@@ -298,30 +298,28 @@ std::wstring AddLastYenPath(std::wstring_view path)
 
 /* ファイルのフルパスを、フォルダーとファイル名に分割 */
 /* [c:\work\test\aaa.txt] → [c:\work\test] + [aaa.txt] */
-void SplitPath_FolderAndFile( const WCHAR* pszFilePath, WCHAR* pszFolder, WCHAR* pszFile )
+void SplitPath_FolderAndFile( const WCHAR* pszFilePath, std::span<WCHAR> szFolder, std::span<WCHAR> szFile )
 {
 	WCHAR	szDrive[_MAX_DRIVE];
 	WCHAR	szDir[_MAX_DIR];
 	WCHAR	szFname[_MAX_FNAME];
 	WCHAR	szExt[_MAX_EXT];
-	int		nFolderLen;
-	int		nCharChars;
 	_wsplitpath_s( pszFilePath, szDrive, szDir, szFname, szExt );
-	if( nullptr != pszFolder ){
-		wcscpy( pszFolder, szDrive );
-		wcscat( pszFolder, szDir );
+	if( szFolder.size() > 0 ){
+		wcsncpy_s( szFolder.data(), szFolder.size(), szDrive, _TRUNCATE );
+		wcsncat_s( szFolder.data(), szFolder.size(), szDir, _TRUNCATE );
 		/* フォルダーの最後が半角かつ'\\'の場合は、取り除く */
-		nFolderLen = (int)wcslen( pszFolder );
+		int nFolderLen = (int)wcsnlen( szFolder.data(), szFolder.size() );
 		if( 0 < nFolderLen ){
-			nCharChars = int(&pszFolder[nFolderLen] - CNativeW::GetCharPrev( pszFolder, nFolderLen, &pszFolder[nFolderLen] ));
-			if( 1 == nCharChars && L'\\' == pszFolder[nFolderLen - 1] ){
-				pszFolder[nFolderLen - 1] = L'\0';
+			int nCharChars = int(&szFolder[nFolderLen] - CNativeW::GetCharPrev( szFolder.data(), nFolderLen, &szFolder[nFolderLen] ));
+			if( 1 == nCharChars && L'\\' == szFolder[nFolderLen - 1] ){
+				szFolder[nFolderLen - 1] = L'\0';
 			}
 		}
 	}
-	if( nullptr != pszFile ){
-		wcscpy( pszFile, szFname );
-		wcscat( pszFile, szExt );
+	if( szFile.size() > 0 ){
+		wcsncpy_s( szFile.data(), szFile.size(), szFname, _TRUNCATE );
+		wcsncat_s( szFile.data(), szFile.size(), szExt, _TRUNCATE );
 	}
 	return;
 }

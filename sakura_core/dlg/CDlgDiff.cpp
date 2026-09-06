@@ -255,7 +255,7 @@ void CDlgDiff::SetData( )
 			CTextWidthCalc calc(hwndList);
 			int score = 0;
 			WCHAR		szFile1[_MAX_PATH];
-			SplitPath_FolderAndFile(m_szFile1, nullptr, szFile1);
+			SplitPath_FolderAndFile(m_szFile1, {}, szFile1);
 			for( i = 0; i < nRowNum; i++ )
 			{
 				/* トレイからエディタへの編集ファイル名要求通知 */
@@ -284,7 +284,7 @@ void CDlgDiff::SetData( )
 
 				// ファイル名一致のスコアを計算する
 				WCHAR szFile2[_MAX_PATH];
-				SplitPath_FolderAndFile( pFileInfo->m_szPath, nullptr, szFile2 );
+				SplitPath_FolderAndFile(pFileInfo->m_szPath, {}, szFile2);
 				int scoreTemp = FileMatchScoreSepExt( szFile1, szFile2 );
 				if( score < scoreTemp ||
 					(selCode != code && code == pFileInfo->m_nCharCode && score == scoreTemp) ){

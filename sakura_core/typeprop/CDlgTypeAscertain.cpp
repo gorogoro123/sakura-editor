@@ -124,7 +124,7 @@ void CDlgTypeAscertain::SetData( )
 	BOOL	bFind;
 	SFilePath sTrgCol;
 
-	::SplitPath_FolderAndFile( m_psi->sImportFile.c_str(), sTrgCol, nullptr );
+	::SplitPath_FolderAndFile(m_psi->sImportFile.c_str(), sTrgCol, {});
 	sTrgCol.append(L"\\*.col");
 	for (bFind = ( ( hFind = FindFirstFile( sTrgCol, &wf ) ) != INVALID_HANDLE_VALUE );
 		bFind;

@@ -304,7 +304,7 @@ int GetHwndTitle(HWND& hWndTarget, CNativeW* pmemTitle, std::span<WCHAR> szWindo
 		}
 		szWindowPath[0] = L'\0';
 	}else{
-		SplitPath_FolderAndFile(editInfo->m_szPath, szWindowPath, szWindowName.data());
+		SplitPath_FolderAndFile(editInfo->m_szPath, szWindowPath, szWindowName);
 		if( pmemTitle ){
 			pmemTitle->AppendString(szWindowName.data());
 		}

@@ -296,7 +296,7 @@ BOOL CDlgGrep::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 	if((m_szFolder[0] == L'\0' || m_pShareData->m_Common.m_sSearch.m_bGrepDefaultFolder) &&
 		m_szCurrentFilePath[0] != L'\0'
 	){
-		SplitPath_FolderAndFile( m_szCurrentFilePath, m_szFolder, nullptr );
+		SplitPath_FolderAndFile(m_szCurrentFilePath, m_szFolder, {});
 	}
 
 	/* ユーザーがコンボボックスのエディット コントロールに入力できるテキストの長さを制限する */
@@ -388,7 +388,7 @@ LRESULT CALLBACK CDlgGrep::OnFolderProc(HWND hwnd, UINT msg, WPARAM wparam, LPAR
 		//	フォルダーの場合は最後が失われるのでsplitしてはいけない．
 		if( IsFileExists( sPath, true )){	//	第2引数がtrueだとディレクトリは対象外
 			SFilePath szWork;
-			SplitPath_FolderAndFile( sPath, szWork, nullptr );
+			SplitPath_FolderAndFile(sPath, szWork, {});
 			sPath = szWork;
 		}
 
