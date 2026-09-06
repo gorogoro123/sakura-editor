@@ -223,7 +223,7 @@ void CImpExpManager::SetImportFolder( const WCHAR* szPath )
 {
 	/* ファイルのフルパスをフォルダーとファイル名に分割 */
 	/* [c:\work\test\aaa.txt] → [c:\work\test] + [aaa.txt] */
-	::SplitPath_FolderAndFile( szPath, GetDllShareData().m_sHistory.m_szIMPORTFOLDER, nullptr );
+	::SplitPath_FolderAndFile(szPath, GetDllShareData().m_sHistory.m_szIMPORTFOLDER, {});
 	GetDllShareData().m_sHistory.m_szIMPORTFOLDER.append(L"\\");
 }
 

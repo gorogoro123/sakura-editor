@@ -752,7 +752,7 @@ HRESULT CDlgOpenFile_CommonItemDialog::DoModalSaveDlgImpl1(
 	SHCreateItemFromParsingName(m_szInitialDir, nullptr, IID_PPV_ARGS(&psiFolder));
 	hr = pFileSaveDialog->SetFolder(psiFolder.Get()); RETURN_IF_FAILED
 	WCHAR szFileName[_MAX_FNAME];
-	SplitPath_FolderAndFile(szPath.c_str(), nullptr, szFileName);
+	SplitPath_FolderAndFile(szPath.c_str(), {}, szFileName);
 	hr = pFileSaveDialog->SetFileName(szFileName); RETURN_IF_FAILED
 
 	if (m_customizeSetting.bCustomize) {
