@@ -138,6 +138,17 @@ int CColor_Numeric::IsNumber(std::span<const WCHAR> cStr,/*const wchar_t *buf,*/
 		}
 	};
 
+	auto ParseSuffix = [&]() {
+		if( p < q )
+		{
+			if( (( d == 0 ) && ( *p == L'L' || *p == L'l' ))
+			 || *p == L'F' || *p == L'f' )
+			{
+				p++; i++;
+			}
+		}
+	};
+
 	if( *p == L'0' )  /* 10進数,Cの16進数 */
 	{
 		p++; i++;
@@ -176,14 +187,7 @@ int CColor_Numeric::IsNumber(std::span<const WCHAR> cStr,/*const wchar_t *buf,*/
 			ParseDigitsAndFraction();
 			if( *(p - 1)  == L'.' ) return i - 1;  /* 最後が "." なら含めない */
 			/* 接尾語 */
-			if( p < q )
-			{
-				if( (( d == 0 ) && ( *p == L'L' || *p == L'l' ))
-				 || *p == L'F' || *p == L'f' )
-				{
-					p++; i++;
-				}
-			}
+			ParseSuffix();
 			return i;
 		}
 		else if( *p == L'.' )
@@ -232,28 +236,14 @@ int CColor_Numeric::IsNumber(std::span<const WCHAR> cStr,/*const wchar_t *buf,*/
 			}
 			if( i == 2 ) return 1;  /* "0E", 0e" なら "0" が数値 */
 			/* 接尾語 */
-			if( p < q )
-			{
-				if( (( d == 0 ) && ( *p == L'L' || *p == L'l' ))
-				 || *p == L'F' || *p == L'f' )
-				{
-					p++; i++;
-				}
-			}
+			ParseSuffix();
 			return i;
 		}
 		else
 		{
 			/* "0" だけが数値 */
 			/*if( *p == L'.' ) return i - 1;*/  /* 最後が "." なら含めない */
-			if( p < q )
-			{
-				if( (( d == 0 ) && ( *p == L'L' || *p == L'l' ))
-				 || *p == L'F' || *p == L'f' )
-				{
-					p++; i++;
-				}
-			}
+			ParseSuffix();
 			return i;
 		}
 	}
@@ -264,14 +254,7 @@ int CColor_Numeric::IsNumber(std::span<const WCHAR> cStr,/*const wchar_t *buf,*/
 		ParseDigitsAndFraction();
 		if( *(p - 1) == L'.' ) return i - 1;  /* 最後が "." なら含めない */
 		/* 接尾語 */
-		if( p < q )
-		{
-			if( (( d == 0 ) && ( *p == L'L' || *p == L'l' ))
-			 || *p == L'F' || *p == L'f' )
-			{
-				p++; i++;
-			}
-		}
+		ParseSuffix();
 		return i;
 	}
 
@@ -291,14 +274,7 @@ int CColor_Numeric::IsNumber(std::span<const WCHAR> cStr,/*const wchar_t *buf,*/
 			return i;
 		}  //@@@ 2001.11.09 end MIK
 		/* 接尾語 */
-		if( p < q )
-		{
-			if( (( d == 0 ) && ( *p == L'L' || *p == L'l' ))
-			 || *p == L'F' || *p == L'f' )
-			{
-				p++; i++;
-			}
-		}
+		ParseSuffix();
 		return i;
 	}
 
