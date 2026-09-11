@@ -16,11 +16,11 @@
 bool CConvert_ZenkataToHankata::DoConvert(CNativeW* pcData)
 {
 	//全角カタカナ→半角カタカナ
-	wchar_t* pBuf = new wchar_t[pcData->GetStringLength()*2+1]; //濁点等の影響で、最大2倍にまで膨れ上がる可能性があるので、2倍のバッファを確保
+	std::vector<wchar_t> szBuf;
+	szBuf.resize(pcData->GetStringLength()*2+1); //濁点等の影響で、最大2倍にまで膨れ上がる可能性があるので、2倍のバッファを確保
 	int nBufLen = 0;
-	Convert_ZenkataToHankata(pcData->GetStringPtr(), pcData->GetStringLength(), pBuf, &nBufLen);
-	pcData->SetString(pBuf, nBufLen);
-	delete[] pBuf;
+	Convert_ZenkataToHankata(pcData->GetStringPtr(), pcData->GetStringLength(), szBuf.data(), &nBufLen);
+	pcData->SetString(szBuf.data(), nBufLen);
 
 	return true;
 }
