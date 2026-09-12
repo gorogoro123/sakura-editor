@@ -230,9 +230,9 @@ void CDocOutline::MakeFuncList_RuleFile( CFuncInfoArr* pcFuncInfoArr, std::wstri
 	*/
 	const int	nMaxStack = 32;	//	ネストの最深
 	int			nDepth = 0;				//	いまのアイテムの深さを表す数値。
-	wchar_t		szStack[nMaxStack][256] = {};
-	wchar_t		nLvStack[nMaxStack];
-	wchar_t		szTitle[256];			//	一時領域
+	std::vector<std::wstring>	szStack(nMaxStack);
+	std::vector<wchar_t>		nLvStack(nMaxStack);
+	std::wstring szTitle;			//	一時領域
 	std::unique_ptr<CBregexp[]> pRegex;
 	if( bRegex ){
 		pRegex = std::make_unique<CBregexp[]>(nCount);
@@ -267,7 +267,7 @@ void CDocOutline::MakeFuncList_RuleFile( CFuncInfoArr* pcFuncInfoArr, std::wstri
 	// 項目名はグループ名
 	if( test[0].nLength == 0 ){
 		const wchar_t* g = test[0].szGroupName;
-		wcscpy_s(szStack[0], std::size(szStack[0]), g);
+		szStack[0] = g;
 		nLvStack[0] = wchar_t(test[0].nLv);
 		const wchar_t *p = wcschr(g, L',');
 		int len;
@@ -312,7 +312,7 @@ void CDocOutline::MakeFuncList_RuleFile( CFuncInfoArr* pcFuncInfoArr, std::wstri
 			if( bRegex ){
 				if( test[j].nRegexMode == 0 ){
 					if( 0 < test[j].nLength && pRegex[j].Match( pLine, nLineLen, 0 ) ){
-						wcscpy_s( szTitle, std::size(szTitle), test[j].szGroupName );
+						szTitle = test[j].szGroupName;
 						break;
 					}
 				}else{
@@ -327,13 +327,13 @@ void CDocOutline::MakeFuncList_RuleFile( CFuncInfoArr* pcFuncInfoArr, std::wstri
 						int nTextLen = pRegex[j].GetStringLen() - nLineLen + nMatchLen;
 						strText.assign( pRegex[j].GetString() + nIndex, nTextLen );
 						pszText = strText.c_str();
-						wcscpy_s( szTitle, std::size(szTitle), test[j].szGroupName );
+						szTitle = test[j].szGroupName;
 						break;
 					}
 				}
 			}else{
 				if ( 0 < test[j].nLength && 0 == wcsncmp( &pLine[i], test[j].szMatch, test[j].nLength ) ){
-					wcscpy_s( szTitle, std::size(szTitle), test[j].szGroupName );
+					szTitle = test[j].szGroupName;
 					break;
 				}
 			}
@@ -341,7 +341,7 @@ void CDocOutline::MakeFuncList_RuleFile( CFuncInfoArr* pcFuncInfoArr, std::wstri
 		if( j >= nCount ){
 			continue;
 		}
-		if( 0 == wcscmp( szTitle, L"Except" ) ){
+		if( szTitle == L"Except" ){
 			continue;
 		}
 
@@ -379,8 +379,7 @@ void CDocOutline::MakeFuncList_RuleFile( CFuncInfoArr* pcFuncInfoArr, std::wstri
 		int k;
 		bool bAppend = true;
 		for ( k = 0; k < nDepth; k++ ){
-			int nResult = wcscmp( szStack[k], szTitle );
-			if ( nResult == 0 ){
+			if ( szStack[k] == szTitle ){
 				break;
 			}
 		}
@@ -401,7 +400,7 @@ void CDocOutline::MakeFuncList_RuleFile( CFuncInfoArr* pcFuncInfoArr, std::wstri
 			if( k < 0 ){
 				k = 0;
 			}
-			wcscpy_s(szStack[k], std::size(szStack[k]), szTitle);
+			szStack[k] = szTitle;
 			nLvStack[k] = wchar_t(test[j].nLv);
 			nDepth = k;
 		}else{
