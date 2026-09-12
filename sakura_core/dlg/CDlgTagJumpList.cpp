@@ -1587,17 +1587,18 @@ const WCHAR* CDlgTagJumpList::GetFullPathFromDepth( SFilePath& szOutput,
 /*!
 	ディレクトリとディレクトリを連結する
 */
-WCHAR* CDlgTagJumpList::CopyDirDir( WCHAR* dest, const WCHAR* target, const WCHAR* base )
+WCHAR* CDlgTagJumpList::CopyDirDir( std::span<WCHAR> dest, const WCHAR* target, const WCHAR* base )
 {
 	if( _IS_REL_PATH( target ) ){
-		wcscpy( dest, base );
-		AddLastYenFromDirectoryPath( dest );
-		wcscat( dest, target );
+		wcsncpy_s( dest.data(), dest.size(), base, _TRUNCATE );
+		AddLastYenFromDirectoryPath( dest.data() );
+		wcsncat_s( dest.data(), dest.size(), target, _TRUNCATE );
 	}else{
-		wcscpy( dest, target );
+		wcsncpy_s( dest.data(), dest.size(), target, _TRUNCATE );
 	}
-	AddLastYenFromDirectoryPath( dest );
-	return dest;
+	AddLastYenFromDirectoryPath( dest.data());
+
+	return dest.data();
 }
 
 /*
