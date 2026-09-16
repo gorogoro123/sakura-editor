@@ -26,7 +26,6 @@
 #include "dlg/CDlgInput1.h"
 #include "util/shell.h"
 #include "util/window.h"
-#include <memory>
 #include "apiwrap/StdControl.h"
 #include "sakura_rc.h"
 #include "sakura.hh"
@@ -362,7 +361,7 @@ INT_PTR CPropKeyword::DispatchEvent(
 					return TRUE;
 				case IDC_BUTTON_KEYSETRENAME: // キーワードセットの名称変更
 					// モードレスダイアログの表示
-					wcscpy( szKeyWord, m_Common.m_sSpecialKeyword.m_CKeyWordSetMgr.GetTypeName( m_Common.m_sSpecialKeyword.m_CKeyWordSetMgr.m_nCurrentKeyWordSetIdx ) );
+					wcsncpy_s( szKeyWord, std::size(szKeyWord), m_Common.m_sSpecialKeyword.m_CKeyWordSetMgr.GetTypeName(), _TRUNCATE );
 					{
 						BOOL bDlgInputResult = cDlgInput1.DoModal(
 							G_AppInstance(),
@@ -485,12 +484,11 @@ INT_PTR CPropKeyword::DispatchEvent(
 /* リスト中で選択されているキーワードを編集する */
 void CPropKeyword::Edit_List_KeyWord( HWND hwndDlg, HWND hwndLIST_KEYWORD )
 {
-	int			nIndex1;
 	LV_ITEM		lvi;
 	wchar_t		szKeyWord[MAX_KEYWORDLEN + 1];
 	CDlgInput1	cDlgInput1;
 
-	nIndex1 = ListView_GetNextItem( hwndLIST_KEYWORD, -1, LVNI_ALL | LVNI_SELECTED );
+	int nIndex1 = ListView_GetNextItem( hwndLIST_KEYWORD, -1, LVNI_ALL | LVNI_SELECTED );
 	if( -1 == nIndex1 ){
 		return;
 	}
@@ -500,7 +498,7 @@ void CPropKeyword::Edit_List_KeyWord( HWND hwndDlg, HWND hwndLIST_KEYWORD )
 	ListView_GetItem( hwndLIST_KEYWORD, &lvi );
 
 	/* ｎ番目のセットのｍ番目のキーワードを返す */
-	wcscpy( szKeyWord, m_Common.m_sSpecialKeyword.m_CKeyWordSetMgr.GetKeyWord( m_Common.m_sSpecialKeyword.m_CKeyWordSetMgr.m_nCurrentKeyWordSetIdx, lvi.lParam ) );
+	wcsncpy_s( szKeyWord, std::size(szKeyWord), m_Common.m_sSpecialKeyword.m_CKeyWordSetMgr.GetKeyWord( m_Common.m_sSpecialKeyword.m_CKeyWordSetMgr.m_nCurrentKeyWordSetIdx, lvi.lParam ), _TRUNCATE );
 
 	/* モードレスダイアログの表示 */
 	if( !cDlgInput1.DoModal( G_AppInstance(), hwndDlg, LS(STR_PROPCOMKEYWORD_KEYEDIT1), LS(STR_PROPCOMKEYWORD_KEYEDIT2), MAX_KEYWORDLEN, szKeyWord ) ){
