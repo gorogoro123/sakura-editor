@@ -63,6 +63,10 @@ public:
 	);
 	bool DelKeyWordSet(int nIdx);	/* ｎ番目のセットを削除 */
 	const wchar_t* GetTypeName(int nIdx);	/* ｎ番目のセット名を返す */
+	const wchar_t* GetTypeName()
+	{
+		return GetTypeName(m_nCurrentKeyWordSetIdx);
+	}
 	const wchar_t* SetTypeName(int nIdx, const wchar_t* name);	//!< ｎ番目のセット名を設定する // 2005.01.26 Moca
 	void SetKeyWordCase(int nIdx, int nCase);				/* ｎ番目のセットの大文字小文字判断をセットする */	//MIK
 	bool GetKeyWordCase(int nIdx);						/* ｎ番目のセットの大文字小文字判断を取得する */			//MIK
