@@ -59,7 +59,6 @@ public:
 	  かわりにbegin/endからの相対位置指定や、インデックス指定を使うこと。
 	*/
 	using Array = std::vector<CPlug*>;			//プラグのリスト
-	using ArrayIter = Array::const_iterator;	//そのイテレータ
 
 	//コンストラクタ
 public:
