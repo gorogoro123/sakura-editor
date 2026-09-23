@@ -128,7 +128,7 @@ bool CFuncLookup::Funccode2Name( int funccode, std::span<WCHAR> szName ) const
 		}
 	}
 	else if( F_PLUGCOMMAND_FIRST <= funccode && funccode < F_PLUGCOMMAND_LAST ){
-		if( CJackManager::getInstance()->GetCommandName( funccode, szName.data(), (int)bufsize ) > 0 ){
+		if( CJackManager::getInstance()->GetCommandName( funccode, szName ) > 0 ){
 			return true;	// プラグインコマンド
 		}
 	}
