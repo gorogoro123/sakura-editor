@@ -17,7 +17,6 @@
 	SPDX-License-Identifier: Zlib
 */
 #include "macro/CIfObj.h"
-
 #include "debug/Debug1.h"
 #include "debug/Debug2.h"
 
@@ -244,7 +243,7 @@ HRESULT STDMETHODCALLTYPE CIfObjTypeInfo::GetNames(
 CIfObj::CIfObj(const wchar_t* name, bool isGlobal)
 : ImplementsIUnknown<IDispatch>(), m_sName(name), m_isGlobal(isGlobal), m_Owner(nullptr), m_Methods(), m_TypeInfo(nullptr)
 { 
-};
+}
 
 //デストラクタ
 CIfObj::~CIfObj()
@@ -345,7 +344,7 @@ HRESULT STDMETHODCALLTYPE CIfObj::GetIDsOfNames(
 void CIfObj::AddMethod(
 	std::span<const wchar_t>	Name,
 	int				ID,
-	VARTYPE*		ArgumentTypes,
+	const VARTYPE*	ArgumentTypes,
 	int				ArgumentCount,
 	VARTYPE			ResultType,
 	CIfObjMethod	Method

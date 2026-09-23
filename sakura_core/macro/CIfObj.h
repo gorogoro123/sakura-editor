@@ -16,7 +16,6 @@
 #include <string>
 #include <vector>
 #include "_os/OleTypes.h"
-class CEditView;
 
 //COM一般
 
@@ -84,7 +83,7 @@ public:
 	IWSHClient *m_Owner;
 
 	// 操作
-	void AddMethod(std::span<const wchar_t> Name, int ID, VARTYPE *ArgumentTypes,
+	void AddMethod(std::span<const wchar_t> Name, int ID, const VARTYPE *ArgumentTypes,
 		int ArgumentCount, VARTYPE ResultType, CIfObjMethod Method);
 	void ReserveMethods(int Count)
 	{
