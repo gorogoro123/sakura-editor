@@ -29,7 +29,7 @@ public:
 	int		AddBaseDir(std::wstring_view baseDir);
 	BOOL AddParamA( const ACHAR* keyword, const ACHAR* filename, int no, ACHAR type, const ACHAR* note, int depth, const int baseDirId );
 	BOOL GetParam( int index, WCHAR* keyword, WCHAR* filename, int* no, WCHAR* type, WCHAR* note, int* depth, WCHAR* baseDir );
-	int GetCount( ){ return static_cast<int>(m_pTagjump.size()); }
+	int GetCount( ){ return static_cast<int>(m_vTagjump.size()); }
 	void Empty( );
 
 	struct TagJumpInfo {
@@ -51,7 +51,7 @@ public:
 	int GetCapacity() const { return m_MAX_TAGJUMPLIST; }
 
 private:
-	std::vector<TagJumpInfo> m_pTagjump;	//!< タグジャンプ情報
+	std::vector<TagJumpInfo> m_vTagjump;	//!< タグジャンプ情報
 	std::vector<std::wstring> m_baseDirArr;	//!< ベースディレクトリ情報
 	
 	//	2005.04.22 genta 最大値を可変に
