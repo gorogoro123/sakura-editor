@@ -27,7 +27,6 @@
 #include "apiwrap/StdControl.h"
 #include "CSelectLang.h"
 #include "mem/CNativeA.h"
-
 #include "sakura_rc.h"
 #include "sakura.hh"
 
@@ -697,12 +696,12 @@ bool CDlgTagJumpList::GetFullPathAndLine( int index, SFilePath& fullPath, int *l
 		AddLastYenFromDirectoryPath( dirFileName );
 		const WCHAR	*p = fileName;
 		if( p[0] == L'\\' ){
-			wcscpy( dirFileName, p );
+			wcsncpy_s( dirFileName, std::size(dirFileName), p, _TRUNCATE );
 		}else if( iswalpha( p[0] ) && p[1] == L':' ){
-			wcscpy( dirFileName, p );
+			wcsncpy_s( dirFileName, std::size(dirFileName), p, _TRUNCATE );
 		}else{
 			// 相対パス：連結する
-			wcscat( dirFileName, p );
+			wcsncat_s( dirFileName, std::size(dirFileName), p, _TRUNCATE );
 		}
 		fileNamePath = dirFileName;
 	}else{
