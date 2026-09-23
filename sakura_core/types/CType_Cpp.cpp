@@ -347,6 +347,19 @@ CLogicInt CCppPreprocessMng::ScanLine( const wchar_t* str, CLogicInt _length )
 	return CLogicInt(length);	//	基本的にプリプロセッサ指令は無視
 }
 
+//! 状態1
+enum MODE1
+{
+	M1_INIT			  = 0,	  //!< 初期値
+	M1_READING_WORD	  = 1,	  //!< 単語読み込み中 (szWordに単語を格納)
+	M1_SYMBOL		  = 2,	  //!< 記号列
+	M1_BLOCK_COMMENT  = 8,	  //!< ブロックコメント中
+	M1_LINE_COMMENT	  = 10,	  //!< // コメント中
+	M1_CHAR_LITERAL	  = 20,	  //!< 文字定数 ''
+	M1_STRING_LITERAL = 21,	  //!< 文字列 ""
+	M1_IGNORE_LONG	  = 999,  //!< 長い単語無視
+};
+
 /*!
 	@brief C/C++関数リスト作成
 
@@ -405,19 +418,7 @@ void CDocOutline::MakeFuncList_C( CFuncInfoArr* pcFuncInfoArr ,EOutlineType& nOu
 	wchar_t		szWord[256];		//	現在解読中のwordを入れるところ
 	int			nWordIdx = 0;
 	int			nMaxWordLeng = 100;	//	許容されるwordの最大長さ
-	int			nMode;				//	現在のstate
-	/*
-		nMode
-		  0 : 初期値
-		  1 : 単語読み込み中
-		      szWordに単語を格納
-		  2 : 記号列
-		  8 : ブロックコメント中
-		 10 : // コメント中
-		 20 : 文字定数 ''
-		 21 : 文字列 ""
-		999 : 長い単語無視
-	*/
+	MODE1		nMode = M1_INIT;
 
 	// 2002/10/27 frozen　ここから
 	//! 状態2
@@ -486,7 +487,6 @@ void CDocOutline::MakeFuncList_C( CFuncInfoArr* pcFuncInfoArr ,EOutlineType& nOu
 	nNamespaceLen[0] = 0;	// 2002/10/27 frozen
 	szItemName[0] = L'\0';
 	szTemplateName[0] = L'\0';
-	nMode = 0;
 
 	// finalで無名ではない
 	auto is_final_context = [](const wchar_t* pszWord, const wchar_t* pszItemName) {
@@ -504,7 +504,7 @@ void CDocOutline::MakeFuncList_C( CFuncInfoArr* pcFuncInfoArr ,EOutlineType& nOu
 		//	From Here Aug. 10, 2004 genta
 		//	プリプロセス処理
 		//	コメント中でなければプリプロセッサ指令を先に判定させる
-		if( 8 != nMode && 10 != nMode ){	/* chg 2005/12/6 じゅうじ 次の行が空白でもよい	*/
+		if( M1_BLOCK_COMMENT != nMode && M1_LINE_COMMENT != nMode ){	/* chg 2005/12/6 じゅうじ 次の行が空白でもよい	*/
 			i = cCppPMng.ScanLine( pLine, nLineLen );
 		}
 		else {
@@ -528,20 +528,20 @@ void CDocOutline::MakeFuncList_C( CFuncInfoArr* pcFuncInfoArr ,EOutlineType& nOu
 			// いずれもコメント処理の後へ移動
 /* del end 2005/12/6 じゅうじ	*/
 			/* コメント読み込み中 */
-			if( 8 == nMode ){
+			if( M1_BLOCK_COMMENT == nMode ){
 				if( i < nLineLen - 1 && '*' == pLine[i] &&  '/' == pLine[i + 1] ){
 					++i;
-					nMode = 0;
+					nMode = M1_INIT;
 					continue;
 				}else{
 				}
 			}
 			/* ラインコメント読み込み中 */
 			// 2003/06/24 zenryaku
-			else if( 10 == nMode)
+			else if( M1_LINE_COMMENT == nMode)
 			{
 				if(!C_IsLineEsc(pLine, nLineLen)){
-					nMode = 0;
+					nMode = M1_INIT;
 				}
 				i = nLineLen;
 				continue;
@@ -552,15 +552,15 @@ void CDocOutline::MakeFuncList_C( CFuncInfoArr* pcFuncInfoArr ,EOutlineType& nOu
 				++i;
 			}
 			/* シングルクォーテーション文字列読み込み中 */
-			else if( 20 == nMode ){
+			else if( M1_CHAR_LITERAL == nMode ){
 				if( '\'' == pLine[i] ){
-					nMode = 0;
+					nMode = M1_INIT;
 					continue;
 				}else{
 				}
 			}
 			/* ダブルクォーテーション文字列読み込み中 */
-			else if( 21 == nMode ){
+			else if( M1_STRING_LITERAL == nMode ){
 				// operator "" _userliteral
 				if( nMode2 == M2_OPERATOR_WORD ){
 					auto nLen = int(wcslen(szWordPrev));
@@ -575,11 +575,11 @@ void CDocOutline::MakeFuncList_C( CFuncInfoArr* pcFuncInfoArr ,EOutlineType& nOu
 						// )abc"
 						if( nRawStringTagLen <= i && wcsncmp( szRawStringTag, &pLine[i - nRawStringTagLen], nRawStringTagCompLen ) == 0 ){
 							nRawStringTagLen = 0;
-							nMode = 0;
+							nMode = M1_INIT;
 							continue;
 						}
 					}else{
-						nMode = 0;
+						nMode = M1_INIT;
 						continue;
 					}
 				}else{
@@ -587,11 +587,11 @@ void CDocOutline::MakeFuncList_C( CFuncInfoArr* pcFuncInfoArr ,EOutlineType& nOu
 			}
 			/* add end 2005/12/6 じゅうじ	*/
 			/* 単語読み込み中 */
-			else if( 1 == nMode ){
+			else if( M1_READING_WORD == nMode ){
 				if( C_IsWordChar( pLine[i] ) ){
 					++nWordIdx;
 					if( nWordIdx >= nMaxWordLeng ){
-						nMode = 999;
+						nMode = M1_IGNORE_LONG;
 						continue;
 					}else{
 						if( pLine[i] == L':' ){
@@ -682,13 +682,13 @@ void CDocOutline::MakeFuncList_C( CFuncInfoArr* pcFuncInfoArr ,EOutlineType& nOu
 						wcscpy_s( szWordPrev, std::size(szWordPrev), szWord );
 					nWordIdx = 0;
 					szWord[0] = L'\0';
-					nMode = 0;
+					nMode = M1_INIT;
 					i--;
 					continue;
 				}
 			}else
 			/* 記号列読み込み中 */
-			if( 2 == nMode ){
+			if( M1_SYMBOL == nMode ){
 				if( C_IsWordChar( pLine[i] ) ||
 					C_IsSpace( pLine[i], bExtEol ) ||
 					 '{' == pLine[i] ||
@@ -703,13 +703,13 @@ void CDocOutline::MakeFuncList_C( CFuncInfoArr* pcFuncInfoArr ,EOutlineType& nOu
 					wcscpy_s( szWordPrev, std::size(szWordPrev), szWord );
 					nWordIdx = 0;
 					szWord[0] = L'\0';
-					nMode = 0;
+					nMode = M1_INIT;
 					i--;
 					continue;
 				}else{
 					++nWordIdx;
 					if( nWordIdx >= nMaxWordLeng ){
-						nMode = 999;
+						nMode = M1_IGNORE_LONG;
 						continue;
 					}else{
 						szWord[nWordIdx] = pLine[i];
@@ -758,31 +758,31 @@ void CDocOutline::MakeFuncList_C( CFuncInfoArr* pcFuncInfoArr ,EOutlineType& nOu
 				}
 			}else
 			/* 長過ぎる単語無視中 */
-			if( 999 == nMode ){
+			if( M1_IGNORE_LONG == nMode ){
 				/* 空白やタブ記号等を飛ばす */
 				if( C_IsSpace( pLine[i], bExtEol ) ){
-					nMode = 0;
+					nMode = M1_INIT;
 					continue;
 				}
 			}else
 			/* ノーマルモード */
-			if( 0 == nMode ){
+			if( M1_INIT == nMode ){
 				/* 空白やタブ記号等を飛ばす */
 				if( C_IsSpace( pLine[i], bExtEol ) )
 					continue;
 
 				if( i < nLineLen - 1 && '/' == pLine[i] &&  '/' == pLine[i + 1] ){
 					++i;
-					nMode = 10;
+					nMode = M1_LINE_COMMENT;
 					continue;
 				}else
 				if( i < nLineLen - 1 && '/' == pLine[i] &&  '*' == pLine[i + 1] ){
 					++i;
-					nMode = 8;
+					nMode = M1_BLOCK_COMMENT;
 					continue;
 				}else
 				if( '\'' == pLine[i] ){
-					nMode = 20;
+					nMode = M1_CHAR_LITERAL;
 					continue;
 				}else
 				if( '"' == pLine[i] ){
@@ -817,7 +817,7 @@ void CDocOutline::MakeFuncList_C( CFuncInfoArr* pcFuncInfoArr ,EOutlineType& nOu
 							}
 						}
 					}
-					nMode = 21;
+					nMode = M1_STRING_LITERAL;
 					continue;
 				}else
 				
@@ -906,7 +906,7 @@ void CDocOutline::MakeFuncList_C( CFuncInfoArr* pcFuncInfoArr ,EOutlineType& nOu
 					}
 					// bCppInitSkip = false;	//	Mar. 4, 2001 genta
 					nNestLevel_template = 0;
-					nMode = 0;
+					nMode = M1_INIT;
 					nMode2 = M2_NORMAL;
 					nMode2Old = M2_NORMAL;
 					// nNestLevel2 = 0;
@@ -929,19 +929,13 @@ void CDocOutline::MakeFuncList_C( CFuncInfoArr* pcFuncInfoArr ,EOutlineType& nOu
 					else
 						--nNestLevel_func;
 					//  2002/10/27 frozen ここまで
-					nMode = 0;
+					nMode = M1_INIT;
 					nMode2 = M2_NORMAL;
 					nMode2Old = M2_NORMAL;
 					continue;
 				}else
 				if( '(' == pLine[i] ){
 					//  2002/10/27 frozen ここから
-//					if( nNestLevel == 0 && !bCppInitSkip ){
-//						wcscpy( szFuncName, szWordPrev );
-//						nFuncLine = nLineCount + 1;
-//						nNestLevel2 = 1;
-//					}
-//					nMode = 0;
 					int nLen = (int)wcslen(szWordPrev);
 					bool bOperator = false;
 					if( nMode2 == M2_NORMAL && nNestLevel_fparam == 0 && C_IsOperator(szWordPrev, nLen) ){
@@ -1009,10 +1003,6 @@ void CDocOutline::MakeFuncList_C( CFuncInfoArr* pcFuncInfoArr ,EOutlineType& nOu
 				}else
 				if( ')' == pLine[i] ){
 					//  2002/10/27 frozen ここから
-//					if( 1 == nNestLevel2 ){
-//						nNestLevel2 = 2;
-//					}
-//					nMode = 0;
 					if( nNestLevel_fparam > 0)
 					{
 						--nNestLevel_fparam;
@@ -1128,7 +1118,7 @@ void CDocOutline::MakeFuncList_C( CFuncInfoArr* pcFuncInfoArr ,EOutlineType& nOu
 					bNoFunction = true;
 					bDefinedTypedef = false;
 					nMode2Old = M2_NORMAL;
-					nMode = 0;
+					nMode = M1_INIT;
 					continue;
 				}else if( nNestLevel_fparam == 0 && nMode2 != M2_ATTRIBUTE ){
 					// 2007.05.26 genta C++/CLI Attribute内部では関数名処理は一切行わない
@@ -1208,11 +1198,11 @@ void CDocOutline::MakeFuncList_C( CFuncInfoArr* pcFuncInfoArr ,EOutlineType& nOu
 						//	From Here
 						//	長さチェックは必須
 						if( nWordIdx < nMaxWordLeng ){
-							nMode = 1;
+							nMode = M1_READING_WORD;
 							::wcsncpy_s(&szWord[nWordIdx], nMaxWordLeng - nWordIdx, &pLine[i], 1);
 						}
 						else{
-							nMode = 999;
+							nMode = M1_IGNORE_LONG;
 						}
 						//	To Here
 					}else{
@@ -1275,7 +1265,7 @@ void CDocOutline::MakeFuncList_C( CFuncInfoArr* pcFuncInfoArr ,EOutlineType& nOu
 							if( pLine[i] == L'<' )
 								nMode2 = M2_TEMPLATE_SAVE;
 						}
-						nMode = 2;
+						nMode = M1_SYMBOL;
 						i--;
 					}
 				}
