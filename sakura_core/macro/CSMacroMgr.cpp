@@ -36,10 +36,6 @@ VARTYPE s_MacroArgEx_i[] = {VT_I4};
 MacroFuncInfoEx s_MacroInfoEx_i = {5, 5, s_MacroArgEx_i};
 VARTYPE s_MacroArgEx_ii[] = {VT_I4, VT_I4};
 MacroFuncInfoEx s_MacroInfoEx_ii = {6, 6, s_MacroArgEx_ii};
-#if 0
-VARTYPE s_MacroArgEx_s[] = {VT_BSTR};
-MacroFuncInfoEx s_MacroInfoEx_s = {5, 5, s_MacroArgEx_s};
-#endif
 
 MacroFuncInfo CSMacroMgr::m_MacroFuncInfoCommandArr[] = 
 {
@@ -859,7 +855,7 @@ WCHAR* CSMacroMgr::GetFuncInfoByID(
 EFunctionCode CSMacroMgr::GetFuncInfoByName(
 	[[maybe_unused]] HINSTANCE		hInstance,				//!< [in]  リソース取得のためのInstance Handle
 	const WCHAR*	pszFuncName,			//!< [in]  関数名
-	WCHAR*			pszFuncNameJapanese		//!< [out] 機能名日本語．この先には256バイトのメモリが必要．
+	std::span<WCHAR> szFuncNameJapanese		//!< [out] 機能名日本語．
 )
 {
 	//	Jun. 16, 2002 genta
@@ -880,9 +876,8 @@ EFunctionCode CSMacroMgr::GetFuncInfoByName(
 	for (const auto& funcInfo : GetFuncInfo()) {
 		if( 0 == wcscmp( normalizedFuncName, funcInfo.m_pszFuncName )){
 			const auto nFuncID = EFunctionCode(funcInfo.m_nFuncID);
-			if( pszFuncNameJapanese != nullptr ){
-				wcsncpy( pszFuncNameJapanese, LS( nFuncID ), 255 );
-				pszFuncNameJapanese[255] = L'\0';
+			if( szFuncNameJapanese.size() > 0 ){
+				wcsncpy_s( szFuncNameJapanese.data(), szFuncNameJapanese.size(), LS( nFuncID ), _TRUNCATE );
 			}
 			return nFuncID;
 		}
@@ -891,9 +886,8 @@ EFunctionCode CSMacroMgr::GetFuncInfoByName(
 	for (const auto& funcInfo : GetCommandInfo()) {
 		if( 0 == wcscmp( normalizedFuncName, funcInfo.m_pszFuncName )){
 			const auto nFuncID = EFunctionCode(funcInfo.m_nFuncID);
-			if( pszFuncNameJapanese != nullptr ){
-				wcsncpy( pszFuncNameJapanese, LS( nFuncID ), 255 );
-				pszFuncNameJapanese[255] = L'\0';
+			if( szFuncNameJapanese.size() > 0 ){
+				wcsncpy_s( szFuncNameJapanese.data(), szFuncNameJapanese.size(), LS( nFuncID ), _TRUNCATE );
 			}
 			return nFuncID;
 		}
