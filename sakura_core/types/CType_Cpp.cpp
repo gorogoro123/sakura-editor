@@ -391,9 +391,8 @@ void CDocOutline::MakeFuncList_C( CFuncInfoArr* pcFuncInfoArr ,EOutlineType& nOu
 	const WCHAR* pszFileName, bool bVisibleMemberFunc
 )
 {
-#ifdef _DEBUG
-// #define TRACE_OUTLINE
-#endif
+//#define TRACE_OUTLINE(...) DEBUG_TRACE(__VA_ARGS__)
+#define TRACE_OUTLINE(...) ((void)0)
 	const wchar_t*	pLine;
 	CLogicInt	nLineLen;
 	CLogicInt	i;
@@ -513,14 +512,10 @@ void CDocOutline::MakeFuncList_C( CFuncInfoArr* pcFuncInfoArr ,EOutlineType& nOu
 		//	C/C++としての処理が不要なケースでは i == nLineLenとなっているので
 		//	以下の解析処理はSKIPされる．
 		//	To Here Aug. 10, 2004 genta
-#ifdef TRACE_OUTLINE
-		DEBUG_TRACE(L"line:%ls", pLine);
-#endif
+		TRACE_OUTLINE(L"line:%ls", pLine);
 		for( ; i < nLineLen; ++i ){
-#ifdef TRACE_OUTLINE
-			DEBUG_TRACE(L"%2d [%lc] %d %x %d %d %d wd[%ls] pre[%ls] tmp[%ls] til[%ls] %d\n", int((Int)i), pLine[i], nMode, nMode2,
+			TRACE_OUTLINE(L"%2d [%lc] %d %x %d %d %d wd[%ls] pre[%ls] tmp[%ls] til[%ls] %d\n", int((Int)i), pLine[i], nMode, nMode2,
 				nNestLevel_global, nNestLevel_func, nNestLevel_fparam, szWord, szWordPrev, szTemplateName, szItemName, nWordIdx );
-#endif
 /* del start 2005/12/6 じゅうじ	*/
 			/* エスケープシーケンスは常に取り除く */
 			/* シングルクォーテーション文字列読み込み中 */
@@ -879,9 +874,7 @@ void CDocOutline::MakeFuncList_C( CFuncInfoArr* pcFuncInfoArr ,EOutlineType& nOu
 							CLogicPoint(0, nItemLine - 1),
 							&ptPosXY
 						);
-#ifdef TRACE_OUTLINE
-						DEBUG_TRACE( L"AppendData %d %ls\n", nItemLine, szNamespace );
-#endif
+						TRACE_OUTLINE( L"AppendData %d %ls\n", nItemLine, szNamespace );
 						pcFuncInfoArr->AppendData( nItemLine, ptPosXY.GetY2() + CLayoutInt(1) , szNamespace, nItemFuncId);
 						bDefinedTypedef = false;
 						nItemLine = -1;
@@ -1104,9 +1097,7 @@ void CDocOutline::MakeFuncList_C( CFuncInfoArr* pcFuncInfoArr ,EOutlineType& nOu
 							CLogicPoint(0, nItemLine - 1),
 							&ptPosXY
 						);
-#ifdef TRACE_OUTLINE
-						DEBUG_TRACE( L"AppendData %d %ls\n", nItemLine, szNamespace );
-#endif
+						TRACE_OUTLINE( L"AppendData %d %ls\n", nItemLine, szNamespace );
 						pcFuncInfoArr->AppendData( nItemLine, ptPosXY.GetY2() + CLayoutInt(1), szNamespace, nItemFuncId);
 					}
 					nItemLine = -1;
