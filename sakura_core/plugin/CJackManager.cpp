@@ -182,8 +182,8 @@ void CJackManager::InvokePlugins(EJack jack, CEditView* view)
 	CPlug::Array plugs;
 	CWSHIfObj::List params;
 	GetUsablePlug( jack, 0, &plugs );
-	for( CPlug::ArrayIter it = plugs.begin(); it != plugs.end(); it++ ){
-		(*it)->Invoke(view, params);
+	for( auto& it : plugs ){
+		it->Invoke(view, params);
 	}
 }
 
@@ -223,9 +223,9 @@ int CJackManager::GetCommandCount() const noexcept
 CPlug* CJackManager::GetCommandById( int id ) const
 {
 	const CPlug::Array& plugs = GetPlugs( PP_COMMAND );
-	for( CPlug::ArrayIter it = plugs.cbegin(); it != plugs.cend(); it++ ){
-		if( (*it)->GetFunctionCode() == id ){
-			return (*it);
+	for( const auto& it : plugs ){
+		if( it->GetFunctionCode() == id ){
+			return it;
 		}
 	}
 	assert_warning(false);	//IDに合致するプラグが登録されていない

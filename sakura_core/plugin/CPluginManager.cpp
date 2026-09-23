@@ -540,10 +540,9 @@ CPlugin* CPluginManager::LoadPlugin( const WCHAR* pszPluginDir, const WCHAR* psz
 bool CPluginManager::RegisterPlugin( CPlugin* plugin )
 {
 	CJackManager* pJackMgr = CJackManager::getInstance();
-	CPlug::Array plugs = plugin->GetPlugs();
 
-	for( CPlug::ArrayIter plug = plugs.begin() ; plug != plugs.end(); plug++ ){
-		pJackMgr->RegisterPlug( (*plug)->m_sJack.c_str(), *plug );
+	for( auto& plug : plugin->GetPlugs() ){
+		pJackMgr->RegisterPlug( plug->m_sJack.c_str(), plug );
 	}
 
 	return true;
@@ -553,10 +552,9 @@ bool CPluginManager::RegisterPlugin( CPlugin* plugin )
 bool CPluginManager::UnRegisterPlugin( CPlugin* plugin )
 {
 	CJackManager* pJackMgr = CJackManager::getInstance();
-	CPlug::Array plugs = plugin->GetPlugs();
 
-	for( CPlug::ArrayIter plug = plugs.begin() ; plug != plugs.end(); plug++ ){
-		pJackMgr->UnRegisterPlug( (*plug)->m_sJack.c_str(), *plug );
+	for( auto& plug : plugin->GetPlugs() ){
+		pJackMgr->UnRegisterPlug( plug->m_sJack.c_str(), plug );
 	}
 
 	return true;

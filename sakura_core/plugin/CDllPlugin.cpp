@@ -16,8 +16,8 @@
 // デストラクタ
 CDllPlugin::~CDllPlugin()
 {
-	for( CPlug::ArrayIter it = m_plugs.begin(); it != m_plugs.end(); it++ ){
-		delete (CDllPlug*)(*it);
+	for( auto& it : m_plugs ){
+		delete (CDllPlug*)(it);
 	}
 }
 
