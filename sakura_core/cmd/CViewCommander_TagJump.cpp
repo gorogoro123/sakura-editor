@@ -507,7 +507,7 @@ bool CViewCommander::Command_TagsMake( )
 {
 	constexpr auto CTAGS_COMMAND = L"ctags.exe";
 
-	WCHAR	szTargetPath[1024 /*_MAX_PATH+1*/ ];
+	WCHAR	szTargetPath[1024];
 	if( GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() )
 	{
 		wcscpy_s( szTargetPath, std::size(szTargetPath), GetDocument()->m_cDocFile.GetFilePath() );
@@ -610,10 +610,8 @@ bool CViewCommander::Command_TagsMake( )
 		bool	bLoopFlag = true;
 
 		//中断ダイアログ表示
-		HWND	hwndCancel;
-		HWND	hwndMsg;
-		hwndCancel = cDlgCancel.DoModeless( G_AppInstance(), m_pCommanderView->m_hwndParent, IDD_EXECRUNNING );
-		hwndMsg = ::GetDlgItem( hwndCancel, IDC_STATIC_CMD );
+		HWND hwndCancel = cDlgCancel.DoModeless( G_AppInstance(), m_pCommanderView->m_hwndParent, IDD_EXECRUNNING );
+		HWND hwndMsg = ::GetDlgItem( hwndCancel, IDC_STATIC_CMD );
 		SetWindowText( hwndMsg, LS(STR_ERR_CEDITVIEW_CMD05) );
 
 		//実行結果の取り込み
@@ -650,12 +648,14 @@ bool CViewCommander::Command_TagsMake( )
 			{
 				if( new_cnt > 0 )												//待機中のものがある
 				{
-					if( new_cnt >= int(std::size(work)) - 2 )							//パイプから読み出す量を調整
+					constexpr DWORD max_bytes = static_cast<DWORD>(sizeof(work) - sizeof(work[0]));
+					new_cnt = (std::min)(new_cnt, max_bytes); //パイプから読み出す量を調整
+					if (!::ReadFile( hStdOutRead, work, new_cnt, &read_cnt, nullptr)) //パイプから読み出し
 					{
-						new_cnt = int(std::size(work)) - 2;
+						break;
 					}
-					::ReadFile( hStdOutRead, &work[0], new_cnt, &read_cnt, nullptr );	//パイプから読み出し
-					if( read_cnt == 0 )
+
+					if (read_cnt == 0)
 					{
 						continue;
 					}
@@ -671,7 +671,7 @@ bool CViewCommander::Command_TagsMake( )
 
 						cDlgCancel.CloseDialog( TRUE );
 
-						work[ read_cnt ] = L'\0';	// Nov. 15, 2003 genta 表示用に0終端する
+						work[ read_cnt ] = '\0';	// Nov. 15, 2003 genta 表示用に0終端する
 						WarningMessage( m_pCommanderView->GetHwnd(), LS(STR_ERR_CEDITVIEW_CMD06), work ); // 2003.11.09 じゅうじ
 
 						return true;
