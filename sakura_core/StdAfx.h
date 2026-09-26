@@ -5,60 +5,7 @@
 	SPDX-License-Identifier: Zlib
 */
 
-// stdafx.h : 標準のシステム インクルード ファイル、
-//				または参照回数が多く、かつあまり変更されない
-//				プロジェクト専用のインクルード ファイルを記述します。
-//
-
-// #pragma onceについての蘊蓄
-//   Visual C++は、C++標準規格(1998年制定)より前から存在しており、
-//   初期バージョンでは「#pragma once」をサポートしていなかった。
-//   
-//   _MSC_VER = 1000 : VC++ 4.0 (Windows 95時代)
-//   _MSC_VER > 1000 : VC++ 5.0以降で#pragma onceをサポート
-//   
-//   サクラエディタは1998年にVC++ 6.0で開発が始まったため、
-//   以下の条件分岐は本来不要だが、歴史的経緯として残している。
-#if defined(_MSC_VER) && _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-
-// この位置にヘッダーを挿入してください
-// #define WIN32_LEAN_AND_MEAN		// Windows ヘッダーから殆ど使用されないスタッフを除外します
-
-// STRICTシンボルについての蘊蓄
-//   Windows SDKには、HWND(ウィンドウハンドル)やHDC(デバイスコンテキストハンドル)など、
-//   多数のハンドル型が定義されている。これらはOSが管理するデータへのポインタだが、
-//   内部構造は非公開のため、通常は void* 型で定義される。
-//
-//   しかし、すべてのハンドルを void* 型にすると、異なる種類のハンドルを
-//   誤って混在させてもコンパイラが検出できない問題が発生する。
-//   例: HWND が必要な関数に HDC を渡してもエラーにならない
-//
-//   この問題を解決するために導入されたのが STRICT モードである。
-//   STRICTを定義すると、各ハンドル型が個別の型として認識され、
-//   型の不一致をコンパイル時に検出できるようになる。
-//
-//   現在のWindows SDKでは、NO_STRICTを明示的に定義しない限り、
-//   STRICTがデフォルトで有効になっているため、以下のコードは実質的に不要。
-//   参考: https://learn.microsoft.com/ja-jp/windows/win32/winprog/disabling-strict
-//
-// #ifndef STRICT
-// #define STRICT 1
-// #endif
-
-// _CRT_SECURE_NO_WARNINGSシンボルについての蘊蓄
-//   Visual C++ 2005(VS2005)以降、Microsoftは標準Cランタイム関数の一部を
-//   「セキュリティ上の問題がある」として非推奨にした。
-//   例: strcpy → strcpy_s、sprintf → sprintf_s など
-//
-//   これらの非推奨関数を使用すると、コンパイル時に警告(C4996)が発生する。
-//   _CRT_SECURE_NO_WARNINGS を定義すると、この警告を抑制できる。
-//
-//   サクラエディタでは、以前はこのシンボルを定義して警告を全面的に抑制していたが、
-//   現在はビルド設定で警告レベルを調整する方式に変更した。(/w44996)
-//
-// #define _CRT_SECURE_NO_WARNINGS
 
 // 標準C++ヘッダー（追加するときは昇順で。）
 #include <algorithm>
@@ -133,6 +80,3 @@
 #include <vsstyle.h>
 #include <wrl.h>
 #include <wrl/client.h>
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ は前行の直前に追加の宣言を挿入します。
