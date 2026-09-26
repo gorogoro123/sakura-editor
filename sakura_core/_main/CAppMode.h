@@ -21,6 +21,8 @@ public:
 	bool	IsDebugMode() const				{ return m_bDebugMode; }
 	void	SetDebugModeON();	//!< デバッグモニタモード設定
 	void	SetDebugModeOFF();	//!< デバッグモニタモード解除
+	const WCHAR* GetGrepKey() const { return m_szGrepKey.c_str(); }
+	void SetGrepKey(const WCHAR* pszKey) { m_szGrepKey = pszKey; }
 
 	//イベント
 	void OnAfterSave(const SSaveInfo& sSaveInfo) override;
@@ -28,6 +30,5 @@ public:
 private:
 	bool			m_bViewMode = false;		//!< ビューモード
 	bool			m_bDebugMode = false;		//!< デバッグモニタモード
-public:
 	StaticString<1024>	m_szGrepKey;			//!< Grepモードの場合、その検索キー
 };

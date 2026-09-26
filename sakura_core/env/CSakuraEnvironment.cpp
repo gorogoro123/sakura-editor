@@ -436,9 +436,9 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, wchar_t* pszB
 			//	中身はSetParentCaption()より移植
 			{
 				CNativeW	cmemDes;
-				// m_szGrepKey → cmemDes
-				cmemDes.LimitStringLengthW( CAppMode::getInstance()->m_szGrepKey, (q_max - q > 32 ? 32 : q_max - q - 3) );
-				if( CAppMode::getInstance()->m_szGrepKey.length() > cmemDes.GetStringLength() ){
+				const std::wstring szGrepKey = CAppMode::getInstance()->GetGrepKey();
+				cmemDes.LimitStringLengthW(szGrepKey, (q_max - q > 32 ? 32 : q_max - q - 3) );
+				if( szGrepKey.length() > cmemDes.GetStringLength() ){
 					cmemDes.AppendString(L"...");
 				}
 				q = wcs_pushW( q, q_max - q, cmemDes.GetStringPtr(), cmemDes.GetStringLength());
