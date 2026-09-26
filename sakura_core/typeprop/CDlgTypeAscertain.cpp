@@ -56,20 +56,22 @@ BOOL CDlgTypeAscertain::OnBnClicked( int wID )
 		MyWinHelp( GetHwnd(), HELP_CONTEXT, HLP000338 );
 		return TRUE;
 	case IDOK:
-		WCHAR	buff1[_MAX_PATH + 20];
-		wchar_t	buff2[_MAX_PATH + 20];
+		{
+			WCHAR	buff1[_MAX_PATH + 20];
+			wchar_t	buff2[_MAX_PATH + 20];
 
-		m_psi->bAddType = IsDlgButtonCheckedBool( GetHwnd(), IDC_RADIO_TYPE_ADD );
-		m_psi->sColorFile.clear();
-		m_psi->nColorType = ApiWrap::Combo_GetCurSel( GetItemHwnd( IDC_COMBO_COLORS ) ) - 1;
-		if (m_psi->nColorType >= MAX_TYPES && ApiWrap::Combo_GetLBText( GetItemHwnd( IDC_COMBO_COLORS ), m_psi->nColorType + 1, buff1)) {
-			if (swscanf( buff1, L"File -- %ls", buff2 ) > 0) {
-				m_psi->sColorFile = buff2;
-				m_psi->nColorType = MAX_TYPES;
+			m_psi->bAddType = IsDlgButtonCheckedBool( GetHwnd(), IDC_RADIO_TYPE_ADD );
+			m_psi->sColorFile.clear();
+			m_psi->nColorType = ApiWrap::Combo_GetCurSel( GetItemHwnd( IDC_COMBO_COLORS ) ) - 1;
+			if (m_psi->nColorType >= MAX_TYPES && ApiWrap::Combo_GetLBText( GetItemHwnd( IDC_COMBO_COLORS ), m_psi->nColorType + 1, buff1)) {
+				if (swscanf_s( buff1, L"File -- %ls", buff2, std::size(buff2) ) > 0) {
+					m_psi->sColorFile = buff2;
+					m_psi->nColorType = MAX_TYPES;
+				}
 			}
+			::EndDialog( GetHwnd(), TRUE );
+			return TRUE;
 		}
-		::EndDialog( GetHwnd(), TRUE );
-		return TRUE;
 	case IDCANCEL:
 		::EndDialog( GetHwnd(), FALSE );
 		return TRUE;
