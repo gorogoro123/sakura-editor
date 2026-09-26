@@ -103,10 +103,7 @@ INT_PTR CPropKeybind::DispatchEvent(
 	static HWND	hwndCheckCtrl;
 	static HWND	hwndCheckAlt;
 	static HWND	hwndAssignedkeyList;
-//	static HWND hwndLIST_KEYSFUNC;
 	static HWND hwndEDIT_KEYSFUNC;
-//	int			nLength;
-	int			nAssignedKeyNum;
 
 	int			nIndex;
 	int			nIndex2;
@@ -128,7 +125,6 @@ INT_PTR CPropKeybind::DispatchEvent(
 		hwndCheckCtrl = ::GetDlgItem( hwndDlg, IDC_CHECK_CTRL );
 		hwndCheckAlt = ::GetDlgItem( hwndDlg, IDC_CHECK_ALT );
 		hwndKeyList = ::GetDlgItem( hwndDlg, IDC_LIST_KEY );
-//		hwndLIST_KEYSFUNC = ::GetDlgItem( hwndDlg, IDC_LIST_KEYSFUNC );
 		hwndEDIT_KEYSFUNC = ::GetDlgItem( hwndDlg, IDC_EDIT_KEYSFUNC );
 
 		/* キー選択時の処理 */
@@ -424,20 +420,16 @@ INT_PTR CPropKeybind::DispatchEvent(
 /* ダイアログデータの設定 Keybind */
 void CPropKeybind::SetData( HWND hwndDlg )
 {
-	HWND		hwndCombo;
-	HWND		hwndKeyList;
-	int			i;
-
 	/* 機能種別一覧に文字列をセット（コンボボックス）*/
-	hwndCombo = ::GetDlgItem( hwndDlg, IDC_COMBO_FUNCKIND );
+	HWND hwndCombo = ::GetDlgItem( hwndDlg, IDC_COMBO_FUNCKIND );
 	m_cLookup.SetCategory2Combo( hwndCombo );	//	Oct. 2, 2001 genta
 
 	/* 種別の先頭の項目を選択（コンボボックス）*/
 	ApiWrap::Combo_SetCurSel( hwndCombo, 0 );	//Oct. 14, 2000 JEPRO JEPRO 「--未定義--」を表示させないように大元 Funcode.cpp で変更してある
 
 	/* キー一覧に文字列をセット（リストボックス）*/
-	hwndKeyList = ::GetDlgItem( hwndDlg, IDC_LIST_KEY );
-	for( i = 0; i < m_Common.m_sKeyBind.m_nKeyNameArrNum; ++i ){
+	HWND hwndKeyList = ::GetDlgItem( hwndDlg, IDC_LIST_KEY );
+	for( int i = 0; i < m_Common.m_sKeyBind.m_nKeyNameArrNum; ++i ){
 		ApiWrap::List_AddString( hwndKeyList, m_Common.m_sKeyBind.m_pKeyNameArr[i].m_szKeyName );
 	}
 
