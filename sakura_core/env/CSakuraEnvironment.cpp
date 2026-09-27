@@ -281,14 +281,11 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 				q = wcs_pushW( q, q_max - q, NO_TITLE.c_str(), NO_TITLE_LEN );
 			}
 			else {
-				const WCHAR*	pStr;
-				const WCHAR*	pEnd;
-
-				pStr = pcDoc->m_cDocFile.GetFilePath();
-				pEnd = pStr - wcslen(pStr) - 1;
-				for ( p = pStr; *p != '\0'; p++) {
-					if (*p == L'\\') {
-						pEnd = p;
+				const WCHAR *pStr = pcDoc->m_cDocFile.GetFilePath();
+				const WCHAR *pEnd = pStr - wcslen(pStr) - 1;
+				for ( r = pStr; *r != '\0'; r++) {
+					if (*r == L'\\') {
+						pEnd = r;
 					}
 				}
 				q = wcs_pushW( q, q_max - q, pStr, pEnd - pStr + 1 );
