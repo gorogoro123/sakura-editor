@@ -635,7 +635,7 @@ void CViewCommander::Command_TRACEOUT( const wchar_t* outputstr, int nLen, int n
 	// 0x01 ExpandParameterによる文字列展開有無
 	if (nFlgOpt & 0x01) {
 		wchar_t Buffer[2048];
-		CSakuraEnvironment::ExpandParameter(outputstr, Buffer, 2047);
+		CSakuraEnvironment::ExpandParameter(outputstr, Buffer);
 		CShareData::getInstance()->TraceOutString( Buffer );
 	} else {
 		CShareData::getInstance()->TraceOutString(outputstr, nLen);

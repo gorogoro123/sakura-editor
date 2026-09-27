@@ -14,7 +14,7 @@ class CEditWnd;
 class CSakuraEnvironment{
 public:
 	static CEditWnd* GetMainWindow();
-	static void ExpandParameter(const wchar_t* pszSource, wchar_t* pszBuffer, int nBufferLen);
+	static void ExpandParameter(const wchar_t* pszSource, std::span<wchar_t> szBuffer);
 	static std::wstring GetDlgInitialDir(bool bControlProcess = false);
 
 	static void ResolvePath(WCHAR* pszPath); //!< ショートカットの解決とロングファイル名へ変換を行う。

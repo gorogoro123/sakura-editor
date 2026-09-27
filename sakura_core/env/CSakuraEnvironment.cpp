@@ -106,10 +106,18 @@ std::wstring ExParam_LongName( EExpParamName eLongParam )
 	@date 2008.05.05 novice GetModuleHandle(NULL)→NULLに変更
 	@date 2012.10.11 Moca 特殊文字n追加
 */
-void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, wchar_t* pszBuffer, int nBufferLen)
+void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wchar_t> szBuffer)
 {
-	const CEditDoc* pcDoc = GetDocument();
+	if (szBuffer.empty()) {
+		return;
+	}
 
+	if (szBuffer.size() == 1) {
+		szBuffer[0] = L'\0';
+		return;
+	}
+
+	const CEditDoc* pcDoc = GetDocument();
 	// Apr. 03, 2003 genta 固定文字列をまとめる
 	const std::wstring	PRINT_PREVIEW_ONLY		= LS( STR_PREVIEW_ONLY );	//L"(印刷プレビューでのみ使用できます)";
 	const auto			PRINT_PREVIEW_ONLY_LEN	= int(PRINT_PREVIEW_ONLY.length());
@@ -119,9 +127,10 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, wchar_t* pszB
 	const auto			NOT_SAVED_LEN			= int(NOT_SAVED.length());
 
 	const wchar_t *p, *r;	//	p：目的のバッファ。r：作業用のポインタ。
-	wchar_t *q, *q_max;
+	wchar_t *q;
+	wchar_t *q_max = szBuffer.data() + szBuffer.size() - 1;
 
-	for( p = pszSource, q = pszBuffer, q_max = pszBuffer + nBufferLen; *p != '\0' && q < q_max;){
+	for( p = pszSource, q = szBuffer.data(); *p != '\0' && q < q_max;){
 		if( *p != '$' ){
 			*q++ = *p++;
 			continue;
