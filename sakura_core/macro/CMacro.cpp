@@ -1421,13 +1421,12 @@ bool CMacro::HandleFunction(CEditView *View, EFunctionCode ID, VARIANT *Argument
 		{
 			if(ArgSize != 1) return false;
 			if(VariantChangeType(&varCopy.Data, &(Arguments[0]), 0, VT_BSTR) != S_OK) return false;	// VT_BSTRとして解釈
-			//void ExpandParameter(const char* pszSource, char* pszBuffer, int nBufferLen);
 			//pszSourceを展開して、pszBufferにコピー
 			wchar_t *Source;
 			int SourceLength;
 			Wrap(&varCopy.Data.bstrVal)->GetW(&Source, &SourceLength);
 			wchar_t Buffer[2048];
-			CSakuraEnvironment::ExpandParameter(Source, Buffer, 2047);
+			CSakuraEnvironment::ExpandParameter(Source, Buffer);
 			delete[] Source;
 			SysString S(Buffer, wcslen(Buffer));
 			Wrap(&Result)->Receive(S);

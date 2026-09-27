@@ -245,11 +245,11 @@ void CEditWnd::UpdateCaption()
 	wchar_t	pszCap[1024];
 
 	//キャプション更新
-	CSakuraEnvironment::ExpandParameter( pszWindowCaptionFormat, pszCap, int(std::size(pszCap)) );
+	CSakuraEnvironment::ExpandParameter( pszWindowCaptionFormat, pszCap );
 	::SetWindowText( GetHwnd(), pszCap );
 
 	//タブウインドウのファイル名を通知
-	CSakuraEnvironment::ExpandParameter( pszTabCaptionFormat, pszCap, int(std::size(pszCap)) );
+	CSakuraEnvironment::ExpandParameter( pszTabCaptionFormat, pszCap );
 	ChangeFileNameNotify( pszCap,
 		GetListeningDoc()->m_cDocFile.GetFilePath(),
 		CEditApp::getInstance()->GetGrepAgent()->GrepMode() ); // 2006.01.28 ryoji ファイル名、Grepモードパラメータを追加
