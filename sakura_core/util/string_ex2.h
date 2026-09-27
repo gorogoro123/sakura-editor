@@ -10,10 +10,6 @@
 class CEol;
 class CNativeA;
 
-// Aug. 16, 2007 kobake
-wchar_t *wcs_pushW(wchar_t *dst, size_t dst_count, const wchar_t* src, size_t src_count);
-wchar_t *wcs_pushW(wchar_t *dst, size_t dst_count, const wchar_t* src);
-
 int AddLastChar( WCHAR* pszPath, int nMaxLen, WCHAR c );/* 2003.06.24 Moca 最後の文字が指定された文字でないときは付加する */
 
 const wchar_t* GetNextLineW ( const wchar_t* pData, int nDataLen, int* pnLineLen, int* pnBgn, CEol* pcEol, bool bExtEol); // GetNextLineのwchar_t版
