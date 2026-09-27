@@ -50,7 +50,23 @@ static SExpParamName SExpParamNameTable[] = {
 	{L"profile", 7},
 	{nullptr, 0}
 };
-wchar_t* ExParam_LongName( wchar_t* q, wchar_t* q_max, EExpParamName eLongParam );
+
+/*! 長い名前の設定 */
+std::wstring ExParam_LongName( EExpParamName eLongParam )
+{
+	switch( eLongParam ){
+	case EExpParamName_profile:
+		{
+			LPCWSTR pszProf = CCommandLine::getInstance()->GetProfileName();
+			return pszProf;
+		}
+		break;
+	default:
+		assert( 0 );
+		break;
+	}
+	return L"";
+}
 
 /*!	$xの展開
 
@@ -528,9 +544,9 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, wchar_t* pszB
 				int nParamNameIdx = EExpParamName_begin;
 				for(; nParamNameIdx != EExpParamName_end; nParamNameIdx++ ){
 					if( SExpParamNameTable[nParamNameIdx].m_nLen == p - pBegin &&
-						0 == wmemicmp(SExpParamNameTable[nParamNameIdx].m_szName,
-							pBegin, p - pBegin) ){
-						q = ExParam_LongName( q, q_max, static_cast<EExpParamName>(nParamNameIdx) );
+						0 == wmemicmp(SExpParamNameTable[nParamNameIdx].m_szName, pBegin, p - pBegin) ){
+						const std::wstring longName = ExParam_LongName(static_cast<EExpParamName>(nParamNameIdx));
+						q = wcs_pushW(q, q_max - q, longName.c_str(), longName.length());
 						break;
 					}
 				}
@@ -666,23 +682,6 @@ int CSakuraEnvironment::_ExParam_Evaluate( const wchar_t* pCond )
 		break;
 	}
 	return 0;
-}
-
-/*! 長い名前の設定 */
-wchar_t* ExParam_LongName( wchar_t* q, wchar_t* q_max, EExpParamName eLongParam )
-{
-	switch( eLongParam ){
-	case EExpParamName_profile:
-		{
-			LPCWSTR pszProf = CCommandLine::getInstance()->GetProfileName();
-			q = wcs_pushW( q, q_max - q, pszProf );
-		}
-		break;
-	default:
-		assert( 0 );
-		break;
-	}
-	return q;
 }
 
 /*!	@brief 初期フォルダー取得
