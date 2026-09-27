@@ -21,7 +21,6 @@
 #include "agent/CGrepAgent.h"
 #include "recent/CMRUFile.h"
 #include "recent/CMRUFolder.h"
-#include "util/string_ex2.h"
 #include "util/module.h" //GetAppVersionInfo
 #include "util/shell.h"
 #include "util/window.h"
@@ -120,37 +119,33 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 	const CEditDoc* pcDoc = GetDocument();
 	// Apr. 03, 2003 genta 固定文字列をまとめる
 	const std::wstring	PRINT_PREVIEW_ONLY		= LS( STR_PREVIEW_ONLY );	//L"(印刷プレビューでのみ使用できます)";
-	const auto			PRINT_PREVIEW_ONLY_LEN	= int(PRINT_PREVIEW_ONLY.length());
 	const std::wstring	NO_TITLE				= LS( STR_NO_TITLE1 );	//L"(無題)";
-	const auto			NO_TITLE_LEN			= int(NO_TITLE.length());
 	const std::wstring	NOT_SAVED				= LS( STR_NOT_SAVED );	//L"(保存されていません)";
-	const auto			NOT_SAVED_LEN			= int(NOT_SAVED.length());
 
 	const wchar_t *p, *r;	//	p：目的のバッファ。r：作業用のポインタ。
-	wchar_t *q;
-	wchar_t *q_max = szBuffer.data() + szBuffer.size() - 1;
+	std::wstring result;
 
-	for( p = pszSource, q = szBuffer.data(); *p != '\0' && q < q_max;){
+	for (p = pszSource; *p != '\0'; ) {
 		if( *p != '$' ){
-			*q++ = *p++;
+			result.push_back(*p++);
 			continue;
 		}
 		switch( *(++p) ){
 		case L'$':	//	 $$ -> $
-			*q++ = *p++;
+			result.push_back(*p++);
 			break;
 		case L'A':	//アプリ名
-			q = wcs_pushW( q, q_max - q, GSTR_APPNAME_W, wcslen(GSTR_APPNAME_W) );
+			result.append(GSTR_APPNAME_W);
 			++p;
 			break;
 		case L'F':	//	開いているファイルの名前（フルパス）
 			if ( !pcDoc->m_cDocFile.GetFilePathClass().IsValidPath() ){
-				q = wcs_pushW( q, q_max - q, NO_TITLE.c_str(), NO_TITLE_LEN );
+				result.append(NO_TITLE);
 				++p;
 			} 
 			else {
 				r = pcDoc->m_cDocFile.GetFilePath();
-				q = wcs_pushW( q, q_max - q, r, wcslen( r ));
+				result.append(r);
 				++p;
 			}
 			break;
@@ -159,20 +154,20 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 			//	ファイル名のみを渡すバージョン
 			//	ポインタを末尾に
 			if ( ! pcDoc->m_cDocFile.GetFilePathClass().IsValidPath() ){
-				q = wcs_pushW( q, q_max - q, NO_TITLE.c_str(), NO_TITLE_LEN );
+				result.append(NO_TITLE);
 				++p;
 			} 
 			else {
 				// 2002.10.13 Moca ファイル名(パスなし)を取得。日本語対応
 				//	万一\\が末尾にあってもその後ろには\0があるのでアクセス違反にはならない。
-				q = wcs_pushW( q, q_max - q, pcDoc->m_cDocFile.GetFileName());
+				result.append(pcDoc->m_cDocFile.GetFileName());
 				++p;
 			}
 			break;
 		case L'g':	//	開いているファイルの名前（拡張子を除くファイル名のみ）
 			//	From Here Sep. 16, 2002 genta
 			if ( ! pcDoc->m_cDocFile.GetFilePathClass().IsValidPath() ){
-				q = wcs_pushW( q, q_max - q, NO_TITLE.c_str(), NO_TITLE_LEN );
+				result.append(NO_TITLE);
 				++p;
 			} 
 			else {
@@ -189,7 +184,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 				if( dot_position == r )
 					dot_position = end_of_path;
 
-				q = wcs_pushW( q, q_max - q, r, dot_position - r );
+				result.append(r, dot_position - r);
 				++p;
 			}
 			break;
@@ -197,16 +192,16 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 		case L'/':	//	開いているファイルの名前（フルパス。パスの区切りが/）
 			// Oct. 28, 2001 genta
 			if ( !pcDoc->m_cDocFile.GetFilePathClass().IsValidPath() ){
-				q = wcs_pushW( q, q_max - q, NO_TITLE.c_str(), NO_TITLE_LEN );
+				result.append(NO_TITLE);
 				++p;
 			} 
 			else {
 				//	パスの区切りとして'/'を使うバージョン
-				for( r = pcDoc->m_cDocFile.GetFilePath(); *r != L'\0' && q < q_max; ++r, ++q ){
+				for (r = pcDoc->m_cDocFile.GetFilePath(); *r != L'\0'; ++r) {
 					if( *r == L'\\' )
-						*q = L'/';
+						result.push_back(L'/');
 					else
-						*q = *r;
+						result.push_back(*r);
 				}
 				++p;
 			}
@@ -214,7 +209,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 		//	From Here 2003/06/21 Moca
 		case L'N':	//	開いているファイルの名前(簡易表示)
 			if( !pcDoc->m_cDocFile.GetFilePathClass().IsValidPath() ){
-				q = wcs_pushW( q, q_max - q, NO_TITLE.c_str(), NO_TITLE_LEN );
+				result.append(NO_TITLE);
 				++p;
 			}
 			else {
@@ -224,7 +219,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 				::SystemParametersInfo(SPI_GETNONCLIENTMETRICS, met.cbSize, &met, 0);
 				CDCFont dcFont(met.lfCaptionFont, GetMainWindow()->GetHwnd());
 				CFileNameManager::getInstance()->GetTransformFileNameFast( pcDoc->m_cDocFile.GetFilePath(), szText, dcFont.GetHDC(), true );
-				q = wcs_pushW( q, q_max - q, szText);
+				result.append(szText);
 				++p;
 			}
 			break;
@@ -238,7 +233,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 					const EditNode* node = CAppNodeManager::getInstance()->GetEditNode( GetMainWindow()->GetHwnd() );
 					if( 0 < node->m_nId ){
 						auto_snprintf_s( szText, std::size(szText), L"%d", node->m_nId );
-						q = wcs_pushW( q, q_max - q, szText );
+						result.append(szText);
 					}
 				}
 			}
@@ -246,7 +241,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 			break;
 		case L'E':	// 開いているファイルのあるフォルダーの名前(簡易表示)	2012/12/2 Uchi
 			if( !pcDoc->m_cDocFile.GetFilePathClass().IsValidPath() ){
-				q = wcs_pushW( q, q_max - q, NO_TITLE.c_str(), NO_TITLE_LEN );
+				result.append(NO_TITLE);
 			}
 			else {
 				WCHAR	buff[_MAX_PATH];		// \の処理をする為WCHAR
@@ -272,13 +267,13 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 				::SystemParametersInfo(SPI_GETNONCLIENTMETRICS, met.cbSize, &met, 0);
 				CDCFont dcFont(met.lfCaptionFont, GetMainWindow()->GetHwnd());
 				CFileNameManager::getInstance()->GetTransformFileNameFast( buff, szText, dcFont.GetHDC(), true );
-				q = wcs_pushW( q, q_max - q, szText);
+				result.append(szText);
 			}
 			++p;
 			break;
 		case L'e':	// 開いているファイルのあるフォルダーの名前		2012/12/2 Uchi
 			if( !pcDoc->m_cDocFile.GetFilePathClass().IsValidPath() ){
-				q = wcs_pushW( q, q_max - q, NO_TITLE.c_str(), NO_TITLE_LEN );
+				result.append(NO_TITLE);
 			}
 			else {
 				const WCHAR *pStr = pcDoc->m_cDocFile.GetFilePath();
@@ -288,7 +283,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 						pEnd = r;
 					}
 				}
-				q = wcs_pushW( q, q_max - q, pStr, pEnd - pStr + 1 );
+				result.append(pStr, pEnd - pStr + 1);
 			}
 			++p;
 			break;
@@ -297,7 +292,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 			{
 				const STypeConfig&	sTypeCongig = pcDoc->m_cDocType.GetDocumentAttribute();
 				if (sTypeCongig.m_nIdx > 0) {	// 基本は表示しない
-					q = wcs_pushW( q, q_max - q, sTypeCongig.m_szTypeName);
+					result.append(sTypeCongig.m_szTypeName);
 				}
 				++p;
 			}
@@ -313,7 +308,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 					;
 				//	.を発見(拡張子有り)
 				if (*dot_position == L'.') {
-					q = wcs_pushW( q, q_max - q, dot_position +1, end_of_path - dot_position -1 );
+					result.append(dot_position + 1, end_of_path - dot_position - 1);
 				}
 			}
 			++p;
@@ -322,7 +317,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 			{
 				PRINTSETTING*	ps = &GetDllShareData().m_PrintSettingArr[
 					 pcDoc->m_cDocType.GetDocumentAttribute().m_nCurrentPrintSetting];
-				q = wcs_pushW( q, q_max - q, ps->m_szPrintSettingName);
+				result.append(ps->m_szPrintSettingName);
 				++p;
 			}
 			break;
@@ -331,7 +326,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 				CNativeW cmemCurText;
 				GetMainWindow()->GetActiveView().GetCurrentTextForSearch( cmemCurText );
 
-				q = wcs_pushW( q, q_max - q, cmemCurText.GetStringPtr(), cmemCurText.GetStringLength());
+				result.append(cmemCurText.GetStringPtr(), cmemCurText.GetStringLength());
 				++p;
 			}
 		//	To Here Jan. 15, 2002 hor
@@ -341,7 +336,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 			{
 				wchar_t szText[11];
 				_itow_s( GetMainWindow()->GetActiveView().GetCaret().GetCaretLogicPos().x + 1, szText, 10 );
-				q = wcs_pushW( q, q_max - q, szText);
+				result.append(szText);
 				++p;
 			}
 			break;
@@ -349,7 +344,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 			{
 				wchar_t szText[11];
 				_itow_s( GetMainWindow()->GetActiveView().GetCaret().GetCaretLogicPos().y + 1, szText, 10 );
-				q = wcs_pushW( q, q_max - q, szText);
+				result.append(szText);
 				++p;
 			}
 			break;
@@ -360,7 +355,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 				SYSTEMTIME systime;
 				::GetLocalTime( &systime );
 				CFormatManager().MyGetDateFormat( systime, szText, int(std::size(szText)) - 1 );
-				q = wcs_pushW( q, q_max - q, szText);
+				result.append(szText);
 				++p;
 			}
 			break;
@@ -370,7 +365,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 				SYSTEMTIME systime;
 				::GetLocalTime( &systime );
 				CFormatManager().MyGetTimeFormat( systime, szText, int(std::size(szText)) - 1 );
-				q = wcs_pushW( q, q_max - q, szText);
+				result.append(szText);
 				++p;
 			}
 			break;
@@ -380,11 +375,11 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 				if (pcEditWnd->m_pPrintPreview){
 					wchar_t szText[1024];
 					_itow_s(pcEditWnd->m_pPrintPreview->GetCurPageNum() + 1, szText, 10);
-					q = wcs_pushW( q, q_max - q, szText, wcslen(szText));
+					result.append(szText);
 					++p;
 				}
 				else {
-					q = wcs_pushW( q, q_max - q, PRINT_PREVIEW_ONLY.c_str(), PRINT_PREVIEW_ONLY_LEN );
+					result.append(PRINT_PREVIEW_ONLY);
 					++p;
 				}
 			}
@@ -395,11 +390,11 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 				if (pcEditWnd->m_pPrintPreview){
 					wchar_t szText[1024];
 					_itow_s(pcEditWnd->m_pPrintPreview->GetAllPageNum(), szText, 10);
-					q = wcs_pushW( q, q_max - q, szText);
+					result.append(szText);
 					++p;
 				}
 				else {
-					q = wcs_pushW( q, q_max - q, PRINT_PREVIEW_ONLY.c_str(), PRINT_PREVIEW_ONLY_LEN );
+					result.append(PRINT_PREVIEW_ONLY);
 					++p;
 				}
 			}
@@ -412,11 +407,11 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 					szText,
 					int(std::size(szText)) - 1
 				);
-				q = wcs_pushW( q, q_max - q, szText);
+				result.append(szText);
 				++p;
 			}
 			else {
-				q = wcs_pushW( q, q_max - q, NOT_SAVED.c_str(), NOT_SAVED_LEN );
+				result.append(NOT_SAVED);
 				++p;
 			}
 			break;
@@ -428,11 +423,11 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 					szText,
 					int(std::size(szText)) - 1
 				);
-				q = wcs_pushW( q, q_max - q, szText);
+				result.append(szText);
 				++p;
 			}
 			else {
-				q = wcs_pushW( q, q_max - q, NOT_SAVED.c_str(), NOT_SAVED_LEN );
+				result.append(NOT_SAVED);
 				++p;
 			}
 			break;
@@ -449,7 +444,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 					HIWORD( dwVersionLS ),
 					LOWORD( dwVersionLS )
 				);
-				q = wcs_pushW( q, q_max - q, buf, len );
+				result.append(buf, len);
 				++p;
 			}
 			break;
@@ -459,11 +454,12 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 			{
 				CNativeW	cmemDes;
 				const std::wstring szGrepKey = CAppMode::getInstance()->GetGrepKey();
-				cmemDes.LimitStringLengthW(szGrepKey, (q_max - q > 32 ? 32 : q_max - q - 3) );
+				const auto remaining = static_cast<ptrdiff_t>(szBuffer.size() - result.length());
+				cmemDes.LimitStringLengthW(szGrepKey, std::min<ptrdiff_t>(32, remaining - 3));
 				if( szGrepKey.length() > cmemDes.GetStringLength() ){
 					cmemDes.AppendString(L"...");
 				}
-				q = wcs_pushW( q, q_max - q, cmemDes.GetStringPtr(), cmemDes.GetStringLength());
+				result.append(cmemDes.GetStringPtr(), cmemDes.GetStringLength());
 				++p;
 			}
 			break;
@@ -471,7 +467,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 			//	サクラエディタのフルパス
 			{
 				auto exePath = GetExeFileName();
-				q = wcs_pushW( q, q_max - q, exePath.c_str() );
+				result.append(exePath);
 				++p;
 			}
 			break;
@@ -479,7 +475,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 			//	iniファイルのフルパス
 			{
 				auto privateIniPath = GetIniFileName();
-				q = wcs_pushW( q, q_max - q, privateIniPath.c_str() );
+				result.append(privateIniPath);
 				++p;
 			}
 			break;
@@ -492,12 +488,12 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 				case INVALID_MACRO_IDX:
 					break;
 				case TEMP_KEYMACRO:
-					q = wcs_pushW( q, q_max - q, pcSMacroMgr->GetFile(TEMP_KEYMACRO) );
+					result.append(pcSMacroMgr->GetFile(TEMP_KEYMACRO));
 					break;
 				case STAND_KEYMACRO:
 					{
 						WCHAR* pszMacroFilePath = GetDllShareData().m_Common.m_sMacro.m_szKeyMacroFileName;
-						q = wcs_pushW( q, q_max - q, pszMacroFilePath );
+						result.append(pszMacroFilePath);
 					}
 					break;
 				default:
@@ -505,7 +501,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 						SFilePath szMacroFilePath;
 						int n = CShareData::getInstance()->GetMacroFilename( pcSMacroMgr->GetCurrentIdx(), szMacroFilePath );
 						if ( 0 < n ){
-							q = wcs_pushW( q, q_max - q, szMacroFilePath.c_str() );
+							result.append(szMacroFilePath.c_str());
 						}
 					}
 					break;
@@ -551,8 +547,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 				for(; nParamNameIdx != EExpParamName_end; nParamNameIdx++ ){
 					if( SExpParamNameTable[nParamNameIdx].m_nLen == p - pBegin &&
 						0 == wmemicmp(SExpParamNameTable[nParamNameIdx].m_szName, pBegin, p - pBegin) ){
-						const std::wstring longName = ExParam_LongName(static_cast<EExpParamName>(nParamNameIdx));
-						q = wcs_pushW(q, q_max - q, longName.c_str(), longName.length());
+						result.append(ExParam_LongName(static_cast<EExpParamName>(nParamNameIdx)));
 						break;
 					}
 				}
@@ -560,12 +555,13 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 				break;
 			}
 		default:
-			*q++ = '$';
-			*q++ = *p++;
+			result.push_back(L'$');
+			result.push_back(*p++);
 			break;
 		}
 	}
-	*q = '\0';
+
+	wcsncpy_s(szBuffer.data(), szBuffer.size(), result.c_str(), _TRUNCATE);
 }
 
 /*! @brief 処理の読み飛ばし

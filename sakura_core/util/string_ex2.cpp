@@ -8,19 +8,6 @@
 #include "charset/charcode.h"
 #include "basis/CEol.h"
 
-wchar_t *wcs_pushW(wchar_t *dst, size_t dst_count, const wchar_t* src, size_t src_count)
-{
-	if( src_count >= dst_count ){
-		src_count = dst_count - 1;
-	}
-	wmemcpy( dst, src, src_count );
-	return dst + src_count;
-}
-wchar_t *wcs_pushW(wchar_t *dst, size_t dst_count, const wchar_t* src)
-{
-	return wcs_pushW(dst,dst_count,src,wcslen(src));
-}
-
 /*! 文字のエスケープ
 
 	@param org [in] 変換したい文字列
