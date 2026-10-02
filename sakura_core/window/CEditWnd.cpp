@@ -204,18 +204,175 @@ LRESULT CALLBACK CEditWndProc(
 CEditWnd::CEditWnd(CEditDoc& cEditDoc)
 : m_cEditDoc(cEditDoc)
 {
-	const auto& cTypeConfig = GetDocument()->m_cDocType.GetDocumentAttribute();
-	auto& cLayoutMgr = GetDocument()->m_cLayoutMgr;
-	cLayoutMgr.SetLayoutInfo( true, false, cTypeConfig,
-		cLayoutMgr.GetTabSpaceKetas(), cLayoutMgr.m_tsvInfo.m_nTsvMode,
-		cLayoutMgr.GetMaxLineKetas(), CLayoutXInt(-1), &GetLogfont() );
-
 	// [0] - [3] まで作成・初期化していたものを[0]だけ作る。ほかは分割されるまで何もしない
 	m_pcEditViewArr[0] = std::make_unique<CEditView>();
 	m_pcEditView = m_pcEditViewArr[0].get();
 }
 
 CEditWnd::~CEditWnd() = default;
+
+/*!
+	作成
+
+	@date 2002.03.07 genta nDocumentType追加
+	@date 2007.06.26 ryoji nGroup追加
+	@date 2008.04.19 ryoji 初回アイドリング検出用ゼロ秒タイマーのセット処理を追加
+*/
+HWND CEditWnd::Create(
+	CImageListMgr*	pcIcons,	//!< [in] Image List
+	int				nGroup		//!< [in] グループID
+)
+{
+	MY_RUNNINGTIMER( cRunningTimer, L"CEditWnd::Create" );
+
+	const auto& cTypeConfig = GetDocument()->m_cDocType.GetDocumentAttribute();
+	auto& cLayoutMgr = GetDocument()->m_cLayoutMgr;
+	cLayoutMgr.SetLayoutInfo( true, false, cTypeConfig,
+		cLayoutMgr.GetTabSpaceKetas(), cLayoutMgr.m_tsvInfo.m_nTsvMode,
+		cLayoutMgr.GetMaxLineKetas(), CLayoutXInt(-1), &GetLogfont() );
+
+	wmemset( m_pszMenubarMessage, L' ', MENUBAR_MESSAGE_MAX_LEN );	// null終端は不要
+
+	//	Dec. 4, 2002 genta
+	InitMenubarMessageFont();
+
+	// 2009.01.17 nasukoji	ホイールスクロール有無状態をクリア
+	ClearMouseState();
+
+	// ウィンドウ毎にアクセラレータテーブルを作成する
+	CreateAccelTbl();
+
+	//ウィンドウ数制限
+	if( m_pShareData->m_sNodes.m_nEditArrNum >= MAX_EDITWINDOWS ){	//最大値修正	//@@@ 2003.05.31 MIK
+		OkMessage( nullptr, LS(STR_MAXWINDOW), MAX_EDITWINDOWS );
+		return nullptr;
+	}
+
+	//タブグループ情報取得
+	STabGroupInfo sTabGroupInfo;
+	_GetTabGroupInfo(&sTabGroupInfo, nGroup);
+
+	// -- -- -- -- ウィンドウ作成 -- -- -- -- //
+	HWND hWnd = _CreateMainWindow(nGroup, sTabGroupInfo);
+	if(!hWnd)return nullptr;
+	m_hWnd = hWnd;
+
+	// 初回アイドリング検出用のゼロ秒タイマーをセットする	// 2008.04.19 ryoji
+	// ゼロ秒タイマーが発動（初回アイドリング検出）したら MYWM_FIRST_IDLE を起動元プロセスにポストする。
+	// ※起動元での起動先アイドリング検出については CControlTray::OpenNewEditor を参照
+	::SetTimer( GetHwnd(), IDT_FIRST_IDLE, 0, nullptr );
+
+	/* 編集ウィンドウリストへの登録 */
+	// 2011.01.12 ryoji この処理は以前はウィンドウ可視化よりも後の位置にあった
+	// Vista/7 での初回表示アニメーション抑止（rev1868）とのからみで、ウィンドウが可視化される時点でタブバーに全タブが揃っていないと見苦しいのでここに移動。
+	// AddEditWndList() で自ウィンドウにポストされる MYWM_TAB_WINDOW_NOTIFY(TWNT_ADD) はタブバー作成後の初回アイドリング時に処理されるので特に問題は無いはず。
+	if( !CAppNodeGroupHandle(nGroup).AddEditWndList( GetHwnd() ) ){	// 2007.06.26 ryoji nGroup引数追加
+		OkMessage( GetHwnd(), LS(STR_MAXWINDOW), MAX_EDITWINDOWS );
+		::DestroyWindow( GetHwnd() );
+		m_hWnd = hWnd = nullptr;
+		return hWnd;
+	}
+
+	//コモンコントロール初期化
+	MyInitCommonControls();
+
+	//イメージ、ヘルパなどの作成
+	m_cMenuDrawer.Create( G_AppInstance(), GetHwnd(), pcIcons );
+	m_cToolbar.Create( pcIcons );
+
+	// プラグインコマンドを登録する
+	RegisterPluginCommand();
+
+	SelectCharWidthCache( CWM_FONT_MINIMAP, CWM_CACHE_LOCAL ); // Init
+	InitCharWidthCache( m_pcViewFontMiniMap->GetLogfont(), CWM_FONT_MINIMAP );
+	SelectCharWidthCache( CWM_FONT_EDIT, GetLogfontCacheMode() );
+	InitCharWidthCache( GetLogfont() );
+
+	// -- -- -- -- 子ウィンドウ作成 -- -- -- -- //
+
+	/* 分割フレーム作成 */
+	m_cSplitterWnd.Create( GetHwnd() );
+
+	/* ビュー */
+	GetView(0).Create( m_cSplitterWnd.GetHwnd(), GetDocument(), 0, TRUE, false  );
+	GetView(0).OnSetFocus();
+
+	/* 子ウィンドウの設定 */
+	HWND        hWndArr[2];
+	hWndArr[0] = GetView(0).GetHwnd();
+	hWndArr[1] = nullptr;
+	m_cSplitterWnd.SetChildWndArr( hWndArr );
+
+	MY_TRACETIME( cRunningTimer, L"View created" );
+
+	// -- -- -- -- 各種バー作成 -- -- -- -- //
+
+	// メインメニュー
+	LayoutMainMenu();
+
+	/* ツールバー */
+	LayoutToolBar();
+
+	/* ステータスバー */
+	LayoutStatusBar();
+
+	/* ファンクションキー バー */
+	LayoutFuncKey();
+
+	/* タブウインドウ */
+	LayoutTabBar();
+
+	// ミニマップ
+	LayoutMiniMap();
+
+	/* バーの配置終了 */
+	EndLayoutBars( FALSE );
+
+	// -- -- -- -- その他調整など -- -- -- -- //
+
+	// 画面表示直前にDispatchEventを有効化する
+	::SetWindowLongPtr( GetHwnd(), GWLP_USERDATA, (LONG_PTR)this );
+
+	// デスクトップからはみ出さないようにする
+	_AdjustInMonitor(sTabGroupInfo);
+
+	// ドロップされたファイルを受け入れる
+	::DragAcceptFiles( GetHwnd(), TRUE );
+	m_pcDropTarget->Register_DropTarget( m_hWnd );	// 右ボタンドロップ用	// 2008.06.20 ryoji
+
+	//アクティブ情報
+	m_bIsActiveApp = ( ::GetActiveWindow() == GetHwnd() );	// 2007.03.08 ryoji
+
+	// エディタ－トレイ間でのUI特権分離の確認（Vista UIPI機能） 2007.06.07 ryoji
+	{
+		m_bUIPI = FALSE;
+		::SendMessageW( m_pShareData->m_sHandles.m_hwndTray, MYWM_UIPI_CHECK,  (WPARAM)0, (LPARAM)GetHwnd() );
+		if( !m_bUIPI ){	// 返事が返らない
+			TopErrorMessage( GetHwnd(),
+				LS(STR_ERR_DLGEDITWND02)
+			);
+			::DestroyWindow( GetHwnd() );
+			m_hWnd = hWnd = nullptr;
+			return hWnd;
+		}
+	}
+
+	CShareData::getInstance()->SetTraceOutSource( GetHwnd() );	// TraceOut()起動元ウィンドウの設定	// 2006.06.26 ryoji
+
+	//	Aug. 29, 2003 wmlhq
+	m_nTimerCount = 0;
+	/* タイマーを起動 */ // タイマーのIDと間隔を変更 20060128 aroka
+	if( 0 == ::SetTimer( GetHwnd(), IDT_EDIT, 500, nullptr ) ){
+		WarningMessage( GetHwnd(), LS(STR_ERR_DLGEDITWND03) );
+	}
+	// ツールバーのタイマーを分離した 20060128 aroka
+	Timer_ONOFF( true );
+
+	//デフォルトのIMEモード設定
+	GetDocument()->m_cDocEditor.SetImeMode( GetDocument()->m_cDocType.GetDocumentAttribute().m_nImeState );
+
+	return GetHwnd();
+}
 
 //! ドキュメントリスナ：セーブ後
 // 2008.02.02 kobake
@@ -532,163 +689,6 @@ void CEditWnd::_AdjustInMonitor(const STabGroupInfo& sTabGroupInfo)
 		}
 	}
 	//To Here @@@ 2003.06.13 MIK
-}
-
-/*!
-	作成
-
-	@date 2002.03.07 genta nDocumentType追加
-	@date 2007.06.26 ryoji nGroup追加
-	@date 2008.04.19 ryoji 初回アイドリング検出用ゼロ秒タイマーのセット処理を追加
-*/
-HWND CEditWnd::Create(
-	CImageListMgr*	pcIcons,	//!< [in] Image List
-	int				nGroup		//!< [in] グループID
-)
-{
-	MY_RUNNINGTIMER( cRunningTimer, L"CEditWnd::Create" );
-
-	wmemset( m_pszMenubarMessage, L' ', MENUBAR_MESSAGE_MAX_LEN );	// null終端は不要
-
-	//	Dec. 4, 2002 genta
-	InitMenubarMessageFont();
-
-	// 2009.01.17 nasukoji	ホイールスクロール有無状態をクリア
-	ClearMouseState();
-
-	// ウィンドウ毎にアクセラレータテーブルを作成する
-	CreateAccelTbl();
-
-	//ウィンドウ数制限
-	if( m_pShareData->m_sNodes.m_nEditArrNum >= MAX_EDITWINDOWS ){	//最大値修正	//@@@ 2003.05.31 MIK
-		OkMessage( nullptr, LS(STR_MAXWINDOW), MAX_EDITWINDOWS );
-		return nullptr;
-	}
-
-	//タブグループ情報取得
-	STabGroupInfo sTabGroupInfo;
-	_GetTabGroupInfo(&sTabGroupInfo, nGroup);
-
-	// -- -- -- -- ウィンドウ作成 -- -- -- -- //
-	HWND hWnd = _CreateMainWindow(nGroup, sTabGroupInfo);
-	if(!hWnd)return nullptr;
-	m_hWnd = hWnd;
-
-	// 初回アイドリング検出用のゼロ秒タイマーをセットする	// 2008.04.19 ryoji
-	// ゼロ秒タイマーが発動（初回アイドリング検出）したら MYWM_FIRST_IDLE を起動元プロセスにポストする。
-	// ※起動元での起動先アイドリング検出については CControlTray::OpenNewEditor を参照
-	::SetTimer( GetHwnd(), IDT_FIRST_IDLE, 0, nullptr );
-
-	/* 編集ウィンドウリストへの登録 */
-	// 2011.01.12 ryoji この処理は以前はウィンドウ可視化よりも後の位置にあった
-	// Vista/7 での初回表示アニメーション抑止（rev1868）とのからみで、ウィンドウが可視化される時点でタブバーに全タブが揃っていないと見苦しいのでここに移動。
-	// AddEditWndList() で自ウィンドウにポストされる MYWM_TAB_WINDOW_NOTIFY(TWNT_ADD) はタブバー作成後の初回アイドリング時に処理されるので特に問題は無いはず。
-	if( !CAppNodeGroupHandle(nGroup).AddEditWndList( GetHwnd() ) ){	// 2007.06.26 ryoji nGroup引数追加
-		OkMessage( GetHwnd(), LS(STR_MAXWINDOW), MAX_EDITWINDOWS );
-		::DestroyWindow( GetHwnd() );
-		m_hWnd = hWnd = nullptr;
-		return hWnd;
-	}
-
-	//コモンコントロール初期化
-	MyInitCommonControls();
-
-	//イメージ、ヘルパなどの作成
-	m_cMenuDrawer.Create( G_AppInstance(), GetHwnd(), pcIcons );
-	m_cToolbar.Create( pcIcons );
-
-	// プラグインコマンドを登録する
-	RegisterPluginCommand();
-
-	SelectCharWidthCache( CWM_FONT_MINIMAP, CWM_CACHE_LOCAL ); // Init
-	InitCharWidthCache( m_pcViewFontMiniMap->GetLogfont(), CWM_FONT_MINIMAP );
-	SelectCharWidthCache( CWM_FONT_EDIT, GetLogfontCacheMode() );
-	InitCharWidthCache( GetLogfont() );
-
-	// -- -- -- -- 子ウィンドウ作成 -- -- -- -- //
-
-	/* 分割フレーム作成 */
-	m_cSplitterWnd.Create( GetHwnd() );
-
-	/* ビュー */
-	GetView(0).Create( m_cSplitterWnd.GetHwnd(), GetDocument(), 0, TRUE, false  );
-	GetView(0).OnSetFocus();
-
-	/* 子ウィンドウの設定 */
-	HWND        hWndArr[2];
-	hWndArr[0] = GetView(0).GetHwnd();
-	hWndArr[1] = nullptr;
-	m_cSplitterWnd.SetChildWndArr( hWndArr );
-
-	MY_TRACETIME( cRunningTimer, L"View created" );
-
-	// -- -- -- -- 各種バー作成 -- -- -- -- //
-
-	// メインメニュー
-	LayoutMainMenu();
-
-	/* ツールバー */
-	LayoutToolBar();
-
-	/* ステータスバー */
-	LayoutStatusBar();
-
-	/* ファンクションキー バー */
-	LayoutFuncKey();
-
-	/* タブウインドウ */
-	LayoutTabBar();
-
-	// ミニマップ
-	LayoutMiniMap();
-
-	/* バーの配置終了 */
-	EndLayoutBars( FALSE );
-
-	// -- -- -- -- その他調整など -- -- -- -- //
-
-	// 画面表示直前にDispatchEventを有効化する
-	::SetWindowLongPtr( GetHwnd(), GWLP_USERDATA, (LONG_PTR)this );
-
-	// デスクトップからはみ出さないようにする
-	_AdjustInMonitor(sTabGroupInfo);
-
-	// ドロップされたファイルを受け入れる
-	::DragAcceptFiles( GetHwnd(), TRUE );
-	m_pcDropTarget->Register_DropTarget( m_hWnd );	// 右ボタンドロップ用	// 2008.06.20 ryoji
-
-	//アクティブ情報
-	m_bIsActiveApp = ( ::GetActiveWindow() == GetHwnd() );	// 2007.03.08 ryoji
-
-	// エディタ－トレイ間でのUI特権分離の確認（Vista UIPI機能） 2007.06.07 ryoji
-	{
-		m_bUIPI = FALSE;
-		::SendMessageW( m_pShareData->m_sHandles.m_hwndTray, MYWM_UIPI_CHECK,  (WPARAM)0, (LPARAM)GetHwnd() );
-		if( !m_bUIPI ){	// 返事が返らない
-			TopErrorMessage( GetHwnd(),
-				LS(STR_ERR_DLGEDITWND02)
-			);
-			::DestroyWindow( GetHwnd() );
-			m_hWnd = hWnd = nullptr;
-			return hWnd;
-		}
-	}
-
-	CShareData::getInstance()->SetTraceOutSource( GetHwnd() );	// TraceOut()起動元ウィンドウの設定	// 2006.06.26 ryoji
-
-	//	Aug. 29, 2003 wmlhq
-	m_nTimerCount = 0;
-	/* タイマーを起動 */ // タイマーのIDと間隔を変更 20060128 aroka
-	if( 0 == ::SetTimer( GetHwnd(), IDT_EDIT, 500, nullptr ) ){
-		WarningMessage( GetHwnd(), LS(STR_ERR_DLGEDITWND03) );
-	}
-	// ツールバーのタイマーを分離した 20060128 aroka
-	Timer_ONOFF( true );
-
-	//デフォルトのIMEモード設定
-	GetDocument()->m_cDocEditor.SetImeMode( GetDocument()->m_cDocType.GetDocumentAttribute().m_nImeState );
-
-	return GetHwnd();
 }
 
 //! 起動時のファイルオープン処理
