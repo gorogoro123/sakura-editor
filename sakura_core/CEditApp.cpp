@@ -32,13 +32,8 @@ void CEditApp::Create(HINSTANCE hInst, int nGroupId)
 	//ヘルパ作成
 	m_cIcons.Create( m_hInst );	//	CreateImage List
 
-	//ドキュメントの作成
+	//ドキュメントオブジェクトの作成
 	m_pcEditDoc = std::make_unique<CEditDoc>();
-
-	//IO管理
-	m_pcLoadAgent = std::make_unique<CLoadAgent>();
-	m_pcSaveAgent = std::make_unique<CSaveAgent>();
-	m_pcVisualProgress = std::make_unique<CVisualProgress>();
 
 	//GREPモード管理
 	m_pcGrepAgent = std::make_unique<CGrepAgent>();
@@ -52,8 +47,15 @@ void CEditApp::Create(HINSTANCE hInst, int nGroupId)
 	//ドキュメントの作成
 	m_pcEditDoc->Create();
 
+	//ウィンドウオブジェクトの作成
+	m_pcEditWnd = std::make_unique<CEditWnd>(*m_pcEditDoc);
+
+	//IO管理
+	m_pcLoadAgent = std::make_unique<CLoadAgent>(*m_pcEditWnd);
+	m_pcSaveAgent = std::make_unique<CSaveAgent>();
+	m_pcVisualProgress = std::make_unique<CVisualProgress>();
+
 	//ウィンドウの作成
-	m_pcEditWnd = std::make_unique<CEditWnd>(*m_pcEditDoc.get());
 	m_pcEditWnd->Create( &m_cIcons, nGroupId);
 
 	//MRU管理
