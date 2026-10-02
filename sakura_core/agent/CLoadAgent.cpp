@@ -33,7 +33,7 @@ ECallbackResult CLoadAgent::OnCheckLoad(SLoadInfo* pLoadInfo)
 		std::vector<std::wstring> files;
 		SLoadInfo sLoadInfo(L"", CODE_AUTODETECT, false);
 		bool bDlgResult = pcDoc->m_cDocFileOperation.OpenFileDialog(
-			CEditWnd::getInstance()->GetHwnd(),
+			m_cEditWnd.GetHwnd(),
 			pLoadInfo->cFilePath,	//指定されたフォルダー
 			&sLoadInfo,
 			files
@@ -50,7 +50,7 @@ ECallbackResult CLoadAgent::OnCheckLoad(SLoadInfo* pLoadInfo)
 				sFilesLoadInfo.cFilePath = files[i].c_str();
 				CControlTray::OpenNewEditor(
 					G_AppInstance(),
-					CEditWnd::getInstance()->GetHwnd(),
+					m_cEditWnd.GetHwnd(),
 					sFilesLoadInfo,
 					nullptr,
 					true
@@ -71,7 +71,7 @@ ECallbackResult CLoadAgent::OnCheckLoad(SLoadInfo* pLoadInfo)
 	if(!pcDoc->IsAcceptLoad()){
 		CControlTray::OpenNewEditor(
 			G_AppInstance(),
-			CEditWnd::getInstance()->GetHwnd(),
+			m_cEditWnd.GetHwnd(),
 			*pLoadInfo
 		);
 		return CALLBACK_INTERRUPT;
@@ -85,7 +85,7 @@ next:
 			//	Feb. 15, 2003 genta Popupウィンドウを表示しないように．
 			//	ここでステータスメッセージを使っても画面に表示されない．
 			TopInfoMessage(
-				CEditWnd::getInstance()->GetHwnd(),
+				m_cEditWnd.GetHwnd(),
 				LS(STR_NOT_EXSIST_SAVE),	//Mar. 24, 2001 jepro 若干修正
 				pLoadInfo->cFilePath.c_str()
 			);
@@ -108,7 +108,7 @@ next:
 		if(!cFile.IsFileReadable()){
 			if( bLock ) pcDoc->m_cDocFileOperation.DoFileLock(false);
 			ErrorMessage(
-				CEditWnd::getInstance()->GetHwnd(),
+				m_cEditWnd.GetHwnd(),
 				LS(STR_LOADAGENT_ERR_OPEN),
 				pLoadInfo->cFilePath.c_str()
 			);
@@ -134,7 +134,7 @@ next:
 			//   ここでエラーを出さずに OnLoad に突入させてしまうと CFileLoad::FileOpen が例外を吐くので、
 			//   この段階でエラーを出して処理を中断させる。
 			ErrorMessage(
-				CEditWnd::getInstance()->GetHwnd(),
+				m_cEditWnd.GetHwnd(),
 				LS(STR_LOADAGENT_BIG_ERROR),
 				pLoadInfo->cFilePath.c_str(),
 				CFileLoad::GetSizeStringForHuman(nFileSize.QuadPart).c_str(),
@@ -148,7 +148,7 @@ next:
 			// GetDllShareData().m_Common.m_sFile.m_nAlertFileSize はMB単位
 			if( (nFileSize.QuadPart>>20) >= (GetDllShareData().m_Common.m_sFile.m_nAlertFileSize) ){
 				// 本当に開いて良いかどうかの警告ダイアログ
-				int nRet = MYMESSAGEBOX( CEditWnd::getInstance()->GetHwnd(),
+				int nRet = MYMESSAGEBOX( m_cEditWnd.GetHwnd(),
 					MB_ICONQUESTION | MB_YESNO | MB_TOPMOST,
 					GSTR_APPNAME,
 					LS(STR_LOADAGENT_BIG_WARNING),
@@ -289,13 +289,12 @@ void CLoadAgent::OnFinalLoad(ELoadResult eLoadResult)
 	}
 
 	//再描画 $$不足
-	// CEditWnd::getInstance()->GetActiveView().SetDrawSwitch(true);
-	bool bDraw = CEditWnd::getInstance()->GetActiveView().GetDrawSwitch();
+	bool bDraw = m_cEditWnd.GetActiveView().GetDrawSwitch();
 	if( bDraw ){
-		CEditWnd::getInstance()->Views_RedrawAll(); //ビュー再描画
-		InvalidateRect( CEditWnd::getInstance()->GetHwnd(), nullptr, TRUE );
+		m_cEditWnd.Views_RedrawAll(); //ビュー再描画
+		InvalidateRect( m_cEditWnd.GetHwnd(), nullptr, TRUE );
 	}
-	CCaret& cCaret = CEditWnd::getInstance()->GetActiveView().GetCaret();
+	CCaret& cCaret = m_cEditWnd.GetActiveView().GetCaret();
 	cCaret.MoveCursor(cCaret.GetCaretLayoutPos(),true);
-	CEditWnd::getInstance()->GetActiveView().AdjustScrollBars();
+	m_cEditWnd.GetActiveView().AdjustScrollBars();
 }
