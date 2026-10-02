@@ -53,8 +53,8 @@ void CEditApp::Create(HINSTANCE hInst, int nGroupId)
 	m_pcEditDoc->Create();
 
 	//ウィンドウの作成
-	m_pcEditWnd = std::make_unique<CEditWnd>();
-	m_pcEditWnd->Create( m_pcEditDoc.get(), &m_cIcons, nGroupId);
+	m_pcEditWnd = std::make_unique<CEditWnd>(*m_pcEditDoc.get());
+	m_pcEditWnd->Create( &m_cIcons, nGroupId);
 
 	//MRU管理
 	m_pcMruListener = std::make_unique<CMruListener>();

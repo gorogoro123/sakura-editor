@@ -95,7 +95,7 @@ private:
 	using WindowDcHolder = cxx::ResourceHolder<&::ReleaseDC>;
 
 public:
-	CEditWnd();
+	explicit CEditWnd(CEditDoc& cEditDoc);
 	~CEditWnd() override;
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
@@ -105,7 +105,6 @@ public:
 	// 2007.06.26 ryoji グループ指定引数追加
 	//! 作成
 	HWND Create(
-		const CEditDoc*	pcEditDoc,
 		CImageListMgr*	pcIcons,
 		int				nGroup
 	);
@@ -262,8 +261,8 @@ public:
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 	HWND			GetHwnd()		const	{ return m_hWnd; }
 	CMenuDrawer&	GetMenuDrawer()			{ return m_cMenuDrawer; }
-	CEditDoc*		GetDocument()           { return m_pcEditDoc; }
-	const CEditDoc*	GetDocument() const     { return m_pcEditDoc; }
+	CEditDoc*		GetDocument()           { return &m_cEditDoc; }
+	const CEditDoc*	GetDocument() const     { return &m_cEditDoc; }
 
 	//ビュー
 	const CEditView&	GetActiveView() const { return *m_pcEditView; }
@@ -350,7 +349,7 @@ private:
 	DLLSHAREDATA*	m_pShareData = &GetDllShareData();
 
 	//ドキュメント
-	CEditDoc* 		m_pcEditDoc = &GetEditDoc();
+	CEditDoc& 		m_cEditDoc;
 
 	//自ウィンドウ
 	HWND			m_hWnd = nullptr;

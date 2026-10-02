@@ -201,10 +201,11 @@ LRESULT CALLBACK CEditWndProc(
 	return ::DefWindowProc( hwnd, uMsg, wParam, lParam );
 }
 
-CEditWnd::CEditWnd()
+CEditWnd::CEditWnd(CEditDoc& cEditDoc)
+: m_cEditDoc(cEditDoc)
 {
-	const auto& cTypeConfig = GetEditDoc().m_cDocType.GetDocumentAttribute();
-	auto& cLayoutMgr = GetEditDoc().m_cLayoutMgr;
+	const auto& cTypeConfig = GetDocument()->m_cDocType.GetDocumentAttribute();
+	auto& cLayoutMgr = GetDocument()->m_cLayoutMgr;
 	cLayoutMgr.SetLayoutInfo( true, false, cTypeConfig,
 		cLayoutMgr.GetTabSpaceKetas(), cLayoutMgr.m_tsvInfo.m_nTsvMode,
 		cLayoutMgr.GetMaxLineKetas(), CLayoutXInt(-1), &GetLogfont() );
@@ -541,7 +542,6 @@ void CEditWnd::_AdjustInMonitor(const STabGroupInfo& sTabGroupInfo)
 	@date 2008.04.19 ryoji 初回アイドリング検出用ゼロ秒タイマーのセット処理を追加
 */
 HWND CEditWnd::Create(
-	[[maybe_unused]] const CEditDoc* pcEditDoc,
 	CImageListMgr*	pcIcons,	//!< [in] Image List
 	int				nGroup		//!< [in] グループID
 )

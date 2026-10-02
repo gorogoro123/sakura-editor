@@ -139,20 +139,6 @@ CEditDoc* GetDocument() noexcept
 	return CEditDoc::getInstance();
 }
 
-/*!
- * ドキュメントの参照を取得する
- *
- * @throws CEditDocが生成されていない
- */
-CEditDoc& GetEditDoc()
-{
-	auto doc = GetDocument();
-	if (!doc) {
-		throw std::domain_error("CEditDoc is not initialized");
-	}
-	return *doc;
-}
-
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                        生成と破棄                           //
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
