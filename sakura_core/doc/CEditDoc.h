@@ -150,4 +150,3 @@ public:
 };
 
 CEditDoc* GetDocument() noexcept;
-CEditDoc& GetEditDoc();
