@@ -43,7 +43,6 @@ class CSMacroMgr; // 2002/2/10 aroka
 class CEditWnd; // Sep. 10, 2002 genta
 struct EditInfo; // 20050705 aroka
 class CFuncInfoArr;
-class CEditApp;
 class CColorStrategyPool;
 
 /*!
@@ -60,7 +59,7 @@ class CEditDoc
 {
 public:
 	//コンストラクタ・デストラクタ
-	CEditDoc(CEditApp* pcApp);
+	CEditDoc();
 	~CEditDoc();
 
 	//初期化

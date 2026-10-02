@@ -165,14 +165,38 @@ CEditDoc& GetEditDoc()
 	@date 2002.01.14 YAZAKI 印刷プレビューをCPrintPreviewに独立させたことによる変更
 	@date 2004.06.21 novice タグジャンプ機能追加
 */
-CEditDoc::CEditDoc([[maybe_unused]] CEditApp* pcApp)
+CEditDoc::CEditDoc()
 : m_cDocFile(this)					// warning C4355: 'this' : ベース メンバー初期化子リストで使用されました。
 , m_cDocFileOperation(this)			// warning C4355: 'this' : ベース メンバー初期化子リストで使用されました。
 , m_cDocEditor(this)				// warning C4355: 'this' : ベース メンバー初期化子リストで使用されました。
 , m_cDocType(this)					// warning C4355: 'this' : ベース メンバー初期化子リストで使用されました。
 , m_cDocOutline(this)				// warning C4355: 'this' : ベース メンバー初期化子リストで使用されました。
 {
-	MY_RUNNINGTIMER( cRunningTimer, L"CEditDoc::CEditDoc" );
+#ifdef _DEBUG
+	{
+		// 編集禁止コマンドの並びをチェック
+		for (auto i = 0; i < int(std::size(EIsModificationForbidden)) - 1; i++){
+			assert( EIsModificationForbidden[i] <  EIsModificationForbidden[i+1] );
+		}
+	}
+#endif
+}
+
+CEditDoc::~CEditDoc()
+{
+	if( m_hBackImg ){
+		::DeleteObject( m_hBackImg );
+	}
+}
+
+/*! ウィンドウの作成等
+
+	@date 2001.09.29 genta マクロクラスを渡すように
+	@date 2002.01.03 YAZAKI m_tbMyButtonなどをCShareDataからCMenuDrawerへ移動したことによる修正。
+*/
+BOOL CEditDoc::Create( )
+{
+	MY_RUNNINGTIMER( cRunningTimer, L"CEditDoc::Create" );
 
 	// レイアウト管理情報の初期化
 	m_cLayoutMgr.Create( this, &m_cDocLineMgr );
@@ -207,21 +231,14 @@ CEditDoc::CEditDoc([[maybe_unused]] CEditApp* pcApp)
 	// 排他制御オプションを初期化
 	m_cDocFile.SetShareMode( GetDllShareData().m_Common.m_sFile.m_nFileShareMode );
 
-#ifdef _DEBUG
-	{
-		// 編集禁止コマンドの並びをチェック
-		for (auto i = 0; i < int(std::size(EIsModificationForbidden)) - 1; i++){
-			assert( EIsModificationForbidden[i] <  EIsModificationForbidden[i+1] );
-		}
-	}
-#endif
-}
+	//	Oct. 2, 2001 genta
+	m_cFuncLookup.Init( GetDllShareData().m_Common.m_sMacro.m_MacroTable, &GetDllShareData().m_Common );
 
-CEditDoc::~CEditDoc()
-{
-	if( m_hBackImg ){
-		::DeleteObject( m_hBackImg );
-	}
+	SetBackgroundImage();
+
+	MY_TRACETIME( cRunningTimer, L"End: PropSheet" );
+
+	return TRUE;
 }
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
@@ -402,25 +419,6 @@ void CEditDoc::InitAllView( )
 	GetEditWnd().InitAllViews();
 
 	return;
-}
-
-/*! ウィンドウの作成等
-
-	@date 2001.09.29 genta マクロクラスを渡すように
-	@date 2002.01.03 YAZAKI m_tbMyButtonなどをCShareDataからCMenuDrawerへ移動したことによる修正。
-*/
-BOOL CEditDoc::Create( )
-{
-	MY_RUNNINGTIMER( cRunningTimer, L"CEditDoc::Create" );
-
-	//	Oct. 2, 2001 genta
-	m_cFuncLookup.Init( GetDllShareData().m_Common.m_sMacro.m_MacroTable, &GetDllShareData().m_Common );
-
-	SetBackgroundImage();
-
-	MY_TRACETIME( cRunningTimer, L"End: PropSheet" );
-
-	return TRUE;
 }
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
