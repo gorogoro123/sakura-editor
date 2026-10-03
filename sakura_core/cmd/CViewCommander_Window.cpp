@@ -23,7 +23,6 @@
 
 #include "CViewCommander.h"
 #include "CViewCommander_inline.h"
-
 #include "_main/CControlTray.h"
 #include "util/os.h"
 #include "env/CSakuraEnvironment.h"
@@ -33,21 +32,21 @@
 /* 上下に分割 */	//Sept. 17, 2000 jepro 説明の「縦」を「上下に」に変更
 void CViewCommander::Command_SPLIT_V( )
 {
-	GetEditWindow()->m_cSplitterWnd.VSplitOnOff();
+	GetEditWindow()->SplitterWndVSplitOnOff();
 	return;
 }
 
 /* 左右に分割 */	//Sept. 17, 2000 jepro 説明の「横」を「左右に」に変更
 void CViewCommander::Command_SPLIT_H( )
 {
-	GetEditWindow()->m_cSplitterWnd.HSplitOnOff();
+	GetEditWindow()->SplitterWndHSplitOnOff();
 	return;
 }
 
 /* 縦横に分割 */	//Sept. 17, 2000 jepro 説明に「に」を追加
 void CViewCommander::Command_SPLIT_VH( )
 {
-	GetEditWindow()->m_cSplitterWnd.VHSplitOnOff();
+	GetEditWindow()->SplitterWndVHSplitOnOff();
 	return;
 }
 

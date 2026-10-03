@@ -197,7 +197,7 @@ public:
 	HRESULT STDMETHODCALLTYPE GetWindow(
 	    /* [out] */ HWND *phwnd) override
 	{
-		*phwnd = CEditWnd::getInstance()->m_cSplitterWnd.GetHwnd();
+		*phwnd = CEditWnd::getInstance()->GetSplitterWndHwnd();
 		return S_OK;
 	}
 

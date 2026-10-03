@@ -24,6 +24,7 @@
 */
 
 #include "window/CEditWnd.h"
+#include "window/CSplitterWnd.h"
 #include "_main/CControlTray.h"
 #include "_main/CCommandLine.h"	/// 2003/1/26 aroka
 #include "_main/CAppMode.h"
@@ -209,6 +210,7 @@ CEditWnd::CEditWnd(CEditDoc& cEditDoc)
 	m_pcEditViewArr[0] = std::make_unique<CEditView>(*this);
 	m_pcEditView = m_pcEditViewArr[0].get();
 
+	m_pcSplitterWnd = std::make_unique<CSplitterWnd>();
 	m_pcMiniMapView = std::make_unique<CMiniMapView>(*this);
 }
 
@@ -291,17 +293,17 @@ HWND CEditWnd::Create(
 	// -- -- -- -- 子ウィンドウ作成 -- -- -- -- //
 
 	/* 分割フレーム作成 */
-	m_cSplitterWnd.Create( GetHwnd() );
+	m_pcSplitterWnd->Create( GetHwnd() );
 
 	/* ビュー */
-	GetView(0).Create( m_cSplitterWnd.GetHwnd(), GetDocument(), 0, TRUE, false  );
+	GetView(0).Create( m_pcSplitterWnd->GetHwnd(), GetDocument(), 0, TRUE, false  );
 	GetView(0).OnSetFocus();
 
 	/* 子ウィンドウの設定 */
 	HWND        hWndArr[2];
 	hWndArr[0] = GetView(0).GetHwnd();
 	hWndArr[1] = nullptr;
-	m_cSplitterWnd.SetChildWndArr( hWndArr );
+	m_pcSplitterWnd->SetChildWndArr( hWndArr );
 
 	MY_TRACETIME( cRunningTimer, L"View created" );
 
@@ -985,7 +987,7 @@ void CEditWnd::EndLayoutBars( BOOL bAdjust/* = TRUE*/ )
 	if( bAdjust )
 	{
 		RECT		rc;
-		m_cSplitterWnd.DoSplit( -1, -1 );
+		m_pcSplitterWnd->DoSplit( -1, -1 );
 		::GetClientRect( GetHwnd(), &rc );
 		auto nWinSizeType = m_nWinSizeType;
 		::SendMessageW( GetHwnd(), WM_SIZE, 0, 0 ); // ツールバーの表示ON/OFFを行うとちらつきが発生する事への対策
@@ -1778,9 +1780,9 @@ LRESULT CEditWnd::DispatchEvent(
 	case MYWM_SETACTIVEPANE:
 		if( -1 == (int)wParam ){
 			if( 0 == lParam ){
-				nPane = m_cSplitterWnd.GetFirstPane();
+				nPane = m_pcSplitterWnd->GetFirstPane();
 			}else{
-				nPane = m_cSplitterWnd.GetLastPane();
+				nPane = m_pcSplitterWnd->GetLastPane();
 			}
 			SetActivePane( nPane );
 		}
@@ -2350,15 +2352,15 @@ void CEditWnd::InitMenu_Function(HMENU hMenu, EFunctionCode eFunc, const wchar_t
 			break;
 		case F_SPLIT_V:
 			SetMenuFuncSel( hMenu, eFunc, cKey,
-				m_cSplitterWnd.GetAllSplitRows() == 1 );
+				m_pcSplitterWnd->GetAllSplitRows() == 1 );
 			break;
 		case F_SPLIT_H:
 			SetMenuFuncSel( hMenu, eFunc, cKey,
-				m_cSplitterWnd.GetAllSplitCols() == 1 );
+				m_pcSplitterWnd->GetAllSplitCols() == 1 );
 			break;
 		case F_SPLIT_VH:
 			SetMenuFuncSel( hMenu, eFunc, cKey,
-				m_cSplitterWnd.GetAllSplitRows() == 1 || m_cSplitterWnd.GetAllSplitCols() == 1 );
+				m_pcSplitterWnd->GetAllSplitRows() == 1 || m_pcSplitterWnd->GetAllSplitCols() == 1 );
 			break;
 		case F_TAB_CLOSEOTHER:
 			SetMenuFuncSel( hMenu, eFunc, cKey,
@@ -2820,7 +2822,7 @@ void CEditWnd::PrintPreviewModeONOFF( )
 		m_pPrintPreview = nullptr;	//	NULLか否かで、プリントプレビューモードか判断するため。
 
 		/*	通常モードに戻す	*/
-		::ShowWindow( m_cSplitterWnd.GetHwnd(), SW_SHOW );
+		::ShowWindow( m_pcSplitterWnd->GetHwnd(), SW_SHOW );
 		::ShowWindow( hwndToolBar, SW_SHOW );	// 2006.06.17 ryoji
 		::ShowWindow( m_cStatusBar.GetStatusHwnd(), SW_SHOW );
 		::ShowWindow( m_cFuncKeyWnd.GetHwnd(), SW_SHOW );
@@ -2854,7 +2856,7 @@ void CEditWnd::PrintPreviewModeONOFF( )
 		::DestroyMenu( hMenu );
 		::DrawMenuBar( GetHwnd() );
 
-		::ShowWindow( m_cSplitterWnd.GetHwnd(), SW_HIDE );
+		::ShowWindow( m_pcSplitterWnd->GetHwnd(), SW_HIDE );
 		::ShowWindow( hwndToolBar, SW_HIDE );	// 2006.06.17 ryoji
 		::ShowWindow( m_cStatusBar.GetStatusHwnd(), SW_HIDE );
 		::ShowWindow( m_cFuncKeyWnd.GetHwnd(), SW_HIDE );
@@ -3193,7 +3195,7 @@ LRESULT CEditWnd::OnSize2( WPARAM wParam, LPARAM lParam, bool bUpdateStatus )
 	}
 
 	::MoveWindow(
-		m_cSplitterWnd.GetHwnd(),
+		m_pcSplitterWnd->GetHwnd(),
 		(eDockSideFL == DOCKSIDE_LEFT)? nFuncListWidth: 0,
 		(eDockSideFL == DOCKSIDE_TOP)? nTop + nFuncListHeight: nTop,	//@@@ 2003.05.31 MIK
 		((eDockSideFL == DOCKSIDE_LEFT || eDockSideFL == DOCKSIDE_RIGHT)? cx - nFuncListWidth: cx) - nMiniMapWidth,
@@ -4212,7 +4214,7 @@ bool CEditWnd::CreateEditViewBySplit(int nViewCount )
 		for( int i = GetAllViewCount(); i < nViewCount; i++ ){
 			assert( nullptr == m_pcEditViewArr[i] );
 			m_pcEditViewArr[i] = std::make_unique<CEditView>(*this);
-			m_pcEditViewArr[i]->Create( m_cSplitterWnd.GetHwnd(), GetDocument(), i, FALSE, false );
+			m_pcEditViewArr[i]->Create( m_pcSplitterWnd->GetHwnd(), GetDocument(), i, FALSE, false );
 		}
 		m_nEditViewCount = nViewCount;
 
@@ -4223,7 +4225,7 @@ bool CEditWnd::CreateEditViewBySplit(int nViewCount )
 		}
 		hWndArr.push_back( nullptr );
 
-		m_cSplitterWnd.SetChildWndArr( &hWndArr[0] );
+		m_pcSplitterWnd->SetChildWndArr( &hWndArr[0] );
 	}
 	return true;
 }
@@ -4309,7 +4311,7 @@ void  CEditWnd::SetActivePane( int nIndex )
 
 	GetActiveView().RedrawAll();	/* フォーカス移動時の再描画 */
 
-	m_cSplitterWnd.SetActivePane( nIndex );
+	m_pcSplitterWnd->SetActivePane( nIndex );
 
 	if( nullptr != m_cDlgFind.GetHwnd() ){		/* 「検索」ダイアログ */
 		/* モードレス時：検索対象となるビューの変更 */
@@ -4397,16 +4399,16 @@ BOOL CEditWnd::DetectWidthOfLineNumberAreaAllPane( bool bRedraw )
 
 	if ( GetActiveView().GetTextArea().DetectWidthOfLineNumberArea( bRedraw ) ){
 		/* ActivePaneで計算したら、再設定・再描画が必要と判明した */
-		if ( m_cSplitterWnd.GetAllSplitCols() == 2 ){
+		if ( m_pcSplitterWnd->GetAllSplitCols() == 2 ){
 			GetView(m_nActivePaneIndex^1).GetTextArea().DetectWidthOfLineNumberArea( bRedraw );
 		}
 		else {
 			//	表示されていないので再描画しない
 			GetView(m_nActivePaneIndex^1).GetTextArea().DetectWidthOfLineNumberArea( false );
 		}
-		if ( m_cSplitterWnd.GetAllSplitRows() == 2 ){
+		if ( m_pcSplitterWnd->GetAllSplitRows() == 2 ){
 			GetView(m_nActivePaneIndex^2).GetTextArea().DetectWidthOfLineNumberArea( bRedraw );
-			if ( m_cSplitterWnd.GetAllSplitCols() == 2 ){
+			if ( m_pcSplitterWnd->GetAllSplitCols() == 2 ){
 				GetView((m_nActivePaneIndex^1)^2).GetTextArea().DetectWidthOfLineNumberArea( bRedraw );
 			}
 		}
@@ -4770,4 +4772,39 @@ void CEditWnd::ClearViewCaretPosInfo()
 	for( int v = 0; v < GetAllViewCount(); ++v ){
 		GetView(v).GetCaret().ClearCaretPosInfoCache();
 	}
+}
+
+HWND CEditWnd::GetSplitterWndHwnd()
+{
+	return m_pcSplitterWnd->GetHwnd();
+}
+
+void CEditWnd::SplitterWndVSplitOnOff()
+{
+	return m_pcSplitterWnd->VSplitOnOff();
+}
+
+void CEditWnd::SplitterWndHSplitOnOff()
+{
+	return m_pcSplitterWnd->HSplitOnOff();
+}
+
+void CEditWnd::SplitterWndVHSplitOnOff()
+{
+	return m_pcSplitterWnd->VHSplitOnOff();
+}
+
+int CEditWnd::SplitterWndGetPrevPane()
+{
+	return m_pcSplitterWnd->GetPrevPane();
+}
+
+int CEditWnd::SplitterWndGetNextPane()
+{
+	return m_pcSplitterWnd->GetNextPane();
+}
+
+void CEditWnd::SplitterWndDoSplit(int nHorizontal, int nVertical)
+{
+	return m_pcSplitterWnd->DoSplit(nHorizontal, nVertical);
 }

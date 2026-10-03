@@ -25,7 +25,6 @@
 
 #include <wincodec.h>
 #include "doc/CEditDoc.h"
-
 #include "cxx/com_pointer.hpp"
 #include "doc/logic/CDocLine.h" /// 2002/2/3 aroka
 #include "doc/layout/CLayout.h"	// 2007.08.22 ryoji 追加
@@ -571,7 +570,7 @@ BOOL CEditDoc::HandleCommand( EFunctionCode nCommand )
 	switch( LOWORD( nCommand )){
 	case F_PREVWINDOW:	//前のウィンドウ
 		{
-			int nPane = GetEditWnd().m_cSplitterWnd.GetPrevPane();
+			int nPane = GetEditWnd().SplitterWndGetPrevPane();
 			if( -1 != nPane ){
 				GetEditWnd().SetActivePane( nPane );
 			}else{
@@ -581,7 +580,7 @@ BOOL CEditDoc::HandleCommand( EFunctionCode nCommand )
 		return TRUE;
 	case F_NEXTWINDOW:	//次のウィンドウ
 		{
-			int nPane = GetEditWnd().m_cSplitterWnd.GetNextPane();
+			int nPane = GetEditWnd().SplitterWndGetNextPane();
 			if( -1 != nPane ){
 				GetEditWnd().SetActivePane( nPane );
 			}
