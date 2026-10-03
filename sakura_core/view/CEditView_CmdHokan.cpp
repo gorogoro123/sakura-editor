@@ -40,7 +40,7 @@ void CEditView::PreprocessCommand_hokan( int nCommand )
 		 && nCommand != F_IME_CHAR	//	漢字入力
 		 && nCommand != F_DELETE_BACK	//	カーソル前を削除
 		 ){
-			GetEditWnd().m_cHokanMgr.Hide();
+			m_cEditWnd.m_cHokanMgr.Hide();
 			m_bHokan = FALSE;
 		}
 	}
@@ -62,7 +62,7 @@ void CEditView::PostprocessCommand_hokan()
 			ShowHokanMgr( cmemData, FALSE );
 		}else{
 			if( m_bHokan ){
-				GetEditWnd().m_cHokanMgr.Hide();
+				m_cEditWnd.m_cHokanMgr.Hide();
 				m_bHokan = FALSE;
 			}
 		}
@@ -120,14 +120,14 @@ void CEditView::ShowHokanMgr( CNativeW& cmemData, BOOL bAutoDecided )
 	// エディタ起動時だとエディタ可視化の途中になぜか不可視の入力補完ウィンドウが一時的にフォアグラウンドになって、
 	// タブバーに新規タブが追加されるときのタブ切替でタイトルバーがちらつく（一瞬非アクティブ表示になるのがはっきり見える）ことがあった。
 	// ※ Vista/7 の特定の PC でだけのちらつきか？ 該当 PC 以外の Vista/7 PC でもたまに微妙に表示が乱れた感じになる程度の症状が見られたが、それらが同一原因かどうかは不明。
-	if( !GetEditWnd().m_cHokanMgr.GetHwnd() ){
-		GetEditWnd().m_cHokanMgr.DoModeless(
+	if( !m_cEditWnd.m_cHokanMgr.GetHwnd() ){
+		m_cEditWnd.m_cHokanMgr.DoModeless(
 			G_AppInstance(),
-			GetEditWnd().GetHwnd(),
+			m_cEditWnd.GetHwnd(),
 			(LPARAM)this
 		);
 	}
-	const auto nKouhoNum = GetEditWnd().m_cHokanMgr.CHokanMgr::Search(
+	const auto nKouhoNum = m_cEditWnd.m_cHokanMgr.CHokanMgr::Search(
 		&poWin,
 		GetTextMetrics().GetHankakuHeight(),
 		GetTextMetrics().GetHankakuDx(),
@@ -142,7 +142,7 @@ void CEditView::ShowHokanMgr( CNativeW& cmemData, BOOL bAutoDecided )
 	/* 補完候補の数によって動作を変える */
 	if (nKouhoNum <= 0) {				//	候補無し
 		if( m_bHokan ){
-			GetEditWnd().m_cHokanMgr.Hide();
+			m_cEditWnd.m_cHokanMgr.Hide();
 			m_bHokan = FALSE;
 			// 2003.06.25 Moca 失敗してたら、ビープ音を出して補完終了。
 			ErrorBeep();
@@ -150,7 +150,7 @@ void CEditView::ShowHokanMgr( CNativeW& cmemData, BOOL bAutoDecided )
 	}
 	else if( bAutoDecided && nKouhoNum == 1){ //	候補1つのみ→確定。
 		if( m_bHokan ){
-			GetEditWnd().m_cHokanMgr.Hide();
+			m_cEditWnd.m_cHokanMgr.Hide();
 			m_bHokan = FALSE;
 		}
 		// 2004.05.14 Moca CHokanMgr::Search側で改行を削除するようにし、直接書き換えるのをやめた

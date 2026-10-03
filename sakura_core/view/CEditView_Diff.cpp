@@ -182,7 +182,7 @@ void CEditView::ViewDiffInfo(
 	}
 
 	//分割したビューも更新
-	GetEditWnd().Views_Redraw();
+	m_cEditWnd.Views_Redraw();
 
 	return;
 }

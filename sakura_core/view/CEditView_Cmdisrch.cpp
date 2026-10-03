@@ -258,7 +258,7 @@ void CEditView::ISearchExit()
 	}
 	m_nCurSearchKeySequence = GetDllShareData().m_Common.m_sSearch.m_nSearchKeySequence;
 	GetDllShareData().m_Common.m_sSearch.m_sSearchOption = m_sCurSearchOption;
-	GetEditWnd().m_cToolbar.AcceptSharedSearchKey();
+	m_cEditWnd.m_cToolbar.AcceptSharedSearchKey();
 	m_nISearchDirection = SEARCH_BACKWARD;
 	m_nISearchMode = SEARCH_NONE;
 
