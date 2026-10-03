@@ -181,18 +181,18 @@ ELoadResult CLoadAgent::OnLoad(const SLoadInfo& sLoadInfo)
 
 	// 文書種別確定
 	pcDoc->m_cDocType.SetDocumentType( sLoadInfo.nType, true );
-	GetEditWnd().m_pcViewFontMiniMap->UpdateFont(&GetEditWnd().GetLogfont());
-	InitCharWidthCache( GetEditWnd().m_pcViewFontMiniMap->GetLogfont(), CWM_FONT_MINIMAP );
-	SelectCharWidthCache( CWM_FONT_EDIT, GetEditWnd().GetLogfontCacheMode() );
-	InitCharWidthCache( GetEditWnd().GetLogfont() );
-	GetEditWnd().m_pcViewFont->UpdateFont(&GetEditWnd().GetLogfont());
+	m_cEditWnd.m_pcViewFontMiniMap->UpdateFont(&m_cEditWnd.GetLogfont());
+	InitCharWidthCache( m_cEditWnd.m_pcViewFontMiniMap->GetLogfont(), CWM_FONT_MINIMAP );
+	SelectCharWidthCache( CWM_FONT_EDIT, m_cEditWnd.GetLogfontCacheMode() );
+	InitCharWidthCache( m_cEditWnd.GetLogfont() );
+	m_cEditWnd.m_pcViewFont->UpdateFont(&m_cEditWnd.GetLogfont());
 
 	// 起動と同時に読む場合は予めアウトライン解析画面を配置しておく
 	// （ファイル読み込み開始とともにビューが表示されるので、あとで配置すると画面のちらつきが大きいの）
-	if( !GetEditWnd().m_cDlgFuncList.m_bEditWndReady ){
-		GetEditWnd().m_cDlgFuncList.Refresh();
-		HWND hEditWnd = GetEditWnd().GetHwnd();
-		if( !::IsIconic( hEditWnd ) && GetEditWnd().m_cDlgFuncList.GetHwnd() ){
+	if( !m_cEditWnd.m_cDlgFuncList.m_bEditWndReady ){
+		m_cEditWnd.m_cDlgFuncList.Refresh();
+		HWND hEditWnd = m_cEditWnd.GetHwnd();
+		if( !::IsIconic( hEditWnd ) && m_cEditWnd.m_cDlgFuncList.GetHwnd() ){
 			RECT rc;
 			::GetClientRect( hEditWnd, &rc );
 			::SendMessageW( hEditWnd, WM_SIZE, ::IsZoomed( hEditWnd )? SIZE_MAXIMIZED: SIZE_RESTORED, MAKELONG( rc.right - rc.left, rc.bottom - rc.top ) );
@@ -244,8 +244,8 @@ ELoadResult CLoadAgent::OnLoad(const SLoadInfo& sLoadInfo)
 	}
 
 	CProgressSubject* pOld = CEditApp::getInstance()->GetVisualProgress()->CProgressListener::Listen(&pcDoc->m_cLayoutMgr);
-	pcDoc->m_cLayoutMgr.SetLayoutInfo( true, true, ref, ref.m_nTabSpace, ref.m_nTsvMode, nMaxLineKetas, CLayoutXInt(-1), &GetEditWnd().GetLogfont() );
-	GetEditWnd().ClearViewCaretPosInfo();
+	pcDoc->m_cLayoutMgr.SetLayoutInfo( true, true, ref, ref.m_nTabSpace, ref.m_nTsvMode, nMaxLineKetas, CLayoutXInt(-1), &m_cEditWnd.GetLogfont() );
+	m_cEditWnd.ClearViewCaretPosInfo();
 	
 	CEditApp::getInstance()->GetVisualProgress()->CProgressListener::Listen(pOld);
 
@@ -257,7 +257,7 @@ void CLoadAgent::OnAfterLoad([[maybe_unused]] const SLoadInfo& sLoadInfo)
 	CEditDoc* pcDoc = GetListeningDoc();
 
 	/* 親ウィンドウのタイトルを更新 */
-	GetEditWnd().UpdateCaption();
+	m_cEditWnd.UpdateCaption();
 
 	// -- -- ※ InitAllViewでやってたこと -- -- //	// 2009.08.28 nasukoji	CEditView::OnAfterLoad()からここに移動
 	pcDoc->m_nCommandExecNum=0;
