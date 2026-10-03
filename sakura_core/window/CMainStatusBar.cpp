@@ -8,7 +8,6 @@
 #include "window/CEditWnd.h"
 #include "CEditApp.h"
 #include "apiwrap/CommonControl.h"
-
 #include "charset/CCodeFactory.h"
 
 /*!
@@ -82,7 +81,7 @@ void CMainStatusBar::CreateStatusBar()
 	}
 
 	//スプリッターの、サイズボックスの位置を変更
-	m_pOwner->m_cSplitterWnd.DoSplit( -1, -1);
+	m_pOwner->SplitterWndDoSplit( -1, -1);
 }
 
 /* ステータスバー破棄 */
@@ -111,7 +110,7 @@ void CMainStatusBar::DestroyStatusBar()
 		m_pOwner->m_cFuncKeyWnd.SizeBox_ONOFF( bSizeBox );
 	}
 	//スプリッターの、サイズボックスの位置を変更
-	m_pOwner->m_cSplitterWnd.DoSplit( -1, -1 );
+	m_pOwner->SplitterWndDoSplit( -1, -1 );
 }
 
 /*!

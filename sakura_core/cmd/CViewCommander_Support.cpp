@@ -136,7 +136,7 @@ void CViewCommander::Command_MENU_ALLFUNC( )
 	::GetClientRect( pCEditWnd->GetHwnd(), &rc );
 	po.x = t_min( po.x, rc.right );
 	::ClientToScreen( pCEditWnd->GetHwnd(), &po );
-	::GetWindowRect( pCEditWnd->m_cSplitterWnd.GetHwnd() , &rc );
+	::GetWindowRect( pCEditWnd->GetSplitterWndHwnd(), &rc );
 	po.y = rc.top;
 
 	pCEditWnd->GetMenuDrawer().ResetContents();

@@ -31,7 +31,6 @@
 #include "func/CFuncKeyWnd.h"
 #include "CMainStatusBar.h"
 #include "view/CEditView.h"
-#include "window/CSplitterWnd.h"
 #include "dlg/CDlgFind.h"
 #include "dlg/CDlgReplace.h"
 #include "dlg/CDlgJump.h"
@@ -44,15 +43,14 @@
 #include "doc/CDocListener.h"
 #include "uiparts/CMenuDrawer.h"
 #include "view/CViewFont.h"
-
 #include "cxx/ResourceHolder.hpp"
-
 #include "print/CPrintPreview.h"
 
 static const int MENUBAR_MESSAGE_MAX_LEN = 30;
 
 class CPlug;
 class CEditDoc;
+class CSplitterWnd;
 class CMiniMapView;
 struct DLLSHAREDATA;
 
@@ -282,6 +280,8 @@ public:
 			: m_pcViewFont.get();
 	}
 
+	HWND GetSplitterWndHwnd();
+
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 	//                         実装補助                            //
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
@@ -341,6 +341,15 @@ public:
 	double GetFontZoom();
 
 	void ClearViewCaretPosInfo();
+
+	// CSplitterWnd
+	void SplitterWndVSplitOnOff();
+	void SplitterWndHSplitOnOff();
+	void SplitterWndVHSplitOnOff();
+	int SplitterWndGetPrevPane();
+	int SplitterWndGetNextPane();
+	void SplitterWndDoSplit(int nHorizontal, int nVertical);
+
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 	//                        メンバ変数                           //
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
@@ -354,6 +363,8 @@ private:
 	//自ウィンドウ
 	HWND			m_hWnd = nullptr;
 
+	std::unique_ptr<CSplitterWnd>	m_pcSplitterWnd;		//!< 分割フレーム
+
 public:
 	//子ウィンドウ
 	CMainToolBar	m_cToolbar{ this };			//!< ツールバー
@@ -362,7 +373,6 @@ public:
 	CMainStatusBar	m_cStatusBar{ this };		//!< ステータスバー
 	CPrintPreviewHolder	m_pPrintPreview = nullptr;	//!< 印刷プレビュー表示情報。必要になったときのみインスタンスを生成する。
 
-	CSplitterWnd	m_cSplitterWnd;		//!< 分割フレーム
 	CEditView*		m_pcDragSourceView = nullptr;	//!< ドラッグ元のビュー
 	CViewFontHolder		m_pcViewFont = std::make_unique<CViewFont>(&GetLogfont());		//!< フォント
 	CViewFontHolder		m_pcViewFontMiniMap = std::make_unique<CViewFont>(&GetLogfont(), true);		//!< フォント
