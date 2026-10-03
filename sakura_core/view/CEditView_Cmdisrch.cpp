@@ -511,7 +511,7 @@ void CEditView::ISearchWordMake()
 	switch ( m_nISearchMode ) {
 	case SEARCH_NORMAL: // 通常インクリメンタルサーチ
 	case SEARCH_REGEXP: // 正規表現インクリメンタルサーチ
-		m_sSearchPattern.SetPattern(this->GetHwnd(), m_strCurSearchKey.c_str(), m_strCurSearchKey.size(), m_sCurSearchOption, &m_CurRegexp);
+		m_sSearchPattern.SetPattern(GetHwnd(), m_strCurSearchKey, m_sCurSearchOption, &m_CurRegexp);
 		break;
 	case SEARCH_MIGEMO: // MIGEMOインクリメンタルサーチ
 		{
@@ -519,8 +519,7 @@ void CEditView::ISearchWordMake()
 			std::wstring strMigemoWord = m_pcmigemo->migemo_query_w(m_strCurSearchKey.c_str());
 			
 			/* 検索パターンのコンパイル */
-			const wchar_t* p = strMigemoWord.c_str();
-			m_sSearchPattern.SetPattern(this->GetHwnd(), p, (int)strMigemoWord.size(), m_sCurSearchOption, &m_CurRegexp);
+			m_sSearchPattern.SetPattern(GetHwnd(), strMigemoWord, m_sCurSearchOption, &m_CurRegexp);
 		}
 		break;
 	default:

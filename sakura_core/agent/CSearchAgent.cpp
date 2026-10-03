@@ -47,17 +47,16 @@ void CSearchStringPattern::Reset(){
 
 bool CSearchStringPattern::SetPattern(
 	HWND hwnd,
-	const wchar_t* pszPattern,
-	size_t cchPattern,
+	std::span<const wchar_t> szPattern,
 	const wchar_t* pszPattern2,
 	const SSearchOption& sSearchOption,
 	CBregexp* regexp,
 	bool bGlobal
 )
 {
-	auto nPatternLen = int(cchPattern);
+	auto nPatternLen = int(szPattern.size());
 	Reset();
-	m_pszCaseKeyRef = m_pszKey = pszPattern;
+	m_pszCaseKeyRef = m_pszKey = szPattern.data();
 	m_nPatternLen = nPatternLen;
 	m_psSearchOption = &sSearchOption;
 	m_pRegexp = regexp;
@@ -74,11 +73,11 @@ bool CSearchStringPattern::SetPattern(
 		}
 		/* 検索パターンのコンパイル */
 		if( pszPattern2 ){
-			if( !m_pRegexp->Compile( pszPattern, pszPattern2, nFlag ) ){
+			if( !m_pRegexp->Compile( szPattern.data(), pszPattern2, nFlag ) ){
 				return false;
 			}
 		}else{
-			if( !m_pRegexp->Compile( pszPattern, nFlag ) ){
+			if( !m_pRegexp->Compile( szPattern.data(), nFlag ) ){
 				return false;
 			}
 		}
@@ -90,7 +89,7 @@ bool CSearchStringPattern::SetPattern(
 			m_pszCaseKeyRef = m_szPatternCase.c_str();
 			//note: 合成文字,サロゲートの「大文字小文字同一視」未対応
 			for( int i = 0; i < m_nPatternLen; i++ ){
-				m_szPatternCase[i] = (wchar_t)skr_towlower(pszPattern[i]);
+				m_szPatternCase[i] = (wchar_t)skr_towlower(szPattern[i]);
 			}
 		}
 
