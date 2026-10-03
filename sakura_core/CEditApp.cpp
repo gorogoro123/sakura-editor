@@ -39,9 +39,6 @@ void CEditApp::Create(HINSTANCE hInst, int nGroupId)
 	//ドキュメントオブジェクトの作成
 	m_pcEditDoc = std::make_unique<CEditDoc>();
 
-	//GREPモード管理
-	m_pcGrepAgent = std::make_unique<CGrepAgent>();
-
 	//編集モード
 	CAppMode::getInstance();	//ウィンドウよりも前にイベントを受け取るためにここでインスタンス作成
 
@@ -53,6 +50,9 @@ void CEditApp::Create(HINSTANCE hInst, int nGroupId)
 
 	//ウィンドウオブジェクトの作成
 	m_pcEditWnd = std::make_unique<CEditWnd>(*m_pcEditDoc);
+
+	//GREPモード管理
+	m_pcGrepAgent = std::make_unique<CGrepAgent>(*m_pcEditWnd);
 
 	//IO管理
 	m_pcLoadAgent = std::make_unique<CLoadAgent>(*m_pcEditWnd);

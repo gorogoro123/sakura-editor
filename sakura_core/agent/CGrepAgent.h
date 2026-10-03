@@ -10,6 +10,7 @@
 #include "doc/CDocListener.h"
 
 class CDlgCancel;
+class CEditWnd;
 class CEditView;
 class CSearchStringPattern;
 class CGrepEnumKeys;
@@ -37,7 +38,7 @@ struct SGrepOption{
 //	Mar. 28, 2004 genta DoGrepFileから不要な引数を削除
 class CGrepAgent : public CDocListenerEx{
 public:
-	CGrepAgent();
+	CGrepAgent(CEditWnd& cEditWnd);
 
 	// イベント
 	ECallbackResult OnBeforeClose() override;
@@ -174,4 +175,7 @@ private:
 	DWORD m_dwTickUIFileName = 0;	// Cancelダイアログのファイル名表示更新を行った時間
 	bool	m_bGrepMode = false;		//!< Grepモードか
 	bool	m_bGrepRunning = false;		//!< Grep処理中
+
+private:
+	CEditWnd& m_cEditWnd;
 };
