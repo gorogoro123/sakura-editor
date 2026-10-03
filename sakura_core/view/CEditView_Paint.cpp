@@ -89,7 +89,7 @@ void CEditView::RedrawAll()
 	GetCaret().ShowCaretPosInfo();
 
 	// 親ウィンドウのタイトルを更新
-	GetEditWnd().UpdateCaption();
+	m_cEditWnd.UpdateCaption();
 
 	//	Jul. 9, 2005 genta	選択範囲の情報をステータスバーへ表示
 	GetSelectionInfo().PrintSelectionInfoMsg();
@@ -538,7 +538,7 @@ COLORREF CEditView::GetBackColorByColorInfo2(const ColorInfo& info, const ColorI
 
 void CEditView::OnPaint( HDC _hdc, PAINTSTRUCT *pPs, BOOL bDrawFromComptibleBmp )
 {
-	if (GetEditWnd().m_pPrintPreview) {
+	if (m_cEditWnd.m_pPrintPreview) {
 		return;
 	}
 	bool bChangeFont = m_bMiniMap;
@@ -547,7 +547,7 @@ void CEditView::OnPaint( HDC _hdc, PAINTSTRUCT *pPs, BOOL bDrawFromComptibleBmp 
 	}
 	OnPaint2( _hdc, pPs, bDrawFromComptibleBmp );
 	if( bChangeFont ){
-		SelectCharWidthCache( CWM_FONT_EDIT, GetEditWnd().GetLogfontCacheMode() );
+		SelectCharWidthCache( CWM_FONT_EDIT, m_cEditWnd.GetLogfontCacheMode() );
 	}
 }
 
@@ -595,7 +595,7 @@ void CEditView::OnPaint2( HDC _hdc, PAINTSTRUCT *pPs, BOOL bDrawFromComptibleBmp
 			pPs->rcPaint.top,
 			SRCCOPY
 		);
-		if ( GetEditWnd().GetActivePane() == m_nMyIndex ){
+		if ( m_cEditWnd.GetActivePane() == m_nMyIndex ){
 			/* アクティブペインは、アンダーライン描画 */
 			GetCaret().m_cUnderLine.CaretUnderLineON( true, false );
 		}
@@ -657,7 +657,7 @@ void CEditView::OnPaint2( HDC _hdc, PAINTSTRUCT *pPs, BOOL bDrawFromComptibleBmp
 		DrawBracketPair( false );
 	}
 
-	CEditView& cActiveView = GetEditWnd().GetActiveView();
+	CEditView& cActiveView = m_cEditWnd.GetActiveView();
 	m_nPageViewTop = cActiveView.GetTextArea().GetViewTopLine();
 	m_nPageViewBottom = cActiveView.GetTextArea().GetBottomLine();
 
@@ -737,7 +737,7 @@ void CEditView::OnPaint2( HDC _hdc, PAINTSTRUCT *pPs, BOOL bDrawFromComptibleBmp
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 
 	/* アクティブペインは、アンダーライン描画 */
-	const bool bDrawUnderLine = GetEditWnd().GetActivePane() == m_nMyIndex;
+	const bool bDrawUnderLine = m_cEditWnd.GetActivePane() == m_nMyIndex;
 	// カーソル行アンダーライン描画を行描画ループ内で行うかどうか
 	const bool bDrawUnderLineWithoutDelay =
 		bDrawUnderLine
@@ -998,7 +998,7 @@ bool CEditView::DrawLayoutLine(SColorStrategyInfo* pInfo)
 	CTypeSupport	cCaretLineBg(this, COLORIDX_CARETLINEBG);
 	CTypeSupport	cEvenLineBg(this, COLORIDX_EVENLINEBG);
 	CTypeSupport	cPageViewBg(this, COLORIDX_PAGEVIEW);
-	CEditView& cActiveView = GetEditWnd().GetActiveView();
+	CEditView& cActiveView = m_cEditWnd.GetActiveView();
 	CTypeSupport&	cBackType = (cCaretLineBg.IsDisp() &&
 		GetCaret().GetCaretLayoutPos().GetY() == pInfo->m_pDispPos->GetLayoutLineRef() && !m_bMiniMap
 			? cCaretLineBg
@@ -1292,7 +1292,7 @@ void CEditView::DispTextSelected(
 				sSelect.GetFrom().x >= GetTextArea().GetViewLeftCol())
 			{
 				HWND hWnd = ::GetForegroundWindow();
-				if( hWnd && (hWnd == GetEditWnd().m_cDlgFind.GetHwnd() || hWnd == GetEditWnd().m_cDlgReplace.GetHwnd()) ){
+				if( hWnd && (hWnd == m_cEditWnd.m_cDlgFind.GetHwnd() || hWnd == m_cEditWnd.m_cDlgReplace.GetHwnd()) ){
 					rcClip.right = rcClip.left + 2;
 					bOMatch = true;
 				}

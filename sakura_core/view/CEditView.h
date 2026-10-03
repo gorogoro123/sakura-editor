@@ -136,7 +136,7 @@ public:
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 public:
 	/* Constructors */
-	CEditView( );
+	CEditView(CEditWnd& cEditWnd);
 	~CEditView();
 	void Close();
 	/* 初期化系メンバ関数 */
@@ -616,6 +616,7 @@ public:
 public:
 	//参照
 	CEditDoc*		m_pcEditDoc = GetListeningDoc();	//!< ドキュメント
+    CEditWnd&		m_cEditWnd;
 	const STypeConfig*	m_pTypeData;
 
 	//主要構成部品

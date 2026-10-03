@@ -242,7 +242,7 @@ void CEditView::InsertData_CEditView(
 
 	// 再描画
 	// 行番号表示に必要な幅を設定
-	if( GetEditWnd().DetectWidthOfLineNumberAreaAllPane( bRedraw ) ){
+	if( m_cEditWnd.DetectWidthOfLineNumberAreaAllPane( bRedraw ) ){
 		// キャレットの表示・更新
 		GetCaret().ShowEditCaret();
 	}
@@ -311,14 +311,14 @@ void CEditView::InsertData_CEditView(
 			this->ReleaseDC( hdc );
 			// 2014.07.16 他のビュー(ミニマップ)の再描画を抑制する
 			if( 0 == nInsLineNum ){
-				for(int i = 0; i < GetEditWnd().GetAllViewCount(); i++ ){
-					CEditView* pcView = &GetEditWnd().GetView(i);
+				for(int i = 0; i < m_cEditWnd.GetAllViewCount(); i++ ){
+					CEditView* pcView = &m_cEditWnd.GetView(i);
 					if( pcView == this ){
 						continue;
 					}
 					pcView->RedrawLines(nLayoutTop, nLayoutBottom);
 				}
-				GetEditWnd().GetMiniMap().RedrawLines(nLayoutTop, nLayoutBottom);
+				m_cEditWnd.GetMiniMap().RedrawLines(nLayoutTop, nLayoutBottom);
 				if( !m_bDoing_UndoRedo && pcOpe ){
 					GetDocument()->m_cDocEditor.m_nOpeBlkRedawCount++;
 				}
@@ -539,7 +539,7 @@ void CEditView::DeleteData(
 			SetDrawSwitch(true);	// 2002.01.25 hor
 
 			/* 行番号表示に必要な幅を設定 */
-			if ( GetEditWnd().DetectWidthOfLineNumberAreaAllPane( true ) ){
+			if ( m_cEditWnd.DetectWidthOfLineNumberAreaAllPane( true ) ){
 				/* キャレットの表示・更新 */
 				GetCaret().ShowEditCaret();
 			}
@@ -838,7 +838,7 @@ bool CEditView::ReplaceData_CEditView3(
 	}
 
 	/* 行番号表示に必要な幅を設定 */
-	if( GetEditWnd().DetectWidthOfLineNumberAreaAllPane( bRedraw ) ){
+	if( m_cEditWnd.DetectWidthOfLineNumberAreaAllPane( bRedraw ) ){
 		/* キャレットの表示・更新 */
 		GetCaret().ShowEditCaret();
 	}
@@ -888,14 +888,14 @@ bool CEditView::ReplaceData_CEditView3(
 
 				CLayoutYInt nLayoutTop = LRArg.nModLineFrom;
 				CLayoutYInt nLayoutBottom = LRArg.nModLineTo + 1 + nAddLine;
-				for(int i = 0; i < GetEditWnd().GetAllViewCount(); i++ ){
-					CEditView* pcView = &GetEditWnd().GetView(i);
+				for(int i = 0; i < m_cEditWnd.GetAllViewCount(); i++ ){
+					CEditView* pcView = &m_cEditWnd.GetView(i);
 					if( pcView == this ){
 						continue;
 					}
 					pcView->RedrawLines(nLayoutTop, nLayoutBottom);
 				}
-				GetEditWnd().GetMiniMap().RedrawLines(nLayoutTop, nLayoutBottom);
+				m_cEditWnd.GetMiniMap().RedrawLines(nLayoutTop, nLayoutBottom);
 				if( !m_bDoing_UndoRedo && pcOpeBlk ){
 					GetDocument()->m_cDocEditor.m_nOpeBlkRedawCount++;
 				}

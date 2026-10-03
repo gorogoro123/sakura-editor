@@ -606,8 +606,8 @@ void CEditView::ScrollDraw(CLayoutInt nScrollRowNum, CLayoutInt nScrollColNum, c
 
 void CEditView::MiniMapRedraw(bool bUpdateAll)
 {
-	if( this == &GetEditWnd().GetActiveView() && GetEditWnd().GetMiniMap().GetHwnd() ){
-		CEditView& miniMap = GetEditWnd().GetMiniMap();
+	if( this == &m_cEditWnd.GetActiveView() && m_cEditWnd.GetMiniMap().GetHwnd() ){
+		CEditView& miniMap = m_cEditWnd.GetMiniMap();
 		CLayoutYInt nViewTop = miniMap.m_nPageViewTop;
 		CLayoutYInt nViewBottom = miniMap.m_nPageViewBottom;
 		CLayoutYInt nDiff = nViewTop - GetTextArea().GetViewTopLine();
@@ -688,10 +688,10 @@ void CEditView::MiniMapRedraw(bool bUpdateAll)
 void CEditView::SyncScrollV( CLayoutInt line )
 {
 	if( GetDllShareData().m_Common.m_sWindow.m_bSplitterWndVScroll && line != 0 
-		&& GetEditWnd().IsEnablePane(m_nMyIndex^0x01)
+		&& m_cEditWnd.IsEnablePane(m_nMyIndex^0x01)
 		&& 0 <= m_nMyIndex
 	){
-		CEditView&	editView = GetEditWnd().GetView(m_nMyIndex^0x01);
+		CEditView&	editView = m_cEditWnd.GetView(m_nMyIndex^0x01);
 #if 0
 		//	差分を保ったままスクロールする場合
 		editView.ScrollByV( line );
@@ -716,10 +716,10 @@ void CEditView::SyncScrollV( CLayoutInt line )
 void CEditView::SyncScrollH( CLayoutInt col )
 {
 	if( GetDllShareData().m_Common.m_sWindow.m_bSplitterWndHScroll && col != 0
-		&& GetEditWnd().IsEnablePane(m_nMyIndex^0x02)
+		&& m_cEditWnd.IsEnablePane(m_nMyIndex^0x02)
 		&& 0 <= m_nMyIndex
 	){
-		CEditView&	cEditView = GetEditWnd().GetView(m_nMyIndex^0x02);
+		CEditView&	cEditView = m_cEditWnd.GetView(m_nMyIndex^0x02);
 		HDC			hdc = ::GetDC( cEditView.GetHwnd() );
 		
 #if 0

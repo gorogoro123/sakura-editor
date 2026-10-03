@@ -9,6 +9,8 @@
 
 #include "view/CEditView.h"
 
+class CEditWnd;
+
 /*!
 	ミニマップ
 
@@ -17,5 +19,9 @@
 class CMiniMapView : public CEditView
 {
 public:
+	CMiniMapView(CEditWnd& cEditWnd)
+	: CEditView(cEditWnd)
+	{
+	}
 	BOOL Create( HWND hWndParent );
 };

@@ -391,7 +391,7 @@ BOOL CEditView::ChangeCurRegexp( bool bRedrawIfChanged )
 		if( bRedrawIfChanged ){
 			Redraw();
 		}
-		GetEditWnd().m_cToolbar.AcceptSharedSearchKey();
+		m_cEditWnd.m_cToolbar.AcceptSharedSearchKey();
 		return TRUE;
 	}
 	if( ! m_bCurSrchKeyMark ){
@@ -464,7 +464,7 @@ void CEditView::DrawBracketCursorLine(bool bDraw)
 
 HWND CEditView::StartProgress()
 {
-	HWND hwndProgress = GetEditWnd().m_cStatusBar.GetProgressHwnd();
+	HWND hwndProgress = m_cEditWnd.m_cStatusBar.GetProgressHwnd();
 	if( nullptr != hwndProgress ){
 		::ShowWindow( hwndProgress, SW_SHOW );
 		ApiWrap::Progress_SetRange( hwndProgress, 0, 101 );

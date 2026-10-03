@@ -117,8 +117,9 @@ VOID CALLBACK EditViewTimerProc(
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 
 //	@date 2002.2.17 YAZAKI CShareDataのインスタンスは、CProcessにひとつあるのみ。
-CEditView::CEditView( )
+CEditView::CEditView(CEditWnd& cEditWnd)
 : CViewCalc(this)				// warning C4355: 'this' : ベース メンバー初期化子リストで使用されました。
+, m_cEditWnd(cEditWnd)
 , m_cViewSelect(this)			// warning C4355: 'this' : ベース メンバー初期化子リストで使用されました。
 , m_cParser(this)				// warning C4355: 'this' : ベース メンバー初期化子リストで使用されました。
 , m_cTextDrawer(this)			// warning C4355: 'this' : ベース メンバー初期化子リストで使用されました。
@@ -137,7 +138,7 @@ BOOL CEditView::Create(
 {
 	m_bMiniMap = bMiniMap;
 
-	m_pcViewFont = GetEditWnd().GetViewFont(m_bMiniMap);
+	m_pcViewFont = m_cEditWnd.GetViewFont(m_bMiniMap);
 
 	m_cRegexKeyword = nullptr;				// 2007.04.08 ryoji
 
@@ -390,7 +391,7 @@ LRESULT CEditView::DispatchEvent(
 
 	switch ( uMsg ){
 	case WM_MOUSEWHEEL:
-		if( GetEditWnd().DoMouseWheel( wParam, lParam ) ){
+		if( m_cEditWnd.DoMouseWheel( wParam, lParam ) ){
 			return 0L;
 		}
 		return OnMOUSEWHEEL( wParam, lParam );
@@ -453,14 +454,14 @@ LRESULT CEditView::DispatchEvent(
 		OnSetFocus();
 
 		/* 親ウィンドウのタイトルを更新 */
-		GetEditWnd().UpdateCaption();
+		m_cEditWnd.UpdateCaption();
 
 		return 0L;
 	case WM_KILLFOCUS:
 		OnKillFocus();
 
 		// 2009.01.17 nasukoji	ホイールスクロール有無状態をクリア
-		GetEditWnd().ClearMouseState();
+		m_cEditWnd.ClearMouseState();
 
 		return 0L;
 	case WM_CHAR:
@@ -573,7 +574,7 @@ LRESULT CEditView::DispatchEvent(
 		// 2007.10.12 genta フォーカス移動のため，OnLBUTTONDBLCLKより移動
 		if(m_bActivateByMouse){
 			/* アクティブなペインを設定 */
-			GetEditWnd().SetActivePane( m_nMyIndex );
+			m_cEditWnd.SetActivePane( m_nMyIndex );
 			// カーソルをクリック位置へ移動する
 			OnLBUTTONDOWN( wParam, (short)LOWORD( lParam ), (short)HIWORD( lParam ) );
 			// 2007.10.02 nasukoji
@@ -616,9 +617,9 @@ LRESULT CEditView::DispatchEvent(
 //	case WM_RBUTTONDOWN:
 //		MYTRACE( L" WM_RBUTTONDOWN wParam=%08xh, x=%d y=%d\n", wParam, LOWORD( lParam ), HIWORD( lParam ) );
 //		OnRBUTTONDOWN( wParam, (short)LOWORD( lParam ), (short)HIWORD( lParam ) );
-//		if( m_nMyIndex != GetEditWnd().GetActivePane() ){
+//		if( m_nMyIndex != m_cEditWnd.GetActivePane() ){
 //			/* アクティブなペインを設定 */
-//			GetEditWnd().SetActivePane( m_nMyIndex );
+//			m_cEditWnd.SetActivePane( m_nMyIndex );
 //		}
 //		return 0L;
 	case WM_RBUTTONUP:
@@ -696,7 +697,7 @@ LRESULT CEditView::DispatchEvent(
 			m_dwTipTimer = ::GetTickCount();	/* 辞書Tip起動タイマー */
 		}
 		if( m_bHokan ){
-			GetEditWnd().m_cHokanMgr.Hide();
+			m_cEditWnd.m_cHokanMgr.Hide();
 			m_bHokan = FALSE;
 		}
 		return 0L;
@@ -754,7 +755,7 @@ LRESULT CEditView::DispatchEvent(
 		return 0L;
 
 	case MYWM_SETACTIVEPANE:
-		GetEditWnd().SetActivePane( m_nMyIndex );
+		m_cEditWnd.SetActivePane( m_nMyIndex );
 		::PostMessage( m_hwndParent, MYWM_SETACTIVEPANE, (WPARAM)m_nMyIndex, 0 );
 		return 0L;
 
@@ -793,7 +794,7 @@ LRESULT CEditView::DispatchEvent(
 		// マウスクリックによりバックグラウンドウィンドウがアクティベートされた
 		//	2007.10.08 genta オプション追加
 		if( GetDllShareData().m_Common.m_sGeneral.m_bNoCaretMoveByActivation &&
-		   (! GetEditWnd().IsActiveApp()))
+		   (! m_cEditWnd.IsActiveApp()))
 		{
 			m_bActivateByMouse = TRUE;		// マウスによるアクティベート
 			return MA_ACTIVATEANDEAT;		// アクティベート後イベントを破棄
@@ -808,7 +809,7 @@ LRESULT CEditView::DispatchEvent(
 				// ビュー上にマウスがあるので SetActivePane() を直接呼び出す
 				// （個別のマウスメッセージが届く前にアクティブペインを設定しておく）
 				if( !m_bMiniMap ){
-					GetEditWnd().SetActivePane( m_nMyIndex );
+					m_cEditWnd.SetActivePane( m_nMyIndex );
 				}
 			}else if( (m_pcsbwVSplitBox && hwndCursorPos == m_pcsbwVSplitBox->GetHwnd())
 						|| (m_pcsbwHSplitBox && hwndCursorPos == m_pcsbwHSplitBox->GetHwnd()) ){
@@ -921,7 +922,7 @@ void CEditView::OnSize( int cx, int cy )
 	if( m_pcEditDoc->m_nTextWrapMethodCur == WRAP_WINDOW_WIDTH ){
 		if( m_nMyIndex == 0 ){	// 左上隅のビューのサイズ変更時のみ処理する
 			// 右端で折り返すモードなら右端で折り返す	// 2008.06.08 ryoji
-			wrapChanged = GetEditWnd().WrapWindowWidth( 0 );
+			wrapChanged = m_cEditWnd.WrapWindowWidth( 0 );
 		}
 	}
 
@@ -968,10 +969,10 @@ void CEditView::OnSize( int cx, int cy )
 	}
 
 	/* 親ウィンドウのタイトルを更新 */
-	// GetEditWnd().UpdateCaption(); // [Q] genta 本当に必要？
+	// m_cEditWnd.UpdateCaption(); // [Q] genta 本当に必要？
 
-	if( GetEditWnd().GetMiniMap().GetHwnd() ){
-		CEditView& miniMap = GetEditWnd().GetMiniMap();
+	if( m_cEditWnd.GetMiniMap().GetHwnd() ){
+		CEditView& miniMap = m_cEditWnd.GetMiniMap();
 		if( miniMap.m_nPageViewTop != GetTextArea().GetViewTopLine()
 			|| miniMap.m_nPageViewBottom != GetTextArea().GetBottomLine() ){
 			MiniMapRedraw(true);
@@ -1008,10 +1009,10 @@ void CEditView::OnSetFocus( )
 	m_bDrawBracketPairFlag = TRUE;
 	DrawBracketPair( true );
 
-	GetEditWnd().m_cToolbar.AcceptSharedSearchKey();
+	m_cEditWnd.m_cToolbar.AcceptSharedSearchKey();
 
-	if( GetEditWnd().GetMiniMap().GetHwnd() ){
-		CEditView& miniMap = GetEditWnd().GetMiniMap();
+	if( m_cEditWnd.GetMiniMap().GetHwnd() ){
+		CEditView& miniMap = m_cEditWnd.GetMiniMap();
 		if( miniMap.m_nPageViewTop != GetTextArea().GetViewTopLine()
 			|| miniMap.m_nPageViewBottom != GetTextArea().GetBottomLine() ){
 			MiniMapRedraw(true);
@@ -1045,7 +1046,7 @@ void CEditView::OnKillFocus( )
 	}
 
 	if( m_bHokan ){
-		GetEditWnd().m_cHokanMgr.Hide();
+		m_cEditWnd.m_cHokanMgr.Hide();
 		m_bHokan = FALSE;
 	}
 	if( m_nAutoScrollMode ){
@@ -1253,7 +1254,7 @@ VOID CEditView::OnTimer(
 			bool bHide;
 			if( MiniMapCursorLineTip( &po, &rc, &bHide ) ){
 				m_cTipWnd.m_bAlignLeft = true;
-				m_cTipWnd.Show( po.x, po.y + GetEditWnd().GetActiveView().GetTextMetrics().GetHankakuHeight() );
+				m_cTipWnd.Show( po.x, po.y + m_cEditWnd.GetActiveView().GetTextMetrics().GetHankakuHeight() );
 			}else{
 				if( bHide && 0 == m_dwTipTimer ){
 					m_cTipWnd.Hide();
@@ -1447,7 +1448,7 @@ int	CEditView::CreatePopUpMenu_R( )
 	HMENU		hMenu;
 	int			nMenuIdx;
 
-	CMenuDrawer& cMenuDrawer = GetEditWnd().GetMenuDrawer();
+	CMenuDrawer& cMenuDrawer = m_cEditWnd.GetMenuDrawer();
 	cMenuDrawer.ResetContents();
 
 	/* 右クリックメニューの定義はカスタムメニュー配列の0番目 */
@@ -1465,7 +1466,7 @@ int	CEditView::CreatePopUpMenu_R( )
 
 void CEditView::AddKeyHelpMenu(HMENU hMenu, EKeyHelpRMenuType eRmenuType)
 {
-	CMenuDrawer& cMenuDrawer = GetEditWnd().GetMenuDrawer();
+	CMenuDrawer& cMenuDrawer = m_cEditWnd.GetMenuDrawer();
 	// 2010.07.24 Moca オーナードロー対応のために前に移動してCMenuDrawer経由で追加する
 	if( !GetSelectionInfo().IsMouseSelecting() && eRmenuType != KEYHELP_RMENU_NONE ){
 		POINT po;
@@ -1494,7 +1495,7 @@ int	CEditView::CreatePopUpMenuSub( HMENU hMenu, int nMenuIdx, int* pParentMenus,
 	WCHAR		szLabel[300];
 	int			nParentMenu[MAX_CUSTOM_MENU + 1] = {};
 
-	CMenuDrawer& cMenuDrawer = GetEditWnd().GetMenuDrawer();
+	CMenuDrawer& cMenuDrawer = m_cEditWnd.GetMenuDrawer();
 	CFuncLookup& FuncLookup = m_pcEditDoc->m_cFuncLookup;
 
 	int nParamIndex = 0;
@@ -1560,10 +1561,10 @@ int	CEditView::CreatePopUpMenuSub( HMENU hMenu, int nMenuIdx, int* pParentMenus,
 			FuncLookup.Funccode2Name( code, szLabel );
 			/* キー */
 			if( F_SPECIAL_FIRST <= code && code <= F_SPECIAL_LAST ){
-				GetEditWnd().InitMenu_Special( hMenu, code );
+				m_cEditWnd.InitMenu_Special( hMenu, code );
 			}else{
 				wchar_t keys = GetDllShareData().m_Common.m_sCustomMenu.m_nCustMenuItemKeyArr[nMenuIdx][i];
-				GetEditWnd().InitMenu_Function( hMenu, code, szLabel, keys );
+				m_cEditWnd.InitMenu_Function( hMenu, code, szLabel, keys );
 			}
 		}
 	}
@@ -1664,7 +1665,7 @@ void CEditView::OnChangeSetting()
 	m_cTipWnd.ChangeFont( &(GetDllShareData().m_Common.m_sHelper.m_lf) );
 
 	/* 再描画 */
-	if( !GetEditWnd().m_pPrintPreview ){
+	if( !m_cEditWnd.m_pPrintPreview ){
 		::InvalidateRect( GetHwnd(), nullptr, TRUE );
 	}
 	CTypeSupport cTextType(this, COLORIDX_TEXT);
@@ -2558,7 +2559,7 @@ void CEditView::CaretUnderLineOFF( bool bDraw, bool bDrawPaint, bool bResetFlag,
 */
 void CEditView::SendStatusMessage( const WCHAR* msg )
 {
-	GetEditWnd().SendStatusMessage( msg );
+	m_cEditWnd.SendStatusMessage( msg );
 }
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
@@ -2601,7 +2602,7 @@ void CEditView::OnAfterLoad([[maybe_unused]] const SLoadInfo& sLoadInfo)
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 
 	//	2004.05.13 Moca 改行コードの設定内からここに移動
-	GetEditWnd().GetActiveView().GetCaret().ShowCaretPosInfo();
+	m_cEditWnd.GetActiveView().GetCaret().ShowCaretPosInfo();
 }
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
@@ -2751,9 +2752,9 @@ void CEditView::SetUndoBuffer([[maybe_unused]] bool bPaintLineNumber)
 			//   &&	m_pcEditDoc->m_cDocEditor.m_cOpeBuf.GetCurrentPointer() == 1 )	// 全Undo状態からの変更か？	// 2009.03.26 ryoji
 			//  	Call_OnPaint( PAINT_LINENUMBER, false );	// 自ペインの行番号（変更行）表示を更新 ← 変更行のみの表示更新で済ませている場合があるため
 
-			if( !GetEditWnd().UpdateTextWrap() ){	// 折り返し方法関連の更新	// 2008.06.10 ryoji
+			if( !m_cEditWnd.UpdateTextWrap() ){	// 折り返し方法関連の更新	// 2008.06.10 ryoji
 				if( 0 < m_cCommander.GetOpeBlk()->GetNum() - GetDocument()->m_cDocEditor.m_nOpeBlkRedawCount ){
-					GetEditWnd().RedrawAllViews( this );	//	他のペインの表示を更新
+					m_cEditWnd.RedrawAllViews( this );	//	他のペインの表示を更新
 				}
 			}
 		}

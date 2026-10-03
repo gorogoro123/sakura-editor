@@ -104,7 +104,7 @@ void CEditView::DrawBracketPair( bool bDraw )
 	//   アクティブなペインではない )	場合は終了
 	if( bDraw
 	 &&( GetSelectionInfo().IsTextSelected() || GetSelectionInfo().m_bDrawSelectArea || !m_bDrawBracketPairFlag
-	 || ( GetEditWnd().GetActivePane() != m_nMyIndex ) ) ){
+	 || ( m_cEditWnd.GetActivePane() != m_nMyIndex ) ) ){
 		return;
 	}
 
@@ -218,7 +218,7 @@ void CEditView::DrawBracketPair( bool bDraw )
 					cTextType.RewindGraphicsState(gr);
 				}
 
-				if( ( GetEditWnd().GetActivePane() == m_nMyIndex )
+				if( ( m_cEditWnd.GetActivePane() == m_nMyIndex )
 					&& ( ( ptColLine.y == GetCaret().GetCaretLayoutPos().GetY() ) || ( ptColLine.y - 1 == GetCaret().GetCaretLayoutPos().GetY() ) ) ){	// 03/02/27 ai 行の間隔が"0"の時にアンダーラインが欠ける事がある為修正
 					GetCaret().m_cUnderLine.CaretUnderLineON( true, false );
 				}
