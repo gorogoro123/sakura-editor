@@ -63,7 +63,7 @@ public:
 	~CEditDoc();
 
 	//初期化
-	BOOL Create( );
+	BOOL Create(CEditWnd& cEditWnd);
 	void InitDoc();	/* 既存データのクリア */
 	void InitAllView();	/* 全ビューの初期化：ファイルオープン/クローズ時等に、ビューを初期化する */
 	void Clear();
@@ -121,7 +121,7 @@ public:
 public:
 	CBackupAgent		m_cBackupAgent;
 	CAutoSaveAgent		m_cAutoSaveAgent;		//!< 自動保存管理
-	CAutoReloadAgent	m_cAutoReloadAgent;
+	std::unique_ptr<CAutoReloadAgent>	m_pcAutoReloadAgent;
 	CDocOutline			m_cDocOutline;
 	CDocLocker			m_cDocLocker;
 

@@ -180,9 +180,11 @@ CEditDoc::~CEditDoc()
 	@date 2001.09.29 genta マクロクラスを渡すように
 	@date 2002.01.03 YAZAKI m_tbMyButtonなどをCShareDataからCMenuDrawerへ移動したことによる修正。
 */
-BOOL CEditDoc::Create( )
+BOOL CEditDoc::Create(CEditWnd& cEditWnd)
 {
 	MY_RUNNINGTIMER( cRunningTimer, L"CEditDoc::Create" );
+
+	m_pcAutoReloadAgent = std::make_unique<CAutoReloadAgent>(cEditWnd);
 
 	// レイアウト管理情報の初期化
 	m_cLayoutMgr.Create( this, &m_cDocLineMgr );
@@ -277,7 +279,7 @@ void CEditDoc::InitDoc()
 	CAppMode::getInstance()->SetGrepKey(L"");
 
 	CEditApp::getInstance()->GetGrepAgent()->GrepMode(false);	/* Grepモード */	//$$同上
-	m_cAutoReloadAgent.m_eWatchUpdate = WatchUpdate::WU_QUERY; // Dec. 4, 2002 genta 更新監視方法 $$
+	m_pcAutoReloadAgent->m_eWatchUpdate = WatchUpdate::WU_QUERY; // Dec. 4, 2002 genta 更新監視方法 $$
 
 	// 2005.06.24 Moca バグ修正
 	//	アウトプットウィンドウで「閉じて(無題)」を行ってもアウトプットウィンドウのまま

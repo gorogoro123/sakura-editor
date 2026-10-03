@@ -9,6 +9,8 @@
 
 #include "doc/CDocListener.h"
 
+class CEditWnd;
+
 // ファイルが更新された場合に再読込を行うかどうかのフラグ
 enum class WatchUpdate : int {
 	WU_QUERY,	//!< 再読込を行うかどうかダイアログボックスで問い合わせる
@@ -19,7 +21,9 @@ enum class WatchUpdate : int {
 
 class CAutoReloadAgent : public CDocListenerEx{
 public:
-	CAutoReloadAgent() = default;
+	CAutoReloadAgent(CEditWnd& cEditWnd)
+	: m_cEditWnd(cEditWnd)
+	{}
 	void OnBeforeSave(const SSaveInfo& sSaveInfo) override;
 	void OnAfterSave(const SSaveInfo& sSaveInfo) override;
 	void OnAfterLoad(const SLoadInfo& sLoadInfo) override;
@@ -42,6 +46,7 @@ public:
 	WatchUpdate		m_eWatchUpdate = WatchUpdate::WU_QUERY;	//!< 更新監視方法
 
 private:
+	CEditWnd& m_cEditWnd;
 	int m_nPauseCount = 0;	//これが1以上の場合は監視をしない
 	int m_nDelayCount;	//未編集で再ロード時の遅延カウンタ
 };
