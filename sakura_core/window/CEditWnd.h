@@ -44,7 +44,6 @@
 #include "doc/CDocListener.h"
 #include "uiparts/CMenuDrawer.h"
 #include "view/CViewFont.h"
-#include "view/CMiniMapView.h"
 
 #include "cxx/ResourceHolder.hpp"
 
@@ -54,6 +53,7 @@ static const int MENUBAR_MESSAGE_MAX_LEN = 30;
 
 class CPlug;
 class CEditDoc;
+class CMiniMapView;
 struct DLLSHAREDATA;
 
 //メインウィンドウ内コントロールID
@@ -269,7 +269,7 @@ public:
 	CEditView&			GetActiveView()       { return *m_pcEditView; }
 	const CEditView&    GetView(int n) const { return *m_pcEditViewArr[n]; }
 	CEditView&          GetView(int n)       { return *m_pcEditViewArr[n]; }
-	CMiniMapView&       GetMiniMap( ) { return m_cMiniMapView; }
+	CMiniMapView&       GetMiniMap() { return *m_pcMiniMapView; }
 	bool                IsEnablePane(int n) const { return 0 <= n && n < m_nEditViewCount; }
 	int                 GetAllViewCount() const { return m_nEditViewCount; }
 
@@ -381,7 +381,7 @@ private:
 	// 2010.04.10 Moca  public -> private. 起動直後は[0]のみ有効 4つとは限らないので注意
 	CEditViewsArray	m_pcEditViewArr{};	//!< ビュー
 	CEditView*		m_pcEditView;		//!< 有効なビュー
-	CMiniMapView	m_cMiniMapView;		//!< ミニマップ
+	std::unique_ptr<CMiniMapView> m_pcMiniMapView;		//!< ミニマップ
 	int				m_nActivePaneIndex = 0;	//!< 有効なビューのindex
 	int				m_nEditViewCount = 1;	//!< 有効なビューの数
 	const int		m_nEditViewMaxCount = int(std::size(m_pcEditViewArr));//!< ビューの最大数=4

@@ -44,6 +44,7 @@
 #include "debug/CRunningTimer.h"
 #include "apiwrap/StdApi.h"
 #include "config/system_constants.h"
+#include "view/CMiniMapView.h"
 
 #include "CSelectLang.h"
 

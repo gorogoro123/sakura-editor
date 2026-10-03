@@ -60,6 +60,7 @@
 #include "sakura_rc.h"
 #include "config/app_constants.h"
 #include "view/colors/CColorStrategy.h"
+#include "view/CMiniMapView.h"
 
 #define IDT_ROLLMOUSE	1
 

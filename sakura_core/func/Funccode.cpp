@@ -37,6 +37,7 @@
 #include "agent/CGrepAgent.h"
 #include "macro/CSMacroMgr.h"
 #include "window/CEditWnd.h"
+#include "view/CMiniMapView.h"
 #include "docplus/CDiffManager.h"
 #include "env/CMarkMgr.h"	// CAutoMarkMgr
 #include "util/os.h"

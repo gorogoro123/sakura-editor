@@ -27,6 +27,7 @@
 #include "util/shell.h"
 #include "env/CPropertyManager.h"
 #include "util/window.h"
+#include "view/CMiniMapView.h"
 #include "util/zoom.h"
 #include "config/system_constants.h"
 #include "config/app_constants.h"

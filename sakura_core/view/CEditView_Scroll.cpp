@@ -27,8 +27,8 @@
 #include "CRuler.h"
 #include "env/DLLSHAREDATA.h"
 #include "window/CEditWnd.h"
+#include "view/CMiniMapView.h"
 #include "types/CTypeSupport.h"
-#include <climits>
 #include "config/app_constants.h"
 
 /*! スクロールバー作成

@@ -21,6 +21,7 @@
 #include "view/CTextMetrics.h"
 #include "view/CViewFont.h"
 #include "view/CRuler.h"
+#include "view/CMiniMapView.h"
 #include "doc/CEditDoc.h"
 #include "doc/layout/CLayout.h"
 #include "mem/CMemoryIterator.h"
