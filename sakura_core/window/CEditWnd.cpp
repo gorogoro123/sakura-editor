@@ -4146,11 +4146,11 @@ void CEditWnd::OnEditTimer( )
 	//	Aug. 29, 2003 wmlhq, ryoji
 	if( m_nTimerCount == 0 && GetCapture() == nullptr ){
 		// ファイルのタイムスタンプのチェック処理
-		GetDocument()->m_cAutoReloadAgent.CheckFileTimeStamp();
+		GetDocument()->m_pcAutoReloadAgent->CheckFileTimeStamp();
 
 #if 0	// 2011.02.11 ryoji 書込禁止の監視を廃止（復活させるなら「更新の監視」付随ではなく別オプションにしてほしい）
 		// ファイル書込可能のチェック処理
-		if(GetDocument()->m_cAutoReloadAgent._ToDoChecking()){
+		if(GetDocument()->m_pcAutoReloadAgent._ToDoChecking()){
 			bool bOld = GetDocument()->m_cDocLocker.IsDocWritable();
 			GetDocument()->m_cDocLocker.CheckWritable(false);
 			if(bOld != GetDocument()->m_cDocLocker.IsDocWritable()){

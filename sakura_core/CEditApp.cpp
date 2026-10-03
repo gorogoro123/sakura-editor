@@ -45,9 +45,6 @@ void CEditApp::Create(HINSTANCE hInst, int nGroupId)
 	//マクロ
 	m_pcSMacroMgr = std::make_unique<CSMacroMgr>();
 
-	//ドキュメントの作成
-	m_pcEditDoc->Create();
-
 	//ウィンドウオブジェクトの作成
 	m_pcEditWnd = std::make_unique<CEditWnd>(*m_pcEditDoc);
 
@@ -58,6 +55,9 @@ void CEditApp::Create(HINSTANCE hInst, int nGroupId)
 	m_pcLoadAgent = std::make_unique<CLoadAgent>(*m_pcEditWnd);
 	m_pcSaveAgent = std::make_unique<CSaveAgent>(*m_pcEditWnd);
 	m_pcVisualProgress = std::make_unique<CVisualProgress>();
+
+	//ドキュメントの作成
+	m_pcEditDoc->Create(*m_pcEditWnd);
 
 	//ウィンドウの作成
 	m_pcEditWnd->Create( &m_cIcons, nGroupId);
