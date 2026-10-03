@@ -435,8 +435,7 @@ DWORD CGrepAgent::DoGrep(
 		Note: ここで強調するのは最後の検索文字列であって
 		Grep対象パターンではないことに注意
 	*/
-	if( !pcViewDst->m_sSearchPattern.SetPattern(pcViewDst->GetHwnd(), pcViewDst->m_strCurSearchKey.c_str(), pcViewDst->m_strCurSearchKey.size(),
-			pcViewDst->m_sCurSearchOption, &pcViewDst->m_CurRegexp) ){
+	if( !pcViewDst->m_sSearchPattern.SetPattern(pcViewDst->GetHwnd(), pcViewDst->m_strCurSearchKey, pcViewDst->m_sCurSearchOption, &pcViewDst->m_CurRegexp) ){
 		m_bGrepRunning = false;
 		pcViewDst->m_bDoing_UndoRedo = false;
 		pcViewDst->SetUndoBuffer();
@@ -472,11 +471,9 @@ DWORD CGrepAgent::DoGrep(
 		if( bGrepReplace && !bGrepPaste ){
 			// Grep置換
 			// 2015.03.03 Grep置換がoptGlobalじゃないバグを修正
-			bError = !pattern.SetPattern(pcViewDst->GetHwnd(), pcmGrepKey->GetStringPtr(), pcmGrepKey->GetStringLength(),
-				cmemReplace.GetStringPtr(), sSearchOption, &cRegexp, true);
+			bError = !pattern.SetPattern(pcViewDst->GetHwnd(), pcmGrepKey->GetString(), cmemReplace.GetStringPtr(), sSearchOption, &cRegexp, true);
 		}else{
-			bError = !pattern.SetPattern(pcViewDst->GetHwnd(), pcmGrepKey->GetStringPtr(), pcmGrepKey->GetStringLength(),
-				sSearchOption, &cRegexp);
+			bError = !pattern.SetPattern(pcViewDst->GetHwnd(), pcmGrepKey->GetString(), sSearchOption, &cRegexp);
 		}
 		if( bError ){
 			m_bGrepRunning = false;
