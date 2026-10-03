@@ -55,6 +55,7 @@
 #include "recent/CRecentEditNode.h"
 #include "recent/CRecentFile.h"
 #include "recent/CRecentFolder.h"
+#include "view/CMiniMapView.h"
 
 //@@@ 2002.01.14 YAZAKI 印刷プレビューをCPrintPreviewに独立させたので
 //	定義を削除
@@ -207,6 +208,8 @@ CEditWnd::CEditWnd(CEditDoc& cEditDoc)
 	// [0] - [3] まで作成・初期化していたものを[0]だけ作る。ほかは分割されるまで何もしない
 	m_pcEditViewArr[0] = std::make_unique<CEditView>();
 	m_pcEditView = m_pcEditViewArr[0].get();
+
+	m_pcMiniMapView = std::make_unique<CMiniMapView>();
 }
 
 CEditWnd::~CEditWnd() = default;
@@ -940,12 +943,12 @@ void CEditWnd::LayoutTabBar( )
 void CEditWnd::LayoutMiniMap( )
 {
 	if( m_pShareData->m_Common.m_sWindow.m_bDispMiniMap ){	/* タブバーを表示する */
-		if( !m_cMiniMapView.GetHwnd() ){
-			m_cMiniMapView.Create( GetHwnd() );
+		if( !m_pcMiniMapView->GetHwnd() ){
+			m_pcMiniMapView->Create( GetHwnd() );
 		}
 	}else{
-		if( m_cMiniMapView.GetHwnd() ){
-			m_cMiniMapView.Close();
+		if( m_pcMiniMapView->GetHwnd() ){
+			m_pcMiniMapView->Close();
 		}
 	}
 }
@@ -975,8 +978,8 @@ void CEditWnd::EndLayoutBars( BOOL bAdjust/* = TRUE*/ )
 		// その後、ウィンドウの下部境界を上下ドラッグしてサイズ変更するとゴミが現れることがあった。
 		::SetWindowPos( m_cDlgFuncList.GetHwnd(), HWND_BOTTOM, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE );
 	}
-	if( m_cMiniMapView.GetHwnd() ){
-		::ShowWindow( m_cMiniMapView.GetHwnd(), nCmdShow );
+	if( m_pcMiniMapView->GetHwnd() ){
+		::ShowWindow( m_pcMiniMapView->GetHwnd(), nCmdShow );
 	}
 
 	if( bAdjust )
@@ -2388,7 +2391,7 @@ void CEditWnd::InitMenu_Function(HMENU hMenu, EFunctionCode eFunc, const wchar_t
 			break;
 		case F_SHOWMINIMAP:
 			SetMenuFuncSel( hMenu, eFunc, cKey,
-				!m_pShareData->m_Common.m_sWindow.m_bMenuIcon || !m_cMiniMapView.GetHwnd() );
+				!m_pShareData->m_Common.m_sWindow.m_bMenuIcon || !m_pcMiniMapView->GetHwnd() );
 			break;
 		case F_TOGGLE_KEY_SEARCH:
 			SetMenuFuncSel( hMenu, eFunc, cKey,
@@ -2823,8 +2826,8 @@ void CEditWnd::PrintPreviewModeONOFF( )
 		::ShowWindow( m_cFuncKeyWnd.GetHwnd(), SW_SHOW );
 		::ShowWindow( m_cTabWnd.GetHwnd(), SW_SHOW );	//@@@ 2003.06.25 MIK
 		::ShowWindow( m_cDlgFuncList.GetHwnd(), SW_SHOW );	// 2010.06.25 ryoji
-		if( m_cMiniMapView.GetHwnd() ){
-			::ShowWindow( m_cMiniMapView.GetHwnd(), SW_SHOW );
+		if( m_pcMiniMapView->GetHwnd() ){
+			::ShowWindow( m_pcMiniMapView->GetHwnd(), SW_SHOW );
 		}
 
 		// その他のモードレスダイアログも戻す	// 2010.06.25 ryoji
@@ -2857,8 +2860,8 @@ void CEditWnd::PrintPreviewModeONOFF( )
 		::ShowWindow( m_cFuncKeyWnd.GetHwnd(), SW_HIDE );
 		::ShowWindow( m_cTabWnd.GetHwnd(), SW_HIDE );	//@@@ 2003.06.25 MIK
 		::ShowWindow( m_cDlgFuncList.GetHwnd(), SW_HIDE );	// 2010.06.25 ryoji
-		if( m_cMiniMapView.GetHwnd() ){
-			::ShowWindow( m_cMiniMapView.GetHwnd(), SW_HIDE );
+		if( m_pcMiniMapView->GetHwnd() ){
+			::ShowWindow( m_pcMiniMapView->GetHwnd(), SW_HIDE );
 		}
 
 		// その他のモードレスダイアログも隠す	// 2010.06.25 ryoji
@@ -3177,16 +3180,16 @@ LRESULT CEditWnd::OnSize2( WPARAM wParam, LPARAM lParam, bool bUpdateStatus )
 
 	// ミニマップ
 	int nMiniMapWidth = 0;
-	if( m_cMiniMapView.GetHwnd() ){
+	if( m_pcMiniMapView->GetHwnd() ){
 		nMiniMapWidth = ::DpiScaleX(GetDllShareData().m_Common.m_sWindow.m_nMiniMapWidth);
-		::MoveWindow( m_cMiniMapView.GetHwnd(),
+		::MoveWindow( m_pcMiniMapView->GetHwnd(),
 			(eDockSideFL == DOCKSIDE_RIGHT)? cx - nFuncListWidth - nMiniMapWidth: cx - nMiniMapWidth,
 			(eDockSideFL == DOCKSIDE_TOP)? nTop + nFuncListHeight: nTop,
 			nMiniMapWidth,
 			(eDockSideFL == DOCKSIDE_TOP || eDockSideFL == DOCKSIDE_BOTTOM)? nHeight - nFuncListHeight: nHeight,
 			TRUE
 		);
-		m_cMiniMapView.SplitBoxOnOff( FALSE, FALSE, bMiniMapSizeBox );
+		m_pcMiniMapView->SplitBoxOnOff( FALSE, FALSE, bMiniMapSizeBox );
 	}
 
 	::MoveWindow(
@@ -4179,7 +4182,7 @@ void CEditWnd::Views_DeleteCompatibleBitmap()
 			GetView(i).DeleteCompatibleBitmap();
 		}
 	}
-	m_cMiniMapView.DeleteCompatibleBitmap();
+	m_pcMiniMapView->DeleteCompatibleBitmap();
 }
 
 LRESULT CEditWnd::Views_DispatchEvent(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -4244,7 +4247,7 @@ void CEditWnd::InitAllViews()
 		GetView(i).GetCaret().MoveCursor( CLayoutPoint(0, 0), true );
 		GetView(i).GetCaret().m_nCaretPosX_Prev = CLayoutInt(0);
 	}
-	m_cMiniMapView.OnChangeSetting();
+	m_pcMiniMapView->OnChangeSetting();
 }
 
 void CEditWnd::Views_RedrawAll()
@@ -4255,7 +4258,7 @@ void CEditWnd::Views_RedrawAll()
 			GetView(v).RedrawAll();
 		}
 	}
-	m_cMiniMapView.RedrawAll();
+	m_pcMiniMapView->RedrawAll();
 	//アクティブを再描画
 	GetActiveView().RedrawAll();
 }
@@ -4267,7 +4270,7 @@ void CEditWnd::Views_Redraw()
 		if( m_nActivePaneIndex != v )
 			GetView(v).Redraw();
 	}
-	m_cMiniMapView.Redraw();
+	m_pcMiniMapView->Redraw();
 	//アクティブを再描画
 	GetActiveView().Redraw();
 }
@@ -4342,7 +4345,7 @@ bool CEditWnd::SetDrawSwitchOfAllViews( bool bDraw )
 	for( i = 0; i < GetAllViewCount(); i++ ){
 		GetView(i).SetDrawSwitch( bDraw );
 	}
-	m_cMiniMapView.SetDrawSwitch( bDraw );
+	m_pcMiniMapView->SetDrawSwitch( bDraw );
 	return bDrawSwitchOld;
 }
 
@@ -4370,8 +4373,8 @@ void CEditWnd::RedrawAllViews( CEditView* pcViewExclude )
 			pcView->AdjustScrollBars();
 		}
 	}
-	m_cMiniMapView.Redraw();
-	m_cMiniMapView.AdjustScrollBars();
+	m_pcMiniMapView->Redraw();
+	m_pcMiniMapView->AdjustScrollBars();
 }
 
 void CEditWnd::Views_DisableSelectArea([[maybe_unused]] bool bRedraw)
@@ -4448,8 +4451,8 @@ BOOL CEditWnd::UpdateTextWrap( )
 			for( int i = 0; i < GetAllViewCount(); i++ ){
 				::UpdateWindow( GetView(i).GetHwnd() );
 			}
-			if( m_cMiniMapView.GetHwnd() ){
-				::UpdateWindow( m_cMiniMapView.GetHwnd() );
+			if( m_pcMiniMapView->GetHwnd() ){
+				::UpdateWindow( m_pcMiniMapView->GetHwnd() );
 			}
 		}
 		return bWrap;	// 画面更新＝折り返し変更
@@ -4496,9 +4499,9 @@ void CEditWnd::ChangeLayoutParam( bool bShowProgress, CKetaXInt nTabSize, int nT
 			GetView(i).AdjustScrollBars();	// 2008.06.18 ryoji
 		}
 	}
-	if( m_cMiniMapView.GetHwnd() ){
-		InvalidateRect( m_cMiniMapView.GetHwnd(), nullptr, TRUE );
-		m_cMiniMapView.AdjustScrollBars();
+	if( m_pcMiniMapView->GetHwnd() ){
+		InvalidateRect( m_pcMiniMapView->GetHwnd(), nullptr, TRUE );
+		m_pcMiniMapView->AdjustScrollBars();
 	}
 	GetActiveView().GetCaret().ShowCaretPosInfo();	// 2009.07.25 ryoji
 

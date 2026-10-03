@@ -20,6 +20,7 @@
 	Please contact the copyright holder to use this code for other purpose.
 */
 #include "view/CEditView.h"
+#include "view/CMiniMapView.h"
 #include "agent/CSearchAgent.h"
 #include "uiparts/CWaitCursor.h"
 #include "charset/charcode.h"

@@ -19,6 +19,7 @@
 #include "window/CSplitBoxWnd.h"
 #include "window/CEditWnd.h"
 #include "view/CEditView.h"
+#include "view/CMiniMapView.h"
 #include "env/DLLSHAREDATA.h"
 #include "uiparts/CGraphics.h"
 #include "apiwrap/StdApi.h"

@@ -28,6 +28,7 @@
 #include "outline/CFuncInfoArr.h"// 2002/2/3 aroka
 #include "outline/CDlgFileTree.h"
 #include "window/CEditWnd.h"	//	2006/2/11 aroka 追加
+#include "view/CMiniMapView.h"
 #include "doc/CEditDoc.h"
 #include "uiparts/CGraphics.h"
 #include "util/design_template.h"
