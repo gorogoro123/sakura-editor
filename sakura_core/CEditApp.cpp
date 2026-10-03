@@ -20,6 +20,7 @@
 #include "_main/CCommandLine.h"
 #include "util/module.h"
 #include "util/shell.h"
+#include "util/os.h"
 
 CEditApp::CEditApp() = default;
 
@@ -28,6 +29,9 @@ CEditApp::~CEditApp() = default;
 void CEditApp::Create(HINSTANCE hInst, int nGroupId)
 {
 	m_hInst = hInst;
+
+	//コモンコントロール初期化
+	MyInitCommonControls();
 
 	//ヘルパ作成
 	m_cIcons.Create( m_hInst );	//	CreateImage List

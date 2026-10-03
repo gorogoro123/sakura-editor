@@ -273,9 +273,6 @@ HWND CEditWnd::Create(
 		return hWnd;
 	}
 
-	//コモンコントロール初期化
-	MyInitCommonControls();
-
 	//イメージ、ヘルパなどの作成
 	m_cMenuDrawer.Create( G_AppInstance(), GetHwnd(), pcIcons );
 	m_cToolbar.Create( pcIcons );
