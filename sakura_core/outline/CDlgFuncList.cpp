@@ -3381,7 +3381,7 @@ void CDlgFuncList::Refresh( )
 {
 	CEditWnd* pcEditWnd = &GetEditWnd();
 	BOOL bReloaded = ChangeLayout( OUTLINE_LAYOUT_FILECHANGED );	// 現在設定に従ってアウトライン画面を再配置する
-	if( !bReloaded && pcEditWnd->m_cDlgFuncList.GetHwnd() ){
+	if( !bReloaded && GetHwnd() ){
 		EOutlineType nOutlineType = GetOutlineTypeRedraw(m_nOutlineType);
 		pcEditWnd->GetActiveView().GetCommander().Command_FUNCLIST( SHOW_RELOAD, nOutlineType );	// 開く	※ HandleCommand(F_OUTLINE,...) だと印刷プレビュー状態で実行されないので Command_FUNCLIST()
 	}
