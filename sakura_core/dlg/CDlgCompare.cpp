@@ -130,7 +130,6 @@ void CDlgCompare::SetData( )
 	HWND			hwndList;
 	int				nRowNum;
 	std::vector<EditNode> vEditNode;
-	EditInfo*		pfi;
 	int				i;
 	WCHAR			szMenu[512];
 	int				nItem;
@@ -153,7 +152,7 @@ void CDlgCompare::SetData( )
 		for( i = 0; i < nRowNum; ++i ){
 			/* トレイからエディタへの編集ファイル名要求通知 */
 			::SendMessageW( vEditNode[i].GetHwnd(), MYWM_GETFILEINFO, 0, 0 );
-			pfi = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
+			EditInfo* pfi = m_pShareData->m_sWorkBuffer.GetWorkBuffer<EditInfo>();
 
 //@@@ 2001.12.26 YAZAKI ファイル名で比較すると(無題)だったときに問題同士の比較ができない
 			if (vEditNode[i].GetHwnd() == CEditWnd::getInstance()->GetHwnd()){

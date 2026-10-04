@@ -1587,7 +1587,7 @@ LRESULT CEditWnd::DispatchEvent(
 
 	case MYWM_GETFILEINFO:
 		/* トレイからエディタへの編集ファイル名要求通知 */
-		pfi = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
+		pfi = m_pShareData->m_sWorkBuffer.GetWorkBuffer<EditInfo>();
 
 		/* 編集ファイル情報を格納 */
 		GetDocument()->GetEditInfo( pfi );
@@ -1808,7 +1808,7 @@ LRESULT CEditWnd::DispatchEvent(
 			→
 			 レイアウト位置(行頭からの表示桁位置、折り返しあり行位置)
 			*/
-			CLogicPoint* ppoCaret = &(m_pShareData->m_sWorkBuffer.m_LogicPoint);
+			CLogicPoint* ppoCaret = m_pShareData->m_sWorkBuffer.GetWorkBuffer<CLogicPoint>();
 			CLayoutPoint ptCaretPos;
 			GetDocument()->m_cLayoutMgr.LogicToLayout(
 				*ppoCaret,
@@ -1840,7 +1840,7 @@ LRESULT CEditWnd::DispatchEvent(
 		物理位置(行頭からのバイト数、折り返し無し行位置)
 		*/
 		{
-			CLogicPoint* ppoCaret = &(m_pShareData->m_sWorkBuffer.m_LogicPoint);
+			CLogicPoint* ppoCaret = m_pShareData->m_sWorkBuffer.GetWorkBuffer<CLogicPoint>();
 			GetDocument()->m_cLayoutMgr.LayoutToLogic(
 				GetActiveView().GetCaret().GetCaretLayoutPos(),
 				ppoCaret
@@ -2651,7 +2651,6 @@ void CEditWnd::OnDropFiles( HDROP hDrop )
 {
 	POINT		pt;
 	int			cFiles, i;
-	EditInfo*	pfi;
 	HWND		hWndOwner;
 
 	::DragQueryPoint( hDrop, &pt );
@@ -2677,7 +2676,7 @@ void CEditWnd::OnDropFiles( HDROP hDrop )
 		/* 指定ファイルが開かれているか調べる */
 		if( CShareData::getInstance()->IsPathOpened( szFile, &hWndOwner ) ){
 			::SendMessageW( hWndOwner, MYWM_GETFILEINFO, 0, 0 );
-			pfi = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
+			EditInfo* pfi = m_pShareData->m_sWorkBuffer.GetWorkBuffer<EditInfo>();
 			/* アクティブにする */
 			ActivateFrameWindow( hWndOwner );
 			/* MRUリストへの登録 */
@@ -4077,7 +4076,6 @@ LRESULT CEditWnd::WinListMenu( HMENU hMenu, const std::vector<EditNode>& vEditNo
 {
 	int			i;
 	WCHAR		szMenu[_MAX_PATH * 2 + 3];
-	const EditInfo*	pfi;
 	auto nRowNum = static_cast<int>(vEditNode.size());
 
 	if( nRowNum > 0 ){
@@ -4091,7 +4089,7 @@ LRESULT CEditWnd::WinListMenu( HMENU hMenu, const std::vector<EditNode>& vEditNo
 			/* トレイからエディタへの編集ファイル名要求通知 */
 			::SendMessageW( vEditNode[i].GetHwnd(), MYWM_GETFILEINFO, 0, 0 );
 ////	From Here Oct. 4, 2000 JEPRO commented out & modified	開いているファイル数がわかるように履歴とは違って1から数える
-			pfi = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
+			const EditInfo* pfi = m_pShareData->m_sWorkBuffer.GetWorkBuffer<EditInfo>();
 			CFileNameManager::getInstance()->GetMenuFullLabel_WinList( szMenu, int(std::size(szMenu)), pfi, vEditNode[i].m_nId, i, dcFont.GetHDC() );
 			m_cMenuDrawer.MyAppendMenu( hMenu, MF_BYPOSITION | MF_STRING, IDM_SELWINDOW + vEditNode[i].m_nIndex, szMenu, L'\0' );
 			if( GetHwnd() == vEditNode[i].GetHwnd() ){

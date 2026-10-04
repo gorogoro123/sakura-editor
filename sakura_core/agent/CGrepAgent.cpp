@@ -112,7 +112,7 @@ public:
 			m_nLineCurrent = 0;
 			m_nLineNum = (int)dwMsgResult;
 			::SendMessageW(m_hWnd, MYWM_GETFILEINFO, 0, 0);
-			const EditInfo* editInfo = &GetDllShareData().m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
+			const EditInfo* editInfo = GetDllShareData().m_sWorkBuffer.GetWorkBuffer<EditInfo>();
 			return editInfo->m_nCharCode;
 		}
 		return m_cfl.FileOpen(pszFile, bBigFile, charCode, nFlag);
@@ -281,7 +281,7 @@ int GetHwndTitle(HWND& hWndTarget, CNativeW* pmemTitle, std::span<WCHAR> szWindo
 		pmemTitle->SetStringHoldBuffer(p, 8);
 	}
 	::SendMessageW(hWndTarget, MYWM_GETFILEINFO, 0, 0);
-	EditInfo* editInfo = &(GetDllShareData().m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO);
+	EditInfo* editInfo = GetDllShareData().m_sWorkBuffer.GetWorkBuffer<EditInfo>();
 	if( '\0' == editInfo->m_szPath[0] ){
 		// Grepかアウトプットか無題
 		WCHAR szTitle[_MAX_PATH];

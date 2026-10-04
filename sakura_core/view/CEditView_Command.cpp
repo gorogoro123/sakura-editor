@@ -113,7 +113,8 @@ bool CEditView::TagJumpSub(
 			}else{
 				poCaret.x = 0;
 			}
-			GetDllShareData().m_sWorkBuffer.m_LogicPoint.Set(CLogicInt(poCaret.x), CLogicInt(poCaret.y));
+			CLogicPoint* ppt = GetDllShareData().m_sWorkBuffer.GetWorkBuffer<CLogicPoint>();
+			ppt->Set(CLogicInt(poCaret.x), CLogicInt(poCaret.y));
 			::SendMessageW( hwndOwner, MYWM_SETCARETPOS, 0, 0 );
 		}
 		/* アクティブにする */

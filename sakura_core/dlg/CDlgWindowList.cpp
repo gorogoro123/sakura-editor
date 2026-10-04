@@ -152,7 +152,7 @@ void CDlgWindowList::SetData()
 		CTextWidthCalc calc(hwndList);
 		for (int i = 0; i < nRowNum; i++) {
 			::SendMessageW(vEditNode[i].GetHwnd(), MYWM_GETFILEINFO, 0, 0);
-			const EditInfo* pEditInfo = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
+			const EditInfo* pEditInfo = m_pShareData->m_sWorkBuffer.GetWorkBuffer<EditInfo>();
 
 			WCHAR szName[512];
 			CFileNameManager::getInstance()->GetMenuFullLabel_WinListNoEscape(szName, int(std::size(szName)), pEditInfo, vEditNode[i].m_nId, i, calc.GetDC());

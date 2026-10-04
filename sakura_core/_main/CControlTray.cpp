@@ -966,21 +966,21 @@ bool CControlTray::OnSetTypeSetting(size_t index)
 		return false;
 	}
 
-	const auto& type = m_pShareData->m_sWorkBuffer.m_TypeConfig;
+	const auto type = m_pShareData->m_sWorkBuffer.GetWorkBuffer<STypeConfig>();
 	if (0 == index) {
-		m_pShareData->m_TypeBasis = type;
+		m_pShareData->m_TypeBasis = *type;
 		m_pShareData->m_TypeBasis.m_nIdx = 0;
 	}
 
 	auto types = CShareData::getInstance()->GetTypeSettings();
-	*types[index] = type;
+	*types[index] = *type;
 	types[index]->m_nIdx = int(index);
 
 	auto& typeMini = m_pShareData->m_TypeMini[index];
-	typeMini.m_szTypeName = type.m_szTypeName;
-	typeMini.m_szTypeExts = type.m_szTypeExts;
-	typeMini.m_id = type.m_id;
-	typeMini.m_encoding = type.m_encoding;
+	typeMini.m_szTypeName = type->m_szTypeName;
+	typeMini.m_szTypeExts = type->m_szTypeExts;
+	typeMini.m_id = type->m_id;
+	typeMini.m_encoding = type->m_encoding;
 
 	return true;
 }
@@ -990,8 +990,8 @@ bool CControlTray::OnGetTypeSetting(size_t index)
 	if (m_pShareData->m_nTypesCount <= 0 || m_pShareData->m_nTypesCount <= index) {
 		return false;
 	}
-
-	m_pShareData->m_sWorkBuffer.m_TypeConfig = *(CShareData::getInstance()->GetTypeSettings()[index]);
+	STypeConfig* pSTypeConfig = CShareData::getInstance()->GetTypeSettings()[index];
+	m_pShareData->m_sWorkBuffer.SetWorkBuffer<STypeConfig>(*pSTypeConfig);
 
 	return true;
 }
@@ -1497,7 +1497,6 @@ int	CControlTray::CreatePopUpMenu_L( )
 	WCHAR		szMenu[100 + MAX_PATH * 2];	//	Jan. 19, 2001 genta
 	POINT		po;
 	RECT		rc;
-	EditInfo*	pfi;
 
 	//本当はセマフォにしないとだめ
 	if( m_bUseTrayMenu ) return -1;
@@ -1559,7 +1558,7 @@ int	CControlTray::CreatePopUpMenu_L( )
 			if( IsSakuraMainWindow( m_pShareData->m_sNodes.m_pEditArr[i].GetHwnd() ) ){
 				/* トレイからエディタへの編集ファイル名要求通知 */
 				::SendMessageW( m_pShareData->m_sNodes.m_pEditArr[i].GetHwnd(), MYWM_GETFILEINFO, 0, 0 );
-				pfi = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
+				EditInfo* pfi = m_pShareData->m_sWorkBuffer.GetWorkBuffer<EditInfo>();
 
 				// メニューラベル。1からアクセスキーを振る
 				CFileNameManager::getInstance()->GetMenuFullLabel_WinList( szMenu, int(std::size(szMenu)), pfi, m_pShareData->m_sNodes.m_pEditArr[i].m_nId, i, dcFont.GetHDC() );
