@@ -13,9 +13,6 @@
 	SPDX-License-Identifier: Zlib
 */
 
-
-#include <climits>
-#include <cstdio>
 #include "charset/codechecker.h"
 #include "charset/CESI.h"
 #include "charset/CCodePage.h"
@@ -1268,15 +1265,14 @@ ECodeType CESI::CheckKanjiCode(const char* pBuf, size_t nBufLen) noexcept
 
 	@param[out] pcmtxtOut 出力は、このポインタが指すオブジェクトに追加される。
 */
-void CESI::GetDebugInfo( const char* pS, const int nLen, CNativeW* pcmtxtOut )
+void CESI::GetDebugInfo( const char* pS, const int nLen, const STypeConfig& sTypeConfig, CNativeW* pcmtxtOut )
 {
 	WCHAR szWork[10240];
 	int v1, v2, v3, v4;
 	int i;
 
-	CEditDoc& doc = *CEditWnd::getInstance()->GetDocument();
 	ECodeType ecode_result;
-	CESI cesi( doc.m_cDocType.GetDocumentAttribute().m_encoding );
+	CESI cesi( sTypeConfig.m_encoding );
 
 	// テスト実行
 	ecode_result = cesi.CheckKanjiCode(pS, nLen);
@@ -1302,13 +1298,13 @@ void CESI::GetDebugInfo( const char* pS, const int nLen, CNativeW* pcmtxtOut )
 
 	pcmtxtOut->AppendString( LS(STR_ESI_DOC_TYPE) );	// "文書種別\r\n"
 
-	auto_snprintf_s( szWork, std::size(szWork), L"\t%s\r\n", doc.m_cDocType.GetDocumentAttribute().m_szTypeName.c_str() );
+	auto_snprintf_s( szWork, std::size(szWork), L"\t%s\r\n", sTypeConfig.m_szTypeName.c_str() );
 	pcmtxtOut->AppendString( szWork );
 
 	pcmtxtOut->AppendString( LS(STR_ESI_DEFAULT_CHARCODE) );	// "デフォルト文字コード\r\n"
 
 	WCHAR szCpName[100];
-	CCodePage::GetNameNormal(szCpName, doc.m_cDocType.GetDocumentAttribute().m_encoding.m_eDefaultCodetype);
+	CCodePage::GetNameNormal(szCpName, sTypeConfig.m_encoding.m_eDefaultCodetype);
 	auto_snprintf_s( szWork, std::size(szWork), L"\t%s\r\n", szCpName );
 	pcmtxtOut->AppendString( szWork );
 
