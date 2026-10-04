@@ -19,6 +19,7 @@
 #include "util/design_template.h"
 
 struct SEncodingConfig;
+struct STypeConfig;
 
 struct tagEncodingInfo {
 	ECodeType eCodeID;  // 文字コード識別番号
@@ -200,7 +201,7 @@ public:
 
 #ifdef _DEBUG
 public:
-	static void GetDebugInfo( const char* pS, const int nLen, CNativeW* pcmtxtOut );
+	static void GetDebugInfo( const char* pS, const int nLen, const STypeConfig& sTypeConfig, CNativeW* pcmtxtOut );
 #endif
 
 	DISALLOW_COPY_AND_ASSIGN(CESI);

@@ -245,7 +245,7 @@ void CDlgProperty::SetData( )
 	in.Close();
 
 	//CESIのデバッグ情報
-	CESI::GetDebugInfo(pBuf,nBufLen,&ctext);
+	CESI::GetDebugInfo(pBuf, nBufLen, pCEditDoc->m_cDocType.GetDocumentAttribute(), &ctext );
 	cmemProp.AppendNativeData(ctext);
 
 	if( nullptr != hgData ){
