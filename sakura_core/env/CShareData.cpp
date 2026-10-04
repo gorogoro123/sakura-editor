@@ -848,7 +848,6 @@ void CShareData::ConvertLangValues(std::vector<std::wstring>& values, bool bSetV
 */
 BOOL CShareData::IsPathOpened( const WCHAR* pszPath, HWND* phwndOwner )
 {
-	EditInfo*	pfi;
 	*phwndOwner = nullptr;
 
 	//	2007.10.01 genta 相対パスを絶対パスに変換
@@ -868,7 +867,7 @@ BOOL CShareData::IsPathOpened( const WCHAR* pszPath, HWND* phwndOwner )
 		if( IsSakuraMainWindow( m_pShareData->m_sNodes.m_pEditArr[i].m_hWnd ) ){
 			// トレイからエディタへの編集ファイル名要求通知
 			::SendMessageW( m_pShareData->m_sNodes.m_pEditArr[i].m_hWnd, MYWM_GETFILEINFO, 1, 0 );
-			pfi = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
+			EditInfo* pfi = m_pShareData->m_sWorkBuffer.GetWorkBuffer<EditInfo>();
 
 			// 同一パスのファイルが既に開かれているか
 			if( 0 == _wcsicmp( pfi->m_szPath, pszPath ) ){
@@ -903,9 +902,8 @@ BOOL CShareData::ActiveAlreadyOpenedWindow( const WCHAR* pszPath, HWND* phwndOwn
 	if( IsPathOpened( pszPath, phwndOwner ) ){
 		
 		//文字コードの一致確認
-		EditInfo*		pfi;
 		::SendMessageW( *phwndOwner, MYWM_GETFILEINFO, 0, 0 );
-		pfi = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
+		EditInfo* pfi = m_pShareData->m_sWorkBuffer.GetWorkBuffer<EditInfo>();
 		if(nCharCode != CODE_AUTODETECT){
 			WCHAR szCpNameCur[100];
 			CCodePage::GetNameLong(szCpNameCur, pfi->m_nCharCode);

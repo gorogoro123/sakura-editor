@@ -91,7 +91,7 @@ bool CDocTypeManager::GetTypeConfig(CTypeConfig cDocumentType, STypeConfig& type
 		}else{
 			LockGuard<CMutex> guard( g_cDocTypeMutex );
 			 if( SendMessageW( m_pShareData->m_sHandles.m_hwndTray, MYWM_GET_TYPESETTING, (WPARAM)n, 0 ) ){
-				type = m_pShareData->m_sWorkBuffer.m_TypeConfig;
+				type = *m_pShareData->m_sWorkBuffer.GetWorkBuffer<STypeConfig>();
 				return true;
 			}
 		}
@@ -104,7 +104,7 @@ bool CDocTypeManager::SetTypeConfig(CTypeConfig cDocumentType, const STypeConfig
 	int n = cDocumentType.GetIndex();
 	if( 0 <= n && n < m_pShareData->m_nTypesCount ){
 		LockGuard<CMutex> guard( g_cDocTypeMutex );
-		m_pShareData->m_sWorkBuffer.m_TypeConfig = type;
+		m_pShareData->m_sWorkBuffer.SetWorkBuffer<STypeConfig>(type);
 		if( SendMessageW( m_pShareData->m_sHandles.m_hwndTray, MYWM_SET_TYPESETTING, (WPARAM)n, 0 ) ){
 			return true;
 		}

@@ -241,7 +241,7 @@ void CDlgDiff::SetData( )
 
 		// 自分の文字コードを取得
 		::SendMessageW( CEditWnd::getInstance()->GetHwnd(), MYWM_GETFILEINFO, 0, 0 );
-		pFileInfo = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
+		pFileInfo = m_pShareData->m_sWorkBuffer.GetWorkBuffer<EditInfo>();
 		code = pFileInfo->m_nCharCode;
 
 		/* リストのハンドル取得 */
@@ -260,7 +260,7 @@ void CDlgDiff::SetData( )
 			{
 				/* トレイからエディタへの編集ファイル名要求通知 */
 				::SendMessageW( vEditNode[i].GetHwnd(), MYWM_GETFILEINFO, 0, 0 );
-				pFileInfo = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
+				pFileInfo = m_pShareData->m_sWorkBuffer.GetWorkBuffer<EditInfo>();
 
 				/* 自分ならスキップ */
 				if ( vEditNode[i].GetHwnd() == CEditWnd::getInstance()->GetHwnd() )
@@ -366,7 +366,6 @@ int CDlgDiff::GetData( )
 	{
 		HWND		hwndList;
 		int			nItem;
-		EditInfo	*pFileInfo;
 
 		/* リストから相手のウインドウハンドルを取得 */
 		hwndList = GetItemHwnd( IDC_LIST_DIFF_FILES );
@@ -377,7 +376,7 @@ int CDlgDiff::GetData( )
 
 			/* トレイからエディタへの編集ファイル名要求通知 */
 			::SendMessageW( m_hWnd_Dst, MYWM_GETFILEINFO, 0, 0 );
-			pFileInfo = &m_pShareData->m_sWorkBuffer.m_EditInfo_MYWM_GETFILEINFO;
+			EditInfo* pFileInfo = m_pShareData->m_sWorkBuffer.GetWorkBuffer<EditInfo>();
 
 			m_szFile2 = pFileInfo->m_szPath;
 			m_bIsModifiedDst = pFileInfo->m_bIsModified;

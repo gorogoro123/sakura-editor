@@ -2451,7 +2451,7 @@ BOOL CDlgFuncList::OnJump( bool bCheckAutoClose, bool bFileJump )	//2002.02.08 h
 				poCaret.x = nColTo - 1;
 				poCaret.y = nLineTo - 1;
 
-				m_pShareData->m_sWorkBuffer.m_LogicPoint = poCaret;
+				m_pShareData->m_sWorkBuffer.SetWorkBuffer<CLogicPoint>(poCaret);
 
 				//	2006.07.09 genta 移動時に選択状態を保持するように
 				::SendMessageW( GetEditWnd().GetHwnd(),
