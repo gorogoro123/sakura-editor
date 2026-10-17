@@ -1052,7 +1052,7 @@ void CPrintPreview::OnPrint( )
 			MYWM_CHANGESETTING,
 			(WPARAM)0,
 			(LPARAM)PM_PRINTSETTING,
-			CEditWnd::getInstance()->GetHwnd()
+			m_pParentWnd->GetHwnd()
 		);
 	}
 
@@ -2097,7 +2097,7 @@ INT_PTR CPrintPreview::DispatchEvent_PPB(
 						MYWM_CHANGESETTING,
 						(WPARAM)0,
 						(LPARAM)PM_PRINTSETTING,
-						CEditWnd::getInstance()->GetHwnd()
+						m_pParentWnd->GetHwnd()
 					);
 					// OnChangePrintSetting();
 					// ::InvalidateRect( m_pParentWnd->GetHwnd(), NULL, TRUE );
