@@ -11,6 +11,10 @@
 
 class CMruListener : public CDocListenerEx{
 public:
+	CMruListener(CEditDoc& cEditDoc)
+	:m_cEditDoc(cEditDoc)
+	{}
+
 	//ロード前後
 //	ECallbackResult OnCheckLoad(SLoadInfo* pLoadInfo) override;
 	void OnBeforeLoad(SLoadInfo* sLoadInfo) override;
@@ -23,6 +27,7 @@ public:
 	ECallbackResult OnBeforeClose() override;
 
 protected:
+	CEditDoc& m_cEditDoc;
 	//ヘルパ
 	void _HoldBookmarks_And_AddToMRU(); // Mar. 30, 2003 genta
 };

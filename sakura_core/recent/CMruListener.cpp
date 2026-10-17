@@ -126,23 +126,21 @@ void CMruListener::OnBeforeLoad(SLoadInfo* pLoadInfo)
 
 void CMruListener::OnAfterLoad([[maybe_unused]] const SLoadInfo& sLoadInfo)
 {
-	CEditDoc* pcDoc = GetListeningDoc();
-
 	CMRUFile		cMRU;
 
 	EditInfo	eiOld;
-	bool bIsExistInMRU = cMRU.GetEditInfo(pcDoc->m_cDocFile.GetFilePath(),&eiOld);
+	bool bIsExistInMRU = cMRU.GetEditInfo(m_cEditDoc.m_cDocFile.GetFilePath(),&eiOld);
 
 	//キャレット位置の復元
 	if( bIsExistInMRU && GetDllShareData().m_Common.m_sFile.GetRestoreCurPosition() ){
 		//キャレット位置取得
 		CLayoutPoint ptCaretPos;
-		pcDoc->m_cLayoutMgr.LogicToLayout(eiOld.m_ptCursor, &ptCaretPos);
+		m_cEditDoc.m_cLayoutMgr.LogicToLayout(eiOld.m_ptCursor, &ptCaretPos);
 
 		//ビュー取得
 		CEditView& cView = GetEditWnd().GetActiveView();
 
-		if( ptCaretPos.GetY2() >= pcDoc->m_cLayoutMgr.GetLineCount() ){
+		if( ptCaretPos.GetY2() >= m_cEditDoc.m_cLayoutMgr.GetLineCount() ){
 			//ファイルの最後に移動
 			cView.GetCommander().HandleCommand( F_GOFILEEND, false, 0, 0, 0, 0 );
 		}
@@ -151,7 +149,7 @@ void CMruListener::OnAfterLoad([[maybe_unused]] const SLoadInfo& sLoadInfo)
 			cView.GetTextArea().SetViewLeftCol( eiOld.m_nViewLeftCol ); // 2001/10/20 novice
 			// From Here Mar. 28, 2003 MIK
 			// 改行の真ん中にカーソルが来ないように。
-			const CDocLine *pTmpDocLine = pcDoc->m_cDocLineMgr.GetLine( eiOld.m_ptCursor.GetY2() );	// 2008.08.22 ryoji 改行単位の行番号を渡すように修正
+			const CDocLine *pTmpDocLine = m_cEditDoc.m_cDocLineMgr.GetLine( eiOld.m_ptCursor.GetY2() );	// 2008.08.22 ryoji 改行単位の行番号を渡すように修正
 			if( pTmpDocLine ){
 				if( pTmpDocLine->GetLengthWithoutEOL() < eiOld.m_ptCursor.x ) ptCaretPos.x--;
 			}
@@ -164,7 +162,7 @@ void CMruListener::OnAfterLoad([[maybe_unused]] const SLoadInfo& sLoadInfo)
 	// ブックマーク復元  // 2002.01.16 hor
 	if( bIsExistInMRU ){
 		if( GetDllShareData().m_Common.m_sFile.GetRestoreBookmarks() ){
-			CBookmarkManager(&pcDoc->m_cDocLineMgr).SetBookMarks(eiOld.m_szMarkLines);
+			CBookmarkManager(&m_cEditDoc.m_cDocLineMgr).SetBookMarks(eiOld.m_szMarkLines);
 		}
 	}
 	else{
@@ -173,12 +171,12 @@ void CMruListener::OnAfterLoad([[maybe_unused]] const SLoadInfo& sLoadInfo)
 
 	// MRUリストへの登録
 	EditInfo	eiNew;
-	pcDoc->GetEditInfo(&eiNew);
+	m_cEditDoc.GetEditInfo(&eiNew);
 	// 2014.07.04 ブックマークの保持(エディタが落ちたときブックマークが消えるため)
 	if( bIsExistInMRU ){
 		if( GetDllShareData().m_Common.m_sFile.GetRestoreBookmarks() ){
 			// SetBookMarksでデータがNUL区切りに書き換わっているので再取得
-			cMRU.GetEditInfo(pcDoc->m_cDocFile.GetFilePath(),&eiOld);
+			cMRU.GetEditInfo(m_cEditDoc.m_cDocFile.GetFilePath(),&eiOld);
 			eiNew.m_szMarkLines = eiOld.m_szMarkLines;
 		}
 	}
@@ -211,12 +209,11 @@ ECallbackResult CMruListener::OnBeforeClose()
 void CMruListener::_HoldBookmarks_And_AddToMRU()
 {
 	//EditInfo取得
-	CEditDoc* pcDoc = GetListeningDoc();
 	EditInfo	fi;
-	pcDoc->GetEditInfo( &fi );
+	m_cEditDoc.GetEditInfo( &fi );
 
 	//ブックマーク情報の保存
-	fi.m_szMarkLines = CBookmarkManager(&pcDoc->m_cDocLineMgr).GetBookMarks();
+	fi.m_szMarkLines = CBookmarkManager(&m_cEditDoc.m_cDocLineMgr).GetBookMarks();
 
 	//MRUリストに登録
 	CMRUFile	cMRU;

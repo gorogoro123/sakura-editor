@@ -63,7 +63,7 @@ void CEditApp::Create(HINSTANCE hInst, int nGroupId)
 	m_pcEditWnd->Create( &m_cIcons, nGroupId);
 
 	//MRU管理
-	m_pcMruListener = std::make_unique<CMruListener>();
+	m_pcMruListener = std::make_unique<CMruListener>(*m_pcEditDoc);
 
 	//プロパティ管理
 	m_pcPropertyManager = std::make_unique<CPropertyManager>();
