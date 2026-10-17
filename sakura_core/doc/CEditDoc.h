@@ -119,7 +119,7 @@ public:
 
 	//ヘルパ
 public:
-	CBackupAgent		m_cBackupAgent;
+	std::unique_ptr<CBackupAgent>		m_pcBackupAgent;
 	CAutoSaveAgent		m_cAutoSaveAgent;		//!< 自動保存管理
 	std::unique_ptr<CAutoReloadAgent>	m_pcAutoReloadAgent;
 	CDocOutline			m_cDocOutline;
