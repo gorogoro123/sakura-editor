@@ -895,18 +895,18 @@ void CViewCommander::Command_JUMPHIST_PREV( )
 	// 2001.12.13 hor
 	// 移動履歴の最後に現在の位置を記憶する
 	// ( 次の履歴が取得できないときは追加して戻る )
-	if( !m_pCommanderView->m_cHistory->CheckNext() ){
+	if( !m_pCommanderView->m_pcHistory->CheckNext() ){
 		m_pCommanderView->AddCurrentLineToHistory();
-		m_pCommanderView->m_cHistory->PrevValid();
+		m_pCommanderView->m_pcHistory->PrevValid();
 	}
 
-	if( m_pCommanderView->m_cHistory->CheckPrev() ){
-		if( ! m_pCommanderView->m_cHistory->PrevValid() ){
+	if( m_pCommanderView->m_pcHistory->CheckPrev() ){
+		if( ! m_pCommanderView->m_pcHistory->PrevValid() ){
 			::MessageBox( nullptr, L"Inconsistent Implementation", L"PrevValid", MB_OK );
 		}
 		CLayoutPoint pt;
 		GetDocument()->m_cLayoutMgr.LogicToLayout(
-			m_pCommanderView->m_cHistory->GetCurrent().GetPosition(),
+			m_pCommanderView->m_pcHistory->GetCurrent().GetPosition(),
 			&pt
 		);
 		//	2006.07.09 genta 選択を考慮
@@ -917,13 +917,13 @@ void CViewCommander::Command_JUMPHIST_PREV( )
 //	移動履歴を次へたどる
 void CViewCommander::Command_JUMPHIST_NEXT( )
 {
-	if( m_pCommanderView->m_cHistory->CheckNext() ){
-		if( ! m_pCommanderView->m_cHistory->NextValid() ){
+	if( m_pCommanderView->m_pcHistory->CheckNext() ){
+		if( ! m_pCommanderView->m_pcHistory->NextValid() ){
 			::MessageBox( nullptr, L"Inconsistent Implementation", L"NextValid", MB_OK );
 		}
 		CLayoutPoint pt;
 		GetDocument()->m_cLayoutMgr.LogicToLayout(
-			m_pCommanderView->m_cHistory->GetCurrent().GetPosition(),
+			m_pCommanderView->m_pcHistory->GetCurrent().GetPosition(),
 			&pt
 		);
 		//	2006.07.09 genta 選択を考慮

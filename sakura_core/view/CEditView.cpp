@@ -126,6 +126,10 @@ CEditView::CEditView(CEditDoc* pcEditDoc, CEditWnd& cEditWnd)
 , m_cTextDrawer(this)			// warning C4355: 'this' : ベース メンバー初期化子リストで使用されました。
 , m_cCommander(this)			// warning C4355: 'this' : ベース メンバー初期化子リストで使用されました。
 {
+	m_pcTextArea = std::make_unique<CTextArea>(this);
+	m_pcCaret = std::make_unique<CCaret>(this, m_pcEditDoc);
+	m_pcRuler = std::make_unique<CRuler>(this, m_pcEditDoc);
+	m_pcHistory = std::make_unique<CAutoMarkMgr>();	//	Jump履歴
 }
 
 // 2007.10.23 kobake コンストラクタ内の処理をすべてCreateに移しました。(初期化処理が不必要に分散していたため)
@@ -209,7 +213,7 @@ BOOL CEditView::Create(
 	m_bHokan = FALSE;
 
 	//	Aug. 31, 2000 genta
-	m_cHistory->SetMax( 30 );
+	m_pcHistory->SetMax( 30 );
 
 	//2004.10.23 isearch
 	m_nISearchMode = SEARCH_NONE;
@@ -2592,7 +2596,7 @@ void CEditView::OnAfterLoad([[maybe_unused]] const SLoadInfo& sLoadInfo)
 		return;
 	}
 	// -- -- ※ InitAllViewでやってたこと -- -- //
-	m_cHistory->Flush();
+	m_pcHistory->Flush();
 
 	/* 現在の選択範囲を非選択状態に戻す */
 	GetSelectionInfo().DisableSelectArea( false );
@@ -2618,7 +2622,7 @@ void CEditView::AddCurrentLineToHistory( )
 	m_pcEditDoc->m_cLayoutMgr.LayoutToLogic( GetCaret().GetCaretLayoutPos(), &ptPos );
 
 	CMarkMgr::CMark m( ptPos );
-	m_cHistory->Add( m );
+	m_pcHistory->Add( m );
 }
 
 //	2001/06/18 Start by asa-o: 補完ウィンドウ用のキーワードヘルプ表示
