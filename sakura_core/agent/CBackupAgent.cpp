@@ -20,8 +20,6 @@
 */
 ECallbackResult CBackupAgent::OnPreBeforeSave(SSaveInfo* pSaveInfo)
 {
-	CEditDoc* pcDoc = GetListeningDoc();
-
 	//新しくファイルを作る場合は何もしない
 	if(!fexist(pSaveInfo->cFilePath))return CALLBACK_CONTINUE;
 
@@ -31,9 +29,9 @@ ECallbackResult CBackupAgent::OnPreBeforeSave(SSaveInfo* pSaveInfo)
 		// ファイル保存前にバックアップ処理
 		int nBackupResult = 0;
 		{
-			pcDoc->m_cDocFileOperation.DoFileUnlock();	//バックアップ作成前にロックを解除する #####スマートじゃないよ！
+			m_cEditDoc.m_cDocFileOperation.DoFileUnlock();	//バックアップ作成前にロックを解除する #####スマートじゃないよ！
 			nBackupResult = MakeBackUp( pSaveInfo->cFilePath );
-			pcDoc->m_cDocFileOperation.DoFileLock();	//バックアップ作成後にロックを戻す #####スマートじゃないよ！
+			m_cEditDoc.m_cDocFileOperation.DoFileLock();	//バックアップ作成後にロックを戻す #####スマートじゃないよ！
 		}
 		switch( nBackupResult ){
 		case 2:	//	中断指示
