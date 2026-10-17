@@ -13,8 +13,8 @@
 //               コンストラクタ・デストラクタ                  //
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 
-CDocLocker::CDocLocker()
-: m_bIsDocWritable(true)
+CDocLocker::CDocLocker(CEditDoc& cEditDoc)
+:m_cEditDoc(cEditDoc)
 {
 }
 
@@ -24,8 +24,6 @@ CDocLocker::CDocLocker()
 
 void CDocLocker::OnAfterLoad(const SLoadInfo& sLoadInfo)
 {
-	CEditDoc* pcDoc = GetListeningDoc();
-
 	//書き込めるか検査
 	CheckWritable(!sLoadInfo.bViewMode && !sLoadInfo.bWritableNoMsg);
 	if( !m_bIsDocWritable ){
@@ -33,7 +31,7 @@ void CDocLocker::OnAfterLoad(const SLoadInfo& sLoadInfo)
 	}
 
 	// ファイルの排他ロック
-	pcDoc->m_cDocFileOperation.DoFileLock();
+	m_cEditDoc.m_cDocFileOperation.DoFileLock();
 }
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
@@ -42,21 +40,17 @@ void CDocLocker::OnAfterLoad(const SLoadInfo& sLoadInfo)
 
 void CDocLocker::OnBeforeSave([[maybe_unused]] const SSaveInfo& sSaveInfo)
 {
-	CEditDoc* pcDoc = GetListeningDoc();
-
 	// ファイルの排他ロック解除
-	pcDoc->m_cDocFileOperation.DoFileUnlock();
+	m_cEditDoc.m_cDocFileOperation.DoFileUnlock();
 }
 
 void CDocLocker::OnAfterSave([[maybe_unused]] const SSaveInfo& sSaveInfo)
 {
-	CEditDoc* pcDoc = GetListeningDoc();
-
 	// 書き込めるか検査
 	m_bIsDocWritable = true;
 
 	// ファイルの排他ロック
-	pcDoc->m_cDocFileOperation.DoFileLock();
+	m_cEditDoc.m_cDocFileOperation.DoFileLock();
 }
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
@@ -66,22 +60,20 @@ void CDocLocker::OnAfterSave([[maybe_unused]] const SSaveInfo& sSaveInfo)
 //! 書き込めるか検査
 void CDocLocker::CheckWritable(bool bMsg)
 {
-	CEditDoc* pcDoc = GetListeningDoc();
-
 	// ファイルが存在しない場合 (「開く」で新しくファイルを作成した扱い) は、以下の処理は行わない
-	if( !fexist(pcDoc->m_cDocFile.GetFilePath()) ){
+	if( !fexist(m_cEditDoc.m_cDocFile.GetFilePath()) ){
 		m_bIsDocWritable = true;
 		return;
 	}
 
 	// 読み取り専用ファイルの場合は、以下の処理は行わない
-	if( !pcDoc->m_cDocFile.HasWritablePermission() ){
+	if( !m_cEditDoc.m_cDocFile.HasWritablePermission() ){
 		m_bIsDocWritable = false;
 		return;
 	}
 
 	// 書き込めるか検査
-	CDocFile& cDocFile = pcDoc->m_cDocFile;
+	CDocFile& cDocFile = m_cEditDoc.m_cDocFile;
 	m_bIsDocWritable = cDocFile.IsFileWritable();
 	if(!m_bIsDocWritable && bMsg){
 		// 排他されている場合だけメッセージを出す

@@ -4154,9 +4154,9 @@ void CEditWnd::OnEditTimer( )
 #if 0	// 2011.02.11 ryoji 書込禁止の監視を廃止（復活させるなら「更新の監視」付随ではなく別オプションにしてほしい）
 		// ファイル書込可能のチェック処理
 		if(GetDocument()->m_pcAutoReloadAgent._ToDoChecking()){
-			bool bOld = GetDocument()->m_cDocLocker.IsDocWritable();
-			GetDocument()->m_cDocLocker.CheckWritable(false);
-			if(bOld != GetDocument()->m_cDocLocker.IsDocWritable()){
+			bool bOld = GetDocument()->m_pcDocLocker->IsDocWritable();
+			GetDocument()->m_pcDocLocker->CheckWritable(false);
+			if(bOld != GetDocument()->m_pcDocLocker->IsDocWritable()){
 				UpdateCaption();
 			}
 		}

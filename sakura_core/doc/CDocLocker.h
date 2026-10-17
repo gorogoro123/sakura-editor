@@ -9,9 +9,11 @@
 
 #include "doc/CDocListener.h"
 
+class CEditDoc;
+
 class CDocLocker : public CDocListenerEx{
 public:
-	CDocLocker();
+	CDocLocker(CEditDoc& m_cEditDoc);
 
 	//クリア
 	void Clear() { m_bIsDocWritable = true; }
@@ -30,5 +32,6 @@ public:
 	void CheckWritable(bool bMsg);
 
 private:
-	bool m_bIsDocWritable;
+	CEditDoc& m_cEditDoc;
+	bool m_bIsDocWritable = true;
 };

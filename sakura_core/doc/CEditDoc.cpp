@@ -187,6 +187,7 @@ BOOL CEditDoc::Create(CEditWnd& cEditWnd)
 	m_pcBackupAgent = std::make_unique<CBackupAgent>(cEditWnd);
 	m_pcAutoSaveAgent = std::make_unique<CAutoSaveAgent>(*this);
 	m_pcAutoReloadAgent = std::make_unique<CAutoReloadAgent>(*this, cEditWnd);
+	m_pcDocLocker = std::make_unique<CDocLocker>(*this);
 
 	// レイアウト管理情報の初期化
 	m_cLayoutMgr.Create( this, &m_cDocLineMgr );
@@ -241,7 +242,7 @@ void CEditDoc::Clear()
 	m_cDocFileOperation.DoFileUnlock();
 
 	// 書込み禁止のクリア
-	m_cDocLocker.Clear();
+	m_pcDocLocker->Clear();
 
 	// アンドゥ・リドゥバッファのクリア
 	m_cDocEditor.m_cOpeBuf.ClearAll();
@@ -661,11 +662,11 @@ void CEditDoc::OnChangeSetting(
 		m_cDocFileOperation.DoFileUnlock();
 
 		// ファイル書込可能のチェック処理
-		bool bOld = m_cDocLocker.IsDocWritable();
-		m_cDocLocker.CheckWritable(bOld && !CAppMode::getInstance()->IsViewMode());	// 書込可から不可に遷移したときだけメッセージを出す（出過ぎると鬱陶しいよね？）
+		bool bOld = m_pcDocLocker->IsDocWritable();
+		m_pcDocLocker->CheckWritable(bOld && !CAppMode::getInstance()->IsViewMode());	// 書込可から不可に遷移したときだけメッセージを出す（出過ぎると鬱陶しいよね？）
 
 		/* ファイルの排他ロック */
-		if( m_cDocLocker.IsDocWritable() ){
+		if( m_pcDocLocker->IsDocWritable() ){
 			m_cDocFileOperation.DoFileLock();
 		}
 	}
