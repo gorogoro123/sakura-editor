@@ -463,8 +463,8 @@ void CViewCommander::Command_VIEWMODE( )
 	// 排他制御の切り替え
 	// ※ビューモード ON 時は排他制御 OFF、ビューモード OFF 時は排他制御 ON の仕様（>>data:5262）を即時反映する
 	GetDocument()->m_cDocFileOperation.DoFileUnlock();	// ファイルの排他ロック解除
-	GetDocument()->m_cDocLocker.CheckWritable(!CAppMode::getInstance()->IsViewMode());	// ファイル書込可能のチェック
-	if( GetDocument()->m_cDocLocker.IsDocWritable() ){
+	GetDocument()->m_pcDocLocker->CheckWritable(!CAppMode::getInstance()->IsViewMode());	// ファイル書込可能のチェック
+	if( GetDocument()->m_pcDocLocker->IsDocWritable() ){
 		GetDocument()->m_cDocFileOperation.DoFileLock();	// ファイルの排他ロック
 	}
 

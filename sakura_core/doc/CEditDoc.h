@@ -76,7 +76,7 @@ public:
 	bool		GetDocumentBomExist() const;				//!< ドキュメントのBOM付加を取得
 	void		SetDocumentEncoding(ECodeType eCharCode, bool bBom);	//!< ドキュメントの文字コードを設定
 	bool IsModificationForbidden( EFunctionCode nCommand ) const;	//!< 指定コマンドによる書き換えが禁止されているかどうか	//Aug. 14, 2000 genta
-	bool IsEditable() const { return !CAppMode::getInstance()->IsViewMode() && !(!m_cDocLocker.IsDocWritable() && GetDllShareData().m_Common.m_sFile.m_bUneditableIfUnwritable); }	//!< 編集可能かどうか
+	bool IsEditable() const { return !CAppMode::getInstance()->IsViewMode() && !(!m_pcDocLocker->IsDocWritable() && GetDllShareData().m_Common.m_sFile.m_bUneditableIfUnwritable); }	//!< 編集可能かどうか
 	void GetSaveInfo(SSaveInfo* pSaveInfo) const;			//!< セーブ情報を取得
 
 	//状態
@@ -123,7 +123,7 @@ public:
 	std::unique_ptr<CAutoSaveAgent>		m_pcAutoSaveAgent; //!< 自動保存管理
 	std::unique_ptr<CAutoReloadAgent>	m_pcAutoReloadAgent;
 	CDocOutline			m_cDocOutline;
-	CDocLocker			m_cDocLocker;
+	std::unique_ptr<CDocLocker>			m_pcDocLocker;
 
 	//動的状態
 public:

@@ -641,7 +641,7 @@ int CSakuraEnvironment::_ExParam_Evaluate( const wchar_t* pCond )
 		if( CAppMode::getInstance()->IsViewMode() ){
 			return 0; // ビューモード
 		}
-		else if( !GetDocument()->m_cDocLocker.IsDocWritable() ){
+		else if( !GetDocument()->m_pcDocLocker->IsDocWritable() ){
 			return 1; // 上書き禁止
 		}
 		else{
