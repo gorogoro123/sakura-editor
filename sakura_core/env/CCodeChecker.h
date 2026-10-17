@@ -10,9 +10,11 @@
 #include "doc/CDocListener.h"
 #include "util/design_template.h"
 
-class CCodeChecker final : public CDocListenerEx, public TSingleton<CCodeChecker>{
-	friend TSingleton<CCodeChecker>;
-	CCodeChecker(){}
+class CCodeChecker final : public CDocListenerEx{
+public:
+	CCodeChecker(CEditDoc& cEditDoc)
+	:m_cEditDoc(cEditDoc)
+	{}
 
 public:
 	//セーブ時チェック
@@ -21,4 +23,6 @@ public:
 
 	//ロード時チェック
 	void OnFinalLoad(ELoadResult eLoadResult) override;
+private:
+	CEditDoc& m_cEditDoc;
 };
