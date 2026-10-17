@@ -186,7 +186,7 @@ BOOL CEditDoc::Create(CEditWnd& cEditWnd)
 
 	m_pcBackupAgent = std::make_unique<CBackupAgent>(cEditWnd);
 	m_pcAutoSaveAgent = std::make_unique<CAutoSaveAgent>(*this);
-	m_pcAutoReloadAgent = std::make_unique<CAutoReloadAgent>(cEditWnd);
+	m_pcAutoReloadAgent = std::make_unique<CAutoReloadAgent>(*this, cEditWnd);
 
 	// レイアウト管理情報の初期化
 	m_cLayoutMgr.Create( this, &m_cDocLineMgr );
