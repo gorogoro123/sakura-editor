@@ -9,12 +9,14 @@
 
 #include "doc/CDocListener.h"
 #include "util/design_template.h"
+
 class CWaitCursor;
+class CEditWnd;
 
 class CVisualProgress final : public CDocListener, public CProgressListener{
 public:
 	//コンストラクタ・デストラクタ
-	CVisualProgress();
+	CVisualProgress(CEditWnd& cEditWnd);
 	~CVisualProgress();
 
 	//ロード前後
@@ -34,6 +36,7 @@ protected:
 	void _Doing(int nPer);
 	void _End();
 private:
+	CEditWnd& m_cEditWnd;
 	std::unique_ptr<CWaitCursor> m_pcWaitCursor;
 	int	nOldValue = -1;
 
