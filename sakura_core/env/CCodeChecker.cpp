@@ -130,13 +130,11 @@ static EConvertResult _CheckSavingCharcode(const CDocLineMgr& pcDocLineMgr, ECod
 
 ECallbackResult CCodeChecker::OnCheckSave(SSaveInfo* pSaveInfo)
 {
-	CEditDoc* pcDoc = GetListeningDoc();
-
 	//改行コードが混在しているかどうか判定
 	bool bTmpResult = false;
-	if( pcDoc->m_cDocType.GetDocumentAttribute().m_bChkEnterAtEnd ){
+	if( m_cEditDoc.m_cDocType.GetDocumentAttribute().m_bChkEnterAtEnd ){
 		bTmpResult = _CheckSavingEolcode(
-			pcDoc->m_cDocLineMgr, pSaveInfo->cEol
+			m_cEditDoc.m_cDocLineMgr, pSaveInfo->cEol
 		);
 	}
 
@@ -147,10 +145,10 @@ ECallbackResult CCodeChecker::OnCheckSave(SSaveInfo* pSaveInfo)
 			MB_YESNOCANCEL | MB_ICONWARNING,
 			LS(STR_GSTR_APPNAME),
 			LS(STR_CODECHECKER_EOL_UNIFY),
-			pcDoc->m_cDocEditor.GetNewLineCode().GetName()
+			m_cEditDoc.m_cDocEditor.GetNewLineCode().GetName()
 		);
 		switch(nDlgResult){
-		case IDYES:		pSaveInfo->cEol = pcDoc->m_cDocEditor.GetNewLineCode(); break; //統一
+		case IDYES:		pSaveInfo->cEol = m_cEditDoc.m_cDocEditor.GetNewLineCode(); break; //統一
 		case IDNO:		break; //続行
 		case IDCANCEL:	return CALLBACK_INTERRUPT; //中断
 		default:
@@ -162,7 +160,7 @@ ECallbackResult CCodeChecker::OnCheckSave(SSaveInfo* pSaveInfo)
 	CLogicPoint point;
 	CNativeW cmemChar(L"", 0);
 	EConvertResult nTmpResult = _CheckSavingCharcode(
-		pcDoc->m_cDocLineMgr, pSaveInfo->eCharCode,
+		m_cEditDoc.m_cDocLineMgr, pSaveInfo->eCharCode,
 		point, cmemChar
 	);
 
