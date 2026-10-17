@@ -40,7 +40,7 @@ void CAutoReloadAgent::OnAfterSave([[maybe_unused]] const SSaveInfo& sSaveInfo)
 
 void CAutoReloadAgent::OnAfterLoad([[maybe_unused]] const SLoadInfo& sLoadInfo)
 {
-	//pcDoc->m_cDocFile.m_sFileInfo.cFileTime.SetFILETIME(ftime); //#####既に設定済みのはず
+	//m_cEditDoc.m_cDocFile.m_sFileInfo.cFileTime.SetFILETIME(ftime); //#####既に設定済みのはず
 }
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
@@ -56,8 +56,8 @@ bool CAutoReloadAgent::_ToDoChecking() const
 	HWND hwndActive = ::GetActiveWindow();
 	if(hwndActive==nullptr)return false;	/* アクティブ？ */
 	if(hwndActive!=CEditWnd::getInstance()->GetHwnd())return false;
-	if(!GetListeningDoc()->m_cDocFile.GetFilePathClass().IsValidPath())return false;
-	if(GetListeningDoc()->m_cDocFile.IsFileTimeZero()) return false;	/* 現在編集中のファイルのタイムスタンプ */
+	if(!m_cEditDoc.m_cDocFile.GetFilePathClass().IsValidPath())return false;
+	if(m_cEditDoc.m_cDocFile.IsFileTimeZero()) return false;	/* 現在編集中のファイルのタイムスタンプ */
 	if(m_cEditWnd.m_pPrintPreview ) return false;	// 印刷プレビュー中	2013/5/8 Uchi
 	return true;
 }
@@ -67,8 +67,8 @@ bool CAutoReloadAgent::_IsFileUpdatedByOther(FILETIME* pNewFileTime) const
 	/* ファイルスタンプをチェックする */
 	// 2005.10.20 ryoji FindFirstFileを使うように変更（ファイルがロックされていてもタイムスタンプ取得可能）
 	CFileTime ftime;
-	if( GetLastWriteTimestamp( GetListeningDoc()->m_cDocFile.GetFilePath(), &ftime )){
-		if( 0 != ::CompareFileTime( &GetListeningDoc()->m_cDocFile.GetFileTime().GetFILETIME(), &ftime.GetFILETIME() ) )	//	Aug. 13, 2003 wmlhq タイムスタンプが古く変更されている場合も検出対象とする
+	if( GetLastWriteTimestamp( m_cEditDoc.m_cDocFile.GetFilePath(), &ftime )){
+		if( 0 != ::CompareFileTime( &m_cEditDoc.m_cDocFile.GetFileTime().GetFILETIME(), &ftime.GetFILETIME() ) )	//	Aug. 13, 2003 wmlhq タイムスタンプが古く変更されている場合も検出対象とする
 		{
 			*pNewFileTime = ftime.GetFILETIME();
 			return true;
@@ -88,12 +88,10 @@ void CAutoReloadAgent::CheckFileTimeStamp()
 
 	if(!_ToDoChecking())return;
 
-	CEditDoc* pcDoc = GetListeningDoc();
-
 	//タイムスタンプ監視
 	FILETIME ftime;
 	if(!_IsFileUpdatedByOther(&ftime))return;
-	pcDoc->m_cDocFile.SetFileTime( ftime ); //タイムスタンプ更新
+	m_cEditDoc.m_cDocFile.SetFileTime( ftime ); //タイムスタンプ更新
 
 	//	From Here Dec. 4, 2002 genta
 	switch( m_eWatchUpdate ){
@@ -101,17 +99,17 @@ void CAutoReloadAgent::CheckFileTimeStamp()
 		{
 			//ファイル更新のお知らせ -> ステータスバー
 			WCHAR szText[40];
-			const CFileTime& ctime = pcDoc->m_cDocFile.GetFileTime();
+			const CFileTime& ctime = m_cEditDoc.m_cDocFile.GetFileTime();
 			auto_snprintf_s( szText, std::size(szText), LS(STR_AUTORELOAD_NOFITY), ctime->wHour, ctime->wMinute, ctime->wSecond );
 			m_cEditWnd.SendStatusMessage( szText );
 		}
 		break;
 	case WatchUpdate::WU_AUTOLOAD:		//以後未編集で再ロード
-		if (!pcDoc->m_cDocEditor.IsModified()) {
+		if (!m_cEditDoc.m_cDocEditor.IsModified()) {
 			PauseWatching(); // 更新監視の抑制
 
 			/* 同一ファイルの再オープン */
-			pcDoc->m_cDocFileOperation.ReloadCurrentFile( pcDoc->m_cDocFile.GetCodeSet() );
+			m_cEditDoc.m_cDocFileOperation.ReloadCurrentFile( m_cEditDoc.m_cDocFile.GetCodeSet() );
 			m_eWatchUpdate = WatchUpdate::WU_AUTOLOAD;
 
 			ResumeWatching(); //監視再開
@@ -122,7 +120,7 @@ void CAutoReloadAgent::CheckFileTimeStamp()
 		{
 			PauseWatching(); // 更新監視の抑制
 
-			CDlgFileUpdateQuery dlg( pcDoc->m_cDocFile.GetFilePath(), pcDoc->m_cDocEditor.IsModified() );
+			CDlgFileUpdateQuery dlg( m_cEditDoc.m_cDocFile.GetFilePath(), m_cEditDoc.m_cDocEditor.IsModified() );
 			EFileUpdateQuery result = (EFileUpdateQuery)dlg.DoModal(
 				G_AppInstance(),
 				CEditWnd::getInstance()->GetHwnd(),
@@ -133,7 +131,7 @@ void CAutoReloadAgent::CheckFileTimeStamp()
 			switch( result ){
 			case EFUQ_RELOAD:	// 再読込
 				/* 同一ファイルの再オープン */
-				pcDoc->m_cDocFileOperation.ReloadCurrentFile( pcDoc->m_cDocFile.GetCodeSet() );
+				m_cEditDoc.m_cDocFileOperation.ReloadCurrentFile( m_cEditDoc.m_cDocFile.GetCodeSet() );
 				m_eWatchUpdate = WatchUpdate::WU_QUERY;
 				break;
 			case EFUQ_NOTIFYONLY:	// 以後通知メッセージのみ
@@ -144,7 +142,7 @@ void CAutoReloadAgent::CheckFileTimeStamp()
 				break;
 			case EFUQ_AUTOLOAD:	// 以後未編集で再ロード
 				/* 同一ファイルの再オープン */
-				pcDoc->m_cDocFileOperation.ReloadCurrentFile( pcDoc->m_cDocFile.GetCodeSet() );
+				m_cEditDoc.m_cDocFileOperation.ReloadCurrentFile( m_cEditDoc.m_cDocFile.GetCodeSet() );
 				m_eWatchUpdate = WatchUpdate::WU_AUTOLOAD;
 				m_nDelayCount = 0;
 				break;
