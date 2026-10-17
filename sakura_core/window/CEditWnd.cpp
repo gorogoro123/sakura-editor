@@ -1697,7 +1697,7 @@ LRESULT CEditWnd::DispatchEvent(
 			}
 
 			//	Aug, 21, 2000 genta
-			GetDocument()->m_cAutoSaveAgent.ReloadAutoSaveParam();
+			GetDocument()->m_pcAutoSaveAgent->ReloadAutoSaveParam();
 
 			GetDocument()->OnChangeSetting();	// ビューに設定変更を反映させる
 			GetDocument()->m_cDocType.SetDocumentIcon();	// Sep. 10, 2002 genta 文書アイコンの再設定
@@ -4163,7 +4163,7 @@ void CEditWnd::OnEditTimer( )
 #endif
 	}
 
-	GetDocument()->m_cAutoSaveAgent.CheckAutoSave();
+	GetDocument()->m_pcAutoSaveAgent->CheckAutoSave();
 }
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //

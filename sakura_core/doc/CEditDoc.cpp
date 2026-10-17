@@ -185,6 +185,7 @@ BOOL CEditDoc::Create(CEditWnd& cEditWnd)
 	MY_RUNNINGTIMER( cRunningTimer, L"CEditDoc::Create" );
 
 	m_pcBackupAgent = std::make_unique<CBackupAgent>(cEditWnd);
+	m_pcAutoSaveAgent = std::make_unique<CAutoSaveAgent>(*this);
 	m_pcAutoReloadAgent = std::make_unique<CAutoReloadAgent>(cEditWnd);
 
 	// レイアウト管理情報の初期化
@@ -202,7 +203,7 @@ BOOL CEditDoc::Create(CEditWnd& cEditWnd)
 	m_cLayoutMgr.SetLayoutInfo( true, false, ref, ref.m_nTabSpace, ref.m_nTsvMode, nMaxLineKetas, CLayoutXInt(1), nullptr );
 
 	//	自動保存の設定	//	Aug, 21, 2000 genta
-	m_cAutoSaveAgent.ReloadAutoSaveParam();
+	m_pcAutoSaveAgent->ReloadAutoSaveParam();
 
 	//$$ CModifyManager インスタンスを生成
 	CModifyManager::getInstance();
