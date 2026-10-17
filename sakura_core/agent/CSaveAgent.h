@@ -13,8 +13,9 @@ class CEditWnd;
 
 class CSaveAgent : public CDocListenerEx{
 public:
-	CSaveAgent(CEditWnd& cEditWnd)
-	:m_cEditWnd(cEditWnd)
+	CSaveAgent(CEditDoc& cEditDoc, CEditWnd& cEditWnd)
+	:m_cEditDoc(cEditDoc),
+	m_cEditWnd(cEditWnd)
 	{
 	}
 	ECallbackResult OnCheckSave(SSaveInfo* pSaveInfo) override;
@@ -24,6 +25,7 @@ public:
 	void OnFinalSave(ESaveResult eSaveResult) override;
 
 private:
+	CEditDoc& m_cEditDoc;
 	CEditWnd& m_cEditWnd;
 	SSaveInfo	m_sSaveInfoForRollback;
 };

@@ -53,7 +53,7 @@ void CEditApp::Create(HINSTANCE hInst, int nGroupId)
 
 	//IO管理
 	m_pcLoadAgent = std::make_unique<CLoadAgent>(*m_pcEditDoc, *m_pcEditWnd);
-	m_pcSaveAgent = std::make_unique<CSaveAgent>(*m_pcEditWnd);
+	m_pcSaveAgent = std::make_unique<CSaveAgent>(*m_pcEditDoc, *m_pcEditWnd);
 	m_pcVisualProgress = std::make_unique<CVisualProgress>();
 
 	//ドキュメントの作成
