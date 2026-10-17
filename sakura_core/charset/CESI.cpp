@@ -1265,8 +1265,9 @@ ECodeType CESI::CheckKanjiCode(const char* pBuf, size_t nBufLen) noexcept
 
 	@param[out] pcmtxtOut 出力は、このポインタが指すオブジェクトに追加される。
 */
-void CESI::GetDebugInfo( const char* pS, const int nLen, const STypeConfig& sTypeConfig, CNativeW* pcmtxtOut )
+CNativeW CESI::GetDebugInfo( const char* pS, const int nLen, const STypeConfig& sTypeConfig )
 {
+	CNativeW cmtxtOut;
 	WCHAR szWork[10240];
 	int v1, v2, v3, v4;
 	int i;
@@ -1282,47 +1283,47 @@ void CESI::GetDebugInfo( const char* pS, const int nLen, const STypeConfig& sTyp
 	//	判別結果を分析
 	//
 
-	pcmtxtOut->AppendString( LS(STR_ESI_CHARCODE_DETECT) );	// "--文字コード調査結果-----------\r\n"
-	pcmtxtOut->AppendString( LS(STR_ESI_RESULT_STATE) );	// "判別結果の状態\r\n"
+	cmtxtOut.AppendString( LS(STR_ESI_CHARCODE_DETECT) );	// "--文字コード調査結果-----------\r\n"
+	cmtxtOut.AppendString( LS(STR_ESI_RESULT_STATE) );	// "判別結果の状態\r\n"
 
 	if( cesi.m_nTargetDataLen < 1 || cesi.m_dwStatus == ESI_NOINFORMATION ){
-		pcmtxtOut->AppendString( LS(STR_ESI_NO_INFO) );	// "\t判別結果を取得できません。\r\n"
-		return;
+		cmtxtOut.AppendString( LS(STR_ESI_NO_INFO) );	// "\t判別結果を取得できません。\r\n"
+		return cmtxtOut;
 	}
 	if( cesi.m_dwStatus != ESI_NODETECTED ){
 		// nstat == CESI_MBC_DETECTED or CESI_WC_DETECTED
-		pcmtxtOut->AppendString( LS(STR_ESI_DETECTED) );	// "\tおそらく正常に判定されました。\r\n"
+		cmtxtOut.AppendString( LS(STR_ESI_DETECTED) );	// "\tおそらく正常に判定されました。\r\n"
 	}else{
-		pcmtxtOut->AppendString( LS(STR_ESI_NO_DETECTED) );	// "\tコードを検出できませんでした。\r\n"
+		cmtxtOut.AppendString( LS(STR_ESI_NO_DETECTED) );	// "\tコードを検出できませんでした。\r\n"
 	}
 
-	pcmtxtOut->AppendString( LS(STR_ESI_DOC_TYPE) );	// "文書種別\r\n"
+	cmtxtOut.AppendString( LS(STR_ESI_DOC_TYPE) );	// "文書種別\r\n"
 
 	auto_snprintf_s( szWork, std::size(szWork), L"\t%s\r\n", sTypeConfig.m_szTypeName.c_str() );
-	pcmtxtOut->AppendString( szWork );
+	cmtxtOut.AppendString( szWork );
 
-	pcmtxtOut->AppendString( LS(STR_ESI_DEFAULT_CHARCODE) );	// "デフォルト文字コード\r\n"
+	cmtxtOut.AppendString( LS(STR_ESI_DEFAULT_CHARCODE) );	// "デフォルト文字コード\r\n"
 
 	WCHAR szCpName[100];
 	CCodePage::GetNameNormal(szCpName, sTypeConfig.m_encoding.m_eDefaultCodetype);
 	auto_snprintf_s( szWork, std::size(szWork), L"\t%s\r\n", szCpName );
-	pcmtxtOut->AppendString( szWork );
+	cmtxtOut.AppendString( szWork );
 
-	pcmtxtOut->AppendString( LS(STR_ESI_SAMPLE_LEN) );	// "サンプルデータ長\r\n"
+	cmtxtOut.AppendString( LS(STR_ESI_SAMPLE_LEN) );	// "サンプルデータ長\r\n"
 
 	auto_snprintf_s( szWork, std::size(szWork), LS(STR_ESI_SAMPLE_LEN_FORMAT), cesi.GetDataLen() );	// "\t%d バイト\r\n"
-	pcmtxtOut->AppendString( szWork );
+	cmtxtOut.AppendString( szWork );
 
-	pcmtxtOut->AppendString( LS(STR_ESI_BYTES_AND_POINTS) );	// "固有バイト数とポイント数\r\n"
+	cmtxtOut.AppendString( LS(STR_ESI_BYTES_AND_POINTS) );	// "固有バイト数とポイント数\r\n"
 
-	pcmtxtOut->AppendString( L"\tUNICODE\r\n" );
+	cmtxtOut.AppendString( L"\tUNICODE\r\n" );
 	cesi.GetEvaluation( CODE_UNICODE, &v1, &v2 );
 	cesi.GetEvaluation( CODE_UNICODEBE, &v3, &v4 );
 	auto_snprintf_s( szWork, std::size(szWork), LS(STR_ESI_UTF16LE_B_AND_P), v1, v2 ); // "\t\tUTF16LE 固有バイト数 %d,\tポイント数 %d\r\n"
-	pcmtxtOut->AppendString( szWork );
+	cmtxtOut.AppendString( szWork );
 	auto_snprintf_s( szWork, std::size(szWork), LS(STR_ESI_UTF16BE_B_AND_P), v3, v4 ); // "\t\tUTF16BE 固有バイト数 %d,\tポイント数 %d\r\n"
-	pcmtxtOut->AppendString( szWork );
-	pcmtxtOut->AppendString( LS(STR_ESI_BOM) );	// "\t\tBOM の推測結果　"
+	cmtxtOut.AppendString( szWork );
+	cmtxtOut.AppendString( LS(STR_ESI_BOM) );	// "\t\tBOM の推測結果　"
 	switch( cesi.m_eWcBomType ){
 	case ESI_BOMTYPE_LE:
 		wcsncpy_s( szWork, L"LE\r\n", _TRUNCATE );
@@ -1333,8 +1334,8 @@ void CESI::GetDebugInfo( const char* pS, const int nLen, const STypeConfig& sTyp
 	default:
 		wcsncpy_s( szWork, LS(STR_ESI_BOM_UNKNOWN), _TRUNCATE );	// "不明\r\n"
 	}
-	pcmtxtOut->AppendString( szWork );
-	pcmtxtOut->AppendString( LS(STR_ESI_MBC_OTHER_UNICODE) );
+	cmtxtOut.AppendString( szWork );
+	cmtxtOut.AppendString( LS(STR_ESI_MBC_OTHER_UNICODE) );
 	for( i = 0; i < NUM_OF_MBCODE; ++i ){
 		if( !IsValidCodeOrCPType(cesi.m_apMbcInfo[i]->eCodeID) ){
 			cesi.m_apMbcInfo[i]->eCodeID = CODE_SJIS;
@@ -1342,17 +1343,17 @@ void CESI::GetDebugInfo( const char* pS, const int nLen, const STypeConfig& sTyp
 		cesi.GetEvaluation( cesi.m_apMbcInfo[i]->eCodeID, &v1, &v2 );
 		auto_snprintf_s( szWork, std::size(szWork), LS(STR_ESI_OTHER_B_AND_P),	// "\t\t%d.%s\t固有バイト数 %d\tポイント数 %d\r\n"
 			i+1, CCodeTypeName(cesi.m_apMbcInfo[i]->eCodeID).Normal(), v1, v2 );
-		pcmtxtOut->AppendString( szWork );
+		cmtxtOut.AppendString( szWork );
 	}
 	auto_snprintf_s( szWork, std::size(szWork), LS(STR_ESI_EUC_ZENKAKU), static_cast<double>(cesi.m_nMbcEucZenHirakata)/cesi.m_nMbcEucZen );	// "\t\t・EUC全角カナかな/EUC全角\t%6.3f\r\n"
-	pcmtxtOut->AppendString( szWork );
+	cmtxtOut.AppendString( szWork );
 
-	pcmtxtOut->AppendString( LS(STR_ESI_RESULT) );	// "判定結果\r\n"
+	cmtxtOut.AppendString( LS(STR_ESI_RESULT) );	// "判定結果\r\n"
 
 	auto_snprintf_s( szWork, std::size(szWork), L"\t%s\r\n", CCodeTypeName(ecode_result).Normal() );
-	pcmtxtOut->AppendString( szWork );
+	cmtxtOut.AppendString( szWork );
 
-	return;
+	return cmtxtOut;
 }
 
 #endif
