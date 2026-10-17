@@ -23,8 +23,6 @@
 
 ECallbackResult CLoadAgent::OnCheckLoad(SLoadInfo* pLoadInfo)
 {
-	CEditDoc* pcDoc = GetListeningDoc();
-
 	// リロード要求の場合は、継続。
 	if(pLoadInfo->bRequestReload)goto next;
 
@@ -32,7 +30,7 @@ ECallbackResult CLoadAgent::OnCheckLoad(SLoadInfo* pLoadInfo)
 	if( IsDirectory(pLoadInfo->cFilePath) ){
 		std::vector<std::wstring> files;
 		SLoadInfo sLoadInfo(L"", CODE_AUTODETECT, false);
-		bool bDlgResult = pcDoc->m_cDocFileOperation.OpenFileDialog(
+		bool bDlgResult = m_cEditDoc.m_cDocFileOperation.OpenFileDialog(
 			m_cEditWnd.GetHwnd(),
 			pLoadInfo->cFilePath,	//指定されたフォルダー
 			&sLoadInfo,
@@ -68,7 +66,7 @@ ECallbackResult CLoadAgent::OnCheckLoad(SLoadInfo* pLoadInfo)
 	}
 
 	// 現在のウィンドウに対してファイルを読み込めない場合は、新たなウィンドウを開き、そこにファイルを読み込ませる
-	if(!pcDoc->IsAcceptLoad()){
+	if(!m_cEditDoc.IsAcceptLoad()){
 		CControlTray::OpenNewEditor(
 			G_AppInstance(),
 			m_cEditWnd.GetHwnd(),
@@ -101,12 +99,12 @@ next:
 
 		// ロックは一時的に解除してチェックする（チェックせずに後戻りできないところまで進めるより安全）
 		// ※ ロックしていてもアクセス許可の変更によって読み取れなくなっていることもある
-		bool bLock = (pLoadInfo->IsSamePath(pcDoc->m_cDocFile.GetFilePath()) && pcDoc->m_cDocFile.IsFileLocking());
-		if( bLock ) pcDoc->m_cDocFileOperation.DoFileUnlock();
+		bool bLock = (pLoadInfo->IsSamePath(m_cEditDoc.m_cDocFile.GetFilePath()) && m_cEditDoc.m_cDocFile.IsFileLocking());
+		if( bLock ) m_cEditDoc.m_cDocFileOperation.DoFileUnlock();
 
 		//チェック
 		if(!cFile.IsFileReadable()){
-			if( bLock ) pcDoc->m_cDocFileOperation.DoFileLock(false);
+			if( bLock ) m_cEditDoc.m_cDocFileOperation.DoFileLock(false);
 			ErrorMessage(
 				m_cEditWnd.GetHwnd(),
 				LS(STR_LOADAGENT_ERR_OPEN),
@@ -114,7 +112,7 @@ next:
 			);
 			return CALLBACK_INTERRUPT; //ファイルが存在しているのに読み取れない場合は中断
 		}
-		if( bLock ) pcDoc->m_cDocFileOperation.DoFileLock(false);
+		if( bLock ) m_cEditDoc.m_cDocFileOperation.DoFileLock(false);
 	}
 	while(false);	//	1回しか通らない. breakでここまで飛ぶ
 
@@ -171,16 +169,15 @@ void CLoadAgent::OnBeforeLoad([[maybe_unused]] SLoadInfo* pLoadInfo)
 ELoadResult CLoadAgent::OnLoad(const SLoadInfo& sLoadInfo)
 {
 	ELoadResult eRet = LOADED_OK;
-	CEditDoc* pcDoc = GetListeningDoc();
 
 	/* 既存データのクリア */
-	pcDoc->InitDoc(); //$$
+	m_cEditDoc.InitDoc(); //$$
 
 	// パスを確定
-	pcDoc->SetFilePathAndIcon( sLoadInfo.cFilePath );
+	m_cEditDoc.SetFilePathAndIcon( sLoadInfo.cFilePath );
 
 	// 文書種別確定
-	pcDoc->m_cDocType.SetDocumentType( sLoadInfo.nType, true );
+	m_cEditDoc.m_cDocType.SetDocumentType( sLoadInfo.nType, true );
 	m_cEditWnd.m_pcViewFontMiniMap->UpdateFont(&m_cEditWnd.GetLogfont());
 	InitCharWidthCache( m_cEditWnd.m_pcViewFontMiniMap->GetLogfont(), CWM_FONT_MINIMAP );
 	SelectCharWidthCache( CWM_FONT_EDIT, m_cEditWnd.GetLogfontCacheMode() );
@@ -205,9 +202,9 @@ ELoadResult CLoadAgent::OnLoad(const SLoadInfo& sLoadInfo)
 		CReadManager cReader;
 		CProgressSubject* pOld = CEditApp::getInstance()->GetVisualProgress()->CProgressListener::Listen(&cReader);
 		EConvertResult eReadResult = cReader.ReadFile_To_CDocLineMgr(
-			&pcDoc->m_cDocLineMgr,
+			&m_cEditDoc.m_cDocLineMgr,
 			sLoadInfo,
-			&pcDoc->m_cDocFile.m_sFileInfo
+			&m_cEditDoc.m_cDocFile.m_sFileInfo
 		);
 		if(eReadResult==RESULT_LOSESOME){
 			eRet = LOADED_LOSESOME;
@@ -216,8 +213,8 @@ ELoadResult CLoadAgent::OnLoad(const SLoadInfo& sLoadInfo)
 	}
 	else{
 		// 存在しないときもドキュメントに文字コードを反映する
-		const STypeConfig& types = pcDoc->m_cDocType.GetDocumentAttribute();
-		pcDoc->m_cDocFile.SetCodeSet( sLoadInfo.eCharCode, 
+		const STypeConfig& types = m_cEditDoc.m_cDocType.GetDocumentAttribute();
+		m_cEditDoc.m_cDocFile.SetCodeSet( sLoadInfo.eCharCode,
 			( sLoadInfo.eCharCode == types.m_encoding.m_eDefaultCodetype ) ?
 				types.m_encoding.m_bDefaultBom : CCodeTypeName( sLoadInfo.eCharCode ).IsBomDefOn() );
 	}
@@ -226,25 +223,25 @@ ELoadResult CLoadAgent::OnLoad(const SLoadInfo& sLoadInfo)
 	// 2008.06.07 nasukoji	折り返し方法の追加に対応
 	// 「指定桁で折り返す」以外の時は折り返し幅をMAXLINEKETASで初期化する
 	// 「右端で折り返す」は、この後のOnSize()で再設定される
-	const STypeConfig& ref = pcDoc->m_cDocType.GetDocumentAttribute();
+	const STypeConfig& ref = m_cEditDoc.m_cDocType.GetDocumentAttribute();
 	CKetaXInt nMaxLineKetas = ref.m_nMaxLineKetas;
 	if( ref.m_nTextWrapMethod != WRAP_SETTING_WIDTH )
 		nMaxLineKetas = CKetaXInt(MAXLINEKETAS);
 
 	// テキストの折り返し方法
 	// CLayoutMgr::CreateLayoutで参照されるのでここで設定
-	pcDoc->m_nTextWrapMethodCur = pcDoc->m_cDocType.GetDocumentAttribute().m_nTextWrapMethod;
+	m_cEditDoc.m_nTextWrapMethodCur = m_cEditDoc.m_cDocType.GetDocumentAttribute().m_nTextWrapMethod;
 
 	// ファイルを読んだらタブ位置を再計算
 	// この後のSetLayoutInfoの中でもCTsvModeInfo::CalcTabLengthを呼ぶ所があるが
 	// TsvModeの変化がない場合にはそこでは呼ばれないので必要な場合はここでやっておく
 	if (ref.m_nTsvMode != TSV_MODE_NONE) {
-		pcDoc->m_cLayoutMgr.m_tsvInfo.m_nTsvMode = ref.m_nTsvMode;
-		pcDoc->m_cLayoutMgr.m_tsvInfo.CalcTabLength(pcDoc->m_cLayoutMgr.m_pcDocLineMgr);
+		m_cEditDoc.m_cLayoutMgr.m_tsvInfo.m_nTsvMode = ref.m_nTsvMode;
+		m_cEditDoc.m_cLayoutMgr.m_tsvInfo.CalcTabLength(m_cEditDoc.m_cLayoutMgr.m_pcDocLineMgr);
 	}
 
-	CProgressSubject* pOld = CEditApp::getInstance()->GetVisualProgress()->CProgressListener::Listen(&pcDoc->m_cLayoutMgr);
-	pcDoc->m_cLayoutMgr.SetLayoutInfo( true, true, ref, ref.m_nTabSpace, ref.m_nTsvMode, nMaxLineKetas, CLayoutXInt(-1), &m_cEditWnd.GetLogfont() );
+	CProgressSubject* pOld = CEditApp::getInstance()->GetVisualProgress()->CProgressListener::Listen(&m_cEditDoc.m_cLayoutMgr);
+	m_cEditDoc.m_cLayoutMgr.SetLayoutInfo( true, true, ref, ref.m_nTabSpace, ref.m_nTsvMode, nMaxLineKetas, CLayoutXInt(-1), &m_cEditWnd.GetLogfont() );
 	m_cEditWnd.ClearViewCaretPosInfo();
 	
 	CEditApp::getInstance()->GetVisualProgress()->CProgressListener::Listen(pOld);
@@ -254,35 +251,31 @@ ELoadResult CLoadAgent::OnLoad(const SLoadInfo& sLoadInfo)
 
 void CLoadAgent::OnAfterLoad([[maybe_unused]] const SLoadInfo& sLoadInfo)
 {
-	CEditDoc* pcDoc = GetListeningDoc();
-
 	/* 親ウィンドウのタイトルを更新 */
 	m_cEditWnd.UpdateCaption();
 
 	// -- -- ※ InitAllViewでやってたこと -- -- //	// 2009.08.28 nasukoji	CEditView::OnAfterLoad()からここに移動
-	pcDoc->m_nCommandExecNum=0;
+	m_cEditDoc.m_nCommandExecNum=0;
 
 	// テキストの折り返し方法を初期化
-	pcDoc->m_nTextWrapMethodCur = pcDoc->m_cDocType.GetDocumentAttribute().m_nTextWrapMethod;	// 折り返し方法
-	pcDoc->m_bTextWrapMethodCurTemp = false;													// 一時設定適用中を解除
-	pcDoc->m_blfCurTemp = false;
-	pcDoc->m_bTabSpaceCurTemp = false;
+	m_cEditDoc.m_nTextWrapMethodCur = m_cEditDoc.m_cDocType.GetDocumentAttribute().m_nTextWrapMethod;	// 折り返し方法
+	m_cEditDoc.m_bTextWrapMethodCurTemp = false;													// 一時設定適用中を解除
+	m_cEditDoc.m_blfCurTemp = false;
+	m_cEditDoc.m_bTabSpaceCurTemp = false;
 
 	// 2009.08.28 nasukoji	「折り返さない」ならテキスト最大幅を算出、それ以外は変数をクリア
-	if( pcDoc->m_nTextWrapMethodCur == WRAP_NO_TEXT_WRAP )
+	if( m_cEditDoc.m_nTextWrapMethodCur == WRAP_NO_TEXT_WRAP )
 		// CLayoutMgr::_DoLayoutにて長さ算出済みなのでbCalLineLen=FALSE指定
-		pcDoc->m_cLayoutMgr.CalculateTextWidth(FALSE);	// テキスト最大幅を算出する
+		m_cEditDoc.m_cLayoutMgr.CalculateTextWidth(FALSE);	// テキスト最大幅を算出する
 	else
-		pcDoc->m_cLayoutMgr.ClearLayoutLineWidth();		// 各行のレイアウト行長の記憶をクリアする
+		m_cEditDoc.m_cLayoutMgr.ClearLayoutLineWidth();		// 各行のレイアウト行長の記憶をクリアする
 }
 
 void CLoadAgent::OnFinalLoad(ELoadResult eLoadResult)
 {
-	CEditDoc* pcDoc = GetListeningDoc();
-
 	if(eLoadResult==LOADED_FAILURE){
-		pcDoc->SetFilePathAndIcon( L"" );
-		pcDoc->m_cDocFile.SetBomDefoult();
+		m_cEditDoc.SetFilePathAndIcon( L"" );
+		m_cEditDoc.m_cDocFile.SetBomDefoult();
 	}
 	if(eLoadResult==LOADED_LOSESOME){
 		CAppMode::getInstance()->SetViewMode(true);

@@ -9,12 +9,14 @@
 
 #include "doc/CDocListener.h"
 
+class CEditDoc;
 class CEditWnd;
 
 class CLoadAgent : public CDocListenerEx{
 public:
-	explicit CLoadAgent(CEditWnd& cEditWnd)
-	:m_cEditWnd(cEditWnd)
+	explicit CLoadAgent(CEditDoc& cEditDoc, CEditWnd& cEditWnd)
+	:m_cEditDoc(cEditDoc),
+	m_cEditWnd(cEditWnd)
 	{
 	}
 	ECallbackResult OnCheckLoad(SLoadInfo* pLoadInfo) override;
@@ -24,5 +26,6 @@ public:
 	void OnFinalLoad(ELoadResult eLoadResult) override;
 
 private:
+	CEditDoc& m_cEditDoc;
 	CEditWnd& m_cEditWnd;
 };
