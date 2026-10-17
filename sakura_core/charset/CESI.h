@@ -20,6 +20,7 @@
 
 struct SEncodingConfig;
 struct STypeConfig;
+class CNativeW;
 
 struct tagEncodingInfo {
 	ECodeType eCodeID;  // 文字コード識別番号
@@ -201,7 +202,7 @@ public:
 
 #ifdef _DEBUG
 public:
-	static void GetDebugInfo( const char* pS, const int nLen, const STypeConfig& sTypeConfig, CNativeW* pcmtxtOut );
+	static CNativeW GetDebugInfo( const char* pS, const int nLen, const STypeConfig& sTypeConfig );
 #endif
 
 	DISALLOW_COPY_AND_ASSIGN(CESI);
