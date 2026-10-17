@@ -37,7 +37,7 @@ void CDocVisitor::SetAllEol(CEol cEol)
 		CLogicInt	nLine = CLogicInt(0);
 		COpeBlk* pcOpeBlk = pcView->m_bDoing_UndoRedo ? nullptr : pcView->m_cCommander.GetOpeBlk();
 		for (;;) {
-			CDocLine* pcDocLine = m_pcDocRef->m_cDocLineMgr.GetLine(nLine); //#######非効率
+			CDocLine* pcDocLine = m_cDocRef.m_cDocLineMgr.GetLine(nLine); //#######非効率
 			if(!pcDocLine)break;
 			//改行を置換
 			if( pcDocLine->GetEol().IsValid() && pcDocLine->GetEol() != cEol ){
@@ -61,13 +61,13 @@ void CDocVisitor::SetAllEol(CEol cEol)
 	}
 
 	if( bReplace ){
-		m_pcDocRef->m_cLayoutMgr._DoLayout(false);
+		m_cDocRef.m_cLayoutMgr._DoLayout(false);
 		GetEditWnd().ClearViewCaretPosInfo();
-		if( m_pcDocRef->m_nTextWrapMethodCur == WRAP_NO_TEXT_WRAP ){
+		if( m_cDocRef.m_nTextWrapMethodCur == WRAP_NO_TEXT_WRAP ){
 			// CLayoutMgr::_DoLayoutにて長さ算出済みなのでbCalLineLen=FALSE指定
-			m_pcDocRef->m_cLayoutMgr.CalculateTextWidth(FALSE);
+			m_cDocRef.m_cLayoutMgr.CalculateTextWidth(FALSE);
 		}else{
-			m_pcDocRef->m_cLayoutMgr.ClearLayoutLineWidth();
+			m_cDocRef.m_cLayoutMgr.ClearLayoutLineWidth();
 		}
 	}
 	//アンドゥ記録
