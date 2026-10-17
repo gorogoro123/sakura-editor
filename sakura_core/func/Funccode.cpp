@@ -1128,12 +1128,12 @@ bool IsFuncEnable( const CEditDoc* pcEditDoc, const DLLSHAREDATA* pShareData, EF
 		return IsPowerShellAvailable();
 
 	case F_JUMPHIST_PREV:	//	移動履歴: 前へ
-		if( GetEditWnd().GetActiveView().m_cHistory->CheckPrev() )
+		if( GetEditWnd().GetActiveView().m_pcHistory->CheckPrev() )
 			return true;
 		else
 			return false;
 	case F_JUMPHIST_NEXT:	//	移動履歴: 次へ
-		if( GetEditWnd().GetActiveView().m_cHistory->CheckNext() )
+		if( GetEditWnd().GetActiveView().m_pcHistory->CheckNext() )
 			return true;
 		else
 			return false;

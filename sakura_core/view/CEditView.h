@@ -98,12 +98,6 @@ class CEditView
 , public CEditView_Paint
 , public CDocListenerEx
 {
-private:
-	using CAutoMarkMgrHolder = std::unique_ptr<CAutoMarkMgr>;
-	using CCaretHolder = std::unique_ptr<CCaret>;
-	using CRulerHolder = std::unique_ptr<CRuler>;
-	using CTextAreaHolder = std::unique_ptr<CTextArea>;
-
 public:
 	const CEditDoc* GetDocument() const
 	{
@@ -620,9 +614,9 @@ public:
 	const STypeConfig*	m_pTypeData;
 
 	//主要構成部品
-	CTextAreaHolder	m_pcTextArea = std::make_unique<CTextArea>(this);
-	CCaretHolder	m_pcCaret = std::make_unique<CCaret>(this, m_pcEditDoc);
-	CRulerHolder	m_pcRuler = std::make_unique<CRuler>(this, m_pcEditDoc);
+	std::unique_ptr<CTextArea>	m_pcTextArea;
+	std::unique_ptr<CCaret>	m_pcCaret;
+	std::unique_ptr<CRuler>	m_pcRuler;
 
 	//主要属性
 	CTextMetrics	m_cTextMetrics;
@@ -744,7 +738,7 @@ private:
 
 public:
 	// その他
-	CAutoMarkMgrHolder	m_cHistory = std::make_unique<CAutoMarkMgr>();	//	Jump履歴
+	std::unique_ptr<CAutoMarkMgr>	m_pcHistory;	//	Jump履歴
 	CRegexKeyword*	m_cRegexKeyword = nullptr;	//@@@ 2001.11.17 add MIK
 	int				m_nMyIndex;	/* 分割状態 */
 	CMigemo*		m_pcmigemo;

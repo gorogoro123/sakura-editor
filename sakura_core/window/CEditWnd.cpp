@@ -4238,7 +4238,7 @@ void CEditWnd::InitAllViews()
 	for( int i = 0; i < GetAllViewCount(); ++i ){
 		//	Apr. 1, 2001 genta
 		// 移動履歴の消去
-		GetView(i).m_cHistory->Flush();
+		GetView(i).m_pcHistory->Flush();
 
 		/* 現在の選択範囲を非選択状態に戻す */
 		GetView(i).GetSelectionInfo().DisableSelectArea( false );
