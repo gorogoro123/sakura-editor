@@ -124,6 +124,7 @@ public:
 	std::unique_ptr<CAutoReloadAgent>	m_pcAutoReloadAgent;
 	CDocOutline			m_cDocOutline;
 	std::unique_ptr<CDocLocker>			m_pcDocLocker;
+	std::unique_ptr<CModifyManager>		m_pcModifyManager;
 
 	//動的状態
 public:
