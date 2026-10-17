@@ -411,7 +411,7 @@ void CEditWnd::UpdateCaption()
 	//タブウインドウのファイル名を通知
 	CSakuraEnvironment::ExpandParameter( pszTabCaptionFormat, pszCap );
 	ChangeFileNameNotify( pszCap,
-		GetListeningDoc()->m_cDocFile.GetFilePath(),
+		m_cEditDoc.m_cDocFile.GetFilePath(),
 		CEditApp::getInstance()->GetGrepAgent()->GrepMode() ); // 2006.01.28 ryoji ファイル名、Grepモードパラメータを追加
 }
 
