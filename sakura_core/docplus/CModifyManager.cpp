@@ -11,10 +11,8 @@
 
 void CModifyManager::OnAfterSave([[maybe_unused]] const SSaveInfo& sSaveInfo)
 {
-	CEditDoc* pcDoc = GetListeningDoc();
-
 	// 行変更状態をすべてリセット
-	CModifyVisitor().ResetAllModifyFlag(&pcDoc->m_cDocLineMgr, pcDoc->m_cDocEditor.m_cOpeBuf.GetCurrentPointer());
+	CModifyVisitor().ResetAllModifyFlag(&m_cEditDoc.m_cDocLineMgr, m_cEditDoc.m_cDocEditor.m_cOpeBuf.GetCurrentPointer());
 }
 
 bool CModifyVisitor::IsLineModified(const CDocLine* pcDocLine, int saveSeq) const

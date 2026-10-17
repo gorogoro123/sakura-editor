@@ -206,8 +206,7 @@ BOOL CEditDoc::Create(CEditWnd& cEditWnd)
 	//	自動保存の設定	//	Aug, 21, 2000 genta
 	m_pcAutoSaveAgent->ReloadAutoSaveParam();
 
-	//$$ CModifyManager インスタンスを生成
-	CModifyManager::getInstance();
+	m_pcModifyManager = std::make_unique<CModifyManager>(*this);
 
 	//$$ CCodeChecker インスタンスを生成
 	CCodeChecker::getInstance();

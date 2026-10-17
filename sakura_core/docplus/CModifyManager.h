@@ -14,12 +14,17 @@ class CDocLine;
 class CDocLineMgr;
 
 //! Modified管理
-class CModifyManager final : public TSingleton<CModifyManager>, public CDocListenerEx{
-	friend TSingleton<CModifyManager>;
-	CModifyManager(){}
-
+class CModifyManager final : public CDocListenerEx{
 public:
+	CModifyManager(CEditDoc& cEditDoc)
+	:m_cEditDoc(cEditDoc)
+	{
+	}
+
 	void OnAfterSave(const SSaveInfo& sSaveInfo) override;
+
+private:
+	CEditDoc& m_cEditDoc;
 };
 
 //! 行に付加するModified情報
