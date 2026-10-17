@@ -16,6 +16,8 @@
 #include "_main/global.h"
 #include "doc/CDocListener.h"
 
+class CEditDoc;
+
 //! 分→ミリ秒に変換するための係数
 const int MSec2Min = 1000 * 60;
 
@@ -53,9 +55,14 @@ private:
 
 class CAutoSaveAgent : public CDocListenerEx{
 public:
+	CAutoSaveAgent(CEditDoc &cEditDoc)
+	: m_cEditDoc(cEditDoc)
+	{
+	}
 	void CheckAutoSave();
 	void ReloadAutoSaveParam();	//!< 設定をSharedAreaから読み出す
 
 private:
+	CEditDoc& m_cEditDoc;
 	CPassiveTimer m_cPassiveTimer;
 };
