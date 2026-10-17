@@ -184,7 +184,7 @@ BOOL CEditDoc::Create(CEditWnd& cEditWnd)
 {
 	MY_RUNNINGTIMER( cRunningTimer, L"CEditDoc::Create" );
 
-	m_pcBackupAgent = std::make_unique<CBackupAgent>(cEditWnd);
+	m_pcBackupAgent = std::make_unique<CBackupAgent>(*this, cEditWnd);
 	m_pcAutoSaveAgent = std::make_unique<CAutoSaveAgent>(*this);
 	m_pcAutoReloadAgent = std::make_unique<CAutoReloadAgent>(*this, cEditWnd);
 	m_pcDocLocker = std::make_unique<CDocLocker>(*this);
