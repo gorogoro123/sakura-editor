@@ -150,16 +150,6 @@ CDocListener::~CDocListener()
 }
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
-//                      CDocListenerEx                         //
-// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
-#include "doc/CEditDoc.h"
-
-CEditDoc* CDocListenerEx::GetListeningDoc() const
-{
-	return static_cast<CEditDoc*>(CDocListener::GetListeningDoc());
-}
-
-// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                     CProgressSubject                        //
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 void CProgressSubject::NotifyProgress(int nPer)

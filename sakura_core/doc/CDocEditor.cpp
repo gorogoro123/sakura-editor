@@ -56,19 +56,18 @@ void CDocEditor::OnBeforeLoad([[maybe_unused]] SLoadInfo* sLoadInfo)
 
 void CDocEditor::OnAfterLoad(const SLoadInfo& sLoadInfo)
 {
-	CEditDoc* pcDoc = GetListeningDoc();
-	const STypeConfig& type = pcDoc->m_cDocType.GetDocumentAttribute();
+	const STypeConfig& type = m_pcDocRef->m_cDocType.GetDocumentAttribute();
 
 	if (type.m_bDetectIndentationStyleOnFileLoad) {
 		// インデントスタイル検出
 		// 現時点の実装ではレイアウトには影響しないのでここで実行する
 		IndentationStyle indentStyle{};
-		DetectIndentationStyle(pcDoc, 256, indentStyle);
-		auto& bInsSpace = pcDoc->m_cDocType.GetDocumentAttributeWrite().m_bInsSpace;
+		DetectIndentationStyle(m_pcDocRef, 256, indentStyle);
+		auto& bInsSpace = m_pcDocRef->m_cDocType.GetDocumentAttributeWrite().m_bInsSpace;
 		auto setTemporaryTabSpaceKetas = [&]() {
 			// タブ幅を一時的に設定
-			pcDoc->m_bTabSpaceCurTemp = true;
-			auto& layoutMgr = pcDoc->m_cLayoutMgr;
+			m_pcDocRef->m_bTabSpaceCurTemp = true;
+			auto& layoutMgr = m_pcDocRef->m_cLayoutMgr;
 			layoutMgr.SetTabSpaceKetas(CKetaXInt(indentStyle.tabSpace));
 		};
 		if (indentStyle.character == IndentationStyle::Character::Spaces) { // 半角空白でインデント
@@ -94,13 +93,13 @@ void CDocEditor::OnAfterLoad(const SLoadInfo& sLoadInfo)
 	//	May 12, 2000 genta
 	//	編集用改行コードの設定
 	{
-		if ( pcDoc->m_cDocFile.GetCodeSet() == type.m_encoding.m_eDefaultCodetype ){
+		if ( m_pcDocRef->m_cDocFile.GetCodeSet() == type.m_encoding.m_eDefaultCodetype ){
 			SetNewLineCode( type.m_encoding.m_eDefaultEoltype );	// 2011.01.24 ryoji デフォルトEOL
 		}
 		else{
 			SetNewLineCode( EEolType::cr_and_lf );
 		}
-		if( const CDocLine* pFirstline = pcDoc->m_cDocLineMgr.GetLine( CLogicInt(0) ); pFirstline != nullptr ){
+		if( const CDocLine* pFirstline = m_pcDocRef->m_cDocLineMgr.GetLine( CLogicInt(0) ); pFirstline != nullptr ){
 			if( const auto cEol = pFirstline->GetEol(); cEol.IsValid() ){
 				SetNewLineCode( cEol.GetType() );
 			}
@@ -109,25 +108,23 @@ void CDocEditor::OnAfterLoad(const SLoadInfo& sLoadInfo)
 
 	//	Nov. 20, 2000 genta
 	//	IME状態の設定
-	this->SetImeMode( pcDoc->m_cDocType.GetDocumentAttribute().m_nImeState );
+	this->SetImeMode( m_pcDocRef->m_cDocType.GetDocumentAttribute().m_nImeState );
 
 	// カレントディレクトリの変更
-	::SetCurrentDirectory( pcDoc->m_cDocFile.GetFilePathClass().GetDirPath().c_str() );
+	::SetCurrentDirectory( m_pcDocRef->m_cDocFile.GetFilePathClass().GetDirPath().c_str() );
 
 	CAppMode::getInstance()->SetViewMode(sLoadInfo.bViewMode);		// ビューモード	##ここも、アリかな
 }
 
 void CDocEditor::OnAfterSave([[maybe_unused]] const SSaveInfo& sSaveInfo)
 {
-	CEditDoc* pcDoc = GetListeningDoc();
-
 	this->SetModified(false,false);	//	Jan. 22, 2002 genta 関数化 更新フラグのクリア
 
 	/* 現在位置で無変更な状態になったことを通知 */
 	this->m_cOpeBuf.SetNoModified();
 
 	// カレントディレクトリの変更
-	::SetCurrentDirectory( pcDoc->m_cDocFile.GetFilePathClass().GetDirPath().c_str() );
+	::SetCurrentDirectory( m_pcDocRef->m_cDocFile.GetFilePathClass().GetDirPath().c_str() );
 }
 
 //	From Here Nov. 20, 2000 genta
