@@ -184,6 +184,7 @@ BOOL CEditDoc::Create(CEditWnd& cEditWnd)
 {
 	MY_RUNNINGTIMER( cRunningTimer, L"CEditDoc::Create" );
 
+	m_pcBackupAgent = std::make_unique<CBackupAgent>(cEditWnd);
 	m_pcAutoReloadAgent = std::make_unique<CAutoReloadAgent>(cEditWnd);
 
 	// レイアウト管理情報の初期化

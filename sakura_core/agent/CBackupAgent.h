@@ -9,11 +9,18 @@
 
 #include "doc/CDocListener.h"
 
+class CEditWnd;
+
 class CBackupAgent : public CDocListenerEx{
 public:
+	CBackupAgent(CEditWnd& cEditWnd)
+	:m_cEditWnd(cEditWnd)
+	{
+	}
 	ECallbackResult OnPreBeforeSave(SSaveInfo* pSaveInfo) override;
 
 protected:
+	CEditWnd& m_cEditWnd;
 	int MakeBackUp( const WCHAR* target_file );								//!< バックアップの作成
 	bool FormatBackUpPath( std::span<WCHAR>, const WCHAR* );	//!< バックアップパスの作成 2005.11.21 aroka
 };
