@@ -156,9 +156,6 @@ public:
 	explicit CDocListener(CDocSubject* pcDoc = nullptr);
 	~CDocListener() override;
 
-	// -- -- 属性 -- -- //
-	CDocSubject* GetListeningDoc() const { return GetListeningSubject(); }
-
 	// -- -- 各種イベント -- -- //
 	//ロード前後
 	virtual ECallbackResult	OnCheckLoad	([[maybe_unused]] SLoadInfo* pLoadInfo)		 { return CALLBACK_CONTINUE; }	//!< 本当にロードを行うかの判定を行う
@@ -189,8 +186,6 @@ public:
 		: CDocListener(pcDoc)
 	{
 	}
-
-	CEditDoc* GetListeningDoc() const;
 };
 
 #include <exception>
