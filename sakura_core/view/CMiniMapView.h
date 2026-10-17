@@ -9,6 +9,7 @@
 
 #include "view/CEditView.h"
 
+class CEditDoc;
 class CEditWnd;
 
 /*!
@@ -19,8 +20,8 @@ class CEditWnd;
 class CMiniMapView : public CEditView
 {
 public:
-	CMiniMapView(CEditWnd& cEditWnd)
-	: CEditView(cEditWnd)
+	CMiniMapView(CEditDoc* pcEditDoc, CEditWnd& cEditWnd)
+	: CEditView(pcEditDoc, cEditWnd)
 	{
 	}
 	BOOL Create( HWND hWndParent );

@@ -207,11 +207,11 @@ CEditWnd::CEditWnd(CEditDoc& cEditDoc)
 : m_cEditDoc(cEditDoc)
 {
 	// [0] - [3] まで作成・初期化していたものを[0]だけ作る。ほかは分割されるまで何もしない
-	m_pcEditViewArr[0] = std::make_unique<CEditView>(*this);
+	m_pcEditViewArr[0] = std::make_unique<CEditView>(&m_cEditDoc, *this);
 	m_pcEditView = m_pcEditViewArr[0].get();
 
 	m_pcSplitterWnd = std::make_unique<CSplitterWnd>();
-	m_pcMiniMapView = std::make_unique<CMiniMapView>(*this);
+	m_pcMiniMapView = std::make_unique<CMiniMapView>(&m_cEditDoc, *this);
 }
 
 CEditWnd::~CEditWnd() = default;
@@ -4211,7 +4211,7 @@ bool CEditWnd::CreateEditViewBySplit(int nViewCount )
 	if( GetAllViewCount() < nViewCount ){
 		for( int i = GetAllViewCount(); i < nViewCount; i++ ){
 			assert( nullptr == m_pcEditViewArr[i] );
-			m_pcEditViewArr[i] = std::make_unique<CEditView>(*this);
+			m_pcEditViewArr[i] = std::make_unique<CEditView>(&m_cEditDoc, *this);
 			m_pcEditViewArr[i]->Create( m_pcSplitterWnd->GetHwnd(), GetDocument(), i, FALSE, false );
 		}
 		m_nEditViewCount = nViewCount;
