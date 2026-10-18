@@ -6,7 +6,6 @@
 */
 #include "CMainStatusBar.h"
 #include "window/CEditWnd.h"
-#include "CEditApp.h"
 #include "apiwrap/CommonControl.h"
 #include "charset/CCodeFactory.h"
 
@@ -43,7 +42,7 @@ CMainStatusBar::CMainStatusBar(CEditWnd* pOwner)
 
 //	キーワード：ステータスバー順序
 /* ステータスバー作成 */
-void CMainStatusBar::CreateStatusBar()
+void CMainStatusBar::CreateStatusBar(HINSTANCE hInst)
 {
 	if( m_hwndStatusBar )return;
 
@@ -56,7 +55,7 @@ void CMainStatusBar::CreateStatusBar()
 		0, 0, 0, 0, // X, Y, nWidth, nHeight
 		m_pOwner->GetHwnd(),
 		(HMENU)IDW_STATUSBAR,
-		CEditApp::getInstance()->GetAppInstance(),
+		hInst,
 		nullptr
 	);
 
@@ -72,7 +71,7 @@ void CMainStatusBar::CreateStatusBar()
 		13,
 		m_hwndStatusBar,
 		nullptr,
-		CEditApp::getInstance()->GetAppInstance(),
+		hInst,
 		nullptr
 	);
 

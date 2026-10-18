@@ -891,7 +891,8 @@ void CEditWnd::LayoutStatusBar( )
 {
 	if( m_pShareData->m_Common.m_sWindow.m_bDispSTATUSBAR ){	/* ステータスバーを表示する */
 		/* ステータスバー作成 */
-		m_cStatusBar.CreateStatusBar();
+		HINSTANCE hInst = CEditApp::getInstance()->GetAppInstance();
+		m_cStatusBar.CreateStatusBar(hInst);
 	}
 	else{
 		/* ステータスバー破棄 */

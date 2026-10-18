@@ -17,7 +17,7 @@ public:
 
 	//作成・破棄
 	CMainStatusBar(CEditWnd* pOwner);
-	void CreateStatusBar();		// ステータスバー作成
+	void CreateStatusBar(HINSTANCE hInst);		// ステータスバー作成
 	void DestroyStatusBar();		/* ステータスバー破棄 */
 	void SendStatusMessage2( const WCHAR* msg );	//	Jul. 9, 2005 genta メニューバー右端には出したくない長めのメッセージを出す
 	/*!	SendStatusMessage2()が効き目があるかを予めチェック
