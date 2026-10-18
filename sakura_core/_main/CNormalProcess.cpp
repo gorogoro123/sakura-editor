@@ -160,8 +160,9 @@ bool CNormalProcess::InitializeProcess()
 	if( bDebugMode ){
 		/* デバッグモニタモードに設定 */
 		pEditWnd->GetDocument()->SetCurDirNotitle();
-		CAppMode::getInstance()->SetDebugModeON();
-		if( !CAppMode::getInstance()->IsDebugMode() ){
+		CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
+		pcAppMode->SetDebugModeON();
+		if( !pcAppMode->IsDebugMode() ){
 			// デバッグではなくて(無題)
 			CAppNodeManager::getInstance()->GetNoNameNumber( pEditWnd->GetHwnd() );
 			pEditWnd->UpdateCaption();

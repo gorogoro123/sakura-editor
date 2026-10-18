@@ -40,7 +40,7 @@ void CEditApp::Create(HINSTANCE hInst, int nGroupId)
 	m_pcEditDoc = std::make_unique<CEditDoc>();
 
 	//編集モード
-	CAppMode::getInstance();	//ウィンドウよりも前にイベントを受け取るためにここでインスタンス作成
+	m_pcAppMode = std::make_unique<CAppMode>();
 
 	//マクロ
 	m_pcSMacroMgr = std::make_unique<CSMacroMgr>();

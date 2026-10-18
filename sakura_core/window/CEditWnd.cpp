@@ -747,7 +747,8 @@ void CEditWnd::SetDocumentTypeWhenCreate(
 	}
 
 	//	Jun. 4 ,2004 genta ファイル名指定が無くてもビューモード強制指定を有効にする
-	CAppMode::getInstance()->SetViewMode(bViewMode);
+	CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
+	pcAppMode->SetViewMode(bViewMode);
 
 	if( nDocumentType.IsValidType() ){
 		/* 設定変更を反映させる */

@@ -22,10 +22,10 @@
 */
 
 #include "CEditView.h"
-#include <algorithm>
 #include "charset/CShiftJis.h"
 #include "doc/CEditDoc.h"
 #include "window/CEditWnd.h"
+#include "CEditApp.h"
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                           IME                               //
@@ -126,7 +126,8 @@ LRESULT CEditView::SetReconvertStruct(PRECONVERTSTRING pReconv, bool bDocumentFe
 		return 0;
 
 	// 2010.04.06 ビューモードでは何もしない
-	if( CAppMode::getInstance()->IsViewMode() ){
+	CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
+	if( pcAppMode->IsViewMode() ){
 		return 0;
 	}
 	

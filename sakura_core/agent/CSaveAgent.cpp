@@ -22,7 +22,8 @@ ECallbackResult CSaveAgent::OnCheckSave(SSaveInfo* pSaveInfo)
 	//	Jun.  5, 2004 genta
 	//	ビューモードのチェックをCEditDocから上書き保存処理に移動
 	//	同名で上書きされるのを防ぐ
-	if( CAppMode::getInstance()->IsViewMode() && pSaveInfo->IsSamePath(m_cEditDoc.m_cDocFile.GetFilePath()) ){
+	CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
+	if( pcAppMode->IsViewMode() && pSaveInfo->IsSamePath(m_cEditDoc.m_cDocFile.GetFilePath()) ){
 		ErrorBeep();
 		TopErrorMessage( m_cEditWnd.GetHwnd(), LS(STR_SAVEAGENT_VIEW_FILE) );
 		return CALLBACK_INTERRUPT;

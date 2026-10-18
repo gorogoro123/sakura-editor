@@ -54,6 +54,7 @@
 #include "sakura.hh"
 #include "config/system_constants.h"
 #include "config/app_constants.h"
+#include "CEditApp.h"
 
 // 画面ドッキング用の定義	// 2010.06.05 ryoji
 #define DEFINE_SYNCCOLOR
@@ -2387,11 +2388,12 @@ void CDlgFuncList::SortTree(HWND hWndTree,HTREEITEM htiParent)
 bool CDlgFuncList::TagJumpTimer( const WCHAR* pFile, CMyPoint point, bool bCheckAutoClose )
 {
 	CEditView* pcView = reinterpret_cast<CEditView*>(m_lParam);
+	CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
 
 	// ファイルを開いていない場合は自分で開く
 	if( pcView->GetDocument()->IsAcceptLoad() ){
 		std::wstring strFile = pFile;
-		pcView->GetCommander().Command_FILEOPEN( strFile.c_str(), CODE_AUTODETECT, CAppMode::getInstance()->IsViewMode(), nullptr );
+		pcView->GetCommander().Command_FILEOPEN( strFile.c_str(), CODE_AUTODETECT, pcAppMode->IsViewMode(), nullptr );
 		if( point.y != -1 ){
 			if( pcView->GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() ){
 				CLogicPoint pt;

@@ -200,7 +200,8 @@ ELoadResult CLoadAgent::OnLoad(const SLoadInfo& sLoadInfo)
 	if(fexist(sLoadInfo.cFilePath)){
 		//CDocLineMgrの構成
 		CReadManager cReader;
-		CProgressSubject* pOld = CEditApp::getInstance()->GetVisualProgress()->CProgressListener::Listen(&cReader);
+		auto* pcEditApp = CEditApp::getInstance();
+		CProgressSubject* pOld = pcEditApp->GetVisualProgress()->CProgressListener::Listen(&cReader);
 		EConvertResult eReadResult = cReader.ReadFile_To_CDocLineMgr(
 			&m_cEditDoc.m_cDocLineMgr,
 			sLoadInfo,
@@ -209,7 +210,7 @@ ELoadResult CLoadAgent::OnLoad(const SLoadInfo& sLoadInfo)
 		if(eReadResult==RESULT_LOSESOME){
 			eRet = LOADED_LOSESOME;
 		}
-		CEditApp::getInstance()->GetVisualProgress()->CProgressListener::Listen(pOld);
+		pcEditApp->GetVisualProgress()->CProgressListener::Listen(pOld);
 	}
 	else{
 		// 存在しないときもドキュメントに文字コードを反映する
@@ -278,7 +279,8 @@ void CLoadAgent::OnFinalLoad(ELoadResult eLoadResult)
 		m_cEditDoc.m_cDocFile.SetBomDefoult();
 	}
 	if(eLoadResult==LOADED_LOSESOME){
-		CAppMode::getInstance()->SetViewMode(true);
+		CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
+		pcAppMode->SetViewMode(true);
 	}
 
 	//再描画 $$不足

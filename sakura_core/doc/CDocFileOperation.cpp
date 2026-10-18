@@ -35,7 +35,8 @@ bool CDocFileOperation::_ToDoLock() const
 	if( !m_pcDocRef->m_cDocFile.GetFilePathClass().IsValidPath() )return false;
 
 	// ビューモード
-	if( CAppMode::getInstance()->IsViewMode() )return false;
+	CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
+	if( pcAppMode->IsViewMode() )return false;
 
 	// 排他設定
 	if( GetDllShareData().m_Common.m_sFile.m_nFileShareMode == SHAREMODE_NOT_EXCLUSIVE )return false;
@@ -165,7 +166,8 @@ void CDocFileOperation::ReloadCurrentFile(
 	SLoadInfo sLoadInfo;
 	sLoadInfo.cFilePath=m_pcDocRef->m_cDocFile.GetFilePath();
 	sLoadInfo.eCharCode=nCharCode;
-	sLoadInfo.bViewMode=CAppMode::getInstance()->IsViewMode(); // 2014.06.13 IsEditable->IsViewModeに戻す。かわりに bForceNoMsgを追加
+	CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
+	sLoadInfo.bViewMode = pcAppMode->IsViewMode(); // 2014.06.13 IsEditable->IsViewModeに戻す。かわりに bForceNoMsgを追加
 	sLoadInfo.bWritableNoMsg = !m_pcDocRef->IsEditable(); // すでに編集できない状態ならファイルロックのメッセージを表示しない
 	sLoadInfo.bRequestReload=true;
 	bool bRet = this->DoLoadFlow(&sLoadInfo);
@@ -399,7 +401,8 @@ bool CDocFileOperation::FileSaveAs( const WCHAR* filename,ECodeType eCodeType, E
 		}
 	}
 	if( bDialog ){
-		if(!filename && CAppMode::getInstance()->IsViewMode()){
+		CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
+		if(!filename && pcAppMode->IsViewMode()){
 			sSaveInfo.cFilePath = L""; //※読み込み専用モードのときはファイル名を指定しない
 		}
 
