@@ -14,10 +14,13 @@
 
 class CDocLineMgr;
 struct SFileInfo; // doc/CDocFile.h
+class CEditWnd;
 
 class CReadManager : public CProgressSubject{
 public:
-	//	Nov. 12, 2000 genta 引数追加
+	CReadManager(CEditWnd& cEditWnd)
+	:m_cEditWnd(cEditWnd)
+	{}
 	//	Jul. 26, 2003 ryoji BOM引数追加
 	EConvertResult ReadFile_To_CDocLineMgr(
 		CDocLineMgr*		pcDocLineMgr,
@@ -26,6 +29,7 @@ public:
 	);
 
 private:
+	CEditWnd& m_cEditWnd;
 	EConvertResult ReadLines(
 		bool				bRunInMainThread,
 		CFileLoad&			cFileLoad,

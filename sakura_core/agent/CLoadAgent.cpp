@@ -197,7 +197,7 @@ ELoadResult CLoadAgent::OnLoad(const SLoadInfo& sLoadInfo)
 	//ファイルが存在する場合はファイルを読む
 	if(fexist(sLoadInfo.cFilePath)){
 		//CDocLineMgrの構成
-		CReadManager cReader;
+		CReadManager cReader(m_cEditWnd);
 		auto* pcEditApp = CEditApp::getInstance();
 		CProgressSubject* pOld = pcEditApp->GetVisualProgress()->CProgressListener::Listen(&cReader);
 		EConvertResult eReadResult = cReader.ReadFile_To_CDocLineMgr(
