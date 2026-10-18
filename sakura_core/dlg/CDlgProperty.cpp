@@ -28,6 +28,7 @@
 #include "util/shell.h"
 #include "apiwrap/StdControl.h"
 #include "sakura_rc.h"
+#include "CEditApp.h"
 
 // プロパティ CDlgProperty.cpp	//@@@ 2002.01.07 add start MIK
 #include "sakura.hh"
@@ -108,7 +109,8 @@ void CDlgProperty::SetData( )
 	auto_snprintf_s( szWork, std::size(szWork), LS(STR_DLGFLPROP_LAYOUT_LINE), pCEditDoc->m_cLayoutMgr.GetLineCount() );
 	cmemProp.AppendString( szWork );
 
-	if( CAppMode::getInstance()->IsViewMode() ){
+	CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
+	if( pcAppMode->IsViewMode() ){
 		cmemProp.AppendString( LS(STR_DLGFLPROP_VIEW_MODE) );	// 2009.04.11 ryoji 「上書き禁止モード」→「ビューモード」
 	}
 	if( pCEditDoc->m_cDocEditor.IsModified() ){

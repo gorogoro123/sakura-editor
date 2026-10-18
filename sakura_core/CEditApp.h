@@ -23,6 +23,7 @@ class CMruListener;
 class CSMacroMgr;
 class CPropertyManager;
 class CGrepAgent;
+class CAppMode;
 
 //!エディタ部分アプリケーションクラス。CNormalProcess1個につき、1個存在。
 class CEditApp final : public TSingleton<CEditApp>{
@@ -57,6 +58,8 @@ public:
 
 	CImageListMgr& GetIcons() { return m_cIcons; }
 
+	CAppMode* GetAppMode() { return m_pcAppMode.get(); }
+
 private:
 	HINSTANCE			m_hInst;
 
@@ -78,6 +81,9 @@ private:
 	std::unique_ptr<CPropertyManager>	m_pcPropertyManager;	//プロパティ管理
 
 	std::unique_ptr<CGrepAgent>			m_pcGrepAgent;			//GREPモード
+
+	std::unique_ptr<CAppMode>			m_pcAppMode;
+
 	CSoundSet							m_cSoundSet;			//サウンド管理
 
 	//GUIオブジェクト

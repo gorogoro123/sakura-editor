@@ -17,6 +17,7 @@
 #include "debug/CRunningTimer.h"
 #include "_os/CClipboard.h"
 #include "parse/DetectIndentationStyle.h"
+#include "CEditApp.h"
 
 CDocEditor::CDocEditor(CEditDoc* pcDoc)
 : m_pcDocRef(pcDoc)
@@ -113,7 +114,8 @@ void CDocEditor::OnAfterLoad(const SLoadInfo& sLoadInfo)
 	// カレントディレクトリの変更
 	::SetCurrentDirectory( m_pcDocRef->m_cDocFile.GetFilePathClass().GetDirPath().c_str() );
 
-	CAppMode::getInstance()->SetViewMode(sLoadInfo.bViewMode);		// ビューモード	##ここも、アリかな
+	CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
+	pcAppMode->SetViewMode(sLoadInfo.bViewMode);		// ビューモード	##ここも、アリかな
 }
 
 void CDocEditor::OnAfterSave([[maybe_unused]] const SSaveInfo& sSaveInfo)

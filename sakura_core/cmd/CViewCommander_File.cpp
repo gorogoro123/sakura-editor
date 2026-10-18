@@ -458,12 +458,13 @@ void CViewCommander::Command_BROWSE( )
 void CViewCommander::Command_VIEWMODE( )
 {
 	//ビューモードを反転
-	CAppMode::getInstance()->SetViewMode(!CAppMode::getInstance()->IsViewMode());
+	CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
+	pcAppMode->SetViewMode(!pcAppMode->IsViewMode());
 
 	// 排他制御の切り替え
 	// ※ビューモード ON 時は排他制御 OFF、ビューモード OFF 時は排他制御 ON の仕様（>>data:5262）を即時反映する
 	GetDocument()->m_cDocFileOperation.DoFileUnlock();	// ファイルの排他ロック解除
-	GetDocument()->m_pcDocLocker->CheckWritable(!CAppMode::getInstance()->IsViewMode());	// ファイル書込可能のチェック
+	GetDocument()->m_pcDocLocker->CheckWritable(!pcAppMode->IsViewMode());	// ファイル書込可能のチェック
 	if( GetDocument()->m_pcDocLocker->IsDocWritable() ){
 		GetDocument()->m_cDocFileOperation.DoFileLock();	// ファイルの排他ロック
 	}

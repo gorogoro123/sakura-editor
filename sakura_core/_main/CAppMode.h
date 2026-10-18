@@ -10,8 +10,8 @@
 #include "util/design_template.h"
 #include "doc/CDocListener.h"
 
-class CAppMode final : public TSingleton<CAppMode>, public CDocListener{ //###仮
-	friend TSingleton<CAppMode>;
+class CAppMode final : public CDocListener{ //###仮
+public:
 	CAppMode() = default;
 
 public:

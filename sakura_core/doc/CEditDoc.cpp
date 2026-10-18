@@ -275,16 +275,17 @@ void CEditDoc::Clear()
 /* 既存データのクリア */
 void CEditDoc::InitDoc()
 {
-	CAppMode::getInstance()->SetViewMode(false);	// ビューモード $$ 今後OnClearDocを用意したい
-	CAppMode::getInstance()->SetGrepKey(L"");
+	CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
+	pcAppMode->SetViewMode(false);	// ビューモード $$ 今後OnClearDocを用意したい
+	pcAppMode->SetGrepKey(L"");
 
 	CEditApp::getInstance()->GetGrepAgent()->GrepMode(false);	/* Grepモード */	//$$同上
 	m_pcAutoReloadAgent->m_eWatchUpdate = WatchUpdate::WU_QUERY; // Dec. 4, 2002 genta 更新監視方法 $$
 
 	// 2005.06.24 Moca バグ修正
 	//	アウトプットウィンドウで「閉じて(無題)」を行ってもアウトプットウィンドウのまま
-	if( CAppMode::getInstance()->IsDebugMode() ){
-		CAppMode::getInstance()->SetDebugModeOFF();
+	if( pcAppMode->IsDebugMode() ){
+		pcAppMode->SetDebugModeOFF();
 	}
 
 //	Sep. 10, 2002 genta
@@ -457,6 +458,12 @@ void CEditDoc::SetDocumentEncoding(ECodeType eCharCode, bool bBom)
 	m_cDocFile.SetCodeSet( eCharCode, bBom );
 }
 
+bool CEditDoc::IsEditable() const	//!< 編集可能かどうか
+{
+	CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
+	return !pcAppMode->IsViewMode() && !(!m_pcDocLocker->IsDocWritable() && GetDllShareData().m_Common.m_sFile.m_bUneditableIfUnwritable);
+}
+
 void CEditDoc::GetSaveInfo(SSaveInfo* pSaveInfo) const
 {
 	pSaveInfo->cFilePath   = m_cDocFile.GetFilePath();
@@ -487,12 +494,15 @@ void CEditDoc::GetEditInfo(
 	pfi->m_bBom = GetDocumentBomExist();
 	pfi->m_nTypeId = m_cDocType.GetDocumentAttribute().m_id;
 
+	auto* pcEditApp = CEditApp::getInstance();
+	CAppMode* pcAppMode = pcEditApp->GetAppMode();
+
 	//GREPモード
-	pfi->m_bIsGrep = CEditApp::getInstance()->GetGrepAgent()->GrepMode();
-	pfi->m_szGrepKey = CAppMode::getInstance()->GetGrepKey();
+	pfi->m_bIsGrep = pcEditApp->GetGrepAgent()->GrepMode();
+	pfi->m_szGrepKey = pcAppMode->GetGrepKey();
 
 	//デバッグモニタ (アウトプットウインドウ) モード
-	pfi->m_bIsDebug = CAppMode::getInstance()->IsDebugMode();
+	pfi->m_bIsDebug = pcAppMode->IsDebugMode();
 }
 
 /*! @brief 指定コマンドによる書き換えが禁止されているかどうか
@@ -547,8 +557,10 @@ bool CEditDoc::IsAcceptLoad() const
 {
 	if(m_cDocEditor.IsModified())return false;
 	if(m_cDocFile.GetFilePathClass().IsValidPath())return false;
-	if(CEditApp::getInstance()->GetGrepAgent()->GrepMode())return false;
-	if(CAppMode::getInstance()->IsDebugMode())return false;
+	auto* pcEditApp = CEditApp::getInstance();
+	if(pcEditApp->GetGrepAgent()->GrepMode())return false;
+	CAppMode* pcAppMode = pcEditApp->GetAppMode();
+	if(pcAppMode->IsDebugMode())return false;
 	return true;
 }
 
@@ -660,7 +672,8 @@ void CEditDoc::OnChangeSetting(
 
 		// ファイル書込可能のチェック処理
 		bool bOld = m_pcDocLocker->IsDocWritable();
-		m_pcDocLocker->CheckWritable(bOld && !CAppMode::getInstance()->IsViewMode());	// 書込可から不可に遷移したときだけメッセージを出す（出過ぎると鬱陶しいよね？）
+		CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
+		m_pcDocLocker->CheckWritable(bOld && !pcAppMode->IsViewMode());	// 書込可から不可に遷移したときだけメッセージを出す（出過ぎると鬱陶しいよね？）
 
 		/* ファイルの排他ロック */
 		if( m_pcDocLocker->IsDocWritable() ){
@@ -841,7 +854,9 @@ BOOL CEditDoc::OnFileClose(bool bGrepNoConfirm)
 	if(eBeforeCloseResult==CALLBACK_INTERRUPT)return FALSE;
 
 	// デバッグモニタモードのときは保存確認しない
-	if(CAppMode::getInstance()->IsDebugMode())return TRUE;
+	auto* pcEditApp = CEditApp::getInstance();
+	CAppMode* pcAppMode = pcEditApp->GetAppMode();
+	if(pcAppMode->IsDebugMode())return TRUE;
 
 	//GREPモードで、かつ、「GREPモードで保存確認するか」がOFFだったら、保存確認しない
 	// 2011.11.13 GrepモードでGrep直後は"未編集"状態になっているが保存確認が必要
@@ -862,8 +877,8 @@ BOOL CEditDoc::OnFileClose(bool bGrepNoConfirm)
 	// -- -- 保存確認 -- -- //
 	WCHAR szGrepTitle[90];
 	LPCWSTR pszTitle = m_cDocFile.GetFilePathClass().IsValidPath() ? m_cDocFile.GetFilePath() : nullptr;
-	if( CEditApp::getInstance()->GetGrepAgent()->GrepMode() ){
-		const std::wstring szGrepKey(CAppMode::getInstance()->GetGrepKey());
+	if(pcEditApp->GetGrepAgent()->GrepMode() ){
+		const std::wstring szGrepKey(pcAppMode->GetGrepKey());
 		int			nLen = (int)szGrepKey.length();
 		CNativeW	cmemDes;
 		cmemDes.LimitStringLengthW( szGrepKey, 64 );
@@ -881,7 +896,7 @@ BOOL CEditDoc::OnFileClose(bool bGrepNoConfirm)
 	/* ウィンドウをアクティブにする */
 	HWND	hwndMainFrame = CEditWnd::getInstance()->GetHwnd();
 	ActivateFrameWindow( hwndMainFrame );
-	if( CAppMode::getInstance()->IsViewMode() ){	/* ビューモード */
+	if( pcAppMode->IsViewMode() ){	/* ビューモード */
 		ConfirmBeep();
 		nRet = ::MYMESSAGEBOX(
 			hwndMainFrame,

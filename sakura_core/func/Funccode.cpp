@@ -891,6 +891,8 @@ int FuncID_To_HelpContextID( EFunctionCode nFuncID )
 /* 機能が利用可能か調べる */
 bool IsFuncEnable( const CEditDoc* pcEditDoc, const DLLSHAREDATA* pShareData, EFunctionCode nId )
 {
+	CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
+
 	/* 書き換え禁止のときを一括チェック */
 	if( pcEditDoc->IsModificationForbidden( nId ) )
 		return false;
@@ -1025,7 +1027,7 @@ bool IsFuncEnable( const CEditDoc* pcEditDoc, const DLLSHAREDATA* pShareData, EF
 		}
 
 	case F_FILESAVE:	/* 上書き保存 */
-		if( !CAppMode::getInstance()->IsViewMode() ){	/* ビューモード */
+		if( !pcAppMode->IsViewMode() ){	/* ビューモード */
 			if( pcEditDoc->m_cDocEditor.IsModified() ){	/* 変更フラグ */
 				return true;
 			}
@@ -1184,6 +1186,7 @@ bool IsFuncEnable( const CEditDoc* pcEditDoc, const DLLSHAREDATA* pShareData, EF
 bool IsFuncChecked( const CEditDoc* pcEditDoc, const DLLSHAREDATA* pShareData, EFunctionCode nId )
 {
 	auto* pCEditWnd = CEditWnd::getInstance();
+	CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
 //@@@ 2002.01.14 YAZAKI 印刷プレビューをCPrintPreviewに独立させたことにより、プレビュー判定削除
 	ECodeType eDocCode = pcEditDoc->GetDocumentEncoding();
 	switch( nId ){
@@ -1220,7 +1223,7 @@ bool IsFuncChecked( const CEditDoc* pcEditDoc, const DLLSHAREDATA* pShareData, E
 											pShareData->m_Common.m_sStatusbar.m_bDispSelCountByByte != FALSE :
 											pCEditWnd->m_nSelectCountMode == SELECT_COUNT_BY_BYTE );
 	// Mar. 6, 2002 genta
-	case F_VIEWMODE:			return CAppMode::getInstance()->IsViewMode(); //ビューモード
+	case F_VIEWMODE:			return pcAppMode->IsViewMode(); //ビューモード
 	//	From Here 2003.06.23 Moca
 	case F_CHGMOD_EOL_CRLF:		return EEolType::cr_and_lf == pcEditDoc->m_cDocEditor.GetNewLineCode();
 	case F_CHGMOD_EOL_LF:		return EEolType::line_feed == pcEditDoc->m_cDocEditor.GetNewLineCode();

@@ -227,8 +227,9 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 		//	To Here 2003/06/21 Moca
 		case L'n':
 			if( !pcDoc->m_cDocFile.GetFilePathClass().IsValidPath() ){
+				CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
 				if( CEditApp::getInstance()->GetGrepAgent()->GrepMode() ){
-				}else if( CAppMode::getInstance()->IsDebugMode() ){
+				}else if( pcAppMode->IsDebugMode() ){
 				}else{
 					WCHAR szText[10];
 					const EditNode* node = CAppNodeManager::getInstance()->GetEditNode( GetMainWindow()->GetHwnd() );
@@ -454,7 +455,8 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 			//	中身はSetParentCaption()より移植
 			{
 				CNativeW	cmemDes;
-				const std::wstring szGrepKey = CAppMode::getInstance()->GetGrepKey();
+				CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
+				const std::wstring szGrepKey = pcAppMode->GetGrepKey();
 				const auto remaining = static_cast<ptrdiff_t>(szBuffer.size() - result.length());
 				cmemDes.LimitStringLengthW(szGrepKey, std::min<ptrdiff_t>(32, remaining - 3));
 				if( szGrepKey.length() > cmemDes.GetStringLength() ){
@@ -635,10 +637,11 @@ const wchar_t* CSakuraEnvironment::_ExParam_SkipCond(const wchar_t* pszSource, i
 int CSakuraEnvironment::_ExParam_Evaluate( const wchar_t* pCond )
 {
 	const CEditDoc* pcDoc = GetDocument();
+	CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
 
 	switch( *pCond ){
 	case L'R': // $R ビューモードおよび読み取り専用属性
-		if( CAppMode::getInstance()->IsViewMode() ){
+		if( pcAppMode->IsViewMode() ){
 			return 0; // ビューモード
 		}
 		else if( !GetDocument()->m_pcDocLocker->IsDocWritable() ){
@@ -650,7 +653,7 @@ int CSakuraEnvironment::_ExParam_Evaluate( const wchar_t* pCond )
 	case L'w': // $w Grepモード/Output Mode
 		if( CEditApp::getInstance()->GetGrepAgent()->GrepMode() ){
 			return 0;
-		}else if( CAppMode::getInstance()->IsDebugMode() ){
+		}else if( pcAppMode->IsDebugMode() ){
 			return 1;
 		}else {
 			return 2;
