@@ -877,7 +877,8 @@ void CEditWnd::LayoutMainMenu()
 void CEditWnd::LayoutToolBar( )
 {
 	if( m_pShareData->m_Common.m_sWindow.m_bDispTOOLBAR ){	/* ツールバーを表示する */
-		m_cToolbar.CreateToolBar();
+		HINSTANCE hInst = CEditApp::getInstance()->GetAppInstance();
+		m_cToolbar.CreateToolBar(hInst);
 		m_cToolbar.UpdateToolbar();
 	}else{
 		m_cToolbar.DestroyToolBar();

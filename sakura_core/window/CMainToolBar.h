@@ -19,7 +19,7 @@ public:
 	void Create( CImageListMgr* pcIcons );
 
 	//作成・破棄
-	void CreateToolBar( );		//!< ツールバー作成
+	void CreateToolBar( HINSTANCE hInst );		//!< ツールバー作成
 	void DestroyToolBar( );	//!< ツールバー破棄
 
 	//メッセージ

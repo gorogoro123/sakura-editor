@@ -10,7 +10,6 @@
 */
 #include "window/CMainToolBar.h"
 #include "window/CEditWnd.h"
-#include "CEditApp.h"
 #include "util/os.h"
 #include "util/window.h"
 #include "uiparts/CImageListMgr.h"
@@ -99,7 +98,7 @@ LRESULT CALLBACK CMainToolBar::ToolBarWndProc( HWND hWnd, UINT msg, WPARAM wPara
 	@date 2005.08.29 aroka ツールバーの折り返し
 	@date 2006.06.17 ryoji ビジュアルスタイルが有効の場合はツールバーを Rebar に入れてサイズ変更時のちらつきを無くす
 */
-void CMainToolBar::CreateToolBar( )
+void CMainToolBar::CreateToolBar( HINSTANCE hInst )
 {
 	if( m_hwndToolBar )return;
 
@@ -121,7 +120,7 @@ void CMainToolBar::CreateToolBar( )
 			0, 0, 0, 0,
 			m_pOwner->GetHwnd(),
 			nullptr,
-			CEditApp::getInstance()->GetAppInstance(),
+			hInst,
 			nullptr
 		);
 
@@ -153,7 +152,7 @@ void CMainToolBar::CreateToolBar( )
 		0, 0,
 		m_pOwner->GetHwnd(),
 		(HMENU)ID_TOOLBAR,
-		CEditApp::getInstance()->GetAppInstance(),
+		hInst,
 		nullptr
 	);
 	if( nullptr == m_hwndToolBar ){
@@ -262,7 +261,7 @@ void CMainToolBar::CreateToolBar( )
 								WS_CHILD | WS_VISIBLE | WS_TABSTOP | WS_VSCROLL | CBS_DROPDOWN
 								/*| CBS_SORT*/ | CBS_AUTOHSCROLL /*| CBS_DISABLENOSCROLL*/,
 								rc.left, rc.top, rc.right - rc.left, (rc.bottom - rc.top) * 10,
-								m_hwndToolBar, (HMENU)(INT_PTR)tbb.idCommand, CEditApp::getInstance()->GetAppInstance(), nullptr );
+								m_hwndToolBar, (HMENU)(INT_PTR)tbb.idCommand, hInst, nullptr );
 						if( m_hwndSearchBox )
 						{
 							m_pOwner->SetCurrentFocus(0);
