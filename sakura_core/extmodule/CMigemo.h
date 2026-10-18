@@ -21,13 +21,10 @@ Migemo はローマ字のまま日本語をインクリメンタル検索する�
 #pragma once
 
 #include "basis/primitive.h"
-
 #include "extmodule/CDllHandler.h"
-#include "util/design_template.h"
-
 #include "cmigemo/migemo.h"
 
-class CMigemo : public CDllImp, public TSingleInstance<CMigemo> {
+class CMigemo : public CDllImp {
 public:
 	CMigemo() = default;
 	~CMigemo() override;

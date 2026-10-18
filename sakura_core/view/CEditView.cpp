@@ -45,7 +45,7 @@
 #include "apiwrap/StdApi.h"
 #include "config/system_constants.h"
 #include "view/CMiniMapView.h"
-
+#include "extmodule/CMigemo.h"
 #include "CSelectLang.h"
 
 LRESULT CALLBACK EditViewWndProc( HWND, UINT, WPARAM, LPARAM );
@@ -217,7 +217,6 @@ BOOL CEditView::Create(
 
 	//2004.10.23 isearch
 	m_nISearchMode = SEARCH_NONE;
-	m_pcmigemo = nullptr;
 
 	// 2007.10.02 nasukoji
 	m_dwTripleClickCheck = 0;		// トリプルクリックチェック用時刻初期化

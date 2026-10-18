@@ -192,7 +192,7 @@ void CEditView::ISearchEnter( ESearchMode mode, ESearchDirection direction)
 					return;
 				}
 				if(m_pcmigemo==nullptr){
-					m_pcmigemo = CMigemo::getInstance();
+					m_pcmigemo = std::make_unique<CMigemo>();
 					m_pcmigemo->InitDll();
 				}
 				//migemo dll チェック
