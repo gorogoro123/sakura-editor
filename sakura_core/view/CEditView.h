@@ -96,7 +96,7 @@ const int CMD_FROM_MOUSE = 2;
 class CEditView
 : public CViewCalc //$$ これが親クラスである必要は無いが、このクラスのメソッド呼び出しが多いので、暫定的に親クラスとする。
 , public CEditView_Paint
-, public CDocListenerEx
+, public CDocListener
 {
 public:
 	const CEditDoc* GetDocument() const

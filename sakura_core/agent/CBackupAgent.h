@@ -12,7 +12,7 @@
 class CEditDoc;
 class CEditWnd;
 
-class CBackupAgent : public CDocListenerEx{
+class CBackupAgent : public CDocListener{
 public:
 	CBackupAgent(CEditDoc& cEditDoc, CEditWnd& cEditWnd)
 	:m_cEditDoc(cEditDoc),

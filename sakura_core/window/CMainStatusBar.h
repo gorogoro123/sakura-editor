@@ -11,7 +11,7 @@
 
 class CEditWnd;
 
-class CMainStatusBar : public CDocListenerEx{
+class CMainStatusBar : public CDocListener{
 public:
 	static std::wstring UnicodeToHex(ECodeType eCodeType, std::wstring_view wide, const CommonSetting_Statusbar& sStatusbar);
 

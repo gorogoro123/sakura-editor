@@ -53,7 +53,7 @@ private:
 	bool	bEnabled;	//!< 有効かどうか
 };
 
-class CAutoSaveAgent : public CDocListenerEx{
+class CAutoSaveAgent : public CDocListener{
 public:
 	CAutoSaveAgent(CEditDoc &cEditDoc)
 	: m_cEditDoc(cEditDoc)

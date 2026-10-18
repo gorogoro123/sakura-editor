@@ -12,7 +12,7 @@
 class CEditDoc;
 class CEditWnd;
 
-class CLoadAgent : public CDocListenerEx{
+class CLoadAgent : public CDocListener{
 public:
 	explicit CLoadAgent(CEditDoc& cEditDoc, CEditWnd& cEditWnd)
 	:m_cEditDoc(cEditDoc),

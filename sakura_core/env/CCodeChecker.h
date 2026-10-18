@@ -10,7 +10,7 @@
 #include "doc/CDocListener.h"
 #include "util/design_template.h"
 
-class CCodeChecker final : public CDocListenerEx{
+class CCodeChecker final : public CDocListener{
 public:
 	CCodeChecker(CEditDoc& cEditDoc)
 	:m_cEditDoc(cEditDoc)

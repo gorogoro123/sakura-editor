@@ -8,13 +8,13 @@
 #pragma once
 
 #include "util/design_template.h" //TSingleton
-#include "doc/CDocListener.h" // CDocListenerEx
+#include "doc/CDocListener.h" // CDocListener
 
 class CDocLine;
 class CDocLineMgr;
 
 //! Modified管理
-class CModifyManager final : public CDocListenerEx{
+class CModifyManager final : public CDocListener{
 public:
 	CModifyManager(CEditDoc& cEditDoc)
 	:m_cEditDoc(cEditDoc)
