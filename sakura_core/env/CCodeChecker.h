@@ -10,10 +10,13 @@
 #include "doc/CDocListener.h"
 #include "util/design_template.h"
 
+class CEditWnd;
+
 class CCodeChecker final : public CDocListener{
 public:
-	CCodeChecker(CEditDoc& cEditDoc)
-	:m_cEditDoc(cEditDoc)
+	CCodeChecker(CEditDoc& cEditDoc, CEditWnd& cEditWnd)
+	:m_cEditDoc(cEditDoc),
+	m_cEditWnd(cEditWnd)
 	{}
 
 public:
@@ -25,4 +28,5 @@ public:
 	void OnFinalLoad(ELoadResult eLoadResult) override;
 private:
 	CEditDoc& m_cEditDoc;
+	CEditWnd& m_cEditWnd;
 };

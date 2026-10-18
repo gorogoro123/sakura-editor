@@ -207,7 +207,7 @@ BOOL CEditDoc::Create(CEditWnd& cEditWnd)
 	m_pcAutoSaveAgent->ReloadAutoSaveParam();
 
 	m_pcModifyManager = std::make_unique<CModifyManager>(*this);
-	m_pcCCodeChecker = std::make_unique<CCodeChecker>(*this);
+	m_pcCCodeChecker = std::make_unique<CCodeChecker>(*this, cEditWnd);
 
 	// 2008.06.07 nasukoji	テキストの折り返し方法を初期化
 	m_nTextWrapMethodCur = m_cDocType.GetDocumentAttribute().m_nTextWrapMethod;	// 折り返し方法
