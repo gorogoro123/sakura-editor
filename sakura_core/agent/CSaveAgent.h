@@ -11,7 +11,7 @@
 
 class CEditWnd;
 
-class CSaveAgent : public CDocListenerEx{
+class CSaveAgent : public CDocListener{
 public:
 	CSaveAgent(CEditDoc& cEditDoc, CEditWnd& cEditWnd)
 	:m_cEditDoc(cEditDoc),

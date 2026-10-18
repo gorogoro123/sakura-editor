@@ -20,7 +20,7 @@ enum class WatchUpdate : int {
 	WU_AUTOLOAD,//!< 更新され未編集の場合に再ロード
 };
 
-class CAutoReloadAgent : public CDocListenerEx{
+class CAutoReloadAgent : public CDocListener{
 public:
 	CAutoReloadAgent(CEditDoc& cEditDoc, CEditWnd& cEditWnd)
 	: m_cEditDoc(cEditDoc),

@@ -77,7 +77,7 @@ struct STabGroupInfo {
 // 2007.10.30 kobake OnHelp_MenuItemをCEditAppに移動
 class CEditWnd final
 	: public TSingleInstance<CEditWnd>
-, public CDocListenerEx
+, public CDocListener
 {
 private:
 	using AccelHolder = cxx::ResourceHolder<&::DestroyAcceleratorTable>;

@@ -178,16 +178,6 @@ public:
 	virtual ECallbackResult OnBeforeClose()							 { return CALLBACK_CONTINUE; }
 };
 
-//GetListeningDocの利便性をアップ
-class CEditDoc;
-class CDocListenerEx : public CDocListener{
-public:
-	explicit CDocListenerEx(CDocSubject* pcDoc = nullptr)
-		: CDocListener(pcDoc)
-	{
-	}
-};
-
 #include <exception>
 class CFlowInterruption : public std::exception{
 public:

@@ -11,7 +11,7 @@
 
 class CEditDoc;
 
-class CDocLocker : public CDocListenerEx{
+class CDocLocker : public CDocListener{
 public:
 	CDocLocker(CEditDoc& m_cEditDoc);
 

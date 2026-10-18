@@ -11,7 +11,7 @@
 #include "util/design_template.h"
 class CWaitCursor;
 
-class CVisualProgress final : public CDocListenerEx, public CProgressListener{
+class CVisualProgress final : public CDocListener, public CProgressListener{
 public:
 	//コンストラクタ・デストラクタ
 	CVisualProgress();

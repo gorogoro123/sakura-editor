@@ -9,7 +9,7 @@
 
 #include "doc/CDocListener.h"
 
-class CMruListener : public CDocListenerEx{
+class CMruListener : public CDocListener{
 public:
 	CMruListener(CEditDoc& cEditDoc)
 	:m_cEditDoc(cEditDoc)

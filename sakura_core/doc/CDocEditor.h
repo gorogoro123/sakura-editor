@@ -13,7 +13,7 @@
 class CEditDoc;
 class CDocLineMgr;
 
-class CDocEditor : public CDocListenerEx{
+class CDocEditor : public CDocListener{
 public:
 	CDocEditor(CEditDoc* pcDoc);
 

@@ -36,7 +36,7 @@ struct SGrepOption{
 
 //	Jun. 26, 2001 genta	正規表現ライブラリの差し替え
 //	Mar. 28, 2004 genta DoGrepFileから不要な引数を削除
-class CGrepAgent : public CDocListenerEx{
+class CGrepAgent : public CDocListener{
 public:
 	CGrepAgent(CEditWnd& cEditWnd);
 
