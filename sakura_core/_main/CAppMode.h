@@ -10,9 +10,13 @@
 #include "util/design_template.h"
 #include "doc/CDocListener.h"
 
+class CEditWnd;
+
 class CAppMode final : public CDocListener{ //###仮
 public:
-	CAppMode() = default;
+	CAppMode(CEditWnd& cEditWnd)
+	:m_cEditWnd(cEditWnd)
+	{}
 
 public:
 	//インターフェース
@@ -28,6 +32,7 @@ public:
 	void OnAfterSave(const SSaveInfo& sSaveInfo) override;
 
 private:
+	CEditWnd& m_cEditWnd;
 	bool			m_bViewMode = false;		//!< ビューモード
 	bool			m_bDebugMode = false;		//!< デバッグモニタモード
 	StaticString<1024>	m_szGrepKey;			//!< Grepモードの場合、その検索キー

@@ -39,14 +39,14 @@ void CEditApp::Create(HINSTANCE hInst, int nGroupId)
 	//ドキュメントオブジェクトの作成
 	m_pcEditDoc = std::make_unique<CEditDoc>();
 
-	//編集モード
-	m_pcAppMode = std::make_unique<CAppMode>();
-
 	//マクロ
 	m_pcSMacroMgr = std::make_unique<CSMacroMgr>();
 
 	//ウィンドウオブジェクトの作成
 	m_pcEditWnd = std::make_unique<CEditWnd>(*m_pcEditDoc);
+
+	//編集モード
+	m_pcAppMode = std::make_unique<CAppMode>(*m_pcEditWnd);
 
 	//GREPモード管理
 	m_pcGrepAgent = std::make_unique<CGrepAgent>(*m_pcEditWnd);
