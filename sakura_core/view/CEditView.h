@@ -623,7 +623,7 @@ public:
 	CViewSelect		m_cViewSelect;
 
 	//主要オブジェクト
-	CViewFont*		m_pcViewFont = GetViewFont(false);
+	CViewFont*		m_pcViewFont = nullptr;
 
 	//主要ヘルパ
 	CViewParser		m_cParser;
