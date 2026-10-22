@@ -57,6 +57,7 @@
 #include "recent/CRecentFile.h"
 #include "recent/CRecentFolder.h"
 #include "view/CMiniMapView.h"
+#include "view/CViewFont.h"
 
 //@@@ 2002.01.14 YAZAKI 印刷プレビューをCPrintPreviewに独立させたので
 //	定義を削除
@@ -206,7 +207,11 @@ CEditWnd::CEditWnd(CEditDoc& cEditDoc)
 	m_pcEditView = m_pcEditViewArr[0].get();
 
 	m_pcSplitterWnd = std::make_unique<CSplitterWnd>();
+
+	m_pcViewFont = std::make_unique<CViewFont>(&GetLogfont());
+	m_pcViewFontMiniMap = std::make_unique<CViewFont>(&GetLogfont(), true);
 	m_pcMiniMapView = std::make_unique<CMiniMapView>(&m_cEditDoc, *this);
+	m_pcDropTarget = std::make_unique<CDropTarget>(this);	//!< 右ボタンドロップ用
 }
 
 CEditWnd::~CEditWnd() = default;

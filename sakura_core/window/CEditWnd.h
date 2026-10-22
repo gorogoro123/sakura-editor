@@ -42,7 +42,6 @@
 #include "util/design_template.h"
 #include "doc/CDocListener.h"
 #include "uiparts/CMenuDrawer.h"
-#include "view/CViewFont.h"
 #include "cxx/ResourceHolder.hpp"
 #include "print/CPrintPreview.h"
 
@@ -53,6 +52,7 @@ class CEditDoc;
 class CSplitterWnd;
 class CMiniMapView;
 struct DLLSHAREDATA;
+class CViewFont;
 
 //メインウィンドウ内コントロールID
 #define IDT_EDIT		455  // 20060128 aroka
@@ -81,11 +81,9 @@ class CEditWnd final
 {
 private:
 	using AccelHolder = cxx::ResourceHolder<&::DestroyAcceleratorTable>;
-	using CDropTargetHolder = std::unique_ptr<CDropTarget>;
 	using CEditViewHolder = std::unique_ptr<CEditView>;
 	using CEditViewsArray = std::array<CEditViewHolder, 4>;
 	using CPrintPreviewHolder = std::unique_ptr<CPrintPreview>;
-	using CViewFontHolder = std::unique_ptr<CViewFont>;
 	using FontHolder = cxx::ResourceHolder<&::DeleteObject, HFONT>;
 	using MemDcHolder = cxx::ResourceHolder<&::DeleteDC>;
 	using SelectionHolder = cxx::ResourceHolder<&::SelectObject>;
@@ -374,8 +372,8 @@ public:
 	CPrintPreviewHolder	m_pPrintPreview = nullptr;	//!< 印刷プレビュー表示情報。必要になったときのみインスタンスを生成する。
 
 	CEditView*		m_pcDragSourceView = nullptr;	//!< ドラッグ元のビュー
-	CViewFontHolder		m_pcViewFont = std::make_unique<CViewFont>(&GetLogfont());		//!< フォント
-	CViewFontHolder		m_pcViewFontMiniMap = std::make_unique<CViewFont>(&GetLogfont(), true);		//!< フォント
+	std::unique_ptr<CViewFont>	m_pcViewFont = nullptr;		//!< フォント
+	std::unique_ptr<CViewFont>	m_pcViewFontMiniMap = nullptr;		//!< フォント
 
 	//ダイアログ達
 	CDlgFind		m_cDlgFind;			// 「検索」ダイアログ
@@ -421,7 +419,7 @@ private:
 	//D&Dフラグ
 	bool			m_bDragMode = false;
 	CMyPoint		m_ptDragPosOrg;
-	CDropTargetHolder	m_pcDropTarget = std::make_unique<CDropTarget>(this);	//!< 右ボタンドロップ用
+	std::unique_ptr<CDropTarget> m_pcDropTarget = nullptr;	//!< 右ボタンドロップ用
 
 	//その他フラグ
 	BOOL				m_bUIPI;		// エディタ－トレイ間でのUI特権分離確認用フラグ	// 2007.06.07 ryoji
