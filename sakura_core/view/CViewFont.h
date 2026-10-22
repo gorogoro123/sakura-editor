@@ -54,5 +54,3 @@ private:
 
 	DISALLOW_COPY_AND_ASSIGN(CViewFont);
 };
-
-CViewFont* GetViewFont(bool isMiniMap);
