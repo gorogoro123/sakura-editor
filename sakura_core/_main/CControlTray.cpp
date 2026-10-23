@@ -158,7 +158,7 @@ void CControlTray::DoGrepCreateWindow(HINSTANCE hinst, HWND msgParent, CDlgGrep&
 	sLoadInfo.cFilePath = L"";
 	sLoadInfo.eCharCode = CODE_NONE;
 	sLoadInfo.bViewMode = false;
-	OpenNewEditor( hinst, msgParent, sLoadInfo, cCmdLine.GetStringPtr(),
+	OpenNewEditor( msgParent, sLoadInfo, cCmdLine.GetStringPtr(),
 		false, nullptr, GetDllShareData().m_Common.m_sTabBar.m_bNewWindow? true : false );
 }
 
@@ -762,7 +762,7 @@ LRESULT CControlTray::DispatchEvent(
 					// 新たな編集ウィンドウを起動
 					for( const auto& file : files ){
 						sLoadInfo.cFilePath = file.c_str();
-						CControlTray::OpenNewEditor( m_hInstance, GetTrayHwnd(), sLoadInfo,
+						CControlTray::OpenNewEditor( GetTrayHwnd(), sLoadInfo,
 							nullptr, true, nullptr, m_pShareData->m_Common.m_sTabBar.m_bNewWindow? true : false );
 					}
 				}
@@ -810,7 +810,7 @@ LRESULT CControlTray::DispatchEvent(
 					cMRU.GetEditInfo(nId - IDM_SELMRU, &openEditInfo);
 
 					if( m_pShareData->m_Common.m_sFile.GetRestoreCurPosition() ){
-						CControlTray::OpenNewEditor2( m_hInstance, GetTrayHwnd(), &openEditInfo, false );
+						CControlTray::OpenNewEditor2( GetTrayHwnd(), &openEditInfo, false );
 					}
 					else {
 						SLoadInfo sLoadInfo;
@@ -818,7 +818,6 @@ LRESULT CControlTray::DispatchEvent(
 						sLoadInfo.eCharCode = openEditInfo.m_nCharCode;
 						sLoadInfo.bViewMode = false;
 						CControlTray::OpenNewEditor(
-							m_hInstance,
 							GetTrayHwnd(),
 							sLoadInfo,
 							nullptr,
@@ -863,7 +862,7 @@ LRESULT CControlTray::DispatchEvent(
 					// 新たな編集ウィンドウを起動
 					for( const auto& file : files ){
 						sLoadInfo.cFilePath = file.c_str();
-						CControlTray::OpenNewEditor( m_hInstance, GetTrayHwnd(), sLoadInfo,
+						CControlTray::OpenNewEditor( GetTrayHwnd(), sLoadInfo,
 							nullptr, true, nullptr, m_pShareData->m_Common.m_sTabBar.m_bNewWindow? true : false );
 					}
 				}
@@ -1091,7 +1090,7 @@ void CControlTray::OnNewEditor( bool bNewWindow )
 	sLoadInfo.eCharCode = CODE_NONE;
 	sLoadInfo.bViewMode = false;
 	std::wstring strCurDir = CSakuraEnvironment::GetDlgInitialDir(true);
-	OpenNewEditor( m_hInstance, GetTrayHwnd(), sLoadInfo, nullptr, false, strCurDir.c_str(), bNewWindow );
+	OpenNewEditor( GetTrayHwnd(), sLoadInfo, nullptr, false, strCurDir.c_str(), bNewWindow );
 }
 
 /*!
@@ -1105,7 +1104,6 @@ void CControlTray::OnNewEditor( bool bNewWindow )
 	@date 2008.05.05 novice GetModuleHandle(NULL)→NULLに変更
 */
 bool CControlTray::OpenNewEditor(
-	[[maybe_unused]] HINSTANCE			hInstance,			//!< [in] インスタンスID (実は未使用)
 	HWND				hWndParent,			//!< [in] 親ウィンドウハンドル．エラーメッセージ表示用
 	const SLoadInfo&	sLoadInfo,			//!< [in]
 	const WCHAR*		szCmdLineOption,	//!< [in] 追加のコマンドラインオプション
@@ -1315,7 +1313,6 @@ bool CControlTray::OpenNewEditor(
 	@date Feb. 25, 2012 novice -CODE/-RはOpenNewEditor側で処理するので削除
 */
 bool CControlTray::OpenNewEditor2(
-	HINSTANCE		hInstance,
 	HWND			hWndParent,
 	const EditInfo*	pfi,
 	bool			bViewMode,
@@ -1346,7 +1343,7 @@ bool CControlTray::OpenNewEditor2(
 	sLoadInfo.cFilePath = pfi ? pfi->m_szPath.c_str() : L"";
 	sLoadInfo.eCharCode = pfi ? pfi->m_nCharCode : CODE_NONE;
 	sLoadInfo.bViewMode = bViewMode;
-	return OpenNewEditor( hInstance, hWndParent, sLoadInfo, cCmdLine.c_str(), sync, nullptr, bNewWindow );
+	return OpenNewEditor( hWndParent, sLoadInfo, cCmdLine.c_str(), sync, nullptr, bNewWindow );
 }
 //	To Here Oct. 24, 2000 genta
 

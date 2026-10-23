@@ -1057,7 +1057,6 @@ bool CMacro::HandleCommand(
 			sLoadInfo.eCharCode = CODE_NONE;
 			sLoadInfo.bViewMode = false;
 			CControlTray::OpenNewEditor(
-				G_AppInstance(),
 				pcEditView->GetHwnd(),
 				sLoadInfo,
 				cCmdLine.GetStringPtr()

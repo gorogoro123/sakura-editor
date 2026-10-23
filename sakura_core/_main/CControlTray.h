@@ -77,7 +77,6 @@ public:
 
 	//ウィンドウ管理
 	static bool OpenNewEditor(							//!< 新規編集ウィンドウの追加 ver 0
-		HINSTANCE			hInstance,					//!< [in] インスタンスID (実は未使用)
 		HWND				hWndParent,					//!< [in] 親ウィンドウハンドル．エラーメッセージ表示用
 		const SLoadInfo&	sLoadInfo,					//!< [in]
 		const WCHAR*		szCmdLineOption	= nullptr,		//!< [in] 追加のコマンドラインオプション
@@ -86,7 +85,6 @@ public:
 		bool				bNewWindow		= false		//!< [in] 新規エディタをウインドウで開く
 	);
 	static bool OpenNewEditor2(						//!< 新規編集ウィンドウの追加 ver 1
-		HINSTANCE		hInstance,
 		HWND			hWndParent,
 		const EditInfo*	pfi,
 		bool			bViewMode,

@@ -505,7 +505,7 @@ void CNormalProcess::OpenFiles( HWND hwnd )
 		for( i = 0; i < fileNum; i++ ){
 			// ファイル名差し替え
 			fi.m_szPath = CCommandLine::getInstance()->GetFileName(i);
-			bool ret = CControlTray::OpenNewEditor2( GetProcessInstance(), hwnd, &fi, bViewMode );
+			bool ret = CControlTray::OpenNewEditor2( hwnd, &fi, bViewMode );
 			if( ret == false ){
 				break;
 			}
