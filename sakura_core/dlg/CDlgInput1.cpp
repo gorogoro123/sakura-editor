@@ -64,7 +64,6 @@ INT_PTR CALLBACK CDlgInput1Proc(
 
 /* モードレスダイアログの表示 */
 BOOL CDlgInput1::DoModal(
-	HINSTANCE		hInstApp,
 	HWND			hwndParent,
 	const WCHAR*	pszTitle,
 	const WCHAR*	pszMessage,
@@ -73,15 +72,13 @@ BOOL CDlgInput1::DoModal(
 )
 {
 	const auto nMaxTextLen = int(bufferSize);
-	BOOL bRet;
-	m_hInstance = hInstApp;		/* アプリケーションインスタンスのハンドル */
 	m_hwndParent = hwndParent;	/* オーナーウィンドウのハンドル */
 	m_pszTitle = pszTitle;		/* ダイアログタイトル */
 	m_pszMessage = pszMessage;		/* メッセージ */
 	m_nMaxTextLen = nMaxTextLen;	/* 入力サイズ上限 */
 //	m_pszText = pszText;			/* テキスト */
 	m_cmemText.SetString( szText.data() );
-	bRet = (BOOL)::DialogBoxParam(
+	BOOL bRet = (BOOL)::DialogBoxParam(
 		CSelectLang::getLangRsrcInstance(),
 		MAKEINTRESOURCE( IDD_INPUT1 ),
 		m_hwndParent,

@@ -273,7 +273,6 @@ INT_PTR CPropKeyword::DispatchEvent(
 					szKeyWord[0] = L'\0';
 					//	Oct. 5, 2002 genta 長さ制限の設定を修正．バッファオーバーランしていた．
 					if( !cDlgInput1.DoModal(
-						G_AppInstance(),
 						hwndDlg,
 						LS(STR_PROPCOMKEYWORD_SETNAME1),
 						LS(STR_PROPCOMKEYWORD_SETNAME2),
@@ -364,7 +363,6 @@ INT_PTR CPropKeyword::DispatchEvent(
 					wcsncpy_s( szKeyWord, std::size(szKeyWord), m_Common.m_sSpecialKeyword.m_CKeyWordSetMgr.GetTypeName(), _TRUNCATE );
 					{
 						BOOL bDlgInputResult = cDlgInput1.DoModal(
-							G_AppInstance(),
 							hwndDlg,
 							LS(STR_PROPCOMKEYWORD_RENAME1),
 							LS(STR_PROPCOMKEYWORD_RENAME2),
@@ -394,7 +392,7 @@ INT_PTR CPropKeyword::DispatchEvent(
 					}
 					/* モードレスダイアログの表示 */
 					szKeyWord[0] = L'\0';
-					if( !cDlgInput1.DoModal( G_AppInstance(), hwndDlg, LS(STR_PROPCOMKEYWORD_KEYADD1), LS(STR_PROPCOMKEYWORD_KEYADD2), MAX_KEYWORDLEN, szKeyWord ) ){
+					if( !cDlgInput1.DoModal( hwndDlg, LS(STR_PROPCOMKEYWORD_KEYADD1), LS(STR_PROPCOMKEYWORD_KEYADD2), MAX_KEYWORDLEN, szKeyWord ) ){
 						return TRUE;
 					}
 					if( szKeyWord[0] != L'\0' ){
@@ -501,7 +499,7 @@ void CPropKeyword::Edit_List_KeyWord( HWND hwndDlg, HWND hwndLIST_KEYWORD )
 	wcsncpy_s( szKeyWord, std::size(szKeyWord), m_Common.m_sSpecialKeyword.m_CKeyWordSetMgr.GetKeyWord( m_Common.m_sSpecialKeyword.m_CKeyWordSetMgr.m_nCurrentKeyWordSetIdx, lvi.lParam ), _TRUNCATE );
 
 	/* モードレスダイアログの表示 */
-	if( !cDlgInput1.DoModal( G_AppInstance(), hwndDlg, LS(STR_PROPCOMKEYWORD_KEYEDIT1), LS(STR_PROPCOMKEYWORD_KEYEDIT2), MAX_KEYWORDLEN, szKeyWord ) ){
+	if( !cDlgInput1.DoModal( hwndDlg, LS(STR_PROPCOMKEYWORD_KEYEDIT1), LS(STR_PROPCOMKEYWORD_KEYEDIT2), MAX_KEYWORDLEN, szKeyWord ) ){
 		return;
 	}
 	if( szKeyWord[0] != L'\0' ){

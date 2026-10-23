@@ -287,7 +287,6 @@ INT_PTR CPropCustmenu::DispatchEvent(
 					WCHAR       szKey[2];
 					auto_snprintf_s(szKey, std::size(szKey), L"%hc", m_Common.m_sCustomMenu.m_nCustMenuItemKeyArr[nIdx1][nIdx2]);
 					BOOL bDlgInputResult = cDlgInput1.DoModal(
-						G_AppInstance(),
 						hwndDlg,
 						LS(STR_PROPCOMCUSTMENU_AC1),
 						LS(STR_PROPCOMCUSTMENU_AC2),

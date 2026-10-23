@@ -225,7 +225,6 @@ BOOL CDlgPrintSetting::OnBnClicked( int wID )
 		wcscpy_s( szWork, std::size(szWork), m_PrintSettingArr[m_nCurrentPrintSetting].m_szPrintSettingName );
 		{
 			BOOL bDlgInputResult=cDlgInput1.DoModal(
-				m_hInstance,
 				GetHwnd(),
 				LS(STR_DLGPRNST1),
 				LS(STR_DLGPRNST2),

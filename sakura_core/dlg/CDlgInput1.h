@@ -26,7 +26,7 @@ class CDlgInput1;
 class CDlgInput1
 {
 public:
-	BOOL DoModal( HINSTANCE hInstApp, HWND hwndParent, const WCHAR* pszTitle,
+	BOOL DoModal( HWND hwndParent, const WCHAR* pszTitle,
 				  const WCHAR* pszMessage, size_t bufferSize, std::span<WCHAR> szText );
 
 	/*
@@ -34,7 +34,6 @@ public:
 	*/
 	INT_PTR DispatchEvent(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);	/* ダイアログのメッセージ処理 */
 
-	HINSTANCE	m_hInstance;	/* アプリケーションインスタンスのハンドル */
 	HWND		m_hwndParent;	/* オーナーウィンドウのハンドル */
 	HWND		m_hWnd;			/* このダイアログのハンドル */
 
