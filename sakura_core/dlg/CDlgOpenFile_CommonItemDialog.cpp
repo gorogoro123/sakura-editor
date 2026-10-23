@@ -41,7 +41,6 @@ struct CDlgOpenFile_CommonItemDialog final
 	CDlgOpenFile_CommonItemDialog();
 
 	void Create(
-		HINSTANCE					hInstance,
 		HWND						hwndParent,
 		const WCHAR*				pszUserWildCard,
 		const WCHAR*				pszDefaultPath,
@@ -70,7 +69,6 @@ struct CDlgOpenFile_CommonItemDialog final
 	HRESULT DoModalSaveDlgImpl1( IFileSaveDialog* pFileSaveDialog,
 								 SFilePath& szPath );
 
-	HINSTANCE		m_hInstance = nullptr;	/* アプリケーションインスタンスのハンドル */
 	HWND			m_hwndParent = nullptr;	/* オーナーウィンドウのハンドル */
 
 	DLLSHAREDATA*	m_pShareData;
@@ -416,14 +414,12 @@ CDlgOpenFile_CommonItemDialog::CDlgOpenFile_CommonItemDialog()
 
 /* 初期化 */
 void CDlgOpenFile_CommonItemDialog::Create(
-	HINSTANCE					hInstance,
 	HWND						hwndParent,
 	const WCHAR*				pszUserWildCard,
 	const WCHAR*				pszDefaultPath,
 	const std::vector<LPCWSTR>& vMRU,
 	const std::vector<LPCWSTR>& vOPENFOLDER)
 {
-	m_hInstance = hInstance;
 	m_hwndParent = hwndParent;
 
 	/* ユーザー定義ワイルドカード（保存時の拡張子補完でも使用される） */

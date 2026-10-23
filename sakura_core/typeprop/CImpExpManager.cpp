@@ -105,7 +105,6 @@ bool CImpExpManager::ImportUI( HINSTANCE hInstance, HWND hwndParent )
 	/* ファイルオープンダイアログの初期化 */
 	CDlgOpenFile	cDlgOpenFile;
 	cDlgOpenFile.Create(
-		hInstance,
 		hwndParent,
 		GetDefaultExtension(),
 		GetDllShareData().m_sHistory.m_szIMPORTFOLDER // インポート用フォルダー
@@ -151,7 +150,6 @@ bool CImpExpManager::ExportUI( HINSTANCE hInstance, HWND hwndParent )
 	/* ファイルオープンダイアログの初期化 */
 	CDlgOpenFile	cDlgOpenFile;
 	cDlgOpenFile.Create(
-		hInstance,
 		hwndParent,
 		GetDefaultExtension(),
 		GetDllShareData().m_sHistory.m_szIMPORTFOLDER // インポート用フォルダー

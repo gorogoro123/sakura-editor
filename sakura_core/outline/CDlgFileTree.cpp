@@ -529,7 +529,7 @@ BOOL CDlgFileTree::OnBnClicked( int wID )
 				CDlgOpenFile dlg;
 				WCHAR szDir[_MAX_PATH];
 				GetInidir(szDir);
-				dlg.Create( G_AppInstance(), hwndDlg, L"*.*", szDir,
+				dlg.Create( hwndDlg, L"*.*", szDir,
 					std::vector<LPCWSTR>(), std::vector<LPCWSTR>() );
 				SFilePath szFile;
 				if( dlg.DoModal_GetOpenFileName(szFile) ){
@@ -698,7 +698,7 @@ BOOL CDlgFileTree::OnBnClicked( int wID )
 			CDlgOpenFile dlg;
 			SLoadInfo sLoadInfo;
 			std::vector<std::wstring> aFileNames;
-			dlg.Create( G_AppInstance(), GetHwnd(), L"*.*", L".",
+			dlg.Create( GetHwnd(), L"*.*", L".",
 				std::vector<LPCWSTR>(), std::vector<LPCWSTR>() );
 			if( dlg.DoModalOpenDlg(&sLoadInfo, &aFileNames, false) ){
 				if( 0 < aFileNames.size() ){

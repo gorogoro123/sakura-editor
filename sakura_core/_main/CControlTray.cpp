@@ -744,7 +744,6 @@ LRESULT CControlTray::DispatchEvent(
 					// 2013.03.21 novice カレントディレクトリ変更(MRUは使用しない)
 					CDlgOpenFile	cDlgOpenFile;
 					cDlgOpenFile.Create(
-						m_hInstance,
 						nullptr,
 						L"*.*",
 						CSakuraEnvironment::GetDlgInitialDir(true).c_str(),
@@ -843,7 +842,6 @@ LRESULT CControlTray::DispatchEvent(
 					/* ファイルオープンダイアログの初期化 */
 					CDlgOpenFile	cDlgOpenFile;
 					cDlgOpenFile.Create(
-						m_hInstance,
 						nullptr,
 						L"*.*",
 						vOPENFOLDER[ nId - IDM_SELOPENFOLDER ],
