@@ -378,7 +378,6 @@ INT_PTR CPropMainMenu::DispatchEvent(
 					auto_snprintf_s( szKey, std::size(szKey), L"%ls", pFuncWk->m_sKey);
 
 					if (!cDlgInput1.DoModal(
-							G_AppInstance(),
 							hwndDlg,
 							LS(STR_PROPCOMMAINMENU_ACCKEY1),
 							LS(STR_PROPCOMMAINMENU_ACCKEY2),

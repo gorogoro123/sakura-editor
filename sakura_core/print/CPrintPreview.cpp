@@ -856,7 +856,6 @@ void CPrintPreview::OnPreviewGoDirectPage( )
 	auto_snprintf_s( szPageNum, std::size(szPageNum), L"%d", m_nCurPageNum + 1 );
 
 	BOOL bDlgInputPageResult=cDlgInputPage.DoModal(
-		CEditApp::getInstance()->GetAppInstance(),
 		m_hwndPrintPreviewBar, 
 		LS(STR_ERR_DLGPRNPRVW5),
 		szMessage,

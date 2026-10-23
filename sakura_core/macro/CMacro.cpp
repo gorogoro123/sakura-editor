@@ -1668,7 +1668,7 @@ bool CMacro::HandleFunction(CEditView *View, EFunctionCode ID, VARIANT *Argument
 			wmemcpy( Buffer.data(), sDefaultValue.c_str(), nLen);
 			Buffer[nLen] = L'\0';
 			CDlgInput1 cDlgInput1;
-			if( cDlgInput1.DoModal( G_AppInstance(), View->GetHwnd(), L"sakura macro", sMessage.c_str(), nMaxLen, Buffer ) ) {
+			if( cDlgInput1.DoModal( View->GetHwnd(), L"sakura macro", sMessage.c_str(), nMaxLen, Buffer ) ) {
 				SysString S( Buffer.data(), wcsnlen(Buffer.data(), Buffer.size()));
 				Wrap( &Result )->Receive( S );
 			}else{
