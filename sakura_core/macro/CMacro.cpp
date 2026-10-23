@@ -372,7 +372,7 @@ void CMacro::Save( HINSTANCE hInstance, CTextOutputStream& out ) const
 	int nFuncID = m_nFuncID;
 
 	/* 2002.2.2 YAZAKI CSMacroMgrに頼む */
-	if (CSMacroMgr::GetFuncInfoByID( hInstance, nFuncID, szFuncName, szFuncNameJapanese)){
+	if (CSMacroMgr::GetFuncInfoByID( nFuncID, szFuncName, szFuncNameJapanese)){
 		// 2014.01.24 Moca マクロ書き出しをm_eTypeを追加して統合
 		out.WriteF( L"%ls(", szFuncName ); // 2014.12.25 Moca "S_"を削除
 		bool bFirst = true;

@@ -195,7 +195,6 @@ int CKeyBind::CreateKeyBindList(
 				/* 機能ID→関数名，機能名日本語 */
 				//@@@ 2002.2.2 YAZAKI マクロをCSMacroMgrに統一
 				CSMacroMgr::GetFuncInfoByID(
-					hInstance,
 					iFunc,
 					szFuncName,
 					szFuncNameJapanese

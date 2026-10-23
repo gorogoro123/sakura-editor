@@ -955,7 +955,6 @@ void CShareData_IO::IO_CustMenu( CDataProfile& cProfile, CommonSetting_CustomMen
 				else {
 					if (bOutCmdName) {
 						WCHAR	*p = CSMacroMgr::GetFuncInfoByID(
-							G_AppInstance(),
 							menu.m_nCustMenuItemFuncArr[i][j],
 							szFuncName,
 							{}
@@ -1145,7 +1144,6 @@ void CShareData_IO::IO_KeyBind( CDataProfile& cProfile, CommonSetting_KeyBind& s
 						//@@@ 2002.2.2 YAZAKI マクロをCSMacroMgrに統一
 						// 2010.06.30 Moca 日本語名を取得しないように
 						WCHAR	*p = CSMacroMgr::GetFuncInfoByID(
-							nullptr,
 							keydata.m_nFuncCodeArr[j],
 							szFuncName,
 							{}
@@ -2210,7 +2208,6 @@ void CShareData_IO::IO_MainMenu( CDataProfile& cProfile, std::vector<std::wstrin
 				if (bOutCmdName) {
 					// マクロ名対応
 					p = CSMacroMgr::GetFuncInfoByID(
-						G_AppInstance(),
 						pcMenu->m_nFunc,
 						szFuncName,
 						{}
