@@ -497,7 +497,6 @@ void CDocFileOperation::FileCloseOpen( const SLoadInfo& _sLoadInfo )
 			SLoadInfo sFilesLoadInfo = sLoadInfo;
 			sFilesLoadInfo.cFilePath = files[i].c_str();
 			CControlTray::OpenNewEditor(
-				G_AppInstance(),
 				CEditWnd::getInstance()->GetHwnd(),
 				sFilesLoadInfo,
 				nullptr,

@@ -55,7 +55,7 @@ void CViewCommander::Command_FILENEW( )
 	sLoadInfo.eCharCode = CODE_NONE;
 	sLoadInfo.bViewMode = false;
 	std::wstring curDir = CSakuraEnvironment::GetDlgInitialDir();
-	CControlTray::OpenNewEditor( G_AppInstance(), m_pCommanderView->GetHwnd(), sLoadInfo, nullptr, false, curDir.c_str(), false );
+	CControlTray::OpenNewEditor( m_pCommanderView->GetHwnd(), sLoadInfo, nullptr, false, curDir.c_str(), false );
 	return;
 }
 
@@ -68,7 +68,7 @@ void CViewCommander::Command_FILENEW_NEWWINDOW( )
 	sLoadInfo.eCharCode = CODE_DEFAULT;
 	sLoadInfo.bViewMode = false;
 	std::wstring curDir = CSakuraEnvironment::GetDlgInitialDir();
-	CControlTray::OpenNewEditor( G_AppInstance(), m_pCommanderView->GetHwnd(), sLoadInfo,
+	CControlTray::OpenNewEditor( m_pCommanderView->GetHwnd(), sLoadInfo,
 		nullptr,
 		false,
 		curDir.c_str(),
@@ -136,7 +136,6 @@ void CViewCommander::Command_FILEOPEN( const WCHAR* filename, ECodeType nCharCod
 			SLoadInfo sFilesLoadInfo = sLoadInfo;
 			sFilesLoadInfo.cFilePath = files[i].c_str();
 			CControlTray::OpenNewEditor(
-				G_AppInstance(),
 				CEditWnd::getInstance()->GetHwnd(),
 				sFilesLoadInfo,
 				nullptr,
@@ -507,7 +506,7 @@ void CViewCommander::Command_PROFILEMGR( )
 		sLoadInfo.cFilePath = L"";
 		sLoadInfo.eCharCode = CODE_DEFAULT;
 		sLoadInfo.bViewMode = false;
-		CControlTray::OpenNewEditor( G_AppInstance(), m_pCommanderView->GetHwnd(), sLoadInfo, szOpt, false, nullptr, false );
+		CControlTray::OpenNewEditor( m_pCommanderView->GetHwnd(), sLoadInfo, szOpt, false, nullptr, false );
 	}
 }
 

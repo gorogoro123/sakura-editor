@@ -257,7 +257,7 @@ void CViewCommander::Command_GREP_REPLACE( )
 		sLoadInfo.cFilePath = L"";
 		sLoadInfo.eCharCode = CODE_NONE;
 		sLoadInfo.bViewMode = false;
-		CControlTray::OpenNewEditor( G_AppInstance(), m_pCommanderView->GetHwnd(), sLoadInfo, cCmdLine.GetStringPtr(),
+		CControlTray::OpenNewEditor( m_pCommanderView->GetHwnd(), sLoadInfo, cCmdLine.GetStringPtr(),
 			false, nullptr, GetDllShareData().m_Common.m_sTabBar.m_bNewWindow? true : false );
 	}
 	return;

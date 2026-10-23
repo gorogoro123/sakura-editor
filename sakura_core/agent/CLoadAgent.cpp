@@ -47,7 +47,6 @@ ECallbackResult CLoadAgent::OnCheckLoad(SLoadInfo* pLoadInfo)
 				SLoadInfo sFilesLoadInfo = sLoadInfo;
 				sFilesLoadInfo.cFilePath = files[i].c_str();
 				CControlTray::OpenNewEditor(
-					G_AppInstance(),
 					m_cEditWnd.GetHwnd(),
 					sFilesLoadInfo,
 					nullptr,
@@ -68,7 +67,6 @@ ECallbackResult CLoadAgent::OnCheckLoad(SLoadInfo* pLoadInfo)
 	// 現在のウィンドウに対してファイルを読み込めない場合は、新たなウィンドウを開き、そこにファイルを読み込ませる
 	if(!m_cEditDoc.IsAcceptLoad()){
 		CControlTray::OpenNewEditor(
-			G_AppInstance(),
 			m_cEditWnd.GetHwnd(),
 			*pLoadInfo
 		);

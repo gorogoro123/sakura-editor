@@ -1572,7 +1572,6 @@ LRESULT CEditWnd::DispatchEvent(
 						sLoadInfo.eCharCode = CODE_NONE;
 						sLoadInfo.bViewMode = false;
 						CControlTray::OpenNewEditor(
-							G_AppInstance(),
 							GetHwnd(),
 							sLoadInfo,
 							nullptr,
@@ -2119,7 +2118,7 @@ void CEditWnd::OnCommand( WORD wNotifyCode, WORD wID , HWND hwndCtl )
 				size_t nSize = files.size();
 				for( size_t f = 1; f < nSize; f++ ){
 					sLoadInfo.cFilePath = files[f].c_str();
-					CControlTray::OpenNewEditor( G_AppInstance(), GetHwnd(), sLoadInfo, nullptr, true );
+					CControlTray::OpenNewEditor( GetHwnd(), sLoadInfo, nullptr, true );
 				}
 			}
 		}
@@ -2714,7 +2713,6 @@ void CEditWnd::OnDropFiles( HDROP hDrop )
 					sLoadInfo.eCharCode = CODE_NONE;
 					sLoadInfo.bViewMode = false;
 					CControlTray::OpenNewEditor(
-						G_AppInstance(),
 						GetHwnd(),
 						sLoadInfo
 					);
