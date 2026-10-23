@@ -235,7 +235,6 @@ BOOL CDlgExec::OnBnClicked( int wID )
 			szPath = m_szCommand.c_str();
 			/* ファイルオープンダイアログの初期化 */
 			cDlgOpenFile.Create(
-				m_hInstance,
 				GetHwnd(),
 				L"*.com;*.exe;*.bat;*.cmd",
 				m_szCommand.c_str()

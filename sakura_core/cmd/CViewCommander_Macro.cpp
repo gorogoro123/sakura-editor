@@ -99,7 +99,6 @@ void CViewCommander::Command_SAVEKEYMACRO( )
 	}
 	/* ファイルオープンダイアログの初期化 */
 	cDlgOpenFile.Create(
-		G_AppInstance(),
 		m_pCommanderView->GetHwnd(),
 		L"*.mac",
 		szInitDir.c_str()
@@ -142,7 +141,6 @@ void CViewCommander::Command_LOADKEYMACRO( )
 	}
 	/* ファイルオープンダイアログの初期化 */
 	cDlgOpenFile.Create(
-		G_AppInstance(),
 		m_pCommanderView->GetHwnd(),
 // 2005/02/20 novice デフォルトの拡張子変更
 // 2005/07/13 novice 多様なマクロをサポートしているのでデフォルトは全て表示にする
@@ -218,7 +216,6 @@ void CViewCommander::Command_EXECEXTMACRO( const WCHAR* pszPath, const WCHAR* ps
 		}
 		/* ファイルオープンダイアログの初期化 */
 		cDlgOpenFile.Create(
-			G_AppInstance(),
 			m_pCommanderView->GetHwnd(),
 			L"*.*",
 			szInitDir

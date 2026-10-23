@@ -26,7 +26,6 @@ extern std::shared_ptr<IDlgOpenFile> New_CDlgOpenFile_CommonItemDialog();
 CDlgOpenFile::CDlgOpenFile() = default;
 
 void CDlgOpenFile::Create(
-	HINSTANCE					hInstance,
 	HWND						hwndParent,
 	const WCHAR*				pszUserWildCard,
 	const WCHAR*				pszDefaultPath,
@@ -34,7 +33,7 @@ void CDlgOpenFile::Create(
 	const std::vector<LPCWSTR>& vOPENFOLDER
 ) {
 	m_pImpl = New_CDlgOpenFile_CommonItemDialog();
-	m_pImpl->Create(hInstance, hwndParent, pszUserWildCard, pszDefaultPath, vMRU, vOPENFOLDER);
+	m_pImpl->Create(hwndParent, pszUserWildCard, pszDefaultPath, vMRU, vOPENFOLDER);
 }
 
 inline bool CDlgOpenFile::DoModal_GetOpenFileName(
@@ -88,7 +87,6 @@ BOOL CDlgOpenFile::SelectFile(
 	}
 	/* ファイルオープンダイアログの初期化 */
 	cDlgOpenFile.Create(
-		::GetModuleHandle(nullptr),
 		parent,
 		filter,
 		szPath

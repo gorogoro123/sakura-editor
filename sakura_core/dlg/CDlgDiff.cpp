@@ -118,7 +118,6 @@ BOOL CDlgDiff::OnBnClicked( int wID )
 			SFilePath		szPath = m_szFile2;
 			/* ファイルオープンダイアログの初期化 */
 			cDlgOpenFile.Create(
-				m_hInstance,
 				GetHwnd(),
 				L"*.*",
 				m_szFile1 /*m_szFile2*/

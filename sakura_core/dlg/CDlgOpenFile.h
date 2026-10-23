@@ -39,7 +39,6 @@ class IDlgOpenFile
 {
 public:
 	virtual void Create(
-		HINSTANCE					hInstance,
 		HWND						hwndParent,
 		const WCHAR*				pszUserWildCard,
 		const WCHAR*				pszDefaultPath,
@@ -92,7 +91,6 @@ public:
 	~CDlgOpenFile() = default;
 
 	void Create(
-		HINSTANCE					hInstance,
 		HWND						hwndParent,
 		const WCHAR*				pszUserWildCard,
 		const WCHAR*				pszDefaultPath,

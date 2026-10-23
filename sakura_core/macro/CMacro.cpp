@@ -1786,7 +1786,7 @@ bool CMacro::HandleFunction(CEditView *View, EFunctionCode ID, VARIANT *Argument
 
 			CDlgOpenFile cDlgOpenFile;
 			cDlgOpenFile.Create(
-				G_AppInstance(), View->GetHwnd(),
+				View->GetHwnd(),
 				sFilter.c_str(),
 				sDefault.c_str()
 			);
