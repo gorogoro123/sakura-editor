@@ -100,10 +100,10 @@ void CControlTray::DoGrep()
 		return;
 	}
 	m_nCurSearchKeySequence = GetDllShareData().m_Common.m_sSearch.m_nSearchKeySequence;
-	DoGrepCreateWindow(m_hInstance, GetDllShareData().m_sHandles.m_hwndTray, m_cDlgGrep);
+	DoGrepCreateWindow(GetDllShareData().m_sHandles.m_hwndTray, m_cDlgGrep);
 }
 
-void CControlTray::DoGrepCreateWindow(HINSTANCE hinst, HWND msgParent, CDlgGrep& cDlgGrep)
+void CControlTray::DoGrepCreateWindow(HWND msgParent, CDlgGrep& cDlgGrep)
 {
 	/*======= Grepの実行 =============*/
 	/* Grep結果ウィンドウの表示 */

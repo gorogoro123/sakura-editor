@@ -121,7 +121,7 @@ void CViewCommander::Command_GREP( )
 
 		/*======= Grepの実行 =============*/
 		/* Grep結果ウィンドウの表示 */
-		CControlTray::DoGrepCreateWindow(G_AppInstance(), m_pCommanderView->GetHwnd(), GetEditWindow()->m_cDlgGrep);
+		CControlTray::DoGrepCreateWindow( m_pCommanderView->GetHwnd(), GetEditWindow()->m_cDlgGrep);
 	}
 	return;
 }
