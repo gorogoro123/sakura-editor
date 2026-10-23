@@ -813,7 +813,6 @@ const MacroFuncInfo* CSMacroMgr::GetFuncInfoByID( int nFuncID )
 	@date 2011.04.10 nasukoji 各国語メッセージリソース対応
 */
 WCHAR* CSMacroMgr::GetFuncInfoByID(
-	[[maybe_unused]] HINSTANCE	hInstance,	//!< [in] リソース取得のためのInstance Handle
 	int					nFuncID,			//!< [in] 機能番号
 	std::span<WCHAR>	szFuncName,			//!< [out] 関数名．空のspanを許容．終端文字を含む十分なWCHAR数を確保すること．
 	std::span<WCHAR>	szFuncNameJapanese	//!< [out] 機能名日本語．空のspanを許容．終端文字を含む十分なWCHAR数を確保すること．
