@@ -48,7 +48,7 @@ public:
 	*/
 	CMenuDrawer();
 	~CMenuDrawer();
-	void Create( HINSTANCE hInstance, HWND hWndOwner, CImageListMgr* pcIcons );
+	void Create( HWND hWndOwner, CImageListMgr* pcIcons );
 
 	/*
 	||  Attributes & Operations
@@ -87,7 +87,6 @@ private:
 private:
 	DLLSHAREDATA*	m_pShareData;
 
-	HINSTANCE		m_hInstance = nullptr;
 	HWND			m_hWndOwner = nullptr;
 
 //@@@ 2002.01.03 YAZAKI m_tbMyButtonなどをCShareDataからCMenuDrawerへ移動したことによる修正。

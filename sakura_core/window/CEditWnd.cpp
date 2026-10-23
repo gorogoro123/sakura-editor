@@ -279,7 +279,7 @@ HWND CEditWnd::Create(
 	}
 
 	//イメージ、ヘルパなどの作成
-	m_cMenuDrawer.Create( G_AppInstance(), GetHwnd(), pcIcons );
+	m_cMenuDrawer.Create( GetHwnd(), pcIcons );
 	m_cToolbar.Create( pcIcons );
 
 	// プラグインコマンドを登録する
