@@ -715,9 +715,8 @@ CMenuDrawer::~CMenuDrawer()
 	return;
 }
 
-void CMenuDrawer::Create( HINSTANCE hInstance, HWND hWndOwner, CImageListMgr* pcIcons )
+void CMenuDrawer::Create( HWND hWndOwner, CImageListMgr* pcIcons )
 {
-	m_hInstance = hInstance;
 	m_hWndOwner = hWndOwner;
 	m_pcIcons = pcIcons;
 
