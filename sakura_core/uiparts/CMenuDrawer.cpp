@@ -789,7 +789,6 @@ void CMenuDrawer::MyAppendMenu(
 	if( nFuncId != 0 ){
 		/* メニューラベルの作成 */
 		CKeyBind::GetMenuLabel(
-			m_hInstance,
 			m_pShareData->m_Common.m_sKeyBind.m_nKeyNameArrNum,
 			m_pShareData->m_Common.m_sKeyBind.m_pKeyNameArr,
 			int(nFuncId),
