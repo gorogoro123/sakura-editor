@@ -140,7 +140,6 @@ EFunctionCode CKeyBind::GetFuncCode(
 	@date 2007.02.22 ryoji デフォルト機能割り当てに関する処理を追加
 */
 int CKeyBind::CreateKeyBindList(
-	HINSTANCE		hInstance,		//!< [in] インスタンスハンドル
 	int				nKeyNameArrNum,	//!< [in]
 	KEYDATA*		pKeyNameArr,	//!< [out]
 	CNativeW&		cMemList,		//!<
@@ -283,7 +282,6 @@ bool CKeyBind::GetKeyStrSub(
 	@date 2007.11.04 genta 共通機能のサブルーチン化
 */
 int CKeyBind::GetKeyStr(
-		[[maybe_unused]] HINSTANCE	hInstance,
 		int			nKeyNameArrNum,
 		KEYDATA*	pKeyNameArr,
 		CNativeW&	cMemList,
@@ -320,7 +318,6 @@ int CKeyBind::GetKeyStr(
 	@date 2007.11.04 genta 共通機能のサブルーチン化
 */
 int CKeyBind::GetKeyStrList(
-	[[maybe_unused]] HINSTANCE	hInstance,
 	int			nKeyNameArrNum,
 	KEYDATA*	pKeyNameArr,
 	std::vector<CNativeW>& memList,
@@ -399,7 +396,6 @@ WCHAR*	CKeyBind::MakeMenuLabel(const WCHAR* sName, const WCHAR* sKey)
 	@date 2014.05.04 Moca LABEL_MAX=256 => nLabelSize
 */
 bool CKeyBind::GetMenuLabel(
-		HINSTANCE	hInstance,
 		int			nKeyNameArrNum,
 		KEYDATA*	pKeyNameArr,
 		int			nFuncId,
@@ -426,7 +422,7 @@ bool CKeyBind::GetMenuLabel(
 		// 2010.07.11 Moca メニューラベルの「\t」の付加条件変更
 		// [ファイル/フォルダー/ウィンドウ一覧以外]から[アクセスキーがあるときのみ]に付加するように変更
 		/* 機能に対応するキー名の取得 */
-		if( GetKeyStr( hInstance, nKeyNameArrNum, pKeyNameArr, cMemAccessKey, nFuncId, bGetDefFuncCode ) ){
+		if( GetKeyStr( nKeyNameArrNum, pKeyNameArr, cMemAccessKey, nFuncId, bGetDefFuncCode ) ){
 			// バッファが足りないときは入れない
 			if( wcsnlen( szLabel.data(), LABEL_MAX ) + (Int)cMemAccessKey.GetStringLength() + 1 < LABEL_MAX ){
 				wcscat_s( szLabel.data(), LABEL_MAX, L"\t" );

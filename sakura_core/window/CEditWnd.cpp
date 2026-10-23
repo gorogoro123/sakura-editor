@@ -791,7 +791,6 @@ void CEditWnd::LayoutMainMenu()
 			// 2014.05.04 Moca プラグイン/マクロ等を置けるようにFunccode2Nameを使うように
 			GetDocument()->m_cFuncLookup.Funccode2Name( cMainMenu->m_nFunc, szLabel );
 			if (!CKeyBind::GetMenuLabel(
-				G_AppInstance(),
 				m_pShareData->m_Common.m_sKeyBind.m_nKeyNameArrNum,
 				m_pShareData->m_Common.m_sKeyBind.m_pKeyNameArr,
 				cMainMenu->m_nFunc,
@@ -1113,7 +1112,6 @@ LRESULT CEditWnd::DispatchEvent(
 			/* 機能に対応するキー名の取得(複数) */
 			std::vector<CNativeW> assignedKeyList;
 			CKeyBind::GetKeyStrList(
-				G_AppInstance(),
 				m_pShareData->m_Common.m_sKeyBind.m_nKeyNameArrNum,
 				m_pShareData->m_Common.m_sKeyBind.m_pKeyNameArr,
 				assignedKeyList,
@@ -4114,7 +4112,6 @@ void CEditWnd::GetTooltipText(std::span<WCHAR> szBuf, UINT_PTR idFrom) const
 	// 機能に対応するキー名の取得(複数)
 	std::vector<CNativeW> assignedKeyList;
 	CKeyBind::GetKeyStrList(
-		G_AppInstance(),
 		m_pShareData->m_Common.m_sKeyBind.m_nKeyNameArrNum,
 		m_pShareData->m_Common.m_sKeyBind.m_pKeyNameArr,
 		assignedKeyList,
