@@ -54,7 +54,7 @@ void CViewCommander::Command_FILENEW( )
 	sLoadInfo.cFilePath = L"";
 	sLoadInfo.eCharCode = CODE_NONE;
 	sLoadInfo.bViewMode = false;
-	std::wstring curDir = CSakuraEnvironment::GetDlgInitialDir();
+	std::wstring curDir = CSakuraEnvironment::GetDlgInitialDir(GetDocument());
 	CControlTray::OpenNewEditor( m_pCommanderView->GetHwnd(), sLoadInfo, nullptr, false, curDir.c_str(), false );
 	return;
 }
@@ -67,7 +67,7 @@ void CViewCommander::Command_FILENEW_NEWWINDOW( )
 	sLoadInfo.cFilePath = L"";
 	sLoadInfo.eCharCode = CODE_DEFAULT;
 	sLoadInfo.bViewMode = false;
-	std::wstring curDir = CSakuraEnvironment::GetDlgInitialDir();
+	std::wstring curDir = CSakuraEnvironment::GetDlgInitialDir(GetDocument());
 	CControlTray::OpenNewEditor( m_pCommanderView->GetHwnd(), sLoadInfo,
 		nullptr,
 		false,
