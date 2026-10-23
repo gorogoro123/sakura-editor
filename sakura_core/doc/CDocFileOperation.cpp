@@ -77,7 +77,7 @@ bool CDocFileOperation::OpenFileDialog(
 	cDlgOpenFile.Create(
 		hwndParent,
 		L"*.*",
-		pszOpenFolder ? pszOpenFolder : CSakuraEnvironment::GetDlgInitialDir().c_str(),	// 初期フォルダー
+		pszOpenFolder ? pszOpenFolder : CSakuraEnvironment::GetDlgInitialDir(m_pcDocRef).c_str(),	// 初期フォルダー
 		CMRUFile().GetPathList(),															// MRUリストのファイルのリスト
 		CMRUFolder().GetPathList()														// OPENFOLDERリストのファイルのリスト
 	);
@@ -264,7 +264,7 @@ bool CDocFileOperation::SaveFileDialog(
 	cDlgOpenFile.Create(
 		CEditWnd::getInstance()->GetHwnd(),
 		strDefaultWildCard.c_str(),
-		CSakuraEnvironment::GetDlgInitialDir().c_str(),	// 初期フォルダー
+		CSakuraEnvironment::GetDlgInitialDir(m_pcDocRef).c_str(),	// 初期フォルダー
 		CMRUFile().GetPathList(),		//	最近のファイル
 		CMRUFolder().GetPathList()	//	最近のフォルダー
 	);

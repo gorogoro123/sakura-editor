@@ -746,7 +746,7 @@ LRESULT CControlTray::DispatchEvent(
 					cDlgOpenFile.Create(
 						nullptr,
 						L"*.*",
-						CSakuraEnvironment::GetDlgInitialDir(true).c_str(),
+						CSakuraEnvironment::GetDlgInitialDir(nullptr, true).c_str(),
 						CMRUFile().GetPathList(),
 						CMRUFolder().GetPathList()	// OPENFOLDERリストのファイルのリスト
 					);
@@ -1087,7 +1087,7 @@ void CControlTray::OnNewEditor( bool bNewWindow )
 	sLoadInfo.cFilePath = L"";
 	sLoadInfo.eCharCode = CODE_NONE;
 	sLoadInfo.bViewMode = false;
-	std::wstring strCurDir = CSakuraEnvironment::GetDlgInitialDir(true);
+	std::wstring strCurDir = CSakuraEnvironment::GetDlgInitialDir(nullptr, true);
 	OpenNewEditor( GetTrayHwnd(), sLoadInfo, nullptr, false, strCurDir.c_str(), bNewWindow );
 }
 

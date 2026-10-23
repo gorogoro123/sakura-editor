@@ -9,13 +9,14 @@
 
 #include <string>
 
+class CEditDoc;
 class CEditWnd;
 
 class CSakuraEnvironment{
 public:
 	static CEditWnd* GetMainWindow();
 	static void ExpandParameter(const wchar_t* pszSource, std::span<wchar_t> szBuffer);
-	static std::wstring GetDlgInitialDir(bool bControlProcess = false);
+	static std::wstring GetDlgInitialDir(CEditDoc* pcDoc, bool bControlProcess = false);
 
 	static void ResolvePath(WCHAR* pszPath); //!< ショートカットの解決とロングファイル名へ変換を行う。
 private:

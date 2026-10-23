@@ -695,9 +695,8 @@ int CSakuraEnvironment::_ExParam_Evaluate( const wchar_t* pCond )
 	@param bControlProcess [in] trueのときはOPENDIALOGDIR_CUR->OPENDIALOGDIR_MRUに変更
 	@return 初期フォルダー
 */
-std::wstring CSakuraEnvironment::GetDlgInitialDir(bool bControlProcess)
+std::wstring CSakuraEnvironment::GetDlgInitialDir(CEditDoc* pcDoc, bool bControlProcess)
 {
-	CEditDoc* pcDoc = GetDocument();
 	if( pcDoc && pcDoc->m_cDocFile.GetFilePathClass().IsValidPath() ){
 		return pcDoc->m_cDocFile.GetFilePathClass().GetDirPath();
 	}
