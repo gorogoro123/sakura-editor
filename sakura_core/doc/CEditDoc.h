@@ -150,6 +150,12 @@ public:
 	HBITMAP			m_hBackImg = nullptr;
 	int				m_nBackImgWidth;
 	int				m_nBackImgHeight;
+
+	const CEditWnd&	GetEditWnd() const;
+	CEditWnd& 		GetEditWnd();
+
+private:
+	CEditWnd* 		m_pcEditWnd = nullptr;
 };
 
 CEditDoc* GetDocument() noexcept;
