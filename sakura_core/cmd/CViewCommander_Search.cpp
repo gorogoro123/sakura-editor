@@ -23,13 +23,12 @@
 */
 
 #include "CViewCommander.h"
-#include "CViewCommander_inline.h"
-
+#include "view/CEditView.h"
+#include "window/CEditWnd.h"
 #include "dlg/CDlgCancel.h"// 2002/2/8 hor
 #include "agent/CSearchAgent.h"
 #include "util/window.h"
 #include "util/string_ex2.h"
-#include <climits>
 #include "apiwrap/CommonControl.h"
 #include "apiwrap/StdControl.h"
 #include "CSelectLang.h"

@@ -20,7 +20,8 @@
 */
 
 #include "CViewCommander.h"
-#include "CViewCommander_inline.h"
+#include "doc/CEditDoc.h"
+#include "window/CEditWnd.h"
 #include "outline/CFuncInfoArr.h"
 #include "plugin/CJackManager.h"
 #include "plugin/COutlineIfObj.h"

@@ -30,7 +30,6 @@
 #include "_os/CClipboard.h"
 #include "cmd/COpeBlk.h"
 #include "doc/layout/CLayout.h"
-#include "cmd/CViewCommander_inline.h"
 #include "uiparts/CWaitCursor.h"
 #include "uiparts/HandCursor.h"
 #include "util/input.h"

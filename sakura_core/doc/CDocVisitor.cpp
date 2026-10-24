@@ -6,7 +6,6 @@
 */
 #include "CDocVisitor.h"
 #include "doc/CEditDoc.h"
-#include "cmd/CViewCommander_inline.h"
 #include "view/CEditView.h"
 #include "window/CEditWnd.h"
 #include "cmd/COpeBlk.h"

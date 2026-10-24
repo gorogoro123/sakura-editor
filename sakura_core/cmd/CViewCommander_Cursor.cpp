@@ -20,8 +20,7 @@
 */
 
 #include "CViewCommander.h"
-#include "CViewCommander_inline.h"
-
+#include "view/CEditView.h"
 #include "env/CMarkMgr.h"/// 2002/2/3 aroka 追加
 #include "mem/CMemoryIterator.h"	// @@@ 2002.09.28 YAZAKI
 #include "CSelectLang.h"

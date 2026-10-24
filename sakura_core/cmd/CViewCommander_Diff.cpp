@@ -20,13 +20,14 @@
 */
 
 #include "CViewCommander.h"
-#include "CViewCommander_inline.h"
-
+#include "view/CEditView.h"
+#include "window/CEditWnd.h"
 #include "dlg/CDlgCompare.h"
 #include "dlg/CDlgDiff.h"
 #include "charset/CCodeMediator.h"
 #include "charset/CCodePage.h"
 #include "env/CShareData.h"
+#include "env/DLLSHAREDATA.h"
 #include "util/window.h"
 #include "util/os.h"
 #include "_main/CMutex.h"

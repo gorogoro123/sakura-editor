@@ -1021,9 +1021,6 @@
     <ClInclude Include="..\sakura_core\cmd\CViewCommander.h">
       <Filter>Cpp Source Files\cmd</Filter>
     </ClInclude>
-    <ClInclude Include="..\sakura_core\cmd\CViewCommander_inline.h">
-      <Filter>Cpp Source Files\cmd</Filter>
-    </ClInclude>
     <ClInclude Include="..\sakura_core\extmodule\CBregexp.h">
       <Filter>Cpp Source Files\extmodule</Filter>
     </ClInclude>

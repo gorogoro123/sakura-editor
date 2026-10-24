@@ -215,7 +215,6 @@
     <ClInclude Include="..\sakura_core\agent\CLoadAgent.h" />
     <ClInclude Include="..\sakura_core\env\CMarkMgr.h" />
     <ClInclude Include="..\sakura_core\cmd\CViewCommander.h" />
-    <ClInclude Include="..\sakura_core\cmd\CViewCommander_inline.h" />
     <ClInclude Include="..\sakura_core\config\app_constants.h" />
     <ClInclude Include="..\sakura_core\config\build_config.h" />
     <ClInclude Include="..\sakura_core\config\maxdata.h" />

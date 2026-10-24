@@ -13,7 +13,7 @@
 	Please contact the copyright holders to use this code for other purpose.
 */
 #include "CViewCommander.h"
-#include "CViewCommander_inline.h"
+#include "window/CEditWnd.h"
 #include "_main/CControlTray.h"
 #include "CEditApp.h"
 #include "agent/CGrepAgent.h"

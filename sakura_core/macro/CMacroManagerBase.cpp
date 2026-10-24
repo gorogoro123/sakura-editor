@@ -12,7 +12,7 @@
 */
 #include "CMacroManagerBase.h"
 #include "view/CEditView.h"
-#include "cmd/CViewCommander_inline.h"
+#include "window/CEditWnd.h"
 #include "cmd/COpeBlk.h"
 
 // CMacroBeforeAfter

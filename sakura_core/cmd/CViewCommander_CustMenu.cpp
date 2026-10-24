@@ -18,9 +18,10 @@
 */
 
 #include "CViewCommander.h"
-#include "CViewCommander_inline.h"
-
+#include "view/CEditView.h"
+#include "window/CEditWnd.h"
 #include "apiwrap/StdApi.h"
+#include "env/DLLSHAREDATA.h"
 
 /* 右クリックメニュー */
 void CViewCommander::Command_MENU_RBUTTON( )

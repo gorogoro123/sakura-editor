@@ -15,7 +15,8 @@
 */
 
 #include "CViewCommander.h"
-#include "CViewCommander_inline.h"
+#include "view/CEditView.h"
+#include "window/CEditWnd.h"
 #include "docplus/CFuncListManager.h"
 #include "CSelectLang.h"
 

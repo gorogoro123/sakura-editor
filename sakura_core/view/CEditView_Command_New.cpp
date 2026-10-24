@@ -30,7 +30,6 @@
 #include "doc/CDocReader.h"
 #include "doc/layout/CLayout.h"
 #include "doc/logic/CDocLine.h"
-#include "cmd/CViewCommander_inline.h"
 #include "window/CEditWnd.h"
 #include "dlg/CDlgCtrlCode.h"	//コントロールコードの入力(ダイアログ)
 #include "dlg/CDlgFavorite.h"	//履歴の管理	//@@@ 2003.04.08 MIK
