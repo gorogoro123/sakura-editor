@@ -303,7 +303,6 @@ protected:
 	void CheckFreeSubMenu(HWND hWnd, HMENU hMenu, UINT uPos);		// メニューバーの無効化を検査	2010/6/18 Uchi
 	void CheckFreeSubMenuSub(HMENU hMenu, int nLv);			// メニューバーの無効化を検査	2010/6/18 Uchi
 
-//public:
 	//! 周期内でm_nTimerCountをインクリメント
 	void IncrementTimerCount(int nInterval)
 	{
@@ -315,6 +314,8 @@ protected:
 
 	void CreateAccelTbl( ); // ウィンドウ毎のアクセラレータテーブル作成(Wine用)
 	void DeleteAccelTbl( ); // ウィンドウ毎のアクセラレータテーブル破棄(Wine用)
+
+	void ShowCodeBox();
 
 public:
 	//D&Dフラグ管理
