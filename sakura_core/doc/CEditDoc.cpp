@@ -184,6 +184,8 @@ BOOL CEditDoc::Create(CEditWnd& cEditWnd)
 {
 	MY_RUNNINGTIMER( cRunningTimer, L"CEditDoc::Create" );
 
+	m_pcEditWnd = &cEditWnd;
+
 	m_pcBackupAgent = std::make_unique<CBackupAgent>(*this, cEditWnd);
 	m_pcAutoSaveAgent = std::make_unique<CAutoSaveAgent>(*this);
 	m_pcAutoReloadAgent = std::make_unique<CAutoReloadAgent>(*this, cEditWnd);
@@ -1014,4 +1016,16 @@ void CEditDoc::SetCurDirNotitle()
 CColorStrategyPool* CEditDoc::GetColorStrategyPool() const
 {
 	return CColorStrategyPool::getInstance();
+}
+
+const CEditWnd& CEditDoc::GetEditWnd() const
+{
+	assert(m_pcEditWnd != nullptr);
+	return *m_pcEditWnd;
+}
+
+CEditWnd& CEditDoc::GetEditWnd()
+{
+	assert(m_pcEditWnd != nullptr);
+	return *m_pcEditWnd;
 }
