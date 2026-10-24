@@ -522,22 +522,9 @@ bool CEditDoc::IsModificationForbidden( EFunctionCode nCommand ) const
 	if( IsEditable() )
 		return false; // 常に書き換え許可
 
-	//	編集禁止の場合(バイナリサーチ)
-	{
-		int lbound = 0;
-		auto ubound = int(std::size(EIsModificationForbidden)) - 1;
-
-		while( lbound <= ubound ){
-			int mid = ( lbound + ubound ) / 2;
-
-			if( nCommand < EIsModificationForbidden[mid] ){
-				ubound = mid - 1;
-			} else if( nCommand > EIsModificationForbidden[mid] ){
-				lbound = mid + 1;
-			}else{
-				return true;
-			}
-		}
+	//	編集禁止の場合
+	if (std::ranges::find(EIsModificationForbidden, nCommand) != std::ranges::end(EIsModificationForbidden)) {
+		return true;
 	}
 
 	return false;
