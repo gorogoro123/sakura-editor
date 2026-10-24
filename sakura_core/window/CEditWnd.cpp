@@ -405,11 +405,11 @@ void CEditWnd::UpdateCaption()
 	wchar_t	pszCap[1024];
 
 	//キャプション更新
-	CSakuraEnvironment::ExpandParameter( pszWindowCaptionFormat, pszCap );
+	CSakuraEnvironment::ExpandParameter( GetDocument(), pszWindowCaptionFormat, pszCap );
 	::SetWindowText( GetHwnd(), pszCap );
 
 	//タブウインドウのファイル名を通知
-	CSakuraEnvironment::ExpandParameter( pszTabCaptionFormat, pszCap );
+	CSakuraEnvironment::ExpandParameter( GetDocument(), pszTabCaptionFormat, pszCap );
 	ChangeFileNameNotify( pszCap,
 		m_cEditDoc.m_cDocFile.GetFilePath(),
 		CEditApp::getInstance()->GetGrepAgent()->GrepMode() ); // 2006.01.28 ryoji ファイル名、Grepモードパラメータを追加
@@ -2870,7 +2870,7 @@ void CEditWnd::PrintPreviewModeONOFF( )
 		::ShowWindow( m_cDlgGrep.GetHwnd(), SW_HIDE );
 
 //@@@ 2002.01.14 YAZAKI 印刷プレビューをCPrintPreviewに独立させたことによる変更
-		m_pPrintPreview = std::make_unique<CPrintPreview>(this);
+		m_pPrintPreview = std::make_unique<CPrintPreview>(m_cEditDoc, this);
 		/* 現在の印刷設定 */
 		m_pPrintPreview->SetPrintSetting(
 			&m_pShareData->m_PrintSettingArr[

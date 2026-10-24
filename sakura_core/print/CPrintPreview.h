@@ -22,6 +22,7 @@
 class CColorStrategy;
 class CColorStrategyPool;
 class CDlgCancel;
+class CEditDoc;
 class CEditWnd;
 class CLayout;
 class CLayoutMgr;
@@ -35,7 +36,7 @@ public:
 	/*
 	||  コンストラクタ
 	*/
-	CPrintPreview( class CEditWnd* pParentWnd );
+	CPrintPreview( CEditDoc& cEditDoc, CEditWnd* pParentWnd );
 	~CPrintPreview();
 
 	/*
@@ -183,7 +184,8 @@ public:
 	/* none */
 
 protected:
-	CEditWnd*		m_pParentWnd;	//	親のCEditDoc*。
+	CEditDoc& 		m_cEditDoc;
+	CEditWnd*		m_pParentWnd;
 
 	// 2006.08.17 Moca YAZAKIさんのメモの通りDC/BMPをCEditDocからCPrintPreviewへ移動
 	HDC				m_hdcCompatDC = nullptr;	//!< 再描画用コンパチブルDC

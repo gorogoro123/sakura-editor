@@ -105,7 +105,7 @@ std::wstring ExParam_LongName( EExpParamName eLongParam )
 	@date 2008.05.05 novice GetModuleHandle(NULL)→NULLに変更
 	@date 2012.10.11 Moca 特殊文字n追加
 */
-void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wchar_t> szBuffer)
+void CSakuraEnvironment::ExpandParameter(CEditDoc* pcDoc, const wchar_t* pszSource, std::span<wchar_t> szBuffer)
 {
 	if (szBuffer.empty()) {
 		return;
@@ -116,7 +116,6 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 		return;
 	}
 
-	const CEditDoc* pcDoc = GetDocument();
 	// Apr. 03, 2003 genta 固定文字列をまとめる
 	const std::wstring	APPNAME					= LS(STR_GSTR_APPNAME);	//L"サクラエディタ(32bit)";
 	const std::wstring	PRINT_PREVIEW_ONLY		= LS( STR_PREVIEW_ONLY );	//L"(印刷プレビューでのみ使用できます)";
@@ -519,7 +518,7 @@ void CSakuraEnvironment::ExpandParameter(const wchar_t* pszSource, std::span<wch
 		case L'{':	// 条件分岐
 			{
 				int cond;
-				cond = _ExParam_Evaluate( p + 1 );
+				cond = _ExParam_Evaluate( pcDoc, p + 1 );
 				while( *p != '?' && *p != '\0' )
 					++p;
 				if( *p == '\0' )
@@ -634,9 +633,8 @@ const wchar_t* CSakuraEnvironment::_ExParam_SkipCond(const wchar_t* pszSource, i
 	@date 2003.03.31 genta 作成
 
 */
-int CSakuraEnvironment::_ExParam_Evaluate( const wchar_t* pCond )
+int CSakuraEnvironment::_ExParam_Evaluate(CEditDoc* pcDoc, const wchar_t* pCond )
 {
-	const CEditDoc* pcDoc = GetDocument();
 	CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
 
 	switch( *pCond ){
