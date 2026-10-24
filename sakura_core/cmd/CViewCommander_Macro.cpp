@@ -153,7 +153,7 @@ void CViewCommander::Command_LOADKEYMACRO( )
 	/* キーボードマクロの読み込み */
 	//@@@ 2002.1.24 YAZAKI 読み込みといいつつも、ファイル名をコピーするだけ。実行直前に読み込む
 	GetDllShareData().m_Common.m_sMacro.m_szKeyMacroFileName = szPath;
-//	GetDllShareData().m_CKeyMacroMgr.LoadKeyMacro( G_AppInstance(), m_pCommanderView->GetHwnd(), szPath );
+
 	return;
 }
 
@@ -174,7 +174,6 @@ void CViewCommander::Command_EXECKEYMACRO( )
 		//@@@ 2002.2.2 YAZAKI マクロをCSMacroMgrに統一
 		BOOL bLoadResult = m_pcSMacroMgr->Load(
 			STAND_KEYMACRO,
-			G_AppInstance(),
 			GetDllShareData().m_Common.m_sMacro.m_szKeyMacroFileName,
 			nullptr
 		);
@@ -244,7 +243,6 @@ void CViewCommander::Command_EXECEXTMACRO( const WCHAR* pszPath, const WCHAR* ps
 
 	BOOL bLoadResult = m_pcSMacroMgr->Load(
 		TEMP_KEYMACRO,
-		G_AppInstance(),
 		pszPath,
 		pszType
 	);

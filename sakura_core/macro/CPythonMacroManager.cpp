@@ -1087,7 +1087,7 @@ bool wide2utf8(std::string& utf8, const WCHAR* psz)
 	return true;
 }
 
-BOOL CPythonMacroManager::LoadKeyMacro(HINSTANCE hInstance [[maybe_unused]], const WCHAR* pszPath)
+BOOL CPythonMacroManager::LoadKeyMacro(const WCHAR* pszPath)
 {
 	FILE* f = _wfopen(pszPath, L"rb");
 	if (!f) {
@@ -1107,7 +1107,7 @@ BOOL CPythonMacroManager::LoadKeyMacro(HINSTANCE hInstance [[maybe_unused]], con
 	return TRUE;
 }
 
-BOOL CPythonMacroManager::LoadKeyMacroStr(HINSTANCE hInstance [[maybe_unused]], const WCHAR* pszCode)
+BOOL CPythonMacroManager::LoadKeyMacroStr(const WCHAR* pszCode)
 {
 	m_strPath.clear();
 	m_wstrPath.clear();

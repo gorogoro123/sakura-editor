@@ -38,8 +38,8 @@ public:
 
 	//	2007.07.20 genta : flags追加
 	bool ExecKeyMacro(CEditView *EditView, int flags) const override;
-	BOOL LoadKeyMacro(HINSTANCE hInstance, const WCHAR* pszPath) override;
-	BOOL LoadKeyMacroStr(HINSTANCE hInstance, const WCHAR* pszCode) override;
+	BOOL LoadKeyMacro(const WCHAR* pszPath) override;
+	BOOL LoadKeyMacroStr(const WCHAR* pszCode) override;
 
 	static CMacroManagerBase* Creator(const WCHAR* FileExt);
 	static void declare();

@@ -131,7 +131,7 @@ bool CKeyMacroMgr::ExecKeyMacro( CEditView* pcEditView, int flags ) const
 /*! キーボードマクロの読み込み
 	エラーメッセージは出しません。呼び出し側でよきにはからってください。
 */
-BOOL CKeyMacroMgr::LoadKeyMacro( HINSTANCE hInstance, const WCHAR* pszPath )
+BOOL CKeyMacroMgr::LoadKeyMacro( const WCHAR* pszPath )
 {
 	/* キーマクロのバッファをクリアする */
 	ClearAll();
@@ -194,7 +194,7 @@ BOOL CKeyMacroMgr::LoadKeyMacro( HINSTANCE hInstance, const WCHAR* pszPath )
 
 		/* 関数名→機能ID，機能名日本語 */
 		//@@@ 2002.2.2 YAZAKI マクロをCSMacroMgrに統一
-		nFuncID = CSMacroMgr::GetFuncInfoByName( hInstance, szFuncName, szFuncNameJapanese );
+		nFuncID = CSMacroMgr::GetFuncInfoByName( szFuncName, szFuncNameJapanese );
 		if( -1 != nFuncID ){
 			macro = new CMacro( nFuncID );
 			// Jun. 16, 2002 genta プロトタイプチェック用に追加
@@ -423,7 +423,7 @@ BOOL CKeyMacroMgr::LoadKeyMacro( HINSTANCE hInstance, const WCHAR* pszPath )
 }
 
 /*! キーボードマクロを文字列から読み込み */
-BOOL CKeyMacroMgr::LoadKeyMacroStr( HINSTANCE hInstance, const WCHAR* pszCode )
+BOOL CKeyMacroMgr::LoadKeyMacroStr( const WCHAR* pszCode )
 {
 	// 一時ファイル名を作成
 	SFilePath szTempFile;
@@ -435,7 +435,7 @@ BOOL CKeyMacroMgr::LoadKeyMacroStr( HINSTANCE hInstance, const WCHAR* pszCode )
 	out.Close();
 
 	// マクロ読み込み
-	BOOL bRet = LoadKeyMacro( hInstance, szTempFile );
+	BOOL bRet = LoadKeyMacro( szTempFile );
 
 	::DeleteFile( szTempFile );			// 一時ファイル削除
 
