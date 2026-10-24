@@ -23,8 +23,6 @@ CDocEditor::CDocEditor(CEditDoc* pcDoc)
 : m_pcDocRef(pcDoc)
 , m_cNewLineCode( EEolType::cr_and_lf )		//	New Line Type
 {
-	//	Oct. 2, 2005 genta 挿入モード
-	this->SetInsMode( GetDllShareData().m_Common.m_sGeneral.m_bIsINSMode );
 }
 
 /*! 変更フラグの設定
