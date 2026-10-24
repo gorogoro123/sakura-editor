@@ -728,17 +728,16 @@ void CSMacroMgr::UnloadAll()
 
 	@param idx [in] 読み込み先マクロバッファ番号
 	@param pszPath [in] マクロファイル名
-	@param hInstance [in] インスタンスハンドル
 
 	@author YAZAKI
 */
-BOOL CSMacroMgr::Save( int idx, HINSTANCE hInstance, const WCHAR* pszPath )
+BOOL CSMacroMgr::Save( int idx, const WCHAR* pszPath )
 {
 	assert( idx == STAND_KEYMACRO );
 	if ( idx == STAND_KEYMACRO ){
 		CKeyMacroMgr* pKeyMacro = dynamic_cast<CKeyMacroMgr*>( m_pKeyMacro );
 		if( pKeyMacro != nullptr ){
-			return pKeyMacro->SaveKeyMacro(hInstance, pszPath );
+			return pKeyMacro->SaveKeyMacro( pszPath );
 		}
 		//	Jun. 27, 2002 genta
 		//	空マクロの場合は正常終了と見なす．
@@ -746,9 +745,7 @@ BOOL CSMacroMgr::Save( int idx, HINSTANCE hInstance, const WCHAR* pszPath )
 			return TRUE;
 		}
 	}
-//	else if ( 0 <= idx && idx < MAX_CUSTMACRO ){
-//		return m_cSavedKeyMacro[idx]->SaveKeyMacro(hInstance, pszPath );
-//	}
+
 	return FALSE;
 }
 

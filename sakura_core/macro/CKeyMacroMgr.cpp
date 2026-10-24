@@ -86,7 +86,7 @@ void CKeyMacroMgr::Append( CMacro* macro )
 /*! キーボードマクロの保存
 	エラーメッセージは出しません。呼び出し側でよきにはからってください。
 */
-BOOL CKeyMacroMgr::SaveKeyMacro( HINSTANCE hInstance, const WCHAR* pszPath ) const
+BOOL CKeyMacroMgr::SaveKeyMacro( const WCHAR* pszPath ) const
 {
 	CTextOutputStream out(pszPath);
 	if(!out){
@@ -99,7 +99,7 @@ BOOL CKeyMacroMgr::SaveKeyMacro( HINSTANCE hInstance, const WCHAR* pszPath ) con
 	//マクロ内容
 	CMacro* p = m_pTop;
 	while (p){
-		p->Save( hInstance, out );
+		p->Save( out );
 		p = p->GetNext();
 	}
 

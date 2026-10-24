@@ -115,7 +115,7 @@ public:
 
 	/*! キーボードマクロの読み込み */
 	BOOL Load( int idx, HINSTANCE hInstance, const WCHAR* pszPath, const WCHAR* pszType );
-	BOOL Save( int idx, HINSTANCE hInstance, const WCHAR* pszPath );
+	BOOL Save( int idx, const WCHAR* pszPath );
 	void UnloadAll();
 
 	/*! キーマクロのバッファにデータ追加 */

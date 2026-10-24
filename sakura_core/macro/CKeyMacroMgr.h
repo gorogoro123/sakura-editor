@@ -47,7 +47,7 @@ public:
 	void Append( class CMacro* macro );		/* キーマクロのバッファにデータ追加 */
 	
 	/* キーボードマクロをまとめて取り扱う */
-	BOOL SaveKeyMacro( HINSTANCE hInstance, const WCHAR* pszPath) const;	/* CMacroの列を、キーボードマクロに保存 */
+	BOOL SaveKeyMacro( const WCHAR* pszPath) const;	/* CMacroの列を、キーボードマクロに保存 */
 	//@@@2002.2.2 YAZAKI PPA.DLLアリ/ナシ共存のためvirtualに。
 	//	2007.07.20 genta flags追加
 	bool ExecKeyMacro( class CEditView* pcEditView, int flags ) const override;	/* キーボードマクロの実行 */
