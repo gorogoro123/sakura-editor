@@ -196,6 +196,7 @@ BOOL CEditDoc::Create(CEditWnd& cEditWnd)
 	// 2008.06.07 nasukoji	折り返し方法の追加に対応
 	// 「指定桁で折り返す」以外の時は折り返し幅をMAXLINEKETASで初期化する
 	// 「右端で折り返す」は、この後のOnSize()で再設定される
+	m_cDocType.Create(GetDllShareData().m_TypeBasis);
 	const STypeConfig& ref = m_cDocType.GetDocumentAttribute();
 	CKetaXInt nMaxLineKetas = ref.m_nMaxLineKetas;
 	if( ref.m_nTextWrapMethod != WRAP_SETTING_WIDTH ){
