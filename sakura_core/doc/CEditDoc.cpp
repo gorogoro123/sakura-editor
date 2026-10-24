@@ -214,10 +214,12 @@ BOOL CEditDoc::Create(CEditWnd& cEditWnd)
 
 	// 文字コード種別を初期化
 	m_cDocFile.SetCodeSet( ref.m_encoding.m_eDefaultCodetype, ref.m_encoding.m_bDefaultBom );
-	m_cDocEditor.m_cNewLineCode = ref.m_encoding.m_eDefaultEoltype;
 
 	// 排他制御オプションを初期化
 	m_cDocFile.SetShareMode( GetDllShareData().m_Common.m_sFile.m_nFileShareMode );
+
+	m_cDocEditor.SetInsMode( GetDllShareData().m_Common.m_sGeneral.m_bIsINSMode );
+	m_cDocEditor.m_cNewLineCode = ref.m_encoding.m_eDefaultEoltype;
 
 	//	Oct. 2, 2001 genta
 	m_cFuncLookup.Init( GetDllShareData().m_Common.m_sMacro.m_MacroTable, &GetDllShareData().m_Common );
