@@ -353,7 +353,7 @@ public:
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 private:
 	//共有データ
-	DLLSHAREDATA*	m_pShareData = &GetDllShareData();
+	DLLSHAREDATA*	m_pShareData = nullptr;
 
 	//ドキュメント
 	CEditDoc& 		m_cEditDoc;
@@ -365,10 +365,10 @@ private:
 
 public:
 	//子ウィンドウ
-	CMainToolBar	m_cToolbar{ this };			//!< ツールバー
+	CMainToolBar	m_cToolbar;			//!< ツールバー
 	CTabWnd			m_cTabWnd;			//!< タブウインドウ	//@@@ 2003.05.31 MIK
 	CFuncKeyWnd		m_cFuncKeyWnd;		//!< ファンクションバー
-	CMainStatusBar	m_cStatusBar{ this };		//!< ステータスバー
+	CMainStatusBar	m_cStatusBar;		//!< ステータスバー
 	CPrintPreviewHolder	m_pPrintPreview = nullptr;	//!< 印刷プレビュー表示情報。必要になったときのみインスタンスを生成する。
 
 	CEditView*		m_pcDragSourceView = nullptr;	//!< ドラッグ元のビュー
