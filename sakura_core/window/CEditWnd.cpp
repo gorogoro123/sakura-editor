@@ -94,14 +94,14 @@ static const SFuncMenuName	sFuncMenuName[] = {
 	{F_TOGGLE_KEY_SEARCH,	{F_TOGGLE_KEY_SEARCH_ON,		F_TOGGLE_KEY_SEARCH_OFF}},
 };
 
-static void ShowCodeBox( HWND hWnd, CEditDoc* pcEditDoc )
+void CEditWnd::ShowCodeBox()
 {
 	// カーソル位置の文字列を取得
 	const CLayout*	pcLayout;
 	CLogicInt		nLineLen;
-	const CEditView* pcView = &GetEditWnd().GetActiveView();
+	const CEditView* pcView = &GetActiveView();
 	const CCaret* pcCaret = &pcView->GetCaret();
-	const CLayoutMgr* pLayoutMgr = &pcEditDoc->m_cLayoutMgr;
+	const CLayoutMgr* pLayoutMgr = &m_cEditDoc.m_cLayoutMgr;
 	const wchar_t*	pLine = pLayoutMgr->GetLineStr( pcCaret->GetCaretLayoutPos().GetY2(), &nLineLen, &pcLayout );
 
 	// -- -- -- -- キャレット位置の文字情報 -> szCaretChar -- -- -- -- //
@@ -151,7 +151,7 @@ static void ShowCodeBox( HWND hWnd, CEditDoc* pcEditDoc )
 				// メッセージボックス表示
 				auto_snprintf_s(szMsg, std::size(szMsg), LS(STR_ERR_DLGEDITWND13),
 					szChar, szCodeCP, szCode[CODE_SJIS], szCode[CODE_JIS], szCode[CODE_EUC], szCode[CODE_LATIN1], szCode[CODE_UNICODE], szCode[CODE_UTF8], szCode[CODE_CESU8]);
-				::MessageBox( hWnd, szMsg, LS(STR_GSTR_APPNAME), MB_OK );
+				::MessageBox( GetHwnd(), szMsg, LS(STR_GSTR_APPNAME), MB_OK );
 			}
 		}
 	}
@@ -1376,7 +1376,7 @@ LRESULT CEditWnd::DispatchEvent(
 					GetDocument()->HandleCommand( F_JUMP_DIALOG );
 				}
 				else if( mp->dwItemSpec == 3 ){	//	文字コード→各種コード
-					ShowCodeBox( GetHwnd(), GetDocument() );
+					ShowCodeBox();
 				}
 				else if( mp->dwItemSpec == 4 ){	//	文字コードセット→文字コードセット指定
 					GetDocument()->HandleCommand( F_CHG_CHARSET );
