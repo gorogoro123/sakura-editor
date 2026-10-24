@@ -52,7 +52,8 @@ CPrint CPrintPreview::m_cPrint;		//!< 現在のプリンター情報 2003.05.02 
 	印刷プレビューを表示するために必要な情報を初期化、領域確保。
 	コントロールも作成する。
 */
-CPrintPreview::CPrintPreview(CEditWnd* pParentWnd ) :
+CPrintPreview::CPrintPreview(CEditDoc& cEditDoc, CEditWnd* pParentWnd) :
+	m_cEditDoc( cEditDoc ),
 	m_pParentWnd( pParentWnd )
 {
 	/* 印刷用のレイアウト情報の作成 */
@@ -1229,6 +1230,7 @@ void CPrintPreview::DrawHeaderFooter( HDC hdc, const CMyRect& rect, bool bHeader
 
 		// 左寄せ
 		CSakuraEnvironment::ExpandParameter(
+			&m_cEditDoc,
 			bHeader ? m_pPrintSetting->m_szHeaderForm[POS_LEFT] : m_pPrintSetting->m_szFooterForm[POS_LEFT],
 			szWork);
 		Tab2Space( szWork );
@@ -1244,6 +1246,7 @@ void CPrintPreview::DrawHeaderFooter( HDC hdc, const CMyRect& rect, bool bHeader
 
 		// 中央寄せ
 		CSakuraEnvironment::ExpandParameter(
+			&m_cEditDoc,
 			bHeader ? m_pPrintSetting->m_szHeaderForm[POS_CENTER] : m_pPrintSetting->m_szFooterForm[POS_CENTER],
 			szWork);
 		Tab2Space( szWork );
@@ -1263,6 +1266,7 @@ void CPrintPreview::DrawHeaderFooter( HDC hdc, const CMyRect& rect, bool bHeader
 
 		// 右寄せ
 		CSakuraEnvironment::ExpandParameter(
+			&m_cEditDoc,
 			bHeader ? m_pPrintSetting->m_szHeaderForm[POS_RIGHT] : m_pPrintSetting->m_szFooterForm[POS_RIGHT],
 			szWork);
 		Tab2Space( szWork );
@@ -1294,6 +1298,7 @@ void CPrintPreview::DrawHeaderFooter( HDC hdc, const CMyRect& rect, bool bHeader
 
 		// 左寄せ
 		CSakuraEnvironment::ExpandParameter(
+			&m_cEditDoc,
 			bHeader ? m_pPrintSetting->m_szHeaderForm[POS_LEFT] : m_pPrintSetting->m_szFooterForm[POS_LEFT],
 			szWork);
 		nLen = (int)wcsnlen(szWork, std::size(szWork));
@@ -1312,6 +1317,7 @@ void CPrintPreview::DrawHeaderFooter( HDC hdc, const CMyRect& rect, bool bHeader
 
 		// 中央寄せ
 		CSakuraEnvironment::ExpandParameter(
+			&m_cEditDoc,
 			bHeader ? m_pPrintSetting->m_szHeaderForm[POS_CENTER] : m_pPrintSetting->m_szFooterForm[POS_CENTER],
 			szWork);
 		nLen = (int)wcsnlen(szWork, std::size(szWork));
@@ -1332,6 +1338,7 @@ void CPrintPreview::DrawHeaderFooter( HDC hdc, const CMyRect& rect, bool bHeader
 
 		// 右寄せ
 		CSakuraEnvironment::ExpandParameter(
+			&m_cEditDoc,
 			bHeader ? m_pPrintSetting->m_szHeaderForm[POS_RIGHT] : m_pPrintSetting->m_szFooterForm[POS_RIGHT],
 			szWork);
 		nLen = (int)wcsnlen(szWork, std::size(szWork));

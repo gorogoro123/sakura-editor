@@ -1425,7 +1425,7 @@ bool CMacro::HandleFunction(CEditView *View, EFunctionCode ID, VARIANT *Argument
 			int SourceLength;
 			Wrap(&varCopy.Data.bstrVal)->GetW(&Source, &SourceLength);
 			wchar_t Buffer[2048];
-			CSakuraEnvironment::ExpandParameter(Source, Buffer);
+			CSakuraEnvironment::ExpandParameter(View->GetDocument(), Source, Buffer);
 			delete[] Source;
 			SysString S(Buffer, wcslen(Buffer));
 			Wrap(&Result)->Receive(S);

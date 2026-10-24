@@ -18,6 +18,7 @@
 #include "_main/CCommandLine.h"
 #include "_main/CControlProcess.h"
 #include "util/file.h"
+#include "doc/CEditDoc.h"
 
 /*!
  * @brief exeファイルパスの取得
@@ -25,7 +26,8 @@
 TEST(CSakuraEnvironment, ExpandParameter_ExeFileName)
 {
 	SFilePath szExeFile;
-	CSakuraEnvironment::ExpandParameter(L"$S", szExeFile );
+	std::unique_ptr<CEditDoc> pcEditDoc = std::make_unique<CEditDoc>();
+	CSakuraEnvironment::ExpandParameter(pcEditDoc.get(), L"$S", szExeFile);
 	ASSERT_STREQ(GetExeFileName().c_str(), szExeFile.c_str());
 }
 
@@ -35,6 +37,7 @@ TEST(CSakuraEnvironment, ExpandParameter_ExeFileName)
 TEST(CSakuraEnvironment, ExpandParameter_IniFileName)
 {
 	SFilePath szIniFile;
-	CSakuraEnvironment::ExpandParameter(L"$I", szIniFile );
+	std::unique_ptr<CEditDoc> pcEditDoc = std::make_unique<CEditDoc>();
+	CSakuraEnvironment::ExpandParameter(pcEditDoc.get(), L"$I", szIniFile );
 	ASSERT_STREQ(GetIniFileName().c_str(), szIniFile.c_str());
 }

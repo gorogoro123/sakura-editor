@@ -309,7 +309,7 @@ void CViewCommander::Command_EXECCOMMAND( LPCWSTR cmd_string, const int nFlgOpt,
 	//	パラメータ置換 (超暫定)
 	const int bufmax = 1024;
 	wchar_t buf[bufmax + 1];
-	CSakuraEnvironment::ExpandParameter(cmd_string, buf);
+	CSakuraEnvironment::ExpandParameter(GetDocument(), cmd_string, buf);
 
 	// 子プロセスの標準出力をリダイレクトする
 	std::wstring buf2 = buf;
