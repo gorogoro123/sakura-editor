@@ -156,7 +156,7 @@ void CViewCommander::Command_CASCADE( )
 			}
 			//	Mar. 20, 2004 genta
 			//	現在のウィンドウを末尾に持っていくためここではスキップ
-			if( vEditNode[i].GetHwnd() == CEditWnd::getInstance()->GetHwnd() ){
+			if( vEditNode[i].GetHwnd() == GetEditWindow()->GetHwnd() ){
 				current_win_index = i;
 				continue;
 			}
@@ -283,9 +283,9 @@ void CViewCommander::Command_TILE_V( )
 			}
 			//	From Here Jul. 28, 2002 genta
 			//	現在のウィンドウを先頭に持ってくる
-			if( vEditNode[i].GetHwnd() == CEditWnd::getInstance()->GetHwnd() ){
+			if( vEditNode[i].GetHwnd() == GetEditWindow()->GetHwnd() ){
 				vHwndArr[count] = vHwndArr[0];
-				vHwndArr[0] = CEditWnd::getInstance()->GetHwnd();
+				vHwndArr[0] = GetEditWindow()->GetHwnd();
 			}
 			else {
 				vHwndArr[count] = vEditNode[i].GetHwnd();
@@ -337,9 +337,9 @@ void CViewCommander::Command_TILE_H( )
 			}
 			//	From Here Jul. 28, 2002 genta
 			//	現在のウィンドウを先頭に持ってくる
-			if( vEditNode[i].GetHwnd() == CEditWnd::getInstance()->GetHwnd() ){
+			if( vEditNode[i].GetHwnd() == GetEditWindow()->GetHwnd() ){
 				vHwndArr[count] = vHwndArr[0];
-				vHwndArr[0] = CEditWnd::getInstance()->GetHwnd();
+				vHwndArr[0] = GetEditWindow()->GetHwnd();
 			}
 			else {
 				vHwndArr[count] = vEditNode[i].GetHwnd();
