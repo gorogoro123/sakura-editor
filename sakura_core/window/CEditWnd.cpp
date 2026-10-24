@@ -200,8 +200,12 @@ LRESULT CALLBACK CEditWndProc(
 }
 
 CEditWnd::CEditWnd(CEditDoc& cEditDoc)
-: m_cEditDoc(cEditDoc)
+: m_cEditDoc(cEditDoc),
+ m_cToolbar(this),
+ m_cStatusBar(this)
 {
+	m_pShareData = &GetDllShareData();
+
 	// [0] - [3] まで作成・初期化していたものを[0]だけ作る。ほかは分割されるまで何もしない
 	m_pcEditViewArr[0] = std::make_unique<CEditView>(&m_cEditDoc, *this);
 	m_pcEditView = m_pcEditViewArr[0].get();
@@ -394,7 +398,7 @@ void CEditWnd::UpdateCaption()
 {
 	if( !GetActiveView().GetDrawSwitch() )return;
 
-	const  CommonSetting& Common = GetDllShareData().m_Common;
+	const  CommonSetting& Common = m_pShareData->m_Common;
 
 	const auto pszWindowCaptionFormat = IsActiveApp()
 		? Common.m_sWindow.m_szWindowCaptionActive
@@ -1390,7 +1394,7 @@ LRESULT CEditWnd::DispatchEvent(
 					m_cMenuDrawer.MyAppendMenu( hMenuPopUp, MF_BYPOSITION | MF_STRING, F_CHGMOD_EOL_CR,
 						LS( F_CHGMOD_EOL_CR ), L'R' ); // 入力改行コード指定(CR)
 					// 拡張EOLが有効の時だけ表示
-					if( GetDllShareData().m_Common.m_sEdit.m_bEnableExtEol ){
+					if( m_pShareData->m_Common.m_sEdit.m_bEnableExtEol ){
 						m_cMenuDrawer.MyAppendMenu( hMenuPopUp, MF_BYPOSITION | MF_STRING, F_CHGMOD_EOL_NEL,
 							LS(STR_EDITWND_MENU_NEL), L'\0', TRUE, -2 ); // 入力改行コード指定(NEL)
 						m_cMenuDrawer.MyAppendMenu( hMenuPopUp, MF_BYPOSITION | MF_STRING, F_CHGMOD_EOL_LS,
@@ -1597,7 +1601,7 @@ LRESULT CEditWnd::DispatchEvent(
 		switch( (e_PM_CHANGESETTING_SELECT)lParam ){
 		case PM_CHANGESETTING_ALL:
 			/* 言語を選択する */
-			CSelectLang::ChangeLang( GetDllShareData().m_Common.m_sWindow.m_szLanguageDll.c_str() );
+			CSelectLang::ChangeLang( m_pShareData->m_Common.m_sWindow.m_szLanguageDll.c_str() );
 			CShareData::getInstance()->RefreshString();
 
 			// 2015.08.20 プリントプレビューのとき設定を延期する(戻るとき適用)
@@ -3181,7 +3185,7 @@ LRESULT CEditWnd::OnSize2( WPARAM wParam, LPARAM lParam, bool bUpdateStatus )
 	// ミニマップ
 	int nMiniMapWidth = 0;
 	if( m_pcMiniMapView->GetHwnd() ){
-		nMiniMapWidth = ::DpiScaleX(GetDllShareData().m_Common.m_sWindow.m_nMiniMapWidth);
+		nMiniMapWidth = ::DpiScaleX(m_pShareData->m_Common.m_sWindow.m_nMiniMapWidth);
 		::MoveWindow( m_pcMiniMapView->GetHwnd(),
 			(eDockSideFL == DOCKSIDE_RIGHT)? cx - nFuncListWidth - nMiniMapWidth: cx - nMiniMapWidth,
 			(eDockSideFL == DOCKSIDE_TOP)? nTop + nFuncListHeight: nTop,
