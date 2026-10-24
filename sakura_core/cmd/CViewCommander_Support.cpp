@@ -231,8 +231,6 @@ retry:;
 	_wsplitpath_s( path, nullptr, 0, nullptr, 0, nullptr, 0, szExt, std::size(szExt) );
 	if( 0 == _wcsicmp(szExt, L".chi") || 0 == _wcsicmp(szExt, L".chm") || 0 == _wcsicmp(szExt, L".col") ){
 		Command_EXTHTMLHELP( path, cmemCurText.GetStringPtr() );
-	}else{
-		::WinHelp( m_pCommanderView->m_hwndParent, path, HELP_KEY, (ULONG_PTR)cmemCurText.GetStringPtr() );
 	}
 	return;
 }
