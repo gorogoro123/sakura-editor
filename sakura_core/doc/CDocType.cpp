@@ -18,9 +18,13 @@
 CDocType::CDocType(CEditDoc* pcDoc)
 : m_pcDocRef(pcDoc)
 , m_nSettingType( 0 )			// Sep. 11, 2002 genta
-, m_typeConfig( GetDllShareData().m_TypeBasis )
 , m_nSettingTypeLocked( false )	//	設定値変更可能フラグ
 {
+}
+
+void CDocType::Create(const STypeConfig& typeBasis)
+{
+	m_typeConfig = typeBasis;
 }
 
 //! 文書種別の設定

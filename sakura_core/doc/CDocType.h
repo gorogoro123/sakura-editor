@@ -19,6 +19,7 @@ class CDocType{
 public:
 	//生成と破棄
 	CDocType(CEditDoc* pcDoc);
+	void Create(const STypeConfig& typeBasis);
 	
 	//ロック機能	//	Nov. 29, 2000 genta 設定の一時変更時に拡張子による強制的な設定変更を無効にする
 	void LockDocumentType(){ m_nSettingTypeLocked = true; }
