@@ -823,7 +823,7 @@ static EFunctionCode GetFunctionStrToFunctionCode(const WCHAR* pszFuncName)
 	  && (pszFuncName[1] == L'\0' || WCODE::Is09(pszFuncName[1]))) {
 		n = (EFunctionCode)_wtol(pszFuncName);
 	}else {
-		n = CSMacroMgr::GetFuncInfoByName(nullptr, pszFuncName, {});
+		n = CSMacroMgr::GetFuncInfoByName(pszFuncName, {});
 	}
 	if (n == F_INVALID) {
 		n = F_DEFAULT;

@@ -51,8 +51,8 @@ public:
 	//@@@2002.2.2 YAZAKI PPA.DLLアリ/ナシ共存のためvirtualに。
 	//	2007.07.20 genta flags追加
 	bool ExecKeyMacro( class CEditView* pcEditView, int flags ) const override;	/* キーボードマクロの実行 */
-	BOOL LoadKeyMacro( HINSTANCE hInstance, const WCHAR* pszPath) override;		/* キーボードマクロをファイルから読み込む */
-	BOOL LoadKeyMacroStr( HINSTANCE hInstance, const WCHAR* pszCode) override;	/* キーボードマクロを文字列から読み込む */
+	BOOL LoadKeyMacro( const WCHAR* pszPath) override;		/* キーボードマクロをファイルから読み込む */
+	BOOL LoadKeyMacroStr( const WCHAR* pszCode) override;	/* キーボードマクロを文字列から読み込む */
 	
 	// Apr. 29, 2002 genta
 	static CMacroManagerBase* Creator(const WCHAR* ext);

@@ -114,7 +114,7 @@ public:
 	}
 
 	/*! キーボードマクロの読み込み */
-	BOOL Load( int idx, HINSTANCE hInstance, const WCHAR* pszPath, const WCHAR* pszType );
+	BOOL Load( int idx, const WCHAR* pszPath, const WCHAR* pszType );
 	BOOL Save( int idx, const WCHAR* pszPath );
 	void UnloadAll();
 
@@ -125,7 +125,7 @@ public:
 	||  Attributes & Operations
 	*/
 	static WCHAR* GetFuncInfoByID( int nFuncID, std::span<WCHAR> szFuncName, std::span<WCHAR> szFuncNameJapanese );	/* 機能ID→関数名，機能名日本語 */
-	static EFunctionCode GetFuncInfoByName( HINSTANCE hInstance, const WCHAR* pszFuncName, std::span<WCHAR> szFuncNameJapanese );	/* 関数名→機能ID，機能名日本語 */
+	static EFunctionCode GetFuncInfoByName( const WCHAR* pszFuncName, std::span<WCHAR> szFuncNameJapanese );	/* 関数名→機能ID，機能名日本語 */
 	static BOOL CanFuncIsKeyMacro( int nFuncID );	/* キーマクロに記録可能な機能かどうかを調べる */
 	
 	//	Jun. 16, 2002 genta

@@ -626,7 +626,7 @@ BOOL CSMacroMgr::Exec( int idx , HINSTANCE hInstance, CEditView* pcEditView, int
 			return FALSE;
 		}
 
-		if( !Load( idx, hInstance, szPath.c_str(), nullptr))
+		if( !Load( idx, szPath.c_str(), nullptr))
 			return FALSE;
 	}
 
@@ -651,7 +651,7 @@ BOOL CSMacroMgr::Exec( int idx , HINSTANCE hInstance, CEditView* pcEditView, int
 
 	@author Norio Nakatani, YAZAKI, genta
 */
-BOOL CSMacroMgr::Load( int idx, HINSTANCE hInstance, const WCHAR* pszPath, const WCHAR* pszType )
+BOOL CSMacroMgr::Load( int idx, const WCHAR* pszPath, const WCHAR* pszType )
 {
 	CMacroManagerBase** ppMacro = Idx2Ptr( idx );
 
@@ -688,12 +688,12 @@ BOOL CSMacroMgr::Load( int idx, HINSTANCE hInstance, const WCHAR* pszPath, const
 		return FALSE;
 	BOOL bRet;
 	if( pszType == nullptr ){
-		bRet = (*ppMacro)->LoadKeyMacro(hInstance, pszPath);
+		bRet = (*ppMacro)->LoadKeyMacro(pszPath);
 		if (idx == STAND_KEYMACRO || idx == TEMP_KEYMACRO) {
 			m_sMacroPath = pszPath;
 		}
 	}else{
-		bRet = (*ppMacro)->LoadKeyMacroStr(hInstance, pszPath);
+		bRet = (*ppMacro)->LoadKeyMacroStr(pszPath);
 	}
 
 	//	From Here Jun. 16, 2002 genta
@@ -849,7 +849,6 @@ WCHAR* CSMacroMgr::GetFuncInfoByID(
 	@date 2002.06.16 genta ループ内の文字列コピーを排除
 */
 EFunctionCode CSMacroMgr::GetFuncInfoByName(
-	[[maybe_unused]] HINSTANCE		hInstance,				//!< [in]  リソース取得のためのInstance Handle
 	const WCHAR*	pszFuncName,			//!< [in]  関数名
 	std::span<WCHAR> szFuncNameJapanese		//!< [out] 機能名日本語．
 )
