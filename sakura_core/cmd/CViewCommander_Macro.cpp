@@ -52,7 +52,6 @@ void CViewCommander::Command_RECKEYMACRO( )
 		//@@@ 2002.2.2 YAZAKI マクロをCSMacroMgrに統一
 		int nSaveResult = m_pcSMacroMgr->Save(
 			STAND_KEYMACRO,
-			G_AppInstance(),
 			GetDllShareData().m_Common.m_sMacro.m_szKeyMacroFileName
 		);
 		if ( !nSaveResult ){
@@ -114,7 +113,7 @@ void CViewCommander::Command_SAVEKEYMACRO( )
 	/* キーボードマクロの保存 */
 	//@@@ 2002.2.2 YAZAKI マクロをCSMacroMgrに統一
 	//@@@ 2002.1.24 YAZAKI
-	if ( !m_pcSMacroMgr->Save( STAND_KEYMACRO, G_AppInstance(), szPath ) ){
+	if ( !m_pcSMacroMgr->Save( STAND_KEYMACRO, szPath ) ){
 		ErrorMessage( m_pCommanderView->GetHwnd(), LS(STR_ERR_CEDITVIEW_CMD27), szPath.c_str() );
 	}
 	return;

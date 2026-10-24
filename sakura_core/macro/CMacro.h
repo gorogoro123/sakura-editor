@@ -75,7 +75,7 @@ public:
 	CMacro* GetNext(){ return m_pNext; }
 	// 2007.07.20 genta : flags追加
 	bool Exec( CEditView* pcEditView, int flags ) const; //2007.09.30 kobake const追加
-	void Save( HINSTANCE hInstance, CTextOutputStream& out ) const; //2007.09.30 kobake const追加
+	void Save( CTextOutputStream& out ) const; //2007.09.30 kobake const追加
 	
 	void AddLParam( const LPARAM* lParam, const CEditView* pcEditView  );	//@@@ 2002.2.2 YAZAKI pcEditViewも渡す
 	void AddStringParam( const WCHAR* szParam, int nLength = -1 );
