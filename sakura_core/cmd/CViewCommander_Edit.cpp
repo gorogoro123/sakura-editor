@@ -19,9 +19,8 @@
 */
 
 #include "CViewCommander.h"
-#include "CViewCommander_inline.h"
-
-#include "view/CRuler.h"
+#include "window/CEditWnd.h"
+#include "cmd/COpeBlk.h"
 #include "uiparts/CWaitCursor.h"
 #include "plugin/CJackManager.h"
 #include "plugin/CSmartIndentIfObj.h"

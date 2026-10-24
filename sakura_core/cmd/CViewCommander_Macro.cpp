@@ -20,8 +20,8 @@
 */
 
 #include "CViewCommander.h"
-#include "CViewCommander_inline.h"
-
+#include "view/CEditView.h"
+#include "window/CEditWnd.h"
 //@@@ 2002.2.2 YAZAKI マクロはCSMacroMgrに統一
 #include "macro/CSMacroMgr.h"
 #include "dlg/CDlgExec.h"

@@ -16,7 +16,7 @@
 */
 
 #include "CViewCommander.h"
-#include "CViewCommander_inline.h"
+#include "view/CEditView.h"
 
 /* 現在位置の単語選択 */
 bool CViewCommander::Command_SELECTWORD( CLayoutPoint* pptCaretPos )

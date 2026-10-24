@@ -21,7 +21,8 @@
 */
 
 #include "CViewCommander.h"
-#include "CViewCommander_inline.h"
+#include "view/CEditView.h"
+#include "window/CEditWnd.h"
 #include "env/CPropertyManager.h"
 #include "CEditApp.h"
 #include "dlg/CDlgAbout.h"	//Dec. 24, 2000 JEPRO 追加
@@ -32,6 +33,8 @@
 #include "CSelectLang.h"
 #include "config/system_constants.h"
 #include "config/app_constants.h"
+#include "env/DLLSHAREDATA.h"
+#include "mem/CNativeW.h"
 
 /*!	入力補完
 	Ctrl+Spaceでここに到着。

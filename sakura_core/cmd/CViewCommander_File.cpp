@@ -17,10 +17,10 @@
 	SPDX-License-Identifier: Zlib
 */
 
-#include "CViewCommander.h"
-#include "CViewCommander_inline.h"
-
 #include <Shlwapi.h>
+#include "CViewCommander.h"
+#include "view/CEditView.h"
+#include "window/CEditWnd.h"
 #include "_main/CControlTray.h"
 #include "uiparts/CWaitCursor.h"
 #include "dlg/CDlgProperty.h"

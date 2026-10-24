@@ -20,7 +20,7 @@
 */
 
 #include "CViewCommander.h"
-#include "CViewCommander_inline.h"
+#include "window/CEditWnd.h"
 #include "typeprop/CDlgTypeList.h"
 #include "dlg/CDlgFavorite.h"	//履歴の管理	//@@@ 2003.04.08 MIK
 #include "CEditApp.h"

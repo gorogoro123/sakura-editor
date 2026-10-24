@@ -15,7 +15,9 @@
 */
 
 #include "CViewCommander.h"
-#include "CViewCommander_inline.h"
+#include "view/CEditView.h"
+#include "cmd/COpeBlk.h"
+#include "env/DLLSHAREDATA.h"
 
 //単語の左端まで削除
 void CViewCommander::Command_WordDeleteToStart( )

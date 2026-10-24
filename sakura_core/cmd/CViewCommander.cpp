@@ -27,8 +27,10 @@
 // 2007.10.25 kobake CViewCommanderクラスに分離
 
 #include "CViewCommander.h"
-#include "CViewCommander_inline.h"
-
+#include "view/CEditView.h"
+#include "doc/CEditDoc.h"
+#include "window/CEditWnd.h"
+#include "cmd/COpeBlk.h"
 //@@@ 2002.2.2 YAZAKI マクロはCSMacroMgrに統一
 #include "macro/CSMacroMgr.h"
 #include "CEditApp.h"
@@ -741,4 +743,40 @@ void CViewCommander::AlertNotFound(HWND hwnd, bool bReplaceAll, LPCWSTR format, 
 	}else{
 		DefaultBeep();
 	}
+}
+
+//外部依存
+CEditDoc* CViewCommander::GetDocument()
+{
+	return m_pCommanderView->m_pcEditDoc;
+}
+CEditWnd* CViewCommander::GetEditWindow()
+{
+	return &GetEditWnd();
+}
+
+HWND CViewCommander::GetMainWindow()
+{
+	return ::GetParent( m_pCommanderView->m_hwndParent );
+}
+
+COpeBlk* CViewCommander::GetOpeBlk()
+{
+	return GetDocument()->m_cDocEditor.m_pcOpeBlk;
+}
+
+void CViewCommander::SetOpeBlk(COpeBlk* p)
+{
+	GetDocument()->m_cDocEditor.m_pcOpeBlk = p;
+	GetDocument()->m_cDocEditor.m_nOpeBlkRedawCount = 0;
+}
+
+CLayoutRange& CViewCommander::GetSelect()
+{
+	return m_pCommanderView->GetSelectionInfo().m_sSelect;
+}
+
+CCaret& CViewCommander::GetCaret()
+{
+	return m_pCommanderView->GetCaret();
 }

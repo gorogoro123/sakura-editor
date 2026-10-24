@@ -11,7 +11,6 @@
 #include "doc/CEditDoc.h"
 #include "outline/CFuncInfoArr.h"
 #include "cmd/COpeBlk.h"
-#include "cmd/CViewCommander_inline.h"
 #include "view/CEditView.h"
 #include "view/colors/EColorIndexType.h"
 #include "CSelectLang.h"

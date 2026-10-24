@@ -22,7 +22,7 @@
 */
 
 #include "CViewCommander.h"
-#include "CViewCommander_inline.h"
+#include "window/CEditWnd.h"
 #include "_main/CControlTray.h"
 #include "util/os.h"
 #include "env/CSakuraEnvironment.h"

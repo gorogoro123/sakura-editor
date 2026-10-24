@@ -19,13 +19,15 @@
 */
 
 #include "CViewCommander.h"
-#include "CViewCommander_inline.h"
+#include "view/CEditView.h"
+#include "window/CEditWnd.h"
 #include "view/colors/CColorStrategy.h"
 #include "view/colors/CColor_Found.h"
 #include "uiparts/CWaitCursor.h"
 #include "util/os.h"
 #include "apiwrap/CommonControl.h"
 #include "_os/CClipboard.h"
+#include "cmd/COpeBlk.h"
 
 /** 切り取り(選択範囲をクリップボードにコピーして削除)
 

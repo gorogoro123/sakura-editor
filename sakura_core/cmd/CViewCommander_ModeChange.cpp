@@ -14,7 +14,9 @@
 */
 
 #include "CViewCommander.h"
-#include "CViewCommander_inline.h"
+#include "view/CEditView.h"
+#include "window/CEditWnd.h"
+#include "env/DLLSHAREDATA.h"
 
 /*! 挿入／上書きモード切り替え
 

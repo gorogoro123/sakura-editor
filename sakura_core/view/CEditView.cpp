@@ -30,7 +30,6 @@
 #include "window/CEditWnd.h"
 #include "window/CSplitBoxWnd.h"///
 #include "cmd/COpeBlk.h"///
-#include "cmd/CViewCommander_inline.h"
 #include "_os/CDropTarget.h"///
 #include "_os/CClipboard.h"
 #include "env/CMarkMgr.h"///

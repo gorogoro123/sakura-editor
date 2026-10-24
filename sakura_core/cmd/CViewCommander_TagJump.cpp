@@ -22,7 +22,7 @@
 */
 
 #include "CViewCommander.h"
-#include "CViewCommander_inline.h"
+#include "view/CEditView.h"
 #include "uiparts/CWaitCursor.h"
 #include "dlg/CDlgCancel.h"// 2002/2/8 hor
 #include "dlg/CDlgTagJumpList.h"

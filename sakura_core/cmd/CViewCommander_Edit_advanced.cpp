@@ -25,12 +25,13 @@
 */
 
 #include "CViewCommander.h"
-#include "CViewCommander_inline.h"
-
+#include "doc/CEditDoc.h"
+#include "view/CEditView.h"
 #include "uiparts/CWaitCursor.h"
 #include "mem/CMemoryIterator.h"	// @@@ 2002.09.28 YAZAKI
 #include "apiwrap/CommonControl.h"
 #include "CSelectLang.h"
+#include "cmd/COpeBlk.h"
 
 /* インデント ver1 */
 void CViewCommander::Command_INDENT( wchar_t wcChar, EIndentType eIndent )
