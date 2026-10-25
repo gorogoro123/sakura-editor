@@ -550,7 +550,7 @@ void CViewCommander::Command_OPEN_COMMAND_PROMPT(BOOL isAdmin)
 		return;
 	}
 
-	std::wstring strFolder(GetDocument()->m_cDocFile.GetFilePathClass().GetDirPath());
+	std::wstring strFolder(GetDocument()->m_cDocFile.GetDirPath());
 
 	/*
 		以下のコマンドを実行する
@@ -594,7 +594,7 @@ void CViewCommander::Command_OPEN_POWERSHELL(BOOL isAdmin)
 		return;
 	}
 
-	std::wstring strFolder(GetDocument()->m_cDocFile.GetFilePathClass().GetDirPath());
+	std::wstring strFolder(GetDocument()->m_cDocFile.GetDirPath());
 
 	/*
 		PowerShell でコマンドレットを実行するために -Command を使用する

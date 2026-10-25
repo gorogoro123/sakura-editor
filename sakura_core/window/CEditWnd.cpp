@@ -3314,7 +3314,7 @@ LRESULT CEditWnd::OnMouseMove( WPARAM wParam, LPARAM lParam )
 					CNativeW cmemTitle;
 					CNativeW cmemDir;
 					cmemTitle = GetDocument()->m_cDocFile.GetFileName();
-					cmemDir   = GetDocument()->m_cDocFile.GetFilePathClass().GetDirPath().c_str();
+					cmemDir   = GetDocument()->m_cDocFile.GetDirPath().c_str();
 
 					IDataObject *DataObject;
 					IShellFolder *Desktop, *Folder;
