@@ -24,13 +24,16 @@ public:
 	CFile(LPCWSTR pszPath = nullptr);
 	virtual ~CFile();
 	//パス
-	const CFilePath& GetFilePathClass() const { return m_szFilePath; }
 	bool IsValidPath() const noexcept {
 		return m_szFilePath.IsValidPath();
 	}
 	std::wstring GetDirPath() const
 	{
 		return m_szFilePath.GetDirPath();
+	}
+	[[nodiscard]] LPCWSTR GetExt() const
+	{
+		return m_szFilePath.GetExt();
 	}
 	LPCWSTR GetFilePath() const { return m_szFilePath; }
 	//設定
@@ -46,6 +49,7 @@ public:
 	bool IsFileLocking() const{ return m_hLockedFile!=INVALID_HANDLE_VALUE; }
 	EShareMode GetShareMode() const{ return m_nFileShareModeOld; }
 	void SetShareMode(EShareMode eShareMode) { m_nFileShareModeOld = eShareMode; }
+
 private:
 	CFilePath	m_szFilePath;				//!< ファイルパス
 	HANDLE		m_hLockedFile;				//!< ロックしているファイルのハンドル
