@@ -3308,7 +3308,7 @@ LRESULT CEditWnd::OnMouseMove( WPARAM wParam, LPARAM lParam )
 				ReleaseCapture();
 				m_IconClicked = icNone;
 
-				if(GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath())
+				if(GetDocument()->m_cDocFile.IsValidPath())
 				{
 					// 2010.08.22 Moca C:\temp.txt などのtopのファイルがD&Dできないバグの修正
 					CNativeW cmemTitle;

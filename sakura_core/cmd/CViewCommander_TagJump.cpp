@@ -508,7 +508,7 @@ bool CViewCommander::Command_TagsMake( )
 	constexpr auto CTAGS_COMMAND = L"ctags.exe";
 
 	WCHAR	szTargetPath[1024];
-	if( GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() )
+	if( GetDocument()->m_cDocFile.IsValidPath() )
 	{
 		wcscpy_s( szTargetPath, std::size(szTargetPath), GetDocument()->m_cDocFile.GetFilePath() );
 		szTargetPath[ wcslen( szTargetPath ) - wcslen( GetDocument()->m_cDocFile.GetFileName() ) ] = L'\0';
@@ -804,7 +804,7 @@ bool CViewCommander::Sub_PreProcTagJumpByTagsFile( std::span<WCHAR> szCurrentPat
 	szCurrentPath[0] = L'\0';
 
 	// 実行可能確認
-	if( ! GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() ){
+	if( ! GetDocument()->m_cDocFile.IsValidPath() ){
 		// 2010.04.02 (無題)でもタグジャンプできるように
 		// Grep、アウトプットは行番号タグジャンプがあるので無効にする(要検討)
 		CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
@@ -815,7 +815,7 @@ bool CViewCommander::Sub_PreProcTagJumpByTagsFile( std::span<WCHAR> szCurrentPat
 	}
 
 	// 基準ファイル名の設定
-	if( GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() ){
+	if( GetDocument()->m_cDocFile.IsValidPath() ){
 		wcscpy_s( szCurrentPath.data(), szCurrentPath.size(), GetDocument()->m_cDocFile.GetFilePath() );
 	}else{
 		if( 0 == ::GetCurrentDirectory( (DWORD)(szCurrentPath.size() - std::size(L"\\dmy") - MAX_TYPES_EXTS), szCurrentPath.data() ) ){

@@ -2395,7 +2395,7 @@ bool CDlgFuncList::TagJumpTimer( const WCHAR* pFile, CMyPoint point, bool bCheck
 		std::wstring strFile = pFile;
 		pcView->GetCommander().Command_FILEOPEN( strFile.c_str(), CODE_AUTODETECT, pcAppMode->IsViewMode(), nullptr );
 		if( point.y != -1 ){
-			if( pcView->GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() ){
+			if( pcView->GetDocument()->m_cDocFile.IsValidPath() ){
 				CLogicPoint pt;
 				pt.x = CLogicInt(point.GetX() - 1);
 				pt.y = CLogicInt(point.GetY() - 1);

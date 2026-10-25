@@ -25,6 +25,9 @@ public:
 	virtual ~CFile();
 	//パス
 	const CFilePath& GetFilePathClass() const { return m_szFilePath; }
+	bool IsValidPath() const noexcept {
+		return m_szFilePath.IsValidPath();
+	}
 	LPCWSTR GetFilePath() const { return m_szFilePath; }
 	//設定
 	void SetFilePath(LPCWSTR pszPath){ m_szFilePath.Assign(pszPath); }

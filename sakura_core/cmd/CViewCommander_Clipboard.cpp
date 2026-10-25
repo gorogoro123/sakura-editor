@@ -1090,7 +1090,7 @@ void CViewCommander::Command_COPY_COLOR_HTML_LINENUMBER()
 */
 void CViewCommander::Command_COPYFILENAME( )
 {
-	if( GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() ){
+	if( GetDocument()->m_cDocFile.IsValidPath() ){
 		/* クリップボードにデータを設定 */
 		const WCHAR* pszFile = GetDocument()->m_cDocFile.GetFileName();
 		m_pCommanderView->MySetClipboardData( pszFile , wcslen( pszFile ), false );
@@ -1103,7 +1103,7 @@ void CViewCommander::Command_COPYFILENAME( )
 /* 現在編集中のファイルのパス名をクリップボードにコピー */
 void CViewCommander::Command_COPYPATH( )
 {
-	if( GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() ){
+	if( GetDocument()->m_cDocFile.IsValidPath() ){
 		/* クリップボードにデータを設定 */
 		const WCHAR* szPath = GetDocument()->m_cDocFile.GetFilePath();
 		m_pCommanderView->MySetClipboardData( szPath, wcslen(szPath), false );
@@ -1116,7 +1116,7 @@ void CViewCommander::Command_COPYPATH( )
 /* 現在編集中のファイルのフォルダー名をクリップボードにコピー */
 void CViewCommander::Command_COPYDIRPATH( )
 {
-	if (!GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath()) {
+	if (!GetDocument()->m_cDocFile.IsValidPath()) {
 		ErrorBeep();
 		return;
 	}
@@ -1138,7 +1138,7 @@ void CViewCommander::Command_COPYDIRPATH( )
 /* 現在編集中のファイルのパス名とカーソル位置をクリップボードにコピー */
 void CViewCommander::Command_COPYTAG( )
 {
-	if( GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() ){
+	if( GetDocument()->m_cDocFile.IsValidPath() ){
 		CLogicPoint ptColLine;
 
 		//	論理行番号を得る

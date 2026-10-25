@@ -56,7 +56,7 @@ bool CAutoReloadAgent::_ToDoChecking() const
 	HWND hwndActive = ::GetActiveWindow();
 	if(hwndActive==nullptr)return false;	/* アクティブ？ */
 	if(hwndActive!=m_cEditWnd.GetHwnd())return false;
-	if(!m_cEditDoc.m_cDocFile.GetFilePathClass().IsValidPath())return false;
+	if(!m_cEditDoc.m_cDocFile.IsValidPath())return false;
 	if(m_cEditDoc.m_cDocFile.IsFileTimeZero()) return false;	/* 現在編集中のファイルのタイムスタンプ */
 	if(m_cEditWnd.m_pPrintPreview ) return false;	// 印刷プレビュー中	2013/5/8 Uchi
 	return true;

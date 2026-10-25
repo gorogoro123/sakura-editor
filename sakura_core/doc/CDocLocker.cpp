@@ -82,7 +82,7 @@ void CDocLocker::CheckWritable(bool bMsg)
 			TopWarningMessage(
 				CEditWnd::getInstance()->GetHwnd(),
 				LS( STR_ERR_DLGEDITDOC21 ),	//"%s\nは現在他のプロセスによって書込みが禁止されています。"
-				cDocFile.GetFilePathClass().IsValidPath() ? cDocFile.GetFilePath() : LS(STR_NO_TITLE1)	//"(無題)"
+				cDocFile.IsValidPath() ? cDocFile.GetFilePath() : LS(STR_NO_TITLE1)	//"(無題)"
 			);
 		}
 	}
