@@ -1069,7 +1069,7 @@ void CPrintPreview::OnPrint( )
 
 	/* 印刷過程を表示して、キャンセルするためのダイアログを作成 */
 	CDlgCancel	cDlgPrinting;
-	cDlgPrinting.DoModeless( CEditApp::getInstance()->GetAppInstance(), m_pParentWnd->GetHwnd(), IDD_PRINTING );
+	cDlgPrinting.DoModeless( G_AppInstance(), m_pParentWnd->GetHwnd(), IDD_PRINTING );
 	ApiWrap::DlgItem_SetText( cDlgPrinting.GetHwnd(), IDC_STATIC_JOBNAME, szJobName );
 	ApiWrap::DlgItem_SetText( cDlgPrinting.GetHwnd(), IDC_STATIC_PROGRESS, L"" );	// XPS対応 2013/5/8 Uchi
 
@@ -1932,7 +1932,7 @@ void CPrintPreview::CreatePrintPreviewControls( )
 		CW_USEDEFAULT,						/* default height				*/
 		m_pParentWnd->GetHwnd(),								/* handle of main window		*/
 		(HMENU) nullptr,						/* no menu for a scroll bar		*/
-		CEditApp::getInstance()->GetAppInstance(),						/* instance owning this window	*/
+		G_AppInstance(),						/* instance owning this window	*/
 		(LPVOID) nullptr						/* pointer not needed			*/
 	);
 	SCROLLINFO	si;
@@ -1958,7 +1958,7 @@ void CPrintPreview::CreatePrintPreviewControls( )
 		CW_USEDEFAULT,						/* default height				*/
 		m_pParentWnd->GetHwnd(),								/* handle of main window		*/
 		(HMENU) nullptr,						/* no menu for a scroll bar		*/
-		CEditApp::getInstance()->GetAppInstance(),						/* instance owning this window	*/
+		G_AppInstance(),						/* instance owning this window	*/
 		(LPVOID) nullptr						/* pointer not needed			*/
 	);
 	si.cbSize = sizeof( si );
@@ -1983,7 +1983,7 @@ void CPrintPreview::CreatePrintPreviewControls( )
 		CW_USEDEFAULT,										/* default height				*/
 		m_pParentWnd->GetHwnd(), 											/* handle of main window		*/
 		(HMENU) nullptr,										/* no menu for a scroll bar 	*/
-		CEditApp::getInstance()->GetAppInstance(),										/* instance owning this window	*/
+		G_AppInstance(),										/* instance owning this window	*/
 		(LPVOID) nullptr										/* pointer not needed			*/
 	);
 	::ShowWindow( m_hwndPrintPreviewBar, SW_SHOW );
