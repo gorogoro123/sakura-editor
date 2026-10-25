@@ -17,12 +17,13 @@
 #include "CWnd.h"
 
 struct DLLSHAREDATA;
+class CEditWnd;
 
 /*-----------------------------------------------------------------------
 クラスの宣言
 -----------------------------------------------------------------------*/
 
-#define MAXCOUNTOFVIEW	4
+constexpr auto MAXCOUNTOFVIEW = 4;
 
 /*!
 	@brief 分割線ウィンドウクラス
@@ -37,14 +38,12 @@ public:
 	/*
 	||  Constructors
 	*/
-	CSplitterWnd();
+	CSplitterWnd(DLLSHAREDATA* pShareData, CEditWnd& cEditWnd);
 	~CSplitterWnd();
 private: // 2002/2/3 aroka
 	/*
 	||  Attributes & Operations
 	*/
-	DLLSHAREDATA*	m_pShareData;
-
 	int				m_nAllSplitRows = 1;		/* 分割行数 */
 	int				m_nAllSplitCols = 1;		/* 分割桁数 */
 	int				m_nVSplitPos = 0;			/* 垂直分割位置 */
@@ -73,6 +72,9 @@ public: // 2002/2/3 aroka
 	int GetAllSplitRows(){ return m_nAllSplitRows;} // 2002/2/3 aroka
 	int GetAllSplitCols(){ return m_nAllSplitCols;} // 2002/2/3 aroka
 protected:
+	DLLSHAREDATA*	m_pShareData;
+	CEditWnd&		m_cEditWnd;
+
 	/* 仮想関数 */
 	LRESULT DispatchEvent_WM_APP(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) override;/* アプリケーション定義のメッセージ(WM_APP <= msg <= 0xBFFF) */
 

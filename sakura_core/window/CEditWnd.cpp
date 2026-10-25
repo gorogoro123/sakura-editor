@@ -206,7 +206,7 @@ CEditWnd::CEditWnd(CEditDoc& cEditDoc)
 	m_pcEditViewArr[0] = std::make_unique<CEditView>(&m_cEditDoc, *this);
 	m_pcEditView = m_pcEditViewArr[0].get();
 
-	m_pcSplitterWnd = std::make_unique<CSplitterWnd>();
+	m_pcSplitterWnd = std::make_unique<CSplitterWnd>(m_pShareData, *this);
 
 	m_pcViewFont = std::make_unique<CViewFont>(&GetLogfont());
 	m_pcViewFontMiniMap = std::make_unique<CViewFont>(&GetLogfont(), true);

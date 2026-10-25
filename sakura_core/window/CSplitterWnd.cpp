@@ -30,12 +30,11 @@ constexpr auto SPLITTER_FRAME_WIDTH = 3;
 constexpr auto SPLITTER_MARGIN = 2;
 
 //	@date 2002.2.17 YAZAKI CShareDataのインスタンスは、CProcessにひとつあるのみ。
-CSplitterWnd::CSplitterWnd()
-: CWnd(L"::CSplitterWnd")
+CSplitterWnd::CSplitterWnd(DLLSHAREDATA* pShareData, CEditWnd& cEditWnd)
+: CWnd(L"::CSplitterWnd"),
+ m_pShareData(pShareData),
+ m_cEditWnd(cEditWnd)
 {
-	/* 共有データ構造体のアドレスを返す */
-	m_pShareData = &GetDllShareData();
-
 	for( int v=0; v < MAXCOUNTOFVIEW; v++ ){
 		m_ChildWndArr[v] = nullptr;				/* 子ウィンドウ配列 */
 	}
@@ -228,7 +227,6 @@ void CSplitterWnd::DoSplit( int nHorizontal, int nVertical )
 	BOOL				bVUp = FALSE;
 	BOOL				bHUp = FALSE;
 	BOOL				bSizeBox;
-	CEditWnd*			pCEditWnd = &GetEditWnd();
 
 	if( -1 == nHorizontal && -1 == nVertical ){
 		nVertical = m_nVSplitPos;		/* 垂直分割位置 */
@@ -238,35 +236,33 @@ void CSplitterWnd::DoSplit( int nHorizontal, int nVertical )
 	if( 0 != nVertical || 0 != nHorizontal ){
 		// 分割指示。まだ未作成なら2つ目以降のビューを作成します
 		// 今のところは分割数に関係なく4つまで一度に作ります。
-		pCEditWnd->CreateEditViewBySplit(2*2);
+		m_cEditWnd.CreateEditViewBySplit(2*2);
 	}
 	/*
 	|| ファンクションキーを下に表示している場合はサイズボックスを表示しない
 	|| ステータスパーを表示している場合はサイズボックスを表示しない
 	*/
-	if( nullptr == pCEditWnd
-	 ||( nullptr != pCEditWnd->m_cFuncKeyWnd.GetHwnd()
+	if( nullptr != m_cEditWnd.m_cFuncKeyWnd.GetHwnd()
 	  && 1 == m_pShareData->m_Common.m_sWindow.m_nFUNCKEYWND_Place	/* ファンクションキー表示位置／0:上 1:下 */
-	  )
 	){
 		bSizeBox = FALSE;
-	}else if( nullptr != pCEditWnd->m_cTabWnd.GetHwnd()
+	}else if( nullptr != m_cEditWnd.m_cTabWnd.GetHwnd()
 		&& m_pShareData->m_Common.m_sTabBar.m_eTabPosition == TabPosition_Bottom ) {
 		bSizeBox = FALSE;
 	}else{
 		bSizeBox = TRUE;
 		/* ステータスパーを表示している場合はサイズボックスを表示しない */
-		if( nullptr != pCEditWnd->m_cStatusBar.GetStatusHwnd() ){
+		if( nullptr != m_cEditWnd.m_cStatusBar.GetStatusHwnd() ){
 			bSizeBox = FALSE;
 		}
 	}
-	if( nullptr != pCEditWnd->m_cDlgFuncList.GetHwnd() ){
-		EDockSide eDockSideFL = pCEditWnd->m_cDlgFuncList.GetDockSide();
+	if( nullptr != m_cEditWnd.m_cDlgFuncList.GetHwnd() ){
+		EDockSide eDockSideFL = m_cEditWnd.m_cDlgFuncList.GetDockSide();
 		if( eDockSideFL == DOCKSIDE_RIGHT || eDockSideFL == DOCKSIDE_BOTTOM ){
 			bSizeBox = FALSE;
 		}
 	}
-	if( pCEditWnd->GetMiniMap().GetHwnd() ){
+	if( m_cEditWnd.GetMiniMap().GetHwnd() ){
 		bSizeBox = FALSE;
 	}
 
@@ -796,7 +792,6 @@ LRESULT CSplitterWnd::OnPaint( HWND hwnd, [[maybe_unused]] UINT uMsg, [[maybe_un
 /* ウィンドウサイズの変更処理 */
 LRESULT CSplitterWnd::OnSize( [[maybe_unused]] HWND hwnd, [[maybe_unused]] UINT uMsg, [[maybe_unused]] WPARAM wParam, [[maybe_unused]] LPARAM lParam )
 {
-	CEditWnd*	pCEditWnd = &GetEditWnd();
 	CEditView*	pcViewArr[MAXCOUNTOFVIEW] = {};
 	RECT		rcClient;
 	const int	nFrameWidth = DpiScaleX(SPLITTER_FRAME_WIDTH);
@@ -809,29 +804,27 @@ LRESULT CSplitterWnd::OnSize( [[maybe_unused]] HWND hwnd, [[maybe_unused]] UINT 
 	|| ファンクションキーを下に表示している場合はサイズボックスを表示しない
 	|| ステータスパーを表示している場合はサイズボックスを表示しない
 	*/
-	if( nullptr == pCEditWnd
-	 ||( nullptr != pCEditWnd->m_cFuncKeyWnd.GetHwnd()
+	if( nullptr != m_cEditWnd.m_cFuncKeyWnd.GetHwnd()
 	  && 1 == m_pShareData->m_Common.m_sWindow.m_nFUNCKEYWND_Place	/* ファンクションキー表示位置／0:上 1:下 */
-	  )
 	){
 		bSizeBox = FALSE;
-	}else if( nullptr != pCEditWnd->m_cTabWnd.GetHwnd()
+	}else if( nullptr != m_cEditWnd.m_cTabWnd.GetHwnd()
 		&& m_pShareData->m_Common.m_sTabBar.m_eTabPosition == TabPosition_Bottom ) {
 		bSizeBox = FALSE;
 	}else{
 		bSizeBox = TRUE;
 		/* ステータスパーを表示している場合はサイズボックスを表示しない */
-		if( nullptr != pCEditWnd->m_cStatusBar.GetStatusHwnd() ){
+		if( nullptr != m_cEditWnd.m_cStatusBar.GetStatusHwnd() ){
 			bSizeBox = FALSE;
 		}
 	}
-	if( nullptr != pCEditWnd->m_cDlgFuncList.GetHwnd() ){
-		EDockSide eDockSideFL = pCEditWnd->m_cDlgFuncList.GetDockSide();
+	if( nullptr != m_cEditWnd.m_cDlgFuncList.GetHwnd() ){
+		EDockSide eDockSideFL = m_cEditWnd.m_cDlgFuncList.GetDockSide();
 		if( eDockSideFL == DOCKSIDE_RIGHT || eDockSideFL == DOCKSIDE_BOTTOM ){
 			bSizeBox = FALSE;
 		}
 	}
-	if( pCEditWnd->GetMiniMap().GetHwnd() ){
+	if( m_cEditWnd.GetMiniMap().GetHwnd() ){
 		bSizeBox = FALSE;
 	}
 
