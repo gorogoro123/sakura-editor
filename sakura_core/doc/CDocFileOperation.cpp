@@ -235,7 +235,7 @@ bool CDocFileOperation::SaveFileDialog(
 			szExt = L"";
 		}
 		else {
-			szExt = this->m_pcDocRef->m_cDocFile.GetFilePathClass().GetExt();
+			szExt = this->m_pcDocRef->m_cDocFile.GetExt();
 		}
 		if (type.m_nIdx == 0) {
 			// 基本
