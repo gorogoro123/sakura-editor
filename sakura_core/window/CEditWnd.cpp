@@ -1739,7 +1739,7 @@ LRESULT CEditWnd::DispatchEvent(
 					EFunctionCode nFuncCode = m_cDlgFuncList.GetFuncCodeRedraw(m_cDlgFuncList.m_nOutlineType);
 					GetActiveView().GetCommander().HandleCommand( nFuncCode, true, SHOW_NORMAL, 0, 0, 0 );
 				}
-				if( MyGetAncestor( ::GetForegroundWindow(), GA_ROOTOWNER2 ) == GetHwnd() )
+				if( ::GetAncestor( ::GetForegroundWindow(), GA_ROOTOWNER ) == GetHwnd() )
 					::SetFocus( GetActiveView().GetHwnd() );	// フォーカスを戻す
 			}
 			break;

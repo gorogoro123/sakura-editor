@@ -18,66 +18,6 @@ int CDPI::nDpiX = 96;
 int CDPI::nDpiY = 96;
 bool CDPI::bInitialized = false;
 
-/**	指定したウィンドウの祖先のハンドルを取得する
-
-	GetAncestor() APIがWin95で使えないのでそのかわり
-
-	WS_POPUPスタイルを持たないウィンドウ（ex.CDlgFuncListダイアログ）だと、
-	GA_ROOTOWNERでは編集ウィンドウまで遡れないみたい。GetAncestor() APIでも同様。
-	本関数固有に用意したGA_ROOTOWNER2では遡ることができる。
-
-	@author ryoji
-	@date 2007.07.01 ryoji 新規
-	@date 2007.10.22 ryoji フラグ値としてGA_ROOTOWNER2（本関数固有）を追加
-	@date 2008.04.09 ryoji GA_ROOTOWNER2 は可能な限り祖先を遡るように動作修正
-*/
-HWND MyGetAncestor( HWND hWnd, UINT gaFlags )
-{
-	HWND hwndAncestor;
-	HWND hwndDesktop = ::GetDesktopWindow();
-	HWND hwndWk;
-
-	if( hWnd == hwndDesktop )
-		return nullptr;
-
-	switch( gaFlags )
-	{
-	case GA_PARENT:	// 親ウィンドウを返す（オーナーは返さない）
-		hwndAncestor = ( (DWORD)::GetWindowLongPtr( hWnd, GWL_STYLE ) & WS_CHILD )? ::GetParent( hWnd ): hwndDesktop;
-		break;
-
-	case GA_ROOT:	// 親子関係を遡って直近上位のトップレベルウィンドウを返す
-		hwndAncestor = hWnd;
-		while( (DWORD)::GetWindowLongPtr( hwndAncestor, GWL_STYLE ) & WS_CHILD )
-			hwndAncestor = ::GetParent( hwndAncestor );
-		break;
-
-	case GA_ROOTOWNER:	// 親子関係と所有関係をGetParent()で遡って所有されていないトップレベルウィンドウを返す
-		hwndWk = hWnd;
-		do{
-			hwndAncestor = hwndWk;
-			hwndWk = ::GetParent( hwndAncestor );
-		}while( hwndWk != nullptr );
-		break;
-
-	case GA_ROOTOWNER2:	// 所有関係をGetWindow()で遡って所有されていないトップレベルウィンドウを返す
-		hwndWk = hWnd;
-		do{
-			hwndAncestor = hwndWk;
-			hwndWk = ::GetParent( hwndAncestor );
-			if( hwndWk == nullptr )
-				hwndWk = ::GetWindow( hwndAncestor, GW_OWNER );
-		}while( hwndWk != nullptr );
-		break;
-
-	default:
-		hwndAncestor = nullptr;
-		break;
-	}
-
-	return hwndAncestor;
-}
-
 /*!
 	処理中のユーザー操作を可能にする
 	ブロッキングフック(?)（メッセージ配送

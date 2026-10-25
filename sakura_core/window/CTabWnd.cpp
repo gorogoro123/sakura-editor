@@ -221,7 +221,7 @@ LRESULT CTabWnd::OnTabLButtonUp( [[maybe_unused]] WPARAM wParam, LPARAM lParam )
 				POINT ptCursor;
 
 				::GetCursorPos( &ptCursor );
-				hwndAncestor = MyGetAncestor( ::WindowFromPoint( ptCursor ), GA_ROOT );
+				hwndAncestor = ::GetAncestor( ::WindowFromPoint( ptCursor ), GA_ROOT );
 				if( hwndAncestor != GetParentHwnd() )	// 自画面の外でドロップ
 				{
 					// タブ移動
@@ -406,7 +406,7 @@ LRESULT CTabWnd::OnTabMouseMove( WPARAM wParam, LPARAM lParam )
 				POINT ptCursor;
 
 				::GetCursorPos( &ptCursor );
-				HWND hwndAncestor = MyGetAncestor( ::WindowFromPoint( ptCursor ), GA_ROOT );
+				HWND hwndAncestor = ::GetAncestor( ::WindowFromPoint( ptCursor ), GA_ROOT );
 				if( hwndAncestor != GetParentHwnd() )	// 自画面の外にカーソルがある
 				{
 					if( IsSakuraMainWindow( hwndAncestor ) )
