@@ -182,6 +182,11 @@ bool CDocEditor::IsEnablePaste() const
 	return CClipboard::HasValidData();
 }
 
+CEditWnd& CDocEditor::GetEditWnd()
+{
+	return m_pcDocRef->GetEditWnd();
+}
+
 /*!
 	末尾に行を追加
 

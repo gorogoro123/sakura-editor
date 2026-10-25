@@ -11,6 +11,7 @@
 #include "cmd/COpeBuf.h"
 
 class CEditDoc;
+class CEditWnd;
 class CDocLineMgr;
 
 class CDocEditor : public CDocListener{
@@ -64,6 +65,8 @@ public:
 
 	//! クリップボードから貼り付け可能か？
 	bool IsEnablePaste( ) const;
+
+	CEditWnd& GetEditWnd();
 
 public:
 	CEditDoc*		m_pcDocRef;
