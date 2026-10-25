@@ -278,7 +278,7 @@ bool CNormalProcess::InitializeProcess()
 
 		if( !bGrepDlg && gi.bGrepStdout ){
 			// 即時終了
-			PostMessage( pEditWnd->GetHwnd(), MYWM_CLOSE, PM_CLOSE_GREPNOCONFIRM | PM_CLOSE_EXIT, (LPARAM)nullptr );
+			::PostMessageW( pEditWnd->GetHwnd(), MYWM_CLOSE, PM_CLOSE_GREPNOCONFIRM | PM_CLOSE_EXIT, (LPARAM)nullptr );
 		}
 
 		return true; // 2003.06.23 Moca
@@ -380,7 +380,7 @@ bool CNormalProcess::InitializeProcess()
 		if( !::IsIconic( hEditWnd ) ){
 			RECT rc;
 			::GetClientRect( hEditWnd, &rc );
-			::PostMessage( hEditWnd, WM_SIZE, ::IsZoomed( hEditWnd )? SIZE_MAXIMIZED: SIZE_RESTORED, MAKELONG( rc.right - rc.left, rc.bottom - rc.top ) );
+			::PostMessageW( hEditWnd, WM_SIZE, ::IsZoomed( hEditWnd )? SIZE_MAXIMIZED: SIZE_RESTORED, MAKELONG( rc.right - rc.left, rc.bottom - rc.top ) );
 		}
 	}
 

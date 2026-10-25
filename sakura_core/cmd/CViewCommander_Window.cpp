@@ -55,7 +55,7 @@ void CViewCommander::Command_SPLIT_VH( )
 void CViewCommander::Command_WINCLOSE( )
 {
 	/* 閉じる */
-	::PostMessage( GetMainWindow(), MYWM_CLOSE, 0, 								// 2007.02.13 ryoji WM_CLOSE→MYWM_CLOSEに変更
+	::PostMessageW( GetMainWindow(), MYWM_CLOSE, 0, 								// 2007.02.13 ryoji WM_CLOSE→MYWM_CLOSEに変更
 		(LPARAM)CAppNodeManager::getInstance()->GetNextTab( GetMainWindow() ) );	// タブまとめ時、次のタブに移動	2013/4/10 Uchi
 	return;
 }
@@ -111,7 +111,7 @@ void CViewCommander::Command_DLGWINLIST( )
 	HWND hwnd = GetDllShareData().m_sHandles.m_hwndTray;
 	::GetWindowThreadProcessId(hwnd, &dwPid);
 	::AllowSetForegroundWindow(dwPid);
-	::PostMessage(hwnd, MYWM_DLGWINLIST, 0, 0);
+	::PostMessageW(hwnd, MYWM_DLGWINLIST, 0, 0);
 }
 
 /*!	@brief 重ねて表示

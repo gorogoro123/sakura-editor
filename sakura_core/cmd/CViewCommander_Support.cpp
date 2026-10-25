@@ -185,7 +185,7 @@ void CViewCommander::Command_MENU_ALLFUNC( )
 	if( 0 != nId ){
 		/* コマンドコードによる処理振り分け */
 //		HandleCommand( nFuncID, true, 0, 0, 0, 0 );
-		::PostMessage( GetMainWindow(), WM_COMMAND, MAKELONG( nId, 0 ), (LPARAM)nullptr );
+		::PostMessageW( GetMainWindow(), WM_COMMAND, MAKELONG( nId, 0 ), (LPARAM)nullptr );
 	}
 	return;
 }

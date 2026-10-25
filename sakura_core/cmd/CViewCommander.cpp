@@ -579,7 +579,7 @@ BOOL CViewCommander::HandleCommand(
 		if( 0 != nFuncID ){
 			/* コマンドコードによる処理振り分け */
 //			HandleCommand( nFuncID, true, 0, 0, 0, 0 );
-			::PostMessage( GetMainWindow(), WM_COMMAND, MAKELONG( nFuncID, 0 ), (LPARAM)nullptr );
+			::PostMessageW( GetMainWindow(), WM_COMMAND, MAKELONG( nFuncID, 0 ), (LPARAM)nullptr );
 		}
 		return bRet;
 

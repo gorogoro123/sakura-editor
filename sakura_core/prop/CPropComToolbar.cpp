@@ -502,7 +502,7 @@ void CPropToolbar::SetData( HWND hwndDlg )
 	
 	/* 種別の先頭の項目を選択(コンボボックス) */
 	ApiWrap::Combo_SetCurSel( hwndCombo, 0 );	//Oct. 14, 2000 JEPRO JEPRO 「--未定義--」を表示させないように大元 Funcode.cpp で変更してある
-	::PostMessage( hwndCombo, WM_COMMAND, MAKELONG( IDC_COMBO_FUNCKIND, CBN_SELCHANGE ), (LPARAM)hwndCombo );
+	::PostMessageW( hwndCombo, WM_COMMAND, MAKELONG( IDC_COMBO_FUNCKIND, CBN_SELCHANGE ), (LPARAM)hwndCombo );
 
 	/* コントロールのハンドルを取得 */
 	hwndResList = ::GetDlgItem( hwndDlg, IDC_LIST_RES );

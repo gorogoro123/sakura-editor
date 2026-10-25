@@ -758,7 +758,7 @@ LRESULT CEditView::DispatchEvent(
 
 	case MYWM_SETACTIVEPANE:
 		m_cEditWnd.SetActivePane( m_nMyIndex );
-		::PostMessage( m_hwndParent, MYWM_SETACTIVEPANE, (WPARAM)m_nMyIndex, 0 );
+		::PostMessageW( m_hwndParent, MYWM_SETACTIVEPANE, (WPARAM)m_nMyIndex, 0 );
 		return 0L;
 
 	case WM_IME_REQUEST:  /* 再変換  by minfu 2002.03.27 */ // 20020331 aroka
@@ -826,7 +826,7 @@ LRESULT CEditView::DispatchEvent(
 				// 例えば Win XP/Vista だとスクロール範囲が小さくなってスクロールバーが有効から
 				// 無効に切り替わるとそれ以後スクロールバーが機能しなくなる。
 				if( !m_bMiniMap ){
-					::PostMessage( GetHwnd(), MYWM_SETACTIVEPANE, (WPARAM)m_nMyIndex, 0 );
+					::PostMessageW( GetHwnd(), MYWM_SETACTIVEPANE, (WPARAM)m_nMyIndex, 0 );
 				}
 			}
 		}

@@ -46,7 +46,7 @@ INT_PTR CDlgCancel::DispatchEvent( HWND hWnd, UINT wMsg, WPARAM wParam, LPARAM l
 void CDlgCancel::DeleteAsync( )
 {
 	m_bAutoCleanup = true;
-	::PostMessage( GetHwnd(), WM_CLOSE, 0, 0 );
+	::PostMessageW( GetHwnd(), WM_CLOSE, 0, 0 );
 }
 
 /* モーダルダイアログの表示 */

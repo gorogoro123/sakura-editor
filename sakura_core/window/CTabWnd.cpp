@@ -750,7 +750,7 @@ LRESULT CTabWnd::ExecTabCommand( int nId, POINTS pts )
 	ShowHideWindow( hWnd, TRUE );
 
 	// コマンドを対象ウインドウに送る。
-	::PostMessage( hWnd, WM_COMMAND, MAKEWPARAM( nId, 0 ), (LPARAM)nullptr );
+	::PostMessageW( hWnd, WM_COMMAND, MAKEWPARAM( nId, 0 ), (LPARAM)nullptr );
 
 	return 0L;
 }
@@ -1091,7 +1091,7 @@ LRESULT CTabWnd::OnLButtonUp( [[maybe_unused]] HWND hwnd, [[maybe_unused]] UINT 
 				{
 					nId = F_EXITALLEDITORS;	// 編集の全終了（タイトルバーの閉じるボタンは１個だけ閉じる）
 				}
-				::PostMessage( GetParentHwnd(), WM_COMMAND, MAKEWPARAM( nId, 0 ), (LPARAM)nullptr );
+				::PostMessageW( GetParentHwnd(), WM_COMMAND, MAKEWPARAM( nId, 0 ), (LPARAM)nullptr );
 			}
 		}
 
@@ -1928,8 +1928,8 @@ void CTabWnd::Refresh( BOOL bEnsureVisible/* = TRUE*/, BOOL bRebuild/* = FALSE*/
 			// TabCtrl_SetCurSel() を使うと等幅タブのときに選択タブが左端のほうに寄ってしまう
 //			TabCtrl_SetCurSel( m_hwndTab, 0 );
 //			TabCtrl_SetCurSel( m_hwndTab, nSel );
-			::PostMessage( m_hwndTab, TCM_SETCURSEL, 0, 0 );
-			::PostMessage( m_hwndTab, TCM_SETCURSEL, nSel, 0 );
+			::PostMessageW( m_hwndTab, TCM_SETCURSEL, 0, 0 );
+			::PostMessageW( m_hwndTab, TCM_SETCURSEL, nSel, 0 );
 		}
 	}
 
