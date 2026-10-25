@@ -32,7 +32,7 @@
 bool CDocFileOperation::_ToDoLock() const
 {
 	// ファイルを開いていない
-	if( !m_pcDocRef->m_cDocFile.GetFilePathClass().IsValidPath() )return false;
+	if( !m_pcDocRef->m_cDocFile.IsValidPath() )return false;
 
 	// ビューモード
 	CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
@@ -60,7 +60,7 @@ void CDocFileOperation::DoFileLock(bool bMsg)
 			TopWarningMessage(
 				m_pcDocRef->GetEditWnd().GetHwnd(),
 				LS(STR_FILE_LOCK_ERR),
-				m_pcDocRef->m_cDocFile.GetFilePathClass().IsValidPath() ? m_pcDocRef->m_cDocFile.GetFilePath() : LS(STR_NO_TITLE1),
+				m_pcDocRef->m_cDocFile.IsValidPath() ? m_pcDocRef->m_cDocFile.GetFilePath() : LS(STR_NO_TITLE1),
 				pszMode
 			);
 		}
@@ -231,7 +231,7 @@ bool CDocFileOperation::SaveFileDialog(
 
 		const STypeConfig& type = m_pcDocRef->m_cDocType.GetDocumentAttribute();
 		//ファイルパスが無い場合は *.txt とする
-		if(!this->m_pcDocRef->m_cDocFile.GetFilePathClass().IsValidPath()){
+		if(!this->m_pcDocRef->m_cDocFile.IsValidPath()){
 			szExt = L"";
 		}
 		else {
@@ -253,7 +253,7 @@ bool CDocFileOperation::SaveFileDialog(
 			strDefaultWildCard = CDocTypeManager::ConvertTypesExtToDlgExt(type.m_szTypeExts, szExt);
 		}
 
-		if(!this->m_pcDocRef->m_cDocFile.GetFilePathClass().IsValidPath()){
+		if(!this->m_pcDocRef->m_cDocFile.IsValidPath()){
 			//「新規から保存時は全ファイル表示」オプション	// 2008/6/15 バグフィックス Uchi
 			if( GetDllShareData().m_Common.m_sFile.m_bNoFilterSaveNew )
 				strDefaultWildCard += L";*.*";	// 全ファイル表示
@@ -379,7 +379,7 @@ bool CDocFileOperation::DoSaveFlow(SSaveInfo* pSaveInfo)
 bool CDocFileOperation::FileSave()
 {
 	//ファイル名が指定されていない場合は「名前を付けて保存」のフローへ遷移
-	if( !m_pcDocRef->m_cDocFile.GetFilePathClass().IsValidPath() ){
+	if( !m_pcDocRef->m_cDocFile.IsValidPath() ){
 		return FileSaveAs();
 	}
 
@@ -528,7 +528,7 @@ void CDocFileOperation::FileCloseOpen( const SLoadInfo& _sLoadInfo )
 	//開く
 	FileLoadWithoutAutoMacro(&sLoadInfo);
 
-	if( !m_pcDocRef->m_cDocFile.GetFilePathClass().IsValidPath() ){
+	if( !m_pcDocRef->m_cDocFile.IsValidPath() ){
 		m_pcDocRef->SetCurDirNotitle();
 		CAppNodeManager::getInstance()->GetNoNameNumber( GetEditWnd().GetHwnd() );
 	}

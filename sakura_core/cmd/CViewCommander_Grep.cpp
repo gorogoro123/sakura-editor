@@ -71,7 +71,7 @@ void CViewCommander::Command_GREP( )
 	if( (  CEditApp::getInstance()->GetGrepAgent()->GrepMode() &&
 		  !CEditApp::getInstance()->GetGrepAgent()->GrepRunning() ) ||
 		( !GetDocument()->m_cDocEditor.IsModified() &&
-		  !GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() &&		/* 現在編集中のファイルのパス */
+		  !GetDocument()->m_cDocFile.IsValidPath() &&		/* 現在編集中のファイルのパス */
 		  !pcAppMode->IsDebugMode()
 		)
 	){
@@ -178,7 +178,7 @@ void CViewCommander::Command_GREP_REPLACE( )
 	if( (  CEditApp::getInstance()->GetGrepAgent()->GrepMode() &&
 		  !CEditApp::getInstance()->GetGrepAgent()->GrepRunning() ) ||
 		( !GetDocument()->m_cDocEditor.IsModified() &&
-		  !GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() &&		/* 現在編集中のファイルのパス */
+		  !GetDocument()->m_cDocFile.IsValidPath() &&		/* 現在編集中のファイルのパス */
 		  !pcAppMode->IsDebugMode()
 		)
 	){

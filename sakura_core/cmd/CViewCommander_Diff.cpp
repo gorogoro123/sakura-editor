@@ -271,7 +271,7 @@ void CViewCommander::Command_Diff( const WCHAR* _szDiffFile2, int nFlgOpt )
 
 	if( GetDocument()->m_cDocEditor.IsModified()
 		|| saveCode != code
-		|| !GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() // 2014.06.25 Grep/アウトプットも対象にする
+		|| !GetDocument()->m_cDocFile.IsValidPath() // 2014.06.25 Grep/アウトプットも対象にする
 	){
 		if( !m_pCommanderView->MakeDiffTmpFile(szTmpFile1, nullptr, saveCode, GetDocument()->GetDocumentBomExist()) ){
 			return;
@@ -350,7 +350,7 @@ void CViewCommander::Command_Diff_Dialog( )
 	}
 	if( GetDocument()->m_cDocEditor.IsModified()
 			|| code != saveCode
-			|| !GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() // 2014.06.25 Grep/アウトプットも対象にする
+			|| !GetDocument()->m_cDocFile.IsValidPath() // 2014.06.25 Grep/アウトプットも対象にする
 	){
 		if( !m_pCommanderView->MakeDiffTmpFile( szTmpFile1, nullptr, saveCode, GetDocument()->GetDocumentBomExist() ) ){ return; }
 		bTmpFile1 = true;

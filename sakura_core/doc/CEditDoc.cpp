@@ -548,7 +548,7 @@ bool CEditDoc::IsModificationForbidden( EFunctionCode nCommand ) const
 bool CEditDoc::IsAcceptLoad() const
 {
 	if(m_cDocEditor.IsModified())return false;
-	if(m_cDocFile.GetFilePathClass().IsValidPath())return false;
+	if(m_cDocFile.IsValidPath())return false;
 	auto* pcEditApp = CEditApp::getInstance();
 	if(pcEditApp->GetGrepAgent()->GrepMode())return false;
 	CAppMode* pcAppMode = pcEditApp->GetAppMode();
@@ -613,7 +613,7 @@ void CEditDoc::OnChangeType()
 	OnChangeSetting();
 
 	// 新規で無変更ならデフォルト文字コードを適用する	// 2011.01.24 ryoji
-	if( !m_cDocFile.GetFilePathClass().IsValidPath() ){
+	if( !m_cDocFile.IsValidPath() ){
 		if( !m_cDocEditor.IsModified() && m_cDocLineMgr.GetLineCount() == 0 ){
 			const STypeConfig& types = m_cDocType.GetDocumentAttribute();
 			m_cDocFile.SetCodeSet( types.m_encoding.m_eDefaultCodetype, types.m_encoding.m_bDefaultBom );
@@ -868,7 +868,7 @@ BOOL CEditDoc::OnFileClose(bool bGrepNoConfirm)
 
 	// -- -- 保存確認 -- -- //
 	WCHAR szGrepTitle[90];
-	LPCWSTR pszTitle = m_cDocFile.GetFilePathClass().IsValidPath() ? m_cDocFile.GetFilePath() : nullptr;
+	LPCWSTR pszTitle = m_cDocFile.IsValidPath() ? m_cDocFile.GetFilePath() : nullptr;
 	if(pcEditApp->GetGrepAgent()->GrepMode() ){
 		const std::wstring szGrepKey(pcAppMode->GetGrepKey());
 		int			nLen = (int)szGrepKey.length();
@@ -929,7 +929,7 @@ BOOL CEditDoc::OnFileClose(bool bGrepNoConfirm)
 		}
 		switch( nRet ){
 		case IDYES:
-			if( m_cDocFile.GetFilePathClass().IsValidPath() ){
+			if( m_cDocFile.IsValidPath() ){
 				nBool = m_cDocFileOperation.FileSave();	// 2006.12.30 ryoji
 			}
 			else{
@@ -987,7 +987,7 @@ void CEditDoc::RunAutoMacro( int idx, LPCWSTR pszSaveFilePath )
 */
 void CEditDoc::SetCurDirNotitle()
 {
-	if( m_cDocFile.GetFilePathClass().IsValidPath() ){
+	if( m_cDocFile.IsValidPath() ){
 		return; // ファイルがあるときは何もしない
 	}
 	EOpenDialogDir eOpenDialogDir = GetDllShareData().m_Common.m_sEdit.m_eOpenDialogDir;

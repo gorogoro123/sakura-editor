@@ -28,7 +28,7 @@ void CAutoSaveAgent::CheckAutoSave()
 			return;				//	ここでは，「無変更でも保存」は無視する
 
 		//	2003.10.09 zenryaku 保存失敗エラーの抑制
-		if( !m_cEditDoc.m_cDocFile.GetFilePathClass().IsValidPath() )	//	まだファイル名が設定されていなければ保存しない
+		if( !m_cEditDoc.m_cDocFile.IsValidPath() )	//	まだファイル名が設定されていなければ保存しない
 			return;
 
 		bool en = m_cPassiveTimer.IsEnabled();

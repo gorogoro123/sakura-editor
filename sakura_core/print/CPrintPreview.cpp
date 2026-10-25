@@ -1014,7 +1014,7 @@ void CPrintPreview::OnPrint( )
 	}
 
 	/* プリンターに渡すジョブ名を生成 */
-	if( ! m_pParentWnd->GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() ){	/* 現在編集中のファイルのパス */
+	if( ! m_pParentWnd->GetDocument()->m_cDocFile.IsValidPath() ){	/* 現在編集中のファイルのパス */
 		wcscpy_s( szJobName, std::size(szJobName), LS(STR_NO_TITLE2) );
 	}else{
 		WCHAR	szFileName[_MAX_FNAME];

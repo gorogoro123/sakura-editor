@@ -139,7 +139,7 @@ void CSakuraEnvironment::ExpandParameter(CEditDoc* pcDoc, const wchar_t* pszSour
 			++p;
 			break;
 		case L'F':	//	開いているファイルの名前（フルパス）
-			if ( !pcDoc->m_cDocFile.GetFilePathClass().IsValidPath() ){
+			if ( !pcDoc->m_cDocFile.IsValidPath() ){
 				result.append(NO_TITLE);
 				++p;
 			} 
@@ -153,7 +153,7 @@ void CSakuraEnvironment::ExpandParameter(CEditDoc* pcDoc, const wchar_t* pszSour
 			// Oct. 28, 2001 genta
 			//	ファイル名のみを渡すバージョン
 			//	ポインタを末尾に
-			if ( ! pcDoc->m_cDocFile.GetFilePathClass().IsValidPath() ){
+			if ( ! pcDoc->m_cDocFile.IsValidPath() ){
 				result.append(NO_TITLE);
 				++p;
 			} 
@@ -166,7 +166,7 @@ void CSakuraEnvironment::ExpandParameter(CEditDoc* pcDoc, const wchar_t* pszSour
 			break;
 		case L'g':	//	開いているファイルの名前（拡張子を除くファイル名のみ）
 			//	From Here Sep. 16, 2002 genta
-			if ( ! pcDoc->m_cDocFile.GetFilePathClass().IsValidPath() ){
+			if ( ! pcDoc->m_cDocFile.IsValidPath() ){
 				result.append(NO_TITLE);
 				++p;
 			} 
@@ -191,7 +191,7 @@ void CSakuraEnvironment::ExpandParameter(CEditDoc* pcDoc, const wchar_t* pszSour
 			//	To Here Sep. 16, 2002 genta
 		case L'/':	//	開いているファイルの名前（フルパス。パスの区切りが/）
 			// Oct. 28, 2001 genta
-			if ( !pcDoc->m_cDocFile.GetFilePathClass().IsValidPath() ){
+			if ( !pcDoc->m_cDocFile.IsValidPath() ){
 				result.append(NO_TITLE);
 				++p;
 			} 
@@ -208,7 +208,7 @@ void CSakuraEnvironment::ExpandParameter(CEditDoc* pcDoc, const wchar_t* pszSour
 			break;
 		//	From Here 2003/06/21 Moca
 		case L'N':	//	開いているファイルの名前(簡易表示)
-			if( !pcDoc->m_cDocFile.GetFilePathClass().IsValidPath() ){
+			if( !pcDoc->m_cDocFile.IsValidPath() ){
 				result.append(NO_TITLE);
 				++p;
 			}
@@ -225,7 +225,7 @@ void CSakuraEnvironment::ExpandParameter(CEditDoc* pcDoc, const wchar_t* pszSour
 			break;
 		//	To Here 2003/06/21 Moca
 		case L'n':
-			if( !pcDoc->m_cDocFile.GetFilePathClass().IsValidPath() ){
+			if( !pcDoc->m_cDocFile.IsValidPath() ){
 				CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
 				if( CEditApp::getInstance()->GetGrepAgent()->GrepMode() ){
 				}else if( pcAppMode->IsDebugMode() ){
@@ -241,7 +241,7 @@ void CSakuraEnvironment::ExpandParameter(CEditDoc* pcDoc, const wchar_t* pszSour
 			++p;
 			break;
 		case L'E':	// 開いているファイルのあるフォルダーの名前(簡易表示)	2012/12/2 Uchi
-			if( !pcDoc->m_cDocFile.GetFilePathClass().IsValidPath() ){
+			if( !pcDoc->m_cDocFile.IsValidPath() ){
 				result.append(NO_TITLE);
 			}
 			else {
@@ -273,7 +273,7 @@ void CSakuraEnvironment::ExpandParameter(CEditDoc* pcDoc, const wchar_t* pszSour
 			++p;
 			break;
 		case L'e':	// 開いているファイルのあるフォルダーの名前		2012/12/2 Uchi
-			if( !pcDoc->m_cDocFile.GetFilePathClass().IsValidPath() ){
+			if( !pcDoc->m_cDocFile.IsValidPath() ){
 				result.append(NO_TITLE);
 			}
 			else {
@@ -299,7 +299,7 @@ void CSakuraEnvironment::ExpandParameter(CEditDoc* pcDoc, const wchar_t* pszSour
 			}
 			break;
 		case L'b':	// 開いているファイルの拡張子	2013/03/28 Uchi
-			if ( pcDoc->m_cDocFile.GetFilePathClass().IsValidPath() ){
+			if ( pcDoc->m_cDocFile.IsValidPath() ){
 				//	ポインタを末尾に
 				const wchar_t	*dot_position, *end_of_path;
 				r = pcDoc->m_cDocFile.GetFileName();
@@ -670,7 +670,7 @@ int CSakuraEnvironment::_ExParam_Evaluate(CEditDoc* pcDoc, const wchar_t* pCond 
 			return 1;
 		}
 	case L'N': // $N 新規/(無題)		2012/12/2 Uchi
-		if (!pcDoc->m_cDocFile.GetFilePathClass().IsValidPath()) {
+		if (!pcDoc->m_cDocFile.IsValidPath()) {
 			return 0;
 		}
 		else {
@@ -695,7 +695,7 @@ int CSakuraEnvironment::_ExParam_Evaluate(CEditDoc* pcDoc, const wchar_t* pCond 
 */
 std::wstring CSakuraEnvironment::GetDlgInitialDir(CEditDoc* pcDoc, bool bControlProcess)
 {
-	if( pcDoc && pcDoc->m_cDocFile.GetFilePathClass().IsValidPath() ){
+	if( pcDoc && pcDoc->m_cDocFile.IsValidPath() ){
 		return pcDoc->m_cDocFile.GetFilePathClass().GetDirPath();
 	}
 

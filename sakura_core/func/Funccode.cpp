@@ -975,7 +975,7 @@ bool IsFuncEnable( const CEditDoc* pcEditDoc, const DLLSHAREDATA* pShareData, EF
 		return true;
 	case F_DIFF_DIALOG:	/* DIFF差分表示 */	//@@@ 2002.05.25 MIK
 		//if( pcEditDoc->IsModified() ) return false;
-		//if( ! pcEditDoc->m_cDocFile.GetFilePathClass().IsValidPath() ) return false;
+		//if( ! pcEditDoc->m_cDocFile.IsValidPath() ) return false;
 		return true;
 
 	case F_BEGIN_BOX:	//矩形範囲選択開始
@@ -1092,7 +1092,7 @@ bool IsFuncEnable( const CEditDoc* pcEditDoc, const DLLSHAREDATA* pShareData, EF
 	case F_OPEN_HfromtoC:				//同名のC/C++ヘッダー(ソース)を開く	//Feb. 7, 2001 JEPRO 追加
 //	case F_OPEN_HHPP:					//同名のC/C++ヘッダーファイルを開く	//Feb. 9, 2001 jepro「.cまたは.cppと同名の.hを開く」から変更		del 2008/6/23 Uchi
 //	case F_OPEN_CCPP:					//同名のC/C++ソースファイルを開く	//Feb. 9, 2001 jepro「.hと同名の.c(なければ.cpp)を開く」から変更	del 2008/6/23 Uchi
-		return pcEditDoc->m_cDocFile.GetFilePathClass().IsValidPath() && GetEditWnd().GetActiveView().GetCommander().Command_OPEN_HfromtoC(TRUE);
+		return pcEditDoc->m_cDocFile.IsValidPath() && GetEditWnd().GetActiveView().GetCommander().Command_OPEN_HfromtoC(TRUE);
 	case F_COPYPATH:
 	case F_COPYDIRPATH:
 	case F_COPYTAG:
@@ -1102,11 +1102,11 @@ bool IsFuncEnable( const CEditDoc* pcEditDoc, const DLLSHAREDATA* pShareData, EF
 	//case F_VIEWMODE:					//ビューモード	//	Sep. 10, 2002 genta 常に使えるように
 	//case F_PROPERTY_FILE:				//ファイルのプロパティ	// 2009.04.11 ryoji コメントアウト
 	case F_OPEN_FOLDER_IN_EXPLORER:		//ファイルの場所を開く
-		return pcEditDoc->m_cDocFile.GetFilePathClass().IsValidPath();	// 現在編集中のファイルのパス名をクリップボードにコピーできるか
+		return pcEditDoc->m_cDocFile.IsValidPath();	// 現在編集中のファイルのパス名をクリップボードにコピーできるか
 
 	case F_OPEN_COMMAND_PROMPT:			//コマンドプロンプトを開く
 	case F_OPEN_COMMAND_PROMPT_AS_ADMIN:	//管理者としてコマンドプロンプトを開く
-		if (!pcEditDoc->m_cDocFile.GetFilePathClass().IsValidPath())
+		if (!pcEditDoc->m_cDocFile.IsValidPath())
 		{
 			return false;
 		}
@@ -1123,7 +1123,7 @@ bool IsFuncEnable( const CEditDoc* pcEditDoc, const DLLSHAREDATA* pShareData, EF
 	case F_OPEN_POWERSHELL:				//PowerShellを開く
 	case F_OPEN_POWERSHELL_AS_ADMIN:	//管理者としてPowerShellを開く
 		// UNC パスでも動作するので、UNC パスかどうかはチェックしない
-		if (!pcEditDoc->m_cDocFile.GetFilePathClass().IsValidPath())
+		if (!pcEditDoc->m_cDocFile.IsValidPath())
 		{
 			return false;
 		}
@@ -1147,7 +1147,7 @@ bool IsFuncEnable( const CEditDoc* pcEditDoc, const DLLSHAREDATA* pShareData, EF
 	//	2003.05.12 MIK タグファイル作成先を選べるようにしたので、常に作成可能とする
 //	case F_TAGS_MAKE:	//タグファイルの作成	//@@@ 2003.04.13 MIK
 		if( false == CEditApp::getInstance()->GetGrepAgent()->GrepMode()
-			&& pcEditDoc->m_cDocFile.GetFilePathClass().IsValidPath() ){
+			&& pcEditDoc->m_cDocFile.IsValidPath() ){
 			return true;
 		}else{
 			return false;

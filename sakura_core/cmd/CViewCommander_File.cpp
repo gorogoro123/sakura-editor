@@ -163,7 +163,7 @@ bool CViewCommander::Command_FILESAVE( bool warnbeep, bool askname )
 	CEditDoc* pcDoc = GetDocument();
 
 	//ファイル名が指定されていない場合は「名前を付けて保存」のフローへ遷移
-	if( !GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() ){
+	if( !GetDocument()->m_cDocFile.IsValidPath() ){
 		if( !askname )
 			return false;	// 保存しない
 		return pcDoc->m_cDocFileOperation.FileSaveAs();
@@ -364,11 +364,11 @@ void CViewCommander::Command_PLSQL_COMPILE_ON_SQLPLUS( )
 			MB_YESNOCANCEL | MB_ICONEXCLAMATION,
 			LS(STR_GSTR_APPNAME),
 			LS(STR_ERR_CEDITVIEW_CMD18),
-			GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() ? GetDocument()->m_cDocFile.GetFilePath() : LS(STR_NO_TITLE1)
+			GetDocument()->m_cDocFile.IsValidPath() ? GetDocument()->m_cDocFile.GetFilePath() : LS(STR_NO_TITLE1)
 		);
 		switch( nRet ){
 		case IDYES:
-			if( GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() ){
+			if( GetDocument()->m_cDocFile.IsValidPath() ){
 				//nBool = HandleCommand( F_FILESAVE, true, 0, 0, 0, 0 );
 				nBool = Command_FILESAVE();
 			}else{
@@ -386,7 +386,7 @@ void CViewCommander::Command_PLSQL_COMPILE_ON_SQLPLUS( )
 			return;
 		}
 	}
-	if( GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() ){
+	if( GetDocument()->m_cDocFile.IsValidPath() ){
 		/* ファイルパスに空白が含まれている場合はダブルクォーテーションで囲む */
 		//	2003.10.20 MIK コード簡略化
 		if( wcschr( GetDocument()->m_cDocFile.GetFilePath(), WCODE::SPACE ) ? TRUE : FALSE ){
@@ -426,7 +426,7 @@ void CViewCommander::Command_PLSQL_COMPILE_ON_SQLPLUS( )
 /* ブラウズ */
 void CViewCommander::Command_BROWSE( )
 {
-	if( !GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath() ){
+	if( !GetDocument()->m_cDocFile.IsValidPath() ){
 		ErrorBeep();
 		return;
 	}
@@ -513,7 +513,7 @@ void CViewCommander::Command_PROFILEMGR( )
 /* ファイルの場所を開く */
 void CViewCommander::Command_OPEN_FOLDER_IN_EXPLORER()
 {
-	if (!GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath()) {
+	if (!GetDocument()->m_cDocFile.IsValidPath()) {
 		ErrorBeep();
 		return;
 	}
@@ -539,7 +539,7 @@ void CViewCommander::Command_OPEN_FOLDER_IN_EXPLORER()
 /* コマンドプロンプトを開く */
 void CViewCommander::Command_OPEN_COMMAND_PROMPT(BOOL isAdmin)
 {
-	if (!GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath()) {
+	if (!GetDocument()->m_cDocFile.IsValidPath()) {
 		ErrorBeep();
 		return;
 	}
@@ -589,7 +589,7 @@ void CViewCommander::Command_OPEN_COMMAND_PROMPT(BOOL isAdmin)
 /* PowerShellを開く */
 void CViewCommander::Command_OPEN_POWERSHELL(BOOL isAdmin)
 {
-	if (!GetDocument()->m_cDocFile.GetFilePathClass().IsValidPath()) {
+	if (!GetDocument()->m_cDocFile.IsValidPath()) {
 		ErrorBeep();
 		return;
 	}
