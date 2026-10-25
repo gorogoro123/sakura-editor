@@ -5,8 +5,6 @@
 	SPDX-License-Identifier: Zlib
 */
 #include "io/CFile.h"
-#include "window/CEditWnd.h" // 変更予定
-#include "CSelectLang.h"
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //               コンストラクタ・デストラクタ                  //
@@ -96,7 +94,7 @@ void CFile::FileUnlock()
 }
 
 //! ファイルの排他ロック
-bool CFile::FileLock( EShareMode eShareMode, bool bMsg )
+bool CFile::FileLock( EShareMode eShareMode )
 {
 	// ロック解除
 	FileUnlock();
@@ -130,21 +128,5 @@ bool CFile::FileLock( EShareMode eShareMode, bool bMsg )
 	);
 
 	//結果
-	if( INVALID_HANDLE_VALUE == m_hLockedFile && bMsg ){
-		const WCHAR*	pszMode;
-		switch( eShareMode ){
-		case SHAREMODE_DENY_READWRITE:	pszMode = LS(STR_EXCLU_DENY_READWRITE); break;
-		case SHAREMODE_DENY_WRITE:		pszMode = LS(STR_EXCLU_DENY_WRITE); break;
-		default:						pszMode = LS(STR_EXCLU_UNDEFINED); break;
-		}
-		TopWarningMessage(
-			CEditWnd::getInstance()->GetHwnd(),
-			LS(STR_FILE_LOCK_ERR),
-			GetFilePathClass().IsValidPath() ? GetFilePath() : LS(STR_NO_TITLE1),
-			pszMode
-		);
-		return false;
-	}
-
-	return true;
+	return (INVALID_HANDLE_VALUE != m_hLockedFile);
 }

@@ -17,7 +17,6 @@ public:
 	CDocFileOperation(CEditDoc* pcDoc) : m_pcDocRef(pcDoc) { }
 
 	//ロック
-	bool _ToDoLock() const;
 	void DoFileLock(bool bMsg = true);
 	void DoFileUnlock();
 	
@@ -57,6 +56,9 @@ public:
 	void FileCloseOpen(				//!< 閉じて開く	// 2006.12.30 ryoji
 		const SLoadInfo& sLoadInfo = SLoadInfo(L"", CODE_AUTODETECT, false)
 	);
+
+protected:
+	bool _ToDoLock() const;
 
 private:
 	CEditDoc* m_pcDocRef;

@@ -47,7 +47,23 @@ bool CDocFileOperation::_ToDoLock() const
 void CDocFileOperation::DoFileLock(bool bMsg)
 {
 	if(this->_ToDoLock()){
-		m_pcDocRef->m_cDocFile.FileLock(GetDllShareData().m_Common.m_sFile.m_nFileShareMode, bMsg);
+		EShareMode eShareMode = GetDllShareData().m_Common.m_sFile.m_nFileShareMode;
+		bool bSuccess = m_pcDocRef->m_cDocFile.FileLock(eShareMode);
+
+		if( !bSuccess && bMsg ){
+			const WCHAR*	pszMode;
+			switch( eShareMode ){
+			case SHAREMODE_DENY_READWRITE:	pszMode = LS(STR_EXCLU_DENY_READWRITE); break;
+			case SHAREMODE_DENY_WRITE:		pszMode = LS(STR_EXCLU_DENY_WRITE); break;
+			default:						pszMode = LS(STR_EXCLU_UNDEFINED); break;
+			}
+			TopWarningMessage(
+				m_pcDocRef->GetEditWnd().GetHwnd(),
+				LS(STR_FILE_LOCK_ERR),
+				m_pcDocRef->m_cDocFile.GetFilePathClass().IsValidPath() ? m_pcDocRef->m_cDocFile.GetFilePath() : LS(STR_NO_TITLE1),
+				pszMode
+			);
+		}
 	}
 }
 
