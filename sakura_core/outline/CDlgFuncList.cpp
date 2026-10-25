@@ -384,11 +384,11 @@ HWND CDlgFuncList::DoModeless(
 		if( !pDlgTemplate ) return nullptr;
 		::CopyMemory( pDlgTemplate, m_pDlgTemplate, m_dwDlgTmpSize );
 		pDlgTemplate->style = (WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | DS_SETFONT);
-		hwndRet = CDialog::DoModeless( hInstance, MyGetAncestor(hwndParent, GA_ROOT), pDlgTemplate, lParam, SW_HIDE );
+		hwndRet = CDialog::DoModeless( hInstance, ::GetAncestor(hwndParent, GA_ROOT), pDlgTemplate, lParam, SW_HIDE );
 		::GlobalFree( pDlgTemplate );
 		GetEditWnd().EndLayoutBars( m_bEditWndReady );	// 画面の再レイアウト
 	}else{
-		hwndRet = CDialog::DoModeless( hInstance, MyGetAncestor(hwndParent, GA_ROOT), IDD_FUNCLIST, lParam, SW_SHOW );
+		hwndRet = CDialog::DoModeless( hInstance, ::GetAncestor(hwndParent, GA_ROOT), IDD_FUNCLIST, lParam, SW_SHOW );
 	}
 	return hwndRet;
 }
@@ -743,7 +743,7 @@ void CDlgFuncList::SetData()
 	if (GetFuncInfoIndex(m_nCurLine, m_nCurCol, &nFuncInfoIndex)) {
 		SetItemSelection(nFuncInfoIndex, true);
 	}
-	if (::GetForegroundWindow() == MyGetAncestor(GetHwnd(), GA_ROOT) && IsChild(GetHwnd(), GetFocus()))
+	if (::GetForegroundWindow() == ::GetAncestor(GetHwnd(), GA_ROOT) && IsChild(GetHwnd(), GetFocus()))
 		::SetFocus(hwndShow);
 }
 
@@ -3387,7 +3387,7 @@ void CDlgFuncList::Refresh( )
 		EOutlineType nOutlineType = GetOutlineTypeRedraw(m_nOutlineType);
 		pcEditWnd->GetActiveView().GetCommander().Command_FUNCLIST( SHOW_RELOAD, nOutlineType );	// 開く	※ HandleCommand(F_OUTLINE,...) だと印刷プレビュー状態で実行されないので Command_FUNCLIST()
 	}
-	if( MyGetAncestor( ::GetForegroundWindow(), GA_ROOTOWNER2 ) == pcEditWnd->GetHwnd() )
+	if( ::GetAncestor( ::GetForegroundWindow(), GA_ROOTOWNER ) == pcEditWnd->GetHwnd() )
 		::SetFocus( pcEditWnd->GetActiveView().GetHwnd() );	// フォーカスを戻す
 }
 
