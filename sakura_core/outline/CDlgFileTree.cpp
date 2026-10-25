@@ -329,7 +329,7 @@ int CDlgFileTree::GetDataItem( SFileTreeItem& item )
 	return TRUE;
 }
 
-BOOL CDlgFileTree::OnInitDialog( HWND hwndDlg, WPARAM wParam, LPARAM lParam )
+BOOL CDlgFileTree::OnInitDialog([[maybe_unused]] HWND hwndDlg, WPARAM wParam, LPARAM lParam )
 {
 	SFileTreeItem item;
 
