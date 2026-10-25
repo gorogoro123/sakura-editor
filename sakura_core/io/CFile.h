@@ -28,6 +28,10 @@ public:
 	bool IsValidPath() const noexcept {
 		return m_szFilePath.IsValidPath();
 	}
+	std::wstring GetDirPath() const
+	{
+		return m_szFilePath.GetDirPath();
+	}
 	LPCWSTR GetFilePath() const { return m_szFilePath; }
 	//設定
 	void SetFilePath(LPCWSTR pszPath){ m_szFilePath.Assign(pszPath); }

@@ -1120,7 +1120,7 @@ void CViewCommander::Command_COPYDIRPATH( )
 		ErrorBeep();
 		return;
 	}
-	std::wstring strFolder(GetDocument()->m_cDocFile.GetFilePathClass().GetDirPath());
+	std::wstring strFolder(GetDocument()->m_cDocFile.GetDirPath());
 	
 	/* 末尾にバックスラッシュがあれば取り除く */
 	auto itrClear = strFolder.end();

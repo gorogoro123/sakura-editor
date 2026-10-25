@@ -696,7 +696,7 @@ int CSakuraEnvironment::_ExParam_Evaluate(CEditDoc* pcDoc, const wchar_t* pCond 
 std::wstring CSakuraEnvironment::GetDlgInitialDir(CEditDoc* pcDoc, bool bControlProcess)
 {
 	if( pcDoc && pcDoc->m_cDocFile.IsValidPath() ){
-		return pcDoc->m_cDocFile.GetFilePathClass().GetDirPath();
+		return pcDoc->m_cDocFile.GetDirPath();
 	}
 
 	EOpenDialogDir eOpenDialogDir = GetDllShareData().m_Common.m_sEdit.m_eOpenDialogDir;
