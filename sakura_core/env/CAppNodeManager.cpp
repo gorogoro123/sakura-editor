@@ -345,7 +345,7 @@ BOOL CAppNodeGroupHandle::PostMessageToAllEditors(
 			if( m_nGroup == 0 || m_nGroup == vEditNode[i].m_nGroup ){
 				if( IsSakuraMainWindow( vEditNode[i].m_hWnd ) ){
 					/* メッセージをポスト */
-					::PostMessage( vEditNode[i].m_hWnd, uMsg, wParam, lParam );
+					::PostMessageW( vEditNode[i].m_hWnd, uMsg, wParam, lParam );
 				}
 			}
 		}
@@ -357,7 +357,7 @@ BOOL CAppNodeGroupHandle::PostMessageToAllEditors(
 			if( m_nGroup == 0 || m_nGroup == vEditNode[i].m_nGroup ){
 				if( IsSakuraMainWindow( vEditNode[i].m_hWnd ) ){
 					/* メッセージをポスト */
-					::PostMessage( vEditNode[i].m_hWnd, uMsg, wParam, lParam );
+					::PostMessageW( vEditNode[i].m_hWnd, uMsg, wParam, lParam );
 				}
 			}
 		}

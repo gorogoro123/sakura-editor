@@ -2462,7 +2462,7 @@ BOOL CDlgFuncList::OnJump( bool bCheckAutoClose, bool bFileJump )	//2002.02.08 h
 			if( bCheckAutoClose && bFileJumpSelf ){
 				/* アウトライン ダイアログを自動的に閉じる */
 				if( IsDocking() ){
-					::PostMessage( ((CEditView*)m_lParam)->GetHwnd(), MYWM_SETACTIVEPANE, 0, 0 );
+					::PostMessageW( ((CEditView*)m_lParam)->GetHwnd(), MYWM_SETACTIVEPANE, 0, 0 );
 				}
 				else if( m_pShareData->m_Common.m_sOutline.m_bAutoCloseDlgFuncList ){
 					::DestroyWindow( GetHwnd() );
@@ -2782,7 +2782,7 @@ BOOL CDlgFuncList::OnTimer( HWND hwnd, [[maybe_unused]] UINT uMsg, WPARAM wParam
 			if( m_bTimerJumpAutoClose ){
 				if( IsDocking() ){
 					if( bSelf ){
-						::PostMessage( pcView->GetHwnd(), MYWM_SETACTIVEPANE, 0, 0 );
+						::PostMessageW( pcView->GetHwnd(), MYWM_SETACTIVEPANE, 0, 0 );
 					}
 				}
 				else if( m_pShareData->m_Common.m_sOutline.m_bAutoCloseDlgFuncList ){

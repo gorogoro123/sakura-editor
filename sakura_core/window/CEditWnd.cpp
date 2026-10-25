@@ -706,7 +706,7 @@ void CEditWnd::OpenDocumentWhenStart(
 		if( !bReadResult ){
 			/* ファイルが既に開かれている */
 			if( sLoadInfo.bOpened ){
-				::PostMessage( GetHwnd(), WM_CLOSE, 0, 0 );
+				::PostMessageW( GetHwnd(), WM_CLOSE, 0, 0 );
 				// 2004.07.12 Moca return NULLだと、メッセージループを通らずにそのまま破棄されてしまい、タブの終了処理が抜ける
 				//	この後は正常ルートでメッセージループに入った後WM_CLOSEを受信して直ちにCLOSE & DESTROYとなる．
 				//	その中で編集ウィンドウの削除が行われる．
@@ -1245,9 +1245,9 @@ LRESULT CEditWnd::DispatchEvent(
 		WINDOWPOS* pwp;
 		pwp = (WINDOWPOS*)lParam;
 		if( pwp->flags & SWP_SHOWWINDOW )
-			::PostMessage( hwnd, MYWM_SHOWOWNEDPOPUPS, TRUE, 0 );
+			::PostMessageW( hwnd, MYWM_SHOWOWNEDPOPUPS, TRUE, 0 );
 		else if( pwp->flags & SWP_HIDEWINDOW )
-			::PostMessage( hwnd, MYWM_SHOWOWNEDPOPUPS, FALSE, 0 );
+			::PostMessageW( hwnd, MYWM_SHOWOWNEDPOPUPS, FALSE, 0 );
 
 		return ::DefWindowProc( hwnd, uMsg, wParam, lParam );
 
@@ -1516,7 +1516,7 @@ LRESULT CEditWnd::DispatchEvent(
 		m_hWnd = nullptr;
 
 		/* 編集ウィンドウオブジェクトからのオブジェクト削除要求 */
-		::PostMessage( m_pShareData->m_sHandles.m_hwndTray, MYWM_DELETE_ME, 0, 0 );
+		::PostMessageW( m_pShareData->m_sHandles.m_hwndTray, MYWM_DELETE_ME, 0, 0 );
 
 		/* Windows にスレッドの終了を要求します */
 		::PostQuitMessage( 0 );
@@ -2746,7 +2746,7 @@ LRESULT CEditWnd::OnTimer( WPARAM wParam, [[maybe_unused]] LPARAM lParam )
 	case IDT_FIRST_IDLE:
 		m_cDlgFuncList.m_bEditWndReady = true;	// エディタ画面の準備完了
 		CAppNodeGroupHandle(0).PostMessageToAllEditors( MYWM_FIRST_IDLE, ::GetCurrentProcessId(), 0, nullptr );	// プロセスの初回アイドリング通知	// 2008.04.19 ryoji
-		::PostMessage( m_pShareData->m_sHandles.m_hwndTray, MYWM_FIRST_IDLE, (WPARAM)::GetCurrentProcessId(), (LPARAM)0 );
+		::PostMessageW( m_pShareData->m_sHandles.m_hwndTray, MYWM_FIRST_IDLE, (WPARAM)::GetCurrentProcessId(), (LPARAM)0 );
 		::KillTimer( m_hWnd, wParam );
 		break;
 	default:
@@ -2790,7 +2790,7 @@ void CEditWnd::OnSysMenuTimer( ) //by 鬼(2)
 		pt.x = R.left + GetSystemMetrics(SM_CXFRAME);
 		pt.y = R.top + GetSystemMetrics(SM_CYCAPTION) + GetSystemMetrics(SM_CYFRAME);
 		GetMonitorWorkRect( pt, &R );
-		::PostMessage(
+		::PostMessageW(
 			GetHwnd(),
 			0x0313, //右クリックでシステムメニューを表示する際に送信するモノらしい
 			0,

@@ -866,7 +866,7 @@ BOOL CDlgPrintSetting::CalcPrintableLineAndColumn()
 }
 
 // 行数と桁数の更新を要求（メッセージキューにポストする）
-// ダイアログ初期化の途中で EN_CHANGE に反応すると計算がおかしくなるため、関数呼び出しではなくPostMessageで処理 2013.5.5 aroka
+// ダイアログ初期化の途中で EN_CHANGE に反応すると計算がおかしくなるため、関数呼び出しではなくPostMessageWで処理 2013.5.5 aroka
 void CDlgPrintSetting::UpdatePrintableLineAndColumn()
 {
 	m_bPrintableLinesAndColumnInvalid = true;

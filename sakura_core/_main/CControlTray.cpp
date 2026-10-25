@@ -439,7 +439,7 @@ LRESULT CControlTray::DispatchEvent(
 			){
 				// Jan. 1, 2003 AROKA
 				// タスクトレイメニューの表示タイミングをLBUTTONDOWN→LBUTTONUPに変更したことによる
-				::PostMessage( GetTrayHwnd(), MYWM_NOTIFYICON, 0, WM_LBUTTONUP );
+				::PostMessageW( GetTrayHwnd(), MYWM_NOTIFYICON, 0, WM_LBUTTONUP );
 			}
 		}
 		return 0;
@@ -463,7 +463,7 @@ LRESULT CControlTray::DispatchEvent(
 				}
 			}while( bDelFound );
 			if( bDelete && m_pShareData->m_sNodes.m_nEditArrNum == 0 ){
-				PostMessage( hwnd, MYWM_DELETE_ME, 0, 0 );
+				::PostMessageW( hwnd, MYWM_DELETE_ME, 0, 0 );
 			}
 		}
 		return 0;
@@ -872,7 +872,7 @@ LRESULT CControlTray::DispatchEvent(
 			/* 新規編集ウィンドウの追加 */
 			OnNewEditor( m_pShareData->m_Common.m_sTabBar.m_bNewWindow != FALSE );
 			// Apr. 1, 2003 genta この後で表示されたメニューは閉じる
-			::PostMessage( GetTrayHwnd(), WM_CANCELMODE, 0, 0 );
+			::PostMessageW( GetTrayHwnd(), WM_CANCELMODE, 0, 0 );
 			return 0L;
 		case WM_RBUTTONDBLCLK:
 			return 0L;
@@ -1378,7 +1378,7 @@ void CControlTray::ActiveNextWindow(HWND hwndParent)
 			HWND	hwndWork = vEditNode[j].GetHwnd();
 			ActivateFrameWindow( hwndWork );
 			/* 最後のペインをアクティブにする */
-			::PostMessage( hwndWork, MYWM_SETACTIVEPANE, (WPARAM)-1, 1 );
+			::PostMessageW( hwndWork, MYWM_SETACTIVEPANE, (WPARAM)-1, 1 );
 		}
 	}
 }
@@ -1415,7 +1415,7 @@ void CControlTray::ActivePrevWindow(HWND hwndParent)
 			HWND	hwndWork = vEditNode[j].GetHwnd();
 			ActivateFrameWindow( hwndWork );
 			/* 最初のペインをアクティブにする */
-			::PostMessage( hwndWork, MYWM_SETACTIVEPANE, (WPARAM)-1, 0 );
+			::PostMessageW( hwndWork, MYWM_SETACTIVEPANE, (WPARAM)-1, 0 );
 		}
 	}
 }
@@ -1447,7 +1447,7 @@ void CControlTray::TerminateApplication(
 	/* 「すべてのウィンドウを閉じる」要求 */	//Oct. 7, 2000 jepro 「編集ウィンドウの全終了」という説明を左記のように変更
 	BOOL bCheckConfirm = (pShareData->m_Common.m_sGeneral.m_bExitConfirm)? FALSE: TRUE;	// 2006.12.25 ryoji 終了確認済みならそれ以上は確認しない
 	if( CloseAllEditor( bCheckConfirm, hWndFrom, TRUE, 0 ) ){	// 2006.12.25, 2007.02.13 ryoji 引数追加
-		::PostMessage( pShareData->m_sHandles.m_hwndTray, WM_CLOSE, 0, 0 );
+		::PostMessageW( pShareData->m_sHandles.m_hwndTray, WM_CLOSE, 0, 0 );
 	}
 	return;
 }
@@ -1597,7 +1597,7 @@ int	CControlTray::CreatePopUpMenu_L( )
 		GetTrayHwnd(),
 		&rc
 	);
-	::PostMessage( GetTrayHwnd(), WM_USER + 1, 0, 0 );
+	::PostMessageW( GetTrayHwnd(), WM_USER + 1, 0, 0 );
 	::DestroyMenu( hMenuTop );
 //	MYTRACE( L"nId=%d\n", nId );
 
@@ -1666,7 +1666,7 @@ int	CControlTray::CreatePopUpMenu_R( )
 		GetTrayHwnd(),
 		&rc
 	);
-	::PostMessage( GetTrayHwnd(), WM_USER + 1, 0, 0 );
+	::PostMessageW( GetTrayHwnd(), WM_USER + 1, 0, 0 );
 	::DestroyMenu( hMenuTop );
 //	MYTRACE( L"nId=%d\n", nId );
 

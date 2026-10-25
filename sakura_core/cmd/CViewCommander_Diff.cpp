@@ -211,7 +211,7 @@ void CViewCommander::Command_COMPARE( )
 
 		/* カーソルを移動させる */
 		GetDllShareData().m_sWorkBuffer.SetWorkBuffer<CLogicPoint>(poSrc);
-		::PostMessage( GetMainWindow(), MYWM_SETCARETPOS, 0, 0 );
+		::PostMessageW( GetMainWindow(), MYWM_SETCARETPOS, 0, 0 );
 		TopWarningMessage( hwndMsgBox, LS(STR_ERR_CEDITVIEW_CMD23) );	// 位置を変更してからメッセージ	2008/4/27 Uchi
 	}
 

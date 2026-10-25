@@ -59,7 +59,7 @@ void CViewCommander::Command_MENU_RBUTTON( )
 
 	default:
 		/* コマンドコードによる処理振り分け */
-		::PostMessage( GetMainWindow(), WM_COMMAND, MAKELONG( nId, 0 ),  (LPARAM)nullptr );
+		::PostMessageW( GetMainWindow(), WM_COMMAND, MAKELONG( nId, 0 ),  (LPARAM)nullptr );
 		break;
 	}
 	return;
