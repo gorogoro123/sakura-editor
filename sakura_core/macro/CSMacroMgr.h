@@ -65,7 +65,6 @@ class CSMacroMgr
 	CMacroManagerBase* m_pTempMacro;
 
 public:
-
 	/*
 	||  Constructors
 	*/
@@ -79,7 +78,7 @@ public:
 	void ClearAll( );	/* キーマクロのバッファをクリアする */
 
 	//! キーボードマクロの実行
-	BOOL Exec( int idx, HINSTANCE hInstance, CEditView* pcEditView, int flags );
+	BOOL Exec( int idx, CEditView* pcEditView, int flags );
 	
 	//!	実行可能か？CShareDataに問い合わせ
 	bool IsEnabled(int idx) const {

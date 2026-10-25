@@ -182,7 +182,7 @@ void CViewCommander::Command_EXECKEYMACRO( )
 		}
 		else {
 			//	2007.07.20 genta : flagsオプション追加
-			m_pcSMacroMgr->Exec( STAND_KEYMACRO, G_AppInstance(), m_pCommanderView, 0 );
+			m_pcSMacroMgr->Exec( STAND_KEYMACRO, m_pCommanderView, 0 );
 		}
 	}
 	return;
@@ -250,7 +250,7 @@ void CViewCommander::Command_EXECEXTMACRO( const WCHAR* pszPath, const WCHAR* ps
 		ErrorMessage( m_pCommanderView->GetHwnd(), LS(STR_ERR_MACROERR1), pszPath );
 	}
 	else {
-		m_pcSMacroMgr->Exec( TEMP_KEYMACRO, G_AppInstance(), m_pCommanderView, FA_NONRECORD | FA_FROMMACRO );
+		m_pcSMacroMgr->Exec( TEMP_KEYMACRO, m_pCommanderView, FA_NONRECORD | FA_FROMMACRO );
 	}
 
 	// 終わったら解放

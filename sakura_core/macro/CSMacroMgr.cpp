@@ -575,7 +575,6 @@ int CSMacroMgr::Append(
 
 	CShareDataからファイル名を取得し、実行する。
 
-	@param hInstance [in] インスタンス
 	@param hwndParent [in] 親ウィンドウの
 	@param pViewClass [in] macro実行対象のView
 	@param idx [in] マクロ番号。
@@ -583,7 +582,7 @@ int CSMacroMgr::Append(
 
 	@date 2007.07.16 genta flags追加
 */
-BOOL CSMacroMgr::Exec( int idx , HINSTANCE hInstance, CEditView* pcEditView, int flags )
+BOOL CSMacroMgr::Exec( int idx , CEditView* pcEditView, int flags )
 {
 	if( idx == STAND_KEYMACRO ){
 		//	Jun. 16, 2002 genta
