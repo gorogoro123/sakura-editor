@@ -40,7 +40,6 @@
 #include "view/colors/EColorIndexType.h"
 #include "window/CTipWnd.h"
 #include "window/CAutoScrollWnd.h"
-#include "env/CDicMgr.h"
 #include "env/CMarkMgr.h"
 //	Jun. 26, 2001 genta	正規表現ライブラリの差し替え
 #include "extmodule/CBregexp.h"
@@ -726,7 +725,6 @@ public:
 	CTipWnd			m_cTipWnd;				/* Tip表示ウィンドウ */
 	POINT			m_poTipCurPos;			/* Tip起動時のマウスカーソル位置 */
 	BOOL			m_bInMenuLoop;			/* メニュー モーダル ループに入っています */
-	CDicMgr			m_cDicMgr;				/* 辞書マネージャ */
 
 	WCHAR			m_szComposition[512]; // IMR_DOCUMENTFEED用入力中文字列データ
 

@@ -17,6 +17,7 @@
 	Please contact the copyright holders to use this code for other purpose.
 */
 #include "env/CHokanMgr.h"
+#include "env/CDicMgr.h"
 #include "env/CShareData.h"
 #include "view/CEditView.h"
 #include "plugin/CJackManager.h"
