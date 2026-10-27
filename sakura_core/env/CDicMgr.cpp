@@ -16,7 +16,6 @@
 	Please contact the copyright holder to use this code for other purpose.
 */
 
-#include <cstdio>
 #include "env/CDicMgr.h"
 #include "mem/CMemory.h" // 2002/2/10 aroka ヘッダー整理
 #include "mem/CNativeW.h"
@@ -25,10 +24,7 @@
 #include "util/string_ex.h"
 #include "config/system_constants.h"
 
-CDicMgr::CDicMgr()
-{
-	return;
-}
+CDicMgr::CDicMgr() = default;
 
 /*!
 	キーワードの検索

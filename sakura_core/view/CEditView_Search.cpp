@@ -11,6 +11,7 @@
 #include "parse/CWordParse.h"
 #include "util/string_ex2.h"
 #include "CSelectLang.h"
+#include "env/CDicMgr.h"
 
 const int STRNCMP_MAX = 100;	/* MAXキーワード長：_strnicmp文字列比較最大値(CEditView::KeySearchCore) */	// 2006.04.10 fon
 
@@ -107,7 +108,7 @@ BOOL CEditView::KeySearchCore( const CNativeW* pcmemCurText )
 		if( m_pTypeData->m_KeyHelpArr[i].m_bUse ){
 			// 2006.04.10 fon (nCmpLen,pcmemRefKey,nSearchLine)引数を追加
 			CNativeW*	pcmemRefText;
-			int nSearchResult=m_cDicMgr.CDicMgr::Search(
+			int nSearchResult = CDicMgr::Search(
 				pcmemCurText->GetStringPtr(),
 				nCmpLen,
 				&pcmemRefKey,
