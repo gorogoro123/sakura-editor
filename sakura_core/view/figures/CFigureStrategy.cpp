@@ -13,6 +13,13 @@
 #include "charset/charcode.h"
 #include "types/CTypeSupport.h"
 #include "apiwrap/StdApi.h"
+#include "doc/CEditDoc.h"
+
+void CFigure::Update()
+{
+	CEditDoc* pCEditDoc = GetDocument();
+	m_pTypeData = &pCEditDoc->m_cDocType.GetDocumentAttribute();
+}
 
 FigureRenderType CFigure_Text::GetRenderType(SColorStrategyInfo* pInfo)
 {
