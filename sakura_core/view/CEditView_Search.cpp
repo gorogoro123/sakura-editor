@@ -89,7 +89,8 @@ BOOL CEditView::KeyWordHelpSearchDict( LID_SKH nID, POINT* po, RECT* rc )
 */
 BOOL CEditView::KeySearchCore( const CNativeW* pcmemCurText )
 {
-	CNativeW*	pcmemRefKey;
+	CNativeW	cmemRefKey;
+	CNativeW	cmemRefText;
 	int			nCmpLen = STRNCMP_MAX; // 2006.04.10 fon
 	int			nLine; // 2006.04.10 fon
 
@@ -107,12 +108,11 @@ BOOL CEditView::KeySearchCore( const CNativeW* pcmemCurText )
 	for(int i =0 ; i < m_pTypeData->m_nKeyHelpNum; i++){	//最大数：MAX_KEYHELP_FILE
 		if( m_pTypeData->m_KeyHelpArr[i].m_bUse ){
 			// 2006.04.10 fon (nCmpLen,pcmemRefKey,nSearchLine)引数を追加
-			CNativeW*	pcmemRefText;
 			int nSearchResult = CDicMgr::Search(
 				pcmemCurText->GetStringPtr(),
 				nCmpLen,
-				&pcmemRefKey,
-				&pcmemRefText,
+				&cmemRefKey,
+				&cmemRefText,
 				m_pTypeData->m_KeyHelpArr[i].m_szPath,
 				&nLine
 			);
@@ -135,15 +135,13 @@ BOOL CEditView::KeySearchCore( const CNativeW* pcmemCurText )
 					m_cTipWnd.m_cInfo.AppendString( L"\n" );
 					/* 前方一致でヒットした単語を挿入 */
 					if(m_pTypeData->m_bUseKeyHelpPrefix){	/* 選択範囲で前方一致検索 */
-						m_cTipWnd.m_cInfo.AppendString( pcmemRefKey->GetStringPtr() );
+						m_cTipWnd.m_cInfo.AppendString( cmemRefKey.GetStringPtr() );
 						m_cTipWnd.m_cInfo.AppendString( L" >>\n" );
 					}
 
 					/* 調査した「意味」を挿入 */
-					m_cTipWnd.m_cInfo.AppendString( UnEscapeInfoText( *pcmemRefText ) );
+					m_cTipWnd.m_cInfo.AppendString( UnEscapeInfoText( cmemRefText ) );
 
-					delete pcmemRefText;
-					delete pcmemRefKey;	// 2006.07.02 genta
 					/* タグジャンプ用の情報を残す */
 					if(!m_cTipWnd.m_KeyWasHit){
 						m_cTipWnd.m_nSearchDict=i;	/* 辞書を開くとき最初にヒットした辞書を開く */
@@ -158,15 +156,13 @@ BOOL CEditView::KeySearchCore( const CNativeW* pcmemCurText )
 					
 					/* 前方一致でヒットした単語を挿入 */
 					if(m_pTypeData->m_bUseKeyHelpPrefix){	/* 選択範囲で前方一致検索 */
-						m_cTipWnd.m_cInfo.AppendString( pcmemRefKey->GetStringPtr() );
+						m_cTipWnd.m_cInfo.AppendString( cmemRefKey.GetStringPtr() );
 						m_cTipWnd.m_cInfo.AppendString( L" >>\n" );
 					}
 					
 					/* 調査した「意味」を挿入 */
-					m_cTipWnd.m_cInfo.AppendString( UnEscapeInfoText( *pcmemRefText ) );
+					m_cTipWnd.m_cInfo.AppendString( UnEscapeInfoText( cmemRefText ) );
 
-					delete pcmemRefText;
-					delete pcmemRefKey;	// 2006.07.02 genta
 					/* タグジャンプ用の情報を残す */
 					m_cTipWnd.m_nSearchDict=i;
 					m_cTipWnd.m_nSearchLine=nLine;

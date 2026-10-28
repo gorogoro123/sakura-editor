@@ -35,8 +35,8 @@ CDicMgr::CDicMgr() = default;
 BOOL CDicMgr::Search(
 	const wchar_t*		pszKey,				//!< 検索キーワード
 	const int			nCmpLen,			//!< 検索キーワードの長さ
-	CNativeW**			ppcmemKey,			//!< 見つかったキーワード．呼び出し元の責任で解放する．
-	CNativeW**			ppcmemMean,			//!< 見つかったキーワードに対応する辞書内容．呼び出し元の責任で解放する．
+	CNativeW*			pcmemKey,			//!< 見つかったキーワード．
+	CNativeW*			pcmemMean,			//!< 見つかったキーワードに対応する辞書内容．
 	const WCHAR*		pszKeyWordHelpFile,	//!< キーワードヘルプファイルのパス名
 	int*				pLine				//!< 見つかったキーワードのキーワードヘルプファイル内での行番号
 )
@@ -91,11 +91,9 @@ BOOL CDicMgr::Search(
 						}
 					}
 					//キーワードのセット
-					*ppcmemKey = new CNativeW;	// 2006.04.10 fon
-					(*ppcmemKey)->SetString( pszToken );
+					pcmemKey->SetString( pszToken );
 					//意味のセット
-					*ppcmemMean = new CNativeW;
-					(*ppcmemMean)->SetString( pszWork );
+					pcmemMean->SetString( pszWork );
 
 					*pLine = line;	// 2006.04.10 fon
 					return TRUE;
