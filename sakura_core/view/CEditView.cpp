@@ -22,7 +22,6 @@
 	SPDX-License-Identifier: Zlib
 */
 
-#include <climits>
 #include "view/CEditView.h"
 #include "view/CViewFont.h"
 #include "view/CRuler.h"
@@ -2766,4 +2765,20 @@ void CEditView::SetUndoBuffer([[maybe_unused]] bool bPaintLineNumber)
 		}
 		m_cCommander.SetOpeBlk(nullptr);
 	}
+}
+
+const CEditDoc* CEditView::GetDocument() const
+{
+	return m_pcEditDoc;
+}
+
+CEditDoc* CEditView::GetDocument()
+{
+	return m_pcEditDoc;
+}
+
+bool CEditView::IsBkBitmap() const
+{
+	return nullptr != m_pcEditDoc->m_hBackImg
+		&& 0 != GetDocument()->m_cDocType.GetDocumentAttribute().m_backImgOpacity;
 }

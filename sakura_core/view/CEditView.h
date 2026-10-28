@@ -60,6 +60,7 @@ class CMigemo;	// 2004.09.14 isearch
 struct SColorStrategyInfo;
 struct CColor3Setting;
 class COutputAdapter;
+class CEditDoc;
 
 // struct DispPos; //	誰かがincludeしてます
 // class CColorStrategy;	// 誰かがincludeしてます
@@ -98,21 +99,12 @@ class CEditView
 , public CDocListener
 {
 public:
-	const CEditDoc* GetDocument() const
-	{
-		return m_pcEditDoc;
-	}
-	CEditDoc* GetDocument()
-	{
-		return m_pcEditDoc;
-	}
-public:
+	const CEditDoc* GetDocument() const;
+	CEditDoc* GetDocument();
+
 	//! 背景にビットマップを使用するかどうか
 	//! 2010.10.03 背景実装
-	bool IsBkBitmap() const{
-		return nullptr != m_pcEditDoc->m_hBackImg
-			&& 0 != GetDocument()->m_cDocType.GetDocumentAttribute().m_backImgOpacity;
-	}
+	bool IsBkBitmap() const;
 
 public:
 	CEditView* GetEditView() override
