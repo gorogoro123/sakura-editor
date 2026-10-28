@@ -21,11 +21,7 @@ public:
 	virtual bool Disp() const = 0;
 
 	//! 設定更新
-	virtual void Update()
-	{
-		CEditDoc* pCEditDoc = GetDocument();
-		m_pTypeData = &pCEditDoc->m_cDocType.GetDocumentAttribute();
-	}
+	virtual void Update();
 
 protected:
 	const STypeConfig* m_pTypeData;
