@@ -14,9 +14,8 @@
 #include "_os/OleTypes.h"
 #include "util/ole_convert.h"
 
-// cppへ移動予定
-#include "window/CEditWnd.h"
-#include "view/CEditView.h"
+class CPlugin;
+class CEditView;
 
 class CPluginIfObj : public CWSHIfObj {
 	// 型定義
@@ -32,23 +31,16 @@ class CPluginIfObj : public CWSHIfObj {
 		F_PL_GETSTRING,							//設定ファイルから文字列を読みだす(多言語対応)
 	};
 
-	// コンストラクタ
 public:
-	CPluginIfObj( CPlugin& cPlugin )
-		: CWSHIfObj( L"Plugin", false )
-		, m_cPlugin( cPlugin )
-	{
-	}
+	// コンストラクタ
+	CPluginIfObj( CPlugin& cPlugin );
 
 	// デストラクタ
-public:
 	~CPluginIfObj(){}
 
 	// 操作
-public:
 	void SetPlugIndex(int nIndex) { m_nPlugIndex = nIndex; }
 	// 実装
-public:
 	//コマンド情報を取得する
 	MacroFuncInfoArray GetMacroCommandInfo() const
 	{
@@ -60,142 +52,14 @@ public:
 		return m_MacroFuncInfoArr;
 	}
 	//関数を処理する
-	bool HandleFunction(CEditView* View, EFunctionCode ID, VARIANT *Arguments, const int ArgSize, VARIANT &Result) override
-	{
-		Variant varCopy;	// VT_BYREFだと困るのでコピー用
-
-		switch(LOWORD(ID))
-		{
-		case F_PL_GETPLUGINDIR:			//プラグインフォルダーパスを取得する
-			{
-				SysString S(m_cPlugin.m_sBaseDir.c_str(), m_cPlugin.m_sBaseDir.size());
-				Wrap(&Result)->Receive(S);
-			}
-			break;
-
-		case F_PL_GETDEF:				//設定ファイルから値を読む
-		case F_PL_GETOPTION:			//オプションファイルから値を読む
-			{
-				CDataProfile cProfile;
-				std::wstring sSection;
-				std::wstring sKey;
-				std::wstring sValue;
-				if( variant_to_wstr( Arguments[0], sSection ) != true) return false;
-				if( variant_to_wstr( Arguments[1], sKey ) != true) return false;
-
-				cProfile.SetReadingMode();
-				if( LOWORD(ID) == F_PL_GETDEF ){
-					cProfile.ReadProfile( m_cPlugin.GetPluginDefPath().c_str() );
-				}else{
-					cProfile.ReadProfile( m_cPlugin.GetOptionPath().c_str() );
-				}
-				if (!cProfile.IOProfileData( sSection.c_str(), sKey.c_str(), sValue )
-					&& LOWORD(ID) == F_PL_GETOPTION ) {
-					// 設定されていなければデフォルトを取得 
-					CPluginOption::ArrayIter it;
-					for (it = m_cPlugin.m_options.cbegin(); it != m_cPlugin.m_options.cend(); it++) {
-						std::wstring sSectionTmp;
-						std::wstring sKeyTmp;
-						(*it)->GetKey(&sSectionTmp, &sKeyTmp);
-						if (sSection == sSectionTmp && sKey == sKeyTmp) {
-							sValue = (*it)->GetDefaultVal();
-							break;
-						}
-					}
-				}
-
-				SysString S(sValue.c_str(), sValue.size());
-				Wrap(&Result)->Receive(S);
-			}
-			break;
-
-		case F_PL_GETCOMMANDNO:			//実行中プラグの番号を取得する
-			{
-				Wrap(&Result)->Receive(m_nPlugIndex);
-			}
-			break;
-
-		case F_PL_GETSTRING:
-			{
-				int num;
-				if(variant_to_int( Arguments[0], num ) == false) return false;
-				if( 0 < num && num < MAX_PLUG_STRING ){
-					std::wstring& str = m_cPlugin.m_aStrings[num];
-					SysString S(str.c_str(), str.size());
-					Wrap(&Result)->Receive(S);
-				}else if( 0 == num ){
-					std::wstring str = m_cPlugin.m_sLangName;
-					SysString S(str.c_str(), str.size());
-					Wrap(&Result)->Receive(S);
-				}
-			}
-			break;
-
-		default:
-			return CWSHIfObj::HandleFunction(View, ID, Arguments, ArgSize, Result);
-		}
-		return true;
-	}
+	bool HandleFunction(CEditView* View, EFunctionCode ID, VARIANT *Arguments, const int ArgSize, VARIANT &Result) override;
 	//コマンドを処理する
-	bool HandleCommand(CEditView* View, EFunctionCode ID, LPCWSTR* Arguments, const int* ArgLengths, const int ArgSize) override
-	{
-		switch ( LOWORD(ID) ) 
-		{
-		case F_PL_SETOPTION:			//オプションファイルに値を書く
-			{
-				if( Arguments[0] == nullptr )return false;
-				if( Arguments[1] == nullptr )return false;
-				if( Arguments[2] == nullptr )return false;
-				CDataProfile cProfile;
-
-				cProfile.ReadProfile( m_cPlugin.GetOptionPath().c_str() );
-				cProfile.SetWritingMode();
-				std::wstring tmp(Arguments[2]);
-				cProfile.IOProfileData( Arguments[0], Arguments[1], tmp );
-				cProfile.WriteProfile( m_cPlugin.GetOptionPath().c_str(), (m_cPlugin.m_sName + L" プラグイン設定ファイル").c_str() );
-			}
-			break;
-		case F_PL_ADDCOMMAND:			//コマンドを追加する
-			{
-				int id = m_cPlugin.AddCommand( Arguments[0], Arguments[1], Arguments[2], true );
-				GetEditWnd().RegisterPluginCommand( id );
-			}
-			break;
-
-		default:
-			return CWSHIfObj::HandleCommand(View, ID, Arguments, ArgLengths, ArgSize);
-		}
-		return true;
-	}
+	bool HandleCommand(CEditView* View, EFunctionCode ID, LPCWSTR* Arguments, const int* ArgLengths, const int ArgSize) override;
 
 	// メンバ変数
-public:
 private:
 	CPlugin& m_cPlugin;
 	static MacroFuncInfo m_MacroFuncInfoCommandArr[];	// コマンド情報(戻り値なし)
 	static MacroFuncInfo m_MacroFuncInfoArr[];	// 関数情報(戻り値あり)
 	int m_nPlugIndex;	//実行中プラグの番号
-};
-
-//コマンド情報
-MacroFuncInfo CPluginIfObj::m_MacroFuncInfoCommandArr[] = 
-{
-	//ID									関数名					引数										戻り値の型	m_pszData
-	{EFunctionCode(F_PL_SETOPTION),			L"SetOption",			{VT_BSTR, VT_BSTR, VT_VARIANT, VT_EMPTY},	VT_EMPTY,	nullptr }, //オプションファイルに値を書く
-	{EFunctionCode(F_PL_ADDCOMMAND),		L"AddCommand",			{VT_BSTR, VT_BSTR, VT_BSTR, VT_EMPTY},		VT_EMPTY,	nullptr }, //コマンドを追加する
-	//	終端
-	{F_INVALID,	nullptr, {VT_EMPTY, VT_EMPTY, VT_EMPTY, VT_EMPTY},	VT_EMPTY,	nullptr}
-};
-
-//関数情報
-MacroFuncInfo CPluginIfObj::m_MacroFuncInfoArr[] = 
-{
-	//ID									関数名					引数										戻り値の型	m_pszData
-	{EFunctionCode(F_PL_GETPLUGINDIR),		L"GetPluginDir",		{VT_EMPTY, VT_EMPTY, VT_EMPTY, VT_EMPTY},	VT_BSTR,	nullptr }, //プラグインフォルダーパスを取得する
-	{EFunctionCode(F_PL_GETDEF),			L"GetDef",				{VT_BSTR, VT_BSTR, VT_EMPTY, VT_EMPTY},		VT_BSTR,	nullptr }, //設定ファイルから値を読む
-	{EFunctionCode(F_PL_GETOPTION),			L"GetOption",			{VT_BSTR, VT_BSTR, VT_EMPTY, VT_EMPTY},		VT_BSTR,	nullptr }, //オプションファイルから値を読む
-	{EFunctionCode(F_PL_GETCOMMANDNO),		L"GetCommandNo",		{VT_EMPTY, VT_EMPTY, VT_EMPTY, VT_EMPTY},	VT_I4,		nullptr }, //オプションファイルから値を読む
-	{EFunctionCode(F_PL_GETSTRING),			L"GetString",			{VT_I4,    VT_EMPTY, VT_EMPTY, VT_EMPTY},	VT_BSTR,	nullptr }, //設定ファイルから文字列を読む
-	//	終端
-	{F_INVALID,	nullptr, {VT_EMPTY, VT_EMPTY, VT_EMPTY, VT_EMPTY},	VT_EMPTY,	nullptr}
 };

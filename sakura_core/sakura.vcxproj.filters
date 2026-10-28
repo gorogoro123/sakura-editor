@@ -2152,6 +2152,9 @@
     <ClCompile Include="..\sakura_core\plugin\CJackManager.cpp">
       <Filter>Cpp Source Files\plugin</Filter>
     </ClCompile>
+    <ClCompile Include="..\sakura_core\plugin\CPluginIfObj.cpp">
+      <Filter>Cpp Source Files\plugin</Filter>
+    </ClCompile>
     <ClCompile Include="..\sakura_core\plugin\CPlugin.cpp">
       <Filter>Cpp Source Files\plugin</Filter>
     </ClCompile>

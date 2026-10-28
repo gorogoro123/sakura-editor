@@ -724,6 +724,7 @@
     <ClCompile Include="..\sakura_core\plugin\CDllPlugin.cpp" />
     <ClCompile Include="..\sakura_core\plugin\CJackManager.cpp" />
     <ClCompile Include="..\sakura_core\plugin\CPlugin.cpp" />
+    <ClCompile Include="..\sakura_core\plugin\CPluginIfObj.cpp" />
     <ClCompile Include="..\sakura_core\plugin\CPluginManager.cpp" />
     <ClCompile Include="..\sakura_core\plugin\CWSHPlugin.cpp" />
     <ClCompile Include="..\sakura_core\print\CPrint.cpp" />
