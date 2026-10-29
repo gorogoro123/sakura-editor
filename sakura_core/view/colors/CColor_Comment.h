@@ -40,11 +40,7 @@ public:
 class CColor_BlockComment final : public CColorStrategy{
 public:
 	CColor_BlockComment(EColorIndexType nType) : m_nType(nType) {}
-	void Update() override {
-		const CEditDoc* pCEditDoc = GetDocument();
-		m_pTypeData = &pCEditDoc->m_cDocType.GetDocumentAttribute();
-		m_pcBlockComment = &m_pTypeData->m_cBlockComments[m_nType - COLORIDX_BLOCK1];
-	}
+	void Update() override;
 	EColorIndexType GetStrategyColor() const override{ return m_nType; }
 	void InitStrategyStatus() override{ m_nCOMMENTEND = 0; }
 	bool BeginColor(std::span<const WCHAR> cStr, int nPos) override;
