@@ -22,7 +22,9 @@
 
 #include <Windows.h>
 #include "dlg/CDialog.h"
-#include "doc/CEditDoc.h"
+#include "env/CommonSetting.h"
+#include "types/CType.h"	//SEncodingConfig
+#include "mem/CNativeW.h"
 
 class CFuncInfo;
 class CFuncInfoArr; // 2002/2/10 aroka
@@ -75,7 +77,7 @@ public:
 protected:
 	INT_PTR DispatchEvent( HWND hWnd, UINT wMsg, WPARAM wParam, LPARAM lParam ) override;	// 2007.11.07 ryoji 標準以外のメッセージを捕捉する
 
-	CommonSetting_OutLine& CommonSet(){ return m_pShareData->m_Common.m_sOutline; }
+	CommonSetting_OutLine& CommonSet();
 	STypeConfig& TypeSet(){ return m_type; }
 	int& ProfDockSet() { return CommonSet().m_nOutlineDockSet; }
 	BOOL& ProfDockSync() { return CommonSet().m_bOutlineDockSync; }

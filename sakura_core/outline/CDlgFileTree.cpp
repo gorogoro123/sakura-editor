@@ -28,6 +28,8 @@
 #include "sakura.hh"
 #include "config/app_constants.h"
 #include "env/CFileNameManager.h"
+#include "env/DLLSHAREDATA.h"
+#include "doc/CDocListener.h"
 
 static const DWORD p_helpids[] = {	//13300
 	IDC_CHECK_LOADINI,      HIDC_CHECK_FILETREE_LOADINI,
