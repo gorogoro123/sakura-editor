@@ -4119,3 +4119,8 @@ bool CDlgFuncList::GetFuncInfoIndex( [[maybe_unused]] CLayoutInt nCurLine, [[may
 
 	return true;
 }
+
+CommonSetting_OutLine& CDlgFuncList::CommonSet()
+{
+	return m_pShareData->m_Common.m_sOutline;
+}
