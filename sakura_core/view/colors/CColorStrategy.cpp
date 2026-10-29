@@ -18,6 +18,7 @@
 #include "CColor_Found.h"
 #include "CColor_Heredoc.h"
 #include "doc/layout/CLayout.h"
+#include "doc/CEditDoc.h"
 #include "window/CEditWnd.h"
 #include "types/CTypeSupport.h"
 
@@ -165,6 +166,12 @@ void SColorStrategyInfo::DoChangeColor(CColor3Setting *pcColor)
 	m_cIndex.eColorIndexBg = m_colorIdxBackLine;
 
 	*pcColor = m_cIndex;
+}
+
+void CColorStrategy::Update()
+{
+	const CEditDoc* pCEditDoc = GetDocument();
+	m_pTypeData = &pCEditDoc->m_cDocType.GetDocumentAttribute();
 }
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
