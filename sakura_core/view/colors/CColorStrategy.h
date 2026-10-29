@@ -142,11 +142,7 @@ public:
 	virtual void OnStartScanLogic(){}
 
 	//! 設定更新
-	virtual void Update()
-	{
-		const CEditDoc* pCEditDoc = GetDocument();
-		m_pTypeData = &pCEditDoc->m_cDocType.GetDocumentAttribute();
-	}
+	virtual void Update();
 
 	//#######ラップ
 	static EColorIndexType GetStrategyColorSafe(const CColorStrategy *strategy) {
