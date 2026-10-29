@@ -7,6 +7,7 @@
 #include "view/CEditView.h" // SColorStrategyInfo
 #include "CColor_Comment.h"
 #include "doc/layout/CLayout.h"
+#include "doc/CEditDoc.h"
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                        行コメント                           //
@@ -42,6 +43,13 @@ bool CColor_LineComment::EndColor(std::span<const WCHAR> cStr, int nPos)
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                    ブロックコメント１                       //
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
+
+void CColor_BlockComment::Update()
+{
+	const CEditDoc* pCEditDoc = GetDocument();
+	m_pTypeData = &pCEditDoc->m_cDocType.GetDocumentAttribute();
+	m_pcBlockComment = &m_pTypeData->m_cBlockComments[m_nType - COLORIDX_BLOCK1];
+}
 
 bool CColor_BlockComment::BeginColor(std::span<const WCHAR> cStr, int nPos)
 {
