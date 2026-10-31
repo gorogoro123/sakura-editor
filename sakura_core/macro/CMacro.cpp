@@ -2144,7 +2144,8 @@ bool CMacro::HandleFunction(CEditView *View, EFunctionCode ID, VARIANT *Argument
 				CClipboard cClipboard(View->GetHwnd());
 				CNativeW mem;
 				CEol cEol = View->m_pcEditDoc->m_cDocEditor.GetNewLineCode();
-				cClipboard.GetClipboardByFormat(mem, varCopy.Data.bstrVal, varCopy2.Data.lVal, varCopy3.Data.lVal, cEol);
+				const STypeConfig& type = View->GetDocument()->m_cDocType.GetDocumentAttribute();
+				cClipboard.GetClipboardByFormat(type, mem, varCopy.Data.bstrVal, varCopy2.Data.lVal, varCopy3.Data.lVal, cEol);
 				SysString ret = SysString(mem.GetStringPtr(), mem.GetStringLength());
 				Wrap( &Result )->Receive( ret );
 				return true;
