@@ -133,7 +133,6 @@ CEditView::CEditView(CEditDoc* pcEditDoc, CEditWnd& cEditWnd)
 // 2007.10.23 kobake コンストラクタ内の処理をすべてCreateに移しました。(初期化処理が不必要に分散していたため)
 BOOL CEditView::Create(
 	HWND		hwndParent,	//!< 親
-	[[maybe_unused]] CEditDoc* pcEditDoc,	//!< 参照するドキュメント
 	int			nMyIndex,	//!< ビューのインデックス
 	BOOL		bShow,		//!< 作成時に表示するかどうか
 	bool		bMiniMap

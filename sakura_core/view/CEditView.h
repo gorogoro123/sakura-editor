@@ -127,7 +127,6 @@ public:
 	/* 初期化系メンバ関数 */
 	BOOL Create(
 		HWND		hwndParent,	//!< 親
-		CEditDoc*	pcEditDoc,	//!< 参照するドキュメント
 		int			nMyIndex,	//!< ビューのインデックス
 		BOOL		bShow,		//!< 作成時に表示するかどうか
 		bool		bMiniMap
