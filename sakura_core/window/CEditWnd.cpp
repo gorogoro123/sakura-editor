@@ -59,6 +59,7 @@
 #include "recent/CRecentFolder.h"
 #include "view/CMiniMapView.h"
 #include "view/CViewFont.h"
+#include "print/CPrintPreview.h"
 
 //@@@ 2002.01.14 YAZAKI 印刷プレビューをCPrintPreviewに独立させたので
 //	定義を削除

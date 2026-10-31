@@ -42,7 +42,6 @@
 #include "doc/CDocListener.h"
 #include "uiparts/CMenuDrawer.h"
 #include "cxx/ResourceHolder.hpp"
-#include "print/CPrintPreview.h"
 
 static const int MENUBAR_MESSAGE_MAX_LEN = 30;
 
@@ -54,6 +53,7 @@ class CMiniMapView;
 struct DLLSHAREDATA;
 class CViewFont;
 class CLogicPointEx;
+class CPrintPreview;
 
 //メインウィンドウ内コントロールID
 #define IDT_EDIT		455  // 20060128 aroka
@@ -84,7 +84,6 @@ private:
 	using AccelHolder = cxx::ResourceHolder<&::DestroyAcceleratorTable>;
 	using CEditViewHolder = std::unique_ptr<CEditView>;
 	using CEditViewsArray = std::array<CEditViewHolder, 4>;
-	using CPrintPreviewHolder = std::unique_ptr<CPrintPreview>;
 	using FontHolder = cxx::ResourceHolder<&::DeleteObject, HFONT>;
 	using MemDcHolder = cxx::ResourceHolder<&::DeleteDC>;
 	using SelectionHolder = cxx::ResourceHolder<&::SelectObject>;
@@ -371,7 +370,7 @@ public:
 	CTabWnd			m_cTabWnd;			//!< タブウインドウ	//@@@ 2003.05.31 MIK
 	CFuncKeyWnd		m_cFuncKeyWnd;		//!< ファンクションバー
 	CMainStatusBar	m_cStatusBar;		//!< ステータスバー
-	CPrintPreviewHolder	m_pPrintPreview = nullptr;	//!< 印刷プレビュー表示情報。必要になったときのみインスタンスを生成する。
+	std::unique_ptr<CPrintPreview>	m_pPrintPreview = nullptr;	//!< 印刷プレビュー表示情報。必要になったときのみインスタンスを生成する。
 
 	CEditView*		m_pcDragSourceView = nullptr;	//!< ドラッグ元のビュー
 	std::unique_ptr<CViewFont>	m_pcViewFont = nullptr;		//!< フォント
