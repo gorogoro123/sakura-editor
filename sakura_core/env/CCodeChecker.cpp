@@ -10,6 +10,7 @@
 #include "charset/CCodeFactory.h" ////
 #include "charset/CUnicode.h"
 #include "doc/CEditDoc.h"
+#include "view/CEditView.h"
 #include "doc/logic/CDocLineMgr.h"
 #include "window/CEditWnd.h"
 #include "util/string_ex.h"

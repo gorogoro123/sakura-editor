@@ -20,6 +20,7 @@
 
 #include "CViewCommander.h"
 #include "window/CEditWnd.h"
+#include "view/CEditView.h"
 #include "cmd/COpeBlk.h"
 #include "uiparts/CWaitCursor.h"
 #include "plugin/CJackManager.h"

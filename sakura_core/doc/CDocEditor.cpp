@@ -10,6 +10,7 @@
 #include "CEditDoc.h"
 #include "doc/logic/CDocLine.h"
 #include "doc/logic/CDocLineMgr.h"
+#include "view/CEditView.h"
 #include "env/DLLSHAREDATA.h"
 #include "_main/CAppMode.h"
 #include "basis/CEol.h"

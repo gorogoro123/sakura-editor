@@ -20,6 +20,7 @@
 #include "macro/CWSH.h"
 #include "macro/CIfObj.h"
 #include "window/CEditWnd.h"
+#include "view/CEditView.h"
 #include "util/os.h"
 #include "util/module.h"
 #include "util/window.h"	// BlockingHook

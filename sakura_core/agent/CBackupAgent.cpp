@@ -7,6 +7,7 @@
 */
 
 #include "agent/CBackupAgent.h"
+#include "doc/CEditDoc.h"
 #include "window/CEditWnd.h"
 #include "util/format.h" //GetDateTimeFormat
 #include "CSelectLang.h"

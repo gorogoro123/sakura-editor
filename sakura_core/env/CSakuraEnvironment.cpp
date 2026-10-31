@@ -15,6 +15,7 @@
 #include "_main/CCommandLine.h"
 #include "doc/CEditDoc.h"
 #include "window/CEditWnd.h"
+#include "view/CEditView.h"
 #include "print/CPrintPreview.h"
 #include "macro/CSMacroMgr.h"
 #include "CEditApp.h"
