@@ -10,6 +10,7 @@
 */
 #include "window/CMainToolBar.h"
 #include "window/CEditWnd.h"
+#include "view/CEditView.h"
 #include "util/os.h"
 #include "util/window.h"
 #include "uiparts/CImageListMgr.h"

@@ -24,6 +24,7 @@
 #include "CCommandLine.h"
 #include "CControlTray.h"
 #include "window/CEditWnd.h" // 2002/2/3 aroka
+#include "view/CEditView.h"
 #include "agent/CGrepAgent.h"
 #include "doc/CEditDoc.h"
 #include "doc/logic/CDocLine.h" // 2003/03/28 MIK

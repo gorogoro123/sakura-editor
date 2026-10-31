@@ -8,10 +8,14 @@
 #include "env/CReadManager.h"
 #include "CEditApp.h"	// CAppExitException
 #include "window/CEditWnd.h"
+#include "doc/logic/CDocLineMgr.h"
 #include "charset/CCodeMediator.h"
 #include "io/CFileLoad.h"
 #include "util/window.h"
 #include "CSelectLang.h"
+#include "doc/CDocFile.h"
+#include "doc/CDocEditor.h"
+#include "env/CDocTypeManager.h"
 #include <atomic>
 #include <future>
 

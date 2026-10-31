@@ -8,7 +8,7 @@
 #include "CDocFileOperation.h"
 #include "CDocVisitor.h"
 #include "CEditDoc.h"
-
+#include "view/CEditView.h"
 #include "recent/CMRUFile.h"
 #include "recent/CMRUFolder.h"
 #include "dlg/CDlgOpenFile.h"

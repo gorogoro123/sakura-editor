@@ -24,6 +24,7 @@
 */
 
 #include "window/CEditWnd.h"
+#include "view/CEditView.h"
 #include "window/CSplitterWnd.h"
 #include "_main/CControlTray.h"
 #include "_main/CCommandLine.h"	/// 2003/1/26 aroka

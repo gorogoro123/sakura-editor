@@ -23,6 +23,7 @@
 
 #include "CViewCommander.h"
 #include "window/CEditWnd.h"
+#include "view/CEditView.h"
 #include "_main/CControlTray.h"
 #include "util/os.h"
 #include "env/CSakuraEnvironment.h"

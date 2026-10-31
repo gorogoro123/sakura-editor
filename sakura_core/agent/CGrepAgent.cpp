@@ -17,6 +17,7 @@
 #include "cmd/COpeBlk.h"
 #include "window/CEditWnd.h"
 #include "charset/CCodeMediator.h"
+#include "view/CEditView.h"
 #include "view/colors/CColorStrategy.h"
 #include "charset/CCodeFactory.h"
 #include "charset/CCodeBase.h"

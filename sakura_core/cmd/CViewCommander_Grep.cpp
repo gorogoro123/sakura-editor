@@ -14,6 +14,7 @@
 */
 #include "CViewCommander.h"
 #include "window/CEditWnd.h"
+#include "view/CEditView.h"
 #include "_main/CControlTray.h"
 #include "CEditApp.h"
 #include "agent/CGrepAgent.h"

@@ -11,6 +11,7 @@
 #pragma once
 
 #include "macro/CWSHIfObj.h"
+#include "view/CEditView.h"
 #include "outline/CFuncInfo.h"	// FUNCINFO_INFOMASK
 
 class COutlineIfObj : public CWSHIfObj {

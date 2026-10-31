@@ -18,6 +18,7 @@
 */
 #include "dlg/CDlgJump.h"
 #include "doc/CEditDoc.h"
+#include "view/CEditView.h"
 #include "func/Funccode.h"		// Stonee, 2001/03/12
 #include "outline/CFuncInfo.h"
 #include "outline/CFuncInfoArr.h"// 2002/2/10 aroka ヘッダー整理

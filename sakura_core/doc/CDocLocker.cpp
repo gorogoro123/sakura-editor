@@ -7,6 +7,7 @@
 #include "CDocLocker.h"
 #include "CDocFile.h"
 #include "window/CEditWnd.h"
+#include "doc/CEditDoc.h"
 #include "CSelectLang.h"
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //

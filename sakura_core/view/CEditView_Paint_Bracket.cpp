@@ -9,6 +9,7 @@
 #include "CEditView_Paint.h"
 #include "window/CEditWnd.h"
 #include "doc/CEditDoc.h"
+#include "view/CEditView.h"
 #include "types/CTypeSupport.h"
 #include "view/colors/CColorStrategy.h"
 

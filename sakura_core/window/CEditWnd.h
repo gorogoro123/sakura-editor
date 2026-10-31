@@ -30,7 +30,6 @@
 #include "CTabWnd.h"	//@@@ 2003.05.31 MIK
 #include "func/CFuncKeyWnd.h"
 #include "CMainStatusBar.h"
-#include "view/CEditView.h"
 #include "dlg/CDlgFind.h"
 #include "dlg/CDlgReplace.h"
 #include "dlg/CDlgJump.h"
@@ -49,10 +48,12 @@ static const int MENUBAR_MESSAGE_MAX_LEN = 30;
 
 class CPlug;
 class CEditDoc;
+class CEditView;
 class CSplitterWnd;
 class CMiniMapView;
 struct DLLSHAREDATA;
 class CViewFont;
+class CLogicPointEx;
 
 //メインウィンドウ内コントロールID
 #define IDT_EDIT		455  // 20060128 aroka

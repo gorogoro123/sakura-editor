@@ -7,6 +7,8 @@
 #include "docplus/CDiffManager.h"
 #include "types/CTypeSupport.h"
 #include "window/CEditWnd.h"
+#include "doc/logic/CDocLine.h"
+#include "doc/logic/CDocLineMgr.h"
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                     CDiffLineGetter                         //

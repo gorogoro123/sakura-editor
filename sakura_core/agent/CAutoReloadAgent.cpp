@@ -6,6 +6,7 @@
 	SPDX-License-Identifier: Zlib
 */
 #include "agent/CAutoReloadAgent.h"
+#include "doc/CEditDoc.h"
 #include "window/CEditWnd.h"
 #include "dlg/CDlgFileUpdateQuery.h"
 #include "CSelectLang.h"
