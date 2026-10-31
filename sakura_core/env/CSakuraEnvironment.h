@@ -12,10 +12,15 @@
 class CEditDoc;
 class CEditWnd;
 
+struct CPrintParam {
+	std::wstring m_szCurPageNum;	/* 現在のページ */
+	std::wstring m_szAllPageNum;	/* 全ページ数 */
+};
+
 class CSakuraEnvironment{
 public:
 	static CEditWnd* GetMainWindow();
-	static void ExpandParameter(CEditDoc* pcDoc, const wchar_t* pszSource, std::span<wchar_t> szBuffer);
+	static void ExpandParameter(CEditDoc* pcDoc, const wchar_t* pszSource, std::span<wchar_t> szBuffer, const CPrintParam* pcPrintParam = nullptr);
 	static std::wstring GetDlgInitialDir(CEditDoc* pcDoc, bool bControlProcess = false);
 
 	static void ResolvePath(WCHAR* pszPath); //!< ショートカットの解決とロングファイル名へ変換を行う。

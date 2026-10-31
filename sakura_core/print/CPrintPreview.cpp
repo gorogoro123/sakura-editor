@@ -1209,6 +1209,10 @@ void CPrintPreview::DrawHeaderFooter( HDC hdc, const CMyRect& rect, bool bHeader
 	wchar_t		szWork[1024 + 1];
 	int			nLen;
 
+	CPrintParam cPrintParam;
+	cPrintParam.m_szCurPageNum = std::to_wstring(GetCurPageNum() + 1);
+	cPrintParam.m_szAllPageNum = std::to_wstring(GetAllPageNum());
+
 	if (bFontSetting) {
 		// フォント指定有り
 		HFONT	hFontForce = nullptr;
@@ -1233,7 +1237,8 @@ void CPrintPreview::DrawHeaderFooter( HDC hdc, const CMyRect& rect, bool bHeader
 		CSakuraEnvironment::ExpandParameter(
 			&m_cEditDoc,
 			bHeader ? m_pPrintSetting->m_szHeaderForm[POS_LEFT] : m_pPrintSetting->m_szFooterForm[POS_LEFT],
-			szWork);
+			szWork,
+			&cPrintParam);
 		Tab2Space( szWork );
 		::ExtTextOut(
 			hdc,
@@ -1249,7 +1254,8 @@ void CPrintPreview::DrawHeaderFooter( HDC hdc, const CMyRect& rect, bool bHeader
 		CSakuraEnvironment::ExpandParameter(
 			&m_cEditDoc,
 			bHeader ? m_pPrintSetting->m_szHeaderForm[POS_CENTER] : m_pPrintSetting->m_szFooterForm[POS_CENTER],
-			szWork);
+			szWork,
+			&cPrintParam);
 		Tab2Space( szWork );
 		SIZE	Size;
 		nLen = (int)wcsnlen(szWork, std::size(szWork));
@@ -1269,7 +1275,8 @@ void CPrintPreview::DrawHeaderFooter( HDC hdc, const CMyRect& rect, bool bHeader
 		CSakuraEnvironment::ExpandParameter(
 			&m_cEditDoc,
 			bHeader ? m_pPrintSetting->m_szHeaderForm[POS_RIGHT] : m_pPrintSetting->m_szFooterForm[POS_RIGHT],
-			szWork);
+			szWork,
+			&cPrintParam);
 		Tab2Space( szWork );
 		nLen = (int)wcsnlen(szWork, std::size(szWork));
 		::GetTextExtentPoint32W( hdc, szWork, nLen, &Size);		//テキスト幅
@@ -1301,7 +1308,8 @@ void CPrintPreview::DrawHeaderFooter( HDC hdc, const CMyRect& rect, bool bHeader
 		CSakuraEnvironment::ExpandParameter(
 			&m_cEditDoc,
 			bHeader ? m_pPrintSetting->m_szHeaderForm[POS_LEFT] : m_pPrintSetting->m_szFooterForm[POS_LEFT],
-			szWork);
+			szWork,
+			&cPrintParam);
 		nLen = (int)wcsnlen(szWork, std::size(szWork));
 		Print_DrawLine(
 			hdc,
@@ -1320,7 +1328,8 @@ void CPrintPreview::DrawHeaderFooter( HDC hdc, const CMyRect& rect, bool bHeader
 		CSakuraEnvironment::ExpandParameter(
 			&m_cEditDoc,
 			bHeader ? m_pPrintSetting->m_szHeaderForm[POS_CENTER] : m_pPrintSetting->m_szFooterForm[POS_CENTER],
-			szWork);
+			szWork,
+			&cPrintParam);
 		nLen = (int)wcsnlen(szWork, std::size(szWork));
 		std::vector<int> vDxArray;
 		nTextWidth = CTextMetrics::CalcTextWidth2(szWork, nLen, nDx, spaceing, vDxArray); //テキスト幅
@@ -1341,7 +1350,8 @@ void CPrintPreview::DrawHeaderFooter( HDC hdc, const CMyRect& rect, bool bHeader
 		CSakuraEnvironment::ExpandParameter(
 			&m_cEditDoc,
 			bHeader ? m_pPrintSetting->m_szHeaderForm[POS_RIGHT] : m_pPrintSetting->m_szFooterForm[POS_RIGHT],
-			szWork);
+			szWork,
+			&cPrintParam);
 		nLen = (int)wcsnlen(szWork, std::size(szWork));
 		nTextWidth = CTextMetrics::CalcTextWidth2(szWork, nLen, nDx, spaceing, vDxArray); //テキスト幅
 		Print_DrawLine(

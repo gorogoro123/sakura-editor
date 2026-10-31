@@ -16,7 +16,6 @@
 #include "doc/CEditDoc.h"
 #include "window/CEditWnd.h"
 #include "view/CEditView.h"
-#include "print/CPrintPreview.h"
 #include "macro/CSMacroMgr.h"
 #include "CEditApp.h"
 #include "agent/CGrepAgent.h"
@@ -106,7 +105,7 @@ std::wstring ExParam_LongName( EExpParamName eLongParam )
 	@date 2008.05.05 novice GetModuleHandle(NULL)→NULLに変更
 	@date 2012.10.11 Moca 特殊文字n追加
 */
-void CSakuraEnvironment::ExpandParameter(CEditDoc* pcDoc, const wchar_t* pszSource, std::span<wchar_t> szBuffer)
+void CSakuraEnvironment::ExpandParameter(CEditDoc* pcDoc, const wchar_t* pszSource, std::span<wchar_t> szBuffer, const CPrintParam* pcPrintParam)
 {
 	if (szBuffer.empty()) {
 		return;
@@ -372,33 +371,23 @@ void CSakuraEnvironment::ExpandParameter(CEditDoc* pcDoc, const wchar_t* pszSour
 			}
 			break;
 		case L'p':	//	現在のページ
-			{
-				CEditWnd*	pcEditWnd = GetMainWindow();	//	Sep. 10, 2002 genta
-				if (pcEditWnd->m_pPrintPreview){
-					wchar_t szText[1024];
-					_itow_s(pcEditWnd->m_pPrintPreview->GetCurPageNum() + 1, szText, 10);
-					result.append(szText);
-					++p;
-				}
-				else {
-					result.append(PRINT_PREVIEW_ONLY);
-					++p;
-				}
+			if (pcPrintParam){
+				result.append(pcPrintParam->m_szCurPageNum);
+				++p;
+			}
+			else {
+				result.append(PRINT_PREVIEW_ONLY);
+				++p;
 			}
 			break;
 		case L'P':	//	総ページ
-			{
-				CEditWnd*	pcEditWnd = GetMainWindow();	//	Sep. 10, 2002 genta
-				if (pcEditWnd->m_pPrintPreview){
-					wchar_t szText[1024];
-					_itow_s(pcEditWnd->m_pPrintPreview->GetAllPageNum(), szText, 10);
-					result.append(szText);
-					++p;
-				}
-				else {
-					result.append(PRINT_PREVIEW_ONLY);
-					++p;
-				}
+			if (pcPrintParam) {
+				result.append(pcPrintParam->m_szAllPageNum);
+				++p;
+			}
+			else {
+				result.append(PRINT_PREVIEW_ONLY);
+				++p;
 			}
 			break;
 		case L'D':	//	タイムスタンプ
