@@ -7,11 +7,9 @@
 */
 
 #include "view/CMiniMapView.h"
-
 #include "doc/CEditDoc.h"
 
 BOOL CMiniMapView::Create( HWND hWndParent )
 {
-	auto pcEditDoc = CEditDoc::getInstance();
-	return CEditView::Create( hWndParent, pcEditDoc, -1, FALSE, true );
+	return CEditView::Create( hWndParent, -1, FALSE, true );
 }

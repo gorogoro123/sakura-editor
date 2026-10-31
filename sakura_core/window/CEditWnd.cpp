@@ -301,7 +301,7 @@ HWND CEditWnd::Create(
 	m_pcSplitterWnd->Create( GetHwnd() );
 
 	/* ビュー */
-	GetView(0).Create( m_pcSplitterWnd->GetHwnd(), GetDocument(), 0, TRUE, false  );
+	GetView(0).Create( m_pcSplitterWnd->GetHwnd(), 0, TRUE, false  );
 	GetView(0).OnSetFocus();
 
 	/* 子ウィンドウの設定 */
@@ -4214,7 +4214,7 @@ bool CEditWnd::CreateEditViewBySplit(int nViewCount )
 		for( int i = GetAllViewCount(); i < nViewCount; i++ ){
 			assert( nullptr == m_pcEditViewArr[i] );
 			m_pcEditViewArr[i] = std::make_unique<CEditView>(&m_cEditDoc, *this);
-			m_pcEditViewArr[i]->Create( m_pcSplitterWnd->GetHwnd(), GetDocument(), i, FALSE, false );
+			m_pcEditViewArr[i]->Create( m_pcSplitterWnd->GetHwnd(), i, FALSE, false );
 		}
 		m_nEditViewCount = nViewCount;
 
