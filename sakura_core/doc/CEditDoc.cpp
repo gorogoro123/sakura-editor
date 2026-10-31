@@ -690,7 +690,7 @@ void CEditDoc::OnChangeSetting(
 			SelectCharWidthCache( CWM_FONT_EDIT, CWM_CACHE_NEUTRAL );
 		}
 		if( bDoLayout ){
-			vPosSaveAry = GetEditWnd().SavePhysPosOfAllView();
+			GetEditWnd().SavePhysPosOfAllView(vPosSaveAry);
 		}
 	}
 

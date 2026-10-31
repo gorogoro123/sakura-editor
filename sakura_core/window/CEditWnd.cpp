@@ -1773,7 +1773,7 @@ LRESULT CEditWnd::DispatchEvent(
 				SelectCharWidthCache( CWM_FONT_EDIT, CWM_CACHE_NEUTRAL );
 			}
 			// フォント変更前の座標の保存
-			m_vPosSaveAry = SavePhysPosOfAllView();
+			SavePhysPosOfAllView(m_vPosSaveAry);
 			if( m_pPrintPreview ){
 				// 設定を戻す
 				SelectCharWidthCache( CWM_FONT_PRINT, CWM_CACHE_LOCAL );
@@ -4482,7 +4482,8 @@ void CEditWnd::ChangeLayoutParam( bool bShowProgress, CKetaXInt nTabSize, int nT
 	}
 
 	//	座標の保存
-	std::vector<CLogicPointEx> vPosSaveAry = SavePhysPosOfAllView();
+	std::vector<CLogicPointEx> vPosSaveAry;
+	SavePhysPosOfAllView(vPosSaveAry);
 
 	//	レイアウトの更新
 	GetDocument()->m_cLayoutMgr.ChangeLayoutParam( nTabSize, nTsvMode, nMaxLineKetas );
@@ -4522,12 +4523,12 @@ void CEditWnd::ChangeLayoutParam( bool bShowProgress, CKetaXInt nTabSize, int nT
 	@date 2007.09.06 kobake 戻り値をCLogicPoint*に変更
 	@date 2011.12.28 CLogicPointをCLogicPointExに変更。改行より右側でも復帰できるように
 */
-std::vector<CLogicPointEx> CEditWnd::SavePhysPosOfAllView()
+void CEditWnd::SavePhysPosOfAllView(std::vector<CLogicPointEx>& vPosAry)
 {
 	const int NUM_OF_VIEW = GetAllViewCount();
 	const int NUM_OF_POS = 6;
 
-	std::vector<CLogicPointEx> vPosAry(NUM_OF_VIEW * NUM_OF_POS);
+	vPosAry.resize(NUM_OF_VIEW * NUM_OF_POS);
 
 	for( int i = 0; i < NUM_OF_VIEW; ++i ){
 		CLayoutPoint tmp = CLayoutPoint(CLayoutInt(0), GetView(i).m_pcTextArea->GetViewTopLine());
@@ -4570,8 +4571,6 @@ std::vector<CLogicPointEx> CEditWnd::SavePhysPosOfAllView()
 			&vPosAry[i * NUM_OF_POS + 5]
 		);
 	}
-
-	return vPosAry;
 }
 
 /*!	座標の復元
