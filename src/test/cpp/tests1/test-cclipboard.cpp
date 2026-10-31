@@ -20,6 +20,7 @@
 #include "basis/CEol.h"
 #include "mem/CNativeW.h"
 #include "_os/CClipboard.h"
+#include "types/CType.h"
 
 using ::testing::_;
 using ::testing::Invoke;
@@ -424,7 +425,8 @@ TEST_F(CClipboardGetText, LineSelectIsTrue2) {
 TEST_F(CClipboardGetText, GetClipboardByFormatSuccess) {
 	ON_CALL(clipboard, IsClipboardFormatAvailable(CF_UNICODETEXT)).WillByDefault(Return(TRUE));
 	ON_CALL(clipboard, GetClipboardData(CF_UNICODETEXT)).WillByDefault(Return(unicodeMemory.Get()));
-	EXPECT_TRUE(clipboard.GetClipboardByFormat(buffer, L"CF_UNICODETEXT", -2, 0, eol));
+	STypeConfig type;
+	EXPECT_TRUE(clipboard.GetClipboardByFormat(type, buffer, L"CF_UNICODETEXT", -2, 0, eol));
 	EXPECT_STREQ(buffer.GetStringPtr(), unicodeText.data());
 }
 
@@ -433,7 +435,8 @@ TEST_F(CClipboardGetText, GetClipboardByFormatFailure1) {
 	buffer.SetString(L"dummy");
 	ON_CALL(clipboard, IsClipboardFormatAvailable(CF_UNICODETEXT)).WillByDefault(Return(TRUE));
 	ON_CALL(clipboard, GetClipboardData(_)).WillByDefault(Return(nullptr));
-	EXPECT_FALSE(clipboard.GetClipboardByFormat(buffer, L"CF_UNICODETEXT", -2, 0, eol));
+	STypeConfig type;
+	EXPECT_FALSE(clipboard.GetClipboardByFormat(type, buffer, L"CF_UNICODETEXT", -2, 0, eol));
 	EXPECT_STREQ(buffer.GetStringPtr(), L"");
 }
 
@@ -441,7 +444,8 @@ TEST_F(CClipboardGetText, GetClipboardByFormatFailure1) {
 TEST_F(CClipboardGetText, GetClipboardByFormatFailure2) {
 	buffer.SetString(L"dummy");
 	ON_CALL(clipboard, IsClipboardFormatAvailable(CF_UNICODETEXT)).WillByDefault(Return(FALSE));
-	EXPECT_FALSE(clipboard.GetClipboardByFormat(buffer, L"CF_UNICODETEXT", -2, 0, eol));
+	STypeConfig type;
+	EXPECT_FALSE(clipboard.GetClipboardByFormat(type, buffer, L"CF_UNICODETEXT", -2, 0, eol));
 	EXPECT_STREQ(buffer.GetStringPtr(), L"");
 }
 
@@ -592,7 +596,8 @@ TEST(CClipboard, GetClipboardByFormat1) {
 	MockCClipboard clipboard;
 	CNativeW buffer(L"dummy");
 	CEol eol(EEolType::cr_and_lf);
-	EXPECT_FALSE(clipboard.GetClipboardByFormat(buffer, L"", -1, 0, eol));
+	STypeConfig type;
+	EXPECT_FALSE(clipboard.GetClipboardByFormat(type, buffer, L"", -1, 0, eol));
 	EXPECT_STREQ(buffer.GetStringPtr(), L"");
 }
 
@@ -602,7 +607,8 @@ TEST(CClipboard, GetClipboardByFormat2) {
 	CNativeW buffer(L"dummy");
 	CEol eol(EEolType::cr_and_lf);
 	ON_CALL(clipboard, IsClipboardFormatAvailable(12345)).WillByDefault(Return(FALSE));
-	EXPECT_FALSE(clipboard.GetClipboardByFormat(buffer, L"12345", -1, 0, eol));
+	STypeConfig type;
+	EXPECT_FALSE(clipboard.GetClipboardByFormat(type, buffer, L"12345", -1, 0, eol));
 	EXPECT_STREQ(buffer.GetStringPtr(), L"");
 }
 
@@ -613,7 +619,8 @@ TEST(CClipboard, GetClipboardByFormat3) {
 	CEol eol(EEolType::cr_and_lf);
 	ON_CALL(clipboard, IsClipboardFormatAvailable(12345)).WillByDefault(Return(TRUE));
 	ON_CALL(clipboard, GetClipboardData(12345)).WillByDefault(Return(nullptr));
-	EXPECT_FALSE(clipboard.GetClipboardByFormat(buffer, L"12345", -1, 0, eol));
+	STypeConfig type;
+	EXPECT_FALSE(clipboard.GetClipboardByFormat(type, buffer, L"12345", -1, 0, eol));
 	EXPECT_STREQ(buffer.GetStringPtr(), L"");
 }
 
@@ -625,7 +632,8 @@ TEST(CClipboard, GetClipboardByFormat4) {
 	ON_CALL(clipboard, IsClipboardFormatAvailable(12345)).WillByDefault(Return(TRUE));
 	ON_CALL(clipboard, GetClipboardData(12345)).WillByDefault(Return((HANDLE)67890));
 	ON_CALL(clipboard, GlobalLock((HANDLE)67890)).WillByDefault(Return(nullptr));
-	EXPECT_FALSE(clipboard.GetClipboardByFormat(buffer, L"12345", -1, 0, eol));
+	STypeConfig type;
+	EXPECT_FALSE(clipboard.GetClipboardByFormat(type, buffer, L"12345", -1, 0, eol));
 	EXPECT_STREQ(buffer.GetStringPtr(), L"");
 }
 
@@ -643,7 +651,8 @@ TEST(CClipboard, GetClipboardByFormat5) {
 	ON_CALL(clipboard, IsClipboardFormatAvailable(12345)).WillByDefault(Return(TRUE));
 	ON_CALL(clipboard, GetClipboardData(12345)).WillByDefault(Return(memory.Get()));
 	ON_CALL(clipboard, GlobalLock(_)).WillByDefault(::GlobalLock);
-	EXPECT_TRUE(clipboard.GetClipboardByFormat(buffer, L"12345", -1, 0, eol));
+	STypeConfig type;
+	EXPECT_TRUE(clipboard.GetClipboardByFormat(type, buffer, L"12345", -1, 0, eol));
 	EXPECT_STREQ(buffer.GetStringPtr(), L"\x00\xff");
 }
 
@@ -660,7 +669,8 @@ TEST(CClipboard, GetClipboardByFormat6) {
 	ON_CALL(clipboard, IsClipboardFormatAvailable(12345)).WillByDefault(Return(TRUE));
 	ON_CALL(clipboard, GetClipboardData(12345)).WillByDefault(Return(memory.Get()));
 	ON_CALL(clipboard, GlobalLock(_)).WillByDefault(::GlobalLock);
-	EXPECT_TRUE(clipboard.GetClipboardByFormat(buffer, L"12345", 3, 2, eol));
+	STypeConfig type;
+	EXPECT_TRUE(clipboard.GetClipboardByFormat(type, buffer, L"12345", 3, 2, eol));
 	EXPECT_STREQ(buffer.GetStringPtr(), L"テスト");
 }
 
@@ -678,7 +688,8 @@ TEST(CClipboard, DISABLED_GetClipboardByFormat7) {
 	CEol eol(EEolType::cr_and_lf);
 	ON_CALL(clipboard, IsClipboardFormatAvailable(12345)).WillByDefault(Return(TRUE));
 	ON_CALL(clipboard, GetClipboardData(12345)).WillByDefault(Return(memory.Get()));
-	EXPECT_TRUE(clipboard.GetClipboardByFormat(buffer, L"12345", 4, 1, eol));
+	STypeConfig type;
+	EXPECT_TRUE(clipboard.GetClipboardByFormat(type, buffer, L"12345", 4, 1, eol));
 	EXPECT_STREQ(buffer.GetStringPtr(), L"テスト");
 }
 

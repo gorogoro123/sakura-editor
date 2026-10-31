@@ -10,6 +10,7 @@
 #include "util/design_template.h"
 #include "mem/CNativeW.h"
 
+struct STypeConfig;
 class CEol;
 
 struct IWBuffer {
@@ -61,7 +62,7 @@ public:
 	bool GetText(std::wstring* cmemBuf, bool* pbColumnSelect, bool* pbLineSelect, const CEol& cEol, UINT uGetFormat = UINT_MAX); //!< テキストを取得する
 	bool IsIncludeClipboardFormat(const wchar_t* pFormatName);
 	bool SetClipboardByFormat(std::span<const WCHAR> cstr, const wchar_t* pFormatName, int nMode, int nEndMode);
-	bool GetClipboardByFormat(CNativeW& mem, const wchar_t* pFormatName, int nMode, int nEndMode, const CEol& cEol);
+	bool GetClipboardByFormat(const STypeConfig& type, CNativeW& mem, const wchar_t* pFormatName, int nMode, int nEndMode, const CEol& cEol);
 
 	//演算子
 	operator bool() const{ return m_bOpenResult!=FALSE; } //!< クリップボードを開けたならtrue

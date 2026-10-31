@@ -567,7 +567,7 @@ static size_t GetLengthByMode(HGLOBAL hClipData, const BYTE* pData, int nMode, i
 	@param nEndMode -1:文字コードに依存 0:GlobalSize 1:strlen 2:wcslen 4:wchar32_tの文字列
 	@date 2013.06.12 Moca 新規作成
 */
-bool CClipboard::GetClipboardByFormat(CNativeW& mem, const wchar_t* pFormatName, int nMode, int nEndMode, const CEol& cEol)
+bool CClipboard::GetClipboardByFormat(const STypeConfig& type, CNativeW& mem, const wchar_t* pFormatName, int nMode, int nEndMode, const CEol& cEol)
 {
 	mem.SetString(L"");
 	CLIPFORMAT uFormat = GetClipFormat(pFormatName);
@@ -611,7 +611,6 @@ bool CClipboard::GetClipboardByFormat(CNativeW& mem, const wchar_t* pFormatName,
 			ECodeType eMode = (ECodeType)nMode;
 			if( !IsValidCodeType(eMode) ){
 				{
-					const STypeConfig& type = GetDocument()->m_cDocType.GetDocumentAttribute();
 					CCodeMediator mediator(type.m_encoding);
 					eMode = mediator.CheckKanjiCode((const char*)pData, nLength);
 				}
