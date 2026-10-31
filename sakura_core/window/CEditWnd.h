@@ -247,7 +247,7 @@ public:
 	//	Aug. 14, 2005 genta TAB幅と折り返し位置の更新
 	void ChangeLayoutParam( bool bShowProgress, CKetaXInt nTabSize, int nTsvMode, CKetaXInt nMaxLineKetas );
 	//	Aug. 14, 2005 genta
-	std::vector<CLogicPointEx> SavePhysPosOfAllView();
+	void SavePhysPosOfAllView( std::vector<CLogicPointEx>& vPosAry );
 	void RestorePhysPosOfAllView( const std::vector<CLogicPointEx>& vPosAry );
 	// 互換BMPによる画面バッファ 2007.09.09 Moca
 	void Views_DeleteCompatibleBitmap(); //!< CEditViewの画面バッファを削除
