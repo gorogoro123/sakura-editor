@@ -17,6 +17,7 @@
 	Please contact the copyright holder to use this code for other purpose.
 */
 #include "dlg/CDlgGrepReplace.h"
+#include "doc/CEditDoc.h"
 #include "view/CEditView.h"
 #include "func/Funccode.h"		// Stonee, 2001/03/12
 #include "util/module.h"

@@ -8,6 +8,7 @@
 
 #include "CEditView.h"
 #include "window/CEditWnd.h"
+#include "doc/CEditDoc.h"
 #include "parse/CWordParse.h"
 #include "util/string_ex2.h"
 #include "CSelectLang.h"

@@ -26,6 +26,7 @@
 #include "CEditApp.h"
 #include "agent/CGrepAgent.h" // use CEditApp.h
 #include "window/CEditWnd.h"
+#include "doc/CEditDoc.h"
 #include "_os/CDropTarget.h" // CDataObject
 #include "_os/CClipboard.h"
 #include "cmd/COpeBlk.h"

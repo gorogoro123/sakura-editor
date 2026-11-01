@@ -15,6 +15,7 @@
 */
 
 #include "CViewCommander.h"
+#include "doc/CEditDoc.h"
 #include "view/CEditView.h"
 #include "cmd/COpeBlk.h"
 #include "env/DLLSHAREDATA.h"

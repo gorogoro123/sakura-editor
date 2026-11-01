@@ -25,6 +25,7 @@
 #include "CViewCommander.h"
 #include "view/CEditView.h"
 #include "window/CEditWnd.h"
+#include "doc/CEditDoc.h"
 #include "dlg/CDlgCancel.h"// 2002/2/8 hor
 #include "agent/CSearchAgent.h"
 #include "util/window.h"

@@ -18,6 +18,7 @@
 	Please contact the copyright holder to use this code for other purpose.
 */
 #include "dlg/CDlgReplace.h"
+#include "doc/CEditDoc.h"
 #include "view/CEditView.h"
 #include "util/shell.h"
 #include "util/window.h"

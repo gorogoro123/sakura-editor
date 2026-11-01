@@ -22,6 +22,7 @@
 #include "CViewCommander.h"
 #include "view/CEditView.h"
 #include "window/CEditWnd.h"
+#include "doc/CEditDoc.h"
 #include "dlg/CDlgCompare.h"
 #include "dlg/CDlgDiff.h"
 #include "charset/CCodeMediator.h"

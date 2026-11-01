@@ -27,6 +27,7 @@
 #include "view/CRuler.h"
 #include "uiparts/CWaitCursor.h"
 #include "window/CEditWnd.h"
+#include "doc/CEditDoc.h"
 #include "window/CSplitBoxWnd.h"///
 #include "cmd/COpeBlk.h"///
 #include "_os/CDropTarget.h"///

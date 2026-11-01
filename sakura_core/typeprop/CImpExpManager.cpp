@@ -17,6 +17,7 @@
 #include "io/CTextStream.h"
 #include "env/CShareData_IO.h"
 #include "env/DLLSHAREDATA.h"
+#include "env/CDocTypeManager.h"
 #include "plugin/CPlugin.h"
 #include "view/CEditView.h"
 #include "view/colors/CColorStrategy.h"
