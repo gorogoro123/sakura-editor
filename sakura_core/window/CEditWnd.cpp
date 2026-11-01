@@ -161,14 +161,6 @@ void CEditWnd::ShowCodeBox()
 }
 
 /*!
- * 編集ウインドウのアドレスを取得します。
- */
-CEditWnd* GetEditWndPtr() noexcept
-{
-	return CEditWnd::getInstance();
-}
-
-/*!
  * 編集ウインドウの参照を取得します。
  *
  * 編集ウインドウの生存期間ははエディタプロセスと同じなので、
@@ -178,7 +170,7 @@ CEditWnd* GetEditWndPtr() noexcept
  */
 CEditWnd& GetEditWnd()
 {
-	auto pcEditWnd = GetEditWndPtr();
+	auto pcEditWnd = CEditWnd::getInstance();
 	if (!pcEditWnd) {
 		throw std::domain_error("CEditWnd is not initialized");
 	}
