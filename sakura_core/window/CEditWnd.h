@@ -431,5 +431,4 @@ public:
 	ESelectCountMode	m_nSelectCountMode = SELECT_COUNT_TOGGLE; // 選択文字カウント方法
 };
 
-CEditWnd* GetEditWndPtr() noexcept;
 CEditWnd& GetEditWnd();
