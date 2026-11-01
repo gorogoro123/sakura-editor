@@ -22,6 +22,7 @@
 #include "CViewCommander.h"
 #include "doc/CEditDoc.h"
 #include "window/CEditWnd.h"
+#include "view/CEditView.h"
 #include "outline/CFuncInfoArr.h"
 #include "plugin/CJackManager.h"
 #include "plugin/COutlineIfObj.h"
