@@ -1593,7 +1593,7 @@ int	CEditView::CreatePopUpMenuSub( HMENU hMenu, int nMenuIdx, int* pParentMenus,
 		}
 
 		/* 機能がチェック状態か調べる */
-		if( IsFuncChecked( GetDocument(), &GetDllShareData(), id ) ){
+		if( IsFuncChecked( &m_cEditWnd, GetDocument(), &GetDllShareData(), id ) ){
 			fuFlags = MF_BYCOMMAND | MF_CHECKED;
 			::CheckMenuItem(hMenu, id, fuFlags);
 		}
