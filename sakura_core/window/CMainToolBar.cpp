@@ -16,6 +16,7 @@
 #include "uiparts/CImageListMgr.h"
 #include "apiwrap/CommonControl.h"
 #include "apiwrap/StdControl.h"
+#include "recent/CRecentSearch.h"
 #include "CSelectLang.h"
 
 CMainToolBar::CMainToolBar(CEditWnd* pOwner)
@@ -25,6 +26,7 @@ CMainToolBar::CMainToolBar(CEditWnd* pOwner)
 
 void CMainToolBar::Create( CImageListMgr* pcIcons )
 {
+	m_pcRecentSearch = std::make_unique<CRecentSearch>();
 	m_pcIcons = pcIcons;
 }
 
@@ -294,7 +296,7 @@ void CMainToolBar::CreateToolBar( HINSTANCE hInst )
 							//検索ボックスを更新	// 関数化 2010/6/6 Uchi
 							AcceptSharedSearchKey();
 
-							CDialog::SetComboBoxDeleter(m_hwndSearchBox, &m_cRecentSearch);
+							CDialog::SetComboBoxDeleter(m_hwndSearchBox, m_pcRecentSearch.get());
 
 							// コンボボックスの垂直位置を調整する
 							CMyRect rcCombo;

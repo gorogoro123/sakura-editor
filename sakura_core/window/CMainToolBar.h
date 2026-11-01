@@ -7,10 +7,9 @@
 */
 #pragma once
 
-#include "recent/CRecentSearch.h"
-
 class CEditWnd;
 class CImageListMgr;
+class CRecentSearch;
 
 class CMainToolBar{
 public:
@@ -58,6 +57,6 @@ private:
 	//フォント
 	HFONT		m_hFontSearchBox = nullptr;	//!< 検索コンボボックスのフォント
 
-	CRecentSearch			m_cRecentSearch;
+	std::unique_ptr<CRecentSearch>	m_pcRecentSearch;
 	CImageListMgr*			m_pcIcons = nullptr;
 };
