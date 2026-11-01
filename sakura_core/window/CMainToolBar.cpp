@@ -504,7 +504,7 @@ void CMainToolBar::UpdateToolbar( )
 					stateToSet |= TBSTATE_ENABLED;
 				}
 				// 機能がチェック状態か調べる
-				if( IsFuncChecked( m_pOwner->GetDocument(), &GetDllShareData(), (EFunctionCode)tbb.idCommand ) )
+				if( IsFuncChecked( m_pOwner, m_pOwner->GetDocument(), &GetDllShareData(), (EFunctionCode)tbb.idCommand ) )
 				{
 					stateToSet |= TBSTATE_CHECKED;
 				}
