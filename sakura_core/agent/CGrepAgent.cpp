@@ -16,6 +16,7 @@
 #include "env/CSakuraEnvironment.h"
 #include "cmd/COpeBlk.h"
 #include "window/CEditWnd.h"
+#include "doc/CEditDoc.h"
 #include "charset/CCodeMediator.h"
 #include "view/CEditView.h"
 #include "view/colors/CColorStrategy.h"

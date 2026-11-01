@@ -23,6 +23,7 @@
 #include "CViewCommander.h"
 #include "view/CEditView.h"
 #include "window/CEditWnd.h"
+#include "doc/CEditDoc.h"
 #include "env/CPropertyManager.h"
 #include "CEditApp.h"
 #include "dlg/CDlgAbout.h"	//Dec. 24, 2000 JEPRO 追加

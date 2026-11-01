@@ -21,6 +21,7 @@
 #include "CViewCommander.h"
 #include "view/CEditView.h"
 #include "window/CEditWnd.h"
+#include "doc/CEditDoc.h"
 #include "_main/CControlTray.h"
 #include "uiparts/CWaitCursor.h"
 #include "dlg/CDlgProperty.h"

@@ -34,7 +34,7 @@
 #include "util/tchar_template.h"
 #include "apiwrap/StdControl.h"
 #include "mem/CNativeA.h"
-
+#include "doc/CEditDoc.h"
 #include "cxx/ResourceHolder.hpp"
 
 #include "sakura_rc.h" // IDD_EXECRUNNING

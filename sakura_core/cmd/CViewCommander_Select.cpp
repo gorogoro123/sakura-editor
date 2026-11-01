@@ -16,6 +16,7 @@
 */
 
 #include "CViewCommander.h"
+#include "doc/CEditDoc.h"
 #include "view/CEditView.h"
 
 /* 現在位置の単語選択 */

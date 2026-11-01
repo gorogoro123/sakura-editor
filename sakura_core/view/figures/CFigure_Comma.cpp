@@ -5,6 +5,7 @@
 	SPDX-License-Identifier: Zlib
 */
 #include "view/CEditView.h" // SColorStrategyInfo
+#include "doc/CEditDoc.h"
 #include "CFigure_Comma.h"
 #include "types/CTypeSupport.h"
 #include "apiwrap/StdApi.h"

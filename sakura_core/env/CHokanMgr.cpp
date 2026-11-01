@@ -19,6 +19,7 @@
 #include "env/CHokanMgr.h"
 #include "env/CDicMgr.h"
 #include "env/CShareData.h"
+#include "doc/CEditDoc.h"
 #include "view/CEditView.h"
 #include "plugin/CJackManager.h"
 #include "plugin/CComplementIfObj.h"

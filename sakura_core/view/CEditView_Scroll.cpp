@@ -27,6 +27,7 @@
 #include "CRuler.h"
 #include "env/DLLSHAREDATA.h"
 #include "window/CEditWnd.h"
+#include "doc/CEditDoc.h"
 #include "view/CMiniMapView.h"
 #include "types/CTypeSupport.h"
 #include "config/app_constants.h"

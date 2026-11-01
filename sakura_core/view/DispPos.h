@@ -7,24 +7,12 @@
 */
 #pragma once
 
-#include "doc/CEditDoc.h"
 #include "doc/layout/CLayoutMgr.h"
 #include "doc/layout/CLayout.h"
 
 struct DispPos{
 public:
-	DispPos(int nDx,int nDy)
-	: m_nDx(nDx)
-	, m_nDy(nDy)
-	{
-		m_ptDrawOrigin.x=0;
-		m_ptDrawOrigin.y=0;
-		m_ptDrawLayout.x=CLayoutInt(0);
-		m_ptDrawLayout.y=CLayoutInt(0);
-		m_nLineRef=CLayoutInt(0);
-		//キャッシュ
-		m_pcLayoutRef = GetDocument()->m_cLayoutMgr.GetTopLayout();
-	}
+	DispPos(int nDx,int nDy);
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 	//                         描画位置                            //
@@ -69,12 +57,7 @@ public:
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 
 	//変更
-	void SetLayoutLineRef(CLayoutInt nOffsetLine)
-	{
-		m_nLineRef = nOffsetLine;
-		//キャッシュ更新
-		m_pcLayoutRef = GetDocument()->m_cLayoutMgr.SearchLineByLayoutY( m_nLineRef );
-	}
+	void SetLayoutLineRef(CLayoutInt nOffsetLine);
 	void ForwardLayoutLineRef(int nOffsetLine);
 
 	//取得

@@ -15,6 +15,7 @@
 */
 
 #include "CViewCommander.h"
+#include "doc/CEditDoc.h"
 #include "view/CEditView.h"
 #include "convert/CDecode_Base64Decode.h"
 #include "convert/CDecode_UuDecode.h"

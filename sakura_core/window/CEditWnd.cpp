@@ -24,6 +24,7 @@
 */
 
 #include "window/CEditWnd.h"
+#include "doc/CEditDoc.h"
 #include "view/CEditView.h"
 #include "window/CSplitterWnd.h"
 #include "_main/CControlTray.h"
