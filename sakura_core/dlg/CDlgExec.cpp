@@ -23,7 +23,6 @@
 #include "util/shell.h"
 #include "util/window.h"
 #include "_main/CAppMode.h"
-#include "doc/CEditDoc.h"
 #include "apiwrap/StdControl.h"
 #include "CSelectLang.h"
 #include "sakura_rc.h"
@@ -54,10 +53,10 @@ static const int codeTable1[] = { 0x00, 0x08, 0x80 };
 static const int codeTable2[] = { 0x00, 0x10, 0x100 };
 
 /* モーダルダイアログの表示 */
-int CDlgExec::DoModal( HINSTANCE hInstance, HWND hwndParent, LPARAM lParam )
+int CDlgExec::DoModal( HINSTANCE hInstance, HWND hwndParent, LPARAM lParam, bool bEditable )
 {
 	m_szCommand[0] = L'\0';	/* コマンドライン */
-	m_bEditable = GetDocument()->IsEditable();
+	m_bEditable = bEditable;
 	return (int)CDialog::DoModal( hInstance, hwndParent, IDD_EXEC, lParam );
 }
 

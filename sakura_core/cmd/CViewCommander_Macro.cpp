@@ -21,6 +21,7 @@
 
 #include "CViewCommander.h"
 #include "view/CEditView.h"
+#include "doc/CEditDoc.h"
 #include "window/CEditWnd.h"
 //@@@ 2002.2.2 YAZAKI マクロはCSMacroMgrに統一
 #include "macro/CSMacroMgr.h"
@@ -275,7 +276,8 @@ void CViewCommander::Command_EXECCOMMAND_DIALOG( )
 	CDlgExec cDlgExec;
 
 	/* モードレスダイアログの表示 */
-	if( !cDlgExec.DoModal( G_AppInstance(), m_pCommanderView->GetHwnd(), 0 ) ){
+	bool bEditable = GetDocument()->IsEditable();
+	if( !cDlgExec.DoModal( G_AppInstance(), m_pCommanderView->GetHwnd(), 0, bEditable ) ){
 		return;
 	}
 

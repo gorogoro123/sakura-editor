@@ -31,7 +31,7 @@ public:
 	/*
 	||  Attributes & Operations
 	*/
-	int DoModal(HINSTANCE hInstance, HWND hwndParent, LPARAM lParam);	/* モーダルダイアログの表示 */
+	int DoModal(HINSTANCE hInstance, HWND hwndParent, LPARAM lParam, bool bEditable);	/* モーダルダイアログの表示 */
 
 	StaticString<MAX_CMDLEN>	m_szCommand;	/* コマンドライン */
 	SFilePath	m_szCurDir;	/* カレントディレクトリ */
