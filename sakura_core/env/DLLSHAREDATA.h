@@ -18,7 +18,7 @@
 
 #include "basis/EditInfo.h"
 #include "types/CType.h" // STypeConfig
-#include "print/CPrint.h" //PRINTSETTING
+#include "print/PrintSetting.h"
 #include "recent/SShare_History.h"	//SShare_History
 #include "charset/charcode.h"
 #include "util/design_template.h"

@@ -1042,6 +1042,9 @@
     <ClInclude Include="..\sakura_core\print\CPrintPreview.h">
       <Filter>Cpp Source Files\print</Filter>
     </ClInclude>
+    <ClInclude Include="..\sakura_core\print\PrintSetting.h">
+      <Filter>Cpp Source Files\print</Filter>
+    </ClInclude>
     <ClInclude Include="..\sakura_core\uiparts\CGraphics.h">
       <Filter>Cpp Source Files\uiparts</Filter>
     </ClInclude>

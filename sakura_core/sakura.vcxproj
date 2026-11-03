@@ -370,6 +370,7 @@
     <ClInclude Include="..\sakura_core\plugin\CWSHPlugin.h" />
     <ClInclude Include="..\sakura_core\print\CPrint.h" />
     <ClInclude Include="..\sakura_core\print\CPrintPreview.h" />
+    <ClInclude Include="..\sakura_core\print\PrintSetting.h" />
     <ClInclude Include="..\sakura_core\prop\CPropCommon.h" />
     <ClInclude Include="..\sakura_core\recent\CMRUFile.h" />
     <ClInclude Include="..\sakura_core\recent\CMRUFolder.h" />

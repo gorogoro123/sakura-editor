@@ -14,7 +14,7 @@
 
 #include "dlg/CDialog.h"
 #include "config/maxdata.h" // MAX_PRINTSETTINGARR
-#include "print/CPrint.h" //PRINTSETTING
+#include "print/PrintSetting.h"
 
 /*!	印刷設定ダイアログ
 

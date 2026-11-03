@@ -16,7 +16,7 @@
 */
 
 #include <WinSpool.h>
-#include "CPrint.h"
+#include "print/CPrint.h"
 #include "_main/global.h"
 #include "CSelectLang.h"
 #include "basis/CMyString.h"
