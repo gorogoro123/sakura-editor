@@ -31,7 +31,7 @@ public:
 	/*
 	||  Attributes & Operations
 	*/
-	int DoModal( HINSTANCE hInstance, HWND hwndParent, const WCHAR* pszCurrentFilePath, LPARAM lParam );	/* モーダルダイアログの表示 */
+	int DoModal( HINSTANCE hInstance, HWND hwndParent, const WCHAR* pszCurrentFilePath, LPARAM lParam, bool bIsEnablePaste );	/* モーダルダイアログの表示 */
 
 	bool		m_bPaste;
 	bool		m_bBackup;
@@ -42,6 +42,7 @@ public:
 protected:
 	CRecentReplace			m_cRecentReplace;
 	CFontAutoDeleter		m_cFontText2;
+	bool                    m_bIsEnablePaste = false;
 
 	/*
 	||  実装ヘルパ関数

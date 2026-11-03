@@ -17,8 +17,6 @@
 	Please contact the copyright holder to use this code for other purpose.
 */
 #include "dlg/CDlgGrepReplace.h"
-#include "doc/CEditDoc.h"
-#include "view/CEditView.h"
 #include "func/Funccode.h"		// Stonee, 2001/03/12
 #include "util/module.h"
 #include "util/shell.h"
@@ -74,8 +72,9 @@ CDlgGrepReplace::CDlgGrepReplace()
 }
 
 /* モーダルダイアログの表示 */
-int CDlgGrepReplace::DoModal( HINSTANCE hInstance, HWND hwndParent, const WCHAR* pszCurrentFilePath, LPARAM lParam )
+int CDlgGrepReplace::DoModal( HINSTANCE hInstance, HWND hwndParent, const WCHAR* pszCurrentFilePath, LPARAM lParam, bool bIsEnablePaste )
 {
+	m_bIsEnablePaste = bIsEnablePaste;
 	m_bSubFolder = m_pShareData->m_Common.m_sSearch.m_bGrepSubFolder;			// Grep: サブフォルダーも検索
 	m_sSearchOption = m_pShareData->m_Common.m_sSearch.m_sSearchOption;		// 検索オプション
 	m_nGrepCharSet = m_pShareData->m_Common.m_sSearch.m_nGrepCharSet;			// 文字コードセット
@@ -176,9 +175,8 @@ BOOL CDlgGrepReplace::OnBnClicked( int wID )
 	case IDOK:
 		{
 			bool bStop = false;
-			CEditView* pcEditView = (CEditView*)m_lParam;
 			if( ::IsDlgButtonChecked( GetHwnd(), IDC_CHK_PASTE ) &&
-				!pcEditView->m_pcEditDoc->m_cDocEditor.IsEnablePaste() ){
+				!m_bIsEnablePaste ){
 				OkMessage( GetHwnd(), LS(STR_DLGREPLC_CLIPBOARD) );
 				::CheckDlgButton( GetHwnd(), IDC_CHK_PASTE, FALSE );
 				bStop = true;

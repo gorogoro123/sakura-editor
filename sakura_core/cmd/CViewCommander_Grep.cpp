@@ -150,7 +150,8 @@ void CViewCommander::Command_GREP_REPLACE_DLG( )
 		}
 	}
 
-	int nRet = cDlgGrepRep.DoModal( G_AppInstance(), m_pCommanderView->GetHwnd(), GetDocument()->m_cDocFile.GetFilePath(), (LPARAM)m_pCommanderView );
+	bool bIsEnablePaste = GetDocument()->m_cDocEditor.IsEnablePaste();
+	int nRet = cDlgGrepRep.DoModal( G_AppInstance(), m_pCommanderView->GetHwnd(), GetDocument()->m_cDocFile.GetFilePath(), (LPARAM)0, bIsEnablePaste );
 	if( !nRet ){
 		return;
 	}
