@@ -1,0 +1,102 @@
+﻿/*!	@file
+	@brief 印刷関連
+
+	@author Norio Nakatani
+	@date 1998/06/09 新規作成
+*/
+/*
+	Copyright (C) 1998-2001, Norio Nakatani
+	Copyright (C) 2003, かろと
+	Copyright (C) 2018-2022, Sakura Editor Organization
+
+	SPDX-License-Identifier: Zlib
+*/
+#pragma once
+
+#include <WinSpool.h>
+#include <CommDlg.h> // PRINTDLG
+#include "basis/primitive.h"
+#include "basis/CMyString.h"
+#include "util/design_template.h"
+
+struct	MYDEVMODE {
+	BOOL	m_bPrinterNotFound;	/* プリンターがなかったフラグ */
+	SFilePath	m_szPrinterDriverName;	// プリンタードライバー名
+	SFilePath	m_szPrinterDeviceName;	// プリンターデバイス名
+	SFilePath	m_szPrinterOutputName;	// プリンターポート名
+	DWORD	dmFields;
+	short	dmOrientation;
+	short	dmPaperSize;
+	short	dmPaperLength;
+	short	dmPaperWidth;
+
+	//! 等価比較演算子
+	bool operator == (const MYDEVMODE& rhs) const noexcept {
+		if (this == &rhs) return true;
+		return m_bPrinterNotFound == rhs.m_bPrinterNotFound
+			&& 0 == wcsncmp(m_szPrinterDriverName.c_str(), rhs.m_szPrinterDriverName.c_str(), m_szPrinterDriverName.capacity())
+			&& 0 == wcsncmp(m_szPrinterDeviceName.c_str(), rhs.m_szPrinterDeviceName.c_str(), m_szPrinterDeviceName.capacity())
+			&& 0 == wcsncmp(m_szPrinterOutputName.c_str(), rhs.m_szPrinterOutputName.c_str(), m_szPrinterOutputName.capacity())
+			&& dmFields == rhs.dmFields
+			&& dmOrientation == rhs.dmOrientation
+			&& dmPaperSize == rhs.dmPaperSize
+			&& dmPaperLength == rhs.dmPaperLength
+			&& dmPaperWidth == rhs.dmPaperWidth
+			;
+	}
+	//! 否定の等価比較演算子
+	bool operator != (const MYDEVMODE& rhs) const noexcept {
+		return !(*this == rhs);
+	}
+};
+
+// 2006.08.14 Moca 用紙情報の統合 PAPER_INFO新設
+//! 用紙情報
+struct PAPER_INFO {
+	int				m_nId;			//!< 用紙ID
+	short			m_nAllWidth;	//!< 幅 (0.1mm単位)
+	short			m_nAllHeight;	//!< 高さ (0.1mm単位)
+	const WCHAR*	m_pszName;		//!< 用紙名称
+};
+
+//! 印刷設定
+#define POS_LEFT	0
+#define POS_CENTER	1
+#define POS_RIGHT	2
+#define HEADER_MAX	100
+#define FOOTER_MAX	HEADER_MAX
+struct PRINTSETTING {
+	StaticString<32+1>			m_szPrintSettingName;	/*!< 印刷設定の名前 */
+	StaticString<LF_FACESIZE>	m_szPrintFontFaceHan;	/*!< 印刷フォント */
+	StaticString<LF_FACESIZE>	m_szPrintFontFaceZen;	/*!< 印刷フォント */
+	int				m_nPrintFontWidth;					/*!< 印刷フォント幅(1/10mm単位単位) */
+	int				m_nPrintFontHeight;					/*!< 印刷フォント高さ(1/10mm単位単位) */
+	int				m_nPrintDansuu;						/*!< 段組の段数 */
+	int				m_nPrintDanSpace;					/*!< 段と段の隙間(1/10mm単位) */
+	int				m_nPrintLineSpacing;				/*!< 印刷フォント行間 文字の高さに対する割合(%) */
+	int				m_nPrintMarginTY;					/*!< 印刷用紙マージン 上(mm単位) */
+	int				m_nPrintMarginBY;					/*!< 印刷用紙マージン 下(mm単位) */
+	int				m_nPrintMarginLX;					/*!< 印刷用紙マージン 左(mm単位) */
+	int				m_nPrintMarginRX;					/*!< 印刷用紙マージン 右(mm単位) */
+	short			m_nPrintPaperOrientation;			/*!< 用紙方向 DMORIENT_PORTRAIT (1) または DMORIENT_LANDSCAPE (2) */
+	short			m_nPrintPaperSize;					/*!< 用紙サイズ */
+	bool			m_bColorPrint;						//!< カラー印刷			// 2013/4/26 Uchi
+	bool			m_bPrintWordWrap;					//!< 英文ワードラップする
+	bool			m_bPrintKinsokuHead;				//!< 行頭禁則する		//@@@ 2002.04.09 MIK
+	bool			m_bPrintKinsokuTail;				//!< 行末禁則する		//@@@ 2002.04.09 MIK
+	bool			m_bPrintKinsokuRet;					//!< 改行文字のぶら下げ	//@@@ 2002.04.13 MIK
+	bool			m_bPrintKinsokuKuto;				//!< 句読点のぶらさげ	//@@@ 2002.04.17 MIK
+	bool			m_bPrintLineNumber;					/*!< 行番号を印刷する */
+
+	MYDEVMODE		m_mdmDevMode;						/*!< プリンター設定 DEVMODE用 */
+	BOOL			m_bHeaderUse[3];					/* ヘッダーが使われているか？	*/
+	StaticString<HEADER_MAX>	m_szHeaderForm[3];		/* 0:左寄せヘッダー。1:中央寄せヘッダー。2:右寄せヘッダー。*/
+	BOOL			m_bFooterUse[3];					/* フッターが使われているか？	*/
+	StaticString<FOOTER_MAX>	m_szFooterForm[3];		/* 0:左寄せフッター。1:中央寄せフッター。2:右寄せフッター。*/
+
+	// ヘッダー/フッターのフォント(lfFaceNameが設定されていなければ半角/全角フォントを使用)
+	LOGFONT			m_lfHeader;							// ヘッダーフォント用LOGFONT構造体
+	int 			m_nHeaderPointSize;					// ヘッダーフォントポイントサイズ
+	LOGFONT			m_lfFooter;							// フッターフォント用LOGFONT構造体
+	int 			m_nFooterPointSize;					// フッターフォントポイントサイズ
+};

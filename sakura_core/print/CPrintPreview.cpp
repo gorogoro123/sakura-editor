@@ -19,6 +19,7 @@
 */
 
 #include "CPrintPreview.h"
+#include "print/CPrint.h"
 #include "uiparts/HandCursor.h"
 #include "doc/layout/CLayout.h"
 #include "window/CEditWnd.h"
@@ -2258,4 +2259,9 @@ void CPrintPreview::DestroyFonts()
 	m_hFontHan = m_hFontHan_b = m_hFontHan_u = m_hFontHan_bu =
 	m_hFontZen = m_hFontZen_b = m_hFontZen_u = m_hFontZen_bu = NULL;
 #endif
+}
+
+BOOL CPrintPreview::GetDefaultPrinterInfo()
+{
+	return m_cPrint.GetDefaultPrinter( &m_pPrintSetting->m_mdmDevMode );
 }

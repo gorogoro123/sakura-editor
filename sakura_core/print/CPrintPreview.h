@@ -165,7 +165,7 @@ public:
 		m_pPrintSetting = &m_sPrintSetting;
 		m_pPrintSettingOrg = pPrintSetting;
 	}
-	BOOL GetDefaultPrinterInfo(){ return m_cPrint.GetDefaultPrinter( &m_pPrintSetting->m_mdmDevMode ); }
+	BOOL GetDefaultPrinterInfo();
 	int  GetCurPageNum(){ return m_nCurPageNum; }	/* 現在のページ */
 	int  GetAllPageNum(){ return m_nAllPageNum; }	/* 現在のページ */
 

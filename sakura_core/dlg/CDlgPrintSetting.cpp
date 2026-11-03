@@ -18,6 +18,7 @@
 */
 #include "dlg/CDlgPrintSetting.h"
 #include "dlg/CDlgInput1.h"
+#include "print/CPrint.h"
 #include "func/Funccode.h"		// Stonee, 2001/03/12
 #include "util/shell.h"
 #include "util/window.h"
