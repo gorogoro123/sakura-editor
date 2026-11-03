@@ -13,17 +13,22 @@
 */
 #pragma once
 
-class CDlgProperty;
-
 #include "dlg/CDialog.h"
+
+class CNativeW;
 /*-----------------------------------------------------------------------
 クラスの宣言
 -----------------------------------------------------------------------*/
 class CDlgProperty final : public CDialog
 {
 public:
+	CDlgProperty(CNativeW& szMsg)
+	:m_szMsg(szMsg)
+	{
+	}
 	int DoModal(HINSTANCE hInstance, HWND hwndParent, LPARAM lParam);	/* モーダルダイアログの表示 */
 protected:
+	CNativeW& m_szMsg;
 	/*
 	||  実装ヘルパ関数
 	*/

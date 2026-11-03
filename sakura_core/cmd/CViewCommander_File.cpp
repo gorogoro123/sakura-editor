@@ -46,6 +46,7 @@
 #include "CSelectLang.h"
 #include "sakura_rc.h"
 #include "config/app_constants.h"
+#include "charset/CESI.h"
 
 /* 新規作成 */
 void CViewCommander::Command_FILENEW( )
@@ -491,9 +492,190 @@ void CViewCommander::Command_PROPERTY_FILE( )
 	}
 #endif
 
-	CDlgProperty	cDlgProperty;
-//	cDlgProperty.Create( G_AppInstance(), m_pCommanderView->GetHwnd(), GetDocument() );
-	cDlgProperty.DoModal( G_AppInstance(), m_pCommanderView->GetHwnd(), (LPARAM)GetDocument() );
+	CEditDoc* pCEditDoc = GetDocument();
+	CNativeW		cmemProp;
+	WCHAR			szWork[500];
+
+	HANDLE			nFind;
+	WIN32_FIND_DATA	wfd;
+
+	//	Aug. 16, 2000 genta	全角化
+	cmemProp.AppendString(LS(STR_DLGFLPROP_FILENAME));
+	cmemProp.AppendString(pCEditDoc->m_cDocFile.GetFilePath());
+	cmemProp.AppendString(L"\r\n");
+
+	cmemProp.AppendString(LS(STR_DLGFLPROP_FILETYPE));
+	cmemProp.AppendString(pCEditDoc->m_cDocType.GetDocumentAttribute().m_szTypeName);
+	cmemProp.AppendString(L"\r\n");
+
+	cmemProp.AppendString(LS(STR_DLGFLPROP_ENCODING));
+	{
+		WCHAR szCpName[100];
+		CCodePage::GetNameNormal(szCpName, pCEditDoc->GetDocumentEncoding());
+		cmemProp.AppendString(szCpName);
+	}
+	//	From Here  2008/4/27 Uchi
+	if (pCEditDoc->GetDocumentBomExist()) {
+		cmemProp.AppendString(LS(STR_DLGFLPROP_WITH_BOM));
+	}
+	//	To Here  2008/4/27 Uchi
+	cmemProp.AppendString(L"\r\n");
+
+	auto_snprintf_s(szWork, std::size(szWork), LS(STR_DLGFLPROP_LINE_COUNT), pCEditDoc->m_cDocLineMgr.GetLineCount());
+	cmemProp.AppendString(szWork);
+
+	auto_snprintf_s(szWork, std::size(szWork), LS(STR_DLGFLPROP_LAYOUT_LINE), pCEditDoc->m_cLayoutMgr.GetLineCount());
+	cmemProp.AppendString(szWork);
+
+	CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
+	if (pcAppMode->IsViewMode()) {
+		cmemProp.AppendString(LS(STR_DLGFLPROP_VIEW_MODE));	// 2009.04.11 ryoji 「上書き禁止モード」→「ビューモード」
+	}
+	if (pCEditDoc->m_cDocEditor.IsModified()) {
+		cmemProp.AppendString(LS(STR_DLGFLPROP_MODIFIED));
+	}
+	else {
+		cmemProp.AppendString(LS(STR_DLGFLPROP_NOT_MODIFIED));
+	}
+
+	auto_snprintf_s(szWork, std::size(szWork), LS(STR_DLGFLPROP_CMD_COUNT), pCEditDoc->m_nCommandExecNum);
+	cmemProp.AppendString(szWork);
+
+	auto_snprintf_s(szWork, std::size(szWork), LS(STR_DLGFLPROP_FILE_INFO), pCEditDoc->m_cDocLineMgr.GetLineCount());
+	cmemProp.AppendString(szWork);
+
+	if (INVALID_HANDLE_VALUE != (nFind = ::FindFirstFile(pCEditDoc->m_cDocFile.GetFilePath(), &wfd))) {
+		if (pCEditDoc->m_cDocFile.IsFileLocking()) {
+			if (GetDllShareData().m_Common.m_sFile.m_nFileShareMode == SHAREMODE_DENY_WRITE) {
+				wcsncpy_s(szWork, LS(STR_DLGFLPROP_W_LOCK), _TRUNCATE);
+			}
+			else if (GetDllShareData().m_Common.m_sFile.m_nFileShareMode == SHAREMODE_DENY_READWRITE) {
+				wcsncpy_s(szWork, LS(STR_DLGFLPROP_RW_LOCK), _TRUNCATE);
+			}
+			else {
+				wcsncpy_s(szWork, LS(STR_DLGFLPROP_LOCK), _TRUNCATE);
+			}
+			cmemProp.AppendString(szWork);
+		}
+		else {
+			wcsncpy_s(szWork, LS(STR_DLGFLPROP_NOT_LOCK), _TRUNCATE);
+			cmemProp.AppendString(szWork);
+		}
+
+		auto_snprintf_s(szWork, std::size(szWork), LS(STR_DLGFLPROP_ATTRIBUTES), pCEditDoc->m_cDocLineMgr.GetLineCount());
+		cmemProp.AppendString(szWork);
+		if (wfd.dwFileAttributes & FILE_ATTRIBUTE_ARCHIVE) {
+			cmemProp.AppendString(LS(STR_DLGFLPROP_AT_ARCHIVE));
+		}
+		if (wfd.dwFileAttributes & FILE_ATTRIBUTE_COMPRESSED) {
+			cmemProp.AppendString(LS(STR_DLGFLPROP_AT_COMPRESS));
+		}
+		if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+			cmemProp.AppendString(LS(STR_DLGFLPROP_AT_FOLDER));
+		}
+		if (wfd.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN) {
+			cmemProp.AppendString(LS(STR_DLGFLPROP_AT_HIDDEN));
+		}
+		if (wfd.dwFileAttributes & FILE_ATTRIBUTE_NORMAL) {
+			cmemProp.AppendString(LS(STR_DLGFLPROP_AT_NORMAL));
+		}
+		if (wfd.dwFileAttributes & FILE_ATTRIBUTE_OFFLINE) {
+			cmemProp.AppendString(LS(STR_DLGFLPROP_AT_OFFLINE));
+		}
+		if (wfd.dwFileAttributes & FILE_ATTRIBUTE_READONLY) {
+			cmemProp.AppendString(LS(STR_DLGFLPROP_AT_READONLY));
+		}
+		if (wfd.dwFileAttributes & FILE_ATTRIBUTE_SYSTEM) {
+			cmemProp.AppendString(LS(STR_DLGFLPROP_AT_SYSTEM));
+		}
+		if (wfd.dwFileAttributes & FILE_ATTRIBUTE_TEMPORARY) {
+			cmemProp.AppendString(LS(STR_DLGFLPROP_AT_TEMP));
+		}
+		cmemProp.AppendString(L"\r\n");
+
+		cmemProp.AppendString(LS(STR_DLGFLPROP_CREATE_DT));
+		CFileTime ctimeCreation = wfd.ftCreationTime;
+		auto_snprintf_s(szWork, std::size(szWork), LS(STR_DLGFLPROP_YMDHMS),
+			ctimeCreation->wYear,
+			ctimeCreation->wMonth,
+			ctimeCreation->wDay,
+			ctimeCreation->wHour,
+			ctimeCreation->wMinute,
+			ctimeCreation->wSecond
+		);
+		cmemProp.AppendString(szWork);
+		cmemProp.AppendString(L"\r\n");
+
+		cmemProp.AppendString(LS(STR_DLGFLPROP_UPDATE_DT));
+		CFileTime ctimeLastWrite = wfd.ftLastWriteTime;
+		auto_snprintf_s(szWork, std::size(szWork), LS(STR_DLGFLPROP_YMDHMS),
+			ctimeLastWrite->wYear,
+			ctimeLastWrite->wMonth,
+			ctimeLastWrite->wDay,
+			ctimeLastWrite->wHour,
+			ctimeLastWrite->wMinute,
+			ctimeLastWrite->wSecond
+		);
+		cmemProp.AppendString(szWork);
+		cmemProp.AppendString(L"\r\n");
+
+		cmemProp.AppendString(LS(STR_DLGFLPROP_ACCESS_DT));
+		CFileTime ctimeLastAccess = wfd.ftLastAccessTime;
+		auto_snprintf_s(szWork, std::size(szWork), LS(STR_DLGFLPROP_YMDHMS),
+			ctimeLastAccess->wYear,
+			ctimeLastAccess->wMonth,
+			ctimeLastAccess->wDay,
+			ctimeLastAccess->wHour,
+			ctimeLastAccess->wMinute,
+			ctimeLastAccess->wSecond
+		);
+		cmemProp.AppendString(szWork);
+		cmemProp.AppendString(L"\r\n");
+
+		auto_snprintf_s(szWork, std::size(szWork), LS(STR_DLGFLPROP_DOS_NAME), wfd.cAlternateFileName);
+		cmemProp.AppendString(szWork);
+
+		auto_snprintf_s(szWork, std::size(szWork), LS(STR_DLGFLPROP_FILE_SIZE), wfd.nFileSizeLow);
+		cmemProp.AppendString(szWork);
+
+		::FindClose(nFind);
+	}
+
+#ifdef _DEBUG
+	[&]() {
+		/* メモリ確保 & ファイル読み込み */
+		HGLOBAL hgData = nullptr;
+		CBinaryInputStream in(pCEditDoc->m_cDocFile.GetFilePath());
+		if (!in) {
+			return;
+		}
+		int nBufLen = in.GetLength();
+		if (nBufLen > CheckKanjiCode_MAXREADLENGTH) {
+			nBufLen = CheckKanjiCode_MAXREADLENGTH;
+		}
+		hgData = ::GlobalAlloc(GHND, nBufLen + 1);
+		if (nullptr == hgData) {
+			in.Close();
+			return;
+		}
+		char* pBuf = static_cast<char*>(::GlobalLock(hgData));
+		in.Read(pBuf, nBufLen);
+		in.Close();
+
+		//CESIのデバッグ情報
+		CNativeW ctext = CESI::GetDebugInfo(pBuf, nBufLen, pCEditDoc->m_cDocType.GetDocumentAttribute());
+		cmemProp.AppendNativeData(ctext);
+
+		if (nullptr != hgData) {
+			::GlobalUnlock(hgData);
+			::GlobalFree(hgData);
+			hgData = nullptr;
+		}
+	}();
+#endif
+
+	CDlgProperty cDlgProperty(cmemProp);
+	cDlgProperty.DoModal( G_AppInstance(), m_pCommanderView->GetHwnd(), (LPARAM)0 );
 	return;
 }
 
