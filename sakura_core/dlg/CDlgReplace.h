@@ -38,7 +38,7 @@ public:
 	/*
 	||  Attributes & Operations
 	*/
-	HWND DoModeless(HINSTANCE hInstance, HWND hwndParent, LPARAM lParam, BOOL bSelected);	/* モーダルダイアログの表示 */
+	HWND DoModeless(HINSTANCE hInstance, HWND hwndParent, LPARAM lParam, BOOL bSelected, bool bIsEnablePaste);	/* モーダルダイアログの表示 */
 	void ChangeView(LPARAM pcEditView);	/* モードレス時：置換・検索対象となるビューの変更 */
 
 	SSearchOption	m_sSearchOption;	// 検索オプション
@@ -57,6 +57,7 @@ public:
 	CLogicPoint		m_ptEscCaretPos_PHY;	// 検索/置換開始時のカーソル位置退避エリア
 
 protected:
+	bool 					m_bIsEnablePaste = false;
 	CRecentSearch			m_cRecentSearch;
 	CRecentReplace			m_cRecentReplace;
 	CFontAutoDeleter		m_cFontText;

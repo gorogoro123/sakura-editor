@@ -512,7 +512,8 @@ void CViewCommander::Command_REPLACE_DIALOG( )
 	/* 置換ダイアログの表示 */
 	//	From Here Jul. 2, 2001 genta 置換ウィンドウの2重開きを抑止
 	if( !::IsWindow( GetEditWindow()->m_cDlgReplace.GetHwnd() ) ){
-		GetEditWindow()->m_cDlgReplace.DoModeless( G_AppInstance(), m_pCommanderView->GetHwnd(), (LPARAM)m_pCommanderView, bSelected );
+		bool bIsEnablePaste = m_pCommanderView->m_pcEditDoc->m_cDocEditor.IsEnablePaste();
+		GetEditWindow()->m_cDlgReplace.DoModeless( G_AppInstance(), m_pCommanderView->GetHwnd(), (LPARAM)m_pCommanderView, bSelected, bIsEnablePaste );
 	}
 	else {
 		/* アクティブにする */
