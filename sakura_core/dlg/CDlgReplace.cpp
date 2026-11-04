@@ -18,7 +18,6 @@
 	Please contact the copyright holder to use this code for other purpose.
 */
 #include "dlg/CDlgReplace.h"
-#include "doc/CEditDoc.h"
 #include "view/CEditView.h"
 #include "util/shell.h"
 #include "util/window.h"
@@ -100,8 +99,9 @@ BOOL CDlgReplace::OnCbnDropDown( HWND hwndCtl, int wID )
 }
 
 /* モードレスダイアログの表示 */
-HWND CDlgReplace::DoModeless( HINSTANCE hInstance, HWND hwndParent, LPARAM lParam, BOOL bSelected )
+HWND CDlgReplace::DoModeless( HINSTANCE hInstance, HWND hwndParent, LPARAM lParam, BOOL bSelected, bool bIsEnablePaste)
 {
+	m_bIsEnablePaste = bIsEnablePaste;
 	m_sSearchOption = m_pShareData->m_Common.m_sSearch.m_sSearchOption;		// 検索オプション
 	m_bConsecutiveAll = m_pShareData->m_Common.m_sSearch.m_bConsecutiveAll;	// 「すべて置換」は置換の繰返し	// 2007.01.16 ryoji
 	m_bSelectedArea = m_pShareData->m_Common.m_sSearch.m_bSelectedArea;		// 選択範囲内置換
@@ -380,8 +380,7 @@ BOOL CDlgReplace::OnBnClicked( int wID )
 	switch( wID ){
 	case IDC_CHK_PASTE:
 		/* テキストの貼り付け */
-		if( ::IsDlgButtonChecked( GetHwnd(), IDC_CHK_PASTE ) &&
-			!pcEditView->m_pcEditDoc->m_cDocEditor.IsEnablePaste() ){
+		if( ::IsDlgButtonChecked( GetHwnd(), IDC_CHK_PASTE ) && !m_bIsEnablePaste){
 			OkMessage( GetHwnd(), LS(STR_DLGREPLC_CLIPBOARD) );
 			::CheckDlgButton( GetHwnd(), IDC_CHK_PASTE, FALSE );
 		}
