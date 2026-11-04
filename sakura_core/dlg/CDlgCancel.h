@@ -41,9 +41,6 @@ public:
 	INT_PTR DispatchEvent(HWND hWnd, UINT wMsg, WPARAM wParam, LPARAM lParam) override;	/* ダイアログのメッセージ処理 *//* BOOL->INT_PTR 2008/7/18 Uchi*/
 	void DeleteAsync( );	/* 自動破棄を遅延実行する */	// 2008.05.28 ryoji
 
-//	HINSTANCE	m_hInstance;	/* アプリケーションインスタンスのハンドル */
-//	HWND		m_hwndParent;	/* オーナーウィンドウのハンドル */
-//	HWND		m_hWnd;			/* このダイアログのハンドル */
 	BOOL		m_bCANCEL = FALSE;		/* IDCANCELボタンが押された */
 	bool		m_bAutoCleanup = false;	/* 自動後処理型 */	// 2008.05.28 ryoji
 

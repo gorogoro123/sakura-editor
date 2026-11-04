@@ -124,15 +124,15 @@ public:
 	static bool DirectoryUp(WCHAR* szDir);
 
 public:
+	HWND GetHwndParent() const { return m_hwndParent; }
 	HWND GetHwnd() const{ return m_hWnd; }
 
-public:
-	HINSTANCE		m_hInstance = nullptr;	/* アプリケーションインスタンスのハンドル */
-	HWND			m_hwndParent = nullptr;	/* オーナーウィンドウのハンドル */
 private:
 	HWND			m_hWnd = nullptr;			/* このダイアログのハンドル */
 	HFONT			m_hFontDialog;	// ダイアログに設定されているフォント(破棄禁止)
-public:
+protected:
+	HINSTANCE		m_hInstance = nullptr;	/* アプリケーションインスタンスのハンドル */
+	HWND			m_hwndParent = nullptr;	/* オーナーウィンドウのハンドル */
 	HWND			m_hwndSizeBox = nullptr;
 	LPARAM			m_lParam = (LPARAM)nullptr;
 	BOOL			m_bModal;		/* モーダル ダイアログか */
@@ -141,8 +141,6 @@ public:
 	DLLSHAREDATA*	m_pShareData;
 	BOOL			m_bInited;
 	HINSTANCE		m_hLangRsrcInstance;		// メッセージリソースDLLのインスタンスハンドル	// 2011.04.10 nasukoji
-
-protected:
 	int				m_nWidth = -1;
 	int				m_nHeight = -1;
 	int				m_xPos = -1;
