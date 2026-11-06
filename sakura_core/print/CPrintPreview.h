@@ -252,7 +252,7 @@ protected:
 	STypeConfig m_typePrint;
 
 	// プレビューから出ても現在のプリンター情報を記憶しておけるようにstaticにする 2003.05.02 かろと
-	static CPrint	m_cPrint;					//!< 現在のプリンター情報
+	CPrint	m_cPrint;					//!< 現在のプリンター情報
 
 	bool			m_bLockSetting = false;				// 設定のロック
 	bool			m_bDemandUpdateSetting = false;		// 設定の更新要求
