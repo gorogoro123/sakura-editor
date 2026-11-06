@@ -657,7 +657,7 @@ public:
 
 public:
 	//D&D
-	CDropTarget*	m_pcDropTarget = nullptr;
+	std::unique_ptr<CDropTarget> m_pcDropTarget = nullptr;
 	BOOL			m_bDragMode;	/* 選択テキストのドラッグ中か */
 	CLIPFORMAT		m_cfDragData;	/* ドラッグデータのクリップ形式 */	// 2008.06.20 ryoji
 	BOOL			m_bDragBoxData;	/* ドラッグデータは矩形か */
