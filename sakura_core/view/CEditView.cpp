@@ -143,8 +143,6 @@ BOOL CEditView::Create(
 
 	m_pcViewFont = m_cEditWnd.GetViewFont(m_bMiniMap);
 
-	m_cRegexKeyword = nullptr;				// 2007.04.08 ryoji
-
 	SetDrawSwitch(true);
 	_SetDragMode(FALSE);					/* 選択テキストのドラッグ中か */
 	m_bCurSrchKeyMark = false;				/* 検索文字列 */
@@ -234,7 +232,7 @@ BOOL CEditView::Create(
 	m_nMyIndex = nMyIndex;
 
 	//	2007.08.18 genta 初期化にShareDataの値が必要になった
-	m_cRegexKeyword = new CRegexKeyword( GetDllShareData().m_Common.m_sSearch.m_szRegexpLib );	//@@@ 2001.11.17 add MIK
+	m_cRegexKeyword = std::make_unique<CRegexKeyword>( GetDllShareData().m_Common.m_sSearch.m_szRegexpLib );	//@@@ 2001.11.17 add MIK
 	m_cRegexKeyword->RegexKeySetTypes(m_pTypeData);	//@@@ 2001.11.17 add MIK
 
 	GetTextArea().SetTopYohaku(DpiScaleY(GetDllShareData().m_Common.m_sWindow.m_nRulerBottomSpace)); 	/* ルーラーとテキストの隙間 */
@@ -365,9 +363,6 @@ void CEditView::Close()
 	//	2007.09.30 genta 関数化
 	//	m_hbmpCompatBMPもここで削除される．
 	UseCompatibleDC(FALSE);
-
-	delete m_cRegexKeyword;	//@@@ 2001.11.17 add MIK
-	m_cRegexKeyword = nullptr;
 }
 
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
