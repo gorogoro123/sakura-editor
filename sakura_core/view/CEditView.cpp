@@ -288,7 +288,7 @@ BOOL CEditView::Create(
 	}
 
 	if( !m_bMiniMap ){
-		m_pcDropTarget = new CDropTarget( this );
+		m_pcDropTarget = std::make_unique<CDropTarget>(this);
 		m_pcDropTarget->Register_DropTarget( GetHwnd() );
 	}
 
@@ -365,9 +365,6 @@ void CEditView::Close()
 	//	2007.09.30 genta 関数化
 	//	m_hbmpCompatBMPもここで削除される．
 	UseCompatibleDC(FALSE);
-
-	delete m_pcDropTarget;
-	m_pcDropTarget = nullptr;
 
 	delete m_cRegexKeyword;	//@@@ 2001.11.17 add MIK
 	m_cRegexKeyword = nullptr;
