@@ -15,8 +15,6 @@
 */
 
 #include "CDropTarget.h"
-#include "window/CEditWnd.h"	// 2008.06.20 ryoji
-#include "view/CEditView.h"// 2002/2/3 aroka
 #include "_main/global.h"
 #include "CClipboard.h"
 #include "CSelectLang.h"
@@ -88,16 +86,9 @@ DECLARE_YB_INTERFACEIMPL( IDropSource )
 DECLARE_YB_INTERFACEIMPL( IDropTarget )
 DECLARE_YB_INTERFACEIMPL( IEnumFORMATETC )
 
-CDropTarget::CDropTarget( CEditWnd* pCEditWnd )
+CDropTarget::CDropTarget( CDropTargetHandler* pHandler)
+: m_pHandler(pHandler)
 {
-	m_pcEditWnd = pCEditWnd;	// 2008.06.20 ryoji
-	return;
-}
-
-CDropTarget::CDropTarget( CEditView* pCEditView )
-{
-	m_pcEditView = pCEditView;
-	return;
 }
 
 CDropTarget::~CDropTarget()
@@ -128,32 +119,32 @@ BOOL CDropTarget::Revoke_DropTarget( )
 STDMETHODIMP CDropTarget::DragEnter( LPDATAOBJECT pDataObject, DWORD dwKeyState, POINTL pt, LPDWORD pdwEffect )
 {
 	DEBUG_TRACE( L"CDropTarget::DragEnter()\n" );
-	if( m_pcEditWnd ){	// 2008.06.20 ryoji
-		return m_pcEditWnd->DragEnter( pDataObject, dwKeyState, pt, pdwEffect );
+	if( m_pHandler ){	// 2008.06.20 ryoji
+		return m_pHandler->DragEnter( pDataObject, dwKeyState, pt, pdwEffect );
 	}
-	return m_pcEditView->DragEnter( pDataObject, dwKeyState, pt, pdwEffect );
+	return E_FAIL;
 }
 STDMETHODIMP CDropTarget::DragOver( DWORD dwKeyState, POINTL pt, LPDWORD pdwEffect )
 {
-	if( m_pcEditWnd ){	// 2008.06.20 ryoji
-		return m_pcEditWnd->DragOver( dwKeyState, pt, pdwEffect );
+	if( m_pHandler ){	// 2008.06.20 ryoji
+		return m_pHandler->DragOver( dwKeyState, pt, pdwEffect );
 	}
-	return m_pcEditView->DragOver( dwKeyState, pt, pdwEffect );
+	return E_FAIL;
 }
 STDMETHODIMP CDropTarget::DragLeave( )
 {
-	if( m_pcEditWnd ){	// 2008.06.20 ryoji
-		return m_pcEditWnd->DragLeave();
+	if( m_pHandler ){	// 2008.06.20 ryoji
+		return m_pHandler->DragLeave();
 	}
-	return m_pcEditView->DragLeave();
+	return E_FAIL;
 }
 
 STDMETHODIMP CDropTarget::Drop( LPDATAOBJECT pDataObject, DWORD dwKeyState, POINTL pt, LPDWORD pdwEffect )
 {
-	if( m_pcEditWnd ){	// 2008.06.20 ryoji
-		return m_pcEditWnd->Drop( pDataObject, dwKeyState, pt, pdwEffect );
+	if( m_pHandler ){	// 2008.06.20 ryoji
+		return m_pHandler->Drop( pDataObject, dwKeyState, pt, pdwEffect );
 	}
-	return m_pcEditView->Drop( pDataObject, dwKeyState, pt, pdwEffect );
+	return E_FAIL;
 }
 
 STDMETHODIMP CDropSource::QueryContinueDrag( BOOL bEscapePressed, DWORD dwKeyState )
