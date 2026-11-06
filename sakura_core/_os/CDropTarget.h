@@ -17,11 +17,10 @@
 
 #include <Unknwn.h>
 #include "util/design_template.h"
+#include "_os/CDropTargetHandler.h"
 
 class CDropTarget;
 class CYbInterfaceBase;
-class CEditWnd;	// 2008.06.20 ryoji
-class CEditView;// 2002/2/3 aroka ヘッダー軽量化
 class CEnumFORMATETC;
 
 /*-----------------------------------------------------------------------
@@ -74,16 +73,14 @@ public:
 	/*
 	||  Constructors
 	*/
-	CDropTarget( CEditWnd* );	// 2008.06.20 ryoji
-	CDropTarget( CEditView* );
+	CDropTarget( CDropTargetHandler* pHandler);	// 2008.06.20 ryoji
 	~CDropTarget();
 	/*
 	||  Attributes & Operations
 	*/
 private: // 2002/2/10 aroka アクセス権変更
-	CEditWnd*		m_pcEditWnd = nullptr;	// 2008.06.20 ryoji
+	CDropTargetHandler* m_pHandler = nullptr;
 	HWND			m_hWnd_DropTarget = nullptr;
-	CEditView*		m_pcEditView = nullptr;
 public:
 	BOOL			Register_DropTarget(HWND hWnd);
 	BOOL			Revoke_DropTarget( );

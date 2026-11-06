@@ -25,7 +25,7 @@
 
 #include <shellapi.h>// HDROP
 #include "_main/global.h"
-#include "_os/CDropTarget.h"
+#include "_os/CDropTargetHandler.h"
 #include "CMainToolBar.h"
 #include "CTabWnd.h"	//@@@ 2003.05.31 MIK
 #include "func/CFuncKeyWnd.h"
@@ -54,6 +54,7 @@ struct DLLSHAREDATA;
 class CViewFont;
 class CLogicPointEx;
 class CPrintPreview;
+class CDropTarget;
 
 //メインウィンドウ内コントロールID
 #define IDT_EDIT		455  // 20060128 aroka
@@ -79,6 +80,7 @@ struct STabGroupInfo {
 class CEditWnd final
 	: public TSingleInstance<CEditWnd>
 , public CDocListener
+, public CDropTargetHandler
 {
 private:
 	using AccelHolder = cxx::ResourceHolder<&::DestroyAcceleratorTable>;
@@ -325,10 +327,10 @@ public:
 	const CMyPoint& GetDragPosOrg() const{ return m_ptDragPosOrg; }
 
 	/* IDropTarget実装 */	// 2008.06.20 ryoji
-	STDMETHODIMP DragEnter(LPDATAOBJECT pDataObject, DWORD dwKeyState, POINTL pt, LPDWORD pdwEffect);
-	STDMETHODIMP DragOver(DWORD dwKeyState, POINTL pt, LPDWORD pdwEffect);
-	STDMETHODIMP DragLeave( );
-	STDMETHODIMP Drop(LPDATAOBJECT pDataObject, DWORD dwKeyState, POINTL pt, LPDWORD pdwEffect);
+	STDMETHODIMP DragEnter(LPDATAOBJECT pDataObject, DWORD dwKeyState, POINTL pt, LPDWORD pdwEffect) override;
+	STDMETHODIMP DragOver(DWORD dwKeyState, POINTL pt, LPDWORD pdwEffect) override;
+	STDMETHODIMP DragLeave( ) override;
+	STDMETHODIMP Drop(LPDATAOBJECT pDataObject, DWORD dwKeyState, POINTL pt, LPDWORD pdwEffect) override;
 
 	//フォーカス管理
 	int GetCurrentFocus() const{ return m_nCurrentFocus; }

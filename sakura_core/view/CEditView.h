@@ -50,6 +50,7 @@
 #include "util/container.h"		// vector_ex
 #include "util/design_template.h"
 #include "_os/CClipboard.h"
+#include "_os/CDropTargetHandler.h"
 
 class CDropTarget; /// 2002/2/3 aroka ヘッダー軽量化
 class COpeBlk;///
@@ -97,6 +98,7 @@ class CEditView
 : public CViewCalc //$$ これが親クラスである必要は無いが、このクラスのメソッド呼び出しが多いので、暫定的に親クラスとする。
 , public CEditView_Paint
 , public CDocListener
+, public CDropTargetHandler
 {
 public:
 	const CEditDoc* GetDocument() const;
@@ -334,10 +336,10 @@ public:
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 public: /* テスト用にアクセス属性を変更 */
 	/* IDropTarget実装 */
-	STDMETHODIMP DragEnter(LPDATAOBJECT pDataObject, DWORD dwKeyState, POINTL pt, LPDWORD pdwEffect);
-	STDMETHODIMP DragOver(DWORD dwKeyState, POINTL pt, LPDWORD pdwEffect);
-	STDMETHODIMP DragLeave( );
-	STDMETHODIMP Drop(LPDATAOBJECT pDataObject, DWORD dwKeyState, POINTL pt, LPDWORD pdwEffect);
+	STDMETHODIMP DragEnter(LPDATAOBJECT pDataObject, DWORD dwKeyState, POINTL pt, LPDWORD pdwEffect) override;
+	STDMETHODIMP DragOver(DWORD dwKeyState, POINTL pt, LPDWORD pdwEffect) override;
+	STDMETHODIMP DragLeave( ) override;
+	STDMETHODIMP Drop(LPDATAOBJECT pDataObject, DWORD dwKeyState, POINTL pt, LPDWORD pdwEffect) override;
 	STDMETHODIMP PostMyDropFiles( LPDATAOBJECT pDataObject );		/* 独自ドロップファイルメッセージをポストする */	// 2008.06.20 ryoji
 	void OnMyDropFiles( HDROP hDrop );								/* 独自ドロップファイルメッセージ処理 */	// 2008.06.20 ryoji
 	CLIPFORMAT GetAvailableClipFormat( LPDATAOBJECT pDataObject );

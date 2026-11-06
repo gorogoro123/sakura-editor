@@ -487,6 +487,7 @@
     <ClInclude Include="..\sakura_core\_main\global.h" />
     <ClInclude Include="..\sakura_core\_os\CClipboard.h" />
     <ClInclude Include="..\sakura_core\_os\CDropTarget.h" />
+    <ClInclude Include="..\sakura_core\_os\CDropTargetHandler.h" />
     <ClInclude Include="..\sakura_core\_os\OleTypes.h" />
   </ItemGroup>
   <ItemGroup>

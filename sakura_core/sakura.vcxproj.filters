@@ -964,6 +964,9 @@
     <ClInclude Include="..\sakura_core\_os\CDropTarget.h">
       <Filter>Cpp Source Files\_os</Filter>
     </ClInclude>
+    <ClInclude Include="..\sakura_core\_os\CDropTargetHandler.h">
+      <Filter>Cpp Source Files\_os</Filter>
+    </ClInclude>
     <ClInclude Include="..\sakura_core\_os\OleTypes.h">
       <Filter>Cpp Source Files\_os</Filter>
     </ClInclude>
