@@ -39,16 +39,14 @@
 #include "sakura_rc.h"
 #include "config/system_constants.h"
 
-#define MIN_PREVIEW_ZOOM 10
-#define MAX_PREVIEW_ZOOM 400
+constexpr auto MIN_PREVIEW_ZOOM = 10;
+constexpr auto MAX_PREVIEW_ZOOM = 400;
 
-#define		LINE_RANGE_X	48		/* 水平方向の１回のスクロール幅 */
-#define		LINE_RANGE_Y	24		/* 垂直方向の１回のスクロール幅 */
+constexpr auto LINE_RANGE_X = 48;		/* 水平方向の１回のスクロール幅 */
+constexpr auto LINE_RANGE_Y = 24;		/* 垂直方向の１回のスクロール幅 */
 
-#define		PAGE_RANGE_X	160		/* 水平方向の１回のページスクロール幅 */
-#define		PAGE_RANGE_Y	160		/* 垂直方向の１回のページスクロール幅 */
-
-CPrint CPrintPreview::m_cPrint;		//!< 現在のプリンター情報 2003.05.02 かろと
+constexpr auto PAGE_RANGE_X = 160;		/* 水平方向の１回のページスクロール幅 */
+constexpr auto PAGE_RANGE_Y = 160;		/* 垂直方向の１回のページスクロール幅 */
 
 /*! コンストラクタ
 	印刷プレビューを表示するために必要な情報を初期化、領域確保。
