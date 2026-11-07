@@ -747,3 +747,6 @@ constexpr auto MYWM_DLGWINLIST = (WM_APP+225);
 
 //! 行数を取得
 constexpr auto MYWM_GETLINECOUNT = (WM_APP+226);
+
+//! 指定行にジャンプ(F_JUMP)
+constexpr auto MYWM_JUMP = (WM_APP+227);
