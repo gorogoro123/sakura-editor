@@ -24,11 +24,11 @@
 #include "outline/CFuncInfoArr.h"// 2002/2/10 aroka ヘッダー整理
 #include "util/shell.h"
 #include "util/os.h"
-#include "window/CEditWnd.h"
 #include "apiwrap/StdControl.h"
 #include "CSelectLang.h"
 #include "sakura_rc.h"
 #include "sakura.hh"
+#include "config/system_constants.h"
 
 // ジャンプ CDlgJump.cpp	//@@@ 2002.01.07 add start MIK
 static const DWORD p_helpids[] = {	//12800
@@ -167,7 +167,7 @@ BOOL CDlgJump::OnBnClicked( int wID )
 		}
 //To Here Feb. 20, 2001
 		{	//@@@ 2002.2.2 YAZAKI 指定行へジャンプを、ダイアログを表示するコマンドと、実際にジャンプするコマンドに分離。
-			GetEditWnd().GetActiveView().GetCommander().HandleCommand(F_JUMP, true, 0, 0, 0, 0);	//	ジャンプコマンド発行
+			SendMessageW(GetHwndParent(), MYWM_JUMP, (WPARAM)0, (LPARAM)0);
 		}
 		return TRUE;
 	case IDCANCEL:

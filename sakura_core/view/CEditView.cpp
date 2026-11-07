@@ -777,6 +777,10 @@ LRESULT CEditView::DispatchEvent(
 		OnMyDropFiles( (HDROP)wParam );
 		return 0L;
 
+	case MYWM_JUMP:   //  ジャンプコマンド発行
+		GetCommander().HandleCommand(F_JUMP, true, 0, 0, 0, 0);
+		return 0L;
+
 	// 2007.10.02 nasukoji	マウスクリックにてアクティベートされた時はカーソル位置を移動しない
 	case WM_MOUSEACTIVATE:
 		LRESULT nRes;
