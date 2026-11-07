@@ -889,8 +889,9 @@ int FuncID_To_HelpContextID( EFunctionCode nFuncID )
 }
 
 /* 機能が利用可能か調べる */
-bool IsFuncEnable( const CEditDoc* pcEditDoc, const DLLSHAREDATA* pShareData, EFunctionCode nId )
+bool IsFuncEnable( CEditDoc* pcEditDoc, const DLLSHAREDATA* pShareData, EFunctionCode nId )
 {
+	CEditWnd* pcEditWnd = &pcEditDoc->GetEditWnd();
 	CAppMode* pcAppMode = CEditApp::getInstance()->GetAppMode();
 
 	/* 書き換え禁止のときを一括チェック */
@@ -954,7 +955,7 @@ bool IsFuncEnable( const CEditDoc* pcEditDoc, const DLLSHAREDATA* pShareData, EF
 
 	// 02/06/26 ai Start
 	case F_JUMP_SRCHSTARTPOS:	// 検索開始位置へ戻る
-		if( GetEditWnd().GetActiveView().m_ptSrchStartPos_PHY.BothNatural() ){
+		if(pcEditWnd->GetActiveView().m_ptSrchStartPos_PHY.BothNatural() ){
 			return true;
 		}else{
 			return false;
@@ -1051,7 +1052,7 @@ bool IsFuncEnable( const CEditDoc* pcEditDoc, const DLLSHAREDATA* pShareData, EF
 	case F_COPY_COLOR_HTML:				//選択範囲内色付きHTMLコピー
 	case F_COPY_COLOR_HTML_LINENUMBER:	//選択範囲内行番号色付きHTMLコピー
 		//テキストが選択されていればtrue
-		return GetEditWnd().GetActiveView().GetSelectionInfo().IsTextSelected();
+		return pcEditWnd->GetActiveView().GetSelectionInfo().IsTextSelected();
 
 	case F_TOLOWER:					/* 小文字 */
 	case F_TOUPPER:					/* 大文字 */
@@ -1079,12 +1080,12 @@ bool IsFuncEnable( const CEditDoc* pcEditDoc, const DLLSHAREDATA* pShareData, EF
 	case F_BASE64DECODE:			/* Base64デコードして保存 */
 	case F_UUDECODE:				//uudecodeして保存	//Oct. 17, 2000 jepro 説明を「選択部分をUUENCODEデコード」から変更
 		// テキストが選択されていればtrue
-		return GetEditWnd().GetActiveView().GetSelectionInfo().IsTextSelected();
+		return pcEditWnd->GetActiveView().GetSelectionInfo().IsTextSelected();
 
 	case F_CUT_LINE:	//行切り取り(折り返し単位)
 	case F_DELETE_LINE:	//行削除(折り返し単位)
 		// テキストが選択されていなければtrue
-		return !GetEditWnd().GetActiveView().GetSelectionInfo().IsTextSelected();
+		return !pcEditWnd->GetActiveView().GetSelectionInfo().IsTextSelected();
 
 	case F_UNDO:		return pcEditDoc->m_cDocEditor.IsEnableUndo();	/* Undo(元に戻す)可能な状態か？ */
 	case F_REDO:		return pcEditDoc->m_cDocEditor.IsEnableRedo();	/* Redo(やり直し)可能な状態か？ */
@@ -1092,7 +1093,7 @@ bool IsFuncEnable( const CEditDoc* pcEditDoc, const DLLSHAREDATA* pShareData, EF
 	case F_OPEN_HfromtoC:				//同名のC/C++ヘッダー(ソース)を開く	//Feb. 7, 2001 JEPRO 追加
 //	case F_OPEN_HHPP:					//同名のC/C++ヘッダーファイルを開く	//Feb. 9, 2001 jepro「.cまたは.cppと同名の.hを開く」から変更		del 2008/6/23 Uchi
 //	case F_OPEN_CCPP:					//同名のC/C++ソースファイルを開く	//Feb. 9, 2001 jepro「.hと同名の.c(なければ.cpp)を開く」から変更	del 2008/6/23 Uchi
-		return pcEditDoc->m_cDocFile.IsValidPath() && GetEditWnd().GetActiveView().GetCommander().Command_OPEN_HfromtoC(TRUE);
+		return pcEditDoc->m_cDocFile.IsValidPath() && pcEditWnd->GetActiveView().GetCommander().Command_OPEN_HfromtoC(TRUE);
 	case F_COPYPATH:
 	case F_COPYDIRPATH:
 	case F_COPYTAG:
@@ -1130,12 +1131,12 @@ bool IsFuncEnable( const CEditDoc* pcEditDoc, const DLLSHAREDATA* pShareData, EF
 		return IsPowerShellAvailable();
 
 	case F_JUMPHIST_PREV:	//	移動履歴: 前へ
-		if( GetEditWnd().GetActiveView().m_pcHistory->CheckPrev() )
+		if(pcEditWnd->GetActiveView().m_pcHistory->CheckPrev() )
 			return true;
 		else
 			return false;
 	case F_JUMPHIST_NEXT:	//	移動履歴: 次へ
-		if( GetEditWnd().GetActiveView().m_pcHistory->CheckNext() )
+		if(pcEditWnd->GetActiveView().m_pcHistory->CheckNext() )
 			return true;
 		else
 			return false;
@@ -1240,10 +1241,10 @@ bool IsFuncChecked( CEditWnd* pcEditWnd, const CEditDoc* pcEditDoc, const DLLSHA
 	case F_ISEARCH_REGEXP_PREV:
 	case F_ISEARCH_MIGEMO_NEXT:
 	case F_ISEARCH_MIGEMO_PREV:
-		return GetEditWnd().GetActiveView().IsISearchEnabled( nId );
+		return pcEditWnd->GetActiveView().IsISearchEnabled( nId );
 	case F_OUTLINE_TOGGLE: // 20060201 aroka アウトラインウィンドウ
 		// ToDo:ブックマークリストが出ているときもへこんでしまう。
-		return GetEditWnd().m_cDlgFuncList.GetHwnd() != nullptr;
+		return pcEditWnd->m_cDlgFuncList.GetHwnd() != nullptr;
 	default:
 		break;
 	}
