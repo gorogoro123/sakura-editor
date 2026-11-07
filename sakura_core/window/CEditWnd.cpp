@@ -848,9 +848,7 @@ void CEditWnd::LayoutMainMenu()
 					const CJackManager* pcJackManager = CJackManager::getInstance();
 
 					CPlug::Array plugs = pcJackManager->GetPlugs( PP_COMMAND );
-					for (const auto& it : plugs) {
-						nCount++;
-					}
+					nCount += static_cast<int>(plugs.size());
 				}
 				break;
 			default:
