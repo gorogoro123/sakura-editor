@@ -752,7 +752,7 @@ CEditDoc* CViewCommander::GetDocument()
 }
 CEditWnd* CViewCommander::GetEditWindow()
 {
-	return &GetEditWnd();
+	return &m_pCommanderView->m_cEditWnd;
 }
 
 HWND CViewCommander::GetMainWindow()
