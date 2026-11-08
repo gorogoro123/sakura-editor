@@ -543,7 +543,6 @@ void CPrint::SettingInitialize( PRINTSETTING& pPrintSetting, const WCHAR* settin
 	pPrintSetting.m_nPrintPaperSize = DMPAPER_A4;	/* 用紙サイズ */
 	/* プリンター設定 DEVMODE用 */
 	/* プリンター設定を取得するのはコストがかかるので、後ほど */
-	//	m_cPrint.GetDefaultPrinterInfo( &(pPrintSetting.m_mdmDevMode) );
 	pPrintSetting.m_bHeaderUse[0] = TRUE;
 	pPrintSetting.m_bHeaderUse[1] = FALSE;
 	pPrintSetting.m_bHeaderUse[2] = FALSE;

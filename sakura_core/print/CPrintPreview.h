@@ -16,9 +16,10 @@
 #include <Windows.h> // 2002/2/10 aroka
 #include "basis/SakuraBasis.h"
 #include "util/design_template.h"
-#include "CPrint.h" // 2002/2/10 aroka
+#include "print/PrintSetting.h"
 #include "types/CType.h"
 
+class CPrint;
 class CColorStrategy;
 class CColorStrategyPool;
 class CDlgCancel;
@@ -252,7 +253,7 @@ protected:
 	STypeConfig m_typePrint;
 
 	// プレビューから出ても現在のプリンター情報を記憶しておけるようにstaticにする 2003.05.02 かろと
-	CPrint	m_cPrint;					//!< 現在のプリンター情報
+	std::unique_ptr<CPrint>	m_pcPrint;			//!< 現在のプリンター情報
 
 	bool			m_bLockSetting = false;				// 設定のロック
 	bool			m_bDemandUpdateSetting = false;		// 設定の更新要求

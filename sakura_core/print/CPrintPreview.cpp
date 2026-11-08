@@ -60,6 +60,8 @@ CPrintPreview::CPrintPreview(CEditDoc& cEditDoc, CEditWnd* pParentWnd) :
 	/* 印刷用のレイアウト情報の作成 */
 	m_pLayoutMgr_Print = new CLayoutMgr;
 
+	m_pcPrint = std::make_unique<CPrint>();
+
 	/* 印刷プレビュー コントロール 作成 */
 	CreatePrintPreviewControls();
 
@@ -715,7 +717,7 @@ void CPrintPreview::OnChangePrintSetting( )
 
 	/* 印刷/プレビューに必要な情報を取得 */
 	WCHAR	szErrMsg[1024];
-	if( !m_cPrint.GetPrintMetrics(
+	if( !m_pcPrint->GetPrintMetrics(
 		&m_pPrintSetting->m_mdmDevMode,	/* プリンター設定 DEVMODE用*/
 		&m_nPreview_PaperAllWidth,		/* 用紙幅 */
 		&m_nPreview_PaperAllHeight,		/* 用紙高さ */
@@ -1039,7 +1041,7 @@ void CPrintPreview::OnPrint( )
 
 	m_bLockSetting = true; // プリント設定でページ数がきまるのでロックする
 
-	if( !m_cPrint.PrintDlg(&pd, &m_pPrintSetting->m_mdmDevMode) ){
+	if( !m_pcPrint->PrintDlg(&pd, &m_pPrintSetting->m_mdmDevMode) ){
 		m_bLockSetting = false;
 		if( m_bDemandUpdateSetting ){
 			OnChangePrintSetting();
@@ -1081,7 +1083,7 @@ void CPrintPreview::OnPrint( )
 	CShareDataLockCounter lock;
 
 	/* 印刷 ジョブ開始 */
-	if( !m_cPrint.PrintOpen(
+	if( !m_pcPrint->PrintOpen(
 		szJobName,
 		&m_pPrintSetting->m_mdmDevMode,	/* プリンター設定 DEVMODE用*/
 		&hdc,
@@ -1114,7 +1116,7 @@ void CPrintPreview::OnPrint( )
 		ApiWrap::DlgItem_SetText( cDlgPrinting.GetHwnd(), IDC_STATIC_PROGRESS, szProgress );
 
 		/* 印刷 ページ開始 */
-		m_cPrint.PrintStartPage( hdc );
+		m_pcPrint->PrintStartPage( hdc );
 
 		//	From Here Jun. 26, 2003 かろと / おきた
 		//	Windows 95/98ではStartPage()関数の呼び出し時に、属性はリセットされて既定値へ戻ります．
@@ -1165,7 +1167,7 @@ void CPrintPreview::OnPrint( )
 		}
 
 		/* 印刷 ページ終了 */
-		m_cPrint.PrintEndPage( hdc );
+		m_pcPrint->PrintEndPage( hdc );
 
 		/* 中断ボタン押下チェック */
 		if( cDlgPrinting.IsCanceled() ){
@@ -1176,7 +1178,7 @@ void CPrintPreview::OnPrint( )
 	::SelectObject( hdc, hFontOld );
 
 	/* 印刷 ジョブ終了 */
-	m_cPrint.PrintClose( hdc );
+	m_pcPrint->PrintClose( hdc );
 
 	//	印刷用フォント破棄
 	DestroyFonts();
@@ -2105,7 +2107,7 @@ INT_PTR CPrintPreview::DispatchEvent_PPB(
 				memset( &pd, 0, sizeof(pd) );
 				pd.Flags = PD_PRINTSETUP | PD_NONETWORKBUTTON;
 				pd.hwndOwner = m_pParentWnd->GetHwnd();
-				if (m_cPrint.PrintDlg( &pd, &m_pPrintSettingOrg->m_mdmDevMode )) {
+				if (m_pcPrint->PrintDlg( &pd, &m_pPrintSettingOrg->m_mdmDevMode )) {
 					// 用紙サイズと用紙方向を反映させる 2003.05.03 かろと
 					m_pPrintSettingOrg->m_nPrintPaperSize = m_pPrintSettingOrg->m_mdmDevMode.dmPaperSize;
 					m_pPrintSettingOrg->m_nPrintPaperOrientation = m_pPrintSettingOrg->m_mdmDevMode.dmOrientation;
@@ -2263,5 +2265,5 @@ void CPrintPreview::DestroyFonts()
 
 BOOL CPrintPreview::GetDefaultPrinterInfo()
 {
-	return m_cPrint.GetDefaultPrinter( &m_pPrintSetting->m_mdmDevMode );
+	return m_pcPrint->GetDefaultPrinter( &m_pPrintSetting->m_mdmDevMode );
 }
