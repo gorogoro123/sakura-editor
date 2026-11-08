@@ -357,6 +357,7 @@
     <ClInclude Include="..\sakura_core\outline\CDlgFuncList.h" />
     <ClInclude Include="..\sakura_core\outline\CFuncInfo.h" />
     <ClInclude Include="..\sakura_core\outline\CFuncInfoArr.h" />
+    <ClInclude Include="..\sakura_core\outline\CFileTreeSetting.h" />
     <ClInclude Include="..\sakura_core\parse\CWordParse.h" />
     <ClInclude Include="..\sakura_core\parse\DetectIndentationStyle.h" />
     <ClInclude Include="..\sakura_core\plugin\CComplementIfObj.h" />

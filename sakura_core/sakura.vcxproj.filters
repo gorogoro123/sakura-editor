@@ -982,6 +982,9 @@
     <ClInclude Include="..\sakura_core\outline\CFuncInfoArr.h">
       <Filter>Cpp Source Files\outline</Filter>
     </ClInclude>
+    <ClInclude Include="..\sakura_core\outline\CFileTreeSetting.h">
+      <Filter>Cpp Source Files\outline</Filter>
+    </ClInclude>
     <ClInclude Include="..\sakura_core\func\CFuncKeyWnd.h">
       <Filter>Cpp Source Files\func</Filter>
     </ClInclude>

@@ -13,6 +13,7 @@
 #include "func/CFuncLookup.h" //MacroRec
 #include "io/CFile.h" //EShareMode
 #include "basis/SakuraBasis.h"
+#include "outline/CFileTreeSetting.h"
 
 // Apr. 05, 2003 genta WindowCaption用領域（変換前）の長さ
 static const int MAX_CAPTION_CONF_LEN = 256;
@@ -516,34 +517,6 @@ enum EDockSide{
 	DOCKSIDE_RIGHT,				//!< 右ドッキング
 	DOCKSIDE_BOTTOM,			//!< 下ドッキング
 	DOCKSIDE_UNDOCKABLE = -1,	//!< ドッキング禁止
-};
-
-enum EFileTreeItemType{
-	EFileTreeItemType_Grep,
-	EFileTreeItemType_File,
-	EFileTreeItemType_Folder
-};
-
-struct SFileTreeItem{
-	EFileTreeItemType m_eFileTreeItemType = EFileTreeItemType_Grep;
-	SFilePath	m_szTargetPath;	//!< フォルダーorファイルパス
-	StaticString<_MAX_PATH> m_szLabelName; //!< ラベル名(""のときはファイル名を使う)
-	int  m_nDepth = 0;	//!< 階層
-
-	// GrepタイプTreeItem
-	StaticString<_MAX_PATH>	m_szTargetFile;	//!< ファイル一覧
-	bool		m_bIgnoreHidden = true;		//!< 隠しファイルを除く
-	bool		m_bIgnoreReadOnly = false;	//!< 読み取り専用ファイルを除く
-	bool		m_bIgnoreSystem = false;		//!< システムファイルを除く
-
-	SFileTreeItem() = default;
-};
-
-struct SFileTree{
-	bool		m_bProject;			//!< プロジェクトファイルモード
-	SFilePath	m_szProjectIni;		//!< デフォルトiniパス
-	int			m_nItemCount;		//!< ファイルパス数
-	SFileTreeItem	m_aItems[20];	//!< ツリーアイテム
 };
 
 struct CommonSetting_OutLine

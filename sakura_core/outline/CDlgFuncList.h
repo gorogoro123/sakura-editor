@@ -20,9 +20,8 @@
 */
 #pragma once
 
-#include <Windows.h>
 #include "dlg/CDialog.h"
-#include "env/CommonSetting.h"
+#include "outline/CFileTreeSetting.h"
 #include "types/CType.h"	//SEncodingConfig
 #include "mem/CNativeW.h"
 
@@ -40,23 +39,6 @@ class CDataProfile;
 #define SORTTYPE_DEFAULT_DESC  1 //!< デフォルト(ノードに関連づけれられた値順,降順)
 #define SORTTYPE_ATOZ          2 //!< アルファベット順(昇順)
 #define SORTTYPE_ZTOA          3 //!< アルファベット順(降順)
-
-// ファイルツリー関連クラス
-enum EFileTreeSettingFrom{
-	EFileTreeSettingFrom_Common,
-	EFileTreeSettingFrom_Type,
-	EFileTreeSettingFrom_File
-};
-
-class CFileTreeSetting{
-public:
-	std::vector<SFileTreeItem>	m_aItems;		//!< ツリーアイテム
-	bool		m_bProject;				//!< プロジェクトファイルモード
-	SFilePath	m_szDefaultProjectIni;	//!< デフォルトiniファイル名
-	SFilePath	m_szLoadProjectIni;		//!< 現在読み込んでいるiniファイル名
-	EFileTreeSettingFrom	m_eFileTreeSettingOrgType;
-	EFileTreeSettingFrom	m_eFileTreeSettingLoadType;
-};
 
 //!	アウトライン解析ダイアログボックス
 class CDlgFuncList final : public CDialog
