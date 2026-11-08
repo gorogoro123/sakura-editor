@@ -3479,7 +3479,8 @@ BOOL CEditWnd::OnPrintPageSetting( )
 
 	nCurrentPrintSetting = GetDocument()->m_cDocType.GetDocumentAttribute().m_nCurrentPrintSetting;
 	if( m_pPrintPreview ){
-		nLineNumberColumns = GetActiveView().GetTextArea().DetectWidthOfLineNumberArea_calculate(m_pPrintPreview->m_pLayoutMgr_Print.get()); // 印刷プレビュー時は文書の桁数 2013.5.10 aroka
+		int lineCount = m_pPrintPreview->GetLineCount();
+		nLineNumberColumns = GetActiveView().GetTextArea().DetectWidthOfLineNumberArea_calculate(lineCount); // 印刷プレビュー時は文書の桁数 2013.5.10 aroka
 	}else{
 		nLineNumberColumns = 3; // ファイルメニューからの設定時は最小値 2013.5.10 aroka
 	}
