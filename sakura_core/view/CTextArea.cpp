@@ -16,9 +16,6 @@
 
 // 2014.07.26 katze
 //#define USE_LOG10			// この行のコメントを外すと行番号の最小桁数の計算にlog10()を用いる
-#ifdef USE_LOG10
-#include <cmath>
-#endif
 
 //! テンプレートでべき乗を計算(!=0)
 template <int N, int M>
@@ -162,7 +159,8 @@ bool CTextArea::DetectWidthOfLineNumberArea( bool bRedraw )
 
 	if( pView->m_pTypeData->m_ColorInfoArr[COLORIDX_GYOU].m_bDisp && !pView->m_bMiniMap ){
 		/* 行番号表示に必要な桁数を計算 */
-		int i = DetectWidthOfLineNumberArea_calculate(&pView->m_pcEditDoc->m_cLayoutMgr);
+		int lineCount = (int)pView->m_pcEditDoc->m_cLayoutMgr.GetLineCount();
+		int i = DetectWidthOfLineNumberArea_calculate(lineCount);
 		nViewAlignLeftNew = pView->GetTextMetrics().GetHankakuDx() * (i + 1);	/* 表示域の左端座標 */
 		m_nViewAlignLeftCols = i + 1;
 	}else if( pView->m_bMiniMap ){
@@ -217,12 +215,12 @@ bool CTextArea::DetectWidthOfLineNumberArea( bool bRedraw )
 /*!
 	行番号表示に必要な桁数を計算
 
-	@param [in] pLayoutMgr
+	@param [in] lineCount
 	@param [in] bLayout true:レイアウト行単位 / false:物理行単位
 
 	@return 行番号表示に必要な桁数
 */
-int CTextArea::DetectWidthOfLineNumberArea_calculate(const CLayoutMgr* pLayoutMgr, bool bLayout) const
+int CTextArea::DetectWidthOfLineNumberArea_calculate(int lineCount, bool bLayout) const
 {
 	const CEditView* pView=m_pEditView;
 
@@ -233,7 +231,7 @@ int CTextArea::DetectWidthOfLineNumberArea_calculate(const CLayoutMgr* pLayoutMg
 		nAllLines = pView->m_pcEditDoc->m_cDocLineMgr.GetLineCount();
 	}
 	else{
-		nAllLines = (Int)pLayoutMgr->GetLineCount();
+		nAllLines = (Int)lineCount;
 	}
 	
 	if( 0 < nAllLines ){

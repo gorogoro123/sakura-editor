@@ -176,14 +176,13 @@ public:
 	void SetHeader(char* pszWork[]);	//	&fなどを登録
 	void SetFooter(char* pszWork[]);	//	&p/&Pなどを登録
 
+	int GetLineCount();
+
 protected:
 	void SetPreviewFontHan( const LOGFONT* lf );
 	void SetPreviewFontZen( const LOGFONT* lf );
 
 /* メンバ変数宣言 */
-public:
-	/* none */
-
 protected:
 	CEditDoc& 		m_cEditDoc;
 	CEditWnd*		m_pParentWnd;
@@ -247,10 +246,9 @@ protected:
 
 	CColorStrategyPool*	m_pool;					// 色定義管理情報
 
-public:
-	std::unique_ptr<CLayoutMgr> m_pLayoutMgr_Print;		// 印刷用のレイアウト管理情報
-protected:
 	STypeConfig m_typePrint;
+
+	std::unique_ptr<CLayoutMgr> m_pLayoutMgr_Print;		// 印刷用のレイアウト管理情報
 
 	// プレビューから出ても現在のプリンター情報を記憶しておけるようにstaticにする 2003.05.02 かろと
 	std::unique_ptr<CPrint>	m_pcPrint;			//!< 現在のプリンター情報

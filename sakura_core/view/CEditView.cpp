@@ -1775,7 +1775,8 @@ bool CEditView::GetSelectedData(
 	if( bWithLineNumber ){	/* 行番号を付与する */
 		/* 行番号表示に必要な桁数を計算 */
 		// 2014.11.30 桁はレイアウト単位である必要がある
-		nLineNumCols = GetTextArea().DetectWidthOfLineNumberArea_calculate(&m_pcEditDoc->m_cLayoutMgr, true);
+		int lineCount = (int)m_pcEditDoc->m_cLayoutMgr.GetLineCount();
+		nLineNumCols = GetTextArea().DetectWidthOfLineNumberArea_calculate(lineCount, true);
 		nLineNumCols += 1;
 		strLineNum.assign(nLineNumCols, L'\0');
 	}

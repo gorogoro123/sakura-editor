@@ -700,7 +700,7 @@ void CPrintPreview::OnChangePrintSetting( )
 	/* 行番号を表示するか */
 	if( m_pPrintSetting->m_bPrintLineNumber ){
 		/* 行番号表示に必要な桁数を計算 */
-		m_nPreview_LineNumberColumns = m_pParentWnd->GetActiveView().GetTextArea().DetectWidthOfLineNumberArea_calculate(m_pLayoutMgr_Print.get());
+		m_nPreview_LineNumberColumns = m_pParentWnd->GetActiveView().GetTextArea().DetectWidthOfLineNumberArea_calculate(GetLineCount());
 	}
 	/* 現在のページ設定の、用紙サイズと用紙方向を反映させる */
 	m_pPrintSetting->m_mdmDevMode.dmPaperSize = m_pPrintSetting->m_nPrintPaperSize;
@@ -828,7 +828,7 @@ void CPrintPreview::OnChangePrintSetting( )
 	// 2014.07.23 レイアウト行番号で行番号幅が合わない時は再計算
 	if( m_pPrintSetting->m_bPrintLineNumber ){
 		/* 行番号表示に必要な桁数を計算 */
-		int tempLineNum = m_pParentWnd->GetActiveView().GetTextArea().DetectWidthOfLineNumberArea_calculate(m_pLayoutMgr_Print.get());
+		int tempLineNum = m_pParentWnd->GetActiveView().GetTextArea().DetectWidthOfLineNumberArea_calculate(GetLineCount());
 		if( m_nPreview_LineNumberColumns != tempLineNum ){
 			OnChangeSetting();
 		}
@@ -2262,4 +2262,9 @@ void CPrintPreview::DestroyFonts()
 BOOL CPrintPreview::GetDefaultPrinterInfo()
 {
 	return m_pcPrint->GetDefaultPrinter( &m_pPrintSetting->m_mdmDevMode );
+}
+
+int CPrintPreview::GetLineCount()
+{
+	return (int)m_pLayoutMgr_Print->GetLineCount();
 }
