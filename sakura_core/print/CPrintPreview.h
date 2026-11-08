@@ -248,7 +248,7 @@ protected:
 	CColorStrategyPool*	m_pool;					// 色定義管理情報
 
 public:
-	class CLayoutMgr*	m_pLayoutMgr_Print;		/* 印刷用のレイアウト管理情報 */
+	std::unique_ptr<CLayoutMgr> m_pLayoutMgr_Print;		// 印刷用のレイアウト管理情報
 protected:
 	STypeConfig m_typePrint;
 
