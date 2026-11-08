@@ -13,7 +13,7 @@
 #pragma once
 
 #include "dlg/CDialog.h"
-#include "outline/CDlgFuncList.h"
+#include "outline/CFileTreeSetting.h"
 
 /*!
 	@brief ファイルツリー設定ダイアログ
@@ -23,7 +23,12 @@ class CDlgFileTree final : public CDialog
 public:
 	CDlgFileTree();
 
-	int DoModal(HINSTANCE hInstance, HWND hwndParent, LPARAM lParam);
+	int DoModal(HINSTANCE hInstance, HWND hwndParent, LPARAM lParam, int nDocType);
+
+	CFileTreeSetting& getTreeSetting()
+	{
+		return m_fileTreeSetting;
+	}
 
 private:
 	BOOL	OnInitDialog(HWND hwndDlg, WPARAM wParam, LPARAM lParam) override;
@@ -42,10 +47,8 @@ private:
 	HTREEITEM InsertTreeItem(SFileTreeItem& item, HTREEITEM htiParent, HTREEITEM htiInsert);
 
 private:
-	CDlgFuncList*		m_pcDlgFuncList;
 	CFileTreeSetting	m_fileTreeSetting;
 	std::vector<int>	m_aItemRemoveList;
 	int					m_nDocType;
-
-	int					m_bInMove;
+	bool				m_bInMove = false;
 };

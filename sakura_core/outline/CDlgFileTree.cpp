@@ -69,10 +69,7 @@ static const DWORD p_helpids[] = {	//13300
 	0, 0
 };
 
-CDlgFileTree::CDlgFileTree()
-{
-	m_bInMove = false;
-}
+CDlgFileTree::CDlgFileTree() = default;
 
 /*! モーダルダイアログの表示
 	lParam は CDlgFuncList*
@@ -83,11 +80,11 @@ CDlgFileTree::CDlgFileTree()
 int CDlgFileTree::DoModal(
 	HINSTANCE	hInstance,
 	HWND		hwndParent,
-	LPARAM		lParam
+	LPARAM		lParam,
+	int			nDocType
 )
 {
-	m_pcDlgFuncList = reinterpret_cast<CDlgFuncList*>(lParam);
-	m_nDocType = m_pcDlgFuncList->m_nDocType;
+	m_nDocType = nDocType;
 	return (int)CDialog::DoModal(hInstance, hwndParent, IDD_FILETREE, lParam);
 }
 
@@ -340,8 +337,6 @@ BOOL CDlgFileTree::OnInitDialog([[maybe_unused]] HWND hwndDlg, WPARAM wParam, LP
 	ApiWrap::EditCtl_LimitText(GetItemHwnd(IDC_EDIT_LABEL), item.m_szLabelName.capacity() -1);
 	ApiWrap::EditCtl_LimitText(GetItemHwnd(IDC_EDIT_FILE), item.m_szTargetFile.capacity() -1);
 
-	CFilePath path;
-	m_pcDlgFuncList->LoadFileTreeSetting(m_fileTreeSetting, path);
 	SetDataInit();
 
 	/* 基底クラスメンバ */
