@@ -58,8 +58,7 @@ CPrintPreview::CPrintPreview(CEditDoc& cEditDoc, CEditWnd* pParentWnd) :
 	m_pParentWnd( pParentWnd )
 {
 	/* 印刷用のレイアウト情報の作成 */
-	m_pLayoutMgr_Print = new CLayoutMgr;
-
+	m_pLayoutMgr_Print = std::make_unique<CLayoutMgr>();
 	m_pcPrint = std::make_unique<CPrint>();
 
 	/* 印刷プレビュー コントロール 作成 */
@@ -75,9 +74,6 @@ CPrintPreview::~CPrintPreview()
 {
 	/* 印刷プレビュー コントロール 破棄 */
 	DestroyPrintPreviewControls();
-	
-	/* 印刷用のレイアウト情報の削除 */
-	delete m_pLayoutMgr_Print;
 	
 	/* フォント幅キャッシュを編集モードに戻す */
 	SelectCharWidthCache( CWM_FONT_EDIT, CWM_CACHE_NEUTRAL );
@@ -704,7 +700,7 @@ void CPrintPreview::OnChangePrintSetting( )
 	/* 行番号を表示するか */
 	if( m_pPrintSetting->m_bPrintLineNumber ){
 		/* 行番号表示に必要な桁数を計算 */
-		m_nPreview_LineNumberColumns = m_pParentWnd->GetActiveView().GetTextArea().DetectWidthOfLineNumberArea_calculate(m_pLayoutMgr_Print);
+		m_nPreview_LineNumberColumns = m_pParentWnd->GetActiveView().GetTextArea().DetectWidthOfLineNumberArea_calculate(m_pLayoutMgr_Print.get());
 	}
 	/* 現在のページ設定の、用紙サイズと用紙方向を反映させる */
 	m_pPrintSetting->m_mdmDevMode.dmPaperSize = m_pPrintSetting->m_nPrintPaperSize;
@@ -832,7 +828,7 @@ void CPrintPreview::OnChangePrintSetting( )
 	// 2014.07.23 レイアウト行番号で行番号幅が合わない時は再計算
 	if( m_pPrintSetting->m_bPrintLineNumber ){
 		/* 行番号表示に必要な桁数を計算 */
-		int tempLineNum = m_pParentWnd->GetActiveView().GetTextArea().DetectWidthOfLineNumberArea_calculate(m_pLayoutMgr_Print);
+		int tempLineNum = m_pParentWnd->GetActiveView().GetTextArea().DetectWidthOfLineNumberArea_calculate(m_pLayoutMgr_Print.get());
 		if( m_nPreview_LineNumberColumns != tempLineNum ){
 			OnChangeSetting();
 		}
