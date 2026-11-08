@@ -6,9 +6,8 @@
 	SPDX-License-Identifier: Zlib
 */
 
-#include <shellapi.h>// HDROP
 #include "CClipboard.h"
-#include "doc/CEditDoc.h"
+#include "env/DLLSHAREDATA.h"
 #include "charset/CCodeMediator.h"
 #include "charset/CCodeFactory.h"
 #include "charset/CShiftJis.h"
