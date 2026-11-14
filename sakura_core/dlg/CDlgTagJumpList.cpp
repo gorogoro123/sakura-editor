@@ -1111,7 +1111,7 @@ int CDlgTagJumpList::find_key_core(
 			rule.nTop = nTop;
 
 			// tagsファイルのパラメータを読みこみ
-			bRet = ReadTagsParameter(fp, bTagJumpICaseByTags, &state, cList, &nTagFormat, &bSorted, &bFoldcase, &bTagJumpICase, szNextPath, &baseDirId);
+			bRet = ReadTagsParameter(fp, bTagJumpICaseByTags, &nTagFormat, &bSorted, &bFoldcase, &bTagJumpICase);
 			if ( bRet ) {
 				if ( bSorted && !bFoldcase && !bTagJumpICase && ( bTagJumpExactMatch && !bTagJumpPartialMatch ) ) {
 					//二分探索が可能な場合は二分探索を行う
@@ -1168,14 +1168,10 @@ int CDlgTagJumpList::find_key_core(
 bool CDlgTagJumpList::ReadTagsParameter(
 	FILE* fp,
 	bool bTagJumpICaseByTags,
-	STagFindState* state,
-	CSortedTagJumpList& cList,
 	int* nTagFormat,
 	bool* bSorted,
 	bool* bFoldcase,
-	bool* bTagJumpICase,
-	std::span<WCHAR> szNextPath,
-	int* baseDirId
+	bool* bTagJumpICase
 )
 {
 	ACHAR	szLineData[1024];		//行バッファ
