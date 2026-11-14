@@ -1233,39 +1233,6 @@ bool CDlgTagJumpList::ReadTagsParameter(
 						*bTagJumpICase = *bFoldcase;
 					}
 				}
-				else if (0 == strncmp_literal(pTag, "S_SEARCH_NEXT")) {
-					// 独自拡張:次に検索するtagファイルの指定
-					if ('0' <= s[1][0] && s[1][0] <= '3') {
-						n2 = atoi(s[1]);
-						if (0 <= n2 && n2 <= 3) {
-							state->m_nNextMode = n2;
-						}
-						if (1 <= n2 && s[2][0]) {
-							// s[2] == 絶対パス(ディレクトリ)
-							WCHAR baseWork[1024];
-							CopyDirDir(baseWork, to_wchar(s[2]), state->m_szCurPath);
-							szNextPath[0] = 0;
-							if (!GetLongFileName(baseWork, szNextPath)) {
-								// エラーなら変換前を適用
-								wcsncpy_s(szNextPath.data(), szNextPath.size(), baseWork, _TRUNCATE);
-							}
-						}
-					}
-				}
-				else if (0 == strncmp_literal(pTag, "S_FILE_BASEDIR")) {
-					WCHAR baseWork[1024];
-					// 独自拡張:ファイル名の基準ディレクトリ
-					if (state->m_bJumpPath) {
-						// パス親読み替え中は、相対パスだった場合に連結が必要
-						CopyDirDir(baseWork, to_wchar(s[1]), state->m_szCurPath);
-						*baseDirId = cList.AddBaseDir(baseWork);
-					}
-					else {
-						wcscpy(baseWork, to_wchar(s[1]));
-						AddLastYenFromDirectoryPath(baseWork);
-						*baseDirId = cList.AddBaseDir(baseWork);
-					}
-				}
 			}
 			szLineData[nLINEDATA_LAST_CHAR] = '\0';
 			//巻き戻し用に現在のオフセット位置を退避
