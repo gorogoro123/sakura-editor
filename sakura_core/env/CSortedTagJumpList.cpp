@@ -117,29 +117,28 @@ BOOL CSortedTagJumpList::AddParamA( const ACHAR* keyword, const ACHAR* filename,
 
 	@note 不要な情報の場合は引数に NULL を指定する。
 */
-BOOL CSortedTagJumpList::GetParam( int index, WCHAR* keyword, WCHAR* filename, int* no, WCHAR* type, WCHAR* note, int* depth, WCHAR* baseDir )
+BOOL CSortedTagJumpList::GetParam( int index, std::span<WCHAR> keyword, std::span<WCHAR> filename, int* no, WCHAR* type, std::span<WCHAR> note, int* depth, std::span<WCHAR> baseDir )
 {
-	if( keyword  ) keyword[0] = L'\0';
-	if( filename ) filename[0] = L'\0';
+	if( keyword.size() > 0  ) keyword[0] = L'\0';
+	if( filename.size() > 0 ) filename[0] = L'\0';
 	if( no       ) *no    = 0;
 	if( type     ) *type  = 0;
-	if( note     ) note[0] = L'\0';
+	if( note.size() > 0     ) note[0] = L'\0';
 	if( depth    ) *depth = 0;
-	if( baseDir  ) baseDir[0] = L'\0';
+	if( baseDir.size() > 0  ) baseDir[0] = L'\0';
 
-	CSortedTagJumpList::TagJumpInfo* p;
-	p = GetPtr( index );
+	CSortedTagJumpList::TagJumpInfo* p = GetPtr( index );
 	if( nullptr != p )
 	{
-		if( keyword  ) wcscpy( keyword, p->keyword.c_str() );
-		if( filename ) wcscpy( filename, p->filename.c_str() );
+		if( keyword.size() > 0  ) wcsncpy_s( keyword.data(), keyword.size(), p->keyword.c_str(), _TRUNCATE );
+		if( filename.size() > 0 ) wcsncpy_s( filename.data(), filename.size(), p->filename.c_str(), _TRUNCATE );
 		if( no       ) *no    = p->no;
 		if( type     ) *type  = p->type;
-		if( note     ) wcscpy( note, p->note.c_str() );
+		if( note.size() > 0     ) wcsncpy_s( note.data(), note.size(), p->note.c_str(), _TRUNCATE );
 		if( depth    ) *depth = p->depth;
-		if( baseDir ){
+		if( baseDir.size() > 0 ){
 			if( 0 <= p->baseDirId && (size_t)p->baseDirId < m_baseDirArr.size() ){
-				wcscpy( baseDir, m_baseDirArr[p->baseDirId].c_str() );
+				wcsncpy_s( baseDir.data(), baseDir.size(), m_baseDirArr[p->baseDirId].c_str(), _TRUNCATE );
 			}
 		}
 		return TRUE;
