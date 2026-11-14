@@ -3121,13 +3121,12 @@ INT_PTR CDlgFuncList::OnNcPaint( HWND hwnd, [[maybe_unused]] UINT uMsg, [[maybe_
 	NONCLIENTMETRICS ncm;
 	ncm.cbSize = CCSIZEOF_STRUCT( NONCLIENTMETRICS, lfMessageFont );	// 以前のプラットフォームに WINVER >= 0x0600 で定義される構造体のフルサイズを渡すと失敗する
 	::SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, (PVOID)&ncm, 0 );
-	LOGFONT lf;
-	memset( &lf, 0, sizeof(LOGFONT) );
+	LOGFONT lf = {};
 	lf.lfCharSet = DEFAULT_CHARSET;
 	lf.lfHeight = ncm.lfCaptionFont.lfHeight;
-	::lstrcpy( lf.lfFaceName, L"Marlett" );
+	wcsncpy_s( lf.lfFaceName, std::size(lf.lfFaceName), L"Marlett", _TRUNCATE );
 	HFONT hFont = ::CreateFontIndirect( &lf );
-	::lstrcpy( lf.lfFaceName, L"Webdings" );
+	wcsncpy_s( lf.lfFaceName, std::size(lf.lfFaceName), L"Webdings", _TRUNCATE );
 	HFONT hFont2 = ::CreateFontIndirect( &lf );
 	gr.SetTextBackTransparent( true );
 

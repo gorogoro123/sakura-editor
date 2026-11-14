@@ -359,7 +359,6 @@ void CIfObj::AddMethod(
 	Info->Desc.invkind = INVOKE_FUNC;
 	Info->Desc.cParams = (SHORT)ArgumentCount + 1; //戻り値の分
 	Info->Desc.lprgelemdescParam = Info->Arguments;
-	//	Nov. 10, 2003 FILE Win9Xでは、[lstrcpyW]が無効のため、[wcscpy]に修正
 	wcsncpy_s(Info->Name, std::size(Info->Name), Name.data(), _TRUNCATE);
 	Info->Method = Method;
 	Info->ID = ID;
