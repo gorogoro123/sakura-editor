@@ -1054,7 +1054,7 @@ int CDlgTagJumpList::find_key_core(
 		// 初回or使えないときはクリア
 		ClearPrevFindInfo();
 		// ファイル名をコピーしたあと、ディレクトリ(最後\)のみにする
-		wcscpy( state.m_szCurPath, GetFilePath() );
+		wcsncpy_s( state.m_szCurPath, std::size(state.m_szCurPath), GetFilePath(), _TRUNCATE );
 		state.m_szCurPath[ GetFileName() - GetFilePath() ] = L'\0';
 		state.m_nLoop = m_nLoop;
 	}
@@ -1129,7 +1129,7 @@ int CDlgTagJumpList::find_key_core(
 		
 		if( szNextPath[0] ){
 			state.m_bJumpPath = true;
-			wcscpy( state.m_szCurPath, szNextPath );
+			wcsncpy_s( state.m_szCurPath, std::size(state.m_szCurPath), szNextPath, _TRUNCATE );
 			std::wstring path = state.m_szCurPath;
 			path += L"\\dummy";
 			state.m_nLoop = CalcMaxUpDirectory( path.c_str() );
