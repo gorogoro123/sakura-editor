@@ -818,8 +818,7 @@ int CDlgTagJumpList::SearchBestTag( )
 	if( m_pcList->GetCount() <= 0 ) return -1;	//選べません。
 	if( m_szFileName.empty() ) return 0;
 
-	auto mem_lpPathInfo = std::make_unique<TagPathInfo>();
-	TagPathInfo* lpPathInfo= mem_lpPathInfo.get();
+	TagPathInfo mem_lpPathInfo = {};
 	int nMatch1 = -1;
 	int nMatch2 = -1;
 	int nMatch3 = -1;
@@ -827,95 +826,89 @@ int CDlgTagJumpList::SearchBestTag( )
 	int nMatch5 = -1;
 	int nMatch6 = -1;
 	int nMatch7 = -1;
-	int		i;
-	int		count;
 
-	lpPathInfo->szDriveSrc[0] = L'\0';
-	lpPathInfo->szPathSrc[0] = L'\0';
-	lpPathInfo->szFileSrc[0] = L'\0';
-	lpPathInfo->szExtSrc[0] = L'\0';
-	_wsplitpath_s( m_szFileName.c_str(), lpPathInfo->szDriveSrc, lpPathInfo->szPathSrc, lpPathInfo->szFileSrc, lpPathInfo->szExtSrc );
-	lpPathInfo->nDriveSrc = wcsnlen(lpPathInfo->szDriveSrc, std::size(lpPathInfo->szDriveSrc));
-	lpPathInfo->nPathSrc = wcsnlen(lpPathInfo->szPathSrc, std::size(lpPathInfo->szPathSrc));
-	lpPathInfo->nFileSrc = wcsnlen(lpPathInfo->szFileSrc, std::size(lpPathInfo->szFileSrc));
-	lpPathInfo->nExtSrc = wcsnlen(lpPathInfo->szExtSrc, std::size(lpPathInfo->szExtSrc));
+	_wsplitpath_s( m_szFileName.c_str(), mem_lpPathInfo.szDriveSrc, mem_lpPathInfo.szPathSrc, mem_lpPathInfo.szFileSrc, mem_lpPathInfo.szExtSrc );
+	mem_lpPathInfo.nDriveSrc = wcsnlen(mem_lpPathInfo.szDriveSrc, std::size(mem_lpPathInfo.szDriveSrc));
+	mem_lpPathInfo.nPathSrc = wcsnlen(mem_lpPathInfo.szPathSrc, std::size(mem_lpPathInfo.szPathSrc));
+	mem_lpPathInfo.nFileSrc = wcsnlen(mem_lpPathInfo.szFileSrc, std::size(mem_lpPathInfo.szFileSrc));
+	mem_lpPathInfo.nExtSrc = wcsnlen(mem_lpPathInfo.szExtSrc, std::size(mem_lpPathInfo.szExtSrc));
 
-	count = m_pcList->GetCount();
+	const int count = m_pcList->GetCount();
 
-	for( i = 0; i < count; i++ )
+	for( int i = 0; i < count; i++ )
 	{
 		// タグのファイル名部分をフルパスにする
-		lpPathInfo->szFileNameDst[0] = L'\0';
+		mem_lpPathInfo.szFileNameDst[0] = L'\0';
 		{
 			SFilePath szPath;
 			GetFullPathAndLine( i, szPath, nullptr, nullptr );
-			if( FALSE == GetLongFileName( szPath, lpPathInfo->szFileNameDst ) ){
-				wcscpy( lpPathInfo->szFileNameDst, szPath.c_str() );
+			if( FALSE == GetLongFileName( szPath, mem_lpPathInfo.szFileNameDst ) ){
+				wcsncpy_s( mem_lpPathInfo.szFileNameDst, std::size(mem_lpPathInfo.szFileNameDst), szPath.c_str(), _TRUNCATE );
 			}
 		}
 
-		lpPathInfo->szDriveDst[0] = L'\0';
-		lpPathInfo->szPathDst[0] = L'\0';
-		lpPathInfo->szFileDst[0] = L'\0';
-		lpPathInfo->szExtDst[0] = L'\0';
-		_wsplitpath_s( lpPathInfo->szFileNameDst, lpPathInfo->szDriveDst, lpPathInfo->szPathDst, lpPathInfo->szFileDst, lpPathInfo->szExtDst );
-		lpPathInfo->nDriveDst = wcsnlen(lpPathInfo->szDriveDst, std::size(lpPathInfo->szDriveDst));
-		lpPathInfo->nPathDst = wcsnlen(lpPathInfo->szPathDst, std::size(lpPathInfo->szPathDst));
-		lpPathInfo->nFileDst = wcsnlen(lpPathInfo->szFileDst, std::size(lpPathInfo->szFileDst));
-		lpPathInfo->nExtDst = wcsnlen(lpPathInfo->szExtDst, std::size(lpPathInfo->szExtDst));
+		mem_lpPathInfo.szDriveDst[0] = L'\0';
+		mem_lpPathInfo.szPathDst[0] = L'\0';
+		mem_lpPathInfo.szFileDst[0] = L'\0';
+		mem_lpPathInfo.szExtDst[0] = L'\0';
+		_wsplitpath_s( mem_lpPathInfo.szFileNameDst, mem_lpPathInfo.szDriveDst, mem_lpPathInfo.szPathDst, mem_lpPathInfo.szFileDst, mem_lpPathInfo.szExtDst );
+		mem_lpPathInfo.nDriveDst = wcsnlen(mem_lpPathInfo.szDriveDst, std::size(mem_lpPathInfo.szDriveDst));
+		mem_lpPathInfo.nPathDst = wcsnlen(mem_lpPathInfo.szPathDst, std::size(mem_lpPathInfo.szPathDst));
+		mem_lpPathInfo.nFileDst = wcsnlen(mem_lpPathInfo.szFileDst, std::size(mem_lpPathInfo.szFileDst));
+		mem_lpPathInfo.nExtDst = wcsnlen(mem_lpPathInfo.szExtDst, std::size(mem_lpPathInfo.szExtDst));
 		
-		if(_wcsicmp(m_szFileName.c_str(), lpPathInfo->szFileNameDst) == 0){
+		if(_wcsicmp(m_szFileName.c_str(), mem_lpPathInfo.szFileNameDst) == 0){
 			return i;	//同一ファイルを見つけた
 		}
 
 		if((nMatch1 == -1)
-		&& (_wcsicmp(lpPathInfo->szDriveSrc, lpPathInfo->szDriveDst) == 0)
-		&& (_wcsicmp(lpPathInfo->szPathSrc, lpPathInfo->szPathDst) == 0)
-		&& (_wcsicmp(lpPathInfo->szFileSrc, lpPathInfo->szFileDst) == 0)){
+		&& (_wcsicmp(mem_lpPathInfo.szDriveSrc, mem_lpPathInfo.szDriveDst) == 0)
+		&& (_wcsicmp(mem_lpPathInfo.szPathSrc, mem_lpPathInfo.szPathDst) == 0)
+		&& (_wcsicmp(mem_lpPathInfo.szFileSrc, mem_lpPathInfo.szFileDst) == 0)){
 			//ファイル名まで一致
 			nMatch1 = i;
 		}
 
 		if((nMatch2 == -1)
-		&& (_wcsicmp(lpPathInfo->szDriveSrc, lpPathInfo->szDriveDst) == 0)
-		&& (_wcsicmp(lpPathInfo->szPathSrc, lpPathInfo->szPathDst) == 0)){
+		&& (_wcsicmp(mem_lpPathInfo.szDriveSrc, mem_lpPathInfo.szDriveDst) == 0)
+		&& (_wcsicmp(mem_lpPathInfo.szPathSrc, mem_lpPathInfo.szPathDst) == 0)){
 			//パス名まで一致
 			nMatch2 = i;
 		}
 
 		if((nMatch5 == -1)
-		&& (_wcsicmp(lpPathInfo->szPathSrc, lpPathInfo->szPathDst) == 0)
-		&& (_wcsicmp(lpPathInfo->szFileSrc, lpPathInfo->szFileDst) == 0)
-		&& (_wcsicmp(lpPathInfo->szExtSrc, lpPathInfo->szExtDst) == 0)){
+		&& (_wcsicmp(mem_lpPathInfo.szPathSrc, mem_lpPathInfo.szPathDst) == 0)
+		&& (_wcsicmp(mem_lpPathInfo.szFileSrc, mem_lpPathInfo.szFileDst) == 0)
+		&& (_wcsicmp(mem_lpPathInfo.szExtSrc, mem_lpPathInfo.szExtDst) == 0)){
 			nMatch5 = i;
 		}
 
 		if((nMatch6 == -1)
-		&& (_wcsicmp(lpPathInfo->szFileSrc, lpPathInfo->szFileDst) == 0)
-		&& (_wcsicmp(lpPathInfo->szExtSrc, lpPathInfo->szExtDst) == 0)){
-			if((lpPathInfo->nPathSrc >= lpPathInfo->nPathDst)
-			&& (_wcsicmp(&lpPathInfo->szPathSrc[lpPathInfo->nPathSrc - lpPathInfo->nPathDst], lpPathInfo->szPathDst) == 0)){
+		&& (_wcsicmp(mem_lpPathInfo.szFileSrc, mem_lpPathInfo.szFileDst) == 0)
+		&& (_wcsicmp(mem_lpPathInfo.szExtSrc, mem_lpPathInfo.szExtDst) == 0)){
+			if((mem_lpPathInfo.nPathSrc >= mem_lpPathInfo.nPathDst)
+			&& (_wcsicmp(&mem_lpPathInfo.szPathSrc[mem_lpPathInfo.nPathSrc - mem_lpPathInfo.nPathDst], mem_lpPathInfo.szPathDst) == 0)){
 				nMatch6 = i;
 			}
 		}
 
 		if((nMatch7 == -1)
-		&& (_wcsicmp(lpPathInfo->szFileSrc, lpPathInfo->szFileDst) == 0)){
-			if((lpPathInfo->nPathSrc >= lpPathInfo->nPathDst)
-			&& (_wcsicmp(&lpPathInfo->szPathSrc[lpPathInfo->nPathSrc - lpPathInfo->nPathDst], lpPathInfo->szPathDst) == 0)){
+		&& (_wcsicmp(mem_lpPathInfo.szFileSrc, mem_lpPathInfo.szFileDst) == 0)){
+			if((mem_lpPathInfo.nPathSrc >= mem_lpPathInfo.nPathDst)
+			&& (_wcsicmp(&mem_lpPathInfo.szPathSrc[mem_lpPathInfo.nPathSrc - mem_lpPathInfo.nPathDst], mem_lpPathInfo.szPathDst) == 0)){
 				nMatch7 = i;
 			}
 		}
 
 		if((nMatch3 == -1)
-		&& (_wcsicmp(lpPathInfo->szFileSrc, lpPathInfo->szFileDst) == 0)
-		&& (_wcsicmp(lpPathInfo->szExtSrc, lpPathInfo->szExtDst) == 0)){
+		&& (_wcsicmp(mem_lpPathInfo.szFileSrc, mem_lpPathInfo.szFileDst) == 0)
+		&& (_wcsicmp(mem_lpPathInfo.szExtSrc, mem_lpPathInfo.szExtDst) == 0)){
 			//ファイル名・拡張子が一致
 			nMatch3 = i;
 		}
 
 		if((nMatch4 == -1)
-		&& (_wcsicmp(lpPathInfo->szFileSrc, lpPathInfo->szFileDst) == 0)){
+		&& (_wcsicmp(mem_lpPathInfo.szFileSrc, mem_lpPathInfo.szFileDst) == 0)){
 			//ファイル名が一致
 			nMatch4 = i;
 		}
