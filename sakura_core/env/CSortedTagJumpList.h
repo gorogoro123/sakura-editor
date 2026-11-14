@@ -28,7 +28,7 @@ public:
 
 	int		AddBaseDir(std::wstring_view baseDir);
 	BOOL AddParamA( const ACHAR* keyword, const ACHAR* filename, int no, ACHAR type, const ACHAR* note, int depth, const int baseDirId );
-	BOOL GetParam( int index, WCHAR* keyword, WCHAR* filename, int* no, WCHAR* type, WCHAR* note, int* depth, WCHAR* baseDir );
+	BOOL GetParam( int index, std::span<WCHAR> keyword, std::span<WCHAR> filename, int* no, WCHAR* type, std::span<WCHAR> note, int* depth, std::span<WCHAR> baseDir );
 	int GetCount( ){ return static_cast<int>(m_vTagjump.size()); }
 	void Empty( );
 
