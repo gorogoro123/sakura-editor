@@ -2693,7 +2693,7 @@ void CEditWnd::OnDropFiles( HDROP hDrop )
 				if( m_pShareData->m_Common.m_sFile.m_bDropFileAndClose ){
 					/* ファイル読み込み */
 					SLoadInfo sLoadInfo(szFile, CODE_AUTODETECT, false);
-					GetDocument()->m_cDocFileOperation.FileCloseOpen(sLoadInfo);
+					GetDocument()->m_cDocFileOperation.FileCloseOpen(GetHwnd(), sLoadInfo);
 				}
 				else{
 					/* 編集ウィンドウの上限チェック */

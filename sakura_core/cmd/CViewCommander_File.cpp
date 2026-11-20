@@ -232,7 +232,7 @@ void CViewCommander::Command_FILECLOSE( )
 */
 void CViewCommander::Command_FILECLOSE_OPEN( LPCWSTR filename, ECodeType nCharCode, bool bViewMode )
 {
-	GetDocument()->m_cDocFileOperation.FileCloseOpen( SLoadInfo(filename, nCharCode, bViewMode) );
+	GetDocument()->m_cDocFileOperation.FileCloseOpen(GetEditWindow()->GetHwnd(), SLoadInfo(filename, nCharCode, bViewMode));
 
 	//プラグイン：DocumentOpenイベント実行
 	CJackManager::getInstance()->InvokePlugins( PP_DOCUMENT_OPEN, &GetEditWindow()->GetActiveView() );
