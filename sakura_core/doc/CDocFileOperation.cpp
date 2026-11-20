@@ -487,7 +487,7 @@ bool CDocFileOperation::FileClose()
 /* 閉じて開く
 	@date 2006.12.30 ryoji CEditView::Command_FILESAVEAS()から処理本体を切り出し
 */
-void CDocFileOperation::FileCloseOpen( const SLoadInfo& _sLoadInfo )
+void CDocFileOperation::FileCloseOpen( HWND hwnd, const SLoadInfo& _sLoadInfo )
 {
 	/* ファイルを閉じるときのMRU登録 & 保存確認 & 保存実行 */
 	if( !m_pcDocRef->OnFileClose(false) ){
@@ -501,7 +501,7 @@ void CDocFileOperation::FileCloseOpen( const SLoadInfo& _sLoadInfo )
 	SLoadInfo sLoadInfo = _sLoadInfo;
 	if( sLoadInfo.cFilePath.empty() ){
 		std::vector<std::wstring> files;
-		if( !OpenFileDialog( CEditWnd::getInstance()->GetHwnd(), nullptr, &sLoadInfo, files ) ){
+		if( !OpenFileDialog( hwnd, nullptr, &sLoadInfo, files ) ){
 			return;
 		}
 		sLoadInfo.cFilePath = files[0].c_str();
@@ -511,7 +511,7 @@ void CDocFileOperation::FileCloseOpen( const SLoadInfo& _sLoadInfo )
 			SLoadInfo sFilesLoadInfo = sLoadInfo;
 			sFilesLoadInfo.cFilePath = files[i].c_str();
 			CControlTray::OpenNewEditor(
-				CEditWnd::getInstance()->GetHwnd(),
+				hwnd,
 				sFilesLoadInfo,
 				nullptr,
 				true

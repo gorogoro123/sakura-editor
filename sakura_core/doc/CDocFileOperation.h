@@ -54,7 +54,8 @@ public:
 
 	//その他
 	void FileCloseOpen(				//!< 閉じて開く	// 2006.12.30 ryoji
-		const SLoadInfo& sLoadInfo = SLoadInfo(L"", CODE_AUTODETECT, false)
+		HWND hwnd,
+		const SLoadInfo& sLoadInfo
 	);
 
 protected:
