@@ -84,6 +84,7 @@ void CSaveAgent::OnSave(const SSaveInfo& sSaveInfo)
 	CWriteManager cWriter;
 	CEditApp::getInstance()->GetVisualProgress()->CProgressListener::Listen(&cWriter);
 	cWriter.WriteFile_From_CDocLineMgr(
+		m_cEditWnd.GetHwnd(),
 		m_cEditDoc.m_cDocLineMgr,
 		sSaveInfo
 	);

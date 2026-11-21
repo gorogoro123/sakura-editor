@@ -921,6 +921,7 @@ BOOL CViewCommander::Command_PUTFILE(
 
 		// 一時ファイル出力
 		EConvertResult eRet = CWriteManager().WriteFile_From_CDocLineMgr(
+			GetMainWindow(),
 			GetDocument()->m_cDocLineMgr,
 			SSaveInfo(
 				filename,
