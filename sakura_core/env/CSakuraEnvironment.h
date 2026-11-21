@@ -10,7 +10,6 @@
 #include <string>
 
 class CEditDoc;
-class CEditWnd;
 
 struct CPrintParam {
 	std::wstring m_szCurPageNum;	/* 現在のページ */
@@ -19,7 +18,6 @@ struct CPrintParam {
 
 class CSakuraEnvironment{
 public:
-	static CEditWnd* GetMainWindow();
 	static void ExpandParameter(CEditDoc* pcDoc, const wchar_t* pszSource, std::span<wchar_t> szBuffer, const CPrintParam* pcPrintParam = nullptr);
 	static std::wstring GetDlgInitialDir(CEditDoc* pcDoc, bool bControlProcess = false);
 
