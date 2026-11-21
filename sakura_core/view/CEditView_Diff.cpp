@@ -450,6 +450,7 @@ BOOL CEditView::MakeDiffTmpFile( SFilePath& filename, HWND hWnd, ECodeType code,
 	if( nullptr == hWnd )
 	{
 		EConvertResult eWriteResult = CWriteManager().WriteFile_From_CDocLineMgr(
+			m_cEditWnd.GetHwnd(),
 			m_pcEditDoc->m_cDocLineMgr,
 			SSaveInfo(
 				filename.c_str(),

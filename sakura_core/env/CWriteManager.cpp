@@ -5,11 +5,9 @@
 	SPDX-License-Identifier: Zlib
 */
 #include "env/CWriteManager.h"
-#include <list>
 #include "doc/logic/CDocLineMgr.h"
 #include "doc/logic/CDocLine.h"
 #include "CEditApp.h" // CAppExitException
-#include "window/CEditWnd.h"
 #include "charset/CCodeFactory.h"
 #include "charset/CCodeBase.h"
 #include "charset/CUnicode.h"
@@ -24,6 +22,7 @@
 	@date 2003.07.26 ryoji BOM引数追加
 */
 EConvertResult CWriteManager::WriteFile_From_CDocLineMgr(
+	HWND				hwnd,
 	const CDocLineMgr&	pcDocLineMgr,	//!< [in]
 	const SSaveInfo&	sSaveInfo		//!< [in]
 )
@@ -39,7 +38,7 @@ EConvertResult CWriteManager::WriteFile_From_CDocLineMgr(
 		if(e==RESULT_FAILURE){
 			nRetVal=RESULT_FAILURE;
 			ErrorMessage(
-				CEditWnd::getInstance()->GetHwnd(),
+				hwnd,
 				LS(STR_FILESAVE_CONVERT_ERROR),
 				sSaveInfo.cFilePath.c_str()
 			);
@@ -77,7 +76,7 @@ EConvertResult CWriteManager::WriteFile_From_CDocLineMgr(
 				if(e==RESULT_FAILURE){
 					nRetVal=RESULT_FAILURE;
 					ErrorMessage(
-						CEditWnd::getInstance()->GetHwnd(),
+						hwnd,
 						LS(STR_FILESAVE_CONVERT_ERROR),
 						sSaveInfo.cFilePath.c_str()
 					);
@@ -120,7 +119,7 @@ EConvertResult CWriteManager::WriteFile_From_CDocLineMgr(
 				if(e==RESULT_FAILURE){
 					nRetVal=RESULT_FAILURE;
 					ErrorMessage(
-						CEditWnd::getInstance()->GetHwnd(),
+						hwnd,
 						LS(STR_FILESAVE_CONVERT_ERROR),
 						sSaveInfo.cFilePath.c_str()
 					);
@@ -140,7 +139,7 @@ EConvertResult CWriteManager::WriteFile_From_CDocLineMgr(
 	}
 	catch(const CError_FileOpen&){ //########### 現時点では、この例外が発生した場合は正常に動作できない
 		ErrorMessage(
-			CEditWnd::getInstance()->GetHwnd(),
+			hwnd,
 			LS(STR_SAVEAGENT_OTHER_APP),
 			sSaveInfo.cFilePath.c_str()
 		);
