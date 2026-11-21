@@ -318,7 +318,7 @@ void CViewCommander::Command_Diff( const WCHAR* _szDiffFile2, int nFlgOpt )
 */
 void CViewCommander::Command_Diff_Dialog( )
 {
-	CDlgDiff	cDlgDiff;
+	CDlgDiff	cDlgDiff(GetEditWindow()->GetHwnd());
 	bool	bTmpFile1 = false, bTmpFile2 = false;
 
 	//DIFF差分表示ダイアログを表示する
