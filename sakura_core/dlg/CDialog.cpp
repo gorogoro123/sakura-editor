@@ -539,7 +539,7 @@ BOOL CDialog::OnCbnSelEndOk( HWND hwndCtl, [[maybe_unused]] int wID )
 	//文字列を退避
 	int nLength = ::GetWindowTextLength( hwndCtl );
 	LPWSTR sBuf = new WCHAR[nLength + 1];
-	::GetWindowText( hwndCtl, sBuf, nLength+1 );
+	::GetWindowTextW( hwndCtl, sBuf, nLength+1 );
 	sBuf[nLength] = L'\0';
 
 	//リストを非表示にする
@@ -820,7 +820,7 @@ LRESULT CALLBACK CDialog::SubEditProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARA
 			// 単語削除する
 			const int length = ::GetWindowTextLength(hwndCombo);
 			auto text = std::make_unique<wchar_t[]>(length + 1);
-			::GetWindowText(hwndCombo, text.get(), length + 1);
+			::GetWindowTextW(hwndCombo, text.get(), length + 1);
 
 			const int pos = DeletePreviousWord(text.get(), length, selStart);
 

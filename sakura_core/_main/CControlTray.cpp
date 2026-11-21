@@ -428,7 +428,7 @@ LRESULT CControlTray::DispatchEvent(
 			hwndWork = ::GetForegroundWindow();
 			szClassName[0] = L'\0';
 			::GetClassNameW( hwndWork, szClassName, int(std::size(szClassName)) - 1 );
-			::GetWindowText( hwndWork, szText, int(std::size(szText)) - 1 );
+			::GetWindowTextW( hwndWork, szText, int(std::size(szText)) - 1 );
 			if( 0 == wcscmp( szText, LS(STR_PROPCOMMON) ) ){
 				return -1;
 			}

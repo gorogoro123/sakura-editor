@@ -43,21 +43,21 @@ namespace ApiWrap{
 		// ウィンドウテキストを取得するのに必要なバッファを確保する
 		strText.resize( cchRequired + 1 );
 
-		// GetWindowText() はコピーした文字数を返す。
+		// GetWindowTextW() はコピーした文字数を返す。
 		// https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getwindowtextw
-		const int actualCopied = ::GetWindowText( hWnd, strText.data(), (int)strText.capacity() );
+		const int actualCopied = ::GetWindowTextW( hWnd, strText.data(), (int)strText.capacity() );
 		if( actualCopied < 0 ){
 			// 仕様上は負の場合はありえないが、念の為エラーチェックしておく。
 			return false;
 		}
 		else if( actualCopied == 0 ){
-			// GetWindowText はエラーの場合、またはテキストが空の場合は 0 を返す
+			// GetWindowTextW はエラーの場合、またはテキストが空の場合は 0 を返す
 			if( GetLastError() != 0 ){
 				return false;
 			}
 		}
 		else if( (int)strText.capacity() <= actualCopied ){
-			// GetWindowText() の仕様上はありえないはず
+			// GetWindowTextW() の仕様上はありえないはず
 			return false;
 		}
 
