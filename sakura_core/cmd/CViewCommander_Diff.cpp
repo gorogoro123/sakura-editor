@@ -110,7 +110,7 @@ static bool Commander_COMPARE_core(CViewCommander& commander, bool& bDifferent, 
 void CViewCommander::Command_COMPARE( )
 {
 	HWND		hwndCompareWnd = nullptr;
-	CDlgCompare	cDlgCompare;
+	CDlgCompare	cDlgCompare(GetEditWindow()->GetHwnd());
 	HWND		hwndMsgBox;	//@@@ 2003.06.12 MIK
 
 	/* 比較後、左右に並べて表示 */
