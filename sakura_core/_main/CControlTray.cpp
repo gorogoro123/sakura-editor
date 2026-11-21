@@ -664,7 +664,7 @@ LRESULT CControlTray::DispatchEvent(
 				break;
 			case F_TYPE_LIST:	// タイプ別設定一覧
 				{
-					CDlgTypeList			cDlgTypeList;
+					CDlgTypeList			cDlgTypeList(nullptr);
 					CDlgTypeList::SResult	sResult;
 					sResult.cDocumentType = CTypeConfig(0);
 					sResult.bTempChange = false;
