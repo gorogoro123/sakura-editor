@@ -13,8 +13,6 @@
 */
 #pragma once
 
-class CDlgCompare;
-
 #include "dlg/CDialog.h"
 /*!
 	@brief ファイル比較ダイアログボックス
@@ -25,7 +23,7 @@ public:
 	/*
 	||  Constructors
 	*/
-	CDlgCompare();
+	explicit CDlgCompare(HWND hwnd);
 
 	/*
 	||  Attributes & Operations
@@ -33,7 +31,7 @@ public:
 	int DoModal( HINSTANCE hInstance, HWND hwndParent, LPARAM lParam,
 				 const WCHAR* pszPath, HWND* phwndCompareWnd );	/* モーダルダイアログの表示 */
 
-	const WCHAR*	m_pszPath;
+				 const WCHAR*	m_pszPath;
 	HWND*			m_phwndCompareWnd;
 	BOOL			m_bCompareAndTileHorz;/* 左右に並べて表示 */
 
@@ -53,6 +51,7 @@ protected:
 	int GetData( ) override;	/* ダイアログデータの取得 */
 
 private:
+	HWND			m_hwndCEditWnd;
 	POINT			m_ptDefaultSize;
 	std::array<RECT,6>	m_rcItems;
 };
