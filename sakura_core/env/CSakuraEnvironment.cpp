@@ -27,11 +27,6 @@
 #include "config/system_constants.h"
 #include "config/app_constants.h"
 
-CEditWnd* CSakuraEnvironment::GetMainWindow()
-{
-	return CEditWnd::getInstance();
-}
-
 enum EExpParamName
 {
 	EExpParamName_none = -1,
@@ -217,7 +212,8 @@ void CSakuraEnvironment::ExpandParameter(CEditDoc* pcDoc, const wchar_t* pszSour
 				NONCLIENTMETRICS met;
 				met.cbSize = CCSIZEOF_STRUCT(NONCLIENTMETRICS, lfMessageFont);
 				::SystemParametersInfo(SPI_GETNONCLIENTMETRICS, met.cbSize, &met, 0);
-				CDCFont dcFont(met.lfCaptionFont, GetMainWindow()->GetHwnd());
+				CEditWnd& cEditWnd = pcDoc->GetEditWnd();
+				CDCFont dcFont(met.lfCaptionFont, cEditWnd.GetHwnd());
 				CFileNameManager::getInstance()->GetTransformFileNameFast( pcDoc->m_cDocFile.GetFilePath(), szText, dcFont.GetHDC(), true );
 				result.append(szText);
 				++p;
@@ -231,7 +227,8 @@ void CSakuraEnvironment::ExpandParameter(CEditDoc* pcDoc, const wchar_t* pszSour
 				}else if( pcAppMode->IsDebugMode() ){
 				}else{
 					WCHAR szText[10];
-					const EditNode* node = CAppNodeManager::getInstance()->GetEditNode( GetMainWindow()->GetHwnd() );
+					CEditWnd& cEditWnd = pcDoc->GetEditWnd();
+					const EditNode* node = CAppNodeManager::getInstance()->GetEditNode( cEditWnd.GetHwnd() );
 					if( 0 < node->m_nId ){
 						auto_snprintf_s( szText, std::size(szText), L"%d", node->m_nId );
 						result.append(szText);
@@ -266,7 +263,8 @@ void CSakuraEnvironment::ExpandParameter(CEditDoc* pcDoc, const wchar_t* pszSour
 				NONCLIENTMETRICS met;
 				met.cbSize = CCSIZEOF_STRUCT(NONCLIENTMETRICS, lfMessageFont);
 				::SystemParametersInfo(SPI_GETNONCLIENTMETRICS, met.cbSize, &met, 0);
-				CDCFont dcFont(met.lfCaptionFont, GetMainWindow()->GetHwnd());
+				CEditWnd& cEditWnd = pcDoc->GetEditWnd();
+				CDCFont dcFont(met.lfCaptionFont, cEditWnd.GetHwnd());
 				CFileNameManager::getInstance()->GetTransformFileNameFast( buff, szText, dcFont.GetHDC(), true );
 				result.append(szText);
 			}
@@ -325,7 +323,8 @@ void CSakuraEnvironment::ExpandParameter(CEditDoc* pcDoc, const wchar_t* pszSour
 		case L'C':	//	現在選択中のテキスト
 			{
 				CNativeW cmemCurText;
-				GetMainWindow()->GetActiveView().GetCurrentTextForSearch( cmemCurText );
+				CEditWnd& cEditWnd = pcDoc->GetEditWnd();
+				cEditWnd.GetActiveView().GetCurrentTextForSearch( cmemCurText );
 
 				result.append(cmemCurText.GetStringPtr(), cmemCurText.GetStringLength());
 				++p;
@@ -336,7 +335,8 @@ void CSakuraEnvironment::ExpandParameter(CEditDoc* pcDoc, const wchar_t* pszSour
 		case L'x':	//	現在の物理桁位置(先頭からのバイト数1開始)
 			{
 				wchar_t szText[11];
-				_itow_s( GetMainWindow()->GetActiveView().GetCaret().GetCaretLogicPos().x + 1, szText, 10 );
+				CEditWnd& cEditWnd = pcDoc->GetEditWnd();
+				_itow_s( cEditWnd.GetActiveView().GetCaret().GetCaretLogicPos().x + 1, szText, 10 );
 				result.append(szText);
 				++p;
 			}
@@ -344,7 +344,8 @@ void CSakuraEnvironment::ExpandParameter(CEditDoc* pcDoc, const wchar_t* pszSour
 		case L'y':	//	現在の物理行位置(1開始)
 			{
 				wchar_t szText[11];
-				_itow_s( GetMainWindow()->GetActiveView().GetCaret().GetCaretLogicPos().y + 1, szText, 10 );
+				CEditWnd& cEditWnd = pcDoc->GetEditWnd();
+				_itow_s( cEditWnd.GetActiveView().GetCaret().GetCaretLogicPos().y + 1, szText, 10 );
 				result.append(szText);
 				++p;
 			}
