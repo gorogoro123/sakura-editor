@@ -383,33 +383,33 @@ LPVOID CDlgTypeList::GetHelpIdTable()
 }
 //@@@ 2002.01.18 add end
 
-static void SendChangeSetting()
+void CDlgTypeList::SendChangeSetting()
 {
 	CAppNodeGroupHandle(0).SendMessageToAllEditors(
 		MYWM_CHANGESETTING,
 		(WPARAM)0,
 		(LPARAM)PM_CHANGESETTING_ALL,
-		CEditWnd::getInstance()->GetHwnd()
+		GetHwndParent()
 	);
 }
 
-static void SendChangeSettingType(int nType)
+void CDlgTypeList::SendChangeSettingType(int nType)
 {
 	CAppNodeGroupHandle(0).SendMessageToAllEditors(
 		MYWM_CHANGESETTING,
 		(WPARAM)nType,
 		(LPARAM)PM_CHANGESETTING_TYPE,
-		CEditWnd::getInstance()->GetHwnd()
+		GetHwndParent()
 	);
 }
 
-static void SendChangeSettingType2(int nType)
+void CDlgTypeList::SendChangeSettingType2(int nType)
 {
 	CAppNodeGroupHandle(0).SendMessageToAllEditors(
 		MYWM_CHANGESETTING,
 		(WPARAM)nType,
 		(LPARAM)PM_CHANGESETTING_TYPE2,
-		CEditWnd::getInstance()->GetHwnd()
+		GetHwndParent()
 	);
 }
 
