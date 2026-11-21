@@ -780,7 +780,7 @@ BOOL IsSakuraMainWindow( HWND hWnd )
 	if( !::IsWindow( hWnd ) ){
 		return FALSE;
 	}
-	if( 0 == ::GetClassName( hWnd, szClassName, int(std::size(szClassName)) - 1 ) ){
+	if( 0 == ::GetClassNameW( hWnd, szClassName, int(std::size(szClassName)) - 1 ) ){
 		return FALSE;
 	}
 	if(0 == wcscmp( GSTR_EDITWINDOWNAME, szClassName ) ){

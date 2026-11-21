@@ -456,7 +456,7 @@ BOOL CDialog::OnCommand( WPARAM wParam, LPARAM lParam )
 
 	// 通知元がコントロールだった場合の処理
 	if( hwndCtl ){
-		::GetClassName(hwndCtl, szClass, int(std::size(szClass)));
+		::GetClassNameW(hwndCtl, szClass, int(std::size(szClass)));
 		if( ::lstrcmpi(szClass, L"Button") == 0 ){
 			switch( wNotifyCode ){
 			/* ボタン／チェックボックスがクリックされた */
