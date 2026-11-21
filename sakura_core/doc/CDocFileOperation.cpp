@@ -278,7 +278,7 @@ bool CDocFileOperation::SaveFileDialog(
 	// ダイアログを表示
 	CDlgOpenFile cDlgOpenFile;
 	cDlgOpenFile.Create(
-		CEditWnd::getInstance()->GetHwnd(),
+		m_pcDocRef->GetEditWnd().GetHwnd(),
 		strDefaultWildCard.c_str(),
 		CSakuraEnvironment::GetDlgInitialDir(m_pcDocRef).c_str(),	// 初期フォルダー
 		CMRUFile().GetPathList(),		//	最近のファイル
