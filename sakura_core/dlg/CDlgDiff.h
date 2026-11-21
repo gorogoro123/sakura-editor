@@ -17,8 +17,6 @@
 #include "basis/CMyString.h"
 #include "charset/charset.h"
 
-class CDlgDiff;
-
 /*!
 	@brief DIFF差分表示ダイアログボックス
 */
@@ -29,7 +27,7 @@ public:
 	/*
 	||  Constructors
 	*/
-	CDlgDiff();
+	explicit CDlgDiff(HWND hwnd);
 
 	/*
 	||  Attributes & Operations
@@ -54,6 +52,7 @@ protected:
 	int		GetData( ) override;	/* ダイアログデータの取得 */
 
 private:
+	HWND		m_hwndCEditWnd;
 	int			m_nIndexSave = 0;		// 最後に選択されていた番号
 	POINT		m_ptDefaultSize = {-1, -1};
 	std::array<RECT,22>	m_rcItems;

@@ -20,17 +20,18 @@
 
 #include "dlg/CDlgDiff.h"
 #include "dlg/CDlgOpenFile.h"
-#include "window/CEditWnd.h"
 #include "func/Funccode.h"
 #include "util/shell.h"
 #include "util/string_ex2.h"
 #include "util/file.h"
+#include "util/window.h"
 #include "apiwrap/StdApi.h"
 #include "apiwrap/StdControl.h"
 #include "sakura_rc.h"
 #include "sakura.hh"
 #include "config/system_constants.h"
 #include "env/CFileNameManager.h"
+#include "env/DLLSHAREDATA.h"
 
 static const DWORD p_helpids[] = {	//13200
 	IDC_BUTTON_DIFF_DST,		HIDC_BUTTON_DIFF_DST,
@@ -83,8 +84,9 @@ static constexpr auto anchorList = std::to_array<SAnchorList>({
 	{IDC_FRAME_SEARCH_MSG,      ANCHOR_BOTTOM},
 });
 
-CDlgDiff::CDlgDiff()
+CDlgDiff::CDlgDiff(HWND hwnd)
 	: CDialog(true)
+	, m_hwndCEditWnd(hwnd)
 {
 	/* サイズ変更時に位置を制御するコントロール数 */
 	static_assert( anchorList.size() == std::tuple_size_v<decltype(m_rcItems)> );
@@ -239,7 +241,7 @@ void CDlgDiff::SetData( )
 		int			selCode = CODE_NONE;
 
 		// 自分の文字コードを取得
-		::SendMessageW( CEditWnd::getInstance()->GetHwnd(), MYWM_GETFILEINFO, 0, 0 );
+		::SendMessageW( m_hwndCEditWnd, MYWM_GETFILEINFO, 0, 0 );
 		pFileInfo = m_pShareData->m_sWorkBuffer.GetWorkBuffer<EditInfo>();
 		code = pFileInfo->m_nCharCode;
 
@@ -262,7 +264,7 @@ void CDlgDiff::SetData( )
 				pFileInfo = m_pShareData->m_sWorkBuffer.GetWorkBuffer<EditInfo>();
 
 				/* 自分ならスキップ */
-				if ( vEditNode[i].GetHwnd() == CEditWnd::getInstance()->GetHwnd() )
+				if ( vEditNode[i].GetHwnd() == m_hwndCEditWnd )
 				{
 					// 同じ形式にしておく。ただしアクセスキー番号はなし
 					CFileNameManager::getInstance()->GetMenuFullLabel_WinListNoEscape( szName, int(std::size(szName)), pFileInfo, vEditNode[i].m_nId, -1, calc.GetDC() );
