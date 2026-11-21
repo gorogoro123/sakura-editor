@@ -18,17 +18,18 @@
 */
 
 #include "dlg/CDlgCompare.h"
-#include "window/CEditWnd.h"
 #include "func/Funccode.h"		// Stonee, 2001/03/12
 #include "util/shell.h"
 #include "util/file.h"
 #include "util/string_ex2.h"
+#include "util/window.h"
 #include "apiwrap/StdApi.h"
 #include "apiwrap/StdControl.h"
 #include "sakura_rc.h"
 #include "sakura.hh"
 #include "config/system_constants.h"
 #include "env/CFileNameManager.h"
+#include "env/DLLSHAREDATA.h"
 
 // ファイル内容比較 CDlgCompare.cpp	//@@@ 2002.01.07 add start MIK
 static const DWORD p_helpids[] = {	//12300
@@ -50,8 +51,9 @@ static constexpr auto anchorList = std::to_array<SAnchorList>({
 	{IDC_STATIC_COMPARESRC, ANCHOR_LEFT_RIGHT},
 });
 
-CDlgCompare::CDlgCompare()
+CDlgCompare::CDlgCompare(HWND hwnd)
 	: CDialog(true)
+	, m_hwndCEditWnd(hwnd)
 {
 	/* サイズ変更時に位置を制御するコントロール数 */
 	static_assert( anchorList.size() == std::tuple_size_v<decltype(m_rcItems)> );
@@ -155,7 +157,7 @@ void CDlgCompare::SetData( )
 			EditInfo* pfi = m_pShareData->m_sWorkBuffer.GetWorkBuffer<EditInfo>();
 
 //@@@ 2001.12.26 YAZAKI ファイル名で比較すると(無題)だったときに問題同士の比較ができない
-			if (vEditNode[i].GetHwnd() == CEditWnd::getInstance()->GetHwnd()){
+			if (vEditNode[i].GetHwnd() == m_hwndCEditWnd){
 				// 2010.07.30 自分の名前もここから設定する
 				CFileNameManager::getInstance()->GetMenuFullLabel_WinListNoEscape( szMenu, int(std::size(szMenu)), pfi, vEditNode[i].m_nId, -1, calc.GetDC() );
 				ApiWrap::DlgItem_SetText( GetHwnd(), IDC_STATIC_COMPARESRC, szMenu );
