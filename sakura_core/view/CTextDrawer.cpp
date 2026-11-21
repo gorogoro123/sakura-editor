@@ -379,7 +379,7 @@ void CTextDrawer::DispLineNumber(
 
 	if(pCDocLine){
 		//DIFF色設定
-		CDiffLineGetter(pCDocLine).GetDiffColor(&nColorIndex);
+		CDiffLineGetter(pCDocLine).GetDiffColor(pView, &nColorIndex);
 
 		// 02/10/16 ai
 		// ブックマークの表示
