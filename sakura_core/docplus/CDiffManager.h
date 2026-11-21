@@ -14,6 +14,7 @@
 #include "basis/SakuraBasis.h"
 #include "_main/global.h"
 
+class CEditView;
 class CDocLine;
 class CDocLineMgr;
 class CGraphics;
@@ -55,7 +56,7 @@ class CDiffLineGetter{
 public:
 	CDiffLineGetter(const CDocLine* pcDocLine) : m_pcDocLine(pcDocLine) { }
 	EDiffMark GetLineDiffMark() const;
-	bool GetDiffColor(EColorIndexType* nColor) const;
+	bool GetDiffColor(const CEditView *pcView, EColorIndexType* nColor) const;
 	bool DrawDiffMark(CGraphics& gr, int y, int nLineHeight, COLORREF color) const;
 private:
 	const CDocLine* m_pcDocLine;

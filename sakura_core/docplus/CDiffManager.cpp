@@ -6,7 +6,6 @@
 */
 #include "docplus/CDiffManager.h"
 #include "types/CTypeSupport.h"
-#include "window/CEditWnd.h"
 #include "doc/logic/CDocLine.h"
 #include "doc/logic/CDocLineMgr.h"
 
@@ -14,43 +13,44 @@
 //                     CDiffLineGetter                         //
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 
-EDiffMark CDiffLineGetter::GetLineDiffMark() const{ return (EDiffMark)m_pcDocLine->m_sMark.m_cDiffmarked; }
+EDiffMark CDiffLineGetter::GetLineDiffMark() const
+{
+	return (EDiffMark)m_pcDocLine->m_sMark.m_cDiffmarked;
+}
 
 /*! 行の差分マークに対応した色を返す -> pnColorIndex
 	
 	色設定が無い場合は pnColorIndex を変更せずに false を返す。	
 */
-bool CDiffLineGetter::GetDiffColor(EColorIndexType* pnColorIndex) const
+bool CDiffLineGetter::GetDiffColor(const CEditView *pcEditView, EColorIndexType* pnColorIndex) const
 {
-	EDiffMark type = GetLineDiffMark();
-	CEditView* pView = &CEditWnd::getInstance()->GetActiveView();
+	const EDiffMark type = GetLineDiffMark();
 
 	//DIFF差分マーク表示	//@@@ 2002.05.25 MIK
-	if( type ){
-		switch( type ){
-		case MARK_DIFF_APPEND:	//追加
-			if( CTypeSupport(pView,COLORIDX_DIFF_APPEND).IsDisp() ){
-				*pnColorIndex = COLORIDX_DIFF_APPEND;
-				return true;
-			}
-			break;
-		case MARK_DIFF_CHANGE:	//変更
-			if( CTypeSupport(pView,COLORIDX_DIFF_CHANGE).IsDisp() ){
-				*pnColorIndex = COLORIDX_DIFF_CHANGE;
-				return true;
-			}
-			break;
-		case MARK_DIFF_DELETE:	//削除
-		case MARK_DIFF_DEL_EX:	//削除
-			if( CTypeSupport(pView,COLORIDX_DIFF_DELETE).IsDisp() ){
-				*pnColorIndex = COLORIDX_DIFF_DELETE;
-				return true;
-			}
-			break;
-		default:
-			break;
+	switch( type ){
+	case MARK_DIFF_APPEND:	//追加
+		if( CTypeSupport(pcEditView,COLORIDX_DIFF_APPEND).IsDisp() ){
+			*pnColorIndex = COLORIDX_DIFF_APPEND;
+			return true;
 		}
+		break;
+	case MARK_DIFF_CHANGE:	//変更
+		if( CTypeSupport(pcEditView,COLORIDX_DIFF_CHANGE).IsDisp() ){
+			*pnColorIndex = COLORIDX_DIFF_CHANGE;
+			return true;
+		}
+		break;
+	case MARK_DIFF_DELETE:	//削除
+	case MARK_DIFF_DEL_EX:	//削除
+		if( CTypeSupport(pcEditView,COLORIDX_DIFF_DELETE).IsDisp() ){
+			*pnColorIndex = COLORIDX_DIFF_DELETE;
+			return true;
+		}
+		break;
+	default:
+		break;
 	}
+
 	return false;
 }
 
