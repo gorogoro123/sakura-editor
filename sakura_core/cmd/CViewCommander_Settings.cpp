@@ -153,7 +153,7 @@ void CViewCommander::Command_SHOWMINIMAP( )
 /* タイプ別設定一覧 */
 void CViewCommander::Command_TYPE_LIST( )
 {
-	CDlgTypeList			cDlgTypeList;
+	CDlgTypeList			cDlgTypeList(GetMainWindow());
 	CDlgTypeList::SResult	sResult;
 	sResult.cDocumentType = GetDocument()->m_cDocType.GetDocumentType();
 	sResult.bTempChange = true;

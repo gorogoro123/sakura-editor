@@ -31,6 +31,11 @@ public:
 		bool			bTempChange;	//!< 旧PROP_TEMPCHANGE_FLAG
 	};
 
+	CDlgTypeList(HWND hwnd)
+	: m_hwndCEditWnd(hwnd)
+	{
+	}
+
 public:
 	// インターフェース
 	int DoModal( HINSTANCE hInstance, HWND hwndParent, SResult* psResult );	/* モーダルダイアログの表示 */
@@ -58,6 +63,7 @@ protected:
 	void SendChangeSettingType2(int nType);
 
 private:
+	HWND	m_hwndCEditWnd  = nullptr;
 	CTypeConfig				m_nSettingType;
 	// 関連付け状態
 	bool m_bRegistryChecked[ MAX_TYPES ];	//レジストリ確認 未／済

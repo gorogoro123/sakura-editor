@@ -389,7 +389,7 @@ void CDlgTypeList::SendChangeSetting()
 		MYWM_CHANGESETTING,
 		(WPARAM)0,
 		(LPARAM)PM_CHANGESETTING_ALL,
-		GetHwndParent()
+		m_hwndCEditWnd
 	);
 }
 
@@ -399,7 +399,7 @@ void CDlgTypeList::SendChangeSettingType(int nType)
 		MYWM_CHANGESETTING,
 		(WPARAM)nType,
 		(LPARAM)PM_CHANGESETTING_TYPE,
-		GetHwndParent()
+		m_hwndCEditWnd
 	);
 }
 
@@ -409,7 +409,7 @@ void CDlgTypeList::SendChangeSettingType2(int nType)
 		MYWM_CHANGESETTING,
 		(WPARAM)nType,
 		(LPARAM)PM_CHANGESETTING_TYPE2,
-		GetHwndParent()
+		m_hwndCEditWnd
 	);
 }
 
