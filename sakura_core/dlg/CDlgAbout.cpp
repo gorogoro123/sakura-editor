@@ -287,7 +287,7 @@ BOOL CDlgAbout::OnStnClicked( int wID )
 		//	Web Browserの起動
 		{
 			WCHAR buf[512];
-			::GetWindowText( GetItemHwnd( wID ), buf, int(std::size(buf)) );
+			::GetWindowTextW( GetItemHwnd( wID ), buf, int(std::size(buf)) );
 			::ShellExecute( GetHwnd(), nullptr, buf, nullptr, nullptr, SW_SHOWNORMAL );
 			return TRUE;
 		}
@@ -423,7 +423,7 @@ LRESULT CALLBACK CUrlWnd::UrlWndProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM
 
 		// 現在のクライアント矩形、テキスト、フォントを取得する
 		GetClientRect( hWnd, &rc );
-		GetWindowText( hWnd, szText, int(std::size(szText)) );
+		GetWindowTextW( hWnd, szText, int(std::size(szText)) );
 		hFont = (HFONT)SendMessageW( hWnd, WM_GETFONT, (WPARAM)0, (LPARAM)0 );
 
 		// テキスト描画

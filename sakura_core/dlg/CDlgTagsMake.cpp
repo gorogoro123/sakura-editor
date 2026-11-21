@@ -66,7 +66,7 @@ BOOL CDlgTagsMake::OnBnClicked( int wID )
 		{
 			WCHAR szDir[_MAX_PATH];
 			HWND hwnd = GetItemHwnd( IDC_EDIT_TAG_MAKE_FOLDER );
-			::GetWindowText( hwnd, szDir, int(std::size(szDir)) );
+			::GetWindowTextW( hwnd, szDir, int(std::size(szDir)) );
 			if( DirectoryUp( szDir ) ){
 				::SetWindowText( hwnd, szDir );
 			}

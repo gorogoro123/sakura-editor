@@ -444,7 +444,7 @@ BOOL CDlgGrep::OnBnClicked( int wID )
 		{
 			HWND hwnd = GetItemHwnd( IDC_COMBO_FOLDER );
 			SFilePathLong szFolder;
-			::GetWindowText( hwnd, szFolder, szFolder.capacity() );
+			::GetWindowTextW( hwnd, szFolder, szFolder.capacity() );
 			std::vector<std::wstring> vPaths;
 			CGrepAgent::CreateFolders( szFolder, vPaths );
 			if( 0 < vPaths.size() ){

@@ -87,7 +87,7 @@ namespace ApiWrap{
 			str.AllocStringBuffer(bufsize);
 		}
 
-		int actualCount = ::GetWindowText(hwnd, str.GetStringPtr(), str.capacity());
+		int actualCount = ::GetWindowTextW(hwnd, str.GetStringPtr(), str.capacity());
 		if (actualCount < 0)
 		{
 			// 仕様上は負の場合はありえないが、念の為エラーチェックしておく。
@@ -95,7 +95,7 @@ namespace ApiWrap{
 		}
 		else if (actualCount == 0)
 		{
-			// GetWindowText はエラーの場合、またはテキストが空の場合は 0 を返す
+			// GetWindowTextW はエラーの場合、またはテキストが空の場合は 0 を返す
 			if (GetLastError() != 0)
 			{
 				return false;
@@ -103,11 +103,11 @@ namespace ApiWrap{
 		}
 		else if(actualCount >= str.capacity())
 		{
-			// GetWindowText() の仕様上はありえないはず
+			// GetWindowTextW() の仕様上はありえないはず
 			return false;
 		}
 
-		// Win32 API の GetWindowText() を呼んだだけでは CNativeW 内部の
+		// Win32 API の GetWindowTextW() を呼んだだけでは CNativeW 内部の
 		// データサイズが更新されないのでデータサイズを反映する
 		str._SetStringLength(actualCount);
 
@@ -134,7 +134,7 @@ namespace ApiWrap{
 
 	inline LRESULT Combo_GetText(HWND hwndCombo, WCHAR* str, int cchMax)
 	{
-		return ::GetWindowText( hwndCombo, str, cchMax );
+		return ::GetWindowTextW( hwndCombo, str, cchMax );
 	}
 
 	inline int Combo_DeleteString(HWND hwndCtl, int index)				{ return (int)(DWORD)::SendMessageW(hwndCtl, CB_DELETESTRING, (WPARAM)index, 0L); }
