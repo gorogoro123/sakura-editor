@@ -53,6 +53,9 @@ protected:
 	bool AddType();
 	bool DelType();
 	bool AlertFileAssociation();	// 2011/8/20 syat
+	void SendChangeSetting();
+	void SendChangeSettingType(int nType);
+	void SendChangeSettingType2(int nType);
 
 private:
 	CTypeConfig				m_nSettingType;
