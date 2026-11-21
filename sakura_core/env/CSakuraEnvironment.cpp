@@ -668,7 +668,7 @@ int CSakuraEnvironment::_ExParam_Evaluate(CEditDoc* pcDoc, const wchar_t* pCond 
 			return 1;
 		}
 	case L'I': // $I アイコン化されているか
-		if( ::IsIconic( CEditWnd::getInstance()->GetHwnd() )){
+		if( ::IsIconic( pcDoc->GetEditWnd().GetHwnd() )){
 			return 0;
 		} else {
  			return 1;
