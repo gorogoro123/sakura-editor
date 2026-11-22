@@ -98,6 +98,8 @@ public:
 
 	void SetCurDirNotitle();
 
+	void SetAllEol(CEol cEol);
+
 	CColorStrategyPool* GetColorStrategyPool() const;
 
 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //

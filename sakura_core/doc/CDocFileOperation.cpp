@@ -6,7 +6,6 @@
 	SPDX-License-Identifier: Zlib
 */
 #include "CDocFileOperation.h"
-#include "CDocVisitor.h"
 #include "CEditDoc.h"
 #include "view/CEditView.h"
 #include "recent/CMRUFile.h"

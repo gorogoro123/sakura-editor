@@ -748,9 +748,6 @@
     <ClInclude Include="..\sakura_core\doc\CDocTypeSetting.h">
       <Filter>Cpp Source Files\doc</Filter>
     </ClInclude>
-    <ClInclude Include="..\sakura_core\doc\CDocVisitor.h">
-      <Filter>Cpp Source Files\doc</Filter>
-    </ClInclude>
     <ClInclude Include="..\sakura_core\doc\CEditDoc.h">
       <Filter>Cpp Source Files\doc</Filter>
     </ClInclude>
@@ -1907,9 +1904,6 @@
       <Filter>Cpp Source Files\doc</Filter>
     </ClCompile>
     <ClCompile Include="..\sakura_core\doc\CDocTypeSetting.cpp">
-      <Filter>Cpp Source Files\doc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\sakura_core\doc\CDocVisitor.cpp">
       <Filter>Cpp Source Files\doc</Filter>
     </ClCompile>
     <ClCompile Include="..\sakura_core\doc\CEditDoc.cpp">
