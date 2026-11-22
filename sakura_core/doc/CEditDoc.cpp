@@ -1107,3 +1107,9 @@ CEditWnd& CEditDoc::GetEditWnd()
 	assert(m_pcEditWnd != nullptr);
 	return *m_pcEditWnd;
 }
+
+HWND CEditDoc::GetEditWndHwnd() const
+{
+	assert(m_pcEditWnd != nullptr);
+	return m_pcEditWnd->GetHwnd();
+}

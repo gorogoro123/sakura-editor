@@ -155,6 +155,7 @@ public:
 
 	const CEditWnd&	GetEditWnd() const;
 	CEditWnd& 		GetEditWnd();
+	HWND GetEditWndHwnd() const;
 
 private:
 	CEditWnd* 		m_pcEditWnd = nullptr;
