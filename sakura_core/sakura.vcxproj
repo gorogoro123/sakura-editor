@@ -295,7 +295,6 @@
     <ClInclude Include="..\sakura_core\doc\CDocReader.h" />
     <ClInclude Include="..\sakura_core\doc\CDocType.h" />
     <ClInclude Include="..\sakura_core\doc\CDocTypeSetting.h" />
-    <ClInclude Include="..\sakura_core\doc\CDocVisitor.h" />
     <ClInclude Include="..\sakura_core\doc\CEditDoc.h" />
     <ClInclude Include="..\sakura_core\doc\CLineComment.h" />
     <ClInclude Include="..\sakura_core\doc\layout\CLayout.h" />
@@ -662,7 +661,6 @@
     <ClCompile Include="..\sakura_core\doc\CDocReader.cpp" />
     <ClCompile Include="..\sakura_core\doc\CDocType.cpp" />
     <ClCompile Include="..\sakura_core\doc\CDocTypeSetting.cpp" />
-    <ClCompile Include="..\sakura_core\doc\CDocVisitor.cpp" />
     <ClCompile Include="..\sakura_core\doc\CEditDoc.cpp" />
     <ClCompile Include="..\sakura_core\doc\CLineComment.cpp" />
     <ClCompile Include="..\sakura_core\doc\layout\CLayout.cpp" />

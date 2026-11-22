@@ -60,6 +60,7 @@
 #include "config/app_constants.h"
 #include "view/colors/CColorStrategy.h"
 #include "view/CMiniMapView.h"
+#include "cmd/COpeBlk.h"
 
 #define IDT_ROLLMOUSE	1
 
@@ -1010,6 +1011,83 @@ void CEditDoc::SetCurDirNotitle()
 	}
 	if( pszDir != nullptr ){
 		::SetCurrentDirectory( pszDir );
+	}
+}
+
+//! 改行コードを統一する
+void CEditDoc::SetAllEol(CEol cEol)
+{
+	CEditView* pcView = &GetEditWnd().GetActiveView();
+
+	//アンドゥ記録開始
+	if(!pcView->m_bDoing_UndoRedo){
+		if(pcView->m_cCommander.GetOpeBlk() == nullptr){
+			pcView->m_cCommander.SetOpeBlk(new COpeBlk());
+		}
+		pcView->m_cCommander.GetOpeBlk()->AddRef();
+	}
+
+	//カーソル位置記憶
+	CLayoutInt		nViewTopLine = pcView->GetTextArea().GetViewTopLine();
+	CLayoutInt		nViewLeftCol = pcView->GetTextArea().GetViewLeftCol();
+	CLayoutPoint	ptCaretPosXY = pcView->GetCaret().GetCaretLayoutPos();
+	CLayoutInt		nCaretPosX_Prev = pcView->GetCaret().m_nCaretPosX_Prev;
+
+	bool bReplace = false;
+
+	//改行コードを統一する
+	if(cEol.IsValid()){
+		CLogicInt	nLine = CLogicInt(0);
+		COpeBlk* pcOpeBlk = pcView->m_bDoing_UndoRedo ? nullptr : pcView->m_cCommander.GetOpeBlk();
+		for (;;) {
+			CDocLine* pcDocLine = m_cDocLineMgr.GetLine(nLine); //#######非効率
+			if(!pcDocLine)break;
+			//改行を置換
+			if( pcDocLine->GetEol().IsValid() && pcDocLine->GetEol() != cEol ){
+				CLogicRange sRange;
+				sRange.SetFrom(CLogicPoint(pcDocLine->GetLengthWithoutEOL(),nLine));
+				sRange.SetTo(CLogicPoint(pcDocLine->GetLengthWithEOL(),nLine));
+				pcView->ReplaceData_CEditView2(
+					sRange,
+					cEol.GetValue2(),
+					cEol.GetLen(),
+					false,
+					pcOpeBlk,
+					true
+				);
+				bReplace = true;
+			}
+			nLine++;
+		}
+		//編集時入力改行コード
+		m_cDocEditor.SetNewLineCode(cEol);
+	}
+
+	if( bReplace ){
+		m_cLayoutMgr._DoLayout(false);
+		GetEditWnd().ClearViewCaretPosInfo();
+		if( m_nTextWrapMethodCur == WRAP_NO_TEXT_WRAP ){
+			// CLayoutMgr::_DoLayoutにて長さ算出済みなのでbCalLineLen=FALSE指定
+			m_cLayoutMgr.CalculateTextWidth(FALSE);
+		}else{
+			m_cLayoutMgr.ClearLayoutLineWidth();
+		}
+	}
+	//アンドゥ記録
+	if(pcView->m_cCommander.GetOpeBlk()){
+		if(pcView->m_cCommander.GetOpeBlk()->GetNum()>0){
+			// カーソル位置復元
+			pcView->GetTextArea().SetViewTopLine(nViewTopLine);
+			pcView->GetTextArea().SetViewLeftCol(nViewLeftCol);
+			pcView->GetCaret().MoveCursor( ptCaretPosXY, true );
+			pcView->GetCaret().m_nCaretPosX_Prev = nCaretPosX_Prev;
+			pcView->m_cCommander.GetOpeBlk()->AppendOpe(
+				new CMoveCaretOpe(
+					pcView->GetCaret().GetCaretLogicPos()
+				)
+			);
+		}
+		pcView->SetUndoBuffer();
 	}
 }
 

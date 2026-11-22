@@ -7,7 +7,6 @@
 */
 #include "agent/CSaveAgent.h"
 #include "doc/CEditDoc.h"
-#include "doc/CDocVisitor.h"
 #include "window/CEditWnd.h"
 #include "uiparts/CVisualProgress.h"
 #include "uiparts/CWaitCursor.h"
@@ -75,7 +74,7 @@ ECallbackResult CSaveAgent::OnCheckSave(SSaveInfo* pSaveInfo)
 void CSaveAgent::OnBeforeSave(const SSaveInfo& sSaveInfo)
 {
 	//改行コード統一
-	CDocVisitor(m_cEditDoc).SetAllEol(sSaveInfo.cEol);
+	m_cEditDoc.SetAllEol(sSaveInfo.cEol);
 }
 
 void CSaveAgent::OnSave(const SSaveInfo& sSaveInfo)
