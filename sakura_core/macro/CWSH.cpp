@@ -213,8 +213,8 @@ public:
 
 //implementation
 
-CWSHClient::CWSHClient(const wchar_t *AEngine, ScriptErrorHandler AErrorHandler, void *AData): 
-				m_OnError(AErrorHandler), m_Data(AData), m_Valid(false), m_Engine(nullptr)
+CWSHClient::CWSHClient(const wchar_t *AEngine, ScriptErrorHandler AErrorHandler, CEditView *pcView): 
+				m_OnError(AErrorHandler), m_pcView(pcView), m_Valid(false), m_Engine(nullptr)
 { 
 	// 2010.08.28 DLL インジェクション対策としてEXEのフォルダーに移動する
 	CCurrentDirectoryBackupPoint dirBack;
@@ -352,7 +352,7 @@ bool CWSHClient::Execute(const wchar_t *AScript)
 				SAbortMacroParam sThreadParam{};
 				sThreadParam.pEngine = m_Engine;
 				sThreadParam.nCancelTimer = GetDllShareData().m_Common.m_sMacro.m_nMacroCancelTimer;
-				sThreadParam.view = (CEditView*)m_Data;
+				sThreadParam.view = m_pcView;
 
 				std::thread hThread;
 				if( 0 < sThreadParam.nCancelTimer ){
@@ -398,7 +398,7 @@ bool CWSHClient::Execute(const wchar_t *AScript)
 void CWSHClient::Error(BSTR Description, BSTR Source)
 {
 	if(m_OnError != nullptr)
-		m_OnError(Description, Source, m_Data);
+		m_OnError(Description, Source, m_pcView);
 }
 
 void CWSHClient::Error(const wchar_t* Description)
