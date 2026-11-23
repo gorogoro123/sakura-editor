@@ -633,7 +633,7 @@ int CSakuraEnvironment::_ExParam_Evaluate(CEditDoc* pcDoc, const wchar_t* pCond 
 		if( pcAppMode->IsViewMode() ){
 			return 0; // ビューモード
 		}
-		else if( !GetDocument()->m_pcDocLocker->IsDocWritable() ){
+		else if( !pcDoc->m_pcDocLocker->IsDocWritable() ){
 			return 1; // 上書き禁止
 		}
 		else{
@@ -648,7 +648,7 @@ int CSakuraEnvironment::_ExParam_Evaluate(CEditDoc* pcDoc, const wchar_t* pCond 
 			return 2;
 		}
 	case L'M': // $M キーボードマクロの記録中
-		if( GetDllShareData().m_sFlags.m_bRecordingKeyMacro && GetDllShareData().m_sFlags.m_hwndRecordingKeyMacro==CEditWnd::getInstance()->GetHwnd() ){ /* ウィンドウ */
+		if( GetDllShareData().m_sFlags.m_bRecordingKeyMacro && GetDllShareData().m_sFlags.m_hwndRecordingKeyMacro == pcDoc->GetEditWndHwnd() ){ /* ウィンドウ */
 			return 0;
 		}else {
 			return 1;
