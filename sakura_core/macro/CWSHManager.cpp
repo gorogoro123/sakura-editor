@@ -22,10 +22,9 @@
 #include "util/os.h"
 #include "macro/CMacroFactory.h"
 
-static void MacroError(BSTR Description, BSTR Source, void *Data)
+static void MacroError(BSTR Description, BSTR Source, CEditView *pcView)
 {
-	CEditView *View = reinterpret_cast<CEditView*>(Data);
-	MessageBox(View->GetHwnd(), Description, Source, MB_ICONERROR);
+	MessageBox(pcView->GetHwnd(), Description, Source, MB_ICONERROR);
 }
 
 CWSHMacroManager::CWSHMacroManager(std::wstring const AEngineName) : m_EngineName(AEngineName)

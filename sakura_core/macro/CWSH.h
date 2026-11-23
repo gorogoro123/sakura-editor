@@ -23,13 +23,15 @@
 //↑Microsoft Platform SDK より
 #include "macro/CIfObj.h"
 
+class CEditView;
+
 /* 2009.10.29 syat インターフェースオブジェクト部分をCWSHIfObj.hに分離
 template<class Base>
 class ImplementsIUnknown: public Base
 
 class CInterfaceObject: public ImplementsIUnknown<IDispatch>
  */
-using ScriptErrorHandler = void (*)(BSTR Description, BSTR Source, void *Data);
+using ScriptErrorHandler = void (*)(BSTR Description, BSTR Source, CEditView *Data);
 
 class CWSHClient final : IWSHClient
 {
@@ -39,14 +41,14 @@ public:
 	using ListIter = List::const_iterator;	// そのイテレータ
 
 	// コンストラクタ・デストラクタ
-	CWSHClient(const wchar_t *AEngine, ScriptErrorHandler AErrorHandler, void *AData);
+	CWSHClient(const wchar_t *AEngine, ScriptErrorHandler AErrorHandler, CEditView *pcView);
 	~CWSHClient();
 
 	// フィールド・アクセサ
 	ScriptErrorHandler m_OnError;
-	void *m_Data;
+	CEditView* m_pcView;
 	bool m_Valid; ///< trueの場合スクリプトエンジンが使用可能。falseになる場合は ScriptErrorHandlerにエラー内容が通知されている。
-	void* GetData() const override{ return this->m_Data; }
+	void* GetData() const override{ return this->m_pcView; }
 	const List& GetInterfaceObjects() {	return this->m_IfObjArr; }
 
 	// 操作
