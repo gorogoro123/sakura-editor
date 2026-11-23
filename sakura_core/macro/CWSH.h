@@ -31,7 +31,7 @@ class ImplementsIUnknown: public Base
 
 class CInterfaceObject: public ImplementsIUnknown<IDispatch>
  */
-using ScriptErrorHandler = void (*)(BSTR Description, BSTR Source, CEditView *Data);
+using ScriptErrorHandler = void (*)(BSTR Description, BSTR Source, CEditView *pcView);
 
 class CWSHClient final : IWSHClient
 {
