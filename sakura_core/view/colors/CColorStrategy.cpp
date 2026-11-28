@@ -39,7 +39,7 @@ bool SColorStrategyInfo::CheckChangeColor(CColorStrategyPool* pool, std::span<co
 
 	//選択範囲色終了
 	if(m_pStrategySelect){
-		if(m_pStrategySelect->EndColor(cLineStr, m_nPosInLogic)){
+		if(m_pStrategySelect->EndColor(m_pcView, cLineStr, m_nPosInLogic)){
 			m_pStrategySelect = nullptr;
 			bChange = true;
 		}
@@ -54,7 +54,7 @@ bool SColorStrategyInfo::CheckChangeColor(CColorStrategyPool* pool, std::span<co
 
 	//検索色終了
 	if(m_pStrategyFound){
-		if(m_pStrategyFound->EndColor(cLineStr, m_nPosInLogic)){
+		if(m_pStrategyFound->EndColor(m_pcView, cLineStr, m_nPosInLogic)){
 			m_pStrategyFound = nullptr;
 			bChange = true;
 		}
@@ -62,7 +62,7 @@ bool SColorStrategyInfo::CheckChangeColor(CColorStrategyPool* pool, std::span<co
 
 	//検索色開始
 	if(!m_pStrategyFound){
-		if(pcFound->BeginColor(cLineStr, m_nPosInLogic)){
+		if(pcFound->BeginColor(m_pcView, cLineStr, m_nPosInLogic)){
 			m_pStrategyFound = pcFound;
 			bChange = true;
 		}
@@ -70,7 +70,7 @@ bool SColorStrategyInfo::CheckChangeColor(CColorStrategyPool* pool, std::span<co
 
 	//色終了
 	if(m_pStrategy){
-		if(m_pStrategy->EndColor(cLineStr, m_nPosInLogic)){
+		if(m_pStrategy->EndColor(m_pcView, cLineStr, m_nPosInLogic)){
 			m_pStrategy = nullptr;
 			bChange = true;
 		}
@@ -80,7 +80,7 @@ bool SColorStrategyInfo::CheckChangeColor(CColorStrategyPool* pool, std::span<co
 	if(!m_pStrategy){
 		int size = pool->GetStrategyCount();
 		for(int i = 0; i < size; i++ ){
-			if(pool->GetStrategy(i)->BeginColor(cLineStr, m_nPosInLogic)){
+			if(pool->GetStrategy(i)->BeginColor(m_pcView, cLineStr, m_nPosInLogic)){
 				m_pStrategy = pool->GetStrategy(i);
 				bChange = true;
 				break;
@@ -233,7 +233,7 @@ void CColorStrategyPool::CheckColorMODE(
 {
 	//色終了
 	if(*ppcColorStrategy){
-		if((*ppcColorStrategy)->EndColor(cLineStr,nPos)){
+		if((*ppcColorStrategy)->EndColor(m_pcView, cLineStr,nPos)){
 			*ppcColorStrategy = nullptr;
 		}
 	}
@@ -243,12 +243,12 @@ void CColorStrategyPool::CheckColorMODE(
 		// CheckColorMODE はレイアウト処理全体のボトルネックになるくらい頻繁に呼び出される
 		// 基本クラスからの動的仮想関数呼び出しを使用すると無視できないほどのオーバヘッドになる模様
 		// ここはエレガントさよりも性能優先で個々の派生クラスから BeginColor() を呼び出す
-		if(m_pcHeredoc && m_pcHeredoc->BeginColor(cLineStr,nPos)){ *ppcColorStrategy = m_pcHeredoc; return; }
-		if(m_pcBlockComment1 && m_pcBlockComment1->BeginColor(cLineStr,nPos)){ *ppcColorStrategy = m_pcBlockComment1; return; }
-		if(m_pcBlockComment2 && m_pcBlockComment2->BeginColor(cLineStr,nPos)){ *ppcColorStrategy = m_pcBlockComment2; return; }
-		if(m_pcLineComment && m_pcLineComment->BeginColor(cLineStr,nPos)){ *ppcColorStrategy = m_pcLineComment; return; }
-		if(m_pcSingleQuote && m_pcSingleQuote->BeginColor(cLineStr,nPos)){ *ppcColorStrategy = m_pcSingleQuote; return; }
-		if(m_pcDoubleQuote && m_pcDoubleQuote->BeginColor(cLineStr,nPos)){ *ppcColorStrategy = m_pcDoubleQuote; return; }
+		if(m_pcHeredoc && m_pcHeredoc->BeginColor(m_pcView, cLineStr,nPos)){ *ppcColorStrategy = m_pcHeredoc; return; }
+		if(m_pcBlockComment1 && m_pcBlockComment1->BeginColor(m_pcView, cLineStr,nPos)){ *ppcColorStrategy = m_pcBlockComment1; return; }
+		if(m_pcBlockComment2 && m_pcBlockComment2->BeginColor(m_pcView, cLineStr,nPos)){ *ppcColorStrategy = m_pcBlockComment2; return; }
+		if(m_pcLineComment && m_pcLineComment->BeginColor(m_pcView, cLineStr,nPos)){ *ppcColorStrategy = m_pcLineComment; return; }
+		if(m_pcSingleQuote && m_pcSingleQuote->BeginColor(m_pcView, cLineStr,nPos)){ *ppcColorStrategy = m_pcSingleQuote; return; }
+		if(m_pcDoubleQuote && m_pcDoubleQuote->BeginColor(m_pcView, cLineStr,nPos)){ *ppcColorStrategy = m_pcDoubleQuote; return; }
 	}
 }
 

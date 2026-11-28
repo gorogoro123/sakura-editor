@@ -9,14 +9,16 @@
 
 #include "view/colors/CColorStrategy.h"
 
+class CEditView;
+
 class CColor_Select final : public CColorStrategy{
 public:
 	EColorIndexType GetStrategyColor() const override{ return COLORIDX_SELECT; }
 	//色替え
 	void InitStrategyStatus() override{ }
-	bool BeginColor(std::span<const WCHAR> cStr, int nPos) override;
+	bool BeginColor(CEditView* pcView, std::span<const WCHAR> cStr, int nPos) override;
 	bool Disp() const override{ return true; }
-	bool EndColor(std::span<const WCHAR> cStr, int nPos) override;
+	bool EndColor(CEditView* pcView, std::span<const WCHAR> cStr, int nPos) override;
 
 	virtual bool BeginColorEx(std::span<const WCHAR> cStr, int nPos, CLayoutInt, const CLayout*);
 
@@ -36,9 +38,9 @@ public:
 	{ return m_validColorNum != 0 ? m_highlightColors[ (m_nSearchResult - 1) % m_validColorNum ] : COLORIDX_DEFAULT; }
 	//色替え
 	void InitStrategyStatus() override{ } //############要検証
-	bool BeginColor(std::span<const WCHAR> cStr, int nPos) override;
+	bool BeginColor(CEditView* pcView, std::span<const WCHAR> cStr, int nPos) override;
 	bool Disp() const override{ return true; }
-	bool EndColor(std::span<const WCHAR> cStr, int nPos) override;
+	bool EndColor(CEditView* pcView, std::span<const WCHAR> cStr, int nPos) override;
 	//イベント
 	void OnStartScanLogic() override;
 

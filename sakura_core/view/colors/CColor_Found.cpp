@@ -17,7 +17,7 @@ void CColor_Select::OnStartScanLogic()
 	m_nSelectEnd	= CLogicInt(-1);
 }
 
-bool CColor_Select::BeginColor([[maybe_unused]] std::span<const WCHAR> cStr, [[maybe_unused]] int nPos)
+bool CColor_Select::BeginColor([[maybe_unused]] CEditView* pcView, [[maybe_unused]] std::span<const WCHAR> cStr, [[maybe_unused]] int nPos)
 {
 	assert(0);
 	return false;
@@ -58,7 +58,7 @@ bool CColor_Select::BeginColorEx(std::span<const WCHAR> cStr, int nPos, CLayoutI
 	return false;
 }
 
-bool CColor_Select::EndColor([[maybe_unused]] std::span<const WCHAR> cStr, int nPos)
+bool CColor_Select::EndColor([[maybe_unused]] CEditView* pcView, [[maybe_unused]] std::span<const WCHAR> cStr, int nPos)
 {
 	//マッチ文字列終了検出
 	if( m_nSelectEnd <= nPos ){
@@ -86,10 +86,9 @@ void CColor_Found::OnStartScanLogic()
 	}
 }
 
-bool CColor_Found::BeginColor(std::span<const WCHAR> cStr, int nPos)
+bool CColor_Found::BeginColor(CEditView* pcView, std::span<const WCHAR> cStr, int nPos)
 {
 	if(cStr.size() == 0) return false;
-	const CEditView* pcView = CColorStrategyPool::getInstance()->GetCurrentView();
 	if( !pcView->m_bCurSrchKeyMark || 0 == m_validColorNum ){
 		return false;
 	}
@@ -113,7 +112,7 @@ bool CColor_Found::BeginColor(std::span<const WCHAR> cStr, int nPos)
 	return false;
 }
 
-bool CColor_Found::EndColor([[maybe_unused]] std::span<const WCHAR> cStr, int nPos)
+bool CColor_Found::EndColor([[maybe_unused]] CEditView* pcView, [[maybe_unused]] std::span<const WCHAR> cStr, int nPos)
 {
 	//マッチ文字列終了検出
 	if( m_nSearchEnd <= nPos ){ //+ == では行頭文字の場合、m_nSearchEndも０であるために文字色の解除ができないバグを修正 2003.05.03 かろと

@@ -9,13 +9,15 @@
 
 #include "view/colors/CColorStrategy.h"
 
+class CEditView;
+
 class CColor_Url final : public CColorStrategy{
 public:
 	CColor_Url() : m_nCOMMENTEND(0) { }
 	EColorIndexType GetStrategyColor() const override{ return COLORIDX_URL; }
 	void InitStrategyStatus() override{ m_nCOMMENTEND = 0; }
-	bool BeginColor(std::span<const WCHAR> cStr, int nPos) override;
-	bool EndColor(std::span<const WCHAR> cStr, int nPos) override;
+	bool BeginColor(CEditView* pcView, std::span<const WCHAR> cStr, int nPos) override;
+	bool EndColor(CEditView* pcView, std::span<const WCHAR> cStr, int nPos) override;
 	bool Disp() const override{ return m_pTypeData->m_ColorInfoArr[COLORIDX_URL].m_bDisp; }
 private:
 	int m_nCOMMENTEND;

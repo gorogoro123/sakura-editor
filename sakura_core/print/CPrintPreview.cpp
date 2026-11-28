@@ -1841,15 +1841,17 @@ CColorStrategy* CPrintPreview::GetColorStrategy(
 	bool&				bChange
 )
 {
+	CEditView* pcView = &m_pParentWnd->GetActiveView();
+
 	if (pStrategy) {
-		if (pStrategy->EndColor(cStringLine, iLogic)) {
+		if (pStrategy->EndColor(pcView, cStringLine, iLogic)) {
 			pStrategy = nullptr;
 			bChange = true;
 		}
 	}
 	if (!pStrategy) {
 		for (int i=0; i < m_pool->GetStrategyCount(); i++) {
-			if (m_pool->GetStrategy(i)->BeginColor(cStringLine, iLogic)) {
+			if (m_pool->GetStrategy(i)->BeginColor(pcView, cStringLine, iLogic)) {
 				pStrategy = m_pool->GetStrategy(i);
 				bChange = true;
 				break;

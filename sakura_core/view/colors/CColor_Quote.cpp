@@ -110,7 +110,7 @@ bool CColor_Quote::IsCppRawString(std::span<const WCHAR> cStr, int nPos)
 	return false;
 }
 
-bool CColor_Quote::BeginColor(std::span<const WCHAR> cStr, int nPos)
+bool CColor_Quote::BeginColor([[maybe_unused]] CEditView* pcView, std::span<const WCHAR> cStr, int nPos)
 {
 	if(cStr.size() == 0) return false;
 
@@ -202,7 +202,7 @@ bool CColor_Quote::BeginColor(std::span<const WCHAR> cStr, int nPos)
 	return false;
 }
 
-bool CColor_Quote::EndColor(std::span<const WCHAR> cStr, int nPos)
+bool CColor_Quote::EndColor([[maybe_unused]] CEditView* pcView, std::span<const WCHAR> cStr, int nPos)
 {
 	if( -1 == m_nCOMMENTEND ){
 		// ここにくるのは行頭のはず

@@ -13,7 +13,7 @@
 //                        行コメント                           //
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 
-bool CColor_LineComment::BeginColor(std::span<const WCHAR> cStr, int nPos)
+bool CColor_LineComment::BeginColor([[maybe_unused]] CEditView* pcView, std::span<const WCHAR> cStr, int nPos)
 {
 	if(cStr.size() == 0) return false;
 
@@ -25,7 +25,7 @@ bool CColor_LineComment::BeginColor(std::span<const WCHAR> cStr, int nPos)
 	return false;
 }
 
-bool CColor_LineComment::EndColor(std::span<const WCHAR> cStr, int nPos)
+bool CColor_LineComment::EndColor([[maybe_unused]] CEditView* pcView, std::span<const WCHAR> cStr, int nPos)
 {
 	//文字列終端
 	if( nPos >= cStr.size() ){
@@ -51,7 +51,7 @@ void CColor_BlockComment::Update()
 	m_pcBlockComment = &m_pTypeData->m_cBlockComments[m_nType - COLORIDX_BLOCK1];
 }
 
-bool CColor_BlockComment::BeginColor(std::span<const WCHAR> cStr, int nPos)
+bool CColor_BlockComment::BeginColor([[maybe_unused]] CEditView* pcView, std::span<const WCHAR> cStr, int nPos)
 {
 	if(cStr.size() == 0) return false;
 
@@ -69,7 +69,7 @@ bool CColor_BlockComment::BeginColor(std::span<const WCHAR> cStr, int nPos)
 	return false;
 }
 
-bool CColor_BlockComment::EndColor(std::span<const WCHAR> cStr, int nPos)
+bool CColor_BlockComment::EndColor([[maybe_unused]] CEditView* pcView, std::span<const WCHAR> cStr, int nPos)
 {
 	if( 0 == m_nCOMMENTEND ){
 		/* この物理行にブロックコメントの終端があるか */

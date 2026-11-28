@@ -43,7 +43,7 @@ CLayoutColorInfo* CColor_Heredoc::GetStrategyColorInfo() const
 	return info;
 }
 
-bool CColor_Heredoc::BeginColor(std::span<const WCHAR> cStr, int nPos)
+bool CColor_Heredoc::BeginColor([[maybe_unused]] CEditView* pcView, std::span<const WCHAR> cStr, int nPos)
 {
 	if(cStr.size() == 0) return false;
 
@@ -99,7 +99,7 @@ bool CColor_Heredoc::BeginColor(std::span<const WCHAR> cStr, int nPos)
 	return false;
 }
 
-bool CColor_Heredoc::EndColor(std::span<const WCHAR> cStr, int nPos)
+bool CColor_Heredoc::EndColor([[maybe_unused]] CEditView* pcView, std::span<const WCHAR> cStr, int nPos)
 {
 	if (!m_nCOMMENTEND) {
 		if( m_pTypeData->m_nHeredocType == HEREDOC_PHP
