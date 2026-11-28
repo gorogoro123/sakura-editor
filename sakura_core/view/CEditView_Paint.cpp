@@ -416,12 +416,13 @@ CColor3Setting CEditView::GetColorIndex(
 	const CLayout* pcLayoutNext = pcLayoutLineFirst->GetNextLayout();
 	CLayoutYInt nLineNumScan = nLineNumFirst;
 	int nPosTo = pcLayout->GetLogicOffset() + t_min(nIndex, (int)pcLayout->GetLengthWithEOL() - 1);
+	pool->SetCurrentView(this);
 	while(pInfo->m_nPosInLogic <= nPosTo){
 		if( bPrev && pInfo->m_nPosInLogic == nPosTo )
 			break;
 
 		//色切替
-		pInfo->CheckChangeColor(cLineStr);
+		pInfo->CheckChangeColor(pool, cLineStr);
 
 		//1文字進む
 		pInfo->m_nPosInLogic += CNativeW::GetSizeOfChar(
@@ -974,9 +975,11 @@ bool CEditView::DrawLayoutLine(SColorStrategyInfo* pInfo)
 			bool bChange = false;
 			int nPosTo = pcLayout->GetLogicOffset() + pcLayout->GetLengthWithEOL();
 			CColor3Setting cColor;
+			CColorStrategyPool* pool = GetDocument()->GetColorStrategyPool();
+			pool->SetCurrentView(this);
 			while(pInfo->m_nPosInLogic < nPosTo){
 				//色切替
-				bChange |= pInfo->CheckChangeColor(cLineStr);
+				bChange |= pInfo->CheckChangeColor(pool, cLineStr);
 
 				//1文字進む
 				pInfo->m_nPosInLogic += CNativeW::GetSizeOfChar(
@@ -1066,6 +1069,8 @@ bool CEditView::DrawLayoutLine(SColorStrategyInfo* pInfo)
 		int nPosTo = pcLayout->GetLogicOffset() + pcLayout->GetLengthWithEOL();
 		CFigureManager* pcFigureManager = CFigureManager::getInstance();
 		FigureRenderType prevRenderType = CFigure_Text::RenderType_None;
+		CColorStrategyPool* pool = GetDocument()->GetColorStrategyPool();
+		pool->SetCurrentView(this);
 		while(pInfo->m_nPosInLogic < nPosTo){
 			int nPosInLogic = pInfo->GetPosInLogic(); // FowardChars/DrawImpで更新される
 			nPosLength = nPosInLogic - nPosBgn;
@@ -1088,7 +1093,7 @@ bool CEditView::DrawLayoutLine(SColorStrategyInfo* pInfo)
 			prevRenderType = nextRenderType;
 
 			//色切替
-			if( pInfo->CheckChangeColor(cLineStr) ){
+			if( pInfo->CheckChangeColor(pool, cLineStr) ){
 				if (0 < nPosLength) {
 					CFigure_Text::DrawImpBlock(pInfo, nPosBgn, nPosLength);
 					nPosBgn = nPosInLogic;

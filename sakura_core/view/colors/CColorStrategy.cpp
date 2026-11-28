@@ -31,10 +31,8 @@ bool _IsPosKeywordHead(std::span<const WCHAR> cStr, int nPos)
 	@retval true 色の変更あり
 	@retval false 色の変更なし
 */
-bool SColorStrategyInfo::CheckChangeColor(std::span<const WCHAR> cLineStr)
+bool SColorStrategyInfo::CheckChangeColor(CColorStrategyPool* pool, std::span<const WCHAR> cLineStr)
 {
-	CColorStrategyPool* pool = CColorStrategyPool::getInstance();
-	pool->SetCurrentView(m_pcView);
 	CColor_Found*  pcFound  = pool->GetFoundStrategy();
 	CColor_Select* pcSelect = pool->GetSelectStrategy();
 	bool bChange = false;
