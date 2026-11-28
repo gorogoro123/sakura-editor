@@ -23,12 +23,11 @@ bool CColor_Select::BeginColor([[maybe_unused]] CEditView* pcView, [[maybe_unuse
 	return false;
 }
 
-bool CColor_Select::BeginColorEx(std::span<const WCHAR> cStr, int nPos, CLayoutInt nLineNum, const CLayout* pcLayout)
+bool CColor_Select::BeginColorEx(CEditView* pcView, std::span<const WCHAR> cStr, int nPos, CLayoutInt nLineNum, const CLayout* pcLayout)
 {
 	if(cStr.size() == 0) return false;
 
-	const CEditView& view = *(CColorStrategyPool::getInstance()->GetCurrentView());
-	if( !view.GetSelectionInfo().IsTextSelected() || !CTypeSupport(&view,COLORIDX_SELECT).IsDisp() ){
+	if( !pcView->GetSelectionInfo().IsTextSelected() || !CTypeSupport(pcView, COLORIDX_SELECT).IsDisp() ){
 		return false;
 	}
 
@@ -40,7 +39,7 @@ bool CColor_Select::BeginColorEx(std::span<const WCHAR> cStr, int nPos, CLayoutI
 		return false;
 	}
 	m_nSelectLine = nLineNum;
-	CLayoutRange selectArea = view.GetSelectionInfo().GetSelectAreaLine(nLineNum, pcLayout);
+	CLayoutRange selectArea = pcView->GetSelectionInfo().GetSelectAreaLine(nLineNum, pcLayout);
 	CLayoutInt nSelectFrom = selectArea.GetFrom().x;
 	CLayoutInt nSelectTo = selectArea.GetTo().x;
 	if( nSelectFrom == nSelectTo || -1 == nSelectFrom ){
@@ -48,8 +47,8 @@ bool CColor_Select::BeginColorEx(std::span<const WCHAR> cStr, int nPos, CLayoutI
 		m_nSelectEnd = -1;
 		return false;
 	}
-	CLogicInt nIdxFrom = view.LineColumnToIndex(pcLayout, nSelectFrom) + pcLayout->GetLogicOffset();
-	CLogicInt nIdxTo = view.LineColumnToIndex(pcLayout, nSelectTo) + pcLayout->GetLogicOffset();
+	CLogicInt nIdxFrom = pcView->LineColumnToIndex(pcLayout, nSelectFrom) + pcLayout->GetLogicOffset();
+	CLogicInt nIdxTo = pcView->LineColumnToIndex(pcLayout, nSelectTo) + pcLayout->GetLogicOffset();
 	m_nSelectStart = nIdxFrom;
 	m_nSelectEnd = nIdxTo;
 	if( m_nSelectStart <= nPos && nPos < m_nSelectEnd ){
