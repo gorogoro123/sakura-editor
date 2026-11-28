@@ -10,7 +10,7 @@
 #include "view/CViewSelect.h"
 #include <climits>
 
-void CColor_Select::OnStartScanLogic()
+void CColor_Select::OnStartScanLogic([[maybe_unused]] CEditView* pcView)
 {
 	m_nSelectLine	= CLayoutInt(-1);
 	m_nSelectStart	= CLogicInt(-1);
@@ -72,7 +72,7 @@ bool CColor_Select::EndColor([[maybe_unused]] CEditView* pcView, [[maybe_unused]
 
 CColor_Found::CColor_Found() = default;
 
-void CColor_Found::OnStartScanLogic()
+void CColor_Found::OnStartScanLogic([[maybe_unused]] CEditView* pcView)
 {
 	m_nSearchResult	= 1;
 	m_nSearchStart	= CLogicInt(-1);

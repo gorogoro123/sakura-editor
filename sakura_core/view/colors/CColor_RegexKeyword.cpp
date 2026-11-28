@@ -34,9 +34,8 @@ bool CColor_RegexKeyword::EndColor([[maybe_unused]] CEditView* pcView, [[maybe_u
 	return false;
 }
 
-void CColor_RegexKeyword::OnStartScanLogic()
+void CColor_RegexKeyword::OnStartScanLogic(CEditView* pcView)
 {
-	CEditView* pcView = CColorStrategyPool::getInstance()->GetCurrentView();
 	if( m_pTypeData->m_bUseRegexKeyword ){
 		pcView->m_cRegexKeyword->RegexKeyLineStart();
 	}

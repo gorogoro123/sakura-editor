@@ -216,11 +216,11 @@ CColorStrategy*	CColorStrategyPool::GetStrategyByColor(EColorIndexType eColor) c
 
 void CColorStrategyPool::NotifyOnStartScanLogic()
 {
-	m_pcSelectStrategy->OnStartScanLogic();
-	m_pcFoundStrategy->OnStartScanLogic();
+	m_pcSelectStrategy->OnStartScanLogic(m_pcView);
+	m_pcFoundStrategy->OnStartScanLogic(m_pcView);
 	int size = GetStrategyCount();
 	for(int i = 0; i < size; i++ ){
-		GetStrategy(i)->OnStartScanLogic();
+		GetStrategy(i)->OnStartScanLogic(m_pcView);
 	}
 }
 

@@ -19,7 +19,7 @@ public:
 	bool BeginColor(CEditView* pcView, std::span<const WCHAR> cStr, int nPos) override;
 	bool EndColor(CEditView* pcView, std::span<const WCHAR> cStr, int nPos) override;
 	bool Disp() const override{ return m_pTypeData->m_bUseRegexKeyword; }
-	void OnStartScanLogic() override;
+	void OnStartScanLogic(CEditView* pcView) override;
 private:
 	int m_nCOMMENTEND;
 	EColorIndexType m_nCOMMENTMODE;

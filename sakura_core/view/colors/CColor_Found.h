@@ -23,7 +23,7 @@ public:
 	virtual bool BeginColorEx(std::span<const WCHAR> cStr, int nPos, CLayoutInt, const CLayout*);
 
 	//イベント
-	void OnStartScanLogic() override;
+	void OnStartScanLogic(CEditView* pcView) override;
 
 private:
 	CLayoutInt		m_nSelectLine;
@@ -42,7 +42,7 @@ public:
 	bool Disp() const override{ return true; }
 	bool EndColor(CEditView* pcView, std::span<const WCHAR> cStr, int nPos) override;
 	//イベント
-	void OnStartScanLogic() override;
+	void OnStartScanLogic(CEditView* pcView) override;
 
 private:
 	int				m_nSearchResult;
