@@ -20,7 +20,7 @@ public:
 	bool Disp() const override{ return true; }
 	bool EndColor(CEditView* pcView, std::span<const WCHAR> cStr, int nPos) override;
 
-	virtual bool BeginColorEx(std::span<const WCHAR> cStr, int nPos, CLayoutInt, const CLayout*);
+	virtual bool BeginColorEx(CEditView* pcView, std::span<const WCHAR> cStr, int nPos, CLayoutInt, const CLayout*);
 
 	//イベント
 	void OnStartScanLogic(CEditView* pcView) override;
