@@ -140,7 +140,7 @@ public:
 	virtual bool EndColor  ([[maybe_unused]] CEditView* pcView,[[maybe_unused]] std::span<const WCHAR> cStr, [[maybe_unused]] int nPos) { return true; }
 	virtual bool Disp() const = 0;
 	//イベント
-	virtual void OnStartScanLogic(){}
+	virtual void OnStartScanLogic([[maybe_unused]] CEditView* pcView){}
 
 	//! 設定更新
 	virtual void Update();
