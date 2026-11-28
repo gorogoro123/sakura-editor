@@ -15,7 +15,7 @@
 //                           URL                               //
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 
-bool CColor_Url::BeginColor(std::span<const WCHAR> cStr, int nPos)
+bool CColor_Url::BeginColor([[maybe_unused]] CEditView* pcView, std::span<const WCHAR> cStr, int nPos)
 {
 	if(cStr.size() == 0) return false;
 
@@ -30,7 +30,7 @@ bool CColor_Url::BeginColor(std::span<const WCHAR> cStr, int nPos)
 	return false;
 }
 
-bool CColor_Url::EndColor([[maybe_unused]] std::span<const WCHAR> cStr, int nPos)
+bool CColor_Url::EndColor([[maybe_unused]] CEditView* pcView, [[maybe_unused]] std::span<const WCHAR> cStr, int nPos)
 {
 	if( nPos == m_nCOMMENTEND ){
 		return true;

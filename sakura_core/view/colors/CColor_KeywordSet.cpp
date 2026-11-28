@@ -19,7 +19,7 @@ static int NextWordBreak( std::span<const WCHAR> str, const int start );
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 
 // 2005.01.13 MIK 強調キーワード数追加に伴う配列化
-bool CColor_KeywordSet::BeginColor(std::span<const WCHAR> cStr, int nPos)
+bool CColor_KeywordSet::BeginColor([[maybe_unused]] CEditView* pcView, std::span<const WCHAR> cStr, int nPos)
 {
 	if( cStr.size() == 0 ) {
 		return false; // どうにもできない。
@@ -86,7 +86,7 @@ bool CColor_KeywordSet::BeginColor(std::span<const WCHAR> cStr, int nPos)
 	return false;
 }
 
-bool CColor_KeywordSet::EndColor([[maybe_unused]] std::span<const WCHAR> cStr, int nPos)
+bool CColor_KeywordSet::EndColor([[maybe_unused]] CEditView* pcView, [[maybe_unused]] std::span<const WCHAR> cStr, int nPos)
 {
 	return nPos == m_nCOMMENTEND;
 }

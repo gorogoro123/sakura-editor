@@ -9,14 +9,12 @@
 #include "view/CEditView.h" // SColorStrategyInfo
 #include "CColor_RegexKeyword.h"
 
-bool CColor_RegexKeyword::BeginColor(std::span<const WCHAR> cStr, int nPos)
+bool CColor_RegexKeyword::BeginColor(CEditView* pcView, std::span<const WCHAR> cStr, int nPos)
 {
 	if(cStr.size() == 0) return false;
 
 	int		nMatchLen;
 	int		nMatchColor;
-
-	const CEditView* pcView = CColorStrategyPool::getInstance()->GetCurrentView();
 
 	//正規表現キーワード
 	if( pcView->m_cRegexKeyword->RegexIsKeyword( cStr, nPos, &nMatchLen, &nMatchColor )
@@ -28,7 +26,7 @@ bool CColor_RegexKeyword::BeginColor(std::span<const WCHAR> cStr, int nPos)
 	return false;
 }
 
-bool CColor_RegexKeyword::EndColor([[maybe_unused]] std::span<const WCHAR> cStr, int nPos)
+bool CColor_RegexKeyword::EndColor([[maybe_unused]] CEditView* pcView, [[maybe_unused]] std::span<const WCHAR> cStr, int nPos)
 {
 	if( nPos == m_nCOMMENTEND ){
 		return true;

@@ -9,6 +9,8 @@
 
 #include "view/colors/CColorStrategy.h"
 
+class CEditView;
+
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 //                        行コメント                           //
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
@@ -17,8 +19,8 @@ class CColor_LineComment final : public CColorStrategy{
 public:
 	EColorIndexType GetStrategyColor() const override{ return COLORIDX_COMMENT; }
 	void InitStrategyStatus() override{}
-	bool BeginColor(std::span<const WCHAR> cStr, int nPos) override;
-	bool EndColor(std::span<const WCHAR> cStr, int nPos) override;
+	bool BeginColor(CEditView* pcView, std::span<const WCHAR> cStr, int nPos) override;
+	bool EndColor(CEditView* pcView, std::span<const WCHAR> cStr, int nPos) override;
 	bool Disp() const override{
 		// タイプ別設定 『カラー』プロパティのコメントのリストアイテムのチェックが付いているか
 		if (!m_pTypeData->m_ColorInfoArr[COLORIDX_COMMENT].m_bDisp)
@@ -43,8 +45,8 @@ public:
 	void Update() override;
 	EColorIndexType GetStrategyColor() const override{ return m_nType; }
 	void InitStrategyStatus() override{ m_nCOMMENTEND = 0; }
-	bool BeginColor(std::span<const WCHAR> cStr, int nPos) override;
-	bool EndColor(std::span<const WCHAR> cStr, int nPos) override;
+	bool BeginColor(CEditView* pcView, std::span<const WCHAR> cStr, int nPos) override;
+	bool EndColor(CEditView* pcView, std::span<const WCHAR> cStr, int nPos) override;
 	bool Disp() const override{
 		// タイプ別設定 『カラー』プロパティのコメントのリストアイテムのチェックが付いているか
 		if (!m_pTypeData->m_ColorInfoArr[COLORIDX_COMMENT].m_bDisp)

@@ -1040,7 +1040,7 @@ CColorStrategy* CViewCommander::GetColorStrategyHTML(
 {
 	//検索色終了
 	if(*ppStrategyFound){
-		if((*ppStrategyFound)->EndColor(cStringLine, iLogic)){
+		if((*ppStrategyFound)->EndColor(m_pCommanderView, cStringLine, iLogic)){
 			*ppStrategyFound = nullptr;
 			bChange = true;
 		}
@@ -1049,7 +1049,7 @@ CColorStrategy* CViewCommander::GetColorStrategyHTML(
 	//検索色開始
 	if(!*ppStrategyFound){
 		CColor_Found*  pcFound  = pool->GetFoundStrategy();
-		if(pcFound->BeginColor(cStringLine, iLogic)){
+		if(pcFound->BeginColor(m_pCommanderView, cStringLine, iLogic)){
 			*ppStrategyFound = pcFound;
 			bChange = true;
 		}
@@ -1057,7 +1057,7 @@ CColorStrategy* CViewCommander::GetColorStrategyHTML(
 
 	//色終了
 	if(*ppStrategy){
-		if((*ppStrategy)->EndColor(cStringLine, iLogic)){
+		if((*ppStrategy)->EndColor(m_pCommanderView, cStringLine, iLogic)){
 			*ppStrategy = nullptr;
 			bChange = true;
 		}
@@ -1067,7 +1067,7 @@ CColorStrategy* CViewCommander::GetColorStrategyHTML(
 	if(!*ppStrategy){
 		int size = pool->GetStrategyCount();
 		for(int i = 0; i < size; i++ ){
-			if(pool->GetStrategy(i)->BeginColor(cStringLine, iLogic)){
+			if(pool->GetStrategy(i)->BeginColor(m_pCommanderView, cStringLine, iLogic)){
 				*ppStrategy = pool->GetStrategy(i);
 				bChange = true;
 				break;

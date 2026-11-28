@@ -9,15 +9,17 @@
 
 #include "view/colors/CColorStrategy.h"
 
+class CEditView;
+
 class CColor_Heredoc final : public CColorStrategy{
 public:
 	EColorIndexType GetStrategyColor() const override{ return COLORIDX_HEREDOC; }
 	CLayoutColorInfo* GetStrategyColorInfo() const override;
 	void InitStrategyStatus() override{ m_nCOMMENTEND = 0; }
 	void SetStrategyColorInfo(const CLayoutColorInfo*) override;
-	bool BeginColor(std::span<const WCHAR> cStr, int nPos) override;
+	bool BeginColor(CEditView* pcView, std::span<const WCHAR> cStr, int nPos) override;
 	bool Disp() const override{ return m_pTypeData->m_ColorInfoArr[COLORIDX_HEREDOC].m_bDisp; }
-	bool EndColor(std::span<const WCHAR> cStr, int nPos) override;
+	bool EndColor(CEditView* pcView, std::span<const WCHAR> cStr, int nPos) override;
 private:
 	std::wstring	m_id;
 	LPCWSTR			m_pszId = nullptr;

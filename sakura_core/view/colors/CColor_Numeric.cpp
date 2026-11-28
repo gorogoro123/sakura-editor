@@ -15,7 +15,7 @@
 //                         半角数値                            //
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- //
 
-bool CColor_Numeric::BeginColor(std::span<const WCHAR> cStr, int nPos)
+bool CColor_Numeric::BeginColor([[maybe_unused]] CEditView* pcView, std::span<const WCHAR> cStr, int nPos)
 {
 	if(cStr.size() == 0) return false;
 
@@ -31,7 +31,7 @@ bool CColor_Numeric::BeginColor(std::span<const WCHAR> cStr, int nPos)
 	return false;
 }
 
-bool CColor_Numeric::EndColor([[maybe_unused]] std::span<const WCHAR> cStr, int nPos)
+bool CColor_Numeric::EndColor([[maybe_unused]] CEditView* pcView, [[maybe_unused]] std::span<const WCHAR> cStr, int nPos)
 {
 	if( nPos == m_nCOMMENTEND ){
 		return true;
