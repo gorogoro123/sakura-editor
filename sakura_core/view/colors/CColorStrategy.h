@@ -25,6 +25,7 @@ class CColor_SingleQuote;
 class CColor_DoubleQuote;
 class CColor_Heredoc;
 class CEditView;
+class CColorStrategyPool;
 
 bool _IsPosKeywordHead(std::span<const WCHAR> cStr, int nPos);
 
@@ -98,7 +99,7 @@ struct SColorStrategyInfo{
 	CColor3Setting		m_cIndex = { COLORIDX_TEXT, COLORIDX_TEXT, COLORIDX_TEXT };
 
 	//! 色の切り替え
-	bool CheckChangeColor(std::span<const WCHAR> cLineStr);
+	bool CheckChangeColor(CColorStrategyPool* pool, std::span<const WCHAR> cLineStr);
 	void DoChangeColor(CColor3Setting *pcColor);
 
 	EColorIndexType GetCurrentColor()   const noexcept { return m_cIndex.eColorIndex; }
